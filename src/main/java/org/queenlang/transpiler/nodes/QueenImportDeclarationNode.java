@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022-2023, Mihai Emil Andronache
+ * Copyright (c) 2022-2023, Extremely Distributed Technologies S.R.L. Romania
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

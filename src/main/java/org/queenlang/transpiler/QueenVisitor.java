@@ -32,7 +32,6 @@ import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,6 +92,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     @Override
     public QueenNode visitTypeDeclaration(QueenParser.TypeDeclarationContext ctx) {
+        List<QueenNode> annotations = new ArrayList<>();
         String type = "";
         String name = "";
         List<String> extendsTypes = new ArrayList<>();
@@ -113,6 +113,14 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             if(superClass != null) {
                 extendsTypes.add(superClass.classType().Identifier().getText());
             }
+            ctx.classDeclaration().annotation().forEach(
+                a -> {
+                    final QueenAnnotationNode annotation =
+                        (QueenAnnotationNode) this.visitAnnotation(a);
+                    annotation.setTarget(ctx.classDeclaration().IMPLEMENTATION().getText());
+                    annotations.add(annotation);
+                }
+            );
         } else if(ctx.interfaceDeclaration().normalInterfaceDeclaration() != null) {
             type = ctx.interfaceDeclaration().normalInterfaceDeclaration().INTERFACE().getText();            name = ctx.interfaceDeclaration().normalInterfaceDeclaration().Identifier().getText();
             final QueenParser.ExtendsInterfacesContext extendsInterfacesContext = ctx
@@ -127,17 +135,46 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                     .map(of -> of.classType().Identifier().getText())
                     .collect(Collectors.toList());
             }
+            ctx.interfaceDeclaration().normalInterfaceDeclaration().annotation().forEach(
+                a -> {
+                    final QueenAnnotationNode annotation =
+                        (QueenAnnotationNode) this.visitAnnotation(a);
+                    annotation.setTarget(ctx.interfaceDeclaration().normalInterfaceDeclaration().INTERFACE().getText());
+                    annotations.add(annotation);
+                }
+            );
         } else if(ctx.interfaceDeclaration().annotationTypeDeclaration() != null) {
             type = "@" + ctx.interfaceDeclaration().annotationTypeDeclaration().INTERFACE().getText();
             name = ctx.interfaceDeclaration().annotationTypeDeclaration().Identifier().getText();
+            ctx.interfaceDeclaration().annotationTypeDeclaration().annotation().forEach(
+                a -> {
+                    final QueenAnnotationNode annotation =
+                        (QueenAnnotationNode) this.visitAnnotation(a);
+                    annotation.setTarget("@" + ctx.interfaceDeclaration().annotationTypeDeclaration().INTERFACE().getText());
+                    annotations.add(annotation);
+                }
+            );
         }
 
         return new QueenTypeDeclaration(
+            annotations,
             type,
             name,
             extendsTypes,
             ofTypes
         );
+    }
+
+    public QueenNode visitAnnotation(QueenParser.AnnotationContext ctx) {
+        String name = "";
+        if(ctx.markerAnnotation() != null) {
+            name = ctx.markerAnnotation().typeName().getText();
+        } else if(ctx.normalAnnotation() != null) {
+            name = ctx.normalAnnotation().typeName().getText();
+        } else if(ctx.singleElementAnnotation() != null) {
+            name = ctx.singleElementAnnotation().typeName().getText();
+        }
+        return new QueenAnnotationNode(name);
     }
 
 //    @Override

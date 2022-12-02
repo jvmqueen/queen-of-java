@@ -38,7 +38,6 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  * @todo #2:30min This class needs some unit tests.
- * @todo #2:60min Continue implementing the ast node for type declarations.
  */
 public final class QueenCompilationUnitNode implements QueenNode {
     private final QueenNode packageDeclaration;

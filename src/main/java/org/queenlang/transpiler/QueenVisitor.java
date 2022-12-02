@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022-2023, Mihai Emil Andronache
+ * Copyright (c) 2022-2023, Extremely Distributed Technologies S.R.L. Romania
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
+
+import java.beans.Transient;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +61,9 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             ctx.importDeclaration().stream().map(
                 this::visitImportDeclaration
             ).collect(Collectors.toList()),
-            null//this.visitTypeDeclaration(ctx.typeDeclaration(0))
+            ctx.typeDeclaration().stream().map(
+                this::visitTypeDeclaration
+            ).collect(Collectors.toList())
         );
     }
 
@@ -87,29 +92,74 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
-    public QueenNode visitNormalClassDeclaration(QueenParser.NormalClassDeclarationContext ctx) {
-        return new QueenImplementationNode() {
-            @Override
-            public String name() {
-                return ctx.Identifier().getText();
+    public QueenNode visitTypeDeclaration(QueenParser.TypeDeclarationContext ctx) {
+        String type = "";
+        String name = "";
+        List<String> extendsTypes = new ArrayList<>();
+        List<String> ofTypes = new ArrayList<>();
+        if(ctx.classDeclaration() != null) {
+            type = ctx.classDeclaration().IMPLEMENTATION().getText();
+            name = ctx.classDeclaration().Identifier().getText();
+            ofTypes = ctx.classDeclaration()
+                .superClassAndOrInterfaces()
+                .superinterfaces()
+                .interfaceTypeList()
+                .interfaceType()
+                .stream()
+                .map(of -> of.classType().Identifier().getText())
+                .collect(Collectors.toList());
+            final QueenParser.SuperclassContext superClass = ctx
+                .classDeclaration().superClassAndOrInterfaces().superclass();
+            if(superClass != null) {
+                extendsTypes.add(superClass.classType().Identifier().getText());
             }
+        } else if(ctx.interfaceDeclaration().normalInterfaceDeclaration() != null) {
+            type = ctx.interfaceDeclaration().normalInterfaceDeclaration().INTERFACE().getText();            name = ctx.interfaceDeclaration().normalInterfaceDeclaration().Identifier().getText();
+            extendsTypes = ctx.interfaceDeclaration()
+                .normalInterfaceDeclaration()
+                .extendsInterfaces()
+                .interfaceTypeList()
+                .interfaceType()
+                .stream()
+                .map(of -> of.classType().Identifier().getText())
+                .collect(Collectors.toList());
+        } else if(ctx.interfaceDeclaration().annotationTypeDeclaration() != null) {
+            type = "@" + ctx.interfaceDeclaration().annotationTypeDeclaration().INTERFACE().getText();
+            name = ctx.interfaceDeclaration().annotationTypeDeclaration().Identifier().getText();
+        }
 
-            @Override
-            public List<String> of() {
-                return ctx.superClassAndOrInterfaces()
-                    .superinterfaces()
-                    .interfaceTypeList()
-                    .interfaceType()
-                    .stream()
-                    .map(of -> of.classType().Identifier().getText())
-                    .collect(Collectors.toList());
-            }
-
-            @Override
-            public String extendsClass() {
-                final QueenParser.SuperclassContext superClass = ctx.superClassAndOrInterfaces().superclass();
-                return superClass != null ? superClass.classType().Identifier().getText() : null;
-            }
-        };
+        return new QueenTypeDeclaration(
+            type,
+            name,
+            extendsTypes,
+            ofTypes
+        );
     }
+
+//    @Override
+//    public QueenNode visitNormalClassDeclaration(QueenParser.NormalClassDeclarationContext ctx) {
+//        return new QueenImplementationNode() {
+//            @Override
+//            public String name() {
+//                return ctx.Identifier().getText();
+//            }
+//
+//            @Override
+//            public List<String> of() {
+//                return ctx.superClassAndOrInterfaces()
+//                    .superinterfaces()
+//                    .interfaceTypeList()
+//                    .interfaceType()
+//                    .stream()
+//                    .map(of -> of.classType().Identifier().getText())
+//                    .collect(Collectors.toList());
+//            }
+//
+//            @Override
+//            public String extendsClass() {
+//                final QueenParser.SuperclassContext superClass = ctx.superClassAndOrInterfaces().superclass();
+//                return superClass != null ? superClass.classType().Identifier().getText() : null;
+//            }
+//        };
+//    }
 }

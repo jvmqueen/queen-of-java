@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022-2023, Mihai Emil Andronache
+ * Copyright (c) 2022-2023, Extremely Distributed Technologies S.R.L. Romania
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,27 +38,26 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  * @todo #2:30min This class needs some unit tests.
- * @todo #2:60min Continue implementing the ast node for type declarations.
  */
 public final class QueenCompilationUnitNode implements QueenNode {
     private final QueenNode packageDeclaration;
     private final List<QueenNode> importDeclarations;
-    private final QueenNode typeDeclaration;
+    private final List<QueenNode> typeDeclarations;
 
     public QueenCompilationUnitNode(
         final QueenNode packageDeclaration,
         final List<QueenNode> importDeclarations,
-        final QueenNode typeDeclaration
+        final List<QueenNode> typeDeclarations
     ) {
         this.packageDeclaration = packageDeclaration;
         this.importDeclarations = importDeclarations;
-        this.typeDeclaration = typeDeclaration;
+        this.typeDeclarations = typeDeclarations;
     }
 
     @Override
     public void addToJavaNode(Node java) {
         this.packageDeclaration.addToJavaNode(java);
         this.importDeclarations.forEach(i -> i.addToJavaNode(java));
-//        this.typeDeclaration.addToJavaNode(java);
+        this.typeDeclarations.forEach(t -> t.addToJavaNode(java));
     }
 }

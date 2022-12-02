@@ -11,3 +11,11 @@ public final implementation HelloWorld extends Test of Main, Blabla, Trala {
       System.out.println("Hello, World");
    }
 }
+
+public interface Exec extends OtherInterface {
+
+}
+
+public @interface TestAnnotation {
+
+}

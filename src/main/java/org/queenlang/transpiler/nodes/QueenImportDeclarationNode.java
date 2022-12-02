@@ -27,18 +27,53 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 
 /**
- * A node in Queen's Abstract Syntax Tree.
+ * Queen ImportDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #2:30min We need to write some unit tests for this class.
  */
-public interface QueenNode {
+public final class QueenImportDeclarationNode implements QueenNode {
 
     /**
-     * Add it to JavaParser's java node.
+     * Is it a static import or not?
      */
-    void addToJavaNode(final Node java);
+    private final boolean staticImport;
+
+    /**
+     * Is it an asterysk import or not?
+     */
+    private final boolean asteriskImport;
+
+    /**
+     * Import's type name.
+     */
+    private final String importDeclaration;
+
+    /**
+     * Ctor.
+     * @param importDeclaration Type name.
+     * @param staticImport Is it a static import or not?
+     * @param asteriskImport Is it an asterysk import or not?
+     */
+    public QueenImportDeclarationNode(
+        final String importDeclaration,
+        final boolean staticImport,
+        final boolean asteriskImport
+    ) {
+        this.importDeclaration = importDeclaration;
+        this.staticImport = staticImport;
+        this.asteriskImport = asteriskImport;
+    }
+
+
+    @Override
+    public void addToJavaNode(final Node java) {
+        System.out.println("ADDING IMPORT: " + this.importDeclaration);
+        ((CompilationUnit) java).addImport(this.importDeclaration, this.staticImport, this.asteriskImport);
+    }
 }

@@ -115,14 +115,18 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             }
         } else if(ctx.interfaceDeclaration().normalInterfaceDeclaration() != null) {
             type = ctx.interfaceDeclaration().normalInterfaceDeclaration().INTERFACE().getText();            name = ctx.interfaceDeclaration().normalInterfaceDeclaration().Identifier().getText();
-            extendsTypes = ctx.interfaceDeclaration()
+            final QueenParser.ExtendsInterfacesContext extendsInterfacesContext = ctx
+                .interfaceDeclaration()
                 .normalInterfaceDeclaration()
-                .extendsInterfaces()
-                .interfaceTypeList()
-                .interfaceType()
-                .stream()
-                .map(of -> of.classType().Identifier().getText())
-                .collect(Collectors.toList());
+                .extendsInterfaces();
+            if(extendsInterfacesContext != null) {
+                extendsTypes = extendsInterfacesContext
+                    .interfaceTypeList()
+                    .interfaceType()
+                    .stream()
+                    .map(of -> of.classType().Identifier().getText())
+                    .collect(Collectors.toList());
+            }
         } else if(ctx.interfaceDeclaration().annotationTypeDeclaration() != null) {
             type = "@" + ctx.interfaceDeclaration().annotationTypeDeclaration().INTERFACE().getText();
             name = ctx.interfaceDeclaration().annotationTypeDeclaration().Identifier().getText();

@@ -16,6 +16,10 @@ public interface Exec extends OtherInterface {
 
 }
 
+public interface ExecTwo {
+
+}
+
 public @interface TestAnnotation {
 
 }

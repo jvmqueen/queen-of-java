@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
 import java.util.List;
@@ -38,13 +39,17 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #8:60min Handle access modifiers and annotations for
- *  the type declaration.
+ * @todo #10:60min Handle access modifiers for the type declaration.
  * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
  * @todo #8:60min Handle the TypeBody AST node further.
  * @todo #8:60min Write unit tests for this class.
  */
 public final class QueenTypeDeclaration implements QueenNode {
+
+    /**
+     * Annotations on top of this type.
+     */
+    private List<QueenNode> annotations;
 
     /**
      * Type: implementation, interface or @interface (annotation).
@@ -66,12 +71,22 @@ public final class QueenTypeDeclaration implements QueenNode {
      */
     private final List<String> of;
 
+    /**
+     * Ctor.
+     * @param annotations Annotation nodes on top of this type.
+     * @param type Type (implementation, interface, @interface).
+     * @param name Name.
+     * @param extendsTypes Types extended.
+     * @param of Types implemented.
+     */
     public QueenTypeDeclaration(
+        final List<QueenNode> annotations,
         final String type,
         final String name,
         final List<String> extendsTypes,
         final List<String> of
     ) {
+        this.annotations = annotations;
         this.type = type;
         this.name = name;
         this.extendsTypes = extendsTypes;
@@ -89,14 +104,23 @@ public final class QueenTypeDeclaration implements QueenNode {
             if(this.of != null && this.of.size() > 0) {
                 this.of.forEach(clazz::addImplementedType);
             }
+            this.annotations.forEach(
+                a -> a.addToJavaNode(clazz)
+            );
         } else if("interface".equalsIgnoreCase(this.type)) {
             ClassOrInterfaceDeclaration clazz = ((CompilationUnit) java)
                 .addInterface(this.name);
             if(this.extendsTypes != null && this.extendsTypes.size() > 0) {
                 this.extendsTypes.forEach(clazz::addExtendedType);
             }
+            this.annotations.forEach(
+                a -> a.addToJavaNode(clazz)
+            );
         } else if("@interface".equalsIgnoreCase(this.type)) {
-            ((CompilationUnit) java).addAnnotationDeclaration(this.name);
+            final AnnotationDeclaration annotationDeclaration = ((CompilationUnit) java).addAnnotationDeclaration(this.name);
+            this.annotations.forEach(
+                a -> a.addToJavaNode((annotationDeclaration))
+            );
         }
     }
 }

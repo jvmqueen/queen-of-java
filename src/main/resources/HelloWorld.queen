@@ -6,20 +6,24 @@ import static java.lang.Assert.*;
 import com.example.other.Other;
 import com.example.other.more.*;
 
+@Test
 public final implementation HelloWorld extends Test of Main, Blabla, Trala {
    public void main(String[] args) {
       System.out.println("Hello, World");
    }
 }
 
+@OnInterface
 public interface Exec extends OtherInterface {
 
 }
 
+@OnInterface2
 public interface ExecTwo {
 
 }
 
+@OnAnnotation
 public @interface TestAnnotation {
 
 }

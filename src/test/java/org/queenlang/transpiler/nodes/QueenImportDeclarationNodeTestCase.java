@@ -28,49 +28,34 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Queen ImportDeclaration AST node.
+ * Unit tests for {@link QueenImportDeclarationNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenImportDeclarationNode implements QueenNode {
+public final class QueenImportDeclarationNodeTestCase {
 
     /**
-     * Is it a static import or not?
+     * It can add the import data to the Java node.
      */
-    private final boolean staticImport;
+    @Test
+    public void addsImportToJavaNode() {
+        final CompilationUnit java = Mockito.mock(CompilationUnit.class);
+        final QueenNode importDeclarationNode = new QueenImportDeclarationNode(
+            "com.example.web",
+            true,
+            false
+        );
 
-    /**
-     * Is it an asterysk import or not?
-     */
-    private final boolean asteriskImport;
+        importDeclarationNode.addToJavaNode(java);
 
-    /**
-     * Import's type name.
-     */
-    private final String importDeclaration;
-
-    /**
-     * Ctor.
-     * @param importDeclaration Type name.
-     * @param staticImport Is it a static import or not?
-     * @param asteriskImport Is it an asterysk import or not?
-     */
-    public QueenImportDeclarationNode(
-        final String importDeclaration,
-        final boolean staticImport,
-        final boolean asteriskImport
-    ) {
-        this.importDeclaration = importDeclaration;
-        this.staticImport = staticImport;
-        this.asteriskImport = asteriskImport;
+        Mockito.verify(java, Mockito.times(1)).addImport(
+            "com.example.web", true, false
+        );
     }
 
-    @Override
-    public void addToJavaNode(final Node java) {
-        ((CompilationUnit) java).addImport(this.importDeclaration, this.staticImport, this.asteriskImport);
-    }
 }

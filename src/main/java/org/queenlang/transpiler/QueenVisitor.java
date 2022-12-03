@@ -48,7 +48,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     @Override
     public QueenNode visitCompilationUnit(QueenParser.CompilationUnitContext ctx) {
         return new QueenCompilationUnitNode(
-            new QueenPackageDeclaration(
+            new QueenPackageDeclarationNode(
                 () -> {
                     if(ctx.packageDeclaration() != null) {
                         QueenParser.PackageNameContext packageNameContext = ctx.packageDeclaration().packageName();

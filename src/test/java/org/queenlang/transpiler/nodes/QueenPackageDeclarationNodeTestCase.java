@@ -28,38 +28,47 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
-
-import java.util.function.Supplier;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Queen PackageDeclaration AST node.
+ * Unit tests for {@link QueenPackageDeclarationNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #2:60min Analyize and implement annotation-level packages, as they are
- *  defined in the grammar.
- * @todo #2:30min Write some unit tests for this class.
  */
-public final class QueenPackageDeclaration implements QueenNode {
+public final class QueenPackageDeclarationNodeTestCase {
 
     /**
-     * The package's name.
+     * It can add the package data to the Java node.
      */
-    private final String packageName;
+    @Test
+    public void addsPackageToJavaNode() {
+        final CompilationUnit java = Mockito.mock(CompilationUnit.class);
+        final QueenNode packageDeclarationNode = new QueenPackageDeclarationNode(
+            () -> "com.amihaiemil.web"
+        );
+
+        packageDeclarationNode.addToJavaNode(java);
+
+        Mockito.verify(java, Mockito.times(1))
+            .setPackageDeclaration("com.amihaiemil.web");
+    }
 
     /**
-     * Ctor.
-     * @param packageName Supplier giving us the package's name.
+     * It does not add the package to the java node if it's null.
      */
-    public QueenPackageDeclaration(final Supplier<String> packageName) {
-        this.packageName = packageName.get();
+    @Test
+    public void doesNotAddNullPackage() {
+        final CompilationUnit java = Mockito.mock(CompilationUnit.class);
+        final QueenNode packageDeclarationNode = new QueenPackageDeclarationNode(
+            () -> null
+        );
+
+        packageDeclarationNode.addToJavaNode(java);
+
+        Mockito.verify(java, Mockito.times(0))
+            .setPackageDeclaration(Mockito.anyString());
     }
 
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(this.packageName != null) {
-            ((CompilationUnit) java).setPackageDeclaration(this.packageName);
-        }
-    }
 }

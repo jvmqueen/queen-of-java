@@ -28,35 +28,56 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
+import org.junit.Test;
+import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen CompilationUnit (highest) AST node. This is the node you want to start
- * with when traversing/visiting this tree.
+ * Unit tests for {@link QueenCompilationUnitNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCompilationUnitNode implements QueenNode {
-    private final QueenNode packageDeclaration;
-    private final List<QueenNode> importDeclarations;
-    private final List<QueenNode> typeDeclarations;
+public final class QueenCompilationUnitNodeTestCase {
 
-    public QueenCompilationUnitNode(
-        final QueenNode packageDeclaration,
-        final List<QueenNode> importDeclarations,
-        final List<QueenNode> typeDeclarations
-    ) {
-        this.packageDeclaration = packageDeclaration;
-        this.importDeclarations = importDeclarations;
-        this.typeDeclarations = typeDeclarations;
+    /**
+     * It can add all of its children to the provided Java node.
+     */
+    @Test
+    public void addsChildrenToJavaNode() {
+        final Node java = Mockito.mock(Node.class);
+
+        final QueenNode packageDeclaration = Mockito.mock(QueenNode.class);
+        final List<QueenNode> imports = new ArrayList<>();
+        imports.add(Mockito.mock(QueenNode.class));
+        final List<QueenNode> types = new ArrayList<>();
+        types.add(Mockito.mock(QueenNode.class));
+
+        final QueenNode compilationUnit = new QueenCompilationUnitNode(
+            packageDeclaration,
+            imports,
+            types
+        );
+        compilationUnit.addToJavaNode(java);
+
+        Mockito.verify(
+            packageDeclaration,
+            Mockito.times(1)
+        ).addToJavaNode(java);
+        imports.forEach(
+            node -> Mockito.verify(
+                node,
+                Mockito.times(1)
+            ).addToJavaNode(java)
+        );
+        types.forEach(
+            node -> Mockito.verify(
+                node,
+                Mockito.times(1)
+            ).addToJavaNode(java)
+        );
     }
 
-    @Override
-    public void addToJavaNode(Node java) {
-        this.packageDeclaration.addToJavaNode(java);
-        this.importDeclarations.forEach(i -> i.addToJavaNode(java));
-        this.typeDeclarations.forEach(t -> t.addToJavaNode(java));
-    }
 }

@@ -27,25 +27,25 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+
 /**
- * Queen annotation declared on top of a class, field or method.
+ * Queen marker annotation (no parameters).
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #10:30min This class needs some unit tests.
  */
-public abstract class QueenAnnotationNode implements QueenNode {
+public final class QueenMarkerAnnotationNode extends QueenAnnotationNode {
 
-    /**
-     * Name of the annotation.
-     */
-    private final String name;
-
-    public QueenAnnotationNode(final String name) {
-        this.name = name;
+    public QueenMarkerAnnotationNode(final String name) {
+        super(name);
     }
 
-    public String name() {
-        return this.name;
+    @Override
+    public void addToJavaNode(final Node java) {
+        ((NodeWithAnnotations) java).addMarkerAnnotation(this.name());
     }
 
 }

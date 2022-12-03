@@ -27,25 +27,40 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+
+import java.util.Map;
+
 /**
- * Queen annotation declared on top of a class, field or method.
+ * Queen normal annotation.
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #10:60min Write some unit tests for QueenNormalAnnotationNode.
  */
-public abstract class QueenAnnotationNode implements QueenNode {
+public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
 
     /**
-     * Name of the annotation.
+     * Key-value pairs within the annotation.
      */
-    private final String name;
+    private final Map<String, String> elementValuePairs;
 
-    public QueenAnnotationNode(final String name) {
-        this.name = name;
+    public QueenNormalAnnotationNode(
+        final String name,
+        final Map<String, String> elementValuePairs
+    ) {
+        super(name);
+        this.elementValuePairs = elementValuePairs;
     }
 
-    public String name() {
-        return this.name;
+    @Override
+    public void addToJavaNode(final Node java) {
+        final NormalAnnotationExpr annotstion = ((NodeWithAnnotations) java)
+            .addAndGetAnnotation(this.name());
+        this.elementValuePairs.entrySet().forEach(
+            entry -> annotstion.addPair(entry.getKey(), entry.getValue())
+        );
     }
-
 }

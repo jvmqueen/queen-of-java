@@ -27,25 +27,31 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+
 /**
- * Queen annotation declared on top of a class, field or method.
+ * Queen single-member annotation.
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #10:60min Write some unit tests for this class.
  */
-public abstract class QueenAnnotationNode implements QueenNode {
+public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
 
     /**
-     * Name of the annotation.
+     * Value of the annotation.
      */
-    private final String name;
+    private final String value;
 
-    public QueenAnnotationNode(final String name) {
-        this.name = name;
+    public QueenSingleMemberAnnotationNode(final String name, final String value) {
+        super(name);
+        this.value = value;
     }
 
-    public String name() {
-        return this.name;
+    @Override
+    public void addToJavaNode(final Node java) {
+        ((NodeWithAnnotations) java)
+            .addSingleMemberAnnotation(this.name(), this.value);
     }
-
 }

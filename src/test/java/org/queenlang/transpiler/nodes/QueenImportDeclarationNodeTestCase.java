@@ -39,10 +39,13 @@ import org.mockito.Mockito;
  */
 public final class QueenImportDeclarationNodeTestCase {
 
+    final int a = 3;
+    final int b = 5;
+
     /**
      * It can add the import data to the Java node.
      */
-    @Test
+    @Test(timeout=a+b)
     public void addsImportToJavaNode() {
         final CompilationUnit java = Mockito.mock(CompilationUnit.class);
         final QueenNode importDeclarationNode = new QueenImportDeclarationNode(

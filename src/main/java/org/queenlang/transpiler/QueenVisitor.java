@@ -94,7 +94,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     @Override
     public QueenNode visitTypeDeclaration(QueenParser.TypeDeclarationContext ctx) {
-        List<QueenNode> annotations = new ArrayList<>();
+        List<QueenAnnotationNode> annotations = new ArrayList<>();
         String type = "";
         String name = "";
         List<String> extendsTypes = new ArrayList<>();
@@ -153,7 +153,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
-    public QueenNode visitAnnotation(QueenParser.AnnotationContext ctx) {
+    public QueenAnnotationNode visitAnnotation(QueenParser.AnnotationContext ctx) {
         if(ctx.markerAnnotation() != null) {
             return new QueenMarkerAnnotationNode(ctx.markerAnnotation().typeName().getText());
         } else if(ctx.normalAnnotation() != null) {

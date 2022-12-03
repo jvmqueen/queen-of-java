@@ -49,7 +49,7 @@ public final class QueenTypeDeclaration implements QueenNode {
     /**
      * Annotations on top of this type.
      */
-    private List<QueenNode> annotations;
+    private List<QueenAnnotationNode> annotations;
 
     /**
      * Type: implementation, interface or @interface (annotation).
@@ -80,7 +80,7 @@ public final class QueenTypeDeclaration implements QueenNode {
      * @param of Types implemented.
      */
     public QueenTypeDeclaration(
-        final List<QueenNode> annotations,
+        final List<QueenAnnotationNode> annotations,
         final String type,
         final String name,
         final List<String> extendsTypes,

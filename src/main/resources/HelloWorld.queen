@@ -23,7 +23,7 @@ public interface ExecTwo {
 
 }
 
-@OnAnnotation(a + b)
+@OnAnnotation(data = {"a", "b", "c"})
 @Marker
 @Pairs(a=x + y, b="c", d=9, e = Object.class)
 public @interface TestAnnotation {

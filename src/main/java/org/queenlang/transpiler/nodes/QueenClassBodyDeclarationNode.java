@@ -27,18 +27,11 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
-
 /**
- * A node in Queen's Abstract Syntax Tree.
+ * Queen ClassBody declaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenNode {
-
-    /**
-     * Add it to JavaParser's java node.
-     */
-    void addToJavaNode(final Node java);
+public abstract class QueenClassBodyDeclarationNode implements QueenNode {
 }

@@ -39,21 +39,9 @@ import java.util.List;
  * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
  * @todo #8:60min Handle the TypeBody AST node further.
  */
-public abstract class QueenTypeDeclarationNode implements QueenNode {
-
-    /**
-     * Annotations on top of this type.
-     */
-    private final List<QueenAnnotationNode> annotations;
+public abstract class QueenTypeDeclarationNode extends QueenAnnotatedNode {
 
     public QueenTypeDeclarationNode(final List<QueenAnnotationNode> annotations) {
-        this.annotations = annotations;
+        super(annotations);
     }
-
-    public void addToJavaNode(final Node java) {
-        this.annotations.forEach(
-            a -> a.addToJavaNode(java)
-        );
-    }
-
 }

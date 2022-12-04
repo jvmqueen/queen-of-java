@@ -27,72 +27,29 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+
 import java.util.List;
 
 /**
- * Queen ClassDeclaration AST node.
+ * A Queen AST node which can have annotaations on top of it.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
-public final class QueenClassDeclarationNode extends QueenTypeDeclarationNode {
+public abstract class QueenAnnotatedNode implements QueenNode {
     /**
-     * Name of this type.
+     * Annotations on top of this type.
      */
-    private final String name;
+    private final List<QueenAnnotationNode> annotations;
 
-    /**
-     * Type which is extended.
-     */
-    private final String extendsType;
-
-    /**
-     * Interfaces this type implements.
-     */
-    private final List<String> of;
-
-    /**
-     * The body.
-     */
-    private final QueenNode body;
-
-    /**
-     * Ctor.
-     * @param annotations Annotation nodes on top of this type.
-     * @param name Name.
-     * @param extendsType Type extended.
-     * @param of Types implemented.
-     * @param body The body.
-     */
-    public QueenClassDeclarationNode(
-        final List<QueenAnnotationNode> annotations,
-        final String name,
-        final String extendsType,
-        final List<String> of,
-        final QueenNode body
-    ) {
-        super(annotations);
-        this.name = name;
-        this.extendsType = extendsType;
-        this.of = of;
-        this.body = body;
+    public QueenAnnotatedNode(final List<QueenAnnotationNode> annotations) {
+        this.annotations = annotations;
     }
 
-    @Override
     public void addToJavaNode(final Node java) {
-        ClassOrInterfaceDeclaration clazz = ((CompilationUnit) java)
-            .addClass(this.name);
-        if(this.extendsType != null) {
-            clazz.addExtendedType(this.extendsType);
-        }
-        if(this.of != null && this.of.size() > 0) {
-            this.of.forEach(clazz::addImplementedType);
-        }
-        super.addToJavaNode(clazz);
-        this.body.addToJavaNode(clazz);
+        this.annotations.forEach(
+            a -> a.addToJavaNode(java)
+        );
     }
 }

@@ -8,8 +8,13 @@ import com.example.other.more.*;
 
 @Test("aaaa")
 public final implementation HelloWorld extends Test of Main, Blabla, Trala {
-   public void main(String[] args) {
-      System.out.println("Hello, World");
+
+   @CtorAnnotation("a")
+   @CtorAnnotation2(a=4)
+   @CtorAnnotation3(2+3)
+   public HelloWorld() {
+        this.a = a;
+        this.b = b;
    }
 }
 

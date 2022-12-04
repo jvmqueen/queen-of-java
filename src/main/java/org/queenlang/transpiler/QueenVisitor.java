@@ -128,7 +128,12 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             annotations,
             name,
             extendsType,
-            ofTypes
+            ofTypes,
+            new QueenClassBodyNode(
+                ctx.classBody().classBodyDeclaration().stream().map(
+                    this::visitClassBodyDeclaration
+                ).collect(Collectors.toList())
+            )
         );
     }
 
@@ -189,6 +194,18 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 ctx.singleElementAnnotation().typeName().getText(),
                 ctx.singleElementAnnotation().elementValue().getText()
             );
+        }
+        return null;
+    }
+
+    public QueenClassBodyDeclarationNode visitClassBodyDeclaration(QueenParser.ClassBodyDeclarationContext ctx) {
+        if(ctx.constructorDeclaration() != null) {
+            final List<QueenNode> annotations = new ArrayList<>();
+            ctx.constructorDeclaration().annotation().forEach(
+                a -> annotations.add(this.visitAnnotation(a))
+            );
+            System.out.println("CTOR BODY: " + ctx.constructorDeclaration().constructorBody().getText());
+            return new QueenConstructorDeclarationNode(annotations);
         }
         return null;
     }

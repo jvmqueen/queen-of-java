@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     @Override
-    public QueenNode visitCompilationUnit(QueenParser.CompilationUnitContext ctx) {
+    public QueenCompilationUnitNode visitCompilationUnit(QueenParser.CompilationUnitContext ctx) {
         return new QueenCompilationUnitNode(
             new QueenPackageDeclarationNode(
                 () -> {
@@ -69,7 +69,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
-    public QueenNode visitImportDeclaration(QueenParser.ImportDeclarationContext ctx) {
+    public QueenImportDeclarationNode visitImportDeclaration(QueenParser.ImportDeclarationContext ctx) {
         String importedType = "";
         boolean isStaticImport = false;
         boolean isAsteriskImport = false;
@@ -93,63 +93,76 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
-    public QueenNode visitTypeDeclaration(QueenParser.TypeDeclarationContext ctx) {
-        List<QueenAnnotationNode> annotations = new ArrayList<>();
-        String type = "";
-        String name = "";
-        List<String> extendsTypes = new ArrayList<>();
-        List<String> ofTypes = new ArrayList<>();
+    public QueenTypeDeclarationNode visitTypeDeclaration(QueenParser.TypeDeclarationContext ctx) {
         if(ctx.classDeclaration() != null) {
-            type = ctx.classDeclaration().IMPLEMENTATION().getText();
-            name = ctx.classDeclaration().Identifier().getText();
-            ofTypes = ctx.classDeclaration()
-                .superClassAndOrInterfaces()
-                .superinterfaces()
-                .interfaceTypeList()
-                .interfaceType()
-                .stream()
-                .map(of -> of.classType().Identifier().getText())
-                .collect(Collectors.toList());
-            final QueenParser.SuperclassContext superClass = ctx
-                .classDeclaration().superClassAndOrInterfaces().superclass();
-            if(superClass != null) {
-                extendsTypes.add(superClass.classType().Identifier().getText());
-            }
-            ctx.classDeclaration().annotation().forEach(
-                a -> annotations.add(this.visitAnnotation(a))
-            );
+            return this.visitClassDeclaration(ctx.classDeclaration());
         } else if(ctx.interfaceDeclaration().normalInterfaceDeclaration() != null) {
-            type = ctx.interfaceDeclaration().normalInterfaceDeclaration().INTERFACE().getText();            name = ctx.interfaceDeclaration().normalInterfaceDeclaration().Identifier().getText();
-            final QueenParser.ExtendsInterfacesContext extendsInterfacesContext = ctx
-                .interfaceDeclaration()
-                .normalInterfaceDeclaration()
-                .extendsInterfaces();
-            if(extendsInterfacesContext != null) {
-                extendsTypes = extendsInterfacesContext
+            return this.visitNormalInterfaceDeclaration(ctx.interfaceDeclaration().normalInterfaceDeclaration());
+        } else if(ctx.interfaceDeclaration().annotationTypeDeclaration() != null) {
+            return this.visitAnnotationTypeDeclaration(ctx.interfaceDeclaration().annotationTypeDeclaration());
+        }
+        return null;
+    }
+
+    @Override
+    public QueenClassDeclarationNode visitClassDeclaration(QueenParser.ClassDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final String name = ctx.Identifier().getText();
+        final List<String> ofTypes = ctx
+            .superClassAndOrInterfaces()
+            .superinterfaces()
+            .interfaceTypeList()
+            .interfaceType()
+            .stream()
+            .map(of -> of.classType().Identifier().getText())
+            .collect(Collectors.toList());
+        String extendsType = null;
+        final QueenParser.SuperclassContext superClass = ctx.superClassAndOrInterfaces().superclass();
+        if(superClass != null) {
+            extendsType = superClass.classType().Identifier().getText();
+        }
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        return new QueenClassDeclarationNode(
+            annotations,
+            name,
+            extendsType,
+            ofTypes
+        );
+    }
+
+    public QueenNormalInterfaceDeclarationNode visitNormalInterfaceDeclaration(QueenParser.NormalInterfaceDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<String> extendsTypes = new ArrayList<>();
+        final String name = ctx.Identifier().getText();
+        final QueenParser.ExtendsInterfacesContext extendsInterfacesContext = ctx
+            .extendsInterfaces();
+        if(extendsInterfacesContext != null) {
+            extendsTypes.addAll(
+                extendsInterfacesContext
                     .interfaceTypeList()
                     .interfaceType()
                     .stream()
                     .map(of -> of.classType().Identifier().getText())
-                    .collect(Collectors.toList());
-            }
-            ctx.interfaceDeclaration().normalInterfaceDeclaration().annotation().forEach(
-                a -> annotations.add(this.visitAnnotation(a))
-            );
-        } else if(ctx.interfaceDeclaration().annotationTypeDeclaration() != null) {
-            type = "@" + ctx.interfaceDeclaration().annotationTypeDeclaration().INTERFACE().getText();
-            name = ctx.interfaceDeclaration().annotationTypeDeclaration().Identifier().getText();
-            ctx.interfaceDeclaration().annotationTypeDeclaration().annotation().forEach(
-                a -> annotations.add(this.visitAnnotation(a))
+                    .collect(Collectors.toList())
             );
         }
-
-        return new QueenTypeDeclaration(
-            annotations,
-            type,
-            name,
-            extendsTypes,
-            ofTypes
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
         );
+        return new QueenNormalInterfaceDeclarationNode(
+            annotations, name, extendsTypes
+        );
+    }
+
+    public QueenAnnotationTypeDeclarationNode visitAnnotationTypeDeclaration(QueenParser.AnnotationTypeDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final String name = ctx.Identifier().getText();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        return new QueenAnnotationTypeDeclarationNode(annotations, name);
     }
 
     @Override

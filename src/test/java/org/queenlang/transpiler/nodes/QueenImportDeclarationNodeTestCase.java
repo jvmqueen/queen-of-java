@@ -28,7 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**

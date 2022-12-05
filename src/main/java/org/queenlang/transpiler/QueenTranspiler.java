@@ -25,59 +25,30 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler;
 
-import com.github.javaparser.ast.Node;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * Unit tests for {@link QueenCompilationUnitNode}.
+ * Queen transpiler.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCompilationUnitNodeTestCase {
+public interface QueenTranspiler {
+
+    default String transpile(final String input) throws IOException {
+        return this.transpile(new ByteArrayInputStream(input.getBytes()));
+    }
 
     /**
-     * It can add all of its children to the provided Java node.
+     * Transpile the given Queen class into some other code.
+     * @param clazz InputStream class.
+     * @return Transpiled code.
+     * @throws IOException If we cannot read the InputStream.
      */
-    @Test
-    public void addsChildrenToJavaNode() {
-        final Node java = Mockito.mock(Node.class);
-
-        final QueenNode packageDeclaration = Mockito.mock(QueenNode.class);
-        final List<QueenNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(QueenNode.class));
-        final List<QueenNode> types = new ArrayList<>();
-        types.add(Mockito.mock(QueenNode.class));
-
-        final QueenNode compilationUnit = new QueenCompilationUnitNode(
-            packageDeclaration,
-            imports,
-            types
-        );
-        compilationUnit.addToJavaNode(java);
-
-        Mockito.verify(
-            packageDeclaration,
-            Mockito.times(1)
-        ).addToJavaNode(java);
-        imports.forEach(
-            node -> Mockito.verify(
-                node,
-                Mockito.times(1)
-            ).addToJavaNode(java)
-        );
-        types.forEach(
-            node -> Mockito.verify(
-                node,
-                Mockito.times(1)
-            ).addToJavaNode(java)
-        );
-    }
+    String transpile(final InputStream clazz) throws IOException;
 
 }

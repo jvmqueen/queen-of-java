@@ -25,59 +25,59 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler;
 
-import com.github.javaparser.ast.Node;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.apache.commons.io.IOUtils;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
- * Unit tests for {@link QueenCompilationUnitNode}.
+ * QueenTranspiler test case.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCompilationUnitNodeTestCase {
+public final class QueenTranspilerTestCase {
 
-    /**
-     * It can add all of its children to the provided Java node.
-     */
-    @Test
-    public void addsChildrenToJavaNode() {
-        final Node java = Mockito.mock(Node.class);
-
-        final QueenNode packageDeclaration = Mockito.mock(QueenNode.class);
-        final List<QueenNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(QueenNode.class));
-        final List<QueenNode> types = new ArrayList<>();
-        types.add(Mockito.mock(QueenNode.class));
-
-        final QueenNode compilationUnit = new QueenCompilationUnitNode(
-            packageDeclaration,
-            imports,
-            types
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+            "HelloWorld_EmptyInterface.queen,HelloWorld_EmptyInterface.java"
+        }
+    )
+    public void testTranspiler(final String queenInput, final String javaOuput) throws Exception {
+        final String queenClass = this.readTestResource(queenInput);
+        final String javaClass = this.readTestResource(javaOuput);
+        final QueenTranspiler transpiler = new JavaQueenTanspiler();
+        MatcherAssert.assertThat(
+            transpiler.transpile(queenClass),
+            Matchers.equalTo(javaClass)
         );
-        compilationUnit.addToJavaNode(java);
-
-        Mockito.verify(
-            packageDeclaration,
-            Mockito.times(1)
-        ).addToJavaNode(java);
-        imports.forEach(
-            node -> Mockito.verify(
-                node,
-                Mockito.times(1)
-            ).addToJavaNode(java)
-        );
-        types.forEach(
-            node -> Mockito.verify(
-                node,
-                Mockito.times(1)
-            ).addToJavaNode(java)
-        );
+        //@todo #10:40min Also assert that javaClass compiles.
     }
 
+    /**
+     * Read a test resource file's contents.
+     * @param fileName File to read.
+     * @return File's contents as String.
+     * @throws FileNotFoundException If something is wrong.
+     * @throws IOException If something is wrong.
+     */
+    private String readTestResource(final String fileName) throws IOException {
+        return new String(
+            IOUtils.toByteArray(
+                new FileInputStream(
+                    "src/test/resources/queenToJava/"
+                    + fileName
+                )
+            )
+        );
+    }
 }

@@ -28,7 +28,6 @@
 package org.queenlang.transpiler;
 
 import org.apache.commons.io.IOUtils;
-import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -50,6 +49,7 @@ public final class QueenTranspilerTestCase {
     @CsvSource(
         value = {
             "EmptyInterface.queen,EmptyInterface.java",
+            "EmptyAnnotatedInterface.queen,EmptyAnnotatedInterface.java",
             "EmptyInterfaceWithImports.queen,EmptyInterfaceWithImports.java",
             "EmptyInterfaceWithNoPackage.queen,EmptyInterfaceWithNoPackage.java"
         }

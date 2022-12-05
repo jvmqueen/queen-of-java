@@ -4,5 +4,5 @@ import static java.lang.Assert.*;
 import com.example.other.Other;
 import com.example.other.more.*;
 
-public interface InterfaceWithNoPackage {
+public interface EmptyInterfaceWithNoPackage {
 }

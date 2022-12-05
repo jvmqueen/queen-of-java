@@ -50,8 +50,8 @@ public final class QueenTranspilerTestCase {
     @CsvSource(
         value = {
             "EmptyInterface.queen,EmptyInterface.java",
-            "InterfaceWithImports.queen,InterfaceWithImports.java",
-            "InterfaceWithNoPackage.queen,InterfaceWithNoPackage.java"
+            "EmptyInterfaceWithImports.queen,EmptyInterfaceWithImports.java",
+            "EmptyInterfaceWithNoPackage.queen,EmptyInterfaceWithNoPackage.java"
         }
     )
     public void testTranspiler(final String queenInput, final String javaOuput) throws Exception {

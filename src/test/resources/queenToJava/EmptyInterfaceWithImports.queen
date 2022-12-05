@@ -6,5 +6,5 @@ import static java.lang.Assert.*;
 import com.example.other.Other;
 import com.example.other.more.*;
 
-public interface InterfaceWithImports {
+public interface EmptyInterfaceWithImports{
 }

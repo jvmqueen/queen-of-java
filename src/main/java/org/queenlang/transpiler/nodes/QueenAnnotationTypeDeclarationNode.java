@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 
@@ -47,6 +48,11 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     private final List<QueenAnnotationNode> annotations;
 
     /**
+     * Modifiers of this annotation.
+     */
+    private final List<QueenInterfaceModifierNode> modifiers;
+
+    /**
      * Name of this type.
      */
     private final String name;
@@ -54,19 +60,24 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     /**
      * Ctor.
      * @param annotations Annotation nodes on top of this type.
+     * @param modifiers Modifiers of this annotation.
      * @param name Name.
      */
     public QueenAnnotationTypeDeclarationNode(
         final List<QueenAnnotationNode> annotations,
+        final List<QueenInterfaceModifierNode> modifiers,
         final String name
     ) {
         this.annotations = annotations;
+        this.modifiers = modifiers;
         this.name = name;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
         final AnnotationDeclaration annotationDeclaration = ((CompilationUnit) java).addAnnotationDeclaration(this.name);
+        annotationDeclaration.removeModifier(Modifier.Keyword.PUBLIC);
         this.annotations.forEach(a -> a.addToJavaNode(annotationDeclaration));
+        this.modifiers.forEach(m -> m.addToJavaNode(annotationDeclaration));
     }
 }

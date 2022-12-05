@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
@@ -47,6 +48,11 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     private final List<QueenAnnotationNode> annotations;
 
     /**
+     * Modifiers of this interface.
+     */
+    private final List<QueenInterfaceModifierNode> modifiers;
+
+    /**
      * Name of this type.
      */
     private final String name;
@@ -59,15 +65,18 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     /**
      * Ctor.
      * @param annotations Annotation nodes on top of this type.
+     * @param modifiers Modifiers on this interface.
      * @param name Name.
      * @param extendsTypes Types extended.
      */
     public QueenNormalInterfaceDeclarationNode(
         final List<QueenAnnotationNode> annotations,
+        final List<QueenInterfaceModifierNode> modifiers,
         final String name,
         final List<String> extendsTypes
     ) {
         this.annotations = annotations;
+        this.modifiers = modifiers;
         this.name = name;
         this.extendsTypes = extendsTypes;
     }
@@ -76,11 +85,15 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     public void addToJavaNode(final Node java) {
         ClassOrInterfaceDeclaration clazz = ((CompilationUnit) java)
             .addInterface(this.name);
+        clazz.removeModifier(Modifier.Keyword.PUBLIC);
         if(this.extendsTypes != null && this.extendsTypes.size() > 0) {
             this.extendsTypes.forEach(clazz::addExtendedType);
         }
         this.annotations.forEach(
             a -> a.addToJavaNode(clazz)
+        );
+        this.modifiers.forEach(
+            m -> m.addToJavaNode(clazz)
         );
     }
 }

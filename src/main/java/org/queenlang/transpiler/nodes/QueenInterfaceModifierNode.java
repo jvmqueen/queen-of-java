@@ -27,29 +27,22 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 
 /**
- * Queen modifier node used in interfaces, classes, methods, fields etc.
+ * Queen interface modifier AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min We need unit tests for all subclasses of QueenModifierNode.
  */
-public abstract class QueenModifierNode implements QueenNode {
-
-    /**
-     * Name of the modifier.
-     */
-    private final String modifier;
-
-    public QueenModifierNode(final String modifier) {
-        this.modifier = modifier;
+public final class QueenInterfaceModifierNode extends QueenModifierNode {
+    public QueenInterfaceModifierNode(final String modifier) {
+        super(modifier);
     }
 
-    public Modifier.Keyword modifier() {
-        return Modifier.Keyword.valueOf(this.modifier.toUpperCase());
+    @Override
+    public void addToJavaNode(Node java) {
+        ((NodeWithModifiers) java).addModifier(this.modifier());
     }
-
-
 }

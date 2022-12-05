@@ -146,6 +146,8 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     public QueenNormalInterfaceDeclarationNode visitNormalInterfaceDeclaration(QueenParser.NormalInterfaceDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenInterfaceModifierNode> modifiers = new ArrayList<>();
+
         final List<String> extendsTypes = new ArrayList<>();
         final String name = ctx.Identifier().getText();
         final QueenParser.ExtendsInterfacesContext extendsInterfacesContext = ctx
@@ -163,18 +165,26 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
         );
+        ctx.interfaceModifier().forEach(
+            m -> modifiers.add(this.visitInterfaceModifier(m))
+        );
         return new QueenNormalInterfaceDeclarationNode(
-            annotations, name, extendsTypes
+            annotations, modifiers, name, extendsTypes
         );
     }
 
     public QueenAnnotationTypeDeclarationNode visitAnnotationTypeDeclaration(QueenParser.AnnotationTypeDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenInterfaceModifierNode> modifiers = new ArrayList<>();
+
         final String name = ctx.Identifier().getText();
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
         );
-        return new QueenAnnotationTypeDeclarationNode(annotations, name);
+        ctx.interfaceModifier().forEach(
+            m -> modifiers.add(this.visitInterfaceModifier(m))
+        );
+        return new QueenAnnotationTypeDeclarationNode(annotations, modifiers, name);
     }
 
     @Override
@@ -185,6 +195,11 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     @Override
     public QueenClassExtensionModifierNode visitClassAbstractOrFinal(QueenParser.ClassAbstractOrFinalContext ctx) {
         return new QueenClassExtensionModifierNode(ctx.getText());
+    }
+
+    @Override
+    public QueenInterfaceModifierNode visitInterfaceModifier(QueenParser.InterfaceModifierContext ctx) {
+        return new QueenInterfaceModifierNode(ctx.getText());
     }
 
     @Override

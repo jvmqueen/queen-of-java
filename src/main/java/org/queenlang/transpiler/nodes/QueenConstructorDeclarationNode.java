@@ -47,7 +47,7 @@ import java.util.List;
  * @todo #10:60min Handle constructor parameters (between parantheses).
  * @todo #10:60min Handle constructor body.
  */
-public final class QueenConstructorDeclarationNode extends QueenClassBodyDeclarationNode {
+public final class QueenConstructorDeclarationNode implements QueenClassBodyDeclarationNode {
 
     private final List<QueenNode> annotations;
 

@@ -40,7 +40,12 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min Don't forget to unit test this class.
  */
-public final class QueenAnnotationTypeDeclarationNode extends QueenInterfaceDeclarationNode {
+public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceDeclarationNode {
+    /**
+     * Annotations on top of this annotation declaration.
+     */
+    private final List<QueenAnnotationNode> annotations;
+
     /**
      * Name of this type.
      */
@@ -55,13 +60,13 @@ public final class QueenAnnotationTypeDeclarationNode extends QueenInterfaceDecl
         final List<QueenAnnotationNode> annotations,
         final String name
     ) {
-        super(annotations);
+        this.annotations = annotations;
         this.name = name;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
         final AnnotationDeclaration annotationDeclaration = ((CompilationUnit) java).addAnnotationDeclaration(this.name);
-        super.addToJavaNode(annotationDeclaration);
+        this.annotations.forEach(a -> a.addToJavaNode(annotationDeclaration));
     }
 }

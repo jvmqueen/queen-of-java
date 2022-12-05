@@ -34,5 +34,5 @@ package org.queenlang.transpiler.nodes;
  * @since 0.0.1
  * @todo #10:60min Continue with class member declarations: methods, fields etc.
  */
-public abstract class QueenClassMemberDeclarationNode extends QueenClassBodyDeclarationNode {
+public interface QueenClassMemberDeclarationNode extends QueenClassBodyDeclarationNode {
 }

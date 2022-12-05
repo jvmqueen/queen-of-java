@@ -39,7 +39,12 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
-public final class QueenClassDeclarationNode extends QueenTypeDeclarationNode {
+public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode {
+    /**
+     * Annotations on top of this class.
+     */
+    private final List<QueenAnnotationNode> annotations;
+
     /**
      * Name of this type.
      */
@@ -75,7 +80,7 @@ public final class QueenClassDeclarationNode extends QueenTypeDeclarationNode {
         final List<String> of,
         final QueenNode body
     ) {
-        super(annotations);
+        this.annotations = annotations;
         this.name = name;
         this.extendsType = extendsType;
         this.of = of;
@@ -92,7 +97,7 @@ public final class QueenClassDeclarationNode extends QueenTypeDeclarationNode {
         if(this.of != null && this.of.size() > 0) {
             this.of.forEach(clazz::addImplementedType);
         }
-        super.addToJavaNode(clazz);
+        this.annotations.forEach(a -> a.addToJavaNode(clazz));
         this.body.addToJavaNode(clazz);
     }
 }

@@ -40,7 +40,12 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:60min Don't forget to write some unit tests here.
  */
-public final class QueenNormalInterfaceDeclarationNode extends QueenInterfaceDeclarationNode {
+public final class QueenNormalInterfaceDeclarationNode implements QueenInterfaceDeclarationNode {
+    /**
+     * Annotations on top of this interface.
+     */
+    private final List<QueenAnnotationNode> annotations;
+
     /**
      * Name of this type.
      */
@@ -62,7 +67,7 @@ public final class QueenNormalInterfaceDeclarationNode extends QueenInterfaceDec
         final String name,
         final List<String> extendsTypes
     ) {
-        super(annotations);
+        this.annotations = annotations;
         this.name = name;
         this.extendsTypes = extendsTypes;
     }
@@ -74,6 +79,8 @@ public final class QueenNormalInterfaceDeclarationNode extends QueenInterfaceDec
         if(this.extendsTypes != null && this.extendsTypes.size() > 0) {
             this.extendsTypes.forEach(clazz::addExtendedType);
         }
-        super.addToJavaNode(clazz);
+        this.annotations.forEach(
+            a -> a.addToJavaNode(clazz)
+        );
     }
 }

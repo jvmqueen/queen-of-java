@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
-import java.util.List;
-
 /**
  * Queen TypeDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -39,9 +36,5 @@ import java.util.List;
  * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
  * @todo #8:60min Handle the TypeBody AST node further.
  */
-public abstract class QueenTypeDeclarationNode extends QueenAnnotatedNode {
-
-    public QueenTypeDeclarationNode(final List<QueenAnnotationNode> annotations) {
-        super(annotations);
-    }
+public interface QueenTypeDeclarationNode extends QueenNode {
 }

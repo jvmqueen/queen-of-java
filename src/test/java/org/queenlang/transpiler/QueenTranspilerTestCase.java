@@ -49,7 +49,9 @@ public final class QueenTranspilerTestCase {
     @ParameterizedTest
     @CsvSource(
         value = {
-            "HelloWorld_EmptyInterface.queen,HelloWorld_EmptyInterface.java"
+            "EmptyInterface.queen,EmptyInterface.java",
+            "InterfaceWithImports.queen,InterfaceWithImports.java",
+            "InterfaceWithNoPackage.queen,InterfaceWithNoPackage.java"
         }
     )
     public void testTranspiler(final String queenInput, final String javaOuput) throws Exception {

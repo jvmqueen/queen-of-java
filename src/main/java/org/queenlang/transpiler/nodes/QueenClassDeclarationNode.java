@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import java.util.List;
@@ -44,6 +45,16 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
      * Annotations on top of this class.
      */
     private final List<QueenAnnotationNode> annotations;
+
+    /**
+     * Access modifiers of this class.
+     */
+    private final List<QueenClassAccessModifierNode> accessModifiers;
+
+    /**
+     * Extension modifier (abstract or final).
+     */
+    private final QueenClassExtensionModifierNode extensionModifier;
 
     /**
      * Name of this type.
@@ -68,6 +79,8 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     /**
      * Ctor.
      * @param annotations Annotation nodes on top of this type.
+     * @param accessModifiers Access modifiers of this class.
+     * @param extensionModifier Extension modifier (abstract or final).
      * @param name Name.
      * @param extendsType Type extended.
      * @param of Types implemented.
@@ -75,12 +88,16 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
      */
     public QueenClassDeclarationNode(
         final List<QueenAnnotationNode> annotations,
+        final List<QueenClassAccessModifierNode> accessModifiers,
+        final QueenClassExtensionModifierNode extensionModifier,
         final String name,
         final String extendsType,
         final List<String> of,
         final QueenNode body
     ) {
         this.annotations = annotations;
+        this.accessModifiers = accessModifiers;
+        this.extensionModifier = extensionModifier;
         this.name = name;
         this.extendsType = extendsType;
         this.of = of;
@@ -91,6 +108,8 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     public void addToJavaNode(final Node java) {
         ClassOrInterfaceDeclaration clazz = ((CompilationUnit) java)
             .addClass(this.name);
+        clazz.removeModifier(Modifier.Keyword.PUBLIC);
+
         if(this.extendsType != null) {
             clazz.addExtendedType(this.extendsType);
         }
@@ -98,6 +117,8 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
             this.of.forEach(clazz::addImplementedType);
         }
         this.annotations.forEach(a -> a.addToJavaNode(clazz));
+        this.accessModifiers.forEach(am -> am.addToJavaNode(clazz));
+        this.extensionModifier.addToJavaNode(clazz);
         this.body.addToJavaNode(clazz);
     }
 }

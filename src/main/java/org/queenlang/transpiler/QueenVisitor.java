@@ -107,6 +107,8 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     @Override
     public QueenClassDeclarationNode visitClassDeclaration(QueenParser.ClassDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenClassAccessModifierNode> accessModifiers = new ArrayList<>();
+
         final String name = ctx.Identifier().getText();
         final List<String> ofTypes = ctx
             .superClassAndOrInterfaces()
@@ -124,8 +126,13 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
         );
+        ctx.classModifier().forEach(
+            m -> accessModifiers.add(this.visitClassModifier(m))
+        );
         return new QueenClassDeclarationNode(
             annotations,
+            accessModifiers,
+            this.visitClassAbstractOrFinal(ctx.classAbstractOrFinal()),
             name,
             extendsType,
             ofTypes,
@@ -168,6 +175,16 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             a -> annotations.add(this.visitAnnotation(a))
         );
         return new QueenAnnotationTypeDeclarationNode(annotations, name);
+    }
+
+    @Override
+    public QueenClassAccessModifierNode visitClassModifier(QueenParser.ClassModifierContext ctx) {
+        return new QueenClassAccessModifierNode(ctx.getText());
+    }
+
+    @Override
+    public QueenClassExtensionModifierNode visitClassAbstractOrFinal(QueenParser.ClassAbstractOrFinalContext ctx) {
+        return new QueenClassExtensionModifierNode(ctx.getText());
     }
 
     @Override

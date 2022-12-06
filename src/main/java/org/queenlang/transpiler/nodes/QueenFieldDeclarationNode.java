@@ -27,12 +27,51 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+
+import java.util.List;
+
 /**
- * Queen ClassMember AST Node.
+ * Queen FieldDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #29:60min Continue with class member declarations: methods etc.
+ * @todo #29:60min Continue with VariableDeclarationList for fields.
  */
-public interface QueenClassMemberDeclarationNode extends QueenClassBodyDeclarationNode {
+public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarationNode {
+
+    /**
+     * Annotations on top of this class.
+     */
+    private final List<QueenAnnotationNode> annotations;
+
+    /**
+     * Access modifiers of this class.
+     */
+    private final List<QueenFieldModifierNode> modifiers;
+
+    /**
+     * Type of the field declaration.
+     */
+    private final String type;
+
+    public QueenFieldDeclarationNode(
+        final List<QueenAnnotationNode> annotations,
+        final List<QueenFieldModifierNode> modifiers,
+        final String type
+    ) {
+        this.annotations = annotations;
+        this.modifiers = modifiers;
+        this.type = type;
+    }
+
+    @Override
+    public void addToJavaNode(final Node java) {
+        ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
+        FieldDeclaration field = clazz.addField(this.type, "X");
+        this.annotations.forEach(a -> a.addToJavaNode(field));
+        this.modifiers.forEach(m -> m.addToJavaNode(field));
+    }
 }

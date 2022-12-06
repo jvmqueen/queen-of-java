@@ -203,6 +203,11 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
+    public QueenFieldModifierNode visitFieldModifier(QueenParser.FieldModifierContext ctx) {
+        return new QueenFieldModifierNode(ctx.getText());
+    }
+
+    @Override
     public QueenAnnotationNode visitAnnotation(QueenParser.AnnotationContext ctx) {
         if(ctx.markerAnnotation() != null) {
             return new QueenMarkerAnnotationNode(ctx.markerAnnotation().typeName().getText());
@@ -230,15 +235,38 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         return null;
     }
 
+    @Override
     public QueenClassBodyDeclarationNode visitClassBodyDeclaration(QueenParser.ClassBodyDeclarationContext ctx) {
-        if(ctx.constructorDeclaration() != null) {
+        if(ctx.classMemberDeclaration() != null) {
+            if(ctx.classMemberDeclaration().fieldDeclaration() != null) {
+                return this.visitFieldDeclaration(ctx.classMemberDeclaration().fieldDeclaration());
+            }
+        } else if(ctx.constructorDeclaration() != null) {
             final List<QueenNode> annotations = new ArrayList<>();
             ctx.constructorDeclaration().annotation().forEach(
                 a -> annotations.add(this.visitAnnotation(a))
             );
-            System.out.println("CTOR BODY: " + ctx.constructorDeclaration().constructorBody().getText());
             return new QueenConstructorDeclarationNode(annotations);
         }
         return null;
+    }
+
+    @Override
+    public QueenFieldDeclarationNode visitFieldDeclaration(QueenParser.FieldDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+
+        final List<QueenFieldModifierNode> modifiers = new ArrayList<>();
+        ctx.fieldModifier().forEach(
+            m -> modifiers.add(this.visitFieldModifier(m))
+        );
+
+        return new QueenFieldDeclarationNode(
+            annotations,
+            modifiers,
+            ctx.unannType().getText()
+        );
     }
 }

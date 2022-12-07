@@ -32,13 +32,13 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Queen FieldDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #29:60min Continue with VariableDeclarationList for fields.
  */
 public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarationNode {
 
@@ -57,21 +57,35 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
      */
     private final String type;
 
+    /**
+     * Variable names and initializer expressions.
+     */
+    private final Map<String, QueenInitializerExpressionNode> variables;
+
     public QueenFieldDeclarationNode(
         final List<QueenAnnotationNode> annotations,
         final List<QueenFieldModifierNode> modifiers,
-        final String type
+        final String type,
+        final Map<String, QueenInitializerExpressionNode> variables
     ) {
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.type = type;
+        this.variables = variables;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
         ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        FieldDeclaration field = clazz.addField(this.type, "X");
-        this.annotations.forEach(a -> a.addToJavaNode(field));
-        this.modifiers.forEach(m -> m.addToJavaNode(field));
+        this.variables.entrySet().forEach(
+            vn -> {
+                FieldDeclaration field = clazz.addField(this.type, vn.getKey());
+                this.annotations.forEach(a -> a.addToJavaNode(field));
+                this.modifiers.forEach(m -> m.addToJavaNode(field));
+                if(vn.getValue() != null) {
+                    vn.getValue().addToJavaNode(field.getVariable(0));
+                }
+            }
+        );
     }
 }

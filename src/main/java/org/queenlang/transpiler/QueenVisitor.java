@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler;
 
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
@@ -263,10 +264,36 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             m -> modifiers.add(this.visitFieldModifier(m))
         );
 
+        final Map<String, QueenInitializerExpressionNode> variables = new HashMap<>();
+        ctx.variableDeclaratorList().variableDeclarator().forEach(
+            vd -> {
+                variables.put(vd.variableDeclaratorId().getText(), null);
+                if(vd.variableInitializer() != null) {
+                    variables.put(
+                        vd.variableDeclaratorId().getText(),
+                        this.visitVariableInitializer(vd.variableInitializer())
+                    );
+                }
+            }
+        );
+
         return new QueenFieldDeclarationNode(
             annotations,
             modifiers,
-            ctx.unannType().getText()
+            ctx.unannType().getText(),
+            variables
+        );
+    }
+
+    public QueenInitializerExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
+        return new QueenTextExpressionNode(
+            ctx.start.getInputStream()
+                .getText(
+                    new Interval(
+                        ctx.start.getStartIndex(),
+                        ctx.stop.getStopIndex()
+                    )
+                )
         );
     }
 }

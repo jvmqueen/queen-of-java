@@ -9,10 +9,16 @@ import com.example.other.more.*;
 @Test("aaaa")
 public final implementation HelloWorld extends Test of Main, Blabla, Trala {
 
+    private int x[]= 1, y = 2, z = 3;
+
     @TestAttribute
     private static final double yyy = 3;
     @SomeOther
-    final Test[][][] hehe = 455;
+    final Test[][][] hehe[][]@Test[] = 455;
+
+    final MyClass mcc = new MyClass () {
+
+    };
 
    @CtorAnnotation("a")
    @CtorAnnotation2(a=4)

@@ -1,0 +1,34 @@
+package org.queenlang.helloworld;
+
+import com.example.other.Test;
+import static java.lang.Math.pow;
+import static java.lang.Assert.*;
+import com.example.other.Other;
+import com.example.other.more.*;
+
+@WithFields
+public final implementation ClassWithFields of SomeInterface {
+
+    int prot = 0;
+
+    private final int x, y, z = 3;
+
+    @AnnotatedField
+    private final int m = 0, n = 1, p = 2;
+
+    private final Object objs;
+
+    private final List<String> list;
+
+    private final List<String> otherList = new ArrayList<>();
+
+    private final List<String> otherList2 = new ArrayList<String>();
+
+    private final Test test = new AnnonymTest() {
+    };
+
+    @AnnotatedField
+    private final String[] s = new String[]{"1", "2", "3"}
+
+
+}

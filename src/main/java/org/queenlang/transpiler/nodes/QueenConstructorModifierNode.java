@@ -27,45 +27,22 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.stmt.BlockStmt;
-
-import java.util.List;
+import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 
 /**
- * Queen ConstructorDeclaration AST Node.
+ * Queen constructor access modifier AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min QueenConstructorDeclaration needs unit tests.
- * @todo #10:60min Handle constructor type parameters.
- * @todo #10:60min Handle constructor throws keyword.
- * @todo #10:60min Handle constructor parameters (between parantheses).
- * @todo #10:60min Handle constructor body.
  */
-public final class QueenConstructorDeclarationNode implements QueenClassBodyDeclarationNode {
-
-    private final List<QueenNode> annotations;
-
-    private final QueenConstructorModifierNode modifier;
-
-    public QueenConstructorDeclarationNode(
-        final List<QueenNode> annotations,
-        final QueenConstructorModifierNode modifier
-    ) {
-        this.annotations = annotations;
-        this.modifier = modifier;
+public final class QueenConstructorModifierNode extends QueenModifierNode  {
+    public QueenConstructorModifierNode(final String modifier) {
+        super(modifier);
     }
 
+    @Override
     public void addToJavaNode(final Node java) {
-        final ConstructorDeclaration constructor = ((ClassOrInterfaceDeclaration) java).addConstructor();
-        this.annotations.forEach(a -> a.addToJavaNode(constructor));
-        if(this.modifier != null) {
-            this.modifier.addToJavaNode(constructor);
-        }
+        ((NodeWithModifiers) java).addModifier(this.modifier());
     }
-
 }

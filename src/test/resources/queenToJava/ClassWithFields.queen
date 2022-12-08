@@ -30,5 +30,8 @@ public final implementation ClassWithFields of SomeInterface {
     @AnnotatedField
     private final String[] s = new String[]{"1", "2", "3"}
 
+    public ClassWithFields() {
+
+    }
 
 }

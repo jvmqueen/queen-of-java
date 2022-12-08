@@ -209,6 +209,14 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
+    public QueenConstructorModifierNode visitConstructorModifier(QueenParser.ConstructorModifierContext ctx) {
+        if(ctx != null) {
+            return new QueenConstructorModifierNode(ctx.getText());
+        }
+        return null;
+    }
+
+    @Override
     public QueenAnnotationNode visitAnnotation(QueenParser.AnnotationContext ctx) {
         if(ctx.markerAnnotation() != null) {
             return new QueenMarkerAnnotationNode(ctx.markerAnnotation().typeName().getText());
@@ -247,7 +255,10 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             ctx.constructorDeclaration().annotation().forEach(
                 a -> annotations.add(this.visitAnnotation(a))
             );
-            return new QueenConstructorDeclarationNode(annotations);
+            return new QueenConstructorDeclarationNode(
+                annotations,
+                this.visitConstructorModifier(ctx.constructorDeclaration().constructorModifier())
+            );
         }
         return null;
     }

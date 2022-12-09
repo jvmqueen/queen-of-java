@@ -255,9 +255,21 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             ctx.constructorDeclaration().annotation().forEach(
                 a -> annotations.add(this.visitAnnotation(a))
             );
+            final List<QueenParameterNode> parameters = new ArrayList<>();
+            if(ctx.constructorDeclaration().constructorDeclarator().formalParameterList() != null) {
+                final QueenParser.FormalParameterListContext formalParameterList = ctx.constructorDeclaration().constructorDeclarator().formalParameterList();
+                if(formalParameterList.formalParameters() != null) {
+                    formalParameterList.formalParameters().formalParameter()
+                        .forEach(fp -> parameters.add(this.visitFormalParameter(fp)));
+                }
+                if(formalParameterList.lastFormalParameter() != null) {
+                    parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
+                }
+            }
             return new QueenConstructorDeclarationNode(
                 annotations,
-                this.visitConstructorModifier(ctx.constructorDeclaration().constructorModifier())
+                this.visitConstructorModifier(ctx.constructorDeclaration().constructorModifier()),
+                parameters
             );
         }
         return null;
@@ -305,6 +317,71 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                         ctx.stop.getStopIndex()
                     )
                 )
+        );
+    }
+
+    public QueenParameterNode visitFormalParameter(QueenParser.FormalParameterContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenParameterModifierNode> modifiers = new ArrayList<>();
+
+        if(ctx.variableModifier() != null) {
+            ctx.variableModifier().forEach(
+                v -> {
+                    if(v.annotation() != null) {
+                        annotations.add(this.visitAnnotation(v.annotation()));
+                    }
+                    if(v.FINAL() != null) {
+                        modifiers.add(new QueenParameterModifierNode(v.FINAL().getText()));
+                    }
+                }
+            );
+        }
+
+        final String type = ctx.unannType().getText();
+        final String name = ctx.variableDeclaratorId().getText();
+        return new QueenParameterNode(
+            annotations,
+            modifiers,
+            type,
+            name
+        );
+    }
+
+    public QueenParameterNode visitLastFormalParameter(QueenParser.LastFormalParameterContext ctx) {
+        if(ctx.formalParameter() != null) {
+            return this.visitFormalParameter(ctx.formalParameter());
+        }
+        final List<String> varArgAnnotations = new ArrayList<>();
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenParameterModifierNode> modifiers = new ArrayList<>();
+
+        if(ctx.variableModifier() != null) {
+            ctx.variableModifier().forEach(
+                v -> {
+                    if(v.annotation() != null) {
+                        annotations.add(this.visitAnnotation(v.annotation()));
+                    }
+                    if(v.FINAL() != null) {
+                        modifiers.add(new QueenParameterModifierNode(v.FINAL().getText()));
+                    }
+                }
+            );
+        }
+
+        final String type = ctx.unannType().getText();
+        final String name = ctx.variableDeclaratorId().getText();
+        if(ctx.annotation() != null) {
+            ctx.annotation().forEach(
+                va -> varArgAnnotations.add(va.getText())
+            );
+        }
+        return new QueenParameterNode(
+            annotations,
+            modifiers,
+            type,
+            name,
+            varArgAnnotations,
+            true
         );
     }
 }

@@ -42,4 +42,13 @@ public final class ClassWithFields implements SomeInterface {
 
     public ClassWithFields() {
     }
+
+    public ClassWithFields(final int i, final Student student, @NotNull List<String> stuff, @Array final String... s) {
+    }
+
+    public ClassWithFields(@NotEmpty final String... stringArgs) {
+    }
+
+    public ClassWithFields(Integer... integers) {
+    }
 }

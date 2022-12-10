@@ -194,6 +194,11 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
+    public QueenMethodModifierNode visitMethodModifier(QueenParser.MethodModifierContext ctx) {
+        return new QueenMethodModifierNode(ctx.getText());
+    }
+
+    @Override
     public QueenClassExtensionModifierNode visitClassAbstractOrFinal(QueenParser.ClassAbstractOrFinalContext ctx) {
         return new QueenClassExtensionModifierNode(ctx.getText());
     }
@@ -249,47 +254,15 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         if(ctx.classMemberDeclaration() != null) {
             if(ctx.classMemberDeclaration().fieldDeclaration() != null) {
                 return this.visitFieldDeclaration(ctx.classMemberDeclaration().fieldDeclaration());
+            } else if(ctx.classMemberDeclaration().methodDeclaration() != null) {
+                return this.visitMethodDeclaration(ctx.classMemberDeclaration().methodDeclaration());
             }
         } else if(ctx.instanceInitializer() != null) {
             return this.visitInstanceInitializer(ctx.instanceInitializer());
         } else if(ctx.staticInitializer() != null) {
             return this.visitStaticInitializer(ctx.staticInitializer());
         } else if(ctx.constructorDeclaration() != null) {
-            final List<QueenNode> annotations = new ArrayList<>();
-            ctx.constructorDeclaration().annotation().forEach(
-                a -> annotations.add(this.visitAnnotation(a))
-            );
-            final List<QueenParameterNode> parameters = new ArrayList<>();
-            if(ctx.constructorDeclaration().constructorDeclarator().formalParameterList() != null) {
-                final QueenParser.FormalParameterListContext formalParameterList = ctx.constructorDeclaration().constructorDeclarator().formalParameterList();
-                if(formalParameterList.formalParameters() != null) {
-                    formalParameterList.formalParameters().formalParameter()
-                        .forEach(fp -> parameters.add(this.visitFormalParameter(fp)));
-                }
-                if(formalParameterList.lastFormalParameter() != null) {
-                    parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
-                }
-            }
-            final QueenParser.ConstructorBodyContext constructorBodyContext = ctx.constructorDeclaration().constructorBody();
-            final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode;
-            if(constructorBodyContext.explicitConstructorInvocation() != null) {
-                explicitConstructorInvocationNode = this.visitExplicitConstructorInvocation(constructorBodyContext.explicitConstructorInvocation());
-            } else {
-                explicitConstructorInvocationNode = null;
-            }
-            final QueenBlockStatements queenBlockStatements;
-            if(constructorBodyContext.blockStatements() != null) {
-                queenBlockStatements = this.visitBlockStatements(constructorBodyContext.blockStatements());
-            } else {
-                queenBlockStatements = null;
-            }
-            return new QueenConstructorDeclarationNode(
-                annotations,
-                this.visitConstructorModifier(ctx.constructorDeclaration().constructorModifier()),
-                parameters,
-                explicitConstructorInvocationNode,
-                queenBlockStatements
-            );
+            return this.visitConstructorDeclaration(ctx.constructorDeclaration());
         }
         return null;
     }
@@ -324,6 +297,91 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             modifiers,
             ctx.unannType().getText(),
             variables
+        );
+    }
+
+    @Override
+    public QueenConstructorDeclarationNode visitConstructorDeclaration(QueenParser.ConstructorDeclarationContext ctx) {
+        final List<QueenNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final List<QueenParameterNode> parameters = new ArrayList<>();
+        if(ctx.constructorDeclarator().formalParameterList() != null) {
+            final QueenParser.FormalParameterListContext formalParameterList = ctx.constructorDeclarator().formalParameterList();
+            if(formalParameterList.formalParameters() != null) {
+                formalParameterList.formalParameters().formalParameter()
+                    .forEach(fp -> parameters.add(this.visitFormalParameter(fp)));
+            }
+            if(formalParameterList.lastFormalParameter() != null) {
+                parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
+            }
+        }
+        final QueenParser.ConstructorBodyContext constructorBodyContext = ctx.constructorBody();
+        final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode;
+        if(constructorBodyContext.explicitConstructorInvocation() != null) {
+            explicitConstructorInvocationNode = this.visitExplicitConstructorInvocation(constructorBodyContext.explicitConstructorInvocation());
+        } else {
+            explicitConstructorInvocationNode = null;
+        }
+        final QueenBlockStatements queenBlockStatements;
+        if(constructorBodyContext.blockStatements() != null) {
+            queenBlockStatements = this.visitBlockStatements(constructorBodyContext.blockStatements());
+        } else {
+            queenBlockStatements = null;
+        }
+        return new QueenConstructorDeclarationNode(
+            annotations,
+            this.visitConstructorModifier(ctx.constructorModifier()),
+            parameters,
+            explicitConstructorInvocationNode,
+            queenBlockStatements
+        );
+    }
+
+    @Override
+    public QueenMethodDeclarationNode visitMethodDeclaration(QueenParser.MethodDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final List<QueenMethodModifierNode> modifiers = new ArrayList<>();
+        ctx.methodModifier().forEach(
+            m -> modifiers.add(this.visitMethodModifier(m))
+        );
+        final List<QueenParameterNode> parameters = new ArrayList<>();
+        final QueenParser.MethodDeclaratorContext methodDeclarator = ctx.methodHeader().methodDeclarator();
+        if(methodDeclarator.formalParameterList() != null) {
+            final QueenParser.FormalParameterListContext formalParameterList = methodDeclarator.formalParameterList();
+            if(formalParameterList.formalParameters() != null) {
+                formalParameterList.formalParameters().formalParameter()
+                    .forEach(fp -> parameters.add(this.visitFormalParameter(fp)));
+            }
+            if(formalParameterList.lastFormalParameter() != null) {
+                parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
+            }
+        }
+        final QueenParser.MethodBodyContext methodBodyContext = ctx.methodBody();
+        final QueenBlockStatements queenBlockStatements;
+        if(methodBodyContext.block().blockStatements() != null) {
+            queenBlockStatements = this.visitBlockStatements(methodBodyContext.block().blockStatements());
+        } else {
+            queenBlockStatements = null;
+        }
+        final String returnType = ctx.methodHeader().result().start.getInputStream()
+            .getText(
+                new Interval(
+                    ctx.methodHeader().result().start.getStartIndex(),
+                    ctx.methodHeader().result().stop.getStopIndex()
+                )
+            );
+        return new QueenMethodDeclarationNode(
+            annotations,
+            modifiers,
+            returnType,
+            methodDeclarator.Identifier().getText(),
+            parameters,
+            queenBlockStatements
         );
     }
 

@@ -27,65 +27,83 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.stmt.BlockStmt;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Queen FieldDeclaration AST node.
+ * Queen MethodDeclaration AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #10:30min Unit tests for QueenMethodDeclarationNode are needed.
  */
-public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarationNode {
+public final class QueenMethodDeclarationNode implements QueenClassMemberDeclarationNode {
 
     /**
-     * Annotations on top of this field.
+     * Annotations on top of this method.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Access modifiers of this field.
+     * Access modifiers of this method.
      */
-    private final List<QueenFieldModifierNode> modifiers;
+    private final List<QueenMethodModifierNode> modifiers;
 
     /**
-     * Type of the field declaration.
+     * Return type.
      */
-    private final String type;
+    private final String returnType;
 
     /**
-     * Variable names and initializer expressions.
+     * Method name.
      */
-    private final Map<String, QueenInitializerExpressionNode> variables;
+    private final String name;
 
-    public QueenFieldDeclarationNode(
+    /**
+     * Method parameters.
+     */
+    private final List<QueenParameterNode> parameters;
+
+    /**
+     * Method body.
+     */
+    private final QueenBlockStatements blockStatements;
+
+    public QueenMethodDeclarationNode(
         final List<QueenAnnotationNode> annotations,
-        final List<QueenFieldModifierNode> modifiers,
-        final String type,
-        final Map<String, QueenInitializerExpressionNode> variables
+        final List<QueenMethodModifierNode> modifiers,
+        final String returnType,
+        final String name,
+        final List<QueenParameterNode> parameters,
+        final QueenBlockStatements blockStatements
     ) {
         this.annotations = annotations;
         this.modifiers = modifiers;
-        this.type = type;
-        this.variables = variables;
+        this.returnType = returnType;
+        this.name = name;
+        this.parameters = parameters;
+        this.blockStatements = blockStatements;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        this.variables.entrySet().forEach(
-            vn -> {
-                FieldDeclaration field = clazz.addField(this.type, vn.getKey());
-                this.annotations.forEach(a -> a.addToJavaNode(field));
-                this.modifiers.forEach(m -> m.addToJavaNode(field));
-                if(vn.getValue() != null) {
-                    vn.getValue().addToJavaNode(field.getVariable(0));
-                }
-            }
+        final MethodDeclaration method = ((ClassOrInterfaceDeclaration) java).addMethod(this.name);
+        method.removeModifier(Modifier.Keyword.PUBLIC);
+        method.setType(this.returnType);
+        this.annotations.forEach(a -> a.addToJavaNode(method));
+        this.modifiers.forEach(m -> m.addToJavaNode(method));
+        this.parameters.forEach(
+            p -> p.addToJavaNode(method)
         );
+        final BlockStmt blockStmt = new BlockStmt();
+        if(this.blockStatements != null) {
+            this.blockStatements.addToJavaNode(blockStmt);
+        }
+        method.setBody(blockStmt);
     }
 }

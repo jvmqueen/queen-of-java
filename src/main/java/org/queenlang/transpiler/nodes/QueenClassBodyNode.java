@@ -39,9 +39,9 @@ import java.util.List;
  */
 public final class QueenClassBodyNode implements QueenNode {
 
-    private final List<QueenNode> classBodyDeclarations;
+    private final List<QueenClassBodyDeclarationNode> classBodyDeclarations;
 
-    public QueenClassBodyNode(final List<QueenNode> classBodyDeclarations) {
+    public QueenClassBodyNode(final List<QueenClassBodyDeclarationNode> classBodyDeclarations) {
         this.classBodyDeclarations = classBodyDeclarations;
     }
 

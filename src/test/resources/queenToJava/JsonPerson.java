@@ -32,4 +32,21 @@ public final class JsonPerson implements Person {
             throw new Exception("NOT OK");
         }
     }
+
+    @Override
+    public final String name() {
+        return this.name(false);
+    }
+
+    @Override
+    public final String name(final boolean supportMissing) {
+        return this.getString("name", supportMissing);
+    }
+
+    private String getString(final String key, @NotNull final boolean supportMissing) {
+        if (supportMissing) {
+            this.json.getString(key, "");
+        }
+        return this.json.getString(key);
+    }
 }

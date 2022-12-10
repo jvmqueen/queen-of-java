@@ -24,8 +24,16 @@ public final implementation HelloWorld extends Test of Main, Blabla, Trala {
    @CtorAnnotation2(a=4)
    @CtorAnnotation3(2+3)
    public HelloWorld(final int i, @NotNull @Test(1+2) final Amen y, Amen.Inner z, double d, @NotNull List<String> strings, @Array String... s) {
+        super(0, sss);
+        int sdd = 2 + 3;
+        int clazz = new Test () {
+
+        };
         this.a = a;
         this.b = b;
+        final implementation Test of Some {
+            int t = 0;
+        }
    }
 
    public HelloWorld(int i, final Second... sss) {

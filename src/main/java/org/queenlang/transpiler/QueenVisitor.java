@@ -266,10 +266,25 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                     parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
                 }
             }
+            final QueenParser.ConstructorBodyContext constructorBodyContext = ctx.constructorDeclaration().constructorBody();
+            final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode;
+            if(constructorBodyContext.explicitConstructorInvocation() != null) {
+                explicitConstructorInvocationNode = this.visitExplicitConstructorInvocation(constructorBodyContext.explicitConstructorInvocation());
+            } else {
+                explicitConstructorInvocationNode = null;
+            }
+            final QueenBlockStatements queenBlockStatements;
+            if(constructorBodyContext.blockStatements() != null) {
+                queenBlockStatements = this.visitBlockStatements(constructorBodyContext.blockStatements());
+            } else {
+                queenBlockStatements = null;
+            }
             return new QueenConstructorDeclarationNode(
                 annotations,
                 this.visitConstructorModifier(ctx.constructorDeclaration().constructorModifier()),
-                parameters
+                parameters,
+                explicitConstructorInvocationNode,
+                queenBlockStatements
             );
         }
         return null;
@@ -308,6 +323,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         );
     }
 
+    @Override
     public QueenInitializerExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
         return new QueenTextExpressionNode(
             ctx.start.getInputStream()
@@ -320,6 +336,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         );
     }
 
+    @Override
     public QueenParameterNode visitFormalParameter(QueenParser.FormalParameterContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenParameterModifierNode> modifiers = new ArrayList<>();
@@ -347,6 +364,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         );
     }
 
+    @Override
     public QueenParameterNode visitLastFormalParameter(QueenParser.LastFormalParameterContext ctx) {
         if(ctx.formalParameter() != null) {
             return this.visitFormalParameter(ctx.formalParameter());
@@ -383,5 +401,57 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             varArgAnnotations,
             true
         );
+    }
+
+    @Override
+    public QueenExplicitConstructorInvocationNode visitExplicitConstructorInvocation(QueenParser.ExplicitConstructorInvocationContext ctx) {
+        return new QueenExplicitConstructorInvocationNode(
+            ctx.start.getInputStream()
+                .getText(
+                    new Interval(
+                        ctx.start.getStartIndex(),
+                        ctx.stop.getStopIndex()
+                    )
+                )
+        );
+    }
+
+    @Override
+    public QueenBlockStatements visitBlockStatements(QueenParser.BlockStatementsContext ctx) {
+        final List<QueenBlockStatementNode> blockStatements = new ArrayList<>();
+        ctx.blockStatement().forEach(
+            bs -> {
+                if(bs.classDeclaration() != null) {
+                    blockStatements.add(this.visitClassDeclaration(bs.classDeclaration()));
+                }
+                if(bs.localVariableDeclarationStatement() != null) {
+                    blockStatements.add(
+                        new QueenTextStatementNode(
+                            bs.localVariableDeclarationStatement().start.getInputStream()
+                                .getText(
+                                    new Interval(
+                                        bs.localVariableDeclarationStatement().start.getStartIndex(),
+                                        bs.localVariableDeclarationStatement().stop.getStopIndex()
+                                    )
+                                )
+                        )
+                    );
+                }
+                if(bs.statement() != null) {
+                    blockStatements.add(
+                        new QueenTextStatementNode(
+                            bs.statement().start.getInputStream()
+                                .getText(
+                                    new Interval(
+                                        bs.statement().start.getStartIndex(),
+                                        bs.statement().stop.getStopIndex()
+                                    )
+                                )
+                        )
+                    );
+                }
+            }
+        );
+        return new QueenBlockStatements(blockStatements);
     }
 }

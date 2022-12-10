@@ -31,6 +31,9 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
+import com.github.javaparser.ast.stmt.Statement;
+
 import java.util.List;
 
 /**
@@ -40,7 +43,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
-public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode {
+public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode {
     /**
      * Annotations on top of this class.
      */
@@ -106,8 +109,21 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
 
     @Override
     public void addToJavaNode(final Node java) {
-        ClassOrInterfaceDeclaration clazz = ((CompilationUnit) java)
-            .addClass(this.name);
+        ((CompilationUnit) java).addType(this.toJavaClass());
+    }
+
+    @Override
+    public Statement asJavaStatement() {
+        return new LocalClassDeclarationStmt(this.toJavaClass());
+    }
+
+    /**
+     * Turn it into a JavaParser class declaration.
+     * @return ClassOrInterfaceDeclaration.
+     */
+    private ClassOrInterfaceDeclaration toJavaClass() {
+        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
+        clazz.setName(this.name);
         clazz.removeModifier(Modifier.Keyword.PUBLIC);
 
         if(this.extendsType != null) {
@@ -120,5 +136,6 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         this.accessModifiers.forEach(am -> am.addToJavaNode(clazz));
         this.extensionModifier.addToJavaNode(clazz);
         this.body.addToJavaNode(clazz);
+        return clazz;
     }
 }

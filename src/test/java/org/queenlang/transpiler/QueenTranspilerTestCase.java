@@ -48,6 +48,7 @@ public final class QueenTranspilerTestCase {
     @ParameterizedTest
     @CsvSource(
         value = {
+            "JsonPerson.queen,JsonPerson.java",
             "ClassWithFields.queen,ClassWithFields.java",
             "EmptyAnnotatedClass.queen,EmptyAnnotatedClass.java",
             "EmptyInterface.queen,EmptyInterface.java",

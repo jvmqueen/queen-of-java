@@ -28,63 +28,34 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
- * Queen ConstructorDeclaration AST Node.
+ * Queen BlockStatements AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min QueenConstructorDeclaration needs unit tests.
- * @todo #10:60min Handle constructor type parameters.
- * @todo #10:60min Handle constructor throws keyword.
  */
-public final class QueenConstructorDeclarationNode implements QueenClassBodyDeclarationNode {
+public final class QueenBlockStatements implements QueenNode, Iterable<QueenBlockStatementNode> {
 
-    private final List<QueenNode> annotations;
+    private final List<QueenBlockStatementNode> blockStatements;
 
-    private final QueenConstructorModifierNode modifier;
-
-    private final List<QueenParameterNode> parameters;
-
-    private final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode;
-
-    private final QueenBlockStatements blockStatements;
-
-    public QueenConstructorDeclarationNode(
-        final List<QueenNode> annotations,
-        final QueenConstructorModifierNode modifier,
-        final List<QueenParameterNode> parameters,
-        final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode,
-        final QueenBlockStatements blockStatements
-    ) {
-        this.annotations = annotations;
-        this.modifier = modifier;
-        this.parameters = parameters;
-        this.explicitConstructorInvocationNode = explicitConstructorInvocationNode;
+    public QueenBlockStatements(final List<QueenBlockStatementNode> blockStatements) {
         this.blockStatements = blockStatements;
     }
 
-    public void addToJavaNode(final Node java) {
-        final ConstructorDeclaration constructor = ((ClassOrInterfaceDeclaration) java).addConstructor();
-        this.annotations.forEach(a -> a.addToJavaNode(constructor));
-        if(this.modifier != null) {
-            this.modifier.addToJavaNode(constructor);
-        }
-        this.parameters.forEach(
-            p -> p.addToJavaNode(constructor)
-        );
-        final BlockStmt blockStmt = new BlockStmt();
-        if(this.explicitConstructorInvocationNode != null) {
-            this.explicitConstructorInvocationNode.addToJavaNode(blockStmt);
-        }
-        if(this.blockStatements != null) {
-            this.blockStatements.addToJavaNode(blockStmt);
-        }
-        constructor.setBody(blockStmt);
+    @Override
+    public Iterator<QueenBlockStatementNode> iterator() {
+        return this.blockStatements.iterator();
     }
 
+    @Override
+    public void addToJavaNode(final Node java) {
+        this.blockStatements.forEach(
+            bs -> bs.addToJavaNode((BlockStmt) java)
+        );
+    }
 }

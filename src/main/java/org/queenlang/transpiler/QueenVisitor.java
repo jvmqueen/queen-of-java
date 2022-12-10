@@ -250,6 +250,10 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             if(ctx.classMemberDeclaration().fieldDeclaration() != null) {
                 return this.visitFieldDeclaration(ctx.classMemberDeclaration().fieldDeclaration());
             }
+        } else if(ctx.instanceInitializer() != null) {
+            return this.visitInstanceInitializer(ctx.instanceInitializer());
+        } else if(ctx.staticInitializer() != null) {
+            return this.visitStaticInitializer(ctx.staticInitializer());
         } else if(ctx.constructorDeclaration() != null) {
             final List<QueenNode> annotations = new ArrayList<>();
             ctx.constructorDeclaration().annotation().forEach(
@@ -453,5 +457,20 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             }
         );
         return new QueenBlockStatements(blockStatements);
+    }
+
+    @Override
+    public QueenInstanceInitializerNode visitInstanceInitializer(QueenParser.InstanceInitializerContext ctx) {
+        return new QueenInstanceInitializerNode(
+            this.visitBlockStatements(ctx.block().blockStatements())
+        );
+    }
+
+    @Override
+    public QueenInstanceInitializerNode visitStaticInitializer(QueenParser.StaticInitializerContext ctx) {
+        return new QueenInstanceInitializerNode(
+            this.visitBlockStatements(ctx.block().blockStatements()),
+            true
+        );
     }
 }

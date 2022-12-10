@@ -8,6 +8,14 @@ public final class JsonPerson implements Person {
     @NotNull
     private final JsonObject json;
 
+    static {
+        System.out.println("STATIC INITIALIZER CALLED");
+    }
+
+    {
+        System.out.println("INSTANCE INITIALIZER CALLED");
+    }
+
     public JsonPerson(final InputStream jsonStream) {
         super();
         try {

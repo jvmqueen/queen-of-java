@@ -77,7 +77,7 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     /**
      * The body.
      */
-    private final QueenNode body;
+    private final QueenClassBodyNode body;
 
     /**
      * Ctor.
@@ -96,7 +96,7 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         final String name,
         final String extendsType,
         final List<String> of,
-        final QueenNode body
+        final QueenClassBodyNode body
     ) {
         this.annotations = annotations;
         this.accessModifiers = accessModifiers;

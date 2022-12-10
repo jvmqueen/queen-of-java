@@ -31,6 +31,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -43,7 +44,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
-public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode {
+public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode, QueenClassMemberDeclarationNode {
     /**
      * Annotations on top of this class.
      */
@@ -109,7 +110,13 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
 
     @Override
     public void addToJavaNode(final Node java) {
-        ((CompilationUnit) java).addType(this.toJavaClass());
+        if(java instanceof CompilationUnit) {
+            ((CompilationUnit) java).addType(this.toJavaClass());
+        } else if(java instanceof ClassOrInterfaceDeclaration) {
+            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaClass());
+        } else if(java instanceof BlockStmt) {
+            ((BlockStmt) java).addStatement(this.asJavaStatement());
+        }
     }
 
     @Override

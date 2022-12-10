@@ -256,6 +256,8 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 return this.visitFieldDeclaration(ctx.classMemberDeclaration().fieldDeclaration());
             } else if(ctx.classMemberDeclaration().methodDeclaration() != null) {
                 return this.visitMethodDeclaration(ctx.classMemberDeclaration().methodDeclaration());
+            } else if(ctx.classMemberDeclaration().classDeclaration() != null) {
+                return this.visitClassDeclaration(ctx.classMemberDeclaration().classDeclaration());
             }
         } else if(ctx.instanceInitializer() != null) {
             return this.visitInstanceInitializer(ctx.instanceInitializer());

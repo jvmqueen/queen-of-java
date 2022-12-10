@@ -41,11 +41,8 @@ public interface QueenBlockStatementNode extends QueenNode {
 
     Statement asJavaStatement();
 
-    default void addToJavaNode(final BlockStmt java) {
-        java.addStatement(this.asJavaStatement());
-    }
-
+    @Override
     default void addToJavaNode(Node java) {
-        this.addToJavaNode((BlockStmt) java);
+        ((BlockStmt) java).addStatement(this.asJavaStatement());
     }
 }

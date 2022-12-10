@@ -47,7 +47,10 @@ public final class QueenClassBodyNode implements QueenNode {
 
     public void addToJavaNode(final Node java) {
         this.classBodyDeclarations.forEach(
-            cbd -> cbd.addToJavaNode(java)
+            cbd -> {
+                System.out.println("INSTANCE OF: " + java.getClass().getName());
+                cbd.addToJavaNode(java);
+            }
         );
     }
 }

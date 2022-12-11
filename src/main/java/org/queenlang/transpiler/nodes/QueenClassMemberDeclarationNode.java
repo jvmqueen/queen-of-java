@@ -32,7 +32,6 @@ package org.queenlang.transpiler.nodes;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #29:60min Continue with class member declarations: methods etc.
  */
 public interface QueenClassMemberDeclarationNode extends QueenClassBodyDeclarationNode {
 }

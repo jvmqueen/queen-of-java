@@ -32,22 +32,22 @@ import com.github.javaparser.ast.Node;
 import java.util.List;
 
 /**
- * Queen ClassBody AST node.
+ * Queen interface body AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #33:30min Unit tests for QueenInterfaceBodyNode are needed.
  */
-public final class QueenClassBodyNode implements QueenNode {
+public final class QueenInterfaceBodyNode implements QueenNode {
+    private final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations;
 
-    private final List<QueenClassBodyDeclarationNode> classBodyDeclarations;
-
-    public QueenClassBodyNode(final List<QueenClassBodyDeclarationNode> classBodyDeclarations) {
-        this.classBodyDeclarations = classBodyDeclarations;
+    public QueenInterfaceBodyNode(final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations) {
+        this.interfaceMemberDeclarations = interfaceMemberDeclarations;
     }
 
     public void addToJavaNode(final Node java) {
-        this.classBodyDeclarations.forEach(
-            cbd -> cbd.addToJavaNode(java)
+        this.interfaceMemberDeclarations.forEach(
+            imd -> imd.addToJavaNode(java)
         );
     }
 }

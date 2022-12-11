@@ -178,7 +178,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             m -> modifiers.add(this.visitInterfaceModifier(m))
         );
         return new QueenNormalInterfaceDeclarationNode(
-            annotations, modifiers, name, extendsTypes
+            annotations, modifiers, name, extendsTypes, this.visitInterfaceBody(ctx.interfaceBody())
         );
     }
 
@@ -543,5 +543,21 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             this.visitBlockStatements(ctx.block().blockStatements()),
             true
         );
+    }
+
+    @Override
+    public QueenInterfaceBodyNode visitInterfaceBody(QueenParser.InterfaceBodyContext ctx) {
+        final List<QueenInterfaceMemberDeclarationNode> members = new ArrayList<>();
+        if(ctx.interfaceMemberDeclaration() != null) {
+            ctx.interfaceMemberDeclaration().forEach(
+                imd -> members.add(this.visitInterfaceMemberDeclaration(imd))
+            );
+        }
+        return new QueenInterfaceBodyNode(members);
+    }
+
+    @Override
+    public QueenInterfaceMemberDeclarationNode visitInterfaceMemberDeclaration(QueenParser.InterfaceMemberDeclarationContext ctx) {
+        return null;
     }
 }

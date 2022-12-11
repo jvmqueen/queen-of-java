@@ -64,22 +64,30 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     private final List<String> extendsTypes;
 
     /**
+     * The body.
+     */
+    private final QueenInterfaceBodyNode body;
+
+    /**
      * Ctor.
      * @param annotations Annotation nodes on top of this type.
      * @param modifiers Modifiers on this interface.
      * @param name Name.
      * @param extendsTypes Types extended.
+     * @param body The body.
      */
     public QueenNormalInterfaceDeclarationNode(
         final List<QueenAnnotationNode> annotations,
         final List<QueenInterfaceModifierNode> modifiers,
         final String name,
-        final List<String> extendsTypes
+        final List<String> extendsTypes,
+        final QueenInterfaceBodyNode body
     ) {
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.name = name;
         this.extendsTypes = extendsTypes;
+        this.body = body;
     }
 
     @Override
@@ -109,6 +117,8 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
         this.modifiers.forEach(
             m -> m.addToJavaNode(inter)
         );
+        this.body.addToJavaNode(inter);
+
         return inter;
     }
 }

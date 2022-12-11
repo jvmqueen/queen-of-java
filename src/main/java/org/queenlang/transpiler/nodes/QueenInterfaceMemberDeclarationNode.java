@@ -27,27 +27,11 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
-
-import java.util.List;
-
 /**
- * Queen ClassBody AST node.
+ * Queen interface member declaration node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenClassBodyNode implements QueenNode {
-
-    private final List<QueenClassBodyDeclarationNode> classBodyDeclarations;
-
-    public QueenClassBodyNode(final List<QueenClassBodyDeclarationNode> classBodyDeclarations) {
-        this.classBodyDeclarations = classBodyDeclarations;
-    }
-
-    public void addToJavaNode(final Node java) {
-        this.classBodyDeclarations.forEach(
-            cbd -> cbd.addToJavaNode(java)
-        );
-    }
+public interface QueenInterfaceMemberDeclarationNode extends QueenNode {
 }

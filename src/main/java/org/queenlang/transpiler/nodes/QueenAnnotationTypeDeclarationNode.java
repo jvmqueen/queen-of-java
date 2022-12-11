@@ -31,6 +31,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  * @todo #10:30min Don't forget to unit test this class.
+ * @todo #10:30min Finish implementing the body here.
  */
 public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceDeclarationNode {
     /**
@@ -75,9 +77,22 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
 
     @Override
     public void addToJavaNode(final Node java) {
-        final AnnotationDeclaration annotationDeclaration = ((CompilationUnit) java).addAnnotationDeclaration(this.name);
-        annotationDeclaration.removeModifier(Modifier.Keyword.PUBLIC);
+        if(java instanceof CompilationUnit) {
+            ((CompilationUnit) java).addType(this.toJavaAnnotation());
+        } else if(java instanceof ClassOrInterfaceDeclaration) {
+            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaAnnotation());
+        }
+    }
+
+    /**
+     * Turn it into a JavaParser annotation declaration.
+     * @return AnnotationDeclaration.
+     */
+    private AnnotationDeclaration toJavaAnnotation() {
+        final AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration();
+        annotationDeclaration.setName(this.name);
         this.annotations.forEach(a -> a.addToJavaNode(annotationDeclaration));
         this.modifiers.forEach(m -> m.addToJavaNode(annotationDeclaration));
+        return annotationDeclaration;
     }
 }

@@ -97,10 +97,8 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     public QueenTypeDeclarationNode visitTypeDeclaration(QueenParser.TypeDeclarationContext ctx) {
         if(ctx.classDeclaration() != null) {
             return this.visitClassDeclaration(ctx.classDeclaration());
-        } else if(ctx.interfaceDeclaration().normalInterfaceDeclaration() != null) {
-            return this.visitNormalInterfaceDeclaration(ctx.interfaceDeclaration().normalInterfaceDeclaration());
-        } else if(ctx.interfaceDeclaration().annotationTypeDeclaration() != null) {
-            return this.visitAnnotationTypeDeclaration(ctx.interfaceDeclaration().annotationTypeDeclaration());
+        } else if(ctx.interfaceDeclaration() != null) {
+            return this.visitInterfaceDeclaration(ctx.interfaceDeclaration());
         }
         return null;
     }
@@ -145,6 +143,16 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         );
     }
 
+    @Override
+    public QueenInterfaceDeclarationNode visitInterfaceDeclaration(QueenParser.InterfaceDeclarationContext ctx) {
+        if(ctx.normalInterfaceDeclaration() != null) {
+            return this.visitNormalInterfaceDeclaration(ctx.normalInterfaceDeclaration());
+        } else {
+            return this.visitAnnotationTypeDeclaration(ctx.annotationTypeDeclaration());
+        }
+    }
+
+    @Override
     public QueenNormalInterfaceDeclarationNode visitNormalInterfaceDeclaration(QueenParser.NormalInterfaceDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenInterfaceModifierNode> modifiers = new ArrayList<>();
@@ -174,6 +182,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         );
     }
 
+    @Override
     public QueenAnnotationTypeDeclarationNode visitAnnotationTypeDeclaration(QueenParser.AnnotationTypeDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenInterfaceModifierNode> modifiers = new ArrayList<>();
@@ -258,6 +267,8 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 return this.visitMethodDeclaration(ctx.classMemberDeclaration().methodDeclaration());
             } else if(ctx.classMemberDeclaration().classDeclaration() != null) {
                 return this.visitClassDeclaration(ctx.classMemberDeclaration().classDeclaration());
+            } else if(ctx.classMemberDeclaration().interfaceDeclaration() != null) {
+                return this.visitInterfaceDeclaration(ctx.classMemberDeclaration().interfaceDeclaration());
             }
         } else if(ctx.instanceInitializer() != null) {
             return this.visitInstanceInitializer(ctx.instanceInitializer());

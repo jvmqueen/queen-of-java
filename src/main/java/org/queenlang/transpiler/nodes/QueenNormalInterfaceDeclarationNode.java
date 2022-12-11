@@ -31,6 +31,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.stmt.BlockStmt;
 
 import java.util.List;
 
@@ -83,17 +84,31 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
 
     @Override
     public void addToJavaNode(final Node java) {
-        ClassOrInterfaceDeclaration clazz = ((CompilationUnit) java)
-            .addInterface(this.name);
-        clazz.removeModifier(Modifier.Keyword.PUBLIC);
+        if(java instanceof CompilationUnit) {
+            ((CompilationUnit) java).addType(this.toJavaInterface());
+        } else if(java instanceof ClassOrInterfaceDeclaration) {
+            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaInterface());
+        }
+    }
+
+    /**
+     * Turn it into a JavaParser interface declaration.
+     * @return ClassOrInterfaceDeclaration.
+     */
+    private ClassOrInterfaceDeclaration toJavaInterface() {
+        ClassOrInterfaceDeclaration inter = new ClassOrInterfaceDeclaration();
+        inter.setInterface(true);
+        inter.setName(this.name);
+        inter.removeModifier(Modifier.Keyword.PUBLIC);
         if(this.extendsTypes != null && this.extendsTypes.size() > 0) {
-            this.extendsTypes.forEach(clazz::addExtendedType);
+            this.extendsTypes.forEach(inter::addExtendedType);
         }
         this.annotations.forEach(
-            a -> a.addToJavaNode(clazz)
+            a -> a.addToJavaNode(inter)
         );
         this.modifiers.forEach(
-            m -> m.addToJavaNode(clazz)
+            m -> m.addToJavaNode(inter)
         );
+        return inter;
     }
 }

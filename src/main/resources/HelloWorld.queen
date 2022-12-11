@@ -43,6 +43,14 @@ public final implementation HelloWorld extends Test of Main, Blabla, Trala {
    final implementation InnerClass of SomeInterface {
        int test = 333;
    }
+
+   interface InnerInterface {
+
+   }
+
+   @interface InnerAnnotation {
+
+   }
 }
 
 @OnAnnotation(data = {"a", "b", "c"})

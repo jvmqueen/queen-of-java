@@ -619,7 +619,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     /**
-     * Return context as String. getText is not enough no non-terminal nodes,
+     * Return context as String. getText is not enough for non-terminal nodes,
      * because it does not preseve the original spacing/indentation.
      *
      * On terminal nodes such as Identifier() and FINAL(), getText is fine to use.

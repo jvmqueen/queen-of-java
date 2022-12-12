@@ -44,7 +44,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
-public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode, QueenClassMemberDeclarationNode {
+public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode{
     /**
      * Annotations on top of this class.
      */

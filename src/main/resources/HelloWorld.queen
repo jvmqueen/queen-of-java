@@ -65,4 +65,19 @@ public static private @interface TestAnnotation {
 @Pairs(a=x + y, b="c", d=9, e = Object.class)
 public private protected interface TestInterface {
 
+    @ClassInInterface
+    final implementation SomeClass of Other {
+
+    }
+
+    @InterfaceInInterface
+    interface InnerInInterface {
+
+    }
+
+    @AnnotationInInterface
+    @interface InnerAnnotationInInterface {
+
+    }
+
 }

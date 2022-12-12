@@ -558,6 +558,11 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     @Override
     public QueenInterfaceMemberDeclarationNode visitInterfaceMemberDeclaration(QueenParser.InterfaceMemberDeclarationContext ctx) {
+        if(ctx.classDeclaration() != null) {
+            return this.visitClassDeclaration(ctx.classDeclaration());
+        } else if(ctx.interfaceDeclaration() != null) {
+            return this.visitInterfaceDeclaration(ctx.interfaceDeclaration());
+        }
         return null;
     }
 }

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.queenlang.generated.antlr4.QueenParser;
@@ -55,7 +56,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 () -> {
                     if(ctx.packageDeclaration() != null) {
                         QueenParser.PackageNameContext packageNameContext = ctx.packageDeclaration().packageName();
-                        return packageNameContext.getText();
+                        return asString(packageNameContext);
                     }
                     return null;
                 }
@@ -77,17 +78,17 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
         final ParseTree importDeclaration = ctx.getChild(0);
         if(importDeclaration instanceof QueenParser.SingleTypeImportDeclarationContext) {
-            importedType = ctx.singleTypeImportDeclaration().typeName().getText();
+            importedType = asString(ctx.singleTypeImportDeclaration().typeName());
         } else if(importDeclaration instanceof QueenParser.StaticImportOnDemandDeclarationContext) {
-            importedType = ctx.staticImportOnDemandDeclaration().typeName().getText();
+            importedType = asString(ctx.staticImportOnDemandDeclaration().typeName());
             isAsteriskImport = true;
             isStaticImport = true;
         } else if(importDeclaration instanceof QueenParser.SingleStaticImportDeclarationContext) {
             final QueenParser.SingleStaticImportDeclarationContext staticImport = ctx.singleStaticImportDeclaration();
-            importedType = staticImport.typeName().getText() + "." + staticImport.Identifier().getText();
+            importedType = asString(staticImport.typeName()) + "." + staticImport.Identifier().getText();
             isStaticImport = true;
         } else if(importDeclaration instanceof QueenParser.TypeImportOnDemandDeclarationContext) {
-            importedType = ctx.typeImportOnDemandDeclaration().packageOrTypeName().getText();
+            importedType = asString(ctx.typeImportOnDemandDeclaration().packageOrTypeName());
             isAsteriskImport = true;
         }
         return new QueenImportDeclarationNode(importedType, isStaticImport, isAsteriskImport);
@@ -199,43 +200,43 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     @Override
     public QueenClassAccessModifierNode visitClassModifier(QueenParser.ClassModifierContext ctx) {
-        return new QueenClassAccessModifierNode(ctx.getText());
+        return new QueenClassAccessModifierNode(asString(ctx));
     }
 
     @Override
     public QueenMethodModifierNode visitMethodModifier(QueenParser.MethodModifierContext ctx) {
-        return new QueenMethodModifierNode(ctx.getText());
+        return new QueenMethodModifierNode(asString(ctx));
     }
 
     @Override
     public QueenInterfaceMethodModifierNode visitInterfaceMethodModifier(QueenParser.InterfaceMethodModifierContext ctx) {
-        return new QueenInterfaceMethodModifierNode(ctx.getText());
+        return new QueenInterfaceMethodModifierNode(asString(ctx));
     }
 
     @Override
     public QueenClassExtensionModifierNode visitClassAbstractOrFinal(QueenParser.ClassAbstractOrFinalContext ctx) {
-        return new QueenClassExtensionModifierNode(ctx.getText());
+        return new QueenClassExtensionModifierNode(asString(ctx));
     }
 
     @Override
     public QueenInterfaceModifierNode visitInterfaceModifier(QueenParser.InterfaceModifierContext ctx) {
-        return new QueenInterfaceModifierNode(ctx.getText());
+        return new QueenInterfaceModifierNode(asString(ctx));
     }
 
     @Override
     public QueenFieldModifierNode visitFieldModifier(QueenParser.FieldModifierContext ctx) {
-        return new QueenFieldModifierNode(ctx.getText());
+        return new QueenFieldModifierNode(asString(ctx));
     }
 
     @Override
     public QueenConstantModifierNode visitConstantModifier(QueenParser.ConstantModifierContext ctx) {
-        return new QueenConstantModifierNode(ctx.getText());
+        return new QueenConstantModifierNode(asString(ctx));
     }
 
     @Override
     public QueenConstructorModifierNode visitConstructorModifier(QueenParser.ConstructorModifierContext ctx) {
         if(ctx != null) {
-            return new QueenConstructorModifierNode(ctx.getText());
+            return new QueenConstructorModifierNode(asString(ctx));
         }
         return null;
     }
@@ -243,7 +244,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     @Override
     public QueenAnnotationNode visitAnnotation(QueenParser.AnnotationContext ctx) {
         if(ctx.markerAnnotation() != null) {
-            return new QueenMarkerAnnotationNode(ctx.markerAnnotation().typeName().getText());
+            return new QueenMarkerAnnotationNode(asString(ctx.markerAnnotation().typeName()));
         } else if(ctx.normalAnnotation() != null) {
             final Map<String, String> pairs = new HashMap<>();
             ctx.normalAnnotation()
@@ -252,17 +253,17 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 .forEach(
                     pair -> pairs.put(
                         pair.Identifier().getText(),
-                        pair.elementValue().getText()
+                        asString(pair.elementValue())
                     )
                 );
             return new QueenNormalAnnotationNode(
-                ctx.normalAnnotation().typeName().getText(),
+                asString(ctx.normalAnnotation().typeName()),
                 pairs
             );
         } else if(ctx.singleElementAnnotation() != null) {
             return new QueenSingleMemberAnnotationNode(
-                ctx.singleElementAnnotation().typeName().getText(),
-                ctx.singleElementAnnotation().elementValue().getText()
+                asString(ctx.singleElementAnnotation().typeName()),
+                asString(ctx.singleElementAnnotation().elementValue())
             );
         }
         return null;
@@ -305,10 +306,10 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         final Map<String, QueenInitializerExpressionNode> variables = new HashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
-                variables.put(vd.variableDeclaratorId().getText(), null);
+                variables.put(asString(vd.variableDeclaratorId()), null);
                 if(vd.variableInitializer() != null) {
                     variables.put(
-                        vd.variableDeclaratorId().getText(),
+                        asString(vd.variableDeclaratorId()),
                         this.visitVariableInitializer(vd.variableInitializer())
                     );
                 }
@@ -318,7 +319,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         return new QueenFieldDeclarationNode(
             annotations,
             modifiers,
-            ctx.unannType().getText(),
+            asString(ctx.unannType()),
             variables
         );
     }
@@ -338,10 +339,10 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         final Map<String, QueenInitializerExpressionNode> variables = new HashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
-                variables.put(vd.variableDeclaratorId().getText(), null);
+                variables.put(asString(vd.variableDeclaratorId()), null);
                 if(vd.variableInitializer() != null) {
                     variables.put(
-                        vd.variableDeclaratorId().getText(),
+                        asString(vd.variableDeclaratorId()),
                         this.visitVariableInitializer(vd.variableInitializer())
                     );
                 }
@@ -351,7 +352,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         return new QueenConstantDeclarationNode(
             annotations,
             modifiers,
-            ctx.unannType().getText(),
+            asString(ctx.unannType()),
             variables
         );
     }
@@ -424,13 +425,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         } else {
             queenBlockStatements = null;
         }
-        final String returnType = ctx.methodHeader().result().start.getInputStream()
-            .getText(
-                new Interval(
-                    ctx.methodHeader().result().start.getStartIndex(),
-                    ctx.methodHeader().result().stop.getStopIndex()
-                )
-            );
+        final String returnType = asString(ctx.methodHeader().result());
         return new QueenMethodDeclarationNode(
             annotations,
             modifiers,
@@ -469,13 +464,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         } else {
             queenBlockStatements = null;
         }
-        final String returnType = ctx.methodHeader().result().start.getInputStream()
-            .getText(
-                new Interval(
-                    ctx.methodHeader().result().start.getStartIndex(),
-                    ctx.methodHeader().result().stop.getStopIndex()
-                )
-            );
+        final String returnType = asString(ctx.methodHeader().result());
         return new QueenInterfaceMethodDeclarationNode(
             annotations,
             modifiers,
@@ -487,15 +476,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     @Override
     public QueenInitializerExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
-        return new QueenTextExpressionNode(
-            ctx.start.getInputStream()
-                .getText(
-                    new Interval(
-                        ctx.start.getStartIndex(),
-                        ctx.stop.getStopIndex()
-                    )
-                )
-        );
+        return new QueenTextExpressionNode(asString(ctx));
     }
 
     @Override
@@ -516,8 +497,8 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             );
         }
 
-        final String type = ctx.unannType().getText();
-        final String name = ctx.variableDeclaratorId().getText();
+        final String type = asString(ctx.unannType());
+        final String name = asString(ctx.variableDeclaratorId());
         return new QueenParameterNode(
             annotations,
             modifiers,
@@ -548,11 +529,11 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             );
         }
 
-        final String type = ctx.unannType().getText();
-        final String name = ctx.variableDeclaratorId().getText();
+        final String type = asString(ctx.unannType());
+        final String name = asString(ctx.variableDeclaratorId());
         if(ctx.annotation() != null) {
             ctx.annotation().forEach(
-                va -> varArgAnnotations.add(va.getText())
+                va -> varArgAnnotations.add(asString(va))
             );
         }
         return new QueenParameterNode(
@@ -567,15 +548,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     @Override
     public QueenExplicitConstructorInvocationNode visitExplicitConstructorInvocation(QueenParser.ExplicitConstructorInvocationContext ctx) {
-        return new QueenExplicitConstructorInvocationNode(
-            ctx.start.getInputStream()
-                .getText(
-                    new Interval(
-                        ctx.start.getStartIndex(),
-                        ctx.stop.getStopIndex()
-                    )
-                )
-        );
+        return new QueenExplicitConstructorInvocationNode(asString(ctx));
     }
 
     @Override
@@ -589,26 +562,14 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 if(bs.localVariableDeclarationStatement() != null) {
                     blockStatements.add(
                         new QueenTextStatementNode(
-                            bs.localVariableDeclarationStatement().start.getInputStream()
-                                .getText(
-                                    new Interval(
-                                        bs.localVariableDeclarationStatement().start.getStartIndex(),
-                                        bs.localVariableDeclarationStatement().stop.getStopIndex()
-                                    )
-                                )
+                            asString(bs.localVariableDeclarationStatement())
                         )
                     );
                 }
                 if(bs.statement() != null) {
                     blockStatements.add(
                         new QueenTextStatementNode(
-                            bs.statement().start.getInputStream()
-                                .getText(
-                                    new Interval(
-                                        bs.statement().start.getStartIndex(),
-                                        bs.statement().stop.getStopIndex()
-                                    )
-                                )
+                            asString(bs.statement())
                         )
                     );
                 }
@@ -655,5 +616,24 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             return this.visitInterfaceMethodDeclaration(ctx.interfaceMethodDeclaration());
         }
         return null;
+    }
+
+    /**
+     * Return context as String. getText is not enough no non-terminal nodes,
+     * because it does not preseve the original spacing/indentation.
+     *
+     * On terminal nodes such as Identifier() and FINAL(), getText is fine to use.
+     *
+     * @param ctx ParserRuleContext.
+     * @return String.
+     */
+    private String asString(final ParserRuleContext ctx) {
+        return ctx.start.getInputStream()
+            .getText(
+                new Interval(
+                    ctx.start.getStartIndex(),
+                    ctx.stop.getStopIndex()
+                )
+            );
     }
 }

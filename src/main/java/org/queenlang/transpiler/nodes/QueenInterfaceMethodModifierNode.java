@@ -31,13 +31,13 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 
 /**
- * Queen method modifier AST node.
+ * Queen interface method modifier AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenMethodModifierNode extends QueenModifierNode {
-    public QueenMethodModifierNode(final String modifier) {
+public final class QueenInterfaceMethodModifierNode extends QueenModifierNode {
+    public QueenInterfaceMethodModifierNode(final String modifier) {
         super(modifier);
     }
 

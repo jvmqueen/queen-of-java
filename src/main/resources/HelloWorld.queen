@@ -39,13 +39,16 @@ public final implementation HelloWorld extends Test of Main, Blabla, Trala {
    public HelloWorld(int i, final Second... sss) {
 
    }
-
+   void method();
    final implementation InnerClass of SomeInterface {
        int test = 333;
    }
 
    interface InnerInterface {
-
+       int hello();
+       default int helloPrint() {
+           System.out.println("Hello from default method");
+       }
    }
 
    @interface InnerAnnotation {

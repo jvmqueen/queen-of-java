@@ -36,13 +36,13 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import java.util.List;
 
 /**
- * Queen MethodDeclaration AST Node.
+ * Queen InterfaceMethodDeclaration AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  * @todo #10:30min Unit tests for QueenMethodDeclarationNode are needed.
  */
-public final class QueenMethodDeclarationNode implements QueenClassMemberDeclarationNode {
+public final class QueenInterfaceMethodDeclarationNode implements QueenInterfaceMemberDeclarationNode {
 
     /**
      * Annotations on top of this method.
@@ -52,7 +52,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
     /**
      * Access modifiers of this method.
      */
-    private final List<QueenMethodModifierNode> modifiers;
+    private final List<QueenInterfaceMethodModifierNode> modifiers;
 
     /**
      * Return type.
@@ -74,9 +74,9 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
      */
     private final QueenBlockStatements blockStatements;
 
-    public QueenMethodDeclarationNode(
+    public QueenInterfaceMethodDeclarationNode(
         final List<QueenAnnotationNode> annotations,
-        final List<QueenMethodModifierNode> modifiers,
+        final List<QueenInterfaceMethodModifierNode> modifiers,
         final String returnType,
         final String name,
         final List<QueenParameterNode> parameters,

@@ -208,6 +208,11 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
+    public QueenInterfaceMethodModifierNode visitInterfaceMethodModifier(QueenParser.InterfaceMethodModifierContext ctx) {
+        return new QueenInterfaceMethodModifierNode(ctx.getText());
+    }
+
+    @Override
     public QueenClassExtensionModifierNode visitClassAbstractOrFinal(QueenParser.ClassAbstractOrFinalContext ctx) {
         return new QueenClassExtensionModifierNode(ctx.getText());
     }
@@ -414,7 +419,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         }
         final QueenParser.MethodBodyContext methodBodyContext = ctx.methodBody();
         final QueenBlockStatements queenBlockStatements;
-        if(methodBodyContext.block().blockStatements() != null) {
+        if(methodBodyContext.block() != null && methodBodyContext.block().blockStatements() != null) {
             queenBlockStatements = this.visitBlockStatements(methodBodyContext.block().blockStatements());
         } else {
             queenBlockStatements = null;
@@ -435,6 +440,50 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             queenBlockStatements
         );
     }
+
+    public QueenInterfaceMethodDeclarationNode visitInterfaceMethodDeclaration(QueenParser.InterfaceMethodDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final List<QueenInterfaceMethodModifierNode> modifiers = new ArrayList<>();
+        ctx.interfaceMethodModifier().forEach(
+            m -> modifiers.add(this.visitInterfaceMethodModifier(m))
+        );
+        final List<QueenParameterNode> parameters = new ArrayList<>();
+        final QueenParser.MethodDeclaratorContext methodDeclarator = ctx.methodHeader().methodDeclarator();
+        if(methodDeclarator.formalParameterList() != null) {
+            final QueenParser.FormalParameterListContext formalParameterList = methodDeclarator.formalParameterList();
+            if(formalParameterList.formalParameters() != null) {
+                formalParameterList.formalParameters().formalParameter()
+                    .forEach(fp -> parameters.add(this.visitFormalParameter(fp)));
+            }
+            if(formalParameterList.lastFormalParameter() != null) {
+                parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
+            }
+        }
+        final QueenParser.MethodBodyContext methodBodyContext = ctx.methodBody();
+        final QueenBlockStatements queenBlockStatements;
+        if(methodBodyContext.block() != null && methodBodyContext.block().blockStatements() != null) {
+            queenBlockStatements = this.visitBlockStatements(methodBodyContext.block().blockStatements());
+        } else {
+            queenBlockStatements = null;
+        }
+        final String returnType = ctx.methodHeader().result().start.getInputStream()
+            .getText(
+                new Interval(
+                    ctx.methodHeader().result().start.getStartIndex(),
+                    ctx.methodHeader().result().stop.getStopIndex()
+                )
+            );
+        return new QueenInterfaceMethodDeclarationNode(
+            annotations,
+            modifiers,
+            returnType,
+            methodDeclarator.Identifier().getText(),
+            parameters,
+            queenBlockStatements
+        );    }
 
     @Override
     public QueenInitializerExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
@@ -602,6 +651,8 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             return this.visitInterfaceDeclaration(ctx.interfaceDeclaration());
         } else if(ctx.constantDeclaration() != null) {
             return this.visitConstantDeclaration(ctx.constantDeclaration());
+        } else if(ctx.interfaceMethodDeclaration() != null) {
+            return this.visitInterfaceMethodDeclaration(ctx.interfaceMethodDeclaration());
         }
         return null;
     }

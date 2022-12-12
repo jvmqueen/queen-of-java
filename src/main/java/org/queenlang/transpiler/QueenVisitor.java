@@ -436,6 +436,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         );
     }
 
+    @Override
     public QueenInterfaceMethodDeclarationNode visitInterfaceMethodDeclaration(QueenParser.InterfaceMethodDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         ctx.annotation().forEach(

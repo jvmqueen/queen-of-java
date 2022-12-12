@@ -64,6 +64,12 @@ public static private @interface TestAnnotation {
 @Marker
 @Pairs(a=x + y, b="c", d=9, e = Object.class)
 public private protected interface TestInterface {
+    int x = 1,y = 2,z = 3;
+    int xx = 4;
+    int uuu = new Test() {
+
+    };
+
 
     @ClassInInterface
     final implementation SomeClass of Other {
@@ -72,12 +78,14 @@ public private protected interface TestInterface {
 
     @InterfaceInInterface
     interface InnerInInterface {
+        int x,y,z;
+        int uuu = new Test() {
 
+        };
     }
 
     @AnnotationInInterface
     @interface InnerAnnotationInInterface {
-
     }
 
 }

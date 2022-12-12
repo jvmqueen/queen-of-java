@@ -223,6 +223,11 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
+    public QueenConstantModifierNode visitConstantModifier(QueenParser.ConstantModifierContext ctx) {
+        return new QueenConstantModifierNode(ctx.getText());
+    }
+
+    @Override
     public QueenConstructorModifierNode visitConstructorModifier(QueenParser.ConstructorModifierContext ctx) {
         if(ctx != null) {
             return new QueenConstructorModifierNode(ctx.getText());
@@ -306,6 +311,39 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         );
 
         return new QueenFieldDeclarationNode(
+            annotations,
+            modifiers,
+            ctx.unannType().getText(),
+            variables
+        );
+    }
+
+    @Override
+    public QueenConstantDeclarationNode visitConstantDeclaration(QueenParser.ConstantDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+
+        final List<QueenConstantModifierNode> modifiers = new ArrayList<>();
+        ctx.constantModifier().forEach(
+            m -> modifiers.add(this.visitConstantModifier(m))
+        );
+
+        final Map<String, QueenInitializerExpressionNode> variables = new HashMap<>();
+        ctx.variableDeclaratorList().variableDeclarator().forEach(
+            vd -> {
+                variables.put(vd.variableDeclaratorId().getText(), null);
+                if(vd.variableInitializer() != null) {
+                    variables.put(
+                        vd.variableDeclaratorId().getText(),
+                        this.visitVariableInitializer(vd.variableInitializer())
+                    );
+                }
+            }
+        );
+
+        return new QueenConstantDeclarationNode(
             annotations,
             modifiers,
             ctx.unannType().getText(),
@@ -562,6 +600,8 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             return this.visitClassDeclaration(ctx.classDeclaration());
         } else if(ctx.interfaceDeclaration() != null) {
             return this.visitInterfaceDeclaration(ctx.interfaceDeclaration());
+        } else if(ctx.constantDeclaration() != null) {
+            return this.visitConstantDeclaration(ctx.constantDeclaration());
         }
         return null;
     }

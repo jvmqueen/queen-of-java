@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -65,7 +67,7 @@ public final class QueenTranspilerTestCase {
             transpiler.transpile(queenClass),
             Matchers.equalTo(javaClass)
         );
-        //@todo #10:40min Also assert that javaClass compiles.
+        StaticJavaParser.parse(javaClass);
     }
 
     /**

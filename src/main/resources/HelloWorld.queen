@@ -60,7 +60,14 @@ public final implementation HelloWorld extends Test of Main, Blabla, Trala {
 @Marker
 @Pairs(a=x + y, b="c", d=9, e = Object.class)
 public static private @interface TestAnnotation {
-
+        final implementation SomeInAnnotationClass of Other {
+            public void hello() {
+                System.out.println("From within an annotation somewhere");
+            }
+        }
+        interface Other {
+            void hello();
+        }
 }
 
 @OnAnnotation(data = {"a", "b", "c"})
@@ -89,6 +96,15 @@ public private protected interface TestInterface {
 
     @AnnotationInInterface
     @interface InnerAnnotationInInterface {
+
+        final implementation SomeInAnnotationClass of Other {
+            public void hello() {
+                System.out.println("From within an annotation somewhere");
+            }
+        }
+        interface Other {
+            void hello();
+        }
     }
 
 }

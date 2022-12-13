@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
@@ -96,6 +97,8 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
             ((CompilationUnit) java).addType(this.toJavaInterface());
         } else if(java instanceof ClassOrInterfaceDeclaration) {
             ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaInterface());
+        } else if(java instanceof AnnotationDeclaration) {
+            ((AnnotationDeclaration) java).addMember(this.toJavaInterface());
         }
     }
 

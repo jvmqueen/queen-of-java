@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
@@ -44,7 +45,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
-public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode{
+public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode, QueenAnnotationTypeMemberDeclarationNode{
     /**
      * Annotations on top of this class.
      */
@@ -114,6 +115,8 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
             ((CompilationUnit) java).addType(this.toJavaClass());
         } else if(java instanceof ClassOrInterfaceDeclaration) {
             ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaClass());
+        } else if(java instanceof AnnotationDeclaration) {
+            ((AnnotationDeclaration) java).addMember(this.toJavaClass());
         } else if(java instanceof BlockStmt) {
             ((BlockStmt) java).addStatement(this.asJavaStatement());
         }

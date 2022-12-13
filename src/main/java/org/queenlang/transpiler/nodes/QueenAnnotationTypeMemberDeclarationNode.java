@@ -28,10 +28,10 @@
 package org.queenlang.transpiler.nodes;
 
 /**
- * Queen InterfaceDeclaration AST node.
+ * Queen annotation type member declaration node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenInterfaceDeclarationNode extends QueenTypeDeclarationNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode, QueenAnnotationTypeMemberDeclarationNode {
+public interface QueenAnnotationTypeMemberDeclarationNode extends QueenNode{
 }

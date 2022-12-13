@@ -195,7 +195,9 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         ctx.interfaceModifier().forEach(
             m -> modifiers.add(this.visitInterfaceModifier(m))
         );
-        return new QueenAnnotationTypeDeclarationNode(annotations, modifiers, name);
+        return new QueenAnnotationTypeDeclarationNode(
+            annotations, modifiers, name, this.visitAnnotationTypeBody(ctx.annotationTypeBody())
+        );
     }
 
     @Override
@@ -606,6 +608,17 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
+    public QueenAnnotationTypeBodyNode visitAnnotationTypeBody(QueenParser.AnnotationTypeBodyContext ctx) {
+        final List<QueenAnnotationTypeMemberDeclarationNode> members = new ArrayList<>();
+        if(ctx.annotationTypeMemberDeclaration() != null) {
+            ctx.annotationTypeMemberDeclaration().forEach(
+                amd -> members.add(this.visitAnnotationTypeMemberDeclaration(amd))
+            );
+        }
+        return new QueenAnnotationTypeBodyNode(members);
+    }
+
+    @Override
     public QueenInterfaceMemberDeclarationNode visitInterfaceMemberDeclaration(QueenParser.InterfaceMemberDeclarationContext ctx) {
         if(ctx.classDeclaration() != null) {
             return this.visitClassDeclaration(ctx.classDeclaration());
@@ -615,6 +628,16 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             return this.visitConstantDeclaration(ctx.constantDeclaration());
         } else if(ctx.interfaceMethodDeclaration() != null) {
             return this.visitInterfaceMethodDeclaration(ctx.interfaceMethodDeclaration());
+        }
+        return null;
+    }
+
+    @Override
+    public QueenAnnotationTypeMemberDeclarationNode visitAnnotationTypeMemberDeclaration(QueenParser.AnnotationTypeMemberDeclarationContext ctx) {
+        if(ctx.classDeclaration() != null) {
+            return this.visitClassDeclaration(ctx.classDeclaration());
+        } else if(ctx.interfaceDeclaration() != null) {
+            return this.visitInterfaceDeclaration(ctx.interfaceDeclaration());
         }
         return null;
     }

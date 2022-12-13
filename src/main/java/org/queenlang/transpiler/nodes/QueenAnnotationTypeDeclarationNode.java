@@ -28,7 +28,6 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -41,7 +40,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  * @todo #10:30min Don't forget to unit test this class.
- * @todo #10:30min Finish implementing the body here.
+ * @todo #33:60min Fnish body delcaration, with annotation elements.
  */
 public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceDeclarationNode {
     /**
@@ -60,19 +59,27 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     private final String name;
 
     /**
+     * The body.
+     */
+    private final QueenAnnotationTypeBodyNode body;
+
+    /**
      * Ctor.
      * @param annotations Annotation nodes on top of this type.
      * @param modifiers Modifiers of this annotation.
      * @param name Name.
+     * @param body The body.
      */
     public QueenAnnotationTypeDeclarationNode(
         final List<QueenAnnotationNode> annotations,
         final List<QueenInterfaceModifierNode> modifiers,
-        final String name
+        final String name,
+        final QueenAnnotationTypeBodyNode body
     ) {
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.name = name;
+        this.body = body;
     }
 
     @Override
@@ -81,6 +88,8 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
             ((CompilationUnit) java).addType(this.toJavaAnnotation());
         } else if(java instanceof ClassOrInterfaceDeclaration) {
             ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaAnnotation());
+        } else if(java instanceof AnnotationDeclaration) {
+            ((AnnotationDeclaration) java).addMember(this.toJavaAnnotation());
         }
     }
 
@@ -93,6 +102,7 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
         annotationDeclaration.setName(this.name);
         this.annotations.forEach(a -> a.addToJavaNode(annotationDeclaration));
         this.modifiers.forEach(m -> m.addToJavaNode(annotationDeclaration));
+        this.body.addToJavaNode(annotationDeclaration);
         return annotationDeclaration;
     }
 }

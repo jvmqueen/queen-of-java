@@ -468,10 +468,17 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             queenBlockStatements = null;
         }
         final String returnType = asString(ctx.methodHeader().result());
+        final List<String> typeParams = new ArrayList<>();
+        if(ctx.methodHeader().typeParameters() != null && ctx.methodHeader().typeParameters().typeParameterList() != null) {
+            ctx.methodHeader().typeParameters().typeParameterList().typeParameter().forEach(
+                tp -> typeParams.add(asString(tp))
+            );
+        }
         return new QueenMethodDeclarationNode(
             annotations,
             modifiers,
             returnType,
+            typeParams,
             methodDeclarator.Identifier().getText(),
             parameters,
             throwsList,
@@ -515,10 +522,17 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             queenBlockStatements = null;
         }
         final String returnType = asString(ctx.methodHeader().result());
+        final List<String> typeParams = new ArrayList<>();
+        if(ctx.methodHeader().typeParameters() != null && ctx.methodHeader().typeParameters().typeParameterList() != null) {
+            ctx.methodHeader().typeParameters().typeParameterList().typeParameter().forEach(
+                tp -> typeParams.add(asString(tp))
+            );
+        }
         return new QueenInterfaceMethodDeclarationNode(
             annotations,
             modifiers,
             returnType,
+            typeParams,
             methodDeclarator.Identifier().getText(),
             parameters,
             throwsList,

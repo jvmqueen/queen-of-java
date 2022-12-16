@@ -61,6 +61,11 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     private final String returnType;
 
     /**
+     * Method type params.
+     */
+    private final List<String> typeParams;
+
+    /**
      * Method name.
      */
     private final String name;
@@ -84,6 +89,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         final List<QueenAnnotationNode> annotations,
         final List<QueenInterfaceMethodModifierNode> modifiers,
         final String returnType,
+        final List<String> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
         final List<String> throwsList,
@@ -92,6 +98,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.returnType = returnType;
+        this.typeParams = typeParams;
         this.name = name;
         this.parameters = parameters;
         this.throwsList = throwsList;
@@ -105,6 +112,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         method.setType(this.returnType);
         this.annotations.forEach(a -> a.addToJavaNode(method));
         this.modifiers.forEach(m -> m.addToJavaNode(method));
+        this.typeParams.forEach(tp -> method.addTypeParameter(tp));
         this.parameters.forEach(
             p -> p.addToJavaNode(method)
         );

@@ -110,6 +110,12 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         final List<QueenClassAccessModifierNode> accessModifiers = new ArrayList<>();
 
         final String name = ctx.Identifier().getText();
+        final List<String> typeParams = new ArrayList<>();
+        if(ctx.typeParameters() != null && ctx.typeParameters().typeParameterList() != null) {
+            ctx.typeParameters().typeParameterList().typeParameter().forEach(
+                tp -> typeParams.add(asString(tp))
+            );
+        }
         final List<String> ofTypes = ctx
             .superClassAndOrInterfaces()
             .superinterfaces()
@@ -134,6 +140,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             accessModifiers,
             this.visitClassAbstractOrFinal(ctx.classAbstractOrFinal()),
             name,
+            typeParams,
             extendsType,
             ofTypes,
             new QueenClassBodyNode(

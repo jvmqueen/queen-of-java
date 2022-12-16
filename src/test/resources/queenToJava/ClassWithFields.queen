@@ -7,9 +7,11 @@ import com.example.other.Other;
 import com.example.other.more.*;
 
 @WithFields
-public final implementation ClassWithFields of SomeInterface {
+public private final implementation ClassWithFields of SomeInterface {
 
     int prot = 0;
+
+    private protected final int oth = 0;
 
     private final int x, y, z = 3;
 
@@ -28,7 +30,7 @@ public final implementation ClassWithFields of SomeInterface {
     };
 
     @AnnotatedField
-    private final String[] s = new String[]{"1", "2", "3"}
+    private final String[] s = new String[]{"1", "2", "3"};
 
     public ClassWithFields() {
 

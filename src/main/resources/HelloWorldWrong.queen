@@ -1,0 +1,5 @@
+public private final implementation Test of Other {
+
+    private protected int x;
+
+}

@@ -36,7 +36,7 @@ import java.io.*;
  * @since 0.0.1
  */
 public final class EntryPoint {
-    public static void run(String path) throws IOException {
+    public static void run(String path) throws IOException, QueenTranspilationException {
         final QueenTranspiler transpiler = new JavaQueenTanspiler();
         final String javaClass = transpiler.transpile(
             EntryPoint.class.getClassLoader()
@@ -52,14 +52,14 @@ public final class EntryPoint {
         System.out.println("[DEBUG] End of transpiled java class.");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws QueenTranspilationException {
 //        if(args == null || args.length !=1) {
 //            System.out.println("[ERROR] Expecting exactly 1 argument.");
 //        } else {
 //            System.out.println("[DEBUG] Received arg: " + args[0]);
             try {
                 //run(args[0]);
-                run("HelloWorld.queen");
+                run("HelloWorldWrong.queen");
             } catch (IOException e) {
                 e.printStackTrace();
             }

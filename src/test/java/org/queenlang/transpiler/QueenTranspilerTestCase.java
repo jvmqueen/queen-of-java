@@ -28,7 +28,6 @@
 package org.queenlang.transpiler;
 
 import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

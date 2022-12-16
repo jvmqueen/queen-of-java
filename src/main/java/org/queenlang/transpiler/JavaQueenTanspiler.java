@@ -27,10 +27,11 @@
  */
 package org.queenlang.transpiler;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.printer.configuration.PrettyPrinterConfiguration;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import com.github.javaparser.printer.configuration.DefaultPrinterConfiguration;
+import org.antlr.v4.runtime.*;
 import org.queenlang.generated.antlr4.QueenLexer;
 import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -48,13 +49,8 @@ import java.io.InputStreamReader;
  */
 public final class JavaQueenTanspiler implements QueenTranspiler {
     @Override
-    public String transpile(final InputStream clazz) throws IOException {
+    public String transpile(final InputStream clazz) throws IOException, QueenTranspilationException {
         final String input = this.inputToString(clazz);
-        System.out.println("[DEBUG] Queen file contents: ");
-        System.out.println("------------------------------");
-        System.out.println(input);
-        System.out.println("------------------------------");
-        System.out.println("[DEBUG] End of Queen file contents.");
 
         final QueenLexer lexer = new QueenLexer(
             CharStreams.fromString(input)
@@ -62,19 +58,23 @@ public final class JavaQueenTanspiler implements QueenTranspiler {
         final QueenParser parser = new QueenParser(
             new CommonTokenStream(lexer)
         );
+        final QueenAntlrErrorListener errorListener = new QueenAntlrErrorListener();
+        parser.addErrorListener(errorListener);
 
         final QueenVisitor visitor = new QueenVisitor();
         final QueenNode queenCompilationUnitNode = visitor.visitCompilationUnit(
             parser.compilationUnit()
         );
-        final CompilationUnit javaCompilationUnit  = new CompilationUnit();
-        queenCompilationUnitNode.addToJavaNode(javaCompilationUnit);
 
-        final String javaClass = javaCompilationUnit.toString(new PrettyPrinterConfiguration());
-
-        System.out.println("ERRORS: " + parser.getNumberOfSyntaxErrors());
-
-        return javaClass;
+        if(errorListener.errors().size() > 0) {
+            throw new QueenTranspilationException(errorListener.errors());
+        } else {
+            final CompilationUnit javaCompilationUnit  = new CompilationUnit();
+            queenCompilationUnitNode.addToJavaNode(javaCompilationUnit);
+            final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
+            this.reparseJavaClass(javaClass);
+            return javaClass;
+        }
     }
 
     private String inputToString(final InputStream stream) throws IOException {
@@ -90,5 +90,23 @@ public final class JavaQueenTanspiler implements QueenTranspiler {
             }
             return builder.toString();
         }
+    }
+
+    /**
+     * Extra contextual validation, in case we missed something ourselves.
+     * @param javaClass Parsed Java class.
+     * @throws QueenTranspilationException Containing any problems.
+     */
+    private void reparseJavaClass(final String javaClass) throws QueenTranspilationException {
+        JavaParser parser1 = new JavaParser();
+        ParseResult<CompilationUnit> res = parser1.parse(javaClass);
+        res.getProblems().forEach(
+            p -> {
+                System.out.println(p.toString());
+                p.getLocation().ifPresent(
+                    t -> System.out.println(t.toString())
+                );
+            }
+        );
     }
 }

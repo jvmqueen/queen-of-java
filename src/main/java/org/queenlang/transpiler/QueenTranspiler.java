@@ -27,9 +27,7 @@
  */
 package org.queenlang.transpiler;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Queen transpiler.
@@ -39,7 +37,11 @@ import java.io.InputStream;
  */
 public interface QueenTranspiler {
 
-    default String transpile(final String input) throws IOException {
+    default String transpile(final File input) throws IOException, QueenTranspilationException {
+        return this.transpile(new FileInputStream(input));
+    }
+
+    default String transpile(final String input) throws IOException, QueenTranspilationException {
         return this.transpile(new ByteArrayInputStream(input.getBytes()));
     }
 
@@ -49,6 +51,6 @@ public interface QueenTranspiler {
      * @return Transpiled code.
      * @throws IOException If we cannot read the InputStream.
      */
-    String transpile(final InputStream clazz) throws IOException;
+    String transpile(final InputStream clazz) throws IOException, QueenTranspilationException;
 
 }

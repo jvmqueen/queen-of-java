@@ -7,9 +7,11 @@ import com.example.other.Other;
 import com.example.other.more.*;
 
 @WithFields
-public final class ClassWithFields implements SomeInterface {
+public private final class ClassWithFields implements SomeInterface {
 
     int prot = 0;
+
+    private protected final int oth = 0;
 
     private final int x;
 

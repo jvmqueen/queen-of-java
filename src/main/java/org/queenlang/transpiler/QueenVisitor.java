@@ -165,6 +165,13 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenInterfaceModifierNode> modifiers = new ArrayList<>();
 
+        final List<String> typeParams = new ArrayList<>();
+        if(ctx.typeParameters() != null && ctx.typeParameters().typeParameterList() != null) {
+            ctx.typeParameters().typeParameterList().typeParameter().forEach(
+                tp -> typeParams.add(asString(tp))
+            );
+        }
+
         final List<String> extendsTypes = new ArrayList<>();
         final String name = ctx.Identifier().getText();
         final QueenParser.ExtendsInterfacesContext extendsInterfacesContext = ctx
@@ -186,7 +193,12 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             m -> modifiers.add(this.visitInterfaceModifier(m))
         );
         return new QueenNormalInterfaceDeclarationNode(
-            annotations, modifiers, name, extendsTypes, this.visitInterfaceBody(ctx.interfaceBody())
+            annotations,
+            modifiers,
+            name,
+            typeParams,
+            extendsTypes,
+            this.visitInterfaceBody(ctx.interfaceBody())
         );
     }
 

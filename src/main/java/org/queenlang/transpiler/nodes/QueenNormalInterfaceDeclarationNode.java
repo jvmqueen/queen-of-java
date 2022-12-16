@@ -60,6 +60,11 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     private final String name;
 
     /**
+     * Interface type params.
+     */
+    private final List<String> typeParams;
+
+    /**
      * Types which are extended (an interface can extend more interfaces).
      */
     private final List<String> extendsTypes;
@@ -74,6 +79,7 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
      * @param annotations Annotation nodes on top of this type.
      * @param modifiers Modifiers on this interface.
      * @param name Name.
+     * @param typeParams Type params.
      * @param extendsTypes Types extended.
      * @param body The body.
      */
@@ -81,12 +87,14 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
         final List<QueenAnnotationNode> annotations,
         final List<QueenInterfaceModifierNode> modifiers,
         final String name,
+        final List<String> typeParams,
         final List<String> extendsTypes,
         final QueenInterfaceBodyNode body
     ) {
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.name = name;
+        this.typeParams = typeParams;
         this.extendsTypes = extendsTypes;
         this.body = body;
     }
@@ -111,6 +119,7 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
         inter.setInterface(true);
         inter.setName(this.name);
         inter.removeModifier(Modifier.Keyword.PUBLIC);
+        this.typeParams.forEach(tp -> inter.addTypeParameter(tp));
         if(this.extendsTypes != null && this.extendsTypes.size() > 0) {
             this.extendsTypes.forEach(inter::addExtendedType);
         }

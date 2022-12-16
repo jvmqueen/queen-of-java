@@ -27,10 +27,12 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +42,6 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenConstructorDeclaration needs unit tests.
  * @todo #10:60min Handle constructor type parameters.
- * @todo #10:60min Handle constructor throws keyword.
  */
 public final class QueenConstructorDeclarationNode implements QueenClassBodyDeclarationNode {
 
@@ -54,28 +55,38 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
 
     private final QueenBlockStatements blockStatements;
 
+    private final List<String> throwsList;
+
     public QueenConstructorDeclarationNode(
         final List<QueenNode> annotations,
         final QueenConstructorModifierNode modifier,
         final List<QueenParameterNode> parameters,
+        final List<String> throwsList,
         final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode,
         final QueenBlockStatements blockStatements
     ) {
         this.annotations = annotations;
         this.modifier = modifier;
         this.parameters = parameters;
+        this.throwsList = throwsList;
         this.explicitConstructorInvocationNode = explicitConstructorInvocationNode;
         this.blockStatements = blockStatements;
     }
 
     public void addToJavaNode(final Node java) {
-        final ConstructorDeclaration constructor = ((ClassOrInterfaceDeclaration) java).addConstructor();
+        final ConstructorDeclaration constructor = ((ClassOrInterfaceDeclaration) java)
+            .addConstructor();
         this.annotations.forEach(a -> a.addToJavaNode(constructor));
         if(this.modifier != null) {
             this.modifier.addToJavaNode(constructor);
         }
         this.parameters.forEach(
             p -> p.addToJavaNode(constructor)
+        );
+        this.throwsList.forEach(
+            t -> constructor.addThrownException(
+                StaticJavaParser.parseClassOrInterfaceType(t)
+            )
         );
         final BlockStmt blockStmt = new BlockStmt();
         if(this.explicitConstructorInvocationNode != null) {

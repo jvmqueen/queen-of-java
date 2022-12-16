@@ -7,11 +7,9 @@ import com.example.other.Other;
 import com.example.other.more.*;
 
 @WithFields
-public private final class ClassWithFields implements SomeInterface {
+public final class ClassWithFields implements SomeInterface {
 
     int prot = 0;
-
-    private protected final int oth = 0;
 
     private final int x;
 
@@ -52,5 +50,8 @@ public private final class ClassWithFields implements SomeInterface {
     }
 
     public ClassWithFields(Integer... integers) {
+    }
+
+    public ClassWithFields(String... pahts) throws FileNotFound, java.io.IOException {
     }
 }

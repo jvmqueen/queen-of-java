@@ -376,6 +376,12 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
             }
         }
+        final List<String> throwsList = new ArrayList<>();
+        if(ctx.throws_() != null && ctx.throws_().exceptionTypeList() != null) {
+            ctx.throws_().exceptionTypeList().exceptionType().forEach(
+                et -> throwsList.add(asString(et))
+            );
+        }
         final QueenParser.ConstructorBodyContext constructorBodyContext = ctx.constructorBody();
         final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode;
         if(constructorBodyContext.explicitConstructorInvocation() != null) {
@@ -393,6 +399,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             annotations,
             this.visitConstructorModifier(ctx.constructorModifier()),
             parameters,
+            throwsList,
             explicitConstructorInvocationNode,
             queenBlockStatements
         );

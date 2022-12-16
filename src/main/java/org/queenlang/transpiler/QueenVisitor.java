@@ -427,6 +427,12 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
             }
         }
+        final List<String> throwsList = new ArrayList<>();
+        if(ctx.methodHeader().throws_() != null && ctx.methodHeader().throws_().exceptionTypeList() != null) {
+            ctx.methodHeader().throws_().exceptionTypeList().exceptionType().forEach(
+                et -> throwsList.add(asString(et))
+            );
+        }
         final QueenParser.MethodBodyContext methodBodyContext = ctx.methodBody();
         final QueenBlockStatements queenBlockStatements;
         if(methodBodyContext.block() != null && methodBodyContext.block().blockStatements() != null) {
@@ -441,6 +447,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             returnType,
             methodDeclarator.Identifier().getText(),
             parameters,
+            throwsList,
             queenBlockStatements
         );
     }
@@ -467,6 +474,12 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
                 parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
             }
         }
+        final List<String> throwsList = new ArrayList<>();
+        if(ctx.methodHeader().throws_() != null && ctx.methodHeader().throws_().exceptionTypeList() != null) {
+            ctx.methodHeader().throws_().exceptionTypeList().exceptionType().forEach(
+                et -> throwsList.add(asString(et))
+            );
+        }
         final QueenParser.MethodBodyContext methodBodyContext = ctx.methodBody();
         final QueenBlockStatements queenBlockStatements;
         if(methodBodyContext.block() != null && methodBodyContext.block().blockStatements() != null) {
@@ -481,8 +494,10 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
             returnType,
             methodDeclarator.Identifier().getText(),
             parameters,
+            throwsList,
             queenBlockStatements
-        );    }
+        );
+    }
 
     @Override
     public QueenInitializerExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {

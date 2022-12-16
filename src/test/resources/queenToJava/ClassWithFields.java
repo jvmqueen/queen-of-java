@@ -54,4 +54,8 @@ public final class ClassWithFields implements SomeInterface {
 
     public ClassWithFields(String... pahts) throws FileNotFound, java.io.IOException {
     }
+
+    public String toString() throws Exception, javax.io.SomeIoException {
+        return "";
+    }
 }

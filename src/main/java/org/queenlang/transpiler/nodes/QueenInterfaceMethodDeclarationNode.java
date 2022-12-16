@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -70,6 +71,11 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     private final List<QueenParameterNode> parameters;
 
     /**
+     * Thrown exceptions.
+     */
+    private final List<String> throwsList;
+
+    /**
      * Method body.
      */
     private final QueenBlockStatements blockStatements;
@@ -80,6 +86,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         final String returnType,
         final String name,
         final List<QueenParameterNode> parameters,
+        final List<String> throwsList,
         final QueenBlockStatements blockStatements
     ) {
         this.annotations = annotations;
@@ -87,6 +94,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         this.returnType = returnType;
         this.name = name;
         this.parameters = parameters;
+        this.throwsList = throwsList;
         this.blockStatements = blockStatements;
     }
 
@@ -99,6 +107,11 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         this.modifiers.forEach(m -> m.addToJavaNode(method));
         this.parameters.forEach(
             p -> p.addToJavaNode(method)
+        );
+        this.throwsList.forEach(
+            t -> method.addThrownException(
+                StaticJavaParser.parseClassOrInterfaceType(t)
+            )
         );
         if(this.blockStatements != null) {
             final BlockStmt blockStmt = new BlockStmt();

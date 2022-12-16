@@ -51,11 +51,11 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
 
     private final List<QueenParameterNode> parameters;
 
+    private final List<String> throwsList;
+
     private final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode;
 
     private final QueenBlockStatements blockStatements;
-
-    private final List<String> throwsList;
 
     public QueenConstructorDeclarationNode(
         final List<QueenNode> annotations,

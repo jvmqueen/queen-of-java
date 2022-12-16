@@ -41,13 +41,14 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  * @todo #10:30min QueenConstructorDeclaration needs unit tests.
- * @todo #10:60min Handle constructor type parameters.
  */
 public final class QueenConstructorDeclarationNode implements QueenClassBodyDeclarationNode {
 
     private final List<QueenNode> annotations;
 
     private final QueenConstructorModifierNode modifier;
+
+    private final List<String> typeParams;
 
     private final List<QueenParameterNode> parameters;
 
@@ -60,6 +61,7 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
     public QueenConstructorDeclarationNode(
         final List<QueenNode> annotations,
         final QueenConstructorModifierNode modifier,
+        final List<String> typeParams,
         final List<QueenParameterNode> parameters,
         final List<String> throwsList,
         final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode,
@@ -67,6 +69,7 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
     ) {
         this.annotations = annotations;
         this.modifier = modifier;
+        this.typeParams = typeParams;
         this.parameters = parameters;
         this.throwsList = throwsList;
         this.explicitConstructorInvocationNode = explicitConstructorInvocationNode;
@@ -82,6 +85,9 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
         }
         this.parameters.forEach(
             p -> p.addToJavaNode(constructor)
+        );
+        this.typeParams.forEach(
+            tp -> constructor.addTypeParameter(tp)
         );
         this.throwsList.forEach(
             t -> constructor.addThrownException(

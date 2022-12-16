@@ -384,6 +384,13 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
         );
+        final List<String> typeParams = new ArrayList<>();
+        final QueenParser.TypeParametersContext typeParameters = ctx.constructorDeclarator().typeParameters();
+        if(typeParameters != null && typeParameters.typeParameterList() != null) {
+            typeParameters.typeParameterList().typeParameter().forEach(
+                tp -> typeParams.add(asString(tp))
+            );
+        }
         final List<QueenParameterNode> parameters = new ArrayList<>();
         if(ctx.constructorDeclarator().formalParameterList() != null) {
             final QueenParser.FormalParameterListContext formalParameterList = ctx.constructorDeclarator().formalParameterList();
@@ -417,6 +424,7 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         return new QueenConstructorDeclarationNode(
             annotations,
             this.visitConstructorModifier(ctx.constructorModifier()),
+            typeParams,
             parameters,
             throwsList,
             explicitConstructorInvocationNode,

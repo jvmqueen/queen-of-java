@@ -27,81 +27,76 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 
 import java.util.List;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen AnnotationElement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min Don't forget to unit test this class.
  */
-public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceDeclarationNode {
+public final class QueenAnnotationElementDeclarationNode implements QueenAnnotationTypeMemberDeclarationNode {
     /**
-     * Annotations on top of this annotation declaration.
+     * Annotations on top of this element.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Modifiers of this annotation.
+     * Modifiers of this element.
      */
-    private final List<QueenInterfaceModifierNode> modifiers;
+    private final List<QueenAnnotationElementModifierNode> modifiers;
 
     /**
-     * Name of this type.
+     * Type of this annotation element.
+     */
+    private final String type;
+
+    /**
+     * Name of this annotation element.
      */
     private final String name;
 
     /**
-     * The body.
+     * Default value of the element.
      */
-    private final QueenAnnotationTypeBodyNode body;
+    private final String defaultValue;
 
-    /**
-     * Ctor.
-     * @param annotations Annotation nodes on top of this type.
-     * @param modifiers Modifiers of this annotation.
-     * @param name Name.
-     * @param body The body.
-     */
-    public QueenAnnotationTypeDeclarationNode(
+
+    public QueenAnnotationElementDeclarationNode(
         final List<QueenAnnotationNode> annotations,
-        final List<QueenInterfaceModifierNode> modifiers,
+        final List<QueenAnnotationElementModifierNode> modifiers,
+        final String type,
         final String name,
-        final QueenAnnotationTypeBodyNode body
+        final String defaultValue
     ) {
         this.annotations = annotations;
         this.modifiers = modifiers;
+        this.type = type;
         this.name = name;
-        this.body = body;
+        this.defaultValue = defaultValue;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof CompilationUnit) {
-            ((CompilationUnit) java).addType(this.toJavaAnnotation());
-        } else if(java instanceof ClassOrInterfaceDeclaration) {
-            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaAnnotation());
-        } else if(java instanceof AnnotationDeclaration) {
-            ((AnnotationDeclaration) java).addMember(this.toJavaAnnotation());
+        final AnnotationMemberDeclaration annotationMemberDeclaration = new AnnotationMemberDeclaration();
+        this.annotations.forEach(
+            a -> a.addToJavaNode(annotationMemberDeclaration)
+        );
+        this.modifiers.forEach(
+            m -> m.addToJavaNode(annotationMemberDeclaration)
+        );
+        annotationMemberDeclaration.setType(this.type);
+        annotationMemberDeclaration.setName(this.name);
+        if(this.defaultValue != null) {
+            annotationMemberDeclaration.setDefaultValue(
+                StaticJavaParser.parseExpression(this.defaultValue)
+            );
         }
-    }
-
-    /**
-     * Turn it into a JavaParser annotation declaration.
-     * @return AnnotationDeclaration.
-     */
-    private AnnotationDeclaration toJavaAnnotation() {
-        final AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration();
-        annotationDeclaration.setName(this.name);
-        this.annotations.forEach(a -> a.addToJavaNode(annotationDeclaration));
-        this.modifiers.forEach(m -> m.addToJavaNode(annotationDeclaration));
-        this.body.addToJavaNode(annotationDeclaration);
-        return annotationDeclaration;
+        ((AnnotationDeclaration) java).addMember(annotationMemberDeclaration);
     }
 }

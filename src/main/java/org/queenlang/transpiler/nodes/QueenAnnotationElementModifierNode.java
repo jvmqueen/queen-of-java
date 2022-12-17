@@ -28,12 +28,22 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 
-public interface QueenInitializerExpressionNode extends QueenExpressionNode {
+/**
+ * Queen AnnotationElement modifier AST node.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 0.0.1
+ */
+public final class QueenAnnotationElementModifierNode extends QueenModifierNode {
+    public QueenAnnotationElementModifierNode(final String modifier) {
+        super(modifier);
+    }
 
-    default void addToJavaNode(final Node java) {
-        final VariableDeclarator variableDeclarator = (VariableDeclarator) java;
-        variableDeclarator.setInitializer(this.asJavaExpression());
+    @Override
+    public void addToJavaNode(final Node java) {
+        ((NodeWithModifiers) java).addModifier(this.modifier());
     }
 }
+

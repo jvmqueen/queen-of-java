@@ -1,0 +1,22 @@
+package org.queenlang.helloworld;
+
+import java.util.List;
+import java.annotations.*;
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE_USE)
+@interface Preamble {
+
+    String author();
+
+    String date();
+
+    int currentRevision() default 1;
+
+    String lastModified() default "N/A";
+
+    String lastModifiedBy() default "N/A";
+
+    String[] reviewers();
+}

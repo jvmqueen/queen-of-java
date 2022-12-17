@@ -50,6 +50,8 @@ public final class QueenTranspilerTestCase {
     @CsvSource(
         value = {
             "JsonPerson.queen,JsonPerson.java",
+            "Preamble.queen,Preamble.java",
+            "YamlMapping.queen,YamlMapping.java",
             "ClassWithFields.queen,ClassWithFields.java",
             "EmptyAnnotatedClass.queen,EmptyAnnotatedClass.java",
             "EmptyInterface.queen,EmptyInterface.java",

@@ -235,6 +235,11 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
     }
 
     @Override
+    public QueenAnnotationElementModifierNode visitAnnotationTypeElementModifier(QueenParser.AnnotationTypeElementModifierContext ctx) {
+        return new QueenAnnotationElementModifierNode(asString(ctx));
+    }
+
+    @Override
     public QueenClassExtensionModifierNode visitClassAbstractOrFinal(QueenParser.ClassAbstractOrFinalContext ctx) {
         return new QueenClassExtensionModifierNode(asString(ctx));
     }
@@ -702,7 +707,28 @@ public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
         } else if(ctx.interfaceDeclaration() != null) {
             return this.visitInterfaceDeclaration(ctx.interfaceDeclaration());
         }
-        return null;
+        return this.visitAnnotationTypeElementDeclaration(ctx.annotationTypeElementDeclaration());
+    }
+
+    @Override
+    public QueenAnnotationElementDeclarationNode visitAnnotationTypeElementDeclaration(QueenParser.AnnotationTypeElementDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenAnnotationElementModifierNode> modifiers = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        ctx.annotationTypeElementModifier().forEach(
+            m -> modifiers.add(this.visitAnnotationTypeElementModifier(m))
+        );
+        final String type = asString(ctx.unannType());
+        final String name = ctx.Identifier().getText();
+        return new QueenAnnotationElementDeclarationNode(
+            annotations,
+            modifiers,
+            type,
+            name,
+            ctx.defaultValue() != null ? asString(ctx.defaultValue().elementValue()) : null
+        );
     }
 
     /**

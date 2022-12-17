@@ -116,18 +116,15 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 tp -> typeParams.add(asString(tp))
             );
         }
-        final List<String> ofTypes = ctx
-            .superClassAndOrInterfaces()
-            .superinterfaces()
-            .interfaceTypeList()
-            .interfaceType()
-            .stream()
-            .map(of -> of.classType().Identifier().getText())
-            .collect(Collectors.toList());
+        final List<String> ofTypes = new ArrayList<>();
+        if(ctx.superinterfaces() != null && ctx.superinterfaces().interfaceTypeList() != null) {
+            ctx.superinterfaces().interfaceTypeList().interfaceType().forEach(
+                inter -> ofTypes.add(inter.classType().Identifier().getText())
+            );
+        }
         String extendsType = null;
-        final QueenParser.SuperclassContext superClass = ctx.superClassAndOrInterfaces().superclass();
-        if(superClass != null) {
-            extendsType = superClass.classType().Identifier().getText();
+        if(ctx.superclass() != null) {
+            extendsType = ctx.superclass().classType().Identifier().getText();
         }
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))

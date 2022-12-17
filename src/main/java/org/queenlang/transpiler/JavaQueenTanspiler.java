@@ -61,7 +61,7 @@ public final class JavaQueenTanspiler implements QueenTranspiler {
         final QueenAntlrErrorListener errorListener = new QueenAntlrErrorListener();
         parser.addErrorListener(errorListener);
 
-        final QueenVisitor visitor = new QueenVisitor();
+        final QueenParseTreeVisitor visitor = new QueenParseTreeVisitor();
         final QueenNode queenCompilationUnitNode = visitor.visitCompilationUnit(
             parser.compilationUnit()
         );

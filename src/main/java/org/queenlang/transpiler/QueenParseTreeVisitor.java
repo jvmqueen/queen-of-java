@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenVisitor extends QueenParserBaseVisitor<QueenNode> {
+public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNode> {
 
     @Override
     public QueenCompilationUnitNode visitCompilationUnit(QueenParser.CompilationUnitContext ctx) {

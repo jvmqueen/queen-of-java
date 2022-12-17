@@ -1,0 +1,87 @@
+/**
+ * Copyright (c) 2022-2023, Extremely Distributed Technologies S.R.L. Romania
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this
+ *  list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.
+ * Neither the name of the copyright holder nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+package org.queenlang.transpiler;
+
+import org.queenlang.transpiler.nodes.*;
+
+/**
+ * Queen abstract syntax tree visitor.
+ * @param <T> Type param.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 0.0.1
+ */
+public interface QueenASTVisitor<T> {
+    T visitQueenAnnotationElementDeclarationNode(final QueenAnnotationElementDeclarationNode node);
+    T visitQueenAnnotationElementModifierNode(final QueenAnnotationElementModifierNode node);
+    T visitQueenAnnotationNode(final QueenAnnotationNode node);
+    T visitQueenAnnotationTypeBodyNode(final QueenAnnotationTypeBodyNode node);
+    T visitQueenAnnotationTypeDeclarationNode(final QueenAnnotationTypeDeclarationNode node);
+    T visitQueenAnnotationTypeMemberDeclarationNode(final QueenAnnotationTypeMemberDeclarationNode node);
+    T visitQueenBlockStatementNode(final QueenBlockStatementNode node);
+    T visitQueenBlockStatementsNode(final QueenBlockStatements node);
+    T visitQueenClassAccessModifierNode(final QueenClassAccessModifierNode node);
+    T visitQueenClassBodyDeclarationNode(final QueenClassBodyDeclarationNode node);
+    T visitQueenClassBodyNode(final QueenClassBodyNode node);
+    T visitQueenClassDeclarationNode(final QueenClassDeclarationNode node);
+    T visitQueenClassExtensionModifierNode(final QueenClassExtensionModifierNode node);
+    T visitQueenClassMemberDeclarationNode(final QueenClassMemberDeclarationNode node);
+    T visitQueenCompilationUnitNode(final QueenCompilationUnitNode node);
+    T visitQueenConstantDeclarationNode(final QueenConstantDeclarationNode node);
+    T visitQueenConstantModifierNode(final QueenConstantModifierNode node);
+    T visitQueenConstructorDeclarationNode(final QueenConstructorDeclarationNode node);
+    T visitQueenConstructorModifierNode(final QueenConstructorModifierNode node);
+    T visitQueenExplicitConstructorInvocationNode(final QueenExplicitConstructorInvocationNode node);
+    T visitQueenExpressionNode(final QueenExpressionNode node);
+    T visitQueenFieldDeclarationNode(final QueenFieldDeclarationNode node);
+    T visitQueenFieldModifierNode(final QueenFieldModifierNode node);
+    T visitQueenImportDeclarationNode(final QueenImportDeclarationNode node);
+    T visitQueenInitializerExpressionNode(final QueenInitializerExpressionNode node);
+    T visitQueenInstanceInitializerNode(final QueenInstanceInitializerNode node);
+    T visitQueenInterfaceBodyNode(final QueenInterfaceBodyNode node);
+    T visitQueenInterfaceDeclarationNode(final QueenInterfaceDeclarationNode node);
+    T visitQueenInterfaceMemberDeclarationNode(final QueenInterfaceMemberDeclarationNode node);
+    T visitQueenInterfaceMethodDeclarationNode(final QueenInterfaceMethodDeclarationNode node);
+    T visitQueenInterfaceMethodModifierNode(final QueenInterfaceMethodModifierNode node);
+    T visitQueenInterfaceModifierNode(final QueenInterfaceModifierNode node);
+    T visitQueenMarkerAnnotationNode(final QueenMarkerAnnotationNode node);
+    T visitQueenMethodDeclarationNode(final QueenMethodDeclarationNode node);
+    T visitQueenMethodModifierNode(final QueenMethodModifierNode node);
+    T visitQueenModifierNode(final QueenModifierNode node);
+    T visitQueenNode(final QueenNode node);
+    T visitQueenNormalAnnotationNode(final QueenNormalAnnotationNode node);
+    T visitQueenNormalInterfaceDeclarationNode(final QueenNormalInterfaceDeclarationNode node);
+    T visitQueenPackageDeclarationNode(final QueenPackageDeclarationNode node);
+    T visitQueenParameterModifierNode(final QueenParameterModifierNode node);
+    T visitQueenParameterNode(final QueenParameterNode node);
+    T visitQueenSingleMemberAnnotationNode(final QueenSingleMemberAnnotationNode node);
+    T visitQueenStatementNode(final QueenStatementNode node);
+    T visitQueenTextExpressionNode(final QueenTextExpressionNode node);
+    T visitQueenTextStatementNode(final QueenTextStatementNode node);
+    T visitQueenTypeDeclarationNode(final QueenTypeDeclarationNode node);
+}

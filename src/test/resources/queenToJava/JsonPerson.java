@@ -6,7 +6,7 @@ import javax.json.JsonObject;
 public final class JsonPerson implements Person {
 
     @NotNull
-    private final JsonObject json;
+    private JsonObject json;
 
     static {
         System.out.println("STATIC INITIALIZER CALLED");

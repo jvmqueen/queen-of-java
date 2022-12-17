@@ -11,24 +11,24 @@ public final implementation ClassWithFields<T, K extends Other, V extends Stuff>
 
     int prot = 0;
 
-    private final int x, y, z = 3;
+    private int x, y, z = 3;
 
     @AnnotatedField
-    private final int m = 0, n = 1, p = 2;
+    private int m = 0, n = 1, p = 2;
 
-    private final Object objs;
+    private Object objs;
 
-    private final List<String> list;
+    private List<String> list;
 
-    private final List<String> otherList = new ArrayList<>();
+    private List<String> otherList = new ArrayList<>();
 
-    private final List<String> otherList2 = new ArrayList<String>();
+    private List<String> otherList2 = new ArrayList<String>();
 
-    private final Test test = new AnnonymTest() {
+    private Test test = new AnnonymTest() {
     };
 
     @AnnotatedField
-    private final String[] s = new String[]{"1", "2", "3"};
+    private String[] s = new String[]{"1", "2", "3"};
 
     public ClassWithFields() {
 

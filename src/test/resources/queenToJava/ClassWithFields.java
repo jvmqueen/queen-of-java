@@ -11,34 +11,34 @@ public final class ClassWithFields<T, K extends Other, V extends Stuff> implemen
 
     int prot = 0;
 
-    private final int x;
+    private int x;
 
-    private final int y;
+    private int y;
 
-    private final int z = 3;
-
-    @AnnotatedField
-    private final int p = 2;
+    private int z = 3;
 
     @AnnotatedField
-    private final int m = 0;
+    private int p = 2;
 
     @AnnotatedField
-    private final int n = 1;
+    private int m = 0;
 
-    private final Object objs;
+    @AnnotatedField
+    private int n = 1;
 
-    private final List<String> list;
+    private Object objs;
 
-    private final List<String> otherList = new ArrayList<>();
+    private List<String> list;
 
-    private final List<String> otherList2 = new ArrayList<String>();
+    private List<String> otherList = new ArrayList<>();
 
-    private final Test test = new AnnonymTest() {
+    private List<String> otherList2 = new ArrayList<String>();
+
+    private Test test = new AnnonymTest() {
     };
 
     @AnnotatedField
-    private final String[] s = new String[] { "1", "2", "3" };
+    private String[] s = new String[] { "1", "2", "3" };
 
     public ClassWithFields() {
     }

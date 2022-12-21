@@ -10,7 +10,7 @@ public interface YamlMapping extends YamlNode {
 
     Set<YamlNode> keys();
 
-    YamlNode value(final YamlNode key) throws NodeNotFoundException;
+    YamlNode value(YamlNode key) throws NodeNotFoundException;
 
     default Collection<YamlNode> values() {
         final List<YamlNode> values = new LinkedList<>();

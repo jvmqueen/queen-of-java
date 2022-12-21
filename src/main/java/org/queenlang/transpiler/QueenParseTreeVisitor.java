@@ -552,19 +552,21 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenParameterModifierNode> modifiers = new ArrayList<>();
 
-        if(ctx.variableModifier() != null) {
-            ctx.variableModifier().forEach(
+        if(ctx.formalParameterModifier() != null) {
+            ctx.formalParameterModifier().forEach(
                 v -> {
                     if(v.annotation() != null) {
                         annotations.add(this.visitAnnotation(v.annotation()));
                     }
-                    if(v.FINAL() != null) {
-                        modifiers.add(new QueenParameterModifierNode(v.FINAL().getText()));
+                    if(v.MUTABLE() != null) {
+                        modifiers.add(new QueenParameterModifierNode(v.MUTABLE().getText()));
                     }
                 }
             );
         }
-
+        if(modifiers.isEmpty()) {
+            modifiers.add(new QueenParameterModifierNode("final"));
+        }
         final String type = asString(ctx.unannType());
         final String name = asString(ctx.variableDeclaratorId());
         return new QueenParameterNode(
@@ -584,17 +586,20 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenParameterModifierNode> modifiers = new ArrayList<>();
 
-        if(ctx.variableModifier() != null) {
-            ctx.variableModifier().forEach(
+        if(ctx.formalParameterModifier() != null) {
+            ctx.formalParameterModifier().forEach(
                 v -> {
                     if(v.annotation() != null) {
                         annotations.add(this.visitAnnotation(v.annotation()));
                     }
-                    if(v.FINAL() != null) {
-                        modifiers.add(new QueenParameterModifierNode(v.FINAL().getText()));
+                    if(v.MUTABLE() != null) {
+                        modifiers.add(new QueenParameterModifierNode(v.MUTABLE().getText()));
                     }
                 }
             );
+        }
+        if(modifiers.isEmpty()) {
+            modifiers.add(new QueenParameterModifierNode("final"));
         }
 
         final String type = asString(ctx.unannType());

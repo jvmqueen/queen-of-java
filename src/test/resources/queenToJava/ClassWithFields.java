@@ -43,16 +43,16 @@ public final class ClassWithFields<T, K extends Other, V extends Stuff> implemen
     public ClassWithFields() {
     }
 
-    public ClassWithFields(final int i, final Student student, @NotNull List<String> stuff, @Array final String... s) {
+    public ClassWithFields(final int i, final Student student, @NotNull final List<String> stuff, @Array final String... s) {
     }
 
     public ClassWithFields(@NotEmpty final String... stringArgs) {
     }
 
-    public ClassWithFields(Integer... integers) {
+    public ClassWithFields(final Integer... integers) {
     }
 
-    public ClassWithFields(String... pahts) throws FileNotFound, java.io.IOException {
+    public ClassWithFields(final String... pahts) throws FileNotFound, java.io.IOException {
     }
 
     public String toString() throws Exception, javax.io.SomeIoException {

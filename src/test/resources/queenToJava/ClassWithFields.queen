@@ -34,10 +34,10 @@ public final implementation ClassWithFields<T, K extends Other, V extends Stuff>
 
     }
 
-    public ClassWithFields(final int i, final Student student, @NotNull List<String> stuff, @Array final String... s) {
+    public ClassWithFields(int i, Student student, @NotNull List<String> stuff, @Array String... s) {
     }
 
-    public ClassWithFields(@NotEmpty final String... stringArgs) {
+    public ClassWithFields(@NotEmpty String... stringArgs) {
     }
 
     public ClassWithFields(Integer... integers) {

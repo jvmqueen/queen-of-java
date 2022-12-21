@@ -15,7 +15,7 @@ public final implementation JsonPerson of Person {
         System.out.println("INSTANCE INITIALIZER CALLED");
     }
 
-    public JsonPerson(final InputStream jsonStream) {
+    public JsonPerson(InputStream jsonStream) {
         super();
         try {
             this.json = Json.readStream(jsonStream).toObject();
@@ -24,7 +24,7 @@ public final implementation JsonPerson of Person {
         }
     }
 
-    public JsonPerson(final JsonObject json) {
+    public JsonPerson(JsonObject json) {
         super();
         this.json = json;
         if (this.json == null) {
@@ -38,11 +38,11 @@ public final implementation JsonPerson of Person {
     }
 
     @Override
-    public final String name(final boolean supportMissing) {
+    public final String name(boolean supportMissing) {
         return this.getString("name", supportMissing);
     }
 
-    private String getString(final String key, @NotNull final boolean supportMissing) {
+    private String getString(String key, @NotNull boolean supportMissing) {
         if(supportMissing) {
             this.json.getString(key, "");
         }

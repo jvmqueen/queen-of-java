@@ -34,6 +34,7 @@ import com.github.javaparser.ast.Node;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #33:60min Implement method position() in all implementor classes.
  */
 public interface QueenNode {
 

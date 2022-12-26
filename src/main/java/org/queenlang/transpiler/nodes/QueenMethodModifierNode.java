@@ -37,8 +37,8 @@ import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
  * @since 0.0.1
  */
 public final class QueenMethodModifierNode extends QueenModifierNode {
-    public QueenMethodModifierNode(final String modifier) {
-        super(modifier);
+    public QueenMethodModifierNode(final Position position, final String modifier) {
+        super(position, modifier);
     }
 
     @Override

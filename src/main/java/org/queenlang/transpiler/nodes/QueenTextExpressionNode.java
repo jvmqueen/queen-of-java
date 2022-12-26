@@ -4,9 +4,12 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.Expression;
 
 public final class QueenTextExpressionNode implements QueenInitializerExpressionNode {
-    final String expression;
 
-    public QueenTextExpressionNode(final String expression) {
+    private final Position position;
+    private final String expression;
+
+    public QueenTextExpressionNode(final Position position, final String expression) {
+        this.position = position;
         this.expression = expression;
     }
 

@@ -44,8 +44,8 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
      */
     private final String value;
 
-    public QueenSingleMemberAnnotationNode(final String name, final String value) {
-        super(name);
+    public QueenSingleMemberAnnotationNode(final Position position, final String name, final String value) {
+        super(position, name);
         this.value = value;
     }
 

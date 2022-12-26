@@ -42,6 +42,12 @@ import java.util.List;
  * @todo #10:30min Don't forget to unit test this class.
  */
 public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceDeclarationNode {
+
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
     /**
      * Annotations on top of this annotation declaration.
      */
@@ -64,17 +70,20 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
 
     /**
      * Ctor.
+     * @param position Position in the original source code.
      * @param annotations Annotation nodes on top of this type.
      * @param modifiers Modifiers of this annotation.
      * @param name Name.
      * @param body The body.
      */
     public QueenAnnotationTypeDeclarationNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenInterfaceModifierNode> modifiers,
         final String name,
         final QueenAnnotationTypeBodyNode body
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.name = name;

@@ -41,9 +41,14 @@ import java.util.List;
  */
 public final class QueenBlockStatements implements QueenNode, Iterable<QueenBlockStatementNode> {
 
+    private final Position position;
     private final List<QueenBlockStatementNode> blockStatements;
 
-    public QueenBlockStatements(final List<QueenBlockStatementNode> blockStatements) {
+    public QueenBlockStatements(
+        final Position position,
+        final List<QueenBlockStatementNode> blockStatements
+    ) {
+        this.position = position;
         this.blockStatements = blockStatements;
     }
 

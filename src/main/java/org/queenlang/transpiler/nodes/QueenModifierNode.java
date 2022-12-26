@@ -39,11 +39,17 @@ import com.github.javaparser.ast.Modifier;
 public abstract class QueenModifierNode implements QueenNode {
 
     /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
      * Name of the modifier.
      */
     private final String modifier;
 
-    public QueenModifierNode(final String modifier) {
+    public QueenModifierNode(final Position position, final String modifier) {
+        this.position = position;
         this.modifier = modifier;
     }
 

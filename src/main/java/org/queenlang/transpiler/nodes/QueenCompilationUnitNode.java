@@ -39,15 +39,18 @@ import java.util.List;
  * @since 0.0.1
  */
 public final class QueenCompilationUnitNode implements QueenNode {
+    private final Position position;
     private final QueenNode packageDeclaration;
     private final List<QueenNode> importDeclarations;
     private final List<QueenNode> typeDeclarations;
 
     public QueenCompilationUnitNode(
+        final Position position,
         final QueenNode packageDeclaration,
         final List<QueenNode> importDeclarations,
         final List<QueenNode> typeDeclarations
     ) {
+        this.position = position;
         this.packageDeclaration = packageDeclaration;
         this.importDeclarations = importDeclarations;
         this.typeDeclarations = typeDeclarations;

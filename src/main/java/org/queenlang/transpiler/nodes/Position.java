@@ -27,57 +27,24 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-
 /**
- * Queen Instance Initializer AST Node.
+ * Position of a node in a text file.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:30min Unit tests for class QueenInstanceInitializerNode are needed.
  */
-public final class QueenInstanceInitializerNode implements QueenClassBodyDeclarationNode {
+public interface Position {
 
     /**
-     * Position in the original source code.
+     * Line number (1-based).
+     * @return Integer.
      */
-    private final Position position;
+    int line();
 
     /**
-     * Statements in this initializer.
+     * Column number (0-based).
+     * @return Integer.
      */
-    private final QueenBlockStatements blockStatements;
+    int column();
 
-    /**
-     * Is it static or not?
-     */
-    private final boolean isStatic;
-
-    public QueenInstanceInitializerNode(
-        final Position position,
-        final QueenBlockStatements blockStatements
-    ) {
-        this(position, blockStatements, false);
-    }
-
-    public QueenInstanceInitializerNode(
-        final Position position,
-        final QueenBlockStatements blockStatements,
-        final boolean isStatic
-    ) {
-        this.position = position;
-        this.blockStatements = blockStatements;
-        this.isStatic = isStatic;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        if(this.isStatic) {
-            this.blockStatements.addToJavaNode(clazz.addStaticInitializer());
-        } else {
-            this.blockStatements.addToJavaNode(clazz.addInitializer());
-        }
-    }
 }

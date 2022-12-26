@@ -48,10 +48,11 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
     private final Map<String, String> elementValuePairs;
 
     public QueenNormalAnnotationNode(
+        final Position position,
         final String name,
         final Map<String, String> elementValuePairs
     ) {
-        super(name);
+        super(position, name);
         this.elementValuePairs = elementValuePairs;
     }
 

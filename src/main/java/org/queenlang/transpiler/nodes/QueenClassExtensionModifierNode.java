@@ -10,8 +10,8 @@ import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
  * @since 0.0.1
  */
 public final class QueenClassExtensionModifierNode extends QueenModifierNode {
-    public QueenClassExtensionModifierNode(final String modifier) {
-        super(modifier);
+    public QueenClassExtensionModifierNode(final Position position, final String modifier) {
+        super(position, modifier);
     }
 
     @Override

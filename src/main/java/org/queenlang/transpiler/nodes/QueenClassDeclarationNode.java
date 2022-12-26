@@ -46,6 +46,12 @@ import java.util.List;
  * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
 public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode, QueenAnnotationTypeMemberDeclarationNode{
+
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
     /**
      * Annotations on top of this class.
      */
@@ -88,6 +94,7 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
 
     /**
      * Ctor.
+     * @param position Position in the orifinal source code.
      * @param annotations Annotation nodes on top of this type.
      * @param accessModifiers Access modifiers of this class.
      * @param extensionModifier Extension modifier (abstract or final).
@@ -98,6 +105,7 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
      * @param body The body.
      */
     public QueenClassDeclarationNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenClassAccessModifierNode> accessModifiers,
         final QueenClassExtensionModifierNode extensionModifier,
@@ -107,6 +115,7 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         final List<String> of,
         final QueenClassBodyNode body
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.accessModifiers = accessModifiers;
         this.extensionModifier = extensionModifier;

@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  * @todo #33:60min Write unit tests for QueenParameterNode.
  */
 public final class QueenParameterNode implements QueenNode{
+    private final Position position;
     private final List<QueenAnnotationNode> annotations;
     private final List<QueenParameterModifierNode> modifiers;
     private final String name;
@@ -26,25 +27,28 @@ public final class QueenParameterNode implements QueenNode{
     private final boolean varArgs;
 
     public QueenParameterNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenParameterModifierNode> modifiers,
         final String type,
         final String name
     ) {
-        this(annotations, modifiers, type, name, false);
+        this(position, annotations, modifiers, type, name, false);
     }
 
     public QueenParameterNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenParameterModifierNode> modifiers,
         final String type,
         final String name,
         final boolean varArgs
     ) {
-        this(annotations, modifiers, type, name, new ArrayList<>(), varArgs);
+        this(position, annotations, modifiers, type, name, new ArrayList<>(), varArgs);
     }
 
     public QueenParameterNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenParameterModifierNode> modifiers,
         final String type,
@@ -52,6 +56,7 @@ public final class QueenParameterNode implements QueenNode{
         final List<String> varArgsAnnotations,
         final boolean varArgs
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.type = type;

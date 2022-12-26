@@ -44,6 +44,8 @@ import java.util.List;
  */
 public final class QueenConstructorDeclarationNode implements QueenClassBodyDeclarationNode {
 
+    private final Position position;
+
     private final List<QueenNode> annotations;
 
     private final QueenConstructorModifierNode modifier;
@@ -59,6 +61,7 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
     private final QueenBlockStatements blockStatements;
 
     public QueenConstructorDeclarationNode(
+        final Position position,
         final List<QueenNode> annotations,
         final QueenConstructorModifierNode modifier,
         final List<String> typeParams,
@@ -67,6 +70,7 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
         final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode,
         final QueenBlockStatements blockStatements
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.modifier = modifier;
         this.typeParams = typeParams;

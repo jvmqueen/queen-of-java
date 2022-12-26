@@ -41,6 +41,12 @@ import java.util.List;
  * @since 0.0.1
  */
 public final class QueenAnnotationElementDeclarationNode implements QueenAnnotationTypeMemberDeclarationNode {
+
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
     /**
      * Annotations on top of this element.
      */
@@ -68,12 +74,14 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
 
 
     public QueenAnnotationElementDeclarationNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenAnnotationElementModifierNode> modifiers,
         final String type,
         final String name,
         final String defaultValue
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.type = type;

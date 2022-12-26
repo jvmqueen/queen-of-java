@@ -96,4 +96,9 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
             }
         );
     }
+
+    @Override
+    public String name() {
+        return String.join(" ", this.variables.keySet());
+    }
 }

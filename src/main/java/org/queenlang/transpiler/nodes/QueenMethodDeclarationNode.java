@@ -136,4 +136,9 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
             method.removeBody();
         }
     }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
 }

@@ -136,4 +136,9 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
             method.removeBody();
         }
     }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
 }

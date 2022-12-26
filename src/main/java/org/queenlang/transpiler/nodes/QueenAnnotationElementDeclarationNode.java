@@ -107,4 +107,9 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
         }
         ((AnnotationDeclaration) java).addMember(annotationMemberDeclaration);
     }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
 }

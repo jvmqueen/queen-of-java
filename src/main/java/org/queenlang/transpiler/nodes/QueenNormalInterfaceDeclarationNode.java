@@ -118,6 +118,11 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
         }
     }
 
+    @Override
+    public String name() {
+        return this.name;
+    }
+
     /**
      * Turn it into a JavaParser interface declaration.
      * @return ClassOrInterfaceDeclaration.

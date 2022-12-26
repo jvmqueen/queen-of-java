@@ -165,4 +165,9 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         this.body.addToJavaNode(clazz);
         return clazz;
     }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
 }

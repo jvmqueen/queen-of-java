@@ -42,7 +42,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenConstructorDeclaration needs unit tests.
  */
-public final class QueenConstructorDeclarationNode implements QueenClassBodyDeclarationNode {
+public final class QueenConstructorDeclarationNode implements Named, QueenClassBodyDeclarationNode {
 
     private final Position position;
 
@@ -51,6 +51,8 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
     private final QueenConstructorModifierNode modifier;
 
     private final List<String> typeParams;
+
+    private final String name;
 
     private final List<QueenParameterNode> parameters;
 
@@ -65,6 +67,7 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
         final List<QueenNode> annotations,
         final QueenConstructorModifierNode modifier,
         final List<String> typeParams,
+        final String name,
         final List<QueenParameterNode> parameters,
         final List<String> throwsList,
         final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode,
@@ -74,12 +77,14 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
         this.annotations = annotations;
         this.modifier = modifier;
         this.typeParams = typeParams;
+        this.name = name;
         this.parameters = parameters;
         this.throwsList = throwsList;
         this.explicitConstructorInvocationNode = explicitConstructorInvocationNode;
         this.blockStatements = blockStatements;
     }
 
+    @Override
     public void addToJavaNode(final Node java) {
         final ConstructorDeclaration constructor = ((ClassOrInterfaceDeclaration) java)
             .addConstructor();
@@ -108,4 +113,8 @@ public final class QueenConstructorDeclarationNode implements QueenClassBodyDecl
         constructor.setBody(blockStmt);
     }
 
+    @Override
+    public String name() {
+        return this.name;
+    }
 }

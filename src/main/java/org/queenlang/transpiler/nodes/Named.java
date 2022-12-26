@@ -28,10 +28,18 @@
 package org.queenlang.transpiler.nodes;
 
 /**
- * Queen ClassMember AST Node.
+ * Named entity, for example a QueenNode which has a name and can be referenced
+ * later in the code (variables, fields, classes etc).
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenClassMemberDeclarationNode extends Named, QueenClassBodyDeclarationNode {
+public interface Named {
+
+    /**
+     * The name.
+     * @return String name, never null.
+     */
+    String name();
+
 }

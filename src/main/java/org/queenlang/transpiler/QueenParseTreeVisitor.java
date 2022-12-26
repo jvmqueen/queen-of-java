@@ -439,6 +439,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             this.visitConstructorModifier(ctx.constructorModifier()),
             typeParams,
+            asString(ctx.constructorDeclarator().simpleTypeName()),
             parameters,
             throwsList,
             explicitConstructorInvocationNode,

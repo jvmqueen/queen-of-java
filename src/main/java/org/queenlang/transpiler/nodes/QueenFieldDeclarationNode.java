@@ -33,6 +33,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Queen FieldDeclaration AST node.
@@ -94,5 +95,10 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
                 }
             }
         );
+    }
+
+    @Override
+    public String name() {
+        return String.join(" ", this.variables.keySet());
     }
 }

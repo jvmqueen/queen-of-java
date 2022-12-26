@@ -36,5 +36,5 @@ package org.queenlang.transpiler.nodes;
  * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
  * @todo #8:60min Handle the TypeBody AST node further.
  */
-public interface QueenTypeDeclarationNode extends QueenNode {
+public interface QueenTypeDeclarationNode extends Named, QueenNode {
 }

@@ -25,22 +25,44 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler;
 
-import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * A node in Queen's Abstract Syntax Tree.
+ * Queen SementicProblem implementation.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenNode {
+public final class QueenSemanticProblem implements SemanticProblem {
 
-    /**
-     * Add it to JavaParser's java node.
-     */
-    void addToJavaNode(final Node java);
+    private final String type;
+    private final String message;
+    private final Position position;
 
-    default Position position() {return null;}
+    public QueenSemanticProblem(
+        final String type,
+        final String message,
+        final Position position
+    ) {
+        this.type = type;
+        this.message = message;
+        this.position = position;
+    }
+
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    @Override
+    public String message() {
+        return this.message;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

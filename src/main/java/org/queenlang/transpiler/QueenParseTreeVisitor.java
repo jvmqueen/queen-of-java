@@ -34,10 +34,7 @@ import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -66,9 +63,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             ctx.importDeclaration().stream().map(
                 this::visitImportDeclaration
             ).collect(Collectors.toList()),
-            ctx.typeDeclaration().stream().map(
-                this::visitTypeDeclaration
-            ).collect(Collectors.toList())
+            List.of(this.visitTypeDeclaration(ctx.typeDeclaration()))
         );
     }
 

@@ -49,11 +49,11 @@ public final class QueenCompilationUnitNodeTestCase {
     public void addsChildrenToJavaNode() {
         final Node java = Mockito.mock(Node.class);
 
-        final QueenNode packageDeclaration = Mockito.mock(QueenNode.class);
-        final List<QueenNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(QueenNode.class));
-        final List<QueenNode> types = new ArrayList<>();
-        types.add(Mockito.mock(QueenNode.class));
+        final QueenPackageDeclarationNode packageDeclaration = Mockito.mock(QueenPackageDeclarationNode.class);
+        final List<QueenImportDeclarationNode> imports = new ArrayList<>();
+        imports.add(Mockito.mock(QueenImportDeclarationNode.class));
+        final List<QueenTypeDeclarationNode> types = new ArrayList<>();
+        types.add(Mockito.mock(QueenTypeDeclarationNode.class));
 
         final QueenNode compilationUnit = new QueenCompilationUnitNode(
             Mockito.mock(Position.class),

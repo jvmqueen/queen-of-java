@@ -25,22 +25,18 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler;
 
-import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * A node in Queen's Abstract Syntax Tree.
+ * A semantiv problem in Queen code.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenNode {
-
-    /**
-     * Add it to JavaParser's java node.
-     */
-    void addToJavaNode(final Node java);
-
-    default Position position() {return null;}
+public interface SemanticProblem {
+    String type();
+    String message();
+    Position position();
 }

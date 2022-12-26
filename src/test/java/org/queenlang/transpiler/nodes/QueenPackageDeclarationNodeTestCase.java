@@ -46,7 +46,7 @@ public final class QueenPackageDeclarationNodeTestCase {
     public void addsPackageToJavaNode() {
         final CompilationUnit java = Mockito.mock(CompilationUnit.class);
         final QueenNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            () -> "com.amihaiemil.web"
+            Mockito.mock(Position.class), () -> "com.amihaiemil.web"
         );
 
         packageDeclarationNode.addToJavaNode(java);
@@ -62,7 +62,7 @@ public final class QueenPackageDeclarationNodeTestCase {
     public void doesNotAddNullPackage() {
         final CompilationUnit java = Mockito.mock(CompilationUnit.class);
         final QueenNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            () -> null
+            Mockito.mock(Position.class), () -> null
         );
 
         packageDeclarationNode.addToJavaNode(java);

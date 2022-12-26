@@ -39,8 +39,8 @@ import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
  */
 public final class QueenMarkerAnnotationNode extends QueenAnnotationNode {
 
-    public QueenMarkerAnnotationNode(final String name) {
-        super(name);
+    public QueenMarkerAnnotationNode(final Position position, final String name) {
+        super(position, name);
     }
 
     @Override

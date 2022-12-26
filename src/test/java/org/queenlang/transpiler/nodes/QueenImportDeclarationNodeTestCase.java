@@ -46,6 +46,7 @@ public final class QueenImportDeclarationNodeTestCase {
     public void addsImportToJavaNode() {
         final CompilationUnit java = Mockito.mock(CompilationUnit.class);
         final QueenNode importDeclarationNode = new QueenImportDeclarationNode(
+            Mockito.mock(Position.class),
             "com.example.web",
             true,
             false

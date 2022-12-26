@@ -38,9 +38,11 @@ import java.util.List;
  * @since 0.0.1
  */
 public final class QueenAnnotationTypeBodyNode implements QueenNode{
+    private final Position position;
     private final List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations;
 
-    public QueenAnnotationTypeBodyNode(final List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations) {
+    public QueenAnnotationTypeBodyNode(final Position position, final List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations) {
+        this.position = position;
         this.annotationMemberDeclarations = annotationMemberDeclarations;
     }
 

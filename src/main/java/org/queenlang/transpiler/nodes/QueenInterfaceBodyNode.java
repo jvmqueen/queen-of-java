@@ -39,9 +39,14 @@ import java.util.List;
  * @todo #33:30min Unit tests for QueenInterfaceBodyNode are needed.
  */
 public final class QueenInterfaceBodyNode implements QueenNode {
+    private final Position position;
     private final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations;
 
-    public QueenInterfaceBodyNode(final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations) {
+    public QueenInterfaceBodyNode(
+        final Position position,
+        final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations
+    ) {
+        this.position = position;
         this.interfaceMemberDeclarations = interfaceMemberDeclarations;
     }
 

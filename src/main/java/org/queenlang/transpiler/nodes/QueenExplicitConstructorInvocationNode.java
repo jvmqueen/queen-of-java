@@ -38,13 +38,18 @@ import com.github.javaparser.ast.stmt.Statement;
  */
 public final class QueenExplicitConstructorInvocationNode implements QueenStatementNode {
 
+    private final Position position;
     private final String explicitConstructorInvocation;
 
     /**
      * Ctor.
      * @param explicitConstructorInvocation String statement.
      */
-    public QueenExplicitConstructorInvocationNode(final String explicitConstructorInvocation) {
+    public QueenExplicitConstructorInvocationNode(
+        final Position position,
+        final String explicitConstructorInvocation
+    ) {
+        this.position = position;
         this.explicitConstructorInvocation = explicitConstructorInvocation;
     }
 

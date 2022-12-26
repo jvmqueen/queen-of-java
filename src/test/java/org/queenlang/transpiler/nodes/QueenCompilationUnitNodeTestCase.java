@@ -56,6 +56,7 @@ public final class QueenCompilationUnitNodeTestCase {
         types.add(Mockito.mock(QueenNode.class));
 
         final QueenNode compilationUnit = new QueenCompilationUnitNode(
+            Mockito.mock(Position.class),
             packageDeclaration,
             imports,
             types

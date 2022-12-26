@@ -36,11 +36,17 @@ package org.queenlang.transpiler.nodes;
 public abstract class QueenAnnotationNode implements QueenNode {
 
     /**
+     * Position of the annotation in the source code.
+     */
+    private final Position position;
+
+    /**
      * Name of the annotation.
      */
     private final String name;
 
-    public QueenAnnotationNode(final String name) {
+    public QueenAnnotationNode(final Position position, final String name) {
+        this.position = position;
         this.name = name;
     }
 

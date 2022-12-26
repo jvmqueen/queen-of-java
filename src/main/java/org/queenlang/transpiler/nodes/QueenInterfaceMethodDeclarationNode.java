@@ -46,6 +46,11 @@ import java.util.List;
 public final class QueenInterfaceMethodDeclarationNode implements QueenInterfaceMemberDeclarationNode {
 
     /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
      * Annotations on top of this method.
      */
     private final List<QueenAnnotationNode> annotations;
@@ -86,6 +91,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     private final QueenBlockStatements blockStatements;
 
     public QueenInterfaceMethodDeclarationNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenInterfaceMethodModifierNode> modifiers,
         final String returnType,
@@ -95,6 +101,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         final List<String> throwsList,
         final QueenBlockStatements blockStatements
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.returnType = returnType;

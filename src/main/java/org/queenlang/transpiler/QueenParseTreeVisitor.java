@@ -52,7 +52,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenCompilationUnitNode visitCompilationUnit(QueenParser.CompilationUnitContext ctx) {
         return new QueenCompilationUnitNode(
+            getPosition(ctx),
             new QueenPackageDeclarationNode(
+                getPosition(ctx.packageDeclaration()),
                 () -> {
                     if(ctx.packageDeclaration() != null) {
                         QueenParser.PackageNameContext packageNameContext = ctx.packageDeclaration().packageName();
@@ -91,7 +93,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             importedType = asString(ctx.typeImportOnDemandDeclaration().packageOrTypeName());
             isAsteriskImport = true;
         }
-        return new QueenImportDeclarationNode(importedType, isStaticImport, isAsteriskImport);
+        return new QueenImportDeclarationNode(
+            getPosition(ctx), importedType, isStaticImport, isAsteriskImport
+        );
     }
 
     @Override
@@ -133,6 +137,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> accessModifiers.add(this.visitClassModifier(m))
         );
         return new QueenClassDeclarationNode(
+            this.getPosition(ctx),
             annotations,
             accessModifiers,
             this.visitClassAbstractOrFinal(ctx.classAbstractOrFinal()),
@@ -141,6 +146,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             extendsType,
             ofTypes,
             new QueenClassBodyNode(
+                getPosition(ctx),
                 ctx.classBody().classBodyDeclaration().stream().map(
                     this::visitClassBodyDeclaration
                 ).collect(Collectors.toList())
@@ -190,6 +196,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitInterfaceModifier(m))
         );
         return new QueenNormalInterfaceDeclarationNode(
+            getPosition(ctx),
             annotations,
             modifiers,
             name,
@@ -212,54 +219,54 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitInterfaceModifier(m))
         );
         return new QueenAnnotationTypeDeclarationNode(
-            annotations, modifiers, name, this.visitAnnotationTypeBody(ctx.annotationTypeBody())
+            getPosition(ctx), annotations, modifiers, name, this.visitAnnotationTypeBody(ctx.annotationTypeBody())
         );
     }
 
     @Override
     public QueenClassAccessModifierNode visitClassModifier(QueenParser.ClassModifierContext ctx) {
-        return new QueenClassAccessModifierNode(asString(ctx));
+        return new QueenClassAccessModifierNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
     public QueenMethodModifierNode visitMethodModifier(QueenParser.MethodModifierContext ctx) {
-        return new QueenMethodModifierNode(asString(ctx));
+        return new QueenMethodModifierNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
     public QueenInterfaceMethodModifierNode visitInterfaceMethodModifier(QueenParser.InterfaceMethodModifierContext ctx) {
-        return new QueenInterfaceMethodModifierNode(asString(ctx));
+        return new QueenInterfaceMethodModifierNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
     public QueenAnnotationElementModifierNode visitAnnotationTypeElementModifier(QueenParser.AnnotationTypeElementModifierContext ctx) {
-        return new QueenAnnotationElementModifierNode(asString(ctx));
+        return new QueenAnnotationElementModifierNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
     public QueenClassExtensionModifierNode visitClassAbstractOrFinal(QueenParser.ClassAbstractOrFinalContext ctx) {
-        return new QueenClassExtensionModifierNode(asString(ctx));
+        return new QueenClassExtensionModifierNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
     public QueenInterfaceModifierNode visitInterfaceModifier(QueenParser.InterfaceModifierContext ctx) {
-        return new QueenInterfaceModifierNode(asString(ctx));
+        return new QueenInterfaceModifierNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
     public QueenFieldModifierNode visitFieldModifier(QueenParser.FieldModifierContext ctx) {
-        return new QueenFieldModifierNode(asString(ctx));
+        return new QueenFieldModifierNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
     public QueenConstantModifierNode visitConstantModifier(QueenParser.ConstantModifierContext ctx) {
-        return new QueenConstantModifierNode(asString(ctx));
+        return new QueenConstantModifierNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
     public QueenConstructorModifierNode visitConstructorModifier(QueenParser.ConstructorModifierContext ctx) {
         if(ctx != null) {
-            return new QueenConstructorModifierNode(asString(ctx));
+            return new QueenConstructorModifierNode(getPosition(ctx), asString(ctx));
         }
         return null;
     }
@@ -267,7 +274,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenAnnotationNode visitAnnotation(QueenParser.AnnotationContext ctx) {
         if(ctx.markerAnnotation() != null) {
-            return new QueenMarkerAnnotationNode(asString(ctx.markerAnnotation().typeName()));
+            return new QueenMarkerAnnotationNode(getPosition(ctx), asString(ctx.markerAnnotation().typeName()));
         } else if(ctx.normalAnnotation() != null) {
             final Map<String, String> pairs = new HashMap<>();
             ctx.normalAnnotation()
@@ -280,11 +287,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     )
                 );
             return new QueenNormalAnnotationNode(
+                getPosition(ctx),
                 asString(ctx.normalAnnotation().typeName()),
                 pairs
             );
         } else if(ctx.singleElementAnnotation() != null) {
             return new QueenSingleMemberAnnotationNode(
+                getPosition(ctx),
                 asString(ctx.singleElementAnnotation().typeName()),
                 asString(ctx.singleElementAnnotation().elementValue())
             );
@@ -340,6 +349,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
 
         return new QueenFieldDeclarationNode(
+            getPosition(ctx),
             annotations,
             modifiers,
             asString(ctx.unannType()),
@@ -373,6 +383,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
 
         return new QueenConstantDeclarationNode(
+            getPosition(ctx),
             annotations,
             modifiers,
             asString(ctx.unannType()),
@@ -424,6 +435,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             queenBlockStatements = null;
         }
         return new QueenConstructorDeclarationNode(
+            getPosition(ctx),
             annotations,
             this.visitConstructorModifier(ctx.constructorModifier()),
             typeParams,
@@ -477,6 +489,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
         return new QueenMethodDeclarationNode(
+            getPosition(ctx),
             annotations,
             modifiers,
             returnType,
@@ -531,6 +544,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
         return new QueenInterfaceMethodDeclarationNode(
+            getPosition(ctx),
             annotations,
             modifiers,
             returnType,
@@ -544,7 +558,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenInitializerExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
-        return new QueenTextExpressionNode(asString(ctx));
+        return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
@@ -559,17 +573,18 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                         annotations.add(this.visitAnnotation(v.annotation()));
                     }
                     if(v.MUTABLE() != null) {
-                        modifiers.add(new QueenParameterModifierNode(v.MUTABLE().getText()));
+                        modifiers.add(new QueenParameterModifierNode(getPosition(v), v.MUTABLE().getText()));
                     }
                 }
             );
         }
         if(modifiers.isEmpty()) {
-            modifiers.add(new QueenParameterModifierNode("final"));
+            modifiers.add(new QueenParameterModifierNode(getPosition(ctx),"final"));
         }
         final String type = asString(ctx.unannType());
         final String name = asString(ctx.variableDeclaratorId());
         return new QueenParameterNode(
+            getPosition(ctx),
             annotations,
             modifiers,
             type,
@@ -593,13 +608,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                         annotations.add(this.visitAnnotation(v.annotation()));
                     }
                     if(v.MUTABLE() != null) {
-                        modifiers.add(new QueenParameterModifierNode(v.MUTABLE().getText()));
+                        modifiers.add(new QueenParameterModifierNode(getPosition(v), v.MUTABLE().getText()));
                     }
                 }
             );
         }
         if(modifiers.isEmpty()) {
-            modifiers.add(new QueenParameterModifierNode("final"));
+            modifiers.add(new QueenParameterModifierNode(getPosition(ctx),"final"));
         }
 
         final String type = asString(ctx.unannType());
@@ -610,6 +625,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
         return new QueenParameterNode(
+            getPosition(ctx),
             annotations,
             modifiers,
             type,
@@ -621,7 +637,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExplicitConstructorInvocationNode visitExplicitConstructorInvocation(QueenParser.ExplicitConstructorInvocationContext ctx) {
-        return new QueenExplicitConstructorInvocationNode(asString(ctx));
+        return new QueenExplicitConstructorInvocationNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
@@ -635,6 +651,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 if(bs.localVariableDeclarationStatement() != null) {
                     blockStatements.add(
                         new QueenTextStatementNode(
+                            getPosition(bs.localVariableDeclarationStatement()),
                             asString(bs.localVariableDeclarationStatement())
                         )
                     );
@@ -642,25 +659,27 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 if(bs.statement() != null) {
                     blockStatements.add(
                         new QueenTextStatementNode(
+                            getPosition(bs.statement()),
                             asString(bs.statement())
                         )
                     );
                 }
             }
         );
-        return new QueenBlockStatements(blockStatements);
+        return new QueenBlockStatements(getPosition(ctx), blockStatements);
     }
 
     @Override
     public QueenInstanceInitializerNode visitInstanceInitializer(QueenParser.InstanceInitializerContext ctx) {
         return new QueenInstanceInitializerNode(
-            this.visitBlockStatements(ctx.block().blockStatements())
+            getPosition(ctx), this.visitBlockStatements(ctx.block().blockStatements())
         );
     }
 
     @Override
     public QueenInstanceInitializerNode visitStaticInitializer(QueenParser.StaticInitializerContext ctx) {
         return new QueenInstanceInitializerNode(
+            getPosition(ctx),
             this.visitBlockStatements(ctx.block().blockStatements()),
             true
         );
@@ -674,7 +693,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 imd -> members.add(this.visitInterfaceMemberDeclaration(imd))
             );
         }
-        return new QueenInterfaceBodyNode(members);
+        return new QueenInterfaceBodyNode(getPosition(ctx), members);
     }
 
     @Override
@@ -685,7 +704,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 amd -> members.add(this.visitAnnotationTypeMemberDeclaration(amd))
             );
         }
-        return new QueenAnnotationTypeBodyNode(members);
+        return new QueenAnnotationTypeBodyNode(getPosition(ctx), members);
     }
 
     @Override
@@ -725,6 +744,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         final String type = asString(ctx.unannType());
         final String name = ctx.Identifier().getText();
         return new QueenAnnotationElementDeclarationNode(
+            this.getPosition(ctx),
             annotations,
             modifiers,
             type,
@@ -750,5 +770,38 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     ctx.stop.getStopIndex()
                 )
             );
+    }
+
+    /**
+     * Get the position of a ParseTree node.
+     * @param ctx ParseTree node from ANTLR.
+     * @return Position, never null.
+     */
+    private Position getPosition(final ParserRuleContext ctx) {
+        final int line;
+        final int column;
+        if(ctx == null) {
+            line = -1;
+            column = -1;
+        } else {
+            line = ctx.getStart().getLine();
+            column = ctx.getStart().getCharPositionInLine();
+        }
+        return new Position() {
+            @Override
+            public int line() {
+                return line;
+            }
+
+            @Override
+            public int column() {
+                return column;
+            }
+
+            @Override
+            public String toString() {
+                return this.line() + ":" + this.column();
+            }
+        };
     }
 }

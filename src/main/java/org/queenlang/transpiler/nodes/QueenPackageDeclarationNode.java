@@ -43,15 +43,25 @@ import java.util.function.Supplier;
 public final class QueenPackageDeclarationNode implements QueenNode {
 
     /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
      * The package's name.
      */
     private final String packageName;
 
     /**
      * Ctor.
+     * @param position Position in the original source code.
      * @param packageName Supplier giving us the package's name.
      */
-    public QueenPackageDeclarationNode(final Supplier<String> packageName) {
+    public QueenPackageDeclarationNode(
+        final Position position,
+        final Supplier<String> packageName
+    ) {
+        this.position = position;
         this.packageName = packageName.get();
     }
 

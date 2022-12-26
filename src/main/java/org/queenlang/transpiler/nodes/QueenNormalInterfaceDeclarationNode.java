@@ -44,6 +44,12 @@ import java.util.List;
  * @todo #10:60min Don't forget to write some unit tests here.
  */
 public final class QueenNormalInterfaceDeclarationNode implements QueenInterfaceDeclarationNode {
+
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
     /**
      * Annotations on top of this interface.
      */
@@ -84,6 +90,7 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
      * @param body The body.
      */
     public QueenNormalInterfaceDeclarationNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenInterfaceModifierNode> modifiers,
         final String name,
@@ -91,6 +98,7 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
         final List<String> extendsTypes,
         final QueenInterfaceBodyNode body
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.name = name;

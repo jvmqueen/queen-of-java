@@ -42,6 +42,12 @@ import java.util.Map;
  * @todo #33:30min Class QueenConstantDeclarationNode needs unit tests.
  */
 public final class QueenConstantDeclarationNode implements QueenInterfaceMemberDeclarationNode {
+
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
     /**
      * Annotations on top of this constant declaration.
      */
@@ -63,11 +69,13 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     private final Map<String, QueenInitializerExpressionNode> variables;
 
     public QueenConstantDeclarationNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenConstantModifierNode> modifiers,
         final String type,
         final Map<String, QueenInitializerExpressionNode> variables
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.type = type;

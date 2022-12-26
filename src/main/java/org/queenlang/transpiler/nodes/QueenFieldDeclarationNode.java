@@ -43,6 +43,11 @@ import java.util.Map;
 public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarationNode {
 
     /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
      * Annotations on top of this field.
      */
     private final List<QueenAnnotationNode> annotations;
@@ -63,11 +68,13 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
     private final Map<String, QueenInitializerExpressionNode> variables;
 
     public QueenFieldDeclarationNode(
+        final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenFieldModifierNode> modifiers,
         final String type,
         final Map<String, QueenInitializerExpressionNode> variables
     ) {
+        this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.type = type;

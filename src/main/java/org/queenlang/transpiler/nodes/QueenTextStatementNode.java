@@ -38,9 +38,11 @@ import com.github.javaparser.ast.stmt.Statement;
  */
 public final class QueenTextStatementNode implements QueenStatementNode {
 
+    private final Position position;
     private final String statement;
 
-    public QueenTextStatementNode(final String statement) {
+    public QueenTextStatementNode(final Position position, final String statement) {
+        this.position = position;
         this.statement = statement;
     }
 

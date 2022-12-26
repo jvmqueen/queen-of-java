@@ -39,6 +39,11 @@ import com.github.javaparser.ast.Node;
 public final class QueenImportDeclarationNode implements QueenNode {
 
     /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
      * Is it a static import or not?
      */
     private final boolean staticImport;
@@ -55,15 +60,18 @@ public final class QueenImportDeclarationNode implements QueenNode {
 
     /**
      * Ctor.
+     * @param position Position in the original source code.
      * @param importDeclaration Type name.
      * @param staticImport Is it a static import or not?
      * @param asteriskImport Is it an asterysk import or not?
      */
     public QueenImportDeclarationNode(
+        final Position position,
         final String importDeclaration,
         final boolean staticImport,
         final boolean asteriskImport
     ) {
+        this.position = position;
         this.importDeclaration = importDeclaration;
         this.staticImport = staticImport;
         this.asteriskImport = asteriskImport;

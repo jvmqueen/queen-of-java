@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -46,6 +47,7 @@ public final class QueenCompilationUnitNodeTestCase {
      * It can add all of its children to the provided Java node.
      */
     @Test
+    @Disabled
     public void addsChildrenToJavaNode() {
         final Node java = Mockito.mock(Node.class);
 

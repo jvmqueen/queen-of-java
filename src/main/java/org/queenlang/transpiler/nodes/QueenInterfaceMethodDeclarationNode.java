@@ -141,4 +141,9 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     public String name() {
         return this.name;
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

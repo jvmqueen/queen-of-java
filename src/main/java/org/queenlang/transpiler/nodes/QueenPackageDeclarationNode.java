@@ -71,4 +71,9 @@ public final class QueenPackageDeclarationNode implements QueenNode {
             ((CompilationUnit) java).setPackageDeclaration(this.packageName);
         }
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

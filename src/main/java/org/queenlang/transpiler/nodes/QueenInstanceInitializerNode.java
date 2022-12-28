@@ -80,4 +80,9 @@ public final class QueenInstanceInitializerNode implements QueenClassBodyDeclara
             this.blockStatements.addToJavaNode(clazz.addInitializer());
         }
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

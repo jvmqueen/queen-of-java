@@ -81,4 +81,9 @@ public final class QueenImportDeclarationNode implements QueenNode {
     public void addToJavaNode(final Node java) {
         ((CompilationUnit) java).addImport(this.importDeclaration, this.staticImport, this.asteriskImport);
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

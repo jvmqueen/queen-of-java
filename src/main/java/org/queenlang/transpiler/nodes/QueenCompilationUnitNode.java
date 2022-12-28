@@ -66,4 +66,9 @@ public final class QueenCompilationUnitNode implements QueenNode {
     public QueenTypeDeclarationNode typeDeclaration() {
         return this.typeDeclarations.get(0);
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

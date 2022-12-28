@@ -34,7 +34,6 @@ import com.github.javaparser.ast.Node;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:60min Implement method position() in all implementor classes.
  */
 public interface QueenNode {
 
@@ -43,5 +42,9 @@ public interface QueenNode {
      */
     void addToJavaNode(final Node java);
 
-    default Position position() {return null;}
+    /**
+     * Position of this QueenNode in the original source code.
+     * @return Position.
+     */
+    Position position();
 }

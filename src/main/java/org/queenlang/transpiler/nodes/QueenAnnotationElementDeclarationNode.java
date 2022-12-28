@@ -109,6 +109,11 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
     }
 
     @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
     public String name() {
         return this.name;
     }

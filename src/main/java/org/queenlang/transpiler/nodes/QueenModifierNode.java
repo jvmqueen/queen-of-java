@@ -57,5 +57,9 @@ public abstract class QueenModifierNode implements QueenNode {
         return Modifier.Keyword.valueOf(this.modifier.toUpperCase());
     }
 
+    @Override
+    public Position position() {
+        return this.position;
+    }
 
 }

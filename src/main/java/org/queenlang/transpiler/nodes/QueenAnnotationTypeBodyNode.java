@@ -46,9 +46,15 @@ public final class QueenAnnotationTypeBodyNode implements QueenNode{
         this.annotationMemberDeclarations = annotationMemberDeclarations;
     }
 
+    @Override
     public void addToJavaNode(final Node java) {
         this.annotationMemberDeclarations.forEach(
             amd -> amd.addToJavaNode(java)
         );
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
     }
 }

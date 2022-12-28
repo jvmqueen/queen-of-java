@@ -57,4 +57,9 @@ public final class QueenExplicitConstructorInvocationNode implements QueenStatem
     public Statement asJavaStatement() {
         return StaticJavaParser.parseExplicitConstructorInvocationStmt(this.explicitConstructorInvocation);
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

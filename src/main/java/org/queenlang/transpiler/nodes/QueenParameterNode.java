@@ -82,4 +82,9 @@ public final class QueenParameterNode implements QueenNode{
         );
         ((NodeWithParameters) java).addParameter(parameter);
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

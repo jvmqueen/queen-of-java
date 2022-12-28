@@ -63,6 +63,10 @@ public final class QueenCompilationUnitNode implements QueenNode {
         this.typeDeclarations.forEach(t -> t.addToJavaNode(java));
     }
 
+    public List<QueenImportDeclarationNode> importDeclarations() {
+        return this.importDeclarations;
+    }
+
     public QueenTypeDeclarationNode typeDeclaration() {
         return this.typeDeclarations.get(0);
     }

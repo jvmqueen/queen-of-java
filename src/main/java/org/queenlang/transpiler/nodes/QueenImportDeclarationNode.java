@@ -30,6 +30,11 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 
+import java.util.Objects;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Queen ImportDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -85,5 +90,56 @@ public final class QueenImportDeclarationNode implements QueenNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    public boolean isStaticImport() {
+        return this.staticImport;
+    }
+
+    public boolean isAsteriskImport() {
+        return this.asteriskImport;
+    }
+
+    public String importDeclaration() {
+        return this.importDeclaration;
+    }
+
+    /**
+     * Returns true if this import declaration is already contained by the given
+     * import declaration. Example: this is java.util.List and the given import is
+     * java.util.*: this method will return true.
+     * @param importDeclarationNode Givem import declaration.
+     * @return True if this import declaration is contained by the other import declaration.
+     */
+    public boolean isContainedBy(final QueenImportDeclarationNode importDeclarationNode) {
+        if(this.equals(importDeclarationNode)) {
+            return true;
+        } else {
+            if(importDeclarationNode.isAsteriskImport()) {
+                final Pattern other = Pattern.compile("^" + importDeclarationNode.importDeclaration() + ".*$", Pattern.CASE_INSENSITIVE);
+                final Matcher matcher = other.matcher(this.importDeclaration);
+                if(matcher.find()) {
+                    return this.importDeclaration.split("\\.").length == importDeclarationNode.importDeclaration().split("\\.").length + 1;
+                }
+            }
+            return false;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        QueenImportDeclarationNode that = (QueenImportDeclarationNode) o;
+        return staticImport == that.staticImport && asteriskImport == that.asteriskImport && importDeclaration.equals(that.importDeclaration);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(staticImport, asteriskImport, importDeclaration);
     }
 }

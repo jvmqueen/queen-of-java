@@ -28,7 +28,11 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 
 /**
@@ -56,6 +60,81 @@ public final class QueenImportDeclarationNodeTestCase {
 
         Mockito.verify(java, Mockito.times(1)).addImport(
             "com.example.web", true, false
+        );
+    }
+
+    /**
+     * It can return false if this declaration is not contained by the
+     * given declaration.
+     */
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+            "com.example.web,false,false,com.example.other,false,false",
+            "com.example.web.A,false,false,com.example.web.B,false,false",
+            "com.example.web,true,true,com.example.other,true,true",
+            "com.example.web,true,false,com.example.other,true,false",
+            "com.example.web,false,true,com.example.other,false,true",
+            "com.example.web,false,false,java.util.List,false,false",
+            "com.example.web.ts.A,false,false,com.example.web,false,true"
+        }
+    )
+    public void isContainedByReturnsFalse(
+        String first, boolean firstStatic, boolean firstAsterisk,
+        String second, boolean secondStatic, boolean secondAsterisk
+    ) {
+        final QueenImportDeclarationNode firstImport = new QueenImportDeclarationNode(
+            Mockito.mock(Position.class),
+            first,
+            firstStatic,
+            firstAsterisk
+        );
+
+        final QueenImportDeclarationNode secondImport = new QueenImportDeclarationNode(
+            Mockito.mock(Position.class),
+            second,
+            secondStatic,
+            secondAsterisk
+        );
+        MatcherAssert.assertThat(
+            firstImport.isContainedBy(secondImport),
+            Matchers.is(false)
+        );
+    }
+
+    /**
+     * It can return true if this declaration is contained by the
+     * given declaration.
+     */
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+            "com.example.web,false,false,com.example.web,false,false",
+            "com.example.web.A,false,false,com.example.web.A,false,false",
+            "com.example.web,true,true,com.example.web,true,true",
+            "com.example.web.A,false,false,com.example.web,false,true"
+        }
+    )
+    public void isContainedByReturnsTrue(
+        String first, boolean firstStatic, boolean firstAsterisk,
+        String second, boolean secondStatic, boolean secondAsterisk
+    ) {
+        final QueenImportDeclarationNode firstImport = new QueenImportDeclarationNode(
+            Mockito.mock(Position.class),
+            first,
+            firstStatic,
+            firstAsterisk
+        );
+
+        final QueenImportDeclarationNode secondImport = new QueenImportDeclarationNode(
+            Mockito.mock(Position.class),
+            second,
+            secondStatic,
+            secondAsterisk
+        );
+        MatcherAssert.assertThat(
+            firstImport.isContainedBy(secondImport),
+            Matchers.is(true)
         );
     }
 

@@ -30,30 +30,23 @@ package org.queenlang.transpiler;
 import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen SementicProblem implementation.
+ * Queen Warning SementicProblem implementation.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSemanticProblem implements SemanticProblem {
+public final class QueenSemanticWarning extends SemanticProblem {
 
-    private final String type;
     private final String message;
     private final Position position;
 
-    public QueenSemanticProblem(
-        final String type,
+    public QueenSemanticWarning(
         final String message,
         final Position position
     ) {
-        this.type = type;
+        super("warning");
         this.message = message;
         this.position = position;
-    }
-
-    @Override
-    public String type() {
-        return this.type;
     }
 
     @Override

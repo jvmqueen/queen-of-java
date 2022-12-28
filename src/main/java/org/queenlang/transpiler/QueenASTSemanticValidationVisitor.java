@@ -43,11 +43,6 @@ import java.util.List;
 public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<List<SemanticProblem>>{
 
     /**
-     * Semantic problems found in the Queen code.
-     */
-    private final List<SemanticProblem> problems = new ArrayList<>();
-
-    /**
      * Name of the Queen file.
      */
     private final String fileName;
@@ -58,20 +53,32 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitQueenCompilationUnitNode(QueenCompilationUnitNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
         if(!node.typeDeclaration().name().equals(this.fileName)) {
-            this.problems.add(
-                new QueenSemanticProblem(
-                    "error",
+            problems.add(
+                new QueenSemanticError(
                     "Declared type (" + node.typeDeclaration().name() + ") does not match the file's name (" + this.fileName + "). ",
                     node.typeDeclaration().position()
                 )
             );
         }
-        //@todo #33:60min Validate imports in a compilation unit.
-        this.problems.addAll(
+        final List<QueenImportDeclarationNode> imports = node.importDeclarations();
+        for(int i=imports.size() - 1; i>=0; i--) {
+            for(int j=0; j<imports.size(); j++) {
+                if(i!= j && imports.get(i).isContainedBy(imports.get(j))) {
+                    problems.add(
+                        new QueenSemanticWarning(
+                            "Type already imported. ",
+                            imports.get(i).position()
+                        )
+                    );
+                }
+            }
+        }
+        problems.addAll(
             this.visitQueenTypeDeclarationNode(node.typeDeclaration())
         );
-        return this.problems;
+        return problems;
     }
 
     @Override

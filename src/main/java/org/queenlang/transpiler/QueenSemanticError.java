@@ -30,23 +30,32 @@ package org.queenlang.transpiler;
 import org.queenlang.transpiler.nodes.Position;
 
 /**
- * A semantiv problem in Queen code.
+ * Queen Error SementicProblem implementation.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public abstract class SemanticProblem {
+public final class QueenSemanticError extends SemanticProblem {
 
-    private final String type;
+    private final String message;
+    private final Position position;
 
-    public SemanticProblem(final String type) {
-        this.type = type;
+    public QueenSemanticError(
+        final String message,
+        final Position position
+    ) {
+        super("error");
+        this.message = message;
+        this.position = position;
     }
 
-
-    public String type() {
-        return this.type;
+    @Override
+    public String message() {
+        return this.message;
     }
-    abstract String message();
-    abstract Position position();
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

@@ -38,11 +38,11 @@ import java.io.*;
 public interface QueenTranspiler {
 
     default String transpile(final File input) throws IOException, QueenTranspilationException {
-        return this.transpile(new FileInputStream(input));
+        return this.transpile(new FileInputStream(input), input.getName());
     }
 
-    default String transpile(final String input) throws IOException, QueenTranspilationException {
-        return this.transpile(new ByteArrayInputStream(input.getBytes()));
+    default String transpile(final String input, final String fileName) throws IOException, QueenTranspilationException {
+        return this.transpile(new ByteArrayInputStream(input.getBytes()), fileName);
     }
 
     /**
@@ -51,6 +51,6 @@ public interface QueenTranspiler {
      * @return Transpiled code.
      * @throws IOException If we cannot read the InputStream.
      */
-    String transpile(final InputStream clazz) throws IOException, QueenTranspilationException;
+    String transpile(final InputStream clazz, final String fileName) throws IOException, QueenTranspilationException;
 
 }

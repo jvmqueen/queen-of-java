@@ -49,4 +49,9 @@ public abstract class SemanticProblem {
     }
     abstract String message();
     abstract Position position();
+
+    @Override
+    public String toString() {
+        return  this.type + " at " + this.position() + ": " + this.message();
+    }
 }

@@ -44,7 +44,7 @@ public final class QueenSemanticWarning extends SemanticProblem {
         final String message,
         final Position position
     ) {
-        super("warning");
+        super("Warning");
         this.message = message;
         this.position = position;
     }

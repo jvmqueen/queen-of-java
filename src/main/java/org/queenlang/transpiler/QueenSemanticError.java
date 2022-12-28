@@ -44,7 +44,7 @@ public final class QueenSemanticError extends SemanticProblem {
         final String message,
         final Position position
     ) {
-        super("error");
+        super("Error");
         this.message = message;
         this.position = position;
     }

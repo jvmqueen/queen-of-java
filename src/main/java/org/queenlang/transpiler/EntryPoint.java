@@ -36,11 +36,12 @@ import java.io.*;
  * @since 0.0.1
  */
 public final class EntryPoint {
-    public static void run(String path) throws IOException, QueenTranspilationException {
+    public static void run(String path, String fileName) throws IOException, QueenTranspilationException {
         final QueenTranspiler transpiler = new JavaQueenTanspiler();
         final String javaClass = transpiler.transpile(
             EntryPoint.class.getClassLoader()
-                .getResourceAsStream(path)
+                .getResourceAsStream(path),
+            fileName
         );
 
         System.out.println("[DEBUG] Transpiled Java Class:");
@@ -59,7 +60,7 @@ public final class EntryPoint {
 //            System.out.println("[DEBUG] Received arg: " + args[0]);
             try {
                 //run(args[0]);
-                run("HelloWorldWrong.queen");
+                run("HelloWorldWrong.queen", "HelloWorldWrong.queen");
             } catch (IOException e) {
                 e.printStackTrace();
             }

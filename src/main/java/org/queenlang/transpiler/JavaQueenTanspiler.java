@@ -34,12 +34,15 @@ import com.github.javaparser.printer.configuration.DefaultPrinterConfiguration;
 import org.antlr.v4.runtime.*;
 import org.queenlang.generated.antlr4.QueenLexer;
 import org.queenlang.generated.antlr4.QueenParser;
+import org.queenlang.transpiler.nodes.QueenCompilationUnitNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen-to-Java transpiler, implemented with JavaParser.
@@ -49,7 +52,7 @@ import java.io.InputStreamReader;
  */
 public final class JavaQueenTanspiler implements QueenTranspiler {
     @Override
-    public String transpile(final InputStream clazz) throws IOException, QueenTranspilationException {
+    public String transpile(final InputStream clazz, final String fileName) throws IOException, QueenTranspilationException {
         final String input = this.inputToString(clazz);
 
         final QueenLexer lexer = new QueenLexer(
@@ -58,22 +61,28 @@ public final class JavaQueenTanspiler implements QueenTranspiler {
         final QueenParser parser = new QueenParser(
             new CommonTokenStream(lexer)
         );
-        final QueenAntlrErrorListener errorListener = new QueenAntlrErrorListener();
-        parser.addErrorListener(errorListener);
+        final QueenAntlrErrorListener parsingErrorListener = new QueenAntlrErrorListener();
+        parser.addErrorListener(parsingErrorListener);
 
         final QueenParseTreeVisitor visitor = new QueenParseTreeVisitor();
-        final QueenNode queenCompilationUnitNode = visitor.visitCompilationUnit(
+        final QueenCompilationUnitNode queenCompilationUnitNode = visitor.visitCompilationUnit(
             parser.compilationUnit()
         );
 
-        if(errorListener.errors().size() > 0) {
-            throw new QueenTranspilationException(errorListener.errors());
+        if(parsingErrorListener.errors().size() > 0) {
+            throw new QueenTranspilationException(parsingErrorListener.errors());
         } else {
-            final CompilationUnit javaCompilationUnit  = new CompilationUnit();
-            queenCompilationUnitNode.addToJavaNode(javaCompilationUnit);
-            final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
-            this.reparseJavaClass(javaClass);
-            return javaClass;
+            final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor(fileName);
+            final List<SemanticProblem> problems = validator.visitQueenCompilationUnitNode(queenCompilationUnitNode);
+            if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
+                throw new QueenTranspilationException(problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
+            } else {
+                final CompilationUnit javaCompilationUnit  = new CompilationUnit();
+                queenCompilationUnitNode.addToJavaNode(javaCompilationUnit);
+                final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
+                this.reparseJavaClass(javaClass);
+                return javaClass;
+            }
         }
     }
 

@@ -54,7 +54,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitQueenCompilationUnitNode(QueenCompilationUnitNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        if(!node.typeDeclaration().name().equals(this.fileName)) {
+        if(!node.typeDeclaration().name().equals(this.fileName) && !(node.typeDeclaration().name() + ".queen").equals(this.fileName)) {
             problems.add(
                 new QueenSemanticError(
                     "Declared type (" + node.typeDeclaration().name() + ") does not match the file's name (" + this.fileName + "). ",

@@ -65,7 +65,7 @@ public final class QueenTranspilerTestCase {
         final String javaClass = this.readTestResource(javaOuput);
         final QueenTranspiler transpiler = new JavaQueenTanspiler();
         MatcherAssert.assertThat(
-            transpiler.transpile(queenClass),
+            transpiler.transpile(queenClass, queenInput),
             Matchers.equalTo(javaClass)
         );
         StaticJavaParser.parse(javaClass);

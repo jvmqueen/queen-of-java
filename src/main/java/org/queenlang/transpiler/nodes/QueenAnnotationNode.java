@@ -50,6 +50,12 @@ public abstract class QueenAnnotationNode implements Named, QueenNode {
         this.name = name;
     }
 
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
     public String name() {
         return this.name;
     }

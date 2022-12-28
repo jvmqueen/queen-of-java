@@ -17,4 +17,9 @@ public final class QueenTextExpressionNode implements QueenInitializerExpression
     public Expression asJavaExpression() {
         return StaticJavaParser.parseExpression(this.expression);
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

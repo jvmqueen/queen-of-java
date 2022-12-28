@@ -50,9 +50,15 @@ public final class QueenClassBodyNode implements QueenNode {
         this.classBodyDeclarations = classBodyDeclarations;
     }
 
+    @Override
     public void addToJavaNode(final Node java) {
         this.classBodyDeclarations.forEach(
             cbd -> cbd.addToJavaNode(java)
         );
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
     }
 }

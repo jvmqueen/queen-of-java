@@ -63,4 +63,9 @@ public final class QueenBlockStatements implements QueenNode, Iterable<QueenBloc
             bs -> bs.addToJavaNode((BlockStmt) java)
         );
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

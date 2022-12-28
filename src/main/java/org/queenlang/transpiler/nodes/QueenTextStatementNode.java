@@ -50,4 +50,9 @@ public final class QueenTextStatementNode implements QueenStatementNode {
     public Statement asJavaStatement() {
         return StaticJavaParser.parseStatement(this.statement);
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

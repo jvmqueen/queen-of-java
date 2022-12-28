@@ -50,9 +50,15 @@ public final class QueenInterfaceBodyNode implements QueenNode {
         this.interfaceMemberDeclarations = interfaceMemberDeclarations;
     }
 
+    @Override
     public void addToJavaNode(final Node java) {
         this.interfaceMemberDeclarations.forEach(
             imd -> imd.addToJavaNode(java)
         );
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
     }
 }

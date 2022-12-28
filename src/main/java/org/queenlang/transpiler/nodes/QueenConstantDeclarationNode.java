@@ -101,4 +101,9 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     public String name() {
         return String.join(" ", this.variables.keySet());
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

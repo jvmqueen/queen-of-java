@@ -101,4 +101,9 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
     public String name() {
         return String.join(" ", this.variables.keySet());
     }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

@@ -106,6 +106,11 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
         return this.name;
     }
 
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
     /**
      * Turn it into a JavaParser annotation declaration.
      * @return AnnotationDeclaration.

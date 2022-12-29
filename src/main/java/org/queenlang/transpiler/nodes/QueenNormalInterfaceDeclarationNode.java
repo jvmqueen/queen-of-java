@@ -58,7 +58,7 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     /**
      * Modifiers of this interface.
      */
-    private final List<QueenInterfaceModifierNode> modifiers;
+    private final List<QueenModifierNode> modifiers;
 
     /**
      * Name of this type.
@@ -92,7 +92,7 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     public QueenNormalInterfaceDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenInterfaceModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String name,
         final List<String> typeParams,
         final List<String> extendsTypes,
@@ -150,5 +150,10 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
         this.body.addToJavaNode(inter);
 
         return inter;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.modifiers;
     }
 }

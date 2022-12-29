@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import java.util.List;
+
 /**
  * Queen TypeDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -37,4 +39,11 @@ package org.queenlang.transpiler.nodes;
  * @todo #8:60min Handle the TypeBody AST node further.
  */
 public interface QueenTypeDeclarationNode extends Named, QueenNode {
+
+    /**
+     * Get the modifiers list of this type declaration.
+     * @return List of QueenModifier.
+     */
+    List<QueenModifierNode> modifiers();
+
 }

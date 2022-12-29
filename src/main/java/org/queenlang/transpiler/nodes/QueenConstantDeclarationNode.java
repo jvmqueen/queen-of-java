@@ -56,7 +56,7 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     /**
      * Access modifiers of this constant declaration.
      */
-    private final List<QueenConstantModifierNode> modifiers;
+    private final List<QueenModifierNode> modifiers;
 
     /**
      * Type of the constant declaration.
@@ -71,7 +71,7 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     public QueenConstantDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenConstantModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String type,
         final Map<String, QueenInitializerExpressionNode> variables
     ) {

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public final class QueenParameterNode implements QueenNode{
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
-    private final List<QueenParameterModifierNode> modifiers;
+    private final List<QueenModifierNode> modifiers;
     private final String name;
     private final String type;
     private final List<String> varArgsAnnotations;
@@ -29,7 +29,7 @@ public final class QueenParameterNode implements QueenNode{
     public QueenParameterNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenParameterModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String type,
         final String name
     ) {
@@ -39,7 +39,7 @@ public final class QueenParameterNode implements QueenNode{
     public QueenParameterNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenParameterModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String type,
         final String name,
         final boolean varArgs
@@ -50,7 +50,7 @@ public final class QueenParameterNode implements QueenNode{
     public QueenParameterNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenParameterModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String type,
         final String name,
         final List<String> varArgsAnnotations,

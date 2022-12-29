@@ -55,7 +55,7 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
     /**
      * Modifiers of this element.
      */
-    private final List<QueenAnnotationElementModifierNode> modifiers;
+    private final List<QueenModifierNode> modifiers;
 
     /**
      * Type of this annotation element.
@@ -76,7 +76,7 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
     public QueenAnnotationElementDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenAnnotationElementModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String type,
         final String name,
         final String defaultValue

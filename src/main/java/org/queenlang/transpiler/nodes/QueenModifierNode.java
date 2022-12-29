@@ -28,6 +28,10 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
+
+import java.util.Objects;
 
 /**
  * Queen modifier node used in interfaces, classes, methods, fields etc.
@@ -36,7 +40,7 @@ import com.github.javaparser.ast.Modifier;
  * @since 0.0.1
  * @todo #10:30min We need unit tests for all subclasses of QueenModifierNode.
  */
-public abstract class QueenModifierNode implements QueenNode {
+public final class QueenModifierNode implements QueenNode {
 
     /**
      * Position in the original source code.
@@ -53,8 +57,15 @@ public abstract class QueenModifierNode implements QueenNode {
         this.modifier = modifier;
     }
 
-    public Modifier.Keyword modifier() {
-        return Modifier.Keyword.valueOf(this.modifier.toUpperCase());
+    public String modifier() {
+        return this.modifier.toLowerCase();
+    }
+
+    @Override
+    public void addToJavaNode(final Node java) {
+        ((NodeWithModifiers) java).addModifier(
+            Modifier.Keyword.valueOf(this.modifier.toUpperCase())
+        );
     }
 
     @Override
@@ -62,4 +73,20 @@ public abstract class QueenModifierNode implements QueenNode {
         return this.position;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        QueenModifierNode that = (QueenModifierNode) o;
+        return modifier.equals(that.modifier);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(modifier);
+    }
 }

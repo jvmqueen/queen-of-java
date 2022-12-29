@@ -58,7 +58,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
     /**
      * Access modifiers of this method.
      */
-    private final List<QueenMethodModifierNode> modifiers;
+    private final List<QueenModifierNode> modifiers;
 
     /**
      * Return type.
@@ -93,7 +93,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
     public QueenMethodDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenMethodModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String returnType,
         final List<String> typeParams,
         final String name,

@@ -56,7 +56,7 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
     /**
      * Access modifiers of this field.
      */
-    private final List<QueenFieldModifierNode> modifiers;
+    private final List<QueenModifierNode> modifiers;
 
     /**
      * Type of the field declaration.
@@ -71,7 +71,7 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
     public QueenFieldDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenFieldModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String type,
         final Map<String, QueenInitializerExpressionNode> variables
     ) {

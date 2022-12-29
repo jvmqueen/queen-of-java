@@ -30,7 +30,9 @@ package org.queenlang.transpiler;
 import org.queenlang.transpiler.nodes.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * AST Visitor for semantix/contextual validation of Queen code.
@@ -83,231 +85,249 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitQueenTypeDeclarationNode(QueenTypeDeclarationNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<QueenModifierNode> modifiers = node.modifiers();
+        if(modifiers != null && modifiers.size() > 0) {
+            final List<String> allowedModifiers = List.of("public", "abstract", "strictfp");
+            final Set<QueenModifierNode> unique = new HashSet<>();
+            modifiers.forEach(m -> {
+                final String modifierString = m.modifier();
+                if(!allowedModifiers.contains(modifierString)) {
+                    problems.add(
+                        new QueenSemanticError(
+                            "Modifier '" + modifierString + "' not allowed here.",
+                            m.position()
+                        )
+                    );
+                } else {
+                    final boolean added = unique.add(m);
+                    if(!added) {
+                        problems.add(
+                            new QueenSemanticError(
+                                "Modifier '" + modifierString + "' already present.",
+                                m.position()
+                            )
+                        );
+                    }
+                }
+            });
+        }
+        if(node instanceof QueenClassDeclarationNode) {
+            problems.addAll(
+                this.visitQueenClassDeclarationNode(
+                    (QueenClassDeclarationNode) node
+                )
+            );
+        } else if(node instanceof QueenInterfaceDeclarationNode) {
+            problems.addAll(
+                this.visitQueenInterfaceDeclarationNode(
+                    (QueenInterfaceDeclarationNode) node
+                )
+            );
+        }
+        return problems;
     }
 
     @Override
     public List<SemanticProblem> visitQueenAnnotationElementDeclarationNode(QueenAnnotationElementDeclarationNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenAnnotationElementModifierNode(QueenAnnotationElementModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenAnnotationNode(QueenAnnotationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenAnnotationTypeBodyNode(QueenAnnotationTypeBodyNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenAnnotationTypeDeclarationNode(QueenAnnotationTypeDeclarationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenAnnotationTypeMemberDeclarationNode(QueenAnnotationTypeMemberDeclarationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenBlockStatementNode(QueenBlockStatementNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenBlockStatementsNode(QueenBlockStatements node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenClassAccessModifierNode(QueenClassAccessModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenClassBodyDeclarationNode(QueenClassBodyDeclarationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenClassBodyNode(QueenClassBodyNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenClassDeclarationNode(QueenClassDeclarationNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenClassExtensionModifierNode(QueenClassExtensionModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenClassMemberDeclarationNode(QueenClassMemberDeclarationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenConstantDeclarationNode(QueenConstantDeclarationNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenConstantModifierNode(QueenConstantModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenConstructorDeclarationNode(QueenConstructorDeclarationNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenConstructorModifierNode(QueenConstructorModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenExplicitConstructorInvocationNode(QueenExplicitConstructorInvocationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenExpressionNode(QueenExpressionNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenFieldDeclarationNode(QueenFieldDeclarationNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenFieldModifierNode(QueenFieldModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenImportDeclarationNode(QueenImportDeclarationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenInitializerExpressionNode(QueenInitializerExpressionNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenInstanceInitializerNode(QueenInstanceInitializerNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenInterfaceBodyNode(QueenInterfaceBodyNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenInterfaceDeclarationNode(QueenInterfaceDeclarationNode node) {
-        return null;
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<QueenModifierNode> modifiers = node.modifiers();
+        modifiers.forEach(
+            m -> {
+                final String modifierString = m.modifier();
+                if("abstract".equalsIgnoreCase(modifierString)) {
+                    problems.add(
+                        new QueenSemanticWarning(
+                            "Modifier '" + modifierString + "' is redundant here.",
+                            m.position()
+                        )
+                    );
+                }
+            }
+        );
+        if(node instanceof QueenNormalInterfaceDeclarationNode) {
+            problems.addAll(
+                this.visitQueenNormalInterfaceDeclarationNode(
+                    (QueenNormalInterfaceDeclarationNode) node
+                )
+            );
+        } else if(node instanceof QueenAnnotationTypeDeclarationNode) {
+            problems.addAll(
+                this.visitQueenAnnotationTypeDeclarationNode(
+                    (QueenAnnotationTypeDeclarationNode) node
+                )
+            );
+        }
+        return problems;
     }
 
     @Override
     public List<SemanticProblem> visitQueenInterfaceMemberDeclarationNode(QueenInterfaceMemberDeclarationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenInterfaceMethodDeclarationNode(QueenInterfaceMethodDeclarationNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenInterfaceMethodModifierNode(QueenInterfaceMethodModifierNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenInterfaceModifierNode(QueenInterfaceModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenMarkerAnnotationNode(QueenMarkerAnnotationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenMethodDeclarationNode(QueenMethodDeclarationNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenMethodModifierNode(QueenMethodModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenModifierNode(QueenModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenNode(QueenNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenNormalAnnotationNode(QueenNormalAnnotationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenNormalInterfaceDeclarationNode(QueenNormalInterfaceDeclarationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenPackageDeclarationNode(QueenPackageDeclarationNode node) {
-        return null;
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenParameterModifierNode(QueenParameterModifierNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenParameterNode(QueenParameterNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenSingleMemberAnnotationNode(QueenSingleMemberAnnotationNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenStatementNode(QueenStatementNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenTextExpressionNode(QueenTextExpressionNode node) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<SemanticProblem> visitQueenTextStatementNode(QueenTextStatementNode node) {
-        return null;
+        return new ArrayList<>();
     }
 }

@@ -48,7 +48,7 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
 
     private final List<QueenNode> annotations;
 
-    private final QueenConstructorModifierNode modifier;
+    private final QueenModifierNode modifier;
 
     private final List<String> typeParams;
 
@@ -65,7 +65,7 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
     public QueenConstructorDeclarationNode(
         final Position position,
         final List<QueenNode> annotations,
-        final QueenConstructorModifierNode modifier,
+        final QueenModifierNode modifier,
         final List<String> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,

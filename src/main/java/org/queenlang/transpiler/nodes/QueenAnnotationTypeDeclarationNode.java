@@ -56,7 +56,7 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     /**
      * Modifiers of this annotation.
      */
-    private final List<QueenInterfaceModifierNode> modifiers;
+    private final List<QueenModifierNode> modifiers;
 
     /**
      * Name of this type.
@@ -79,7 +79,7 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     public QueenAnnotationTypeDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenInterfaceModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String name,
         final QueenAnnotationTypeBodyNode body
     ) {
@@ -109,6 +109,11 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.modifiers;
     }
 
     /**

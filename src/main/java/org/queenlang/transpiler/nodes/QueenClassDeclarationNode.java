@@ -60,12 +60,12 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     /**
      * Access modifiers of this class.
      */
-    private final List<QueenClassAccessModifierNode> accessModifiers;
+    private final List<QueenModifierNode> accessModifiers;
 
     /**
      * Extension modifier (abstract or final).
      */
-    private final QueenClassExtensionModifierNode extensionModifier;
+    private final QueenModifierNode extensionModifier;
 
     /**
      * Name of this type.
@@ -107,8 +107,8 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     public QueenClassDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenClassAccessModifierNode> accessModifiers,
-        final QueenClassExtensionModifierNode extensionModifier,
+        final List<QueenModifierNode> accessModifiers,
+        final QueenModifierNode extensionModifier,
         final String name,
         final List<String> typeParams,
         final String extendsType,
@@ -174,5 +174,10 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.accessModifiers;
     }
 }

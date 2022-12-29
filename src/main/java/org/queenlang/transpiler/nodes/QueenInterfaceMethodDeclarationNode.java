@@ -58,7 +58,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     /**
      * Access modifiers of this method.
      */
-    private final List<QueenInterfaceMethodModifierNode> modifiers;
+    private final List<QueenModifierNode> modifiers;
 
     /**
      * Return type.
@@ -93,7 +93,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     public QueenInterfaceMethodDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenInterfaceMethodModifierNode> modifiers,
+        final List<QueenModifierNode> modifiers,
         final String returnType,
         final List<String> typeParams,
         final String name,

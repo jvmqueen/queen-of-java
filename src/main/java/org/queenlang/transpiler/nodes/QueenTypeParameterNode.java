@@ -41,6 +41,8 @@ import java.util.stream.Collectors;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #49:60min Finish type perameters for constructors and methods (Replace
+ *  strings with this type).
  */
 public final class QueenTypeParameterNode implements Named, QueenNode {
     /**

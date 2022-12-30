@@ -43,7 +43,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:60min Don't forget to write some unit tests here.
  */
-public final class QueenNormalInterfaceDeclarationNode implements QueenInterfaceDeclarationNode {
+public final class QueenNormalInterfaceDeclarationNode implements QueenInterfaceDeclarationNode, QueenNodeWithTypeParameters {
 
     /**
      * Position in the original source code.
@@ -155,5 +155,10 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     @Override
     public List<QueenModifierNode> modifiers() {
         return this.modifiers;
+    }
+
+    @Override
+    public List<QueenTypeParameterNode> typeParameters() {
+        return this.typeParams;
     }
 }

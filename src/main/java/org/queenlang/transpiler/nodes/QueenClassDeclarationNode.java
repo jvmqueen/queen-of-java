@@ -45,7 +45,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
-public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode, QueenAnnotationTypeMemberDeclarationNode{
+public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenBlockStatementNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode, QueenAnnotationTypeMemberDeclarationNode, QueenNodeWithTypeParameters{
 
     /**
      * Position in the original source code.
@@ -179,5 +179,10 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     @Override
     public List<QueenModifierNode> modifiers() {
         return this.accessModifiers;
+    }
+
+    @Override
+    public List<QueenTypeParameterNode> typeParameters() {
+        return this.typeParams;
     }
 }

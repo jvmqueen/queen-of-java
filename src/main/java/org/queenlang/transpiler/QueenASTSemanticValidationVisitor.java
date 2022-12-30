@@ -134,6 +134,30 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
+    public List<SemanticProblem> visitQueenNodeWithTypeParameters(final QueenNodeWithTypeParameters node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+
+        final List<QueenTypeParameterNode> typeParameters = node.typeParameters();
+        if(typeParameters != null && typeParameters.size() > 0) {
+            final Set<String> unique = new HashSet<>();
+            typeParameters.forEach(
+                tp -> {
+                    if(!unique.add(tp.name())) {
+                        problems.add(
+                            new QueenSemanticError(
+                                "Type parameter '" + tp.name() + "' already present.",
+                                tp.position()
+                            )
+                        );
+                    }
+                }
+            );
+        }
+        //@todo #49:60min Validate boundTypes of each type parameter.
+        return problems;
+    }
+
+    @Override
     public List<SemanticProblem> visitQueenAnnotationElementDeclarationNode(final QueenAnnotationElementDeclarationNode node) {
         return new ArrayList<>();
     }
@@ -180,7 +204,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitQueenClassDeclarationNode(final QueenClassDeclarationNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitQueenNodeWithTypeParameters(node));
+
+        return problems;
     }
 
     @Override
@@ -303,7 +330,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitQueenNormalInterfaceDeclarationNode(final QueenNormalInterfaceDeclarationNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitQueenNodeWithTypeParameters(node));
+
+        return problems;
     }
 
     @Override

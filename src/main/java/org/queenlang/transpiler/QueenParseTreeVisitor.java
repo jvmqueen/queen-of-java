@@ -162,11 +162,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public QueenNormalInterfaceDeclarationNode visitNormalInterfaceDeclaration(QueenParser.NormalInterfaceDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenModifierNode> modifiers = new ArrayList<>();
+        final List<QueenTypeParameterNode> typeParams = new ArrayList<>();
 
-        final List<String> typeParams = new ArrayList<>();
         if(ctx.typeParameters() != null && ctx.typeParameters().typeParameterList() != null) {
             ctx.typeParameters().typeParameterList().typeParameter().forEach(
-                tp -> typeParams.add(asString(tp))
+                tp -> typeParams.add(this.visitTypeParameter(tp))
             );
         }
 

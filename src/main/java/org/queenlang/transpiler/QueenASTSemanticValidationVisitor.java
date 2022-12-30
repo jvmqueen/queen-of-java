@@ -222,7 +222,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitQueenConstructorDeclarationNode(final QueenConstructorDeclarationNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitQueenNodeWithTypeParameters(node));
+
+        return problems;
     }
 
     @Override

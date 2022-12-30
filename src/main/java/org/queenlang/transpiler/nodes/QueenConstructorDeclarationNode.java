@@ -42,7 +42,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenConstructorDeclaration needs unit tests.
  */
-public final class QueenConstructorDeclarationNode implements Named, QueenClassBodyDeclarationNode {
+public final class QueenConstructorDeclarationNode implements Named, QueenClassBodyDeclarationNode, QueenNodeWithTypeParameters {
 
     private final Position position;
 
@@ -50,7 +50,7 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
 
     private final QueenModifierNode modifier;
 
-    private final List<String> typeParams;
+    private final List<QueenTypeParameterNode> typeParams;
 
     private final String name;
 
@@ -66,7 +66,7 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
         final Position position,
         final List<QueenNode> annotations,
         final QueenModifierNode modifier,
-        final List<String> typeParams,
+        final List<QueenTypeParameterNode> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
         final List<String> throwsList,
@@ -96,7 +96,7 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
             p -> p.addToJavaNode(constructor)
         );
         this.typeParams.forEach(
-            tp -> constructor.addTypeParameter(tp)
+            tp -> tp.addToJavaNode(constructor)
         );
         this.throwsList.forEach(
             t -> constructor.addThrownException(
@@ -121,5 +121,10 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenTypeParameterNode> typeParameters() {
+        return this.typeParams;
     }
 }

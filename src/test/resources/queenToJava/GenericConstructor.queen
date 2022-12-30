@@ -1,0 +1,9 @@
+public final implementation GenericConstructor<K extends Comparable, V> of Entry{
+    private K key;
+    private V value;
+
+    public <K extends Comparable, V> MapEntry(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+}

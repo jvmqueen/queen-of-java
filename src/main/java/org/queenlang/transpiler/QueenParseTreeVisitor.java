@@ -392,11 +392,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
         );
-        final List<String> typeParams = new ArrayList<>();
+        final List<QueenTypeParameterNode> typeParams = new ArrayList<>();
         final QueenParser.TypeParametersContext typeParameters = ctx.constructorDeclarator().typeParameters();
         if(typeParameters != null && typeParameters.typeParameterList() != null) {
             typeParameters.typeParameterList().typeParameter().forEach(
-                tp -> typeParams.add(asString(tp))
+                tp -> typeParams.add(this.visitTypeParameter(tp))
             );
         }
         final List<QueenParameterNode> parameters = new ArrayList<>();

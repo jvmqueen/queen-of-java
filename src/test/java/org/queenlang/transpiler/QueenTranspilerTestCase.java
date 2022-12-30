@@ -55,6 +55,7 @@ public final class QueenTranspilerTestCase {
             "ClassWithFields.queen,ClassWithFields.java",
             "EmptyAnnotatedClass.queen,EmptyAnnotatedClass.java",
             "EmptyInterface.queen,EmptyInterface.java",
+            "GenericConstructor.queen,GenericConstructor.java",
             "EmptyAnnotatedInterface.queen,EmptyAnnotatedInterface.java",
             "EmptyInterfaceWithImports.queen,EmptyInterfaceWithImports.java",
             "EmptyInterfaceWithNoPackage.queen,EmptyInterfaceWithNoPackage.java"

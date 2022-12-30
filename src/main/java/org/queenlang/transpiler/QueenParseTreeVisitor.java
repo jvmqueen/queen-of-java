@@ -107,12 +107,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public QueenClassDeclarationNode visitClassDeclaration(QueenParser.ClassDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenModifierNode> accessModifiers = new ArrayList<>();
+        final List<QueenTypeParameterNode> typeParameters = new ArrayList<>();
 
         final String name = ctx.Identifier().getText();
-        final List<String> typeParams = new ArrayList<>();
         if(ctx.typeParameters() != null && ctx.typeParameters().typeParameterList() != null) {
             ctx.typeParameters().typeParameterList().typeParameter().forEach(
-                tp -> typeParams.add(asString(tp))
+                tp -> typeParameters.add(this.visitTypeParameter(tp))
             );
         }
         final List<String> ofTypes = new ArrayList<>();
@@ -137,7 +137,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             accessModifiers,
             this.visitClassAbstractOrFinal(ctx.classAbstractOrFinal()),
             name,
-            typeParams,
+            typeParameters,
             extendsType,
             ofTypes,
             new QueenClassBodyNode(
@@ -746,6 +746,36 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             type,
             name,
             ctx.defaultValue() != null ? asString(ctx.defaultValue().elementValue()) : null
+        );
+    }
+
+    public QueenTypeParameterNode visitTypeParameter(QueenParser.TypeParameterContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final String name = ctx.Identifier().getText();
+        final List<String> typeBound = new ArrayList<>();
+        if(ctx.typeBound() != null) {
+            final QueenParser.TypeBoundContext typeBoundContext = ctx.typeBound();
+            if(typeBoundContext.typeVariable() != null) {
+                typeBound.add(asString(typeBoundContext.typeVariable()));
+            }
+            if(typeBoundContext.classOrInterfaceType() != null) {
+                typeBound.add(asString(typeBoundContext.classOrInterfaceType()));
+            }
+            if(typeBoundContext.additionalBound() != null) {
+                typeBoundContext.additionalBound().forEach(
+                    ab -> typeBound.add(asString(ab.interfaceType()))
+                );
+            }
+        }
+        return new QueenTypeParameterNode(
+            position,
+            annotations,
+            name,
+            typeBound
         );
     }
 

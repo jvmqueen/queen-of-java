@@ -75,7 +75,7 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     /**
      * Class type params.
      */
-    private final List<String> typeParams;
+    private final List<QueenTypeParameterNode> typeParams;
 
     /**
      * Type which is extended.
@@ -110,7 +110,7 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         final List<QueenModifierNode> accessModifiers,
         final QueenModifierNode extensionModifier,
         final String name,
-        final List<String> typeParams,
+        final List<QueenTypeParameterNode> typeParams,
         final String extendsType,
         final List<String> of,
         final QueenClassBodyNode body
@@ -152,7 +152,7 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
         clazz.setName(this.name);
         clazz.removeModifier(Modifier.Keyword.PUBLIC);
-        this.typeParams.forEach(tp -> clazz.addTypeParameter(tp));
+        this.typeParams.forEach(tp -> tp.addToJavaNode(clazz));
         if(this.extendsType != null) {
             clazz.addExtendedType(this.extendsType);
         }

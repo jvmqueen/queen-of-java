@@ -7,7 +7,7 @@ import com.example.other.Other;
 import com.example.other.more.*;
 
 @WithFields
-public final class ClassWithFields<T, K extends Other, V extends Stuff> implements SomeInterface {
+public final class ClassWithFields<T, K extends Other, V extends Stuff, A extends X & Y & Z> implements SomeInterface {
 
     int prot = 0;
 

@@ -478,10 +478,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             queenBlockStatements = null;
         }
         final String returnType = asString(ctx.methodHeader().result());
-        final List<String> typeParams = new ArrayList<>();
+        final List<QueenTypeParameterNode> typeParams = new ArrayList<>();
         if(ctx.methodHeader().typeParameters() != null && ctx.methodHeader().typeParameters().typeParameterList() != null) {
             ctx.methodHeader().typeParameters().typeParameterList().typeParameter().forEach(
-                tp -> typeParams.add(asString(tp))
+                tp -> typeParams.add(this.visitTypeParameter(tp))
             );
         }
         return new QueenMethodDeclarationNode(
@@ -533,10 +533,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             queenBlockStatements = null;
         }
         final String returnType = asString(ctx.methodHeader().result());
-        final List<String> typeParams = new ArrayList<>();
+        final List<QueenTypeParameterNode> typeParams = new ArrayList<>();
         if(ctx.methodHeader().typeParameters() != null && ctx.methodHeader().typeParameters().typeParameterList() != null) {
             ctx.methodHeader().typeParameters().typeParameterList().typeParameter().forEach(
-                tp -> typeParams.add(asString(tp))
+                tp -> typeParams.add(this.visitTypeParameter(tp))
             );
         }
         return new QueenInterfaceMethodDeclarationNode(

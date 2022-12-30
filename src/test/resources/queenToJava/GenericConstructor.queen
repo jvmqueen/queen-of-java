@@ -6,4 +6,14 @@ public final implementation GenericConstructor<K extends Comparable, V> of Entry
         this.key = key;
         this.value = value;
     }
+
+    @Override
+    public <K> boolean contains(K key) {
+        return true;
+    }
+
+    @Override
+    public <R extends V> V get(K key) {
+        return true;
+    }
 }

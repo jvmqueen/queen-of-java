@@ -43,7 +43,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min Unit tests for QueenMethodDeclarationNode are needed.
  */
-public final class QueenInterfaceMethodDeclarationNode implements QueenInterfaceMemberDeclarationNode {
+public final class QueenInterfaceMethodDeclarationNode implements QueenInterfaceMemberDeclarationNode, QueenNodeWithTypeParameters {
 
     /**
      * Position in the original source code.
@@ -68,7 +68,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     /**
      * Method type params.
      */
-    private final List<String> typeParams;
+    private final List<QueenTypeParameterNode> typeParams;
 
     /**
      * Method name.
@@ -95,7 +95,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final String returnType,
-        final List<String> typeParams,
+        final List<QueenTypeParameterNode> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
         final List<String> throwsList,
@@ -119,7 +119,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         method.setType(this.returnType);
         this.annotations.forEach(a -> a.addToJavaNode(method));
         this.modifiers.forEach(m -> m.addToJavaNode(method));
-        this.typeParams.forEach(tp -> method.addTypeParameter(tp));
+        this.typeParams.forEach(tp -> tp.addToJavaNode(method));
         this.parameters.forEach(
             p -> p.addToJavaNode(method)
         );
@@ -145,5 +145,10 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenTypeParameterNode> typeParameters() {
+        return this.typeParams;
     }
 }

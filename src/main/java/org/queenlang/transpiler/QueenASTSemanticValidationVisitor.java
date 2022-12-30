@@ -303,7 +303,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitQueenInterfaceMethodDeclarationNode(final QueenInterfaceMethodDeclarationNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitQueenNodeWithTypeParameters(node));
+
+        return problems;
     }
 
     @Override
@@ -313,7 +316,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitQueenMethodDeclarationNode(final QueenMethodDeclarationNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitQueenNodeWithTypeParameters(node));
+
+        return problems;
     }
 
     @Override

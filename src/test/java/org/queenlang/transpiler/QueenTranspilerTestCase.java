@@ -53,6 +53,7 @@ public final class QueenTranspilerTestCase {
             "Preamble.queen,Preamble.java",
             "YamlMapping.queen,YamlMapping.java",
             "ClassWithFields.queen,ClassWithFields.java",
+            "Collection.queen,Collection.java",
             "EmptyAnnotatedClass.queen,EmptyAnnotatedClass.java",
             "EmptyInterface.queen,EmptyInterface.java",
             "GenericConstructor.queen,GenericConstructor.java",

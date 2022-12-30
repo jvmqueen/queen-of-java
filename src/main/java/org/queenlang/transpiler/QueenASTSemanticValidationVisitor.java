@@ -158,6 +158,21 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
+    public List<SemanticProblem> visitQueenTypeNode(QueenTypeNode node) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<SemanticProblem> visitQueenReferenceTypeNode(QueenReferenceTypeNode node) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<SemanticProblem> visitQueenClassOrInterfaceTypeNode(QueenClassOrInterfaceTypeNode node) {
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<SemanticProblem> visitQueenAnnotationElementDeclarationNode(final QueenAnnotationElementDeclarationNode node) {
         return new ArrayList<>();
     }

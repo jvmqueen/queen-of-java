@@ -76,4 +76,7 @@ public interface QueenASTVisitor<T> {
     T visitQueenTypeDeclarationNode(final QueenTypeDeclarationNode node);
     T visitQueenTypeParameterNode(final QueenTypeParameterNode node);
     T visitQueenNodeWithTypeParameters(final QueenNodeWithTypeParameters node);
+    T visitQueenTypeNode(final QueenTypeNode node);
+    T visitQueenReferenceTypeNode(final QueenReferenceTypeNode node);
+    T visitQueenClassOrInterfaceTypeNode(final QueenClassOrInterfaceTypeNode node);
 }

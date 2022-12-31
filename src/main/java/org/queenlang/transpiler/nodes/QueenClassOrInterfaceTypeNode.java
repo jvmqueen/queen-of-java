@@ -80,7 +80,7 @@ public final class QueenClassOrInterfaceTypeNode implements QueenReferenceTypeNo
     public void addToJavaNode(final Node java) {
         if(java instanceof ClassOrInterfaceDeclaration) {
             final ClassOrInterfaceDeclaration clazz = ((ClassOrInterfaceDeclaration) java);
-            if(this.interfaceType) {
+            if(this.interfaceType && !clazz.isInterface()) {
                 clazz.addImplementedType(this.toClassOrInterfaceType());
             } else {
                 clazz.addExtendedType(this.toClassOrInterfaceType());

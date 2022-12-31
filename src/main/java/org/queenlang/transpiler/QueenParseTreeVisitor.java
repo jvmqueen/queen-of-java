@@ -170,18 +170,15 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
-        final List<String> extendsTypes = new ArrayList<>();
+        final List<QueenClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
         final String name = ctx.Identifier().getText();
         final QueenParser.ExtendsInterfacesContext extendsInterfacesContext = ctx
             .extendsInterfaces();
         if(extendsInterfacesContext != null) {
-            extendsTypes.addAll(
-                extendsInterfacesContext
-                    .interfaceTypeList()
-                    .interfaceType()
-                    .stream()
-                    .map(of -> of.classType().Identifier().getText())
-                    .collect(Collectors.toList())
+            extendsInterfacesContext.interfaceTypeList().interfaceType().forEach(
+                interfaceType -> extendsTypes.add(
+                    this.visitInterfaceType(interfaceType)
+                )
             );
         }
         ctx.annotation().forEach(

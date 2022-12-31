@@ -115,15 +115,15 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 tp -> typeParameters.add(this.visitTypeParameter(tp))
             );
         }
-        final List<String> ofTypes = new ArrayList<>();
+        final List<QueenClassOrInterfaceTypeNode> ofTypes = new ArrayList<>();
         if(ctx.superinterfaces() != null && ctx.superinterfaces().interfaceTypeList() != null) {
             ctx.superinterfaces().interfaceTypeList().interfaceType().forEach(
-                inter -> ofTypes.add(inter.classType().Identifier().getText())
+                inter -> ofTypes.add(this.visitInterfaceType(inter))
             );
         }
-        String extendsType = null;
+        QueenClassOrInterfaceTypeNode extendsType = null;
         if(ctx.superclass() != null) {
-            extendsType = ctx.superclass().classType().Identifier().getText();
+            extendsType = this.visitSuperclass(ctx.superclass());
         }
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
@@ -776,6 +776,38 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             name,
             typeBound
+        );
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitSuperclass(QueenParser.SuperclassContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.classType().annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final String name = ctx.classType().Identifier().getText();
+        return new QueenClassOrInterfaceTypeNode(
+            position,
+            false,
+            annotations,
+            name
+        );
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitInterfaceType(QueenParser.InterfaceTypeContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.classType().annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final String name = ctx.classType().Identifier().getText();
+        return new QueenClassOrInterfaceTypeNode(
+            position,
+            true,
+            annotations,
+            name
         );
     }
 

@@ -1,0 +1,6 @@
+public final implementation ExtendedArrayList extends ArrayList<String>{
+    @Override
+    public String get(int index) {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+}

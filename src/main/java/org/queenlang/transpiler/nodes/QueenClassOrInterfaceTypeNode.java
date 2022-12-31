@@ -28,9 +28,10 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Queen class or interface reference type.
@@ -49,25 +50,58 @@ public final class QueenClassOrInterfaceTypeNode implements QueenReferenceTypeNo
     private final Position position;
 
     /**
+     * Is it an interface type or class type?
+     */
+    private final boolean interfaceType;
+
+    /**
      * Annotations on top of this reference type.
      */
     private final List<QueenAnnotationNode> annotations;
 
+    /**
+     * Name of this reference type.
+     */
+    private final String name;
+
     public QueenClassOrInterfaceTypeNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations
+        final boolean interfaceType,
+        final List<QueenAnnotationNode> annotations,
+        final String name
     ) {
         this.position = position;
+        this.interfaceType = interfaceType;
         this.annotations = annotations;
+        this.name = name;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        //@todo #49:60min Implement this method and replace extends/of strings in Queen class declaration.
+        if(java instanceof ClassOrInterfaceDeclaration) {
+            final ClassOrInterfaceDeclaration clazz = ((ClassOrInterfaceDeclaration) java);
+            if(this.interfaceType) {
+                clazz.addImplementedType(this.toClassOrInterfaceType());
+            } else {
+                clazz.addExtendedType(this.toClassOrInterfaceType());
+            }
+        }
     }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    /**
+     * Turn it into a JavaParser ClassOrInterfaceType.
+     * @return ClassOrInterfaceType.
+     */
+    private ClassOrInterfaceType toClassOrInterfaceType() {
+        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.name);
+        if(this.annotations != null) {
+            this.annotations.forEach(a -> a.addToJavaNode(classOrInterfaceType));
+        }
+        return classOrInterfaceType;
     }
 }

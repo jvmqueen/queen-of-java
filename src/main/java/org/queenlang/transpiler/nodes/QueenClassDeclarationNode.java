@@ -80,12 +80,12 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     /**
      * Type which is extended.
      */
-    private final String extendsType;
+    private final QueenClassOrInterfaceTypeNode extendsType;
 
     /**
      * Interfaces this type implements.
      */
-    private final List<String> of;
+    private final List<QueenClassOrInterfaceTypeNode> of;
 
     /**
      * The body.
@@ -111,8 +111,8 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         final QueenModifierNode extensionModifier,
         final String name,
         final List<QueenTypeParameterNode> typeParams,
-        final String extendsType,
-        final List<String> of,
+        final QueenClassOrInterfaceTypeNode extendsType,
+        final List<QueenClassOrInterfaceTypeNode> of,
         final QueenClassBodyNode body
     ) {
         this.position = position;
@@ -154,10 +154,10 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         clazz.removeModifier(Modifier.Keyword.PUBLIC);
         this.typeParams.forEach(tp -> tp.addToJavaNode(clazz));
         if(this.extendsType != null) {
-            clazz.addExtendedType(this.extendsType);
+            this.extendsType.addToJavaNode(clazz);
         }
         if(this.of != null && this.of.size() > 0) {
-            this.of.forEach(clazz::addImplementedType);
+            this.of.forEach(o -> o.addToJavaNode(clazz));
         }
         this.annotations.forEach(a -> a.addToJavaNode(clazz));
         this.accessModifiers.forEach(am -> am.addToJavaNode(clazz));

@@ -932,8 +932,27 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenTypeNode visitWildcard(QueenParser.WildcardContext ctx) {
-        return null;
+    public QueenWildcardNode visitWildcard(QueenParser.WildcardContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        QueenReferenceTypeNode superType = null;
+        QueenReferenceTypeNode extendedType = null;
+        if(ctx.wildcardBounds() != null) {
+            if(ctx.wildcardBounds().SUPER() != null) {
+                superType = this.visitReferenceType(ctx.wildcardBounds().referenceType());
+            } else if(ctx.wildcardBounds().EXTENDS() != null) {
+                extendedType = this.visitReferenceType(ctx.wildcardBounds().referenceType());
+            }
+        }
+        return new QueenWildcardNode(
+            position,
+            annotations,
+            extendedType,
+            superType
+        );
     }
 
     /**

@@ -29,105 +29,64 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.WildcardType;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen class or interface reference type.
+ * Queen Wildcard Type node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #49:60min Implement other types like primitive, array etc.
  */
-public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeNode {
-
+public final class QueenWildcardNode implements QueenTypeNode {
     /**
      * Position in the original source code.
      */
     private final Position position;
 
     /**
-     * Is it an interface type or class type?
-     */
-    private final boolean interfaceType;
-
-    /**
-     * Scope of this reference type (what comes before the dot). E.g.
-     * java.util.List (util is the scope of List).
-     */
-    private final QueenClassOrInterfaceTypeNode scope;
-
-    /**
-     * Annotations on top of this reference type.
+     * Annotations on top of this wildcard.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Name of this reference type.
+     * Extended type bound.
      */
-    private final String name;
+    private QueenReferenceTypeNode extendedType;
 
     /**
-     * Type arguments of this reference type.
+     * Super type bound.
      */
-    private final List<QueenTypeNode> typeArguments;
+    private QueenReferenceTypeNode superType;
 
-    public QueenClassOrInterfaceTypeNode(
+    public QueenWildcardNode(
         final Position position,
-        final boolean interfaceType,
         final List<QueenAnnotationNode> annotations,
-        final String name,
-        final List<QueenTypeNode> typeArguments
-    ) {
-        this(position, interfaceType, null, annotations, name, typeArguments);
-    }
-
-    public QueenClassOrInterfaceTypeNode(
-        final Position position,
-        final boolean interfaceType,
-        final QueenClassOrInterfaceTypeNode scope,
-        final List<QueenAnnotationNode> annotations,
-        final String name,
-        final List<QueenTypeNode> typeArguments
+        final QueenReferenceTypeNode extendedType,
+        final QueenReferenceTypeNode superType
     ) {
         this.position = position;
-        this.interfaceType = interfaceType;
-        this.scope = scope;
         this.annotations = annotations;
-        this.name = name;
-        this.typeArguments = typeArguments;
+        this.extendedType = extendedType;
+        this.superType = superType;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof ClassOrInterfaceDeclaration) {
-            final ClassOrInterfaceDeclaration clazz = ((ClassOrInterfaceDeclaration) java);
-            if(this.interfaceType && !clazz.isInterface()) {
-                clazz.addImplementedType(this.toClassOrInterfaceType());
-            } else {
-                clazz.addExtendedType(this.toClassOrInterfaceType());
-            }
-        } else if(java instanceof NodeWithTypeArguments) {
+        if(java instanceof NodeWithTypeArguments) {
             final List<Type> existing = new ArrayList<>();
             ((NodeWithTypeArguments<?>) java)
                 .getTypeArguments()
                 .ifPresent(
                     tas -> existing.addAll(tas)
                 );
-            existing.add(this.toClassOrInterfaceType());
+            existing.add(this.toWildcardType());
 
             ((NodeWithTypeArguments<?>) java)
                 .setTypeArguments(new NodeList<>(existing));
-        } else if(java instanceof QueenWildcardNode.WildcardSuperBound) {
-            ((WildcardType) java).setSuperType(this.toClassOrInterfaceType());
-        } else if(java instanceof QueenWildcardNode.WildcardExtendsBound) {
-            ((WildcardType) java).setExtendedType(this.toClassOrInterfaceType());
         }
     }
 
@@ -137,22 +96,34 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
     }
 
     /**
-     * Turn it into a JavaParser ClassOrInterfaceType.
-     * @return ClassOrInterfaceType.
+     * Turn it into a JavaParser WildcardType.
+     * @return WildcardType.
      */
-    private ClassOrInterfaceType toClassOrInterfaceType() {
-        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.name);
-        if(this.scope != null) {
-            classOrInterfaceType.setScope(this.scope.toClassOrInterfaceType());
+    private WildcardType toWildcardType() {
+        final WildcardType wildcardType;
+        if(this.extendedType != null) {
+            wildcardType = new WildcardExtendsBound();
+        } else if (this.superType != null) {
+            wildcardType = new WildcardSuperBound();
+        } else {
+            wildcardType = new WildcardType();
         }
         if(this.annotations != null) {
-            this.annotations.forEach(a -> a.addToJavaNode(classOrInterfaceType));
+            this.annotations.forEach(a -> a.addToJavaNode(wildcardType));
         }
-        if(this.typeArguments != null) {
-            this.typeArguments.forEach(
-                ta -> ta.addToJavaNode(classOrInterfaceType)
-            );
+        if(this.extendedType != null) {
+            this.extendedType.addToJavaNode(wildcardType);
+        } else if(this.superType != null) {
+            this.superType.addToJavaNode(wildcardType);
         }
-        return classOrInterfaceType;
+        return wildcardType;
+    }
+
+    static class WildcardSuperBound extends WildcardType {
+
+    }
+
+    static class WildcardExtendsBound extends WildcardType {
+
     }
 }

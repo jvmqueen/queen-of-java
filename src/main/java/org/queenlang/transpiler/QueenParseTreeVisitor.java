@@ -40,6 +40,11 @@ import java.util.stream.Collectors;
 /**
  * Queen visitor which traverses the ParseTree and generates the
  * Abstract Syntax Tree.
+ *
+ * In order to understand the APIs and logic used in this visitor, you
+ * need to study the QueenParser.g4 ANTLR file, as this visitor is based on
+ * the ParseTree genertated by ANTLR.
+ *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
@@ -784,11 +789,21 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             a -> annotations.add(this.visitAnnotation(a))
         );
         final String name = ctx.classType().Identifier().getText();
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if(ctx.classType().typeArguments() != null) {
+            ctx.classType().typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
         return new QueenClassOrInterfaceTypeNode(
             position,
             false,
+            ctx.classType().classOrInterfaceType() != null ?
+                this.visitClassOrInterfaceType(ctx.classType().classOrInterfaceType())
+                :
+                null,
             annotations,
-            name
+            name,
+            typeArguments
         );
     }
 
@@ -800,12 +815,125 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             a -> annotations.add(this.visitAnnotation(a))
         );
         final String name = ctx.classType().Identifier().getText();
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if(ctx.classType().typeArguments() != null) {
+            ctx.classType().typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
         return new QueenClassOrInterfaceTypeNode(
             position,
             true,
+            ctx.classType().classOrInterfaceType() != null ?
+                this.visitClassOrInterfaceType(ctx.classType().classOrInterfaceType())
+                :
+                null,
             annotations,
-            name
+            name,
+            typeArguments
         );
+    }
+
+    @Override
+    public QueenTypeNode visitTypeArgument(QueenParser.TypeArgumentContext ctx) {
+        if(ctx.referenceType() != null) {
+            return this.visitReferenceType(ctx.referenceType());
+        } else {
+            return this.visitWildcard(ctx.wildcard());
+        }
+    }
+
+    @Override
+    public QueenReferenceTypeNode visitReferenceType(QueenParser.ReferenceTypeContext ctx) {
+        if(ctx.classOrInterfaceType() != null) {
+            return this.visitClassOrInterfaceType(ctx.classOrInterfaceType());
+        } else if(ctx.typeVariable() != null) {
+            final Position position = this.getPosition(ctx.typeVariable());
+            final List<QueenAnnotationNode> annotations = new ArrayList<>();
+            ctx.typeVariable().annotation().forEach(
+                a -> annotations.add(this.visitAnnotation(a))
+            );
+            final String name = ctx.typeVariable().Identifier().getText();
+            return new QueenClassOrInterfaceTypeNode(
+                position,
+                false,
+                annotations,
+                name,
+                new ArrayList<>()
+            );
+        }
+        //@todo #49:60min Finish implementing reference types with array types.
+        return null;
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitClassOrInterfaceType(QueenParser.ClassOrInterfaceTypeContext ctx) {
+        QueenClassOrInterfaceTypeNode classOrInterfaceTypeNode = null;
+        if(ctx.classType_lfno_classOrInterfaceType() != null) {
+            classOrInterfaceTypeNode = this.visitClassType_lfno_classOrInterfaceType(ctx.classType_lfno_classOrInterfaceType());
+        } else if(ctx.interfaceType_lfno_classOrInterfaceType() != null) {
+            classOrInterfaceTypeNode = this.visitClassType_lfno_classOrInterfaceType(
+                ctx.interfaceType_lfno_classOrInterfaceType().classType_lfno_classOrInterfaceType()
+            );
+        }
+        final List<QueenParser.ClassType_lf_classOrInterfaceTypeContext> moreParts = new ArrayList<>();
+        if(ctx.classType_lf_classOrInterfaceType() != null) {
+            moreParts.addAll(ctx.classType_lf_classOrInterfaceType());
+        } else if(ctx.interfaceType_lf_classOrInterfaceType() != null) {
+            moreParts.addAll(
+                ctx.interfaceType_lf_classOrInterfaceType()
+                    .stream().map(QueenParser.InterfaceType_lf_classOrInterfaceTypeContext::classType_lf_classOrInterfaceType)
+                    .collect(Collectors.toList())
+            );
+        }
+        for(QueenParser.ClassType_lf_classOrInterfaceTypeContext part : moreParts) {
+            final Position position = this.getPosition(ctx);
+            final List<QueenAnnotationNode> annotations = new ArrayList<>();
+            part.annotation().forEach(
+                a -> annotations.add(this.visitAnnotation(a))
+            );
+            final String name = part.Identifier().getText();
+            final List<QueenTypeNode> typeArguments = new ArrayList<>();
+            if(part.typeArguments() != null) {
+                part.typeArguments().typeArgumentList().typeArgument()
+                    .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+            }
+            classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
+                position,
+                false,
+                classOrInterfaceTypeNode,
+                annotations,
+                name,
+                typeArguments
+            );
+        }
+        return classOrInterfaceTypeNode;
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitClassType_lfno_classOrInterfaceType(QueenParser.ClassType_lfno_classOrInterfaceTypeContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final String name = ctx.Identifier().getText();
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if(ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        return new QueenClassOrInterfaceTypeNode(
+            position,
+            false,
+            annotations,
+            name,
+            typeArguments
+        );
+    }
+
+    @Override
+    public QueenTypeNode visitWildcard(QueenParser.WildcardContext ctx) {
+        return null;
     }
 
     /**

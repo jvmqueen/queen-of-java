@@ -55,12 +55,12 @@ public final class QueenWildcardNode implements QueenTypeNode {
     /**
      * Extended type bound.
      */
-    private QueenReferenceTypeNode extendedType;
+    private final QueenReferenceTypeNode extendedType;
 
     /**
      * Super type bound.
      */
-    private QueenReferenceTypeNode superType;
+    private final QueenReferenceTypeNode superType;
 
     public QueenWildcardNode(
         final Position position,

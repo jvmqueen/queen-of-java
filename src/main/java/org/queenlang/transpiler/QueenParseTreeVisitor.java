@@ -866,6 +866,26 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenPrimitiveTypeNode visitPrimitiveType(QueenParser.PrimitiveTypeContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final String name;
+        if(ctx.BOOLEAN() != null) {
+            name = ctx.BOOLEAN().getText();
+        } else {
+            name = asString(ctx.numericType());
+        }
+        return new QueenPrimitiveTypeNode(
+            position,
+            annotations,
+            name
+        );
+    }
+
+    @Override
     public QueenClassOrInterfaceTypeNode visitClassOrInterfaceType(QueenParser.ClassOrInterfaceTypeContext ctx) {
         QueenClassOrInterfaceTypeNode classOrInterfaceTypeNode = null;
         if(ctx.classType_lfno_classOrInterfaceType() != null) {
@@ -952,6 +972,32 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             extendedType,
             superType
+        );
+    }
+
+    @Override
+    public QueenTypeNode visitUnannType(QueenParser.UnannTypeContext ctx) {
+        if(ctx.unannPrimitiveType() != null) {
+            return this.visitUnannPrimitiveType(ctx.unannPrimitiveType());
+        } else {
+            //@todo #49:60min Implement visiting of unannReferenceType
+            return null;
+        }
+    }
+
+    @Override
+    public QueenPrimitiveTypeNode visitUnannPrimitiveType(QueenParser.UnannPrimitiveTypeContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final String name;
+        if(ctx.BOOLEAN() != null) {
+            name = ctx.BOOLEAN().getText();
+        } else {
+            name = asString(ctx.numericType());
+        }
+        return new QueenPrimitiveTypeNode(
+            position,
+            new ArrayList<>(),
+            name
         );
     }
 

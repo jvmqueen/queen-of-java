@@ -8,6 +8,8 @@ public final class JsonPerson implements Person {
     @NotNull
     private JsonObject json;
 
+    private javax.json.JsonObject cached;
+
     static {
         System.out.println("STATIC INITIALIZER CALLED");
     }

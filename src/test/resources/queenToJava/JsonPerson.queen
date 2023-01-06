@@ -7,6 +7,8 @@ public final implementation JsonPerson of Person {
     @NotNull
     private JsonObject json;
 
+    private javax.json.JsonObject cached;
+
     static {
         System.out.println("STATIC INITIALIZER CALLED");
     }

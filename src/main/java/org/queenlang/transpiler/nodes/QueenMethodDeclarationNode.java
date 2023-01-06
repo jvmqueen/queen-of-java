@@ -63,7 +63,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
     /**
      * Return type.
      */
-    private final String returnType;
+    private final QueenTypeNode returnType;
 
     /**
      * Method type params.
@@ -82,6 +82,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
 
     /**
      * Thrown exceptions.
+     * @todo #49:60min Refactor throwsList from String to QueenTypeNode(?).
      */
     private final List<String> throwsList;
 
@@ -94,7 +95,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final String returnType,
+        final QueenTypeNode returnType,
         final List<QueenTypeParameterNode> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
@@ -116,7 +117,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
     public void addToJavaNode(final Node java) {
         final MethodDeclaration method = ((ClassOrInterfaceDeclaration) java).addMethod(this.name);
         method.removeModifier(Modifier.Keyword.PUBLIC);
-        method.setType(this.returnType);
+        this.returnType.addToJavaNode(method);
         this.annotations.forEach(a -> a.addToJavaNode(method));
         this.modifiers.forEach(m -> m.addToJavaNode(method));
         this.typeParams.forEach(tp -> tp.addToJavaNode(method));

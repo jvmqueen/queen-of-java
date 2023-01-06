@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 
 /**
@@ -71,6 +72,10 @@ public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
     public void addToJavaNode(final Node java) {
         if(java instanceof VariableDeclarator) {
             ((VariableDeclarator) java).setType(
+                StaticJavaParser.parseType(this.typeDims)
+            );
+        } else if(java instanceof MethodDeclaration) {
+            ((MethodDeclaration) java).setType(
                 StaticJavaParser.parseType(this.typeDims)
             );
         }

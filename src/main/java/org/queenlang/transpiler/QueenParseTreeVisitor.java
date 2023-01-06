@@ -479,7 +479,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             queenBlockStatements = null;
         }
-        final String returnType = asString(ctx.methodHeader().result());
         final List<QueenTypeParameterNode> typeParams = new ArrayList<>();
         if(ctx.methodHeader().typeParameters() != null && ctx.methodHeader().typeParameters().typeParameterList() != null) {
             ctx.methodHeader().typeParameters().typeParameterList().typeParameter().forEach(
@@ -490,13 +489,22 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             getPosition(ctx),
             annotations,
             modifiers,
-            returnType,
+            this.visitResult(ctx.methodHeader().result()),
             typeParams,
             methodDeclarator.Identifier().getText(),
             parameters,
             throwsList,
             queenBlockStatements
         );
+    }
+
+    @Override
+    public QueenTypeNode visitResult(QueenParser.ResultContext ctx) {
+        if(ctx.unannType() != null) {
+            return this.visitUnannType(ctx.unannType());
+        } else {
+            return new QueenVoidNode(this.getPosition(ctx));
+        }
     }
 
     @Override
@@ -534,7 +542,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             queenBlockStatements = null;
         }
-        final String returnType = asString(ctx.methodHeader().result());
         final List<QueenTypeParameterNode> typeParams = new ArrayList<>();
         if(ctx.methodHeader().typeParameters() != null && ctx.methodHeader().typeParameters().typeParameterList() != null) {
             ctx.methodHeader().typeParameters().typeParameterList().typeParameter().forEach(
@@ -545,7 +552,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             getPosition(ctx),
             annotations,
             modifiers,
-            returnType,
+            this.visitResult(ctx.methodHeader().result()),
             typeParams,
             methodDeclarator.Identifier().getText(),
             parameters,

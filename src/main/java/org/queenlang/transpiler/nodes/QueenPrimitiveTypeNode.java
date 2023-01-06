@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.PrimitiveType;
 import java.util.List;
@@ -68,6 +69,8 @@ public final class QueenPrimitiveTypeNode implements QueenTypeNode {
     public void addToJavaNode(final Node java) {
         if(java instanceof VariableDeclarator) {
             ((VariableDeclarator) java).setType(this.toPrimitiveType());
+        } else if(java instanceof MethodDeclaration) {
+            ((MethodDeclaration) java).setType(this.toPrimitiveType());
         }
     }
 

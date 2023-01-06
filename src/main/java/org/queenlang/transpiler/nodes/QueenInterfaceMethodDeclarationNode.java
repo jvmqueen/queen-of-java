@@ -63,7 +63,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     /**
      * Return type.
      */
-    private final String returnType;
+    private final QueenTypeNode returnType;
 
     /**
      * Method type params.
@@ -94,7 +94,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final String returnType,
+        final QueenTypeNode returnType,
         final List<QueenTypeParameterNode> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
@@ -116,7 +116,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     public void addToJavaNode(final Node java) {
         final MethodDeclaration method = ((ClassOrInterfaceDeclaration) java).addMethod(this.name);
         method.removeModifier(Modifier.Keyword.PUBLIC);
-        method.setType(this.returnType);
+        this.returnType.addToJavaNode(method);
         this.annotations.forEach(a -> a.addToJavaNode(method));
         this.modifiers.forEach(m -> m.addToJavaNode(method));
         this.typeParams.forEach(tp -> tp.addToJavaNode(method));

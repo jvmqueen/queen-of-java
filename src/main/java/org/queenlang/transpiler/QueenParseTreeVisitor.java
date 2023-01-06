@@ -980,8 +980,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.unannPrimitiveType() != null) {
             return this.visitUnannPrimitiveType(ctx.unannPrimitiveType());
         } else {
-            //@todo #49:60min Implement visiting of unannReferenceType
-            return null;
+            return this.visitUnannReferenceType(ctx.unannReferenceType());
         }
     }
 
@@ -1000,6 +999,88 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             name
         );
     }
+
+    @Override
+    public QueenReferenceTypeNode visitUnannReferenceType(QueenParser.UnannReferenceTypeContext ctx) {
+        if(ctx.unannClassOrInterfaceType() != null) {
+            return this.visitUnannClassOrInterfaceType(ctx.unannClassOrInterfaceType());
+        } else if(ctx.unannTypeVariable() != null) {
+            final Position position = this.getPosition(ctx.unannTypeVariable());
+            final String name = ctx.unannTypeVariable().Identifier().getText();
+            return new QueenClassOrInterfaceTypeNode(
+                position,
+                false,
+                new ArrayList<>(),
+                name,
+                new ArrayList<>()
+            );
+        }
+        //@todo #49:60min Finish implementing unann reference types with unann array types.
+        return null;
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitUnannClassOrInterfaceType(QueenParser.UnannClassOrInterfaceTypeContext ctx) {
+        QueenClassOrInterfaceTypeNode unannClassOrInterfaceTypeNode = null;
+        if(ctx.unannClassType_lfno_unannClassOrInterfaceType() != null) {
+            unannClassOrInterfaceTypeNode = this.visitUnannClassType_lfno_unannClassOrInterfaceType(ctx.unannClassType_lfno_unannClassOrInterfaceType());
+        } else if(ctx.unannInterfaceType_lfno_unannClassOrInterfaceType() != null) {
+            unannClassOrInterfaceTypeNode = this.visitUnannClassType_lfno_unannClassOrInterfaceType(
+                ctx.unannInterfaceType_lfno_unannClassOrInterfaceType().unannClassType_lfno_unannClassOrInterfaceType()
+            );
+        }
+        final List<QueenParser.UnannClassType_lf_unannClassOrInterfaceTypeContext> moreParts = new ArrayList<>();
+        if(ctx.unannClassType_lf_unannClassOrInterfaceType() != null) {
+            moreParts.addAll(ctx.unannClassType_lf_unannClassOrInterfaceType());
+        } else if(ctx.unannInterfaceType_lf_unannClassOrInterfaceType() != null) {
+            moreParts.addAll(
+                ctx.unannInterfaceType_lf_unannClassOrInterfaceType()
+                    .stream().map(QueenParser.UnannInterfaceType_lf_unannClassOrInterfaceTypeContext::unannClassType_lf_unannClassOrInterfaceType)
+                    .collect(Collectors.toList())
+            );
+        }
+        for(QueenParser.UnannClassType_lf_unannClassOrInterfaceTypeContext part : moreParts) {
+            final Position position = this.getPosition(ctx);
+            final List<QueenAnnotationNode> annotations = new ArrayList<>();
+            part.annotation().forEach(
+                a -> annotations.add(this.visitAnnotation(a))
+            );
+            final String name = part.Identifier().getText();
+            final List<QueenTypeNode> typeArguments = new ArrayList<>();
+            if(part.typeArguments() != null) {
+                part.typeArguments().typeArgumentList().typeArgument()
+                    .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+            }
+            unannClassOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
+                position,
+                false,
+                unannClassOrInterfaceTypeNode,
+                annotations,
+                name,
+                typeArguments
+            );
+        }
+        return unannClassOrInterfaceTypeNode;
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitUnannClassType_lfno_unannClassOrInterfaceType(QueenParser.UnannClassType_lfno_unannClassOrInterfaceTypeContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final String name = ctx.Identifier().getText();
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if(ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        return new QueenClassOrInterfaceTypeNode(
+            position,
+            false,
+            new ArrayList<>(),
+            name,
+            typeArguments
+        );
+    }
+
 
     /**
      * Return context as String. getText is not enough for non-terminal nodes,

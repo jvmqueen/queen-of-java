@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.PrimitiveType;
 import java.util.List;
 
@@ -65,7 +66,9 @@ public final class QueenPrimitiveTypeNode implements QueenTypeNode {
 
     @Override
     public void addToJavaNode(final Node java) {
-        //@todo #49:60min Implement this method after making FieldDeclaration use this type.
+        if(java instanceof VariableDeclarator) {
+            ((VariableDeclarator) java).setType(this.toPrimitiveType());
+        }
     }
 
     @Override
@@ -79,7 +82,7 @@ public final class QueenPrimitiveTypeNode implements QueenTypeNode {
      */
     private PrimitiveType toPrimitiveType() {
         final PrimitiveType primitiveType = new PrimitiveType(
-            PrimitiveType.Primitive.valueOf(this.name)
+            PrimitiveType.Primitive.valueOf(this.name.toUpperCase())
         );
         if(this.annotations != null) {
             this.annotations.forEach(a -> a.addToJavaNode(primitiveType));

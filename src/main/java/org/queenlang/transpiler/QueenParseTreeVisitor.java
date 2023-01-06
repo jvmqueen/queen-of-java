@@ -349,7 +349,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             getPosition(ctx),
             annotations,
             modifiers,
-            asString(ctx.unannType()),
+            this.visitUnannType(ctx.unannType()),
             variables
         );
     }
@@ -847,22 +847,40 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.classOrInterfaceType() != null) {
             return this.visitClassOrInterfaceType(ctx.classOrInterfaceType());
         } else if(ctx.typeVariable() != null) {
-            final Position position = this.getPosition(ctx.typeVariable());
-            final List<QueenAnnotationNode> annotations = new ArrayList<>();
-            ctx.typeVariable().annotation().forEach(
-                a -> annotations.add(this.visitAnnotation(a))
-            );
-            final String name = ctx.typeVariable().Identifier().getText();
-            return new QueenClassOrInterfaceTypeNode(
-                position,
-                false,
-                annotations,
-                name,
-                new ArrayList<>()
-            );
+            return this.visitTypeVariable(ctx.typeVariable());
+        } else {
+            return this.visitArrayType(ctx.arrayType());
         }
-        //@todo #49:60min Finish implementing reference types with array types.
-        return null;
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitTypeVariable(QueenParser.TypeVariableContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final String name = ctx.Identifier().getText();
+        return new QueenClassOrInterfaceTypeNode(
+            position,
+            false,
+            annotations,
+            name,
+            new ArrayList<>()
+        );
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitUnannTypeVariable(QueenParser.UnannTypeVariableContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final String name = ctx.Identifier().getText();
+        return new QueenClassOrInterfaceTypeNode(
+            position,
+            false,
+            new ArrayList<>(),
+            name,
+            new ArrayList<>()
+        );
     }
 
     @Override
@@ -952,6 +970,42 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenArrayTypeNode visitArrayType(QueenParser.ArrayTypeContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final QueenTypeNode type;
+        if(ctx.primitiveType() != null) {
+            type = this.visitPrimitiveType(ctx.primitiveType());
+        } else if(ctx.classOrInterfaceType() != null) {
+            type = this.visitClassOrInterfaceType(ctx.classOrInterfaceType());
+        } else {
+            type = this.visitTypeVariable(ctx.typeVariable());
+        }
+        return new QueenArrayTypeNode(
+            position,
+            type,
+            asString(ctx)
+        );
+    }
+
+    @Override
+    public QueenArrayTypeNode visitUnannArrayType(QueenParser.UnannArrayTypeContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final QueenTypeNode type;
+        if(ctx.unannPrimitiveType() != null) {
+            type = this.visitUnannPrimitiveType(ctx.unannPrimitiveType());
+        } else if(ctx.unannClassOrInterfaceType() != null) {
+            type = this.visitUnannClassOrInterfaceType(ctx.unannClassOrInterfaceType());
+        } else {
+            type = this.visitUnannTypeVariable(ctx.unannTypeVariable());
+        }
+        return new QueenArrayTypeNode(
+            position,
+            type,
+            asString(ctx)
+        );
+    }
+
+    @Override
     public QueenWildcardNode visitWildcard(QueenParser.WildcardContext ctx) {
         final Position position = this.getPosition(ctx);
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
@@ -1005,18 +1059,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.unannClassOrInterfaceType() != null) {
             return this.visitUnannClassOrInterfaceType(ctx.unannClassOrInterfaceType());
         } else if(ctx.unannTypeVariable() != null) {
-            final Position position = this.getPosition(ctx.unannTypeVariable());
-            final String name = ctx.unannTypeVariable().Identifier().getText();
-            return new QueenClassOrInterfaceTypeNode(
-                position,
-                false,
-                new ArrayList<>(),
-                name,
-                new ArrayList<>()
-            );
+            return this.visitUnannTypeVariable(ctx.unannTypeVariable());
+        } else {
+            return this.visitUnannArrayType(ctx.unannArrayType());
         }
-        //@todo #49:60min Finish implementing unann reference types with unann array types.
-        return null;
     }
 
     @Override

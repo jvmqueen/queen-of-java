@@ -27,23 +27,17 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import javassist.compiler.ast.FieldDecl;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
- * Queen FieldDeclaration AST node.
+ * Queen ArrayType AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarationNode {
+public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
 
     /**
      * Position in the original source code.
@@ -51,64 +45,35 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
     private final Position position;
 
     /**
-     * Annotations on top of this field.
-     */
-    private final List<QueenAnnotationNode> annotations;
-
-    /**
-     * Access modifiers of this field.
-     */
-    private final List<QueenModifierNode> modifiers;
-
-    /**
-     * Type of the field declaration.
+     * Type of the array (used for symbol resolution etc).
      */
     private final QueenTypeNode type;
 
     /**
-     * Variable names and initializer expressions.
+     * Type with dims (square brackets) and their annotations
+     * We use it as String and probably will not have direct symbol resolution
+     * for the dims' annotations, because JavaParser doesn't seem to have
+     * modeled dims and their annotations.
      */
-    private final Map<String, QueenInitializerExpressionNode> variables;
+    private final String typeDims;
 
-    public QueenFieldDeclarationNode(
+    public QueenArrayTypeNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final Map<String, QueenInitializerExpressionNode> variables
+        final String typeDims
     ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
         this.type = type;
-        this.variables = variables;
+        this.typeDims = typeDims;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        this.variables.entrySet().forEach(
-            vn -> {
-                final VariableDeclarator vd = new VariableDeclarator();
-                vd.setName(vn.getKey());
-                this.type.addToJavaNode(vd);
-
-                final FieldDeclaration field = new FieldDeclaration();
-                field.addVariable(vd);
-                clazz.addMember(field);
-
-                this.annotations.forEach(a -> a.addToJavaNode(field));
-                this.modifiers.forEach(m -> m.addToJavaNode(field));
-                if(vn.getValue() != null) {
-                    vn.getValue().addToJavaNode(field.getVariable(0));
-                }
-            }
-        );
-    }
-
-    @Override
-    public String name() {
-        return String.join(" ", this.variables.keySet());
+        if(java instanceof VariableDeclarator) {
+            ((VariableDeclarator) java).setType(
+                StaticJavaParser.parseType(this.typeDims)
+            );
+        }
     }
 
     @Override

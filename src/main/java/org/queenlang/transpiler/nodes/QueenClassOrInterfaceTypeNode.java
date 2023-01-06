@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
@@ -106,7 +107,9 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof ClassOrInterfaceDeclaration) {
+        if(java instanceof VariableDeclarator) {
+            ((VariableDeclarator) java).setType(this.toClassOrInterfaceType());
+        } else if(java instanceof ClassOrInterfaceDeclaration) {
             final ClassOrInterfaceDeclaration clazz = ((ClassOrInterfaceDeclaration) java);
             if(this.interfaceType && !clazz.isInterface()) {
                 clazz.addImplementedType(this.toClassOrInterfaceType());

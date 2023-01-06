@@ -383,7 +383,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             getPosition(ctx),
             annotations,
             modifiers,
-            asString(ctx.unannType()),
+            this.visitUnannType(ctx.unannType()),
             variables
         );
     }

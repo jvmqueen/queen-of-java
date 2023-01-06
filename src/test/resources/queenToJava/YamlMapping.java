@@ -8,6 +8,8 @@ import java.util.Set;
 @YamlMapping
 public interface YamlMapping extends YamlNode {
 
+    int constant = 1;
+
     Set<YamlNode> keys();
 
     YamlNode value(final YamlNode key) throws NodeNotFoundException;

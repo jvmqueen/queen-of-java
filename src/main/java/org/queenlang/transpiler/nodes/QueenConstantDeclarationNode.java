@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     /**
      * Type of the constant declaration.
      */
-    private final String type;
+    private final QueenTypeNode type;
 
     /**
      * Variable names and initializer expressions.
@@ -72,7 +73,7 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final String type,
+        final QueenTypeNode type,
         final Map<String, QueenInitializerExpressionNode> variables
     ) {
         this.position = position;
@@ -87,7 +88,14 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
         ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
         this.variables.entrySet().forEach(
             vn -> {
-                FieldDeclaration field = clazz.addField(this.type, vn.getKey());
+                final VariableDeclarator vd = new VariableDeclarator();
+                vd.setName(vn.getKey());
+                this.type.addToJavaNode(vd);
+
+                final FieldDeclaration field = new FieldDeclaration();
+                field.addVariable(vd);
+                clazz.addMember(field);
+
                 this.annotations.forEach(a -> a.addToJavaNode(field));
                 this.modifiers.forEach(m -> m.addToJavaNode(field));
                 if(vn.getValue() != null) {

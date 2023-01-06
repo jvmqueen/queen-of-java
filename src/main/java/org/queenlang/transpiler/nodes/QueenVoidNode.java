@@ -2,6 +2,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 
 /**
  * Queen Void AST node.

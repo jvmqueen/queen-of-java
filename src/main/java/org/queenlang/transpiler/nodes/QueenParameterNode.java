@@ -22,7 +22,7 @@ public final class QueenParameterNode implements QueenNode{
     private final List<QueenAnnotationNode> annotations;
     private final List<QueenModifierNode> modifiers;
     private final String name;
-    private final String type;
+    private final QueenTypeNode type;
     private final List<String> varArgsAnnotations;
     private final boolean varArgs;
 
@@ -30,7 +30,7 @@ public final class QueenParameterNode implements QueenNode{
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final String type,
+        final QueenTypeNode type,
         final String name
     ) {
         this(position, annotations, modifiers, type, name, false);
@@ -40,7 +40,7 @@ public final class QueenParameterNode implements QueenNode{
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final String type,
+        final QueenTypeNode type,
         final String name,
         final boolean varArgs
     ) {
@@ -51,7 +51,7 @@ public final class QueenParameterNode implements QueenNode{
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final String type,
+        final QueenTypeNode type,
         final String name,
         final List<String> varArgsAnnotations,
         final boolean varArgs
@@ -70,7 +70,7 @@ public final class QueenParameterNode implements QueenNode{
         final Parameter parameter = new Parameter();
         this.annotations.forEach( a -> a.addToJavaNode(parameter));
         this.modifiers.forEach(m -> m.addToJavaNode(parameter));
-        parameter.setType(this.type);
+        this.type.addToJavaNode(parameter);
         parameter.setName(this.name);
         parameter.setVarArgs(this.varArgs);
         parameter.setVarArgsAnnotations(

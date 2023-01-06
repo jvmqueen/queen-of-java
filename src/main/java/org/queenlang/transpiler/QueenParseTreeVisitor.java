@@ -586,13 +586,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(modifiers.isEmpty()) {
             modifiers.add(new QueenModifierNode(getPosition(ctx),"final"));
         }
-        final String type = asString(ctx.unannType());
         final String name = asString(ctx.variableDeclaratorId());
         return new QueenParameterNode(
             getPosition(ctx),
             annotations,
             modifiers,
-            type,
+            this.visitUnannType(ctx.unannType()),
             name
         );
     }
@@ -622,7 +621,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             modifiers.add(new QueenModifierNode(getPosition(ctx),"final"));
         }
 
-        final String type = asString(ctx.unannType());
         final String name = asString(ctx.variableDeclaratorId());
         if(ctx.annotation() != null) {
             ctx.annotation().forEach(
@@ -633,7 +631,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             getPosition(ctx),
             annotations,
             modifiers,
-            type,
+            this.visitUnannType(ctx.unannType()),
             name,
             varArgAnnotations,
             true

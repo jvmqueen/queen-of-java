@@ -32,6 +32,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -113,6 +114,8 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
             ((VariableDeclarator) java).setType(this.toClassOrInterfaceType());
         } else if(java instanceof MethodDeclaration) {
             ((MethodDeclaration) java).setType(this.toClassOrInterfaceType());
+        } else if(java instanceof Parameter) {
+            ((Parameter) java).setType(this.toClassOrInterfaceType());
         } else if(java instanceof ClassOrInterfaceDeclaration) {
             final ClassOrInterfaceDeclaration clazz = ((ClassOrInterfaceDeclaration) java);
             if(this.interfaceType && !clazz.isInterface()) {

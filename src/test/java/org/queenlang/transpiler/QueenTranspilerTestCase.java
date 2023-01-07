@@ -63,9 +63,10 @@ public final class QueenTranspilerTestCase {
             "EmptyInterfaceWithNoPackage.queen,EmptyInterfaceWithNoPackage.java"
         }
     )
-    public void testTranspiler(final String queenInput, final String javaOuput) throws Exception {
-        final String queenClass = this.readTestResource(queenInput);
-        final String javaClass = this.readTestResource(javaOuput);
+    public void testTranspilerWithRandomClasses(final String queenInput, final String javaOuput) throws Exception {
+        final String dirPath = "src/test/resources/queenToJava/random/";
+        final String queenClass = this.readTestResource(dirPath, queenInput);
+        final String javaClass = this.readTestResource(dirPath, javaOuput);
         final QueenTranspiler transpiler = new JavaQueenTanspiler();
         MatcherAssert.assertThat(
             transpiler.transpile(queenClass, queenInput),
@@ -76,17 +77,17 @@ public final class QueenTranspilerTestCase {
 
     /**
      * Read a test resource file's contents.
+     * @param dirPath Directory path.
      * @param fileName File to read.
      * @return File's contents as String.
      * @throws FileNotFoundException If something is wrong.
      * @throws IOException If something is wrong.
      */
-    private String readTestResource(final String fileName) throws IOException {
+    private String readTestResource(final String dirPath, final String fileName) throws IOException {
         return new String(
             IOUtils.toByteArray(
                 new FileInputStream(
-                    "src/test/resources/queenToJava/"
-                    + fileName
+                    dirPath + fileName
                 )
             )
         );

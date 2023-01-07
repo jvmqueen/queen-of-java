@@ -32,6 +32,7 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
 import java.util.List;
@@ -82,9 +83,8 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
 
     /**
      * Thrown exceptions.
-     * @todo #49:60min Refactor throwsList from String to QueenTypeNode(?).
      */
-    private final List<String> throwsList;
+    private final List<QueenExceptionTypeNode> throwsList;
 
     /**
      * Method body.
@@ -99,7 +99,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
         final List<QueenTypeParameterNode> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
-        final List<String> throwsList,
+        final List<QueenExceptionTypeNode> throwsList,
         final QueenBlockStatements blockStatements
     ) {
         this.position = position;
@@ -124,11 +124,7 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
         this.parameters.forEach(
             p -> p.addToJavaNode(method)
         );
-        this.throwsList.forEach(
-            t -> method.addThrownException(
-                StaticJavaParser.parseClassOrInterfaceType(t)
-            )
-        );
+        this.throwsList.forEach(t -> t.addToJavaNode(method));
         if(this.blockStatements != null) {
             final BlockStmt blockStmt = new BlockStmt();
             this.blockStatements.addToJavaNode(blockStmt);

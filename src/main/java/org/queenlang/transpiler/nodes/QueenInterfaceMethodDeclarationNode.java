@@ -83,7 +83,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     /**
      * Thrown exceptions.
      */
-    private final List<String> throwsList;
+    private final List<QueenExceptionTypeNode> throwsList;
 
     /**
      * Method body.
@@ -98,7 +98,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         final List<QueenTypeParameterNode> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
-        final List<String> throwsList,
+        final List<QueenExceptionTypeNode> throwsList,
         final QueenBlockStatements blockStatements
     ) {
         this.position = position;
@@ -123,11 +123,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         this.parameters.forEach(
             p -> p.addToJavaNode(method)
         );
-        this.throwsList.forEach(
-            t -> method.addThrownException(
-                StaticJavaParser.parseClassOrInterfaceType(t)
-            )
-        );
+        this.throwsList.forEach(t->t.addToJavaNode(method));
         if(this.blockStatements != null) {
             final BlockStmt blockStmt = new BlockStmt();
             this.blockStatements.addToJavaNode(blockStmt);

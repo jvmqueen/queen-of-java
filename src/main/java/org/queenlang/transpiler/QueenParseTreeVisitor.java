@@ -412,10 +412,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
             }
         }
-        final List<String> throwsList = new ArrayList<>();
+        final List<QueenExceptionTypeNode> throwsList = new ArrayList<>();
         if(ctx.throws_() != null && ctx.throws_().exceptionTypeList() != null) {
             ctx.throws_().exceptionTypeList().exceptionType().forEach(
-                et -> throwsList.add(asString(et))
+                et -> throwsList.add(this.visitExceptionType(et))
             );
         }
         final QueenParser.ConstructorBodyContext constructorBodyContext = ctx.constructorBody();
@@ -466,10 +466,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
             }
         }
-        final List<String> throwsList = new ArrayList<>();
+        final List<QueenExceptionTypeNode> throwsList = new ArrayList<>();
         if(ctx.methodHeader().throws_() != null && ctx.methodHeader().throws_().exceptionTypeList() != null) {
             ctx.methodHeader().throws_().exceptionTypeList().exceptionType().forEach(
-                et -> throwsList.add(asString(et))
+                et -> throwsList.add(this.visitExceptionType(et))
             );
         }
         final QueenParser.MethodBodyContext methodBodyContext = ctx.methodBody();
@@ -529,10 +529,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
             }
         }
-        final List<String> throwsList = new ArrayList<>();
+        final List<QueenExceptionTypeNode> throwsList = new ArrayList<>();
         if(ctx.methodHeader().throws_() != null && ctx.methodHeader().throws_().exceptionTypeList() != null) {
             ctx.methodHeader().throws_().exceptionTypeList().exceptionType().forEach(
-                et -> throwsList.add(asString(et))
+                et -> throwsList.add(this.visitExceptionType(et))
             );
         }
         final QueenParser.MethodBodyContext methodBodyContext = ctx.methodBody();
@@ -788,22 +788,27 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenClassOrInterfaceTypeNode visitSuperclass(QueenParser.SuperclassContext ctx) {
+        return this.visitClassType(ctx.classType());
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitClassType(QueenParser.ClassTypeContext ctx) {
         final Position position = this.getPosition(ctx);
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
-        ctx.classType().annotation().forEach(
+        ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
         );
-        final String name = ctx.classType().Identifier().getText();
+        final String name = ctx.Identifier().getText();
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
-        if(ctx.classType().typeArguments() != null) {
-            ctx.classType().typeArguments().typeArgumentList().typeArgument()
+        if(ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
                 .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
         }
         return new QueenClassOrInterfaceTypeNode(
             position,
             false,
-            ctx.classType().classOrInterfaceType() != null ?
-                this.visitClassOrInterfaceType(ctx.classType().classOrInterfaceType())
+            ctx.classOrInterfaceType() != null ?
+                this.visitClassOrInterfaceType(ctx.classOrInterfaceType())
                 :
                 null,
             annotations,
@@ -886,6 +891,15 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             name,
             new ArrayList<>()
         );
+    }
+
+    @Override
+    public QueenExceptionTypeNode visitExceptionType(QueenParser.ExceptionTypeContext ctx) {
+        if(ctx.classType() != null) {
+            return new QueenExceptionTypeNode(this.visitClassType(ctx.classType()));
+        } else {
+            return new QueenExceptionTypeNode(this.visitTypeVariable(ctx.typeVariable()));
+        }
     }
 
     @Override

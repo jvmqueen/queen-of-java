@@ -146,6 +146,22 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         return this.position;
     }
 
+    public String name() {
+        return this.name;
+    }
+
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    public List<QueenTypeNode> typeArguments() {
+        return this.typeArguments;
+    }
+
+    public QueenClassOrInterfaceTypeNode scope() {
+        return this.scope;
+    }
+
     /**
      * Turn it into a JavaParser ClassOrInterfaceType.
      * @return ClassOrInterfaceType.

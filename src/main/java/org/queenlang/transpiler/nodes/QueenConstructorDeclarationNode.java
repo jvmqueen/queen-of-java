@@ -56,7 +56,7 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
 
     private final List<QueenParameterNode> parameters;
 
-    private final List<String> throwsList;
+    private final List<QueenExceptionTypeNode> throwsList;
 
     private final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode;
 
@@ -69,7 +69,7 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
         final List<QueenTypeParameterNode> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
-        final List<String> throwsList,
+        final List<QueenExceptionTypeNode> throwsList,
         final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode,
         final QueenBlockStatements blockStatements
     ) {
@@ -99,9 +99,7 @@ public final class QueenConstructorDeclarationNode implements Named, QueenClassB
             tp -> tp.addToJavaNode(constructor)
         );
         this.throwsList.forEach(
-            t -> constructor.addThrownException(
-                StaticJavaParser.parseClassOrInterfaceType(t)
-            )
+            t -> t.addToJavaNode(constructor)
         );
         final BlockStmt blockStmt = new BlockStmt();
         if(this.explicitConstructorInvocationNode != null) {

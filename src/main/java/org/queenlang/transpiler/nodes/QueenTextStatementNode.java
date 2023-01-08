@@ -28,6 +28,8 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
 /**
@@ -47,12 +49,19 @@ public final class QueenTextStatementNode implements QueenStatementNode {
     }
 
     @Override
-    public Statement asJavaStatement() {
-        return StaticJavaParser.parseStatement(this.statement);
+    public void addToJavaNode(final Node java) {
+        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
+        ((BlockStmt) java).addStatement(stmt);
     }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public String toString() {
+        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
+        return stmt.getClass().toString();
     }
 }

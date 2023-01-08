@@ -67,14 +67,14 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<String, QueenInitializerExpressionNode> variables;
+    private final Map<String, QueenExpressionNode> variables;
 
     public QueenConstantDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final Map<String, QueenInitializerExpressionNode> variables
+        final Map<String, QueenExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;

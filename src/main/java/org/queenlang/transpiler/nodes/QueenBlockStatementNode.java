@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.Statement;
-
 /**
  * Queen BlockStatement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -38,11 +34,4 @@ import com.github.javaparser.ast.stmt.Statement;
  * @since 0.0.1
  */
 public interface QueenBlockStatementNode extends QueenNode {
-
-    Statement asJavaStatement();
-
-    @Override
-    default void addToJavaNode(Node java) {
-        ((BlockStmt) java).addStatement(this.asJavaStatement());
-    }
 }

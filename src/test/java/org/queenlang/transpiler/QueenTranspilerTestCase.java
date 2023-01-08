@@ -51,6 +51,7 @@ public final class QueenTranspilerTestCase {
         value = {
             "JsonPerson.queen,JsonPerson.java",
             "Preamble.queen,Preamble.java",
+            "NaiveFactorial.queen,NaiveFactorial.java",
             "YamlMapping.queen,YamlMapping.java",
             "ClassWithFields.queen,ClassWithFields.java",
             "Collection.queen,Collection.java",

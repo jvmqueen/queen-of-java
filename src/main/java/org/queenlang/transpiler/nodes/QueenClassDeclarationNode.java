@@ -135,13 +135,10 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
         } else if(java instanceof AnnotationDeclaration) {
             ((AnnotationDeclaration) java).addMember(this.toJavaClass());
         } else if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.asJavaStatement());
+            ((BlockStmt) java).addStatement(
+                new LocalClassDeclarationStmt(this.toJavaClass())
+            );
         }
-    }
-
-    @Override
-    public Statement asJavaStatement() {
-        return new LocalClassDeclarationStmt(this.toJavaClass());
     }
 
     /**

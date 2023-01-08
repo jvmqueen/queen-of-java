@@ -28,12 +28,65 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.WhileStmt;
 
-public interface QueenInitializerExpressionNode extends QueenExpressionNode {
+/**
+ * Queen While AST Node.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 0.0.1
+ */
+public final class QueenWhileStatementNode implements QueenStatementNode {
 
-    default void addToJavaNode(final Node java) {
-        final VariableDeclarator variableDeclarator = (VariableDeclarator) java;
-        variableDeclarator.setInitializer(this.asJavaExpression());
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
+     * Expression.
+     */
+    private final QueenExpressionNode expression;
+
+    /**
+     * Statements inside the while.
+     */
+    private final QueenBlockStatements blockStatements;
+
+
+    public QueenWhileStatementNode(
+        final Position position,
+        final QueenExpressionNode expression,
+        final QueenBlockStatements blockStatements
+    ) {
+        this.position = position;
+        this.expression = expression;
+        this.blockStatements = blockStatements;
+    }
+
+    @Override
+    public void addToJavaNode(Node java) {
+        ((BlockStmt) java).addStatement(this.toJavaStatement());
+    }
+
+    /**
+     * Turn it into a JavaParser Statement.
+     * @return Statement, never null.
+     */
+    private Statement toJavaStatement() {
+        final WhileStmt whileStmt = new WhileStmt();
+        this.expression.addToJavaNode(whileStmt);
+        final BlockStmt blockStmt = whileStmt.createBlockStatementAsBody();
+        if(this.blockStatements != null) {
+            this.blockStatements.addToJavaNode(blockStmt);
+        }
+        return whileStmt;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
     }
 }

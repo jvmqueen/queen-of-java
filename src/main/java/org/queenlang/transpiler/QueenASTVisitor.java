@@ -55,7 +55,6 @@ public interface QueenASTVisitor<T> {
     T visitQueenExpressionNode(final QueenExpressionNode node);
     T visitQueenFieldDeclarationNode(final QueenFieldDeclarationNode node);
     T visitQueenImportDeclarationNode(final QueenImportDeclarationNode node);
-    T visitQueenInitializerExpressionNode(final QueenInitializerExpressionNode node);
     T visitQueenInstanceInitializerNode(final QueenInstanceInitializerNode node);
     T visitQueenInterfaceBodyNode(final QueenInterfaceBodyNode node);
     T visitQueenInterfaceDeclarationNode(final QueenInterfaceDeclarationNode node);

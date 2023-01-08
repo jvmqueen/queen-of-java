@@ -343,7 +343,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
-        final Map<String, QueenInitializerExpressionNode> variables = new LinkedHashMap<>();
+        final Map<String, QueenExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
                 variables.put(asString(vd.variableDeclaratorId()), null);
@@ -377,7 +377,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitFieldModifier(m))
         );
 
-        final Map<String, QueenInitializerExpressionNode> variables = new HashMap<>();
+        final Map<String, QueenExpressionNode> variables = new HashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
                 variables.put(asString(vd.variableDeclaratorId()), null);
@@ -411,7 +411,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitConstantModifier(m))
         );
 
-        final Map<String, QueenInitializerExpressionNode> variables = new HashMap<>();
+        final Map<String, QueenExpressionNode> variables = new HashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
                 variables.put(asString(vd.variableDeclaratorId()), null);
@@ -607,7 +607,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenInitializerExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
+    public QueenExpressionNode visitExpression(QueenParser.ExpressionContext ctx) {
+        return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
+    }
+
+    @Override
+    public QueenExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
         return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
     }
 
@@ -705,10 +710,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 }
                 if(bs.statement() != null) {
                     blockStatements.add(
-                        new QueenTextStatementNode(
-                            getPosition(bs.statement()),
-                            asString(bs.statement())
-                        )
+                        this.visitStatement(bs.statement())
                     );
                 }
             }
@@ -730,6 +732,61 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             this.visitBlockStatements(ctx.block().blockStatements()),
             true
         );
+    }
+
+    @Override
+    public QueenStatementNode visitStatement(QueenParser.StatementContext ctx) {
+        if(ctx.whileStatement() != null) {
+            return this.visitWhileStatement(ctx.whileStatement());
+        } else {
+            return new QueenTextStatementNode(
+                getPosition(ctx),
+                asString(ctx)
+            );
+        }
+    }
+
+    @Override
+    public QueenWhileStatementNode visitWhileStatement(QueenParser.WhileStatementContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final QueenBlockStatements blockStatements;
+        if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
+            blockStatements = this.visitStatementWithoutTrailingSubstatement(
+                ctx.statement().statementWithoutTrailingSubstatement()
+            );
+        } else {
+            blockStatements = new QueenBlockStatements(
+                getPosition(ctx.statement()),
+                List.of(this.visitStatement(ctx.statement()))
+            );
+        }
+        return new QueenWhileStatementNode(
+            position,
+            expression,
+            blockStatements
+        );
+    }
+
+    @Override
+    public QueenBlockStatements visitStatementWithoutTrailingSubstatement(
+        QueenParser.StatementWithoutTrailingSubstatementContext ctx
+    ) {
+        if (ctx.block() != null && ctx.block().blockStatements() != null) {
+            return visitBlockStatements(
+                ctx.block().blockStatements()
+            );
+        } else {
+            return new QueenBlockStatements(
+                getPosition(ctx),
+                List.of(
+                    new QueenTextStatementNode(
+                        getPosition(ctx),
+                        asString(ctx)
+                    )
+                )
+            );
+        }
     }
 
     @Override

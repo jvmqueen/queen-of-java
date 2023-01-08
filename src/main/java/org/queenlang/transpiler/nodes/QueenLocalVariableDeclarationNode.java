@@ -27,10 +27,11 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -69,14 +70,14 @@ public final class QueenLocalVariableDeclarationNode implements QueenBlockStatem
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<String, QueenInitializerExpressionNode> variables;
+    private final Map<String, QueenExpressionNode> variables;
 
     public QueenLocalVariableDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final Map<String, QueenInitializerExpressionNode> variables
+        final Map<String, QueenExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -86,7 +87,15 @@ public final class QueenLocalVariableDeclarationNode implements QueenBlockStatem
     }
 
     @Override
-    public Statement asJavaStatement() {
+    public void addToJavaNode(Node java) {
+        ((BlockStmt) java).addStatement(this.toJavaStatement());
+    }
+
+    /**
+     * Turn it into a JavaParser Statement.
+     * @return Statement, never null.
+     */
+    public Statement toJavaStatement() {
         VariableDeclarationExpr vde = new VariableDeclarationExpr();
         this.annotations.forEach(a -> a.addToJavaNode(vde));
         this.modifiers.forEach(m -> m.addToJavaNode(vde));

@@ -28,7 +28,8 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.stmt.BlockStmt;
 
 /**
  * Queen Explicit Constructor Invocation AST Node.
@@ -54,8 +55,12 @@ public final class QueenExplicitConstructorInvocationNode implements QueenStatem
     }
 
     @Override
-    public Statement asJavaStatement() {
-        return StaticJavaParser.parseExplicitConstructorInvocationStmt(this.explicitConstructorInvocation);
+    public void addToJavaNode(final Node java) {
+        ((BlockStmt) java).addStatement(
+            StaticJavaParser.parseExplicitConstructorInvocationStmt(
+                this.explicitConstructorInvocation
+            )
+        );
     }
 
     @Override

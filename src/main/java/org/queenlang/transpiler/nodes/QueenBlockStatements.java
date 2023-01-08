@@ -60,7 +60,7 @@ public final class QueenBlockStatements implements QueenNode, Iterable<QueenBloc
     @Override
     public void addToJavaNode(final Node java) {
         this.blockStatements.forEach(
-            bs -> bs.addToJavaNode((BlockStmt) java)
+            bs -> bs.addToJavaNode(java)
         );
     }
 

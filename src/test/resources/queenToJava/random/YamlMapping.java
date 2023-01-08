@@ -15,6 +15,9 @@ public interface YamlMapping extends YamlNode {
     YamlNode value(final YamlNode key) throws NodeNotFoundException;
 
     default Collection<YamlNode> values() {
+        int x, y, z = 0;
+        int m = 1, n = 2, p = 3;
+        int q = 1, k = 5, w;
         final List<YamlNode> values = new LinkedList<>();
         for (final YamlNode key : this.keys()) {
             values.add(this.value(key));

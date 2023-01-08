@@ -321,6 +321,51 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenLocalVariableDeclarationNode visitLocalVariableDeclaration(QueenParser.LocalVariableDeclarationContext ctx) {
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenModifierNode> modifiers = new ArrayList<>();
+
+        if(ctx.variableModifier() != null) {
+            ctx.variableModifier().forEach(
+                vm -> {
+                    if(vm.annotation() != null) {
+                        annotations.add(this.visitAnnotation(vm.annotation()));
+                    }
+                    if(vm.FINAL() != null) {
+                        modifiers.add(
+                            new QueenModifierNode(
+                                this.getPosition(vm),
+                                vm.FINAL().getText()
+                            )
+                        );
+                    }
+                }
+            );
+        }
+
+        final Map<String, QueenInitializerExpressionNode> variables = new LinkedHashMap<>();
+        ctx.variableDeclaratorList().variableDeclarator().forEach(
+            vd -> {
+                variables.put(asString(vd.variableDeclaratorId()), null);
+                if(vd.variableInitializer() != null) {
+                    variables.put(
+                        asString(vd.variableDeclaratorId()),
+                        this.visitVariableInitializer(vd.variableInitializer())
+                    );
+                }
+            }
+        );
+
+        return new QueenLocalVariableDeclarationNode(
+            getPosition(ctx),
+            annotations,
+            modifiers,
+            this.visitUnannType(ctx.unannType()),
+            variables
+        );
+    }
+
+    @Override
     public QueenFieldDeclarationNode visitFieldDeclaration(QueenParser.FieldDeclarationContext ctx) {
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         ctx.annotation().forEach(
@@ -653,9 +698,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 }
                 if(bs.localVariableDeclarationStatement() != null) {
                     blockStatements.add(
-                        new QueenTextStatementNode(
-                            getPosition(bs.localVariableDeclarationStatement()),
-                            asString(bs.localVariableDeclarationStatement())
+                        this.visitLocalVariableDeclaration(
+                            bs.localVariableDeclarationStatement().localVariableDeclaration()
                         )
                     );
                 }

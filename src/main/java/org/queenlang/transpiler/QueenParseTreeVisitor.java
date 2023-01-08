@@ -736,7 +736,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenStatementNode visitStatement(QueenParser.StatementContext ctx) {
-        if(ctx.whileStatement() != null) {
+        if(ctx.ifThenStatement() != null) {
+            return this.visitIfThenStatement(ctx.ifThenStatement());
+        } else if(ctx.ifThenElseStatement() != null) {
+            return this.visitIfThenElseStatement(ctx.ifThenElseStatement());
+        } else if(ctx.whileStatement() != null) {
             return this.visitWhileStatement(ctx.whileStatement());
         } else {
             return new QueenTextStatementNode(
@@ -744,6 +748,73 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 asString(ctx)
             );
         }
+    }
+
+    @Override
+    public QueenStatementNode visitStatementNoShortIf(QueenParser.StatementNoShortIfContext ctx) {
+        //@todo #49:60min Continue implementing this method similarly to visitStatement and analogous to visitType/visitUnannType.
+        return new QueenTextStatementNode(
+            getPosition(ctx),
+            asString(ctx)
+        );
+    }
+
+    @Override
+    public QueenIfStatementNode visitIfThenStatement(QueenParser.IfThenStatementContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final QueenExpressionNode condition = this.visitExpression(ctx.expression());
+        final QueenBlockStatements thenBlockStatements;
+        if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
+            thenBlockStatements = this.visitStatementWithoutTrailingSubstatement(
+                ctx.statement().statementWithoutTrailingSubstatement()
+            );
+        } else {
+            thenBlockStatements = new QueenBlockStatements(
+                getPosition(ctx.statement()),
+                List.of(this.visitStatement(ctx.statement()))
+            );
+        }
+        return new QueenIfStatementNode(
+            position,
+            condition,
+            thenBlockStatements
+        );
+    }
+
+    @Override
+    public QueenIfStatementNode visitIfThenElseStatement(QueenParser.IfThenElseStatementContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final QueenExpressionNode condition = this.visitExpression(ctx.expression());
+
+        final QueenBlockStatements thenBlockStatements;
+        if(ctx.statementNoShortIf().statementWithoutTrailingSubstatement() != null) {
+            thenBlockStatements = this.visitStatementWithoutTrailingSubstatement(
+                ctx.statementNoShortIf().statementWithoutTrailingSubstatement()
+            );
+        } else {
+            thenBlockStatements = new QueenBlockStatements(
+                getPosition(ctx.statementNoShortIf()),
+                List.of(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
+            );
+        }
+
+        final QueenBlockStatements elseBlockStatements;
+        if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
+            elseBlockStatements = this.visitStatementWithoutTrailingSubstatement(
+                ctx.statement().statementWithoutTrailingSubstatement()
+            );
+        } else {
+            elseBlockStatements = new QueenBlockStatements(
+                getPosition(ctx.statement()),
+                List.of(this.visitStatement(ctx.statement()))
+            );
+        }
+        return new QueenIfStatementNode(
+            position,
+            condition,
+            thenBlockStatements,
+            elseBlockStatements
+        );
     }
 
     @Override
@@ -777,6 +848,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 ctx.block().blockStatements()
             );
         } else {
+            //@todo #49:60min Implement the remaining types of StatementWithoutTrailingSubstatement
             return new QueenBlockStatements(
                 getPosition(ctx),
                 List.of(

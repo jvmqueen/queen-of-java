@@ -15,6 +15,11 @@ public final implementation NaiveFactorial of Factorial {
         while(current > 0) {
             result = result * current;
             current--;
+            if(current % 2 == 0) {
+                System.out.println("EVEN NUMBER!");
+            } else {
+                System.out.println("ODD NUMBER!");
+            }
             if(2+2 ==4 ){
                 System.out.println("math");
             }

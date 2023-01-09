@@ -608,6 +608,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitExpression(QueenParser.ExpressionContext ctx) {
+        if(ctx == null) {
+            return null;
+        }
         return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
     }
 
@@ -742,6 +745,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return this.visitIfThenElseStatement(ctx.ifThenElseStatement());
         } else if(ctx.whileStatement() != null) {
             return this.visitWhileStatement(ctx.whileStatement());
+        } else if(ctx.forStatement() != null && ctx.forStatement().basicForStatement() != null) {
+            return this.visitBasicForStatement(ctx.forStatement().basicForStatement());
         } else {
             return new QueenTextStatementNode(
                 getPosition(ctx),
@@ -814,6 +819,64 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             condition,
             thenBlockStatements,
             elseBlockStatements
+        );
+    }
+
+    @Override
+    public QueenForStatementNode visitBasicForStatement(QueenParser.BasicForStatementContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenExpressionNode> init = new ArrayList<>();
+        if(ctx.forInit() != null) {
+            if(ctx.forInit().statementExpressionList() != null) {
+                ctx.forInit().statementExpressionList().statementExpression().forEach(
+                    stmtExpression -> init.add(
+                        new QueenTextExpressionNode(
+                            getPosition(stmtExpression),
+                            asString(stmtExpression)
+                        )
+                    )
+                );
+            } else if(ctx.forInit().localVariableDeclaration() != null) {
+                init.add(
+                    this.visitLocalVariableDeclaration(
+                        ctx.forInit().localVariableDeclaration()
+                    )
+                );
+            }
+        }
+
+        final QueenExpressionNode condition = this.visitExpression(ctx.expression());
+        final List<QueenExpressionNode> update = new ArrayList<>();
+        if(ctx.forUpdate() != null) {
+            if(ctx.forUpdate().statementExpressionList() != null) {
+                ctx.forUpdate().statementExpressionList().statementExpression().forEach(
+                    stmtExpression -> update.add(
+                        new QueenTextExpressionNode(
+                            getPosition(stmtExpression),
+                            asString(stmtExpression)
+                        )
+                    )
+                );
+            }
+        }
+
+        final QueenBlockStatements blockStatements;
+        if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
+            blockStatements = this.visitStatementWithoutTrailingSubstatement(
+                ctx.statement().statementWithoutTrailingSubstatement()
+            );
+        } else {
+            blockStatements = new QueenBlockStatements(
+                getPosition(ctx.statement()),
+                List.of(this.visitStatement(ctx.statement()))
+            );
+        }
+        return new QueenForStatementNode(
+            position,
+            init,
+            condition,
+            update,
+            blockStatements
         );
     }
 

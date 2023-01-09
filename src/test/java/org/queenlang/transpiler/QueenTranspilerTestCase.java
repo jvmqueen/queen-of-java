@@ -52,6 +52,7 @@ public final class QueenTranspilerTestCase {
             "JsonPerson.queen,JsonPerson.java",
             "Preamble.queen,Preamble.java",
             "NaiveFactorial.queen,NaiveFactorial.java",
+            "ControlStatementsExamples.queen,ControlStatementsExamples.java",
             "YamlMapping.queen,YamlMapping.java",
             "ClassWithFields.queen,ClassWithFields.java",
             "Collection.queen,Collection.java",

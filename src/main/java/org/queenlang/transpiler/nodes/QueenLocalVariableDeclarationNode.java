@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
@@ -45,7 +46,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLocalVariableDeclarationNode implements QueenBlockStatementNode {
+public final class QueenLocalVariableDeclarationNode implements QueenBlockStatementNode, QueenExpressionNode{
 
     /**
      * Position in the original source code.
@@ -96,6 +97,16 @@ public final class QueenLocalVariableDeclarationNode implements QueenBlockStatem
      * @return Statement, never null.
      */
     public Statement toJavaStatement() {
+        return new ExpressionStmt(this.toJavaExpression());
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public Expression toJavaExpression() {
         VariableDeclarationExpr vde = new VariableDeclarationExpr();
         this.annotations.forEach(a -> a.addToJavaNode(vde));
         this.modifiers.forEach(m -> m.addToJavaNode(vde));
@@ -114,11 +125,6 @@ public final class QueenLocalVariableDeclarationNode implements QueenBlockStatem
         );
 
         vde.setVariables(new NodeList<>(variableDeclarators));
-        return new ExpressionStmt(vde);
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
+        return vde;
     }
 }

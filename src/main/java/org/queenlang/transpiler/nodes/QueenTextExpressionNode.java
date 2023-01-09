@@ -30,7 +30,7 @@ public final class QueenTextExpressionNode implements QueenExpressionNode {
      * Turn it into a JavaParser Expression.
      * @return Expression, never null.
      */
-    private Expression toJavaExpression() {
+    public Expression toJavaExpression() {
         return StaticJavaParser.parseExpression(this.expression);
     }
 

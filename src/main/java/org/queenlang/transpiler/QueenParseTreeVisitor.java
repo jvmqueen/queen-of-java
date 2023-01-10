@@ -749,6 +749,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return this.visitBasicForStatement(ctx.forStatement().basicForStatement());
         } else if(ctx.forStatement() != null && ctx.forStatement().enhancedForStatement() != null) {
             return this.visitEnhancedForStatement(ctx.forStatement().enhancedForStatement());
+        } else if(ctx.labeledStatement() != null) {
+            return this.visitLabeledStatement(ctx.labeledStatement());
         } else {
             return new QueenTextStatementNode(
                 getPosition(ctx),
@@ -955,6 +957,26 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         return new QueenWhileStatementNode(
             position,
             expression,
+            blockStatements
+        );
+    }
+
+    @Override
+    public QueenLabeledStatementNode visitLabeledStatement(QueenParser.LabeledStatementContext ctx) {
+        final QueenBlockStatements blockStatements;
+        if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
+            blockStatements = this.visitStatementWithoutTrailingSubstatement(
+                ctx.statement().statementWithoutTrailingSubstatement()
+            );
+        } else {
+            blockStatements = new QueenBlockStatements(
+                getPosition(ctx.statement()),
+                List.of(this.visitStatement(ctx.statement()))
+            );
+        }
+        return new QueenLabeledStatementNode(
+            getPosition(ctx),
+            ctx.Identifier().getText(),
             blockStatements
         );
     }

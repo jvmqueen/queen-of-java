@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
+import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
 /**
@@ -81,7 +82,11 @@ public final class QueenIfStatementNode implements QueenStatementNode {
 
     @Override
     public void addToJavaNode(final Node java) {
-        ((BlockStmt) java).addStatement(this.toJavaStatement());
+        if(java instanceof BlockStmt) {
+            ((BlockStmt) java).addStatement(this.toJavaStatement());
+        } else if(java instanceof LabeledStmt) {
+            ((LabeledStmt) java).setStatement(this.toJavaStatement());
+        }
     }
 
     /**

@@ -32,6 +32,8 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
+import com.github.javaparser.ast.stmt.LabeledStmt;
+import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +87,18 @@ public final class QueenForStatementNode implements QueenStatementNode {
 
     @Override
     public void addToJavaNode(final Node java) {
+        if(java instanceof BlockStmt) {
+            ((BlockStmt) java).addStatement(this.toJavaStatement());
+        } else if(java instanceof LabeledStmt) {
+            ((LabeledStmt) java).setStatement(this.toJavaStatement());
+        }
+    }
+
+    /**
+     * Turn into a JavaParser Statement.
+     * @return Statement, never null.
+     */
+    private Statement toJavaStatement() {
         final ForStmt forStatement = new ForStmt();
 
         if(this.initialization != null) {
@@ -112,8 +126,7 @@ public final class QueenForStatementNode implements QueenStatementNode {
             this.blockStatements.addToJavaNode(block);
             forStatement.setBody(block);
         }
-
-        ((BlockStmt) java).addStatement(forStatement);
+        return forStatement;
     }
 
     @Override

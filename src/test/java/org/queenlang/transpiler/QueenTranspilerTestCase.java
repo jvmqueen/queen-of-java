@@ -53,6 +53,7 @@ public final class QueenTranspilerTestCase {
             "Preamble.queen,Preamble.java",
             "NaiveFactorial.queen,NaiveFactorial.java",
             "ControlStatementsExamples.queen,ControlStatementsExamples.java",
+            "LabeledGraph.queen,LabeledGraph.java",
             "YamlMapping.queen,YamlMapping.java",
             "ClassWithFields.queen,ClassWithFields.java",
             "Collection.queen,Collection.java",

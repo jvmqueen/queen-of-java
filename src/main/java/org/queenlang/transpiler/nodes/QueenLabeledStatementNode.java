@@ -27,36 +27,67 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
 /**
- * Queen Statment AST Node from text.
+ * Queen For Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTextStatementNode implements QueenStatementNode {
+public final class QueenLabeledStatementNode implements Named, QueenStatementNode {
 
+    /**
+     * Position of this for statement in the original source code.
+     */
     private final Position position;
-    private final String statement;
 
-    public QueenTextStatementNode(final Position position, final String statement) {
+    /**
+     * Name/label of the statement.
+     */
+    private final String name;
+
+    /**
+     * Statements inside this labeled statement.
+     */
+    private final QueenBlockStatements blockStatements;
+
+    public QueenLabeledStatementNode(
+        final Position position,
+        final String name,
+        final QueenBlockStatements blockStatements
+    ) {
         this.position = position;
-        this.statement = statement;
+        this.name = name;
+        this.blockStatements = blockStatements;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
         if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(stmt);
+            ((BlockStmt) java).addStatement(this.toJavaStatement());
         } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(stmt);
+            ((LabeledStmt) java).setStatement(this.toJavaStatement());
         }
+    }
+
+    /**
+     * Turn it into a JavaParser Statement.
+     * @return Statement, never null.
+     */
+    private Statement toJavaStatement() {
+        final LabeledStmt labeledStmt = new LabeledStmt();
+        labeledStmt.setLabel(new SimpleName(this.name));
+        if(this.blockStatements != null) {
+            final BlockStmt block = new BlockStmt();
+            this.blockStatements.addToJavaNode(block);
+            labeledStmt.setStatement(block);
+        }
+        return labeledStmt;
     }
 
     @Override
@@ -65,8 +96,7 @@ public final class QueenTextStatementNode implements QueenStatementNode {
     }
 
     @Override
-    public String toString() {
-        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
-        return stmt.getClass().toString();
+    public String name() {
+        return this.name;
     }
 }

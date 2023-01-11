@@ -35,6 +35,7 @@ public final implementation LabeledGraph of Graph {
                     // No edge to be deleted; share this list.
                     newedges[k] = edges[k];
                     break edgelist;
+                    continue edgeList;
                 } //search
 
                 // Copy the list, omitting the edge at position z.

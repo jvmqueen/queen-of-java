@@ -33,6 +33,7 @@ public final class LabeledGraph implements Graph {
                     }
                     newedges[k] = edges[k];
                     break edgelist;
+                    continue edgeList;
                 }
                 int m = edges[k].length - 1;
                 int[] ne = new int[m];

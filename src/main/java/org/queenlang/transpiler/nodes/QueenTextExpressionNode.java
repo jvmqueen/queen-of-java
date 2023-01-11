@@ -5,6 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithCondition;
+import com.github.javaparser.ast.stmt.ThrowStmt;
 
 public final class QueenTextExpressionNode implements QueenExpressionNode {
 
@@ -23,6 +24,8 @@ public final class QueenTextExpressionNode implements QueenExpressionNode {
             variableDeclarator.setInitializer(this.toJavaExpression());
         } else if (java instanceof NodeWithCondition) {
             ((NodeWithCondition) java).setCondition(this.toJavaExpression());
+        } else if(java instanceof ThrowStmt) {
+            ((ThrowStmt) java).setExpression(this.toJavaExpression());
         }
     }
 

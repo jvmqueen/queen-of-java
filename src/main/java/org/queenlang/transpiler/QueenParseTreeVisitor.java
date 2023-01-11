@@ -751,6 +751,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return this.visitEnhancedForStatement(ctx.forStatement().enhancedForStatement());
         } else if(ctx.labeledStatement() != null) {
             return this.visitLabeledStatement(ctx.labeledStatement());
+        } else if(ctx.statementWithoutTrailingSubstatement() != null) {
+            return this.visitStatementWithoutTrailingSubstatement(ctx.statementWithoutTrailingSubstatement());
         } else {
             return new QueenTextStatementNode(
                 getPosition(ctx),
@@ -985,22 +987,32 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public QueenBlockStatements visitStatementWithoutTrailingSubstatement(
         QueenParser.StatementWithoutTrailingSubstatementContext ctx
     ) {
+        final QueenStatementNode statementWithoutTrailingSubstatement;
         if (ctx.block() != null && ctx.block().blockStatements() != null) {
             return visitBlockStatements(
                 ctx.block().blockStatements()
             );
+        } else if(ctx.throwStatement() != null) {
+            statementWithoutTrailingSubstatement = this.visitThrowStatement(ctx.throwStatement());
         } else {
-            //@todo #49:60min Implement the remaining types of StatementWithoutTrailingSubstatement
-            return new QueenBlockStatements(
+            //@todo #63:60min Please implement the remaining types of StatementWithoutTrailingSubstatement
+            statementWithoutTrailingSubstatement = new QueenTextStatementNode(
                 getPosition(ctx),
-                List.of(
-                    new QueenTextStatementNode(
-                        getPosition(ctx),
-                        asString(ctx)
-                    )
-                )
+                asString(ctx)
             );
         }
+        return new QueenBlockStatements(
+            getPosition(ctx),
+            List.of(statementWithoutTrailingSubstatement)
+        );
+    }
+
+    @Override
+    public QueenThrowStatementNode visitThrowStatement(QueenParser.ThrowStatementContext ctx) {
+        return new QueenThrowStatementNode(
+            getPosition(ctx),
+            this.visitExpression(ctx.expression())
+        );
     }
 
     @Override

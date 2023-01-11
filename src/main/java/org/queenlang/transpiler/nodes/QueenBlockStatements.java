@@ -39,7 +39,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBlockStatements implements QueenNode, Iterable<QueenBlockStatementNode> {
+public final class QueenBlockStatements implements QueenStatementNode, Iterable<QueenBlockStatementNode> {
 
     private final Position position;
     private final List<QueenBlockStatementNode> blockStatements;

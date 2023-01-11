@@ -46,7 +46,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLocalVariableDeclarationNode implements QueenBlockStatementNode, QueenExpressionNode{
+public final class QueenLocalVariableDeclarationNode implements QueenStatementNode, QueenExpressionNode{
 
     /**
      * Position in the original source code.

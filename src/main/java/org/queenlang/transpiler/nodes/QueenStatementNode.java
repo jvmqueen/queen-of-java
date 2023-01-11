@@ -33,5 +33,5 @@ package org.queenlang.transpiler.nodes;
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenStatementNode extends QueenBlockStatementNode {
+public interface QueenStatementNode extends QueenNode {
 }

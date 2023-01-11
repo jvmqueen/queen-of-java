@@ -39,21 +39,21 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBlockStatements implements QueenStatementNode, Iterable<QueenBlockStatementNode> {
+public final class QueenBlockStatements implements QueenStatementNode, Iterable<QueenStatementNode> {
 
     private final Position position;
-    private final List<QueenBlockStatementNode> blockStatements;
+    private final List<QueenStatementNode> blockStatements;
 
     public QueenBlockStatements(
         final Position position,
-        final List<QueenBlockStatementNode> blockStatements
+        final List<QueenStatementNode> blockStatements
     ) {
         this.position = position;
         this.blockStatements = blockStatements;
     }
 
     @Override
-    public Iterator<QueenBlockStatementNode> iterator() {
+    public Iterator<QueenStatementNode> iterator() {
         return this.blockStatements.iterator();
     }
 

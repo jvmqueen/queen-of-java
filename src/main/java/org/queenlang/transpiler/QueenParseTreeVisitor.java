@@ -698,7 +698,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenBlockStatements visitBlockStatements(QueenParser.BlockStatementsContext ctx) {
-        final List<QueenBlockStatementNode> blockStatements = new ArrayList<>();
+        final List<QueenStatementNode> blockStatements = new ArrayList<>();
         ctx.blockStatement().forEach(
             bs -> {
                 if(bs.classDeclaration() != null) {

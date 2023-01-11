@@ -42,7 +42,6 @@ public interface QueenASTVisitor<T> {
     T visitQueenAnnotationTypeBodyNode(final QueenAnnotationTypeBodyNode node);
     T visitQueenAnnotationTypeDeclarationNode(final QueenAnnotationTypeDeclarationNode node);
     T visitQueenAnnotationTypeMemberDeclarationNode(final QueenAnnotationTypeMemberDeclarationNode node);
-    T visitQueenBlockStatementNode(final QueenBlockStatementNode node);
     T visitQueenBlockStatementsNode(final QueenBlockStatements node);
     T visitQueenClassBodyDeclarationNode(final QueenClassBodyDeclarationNode node);
     T visitQueenClassBodyNode(final QueenClassBodyNode node);

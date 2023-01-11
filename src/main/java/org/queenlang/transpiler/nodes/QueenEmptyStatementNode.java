@@ -31,31 +31,27 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.BreakStmt;
+import com.github.javaparser.ast.stmt.EmptyStmt;
 
 /**
- * Queen Break AST Node.
+ * Queen Empty Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBreakStatementNode implements QueenStatementNode {
+public final class QueenEmptyStatementNode implements QueenStatementNode {
 
     private final Position position;
 
-    private final String label;
-
-    public QueenBreakStatementNode(final Position position, final String label) {
+    public QueenEmptyStatementNode(final Position position) {
         this.position = position;
-        this.label = label;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        BreakStmt breakStmt = new BreakStmt();
-        if(this.label != null) {
-            breakStmt.setLabel(new SimpleName(this.label));
-        }
-        ((BlockStmt) java).addStatement(breakStmt);
+        ((BlockStmt) java).addStatement(
+            new EmptyStmt()
+        );
     }
 
     @Override

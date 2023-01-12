@@ -1004,6 +1004,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             statementWithoutTrailingSubstatement = this.visitEmptyStatement(ctx.emptyStatement());
         } else if(ctx.assertStatement() != null) {
             statementWithoutTrailingSubstatement = this.visitAssertStatement(ctx.assertStatement());
+        } else if(ctx.expressionStatement() != null) {
+            statementWithoutTrailingSubstatement = this.visitExpressionStatement(ctx.expressionStatement());
         } else {
             //@todo #63:60min Please implement the remaining types of StatementWithoutTrailingSubstatement
             statementWithoutTrailingSubstatement = new QueenTextStatementNode(
@@ -1070,6 +1072,15 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 this.visitExpression(ctx.expression(1))
             );
         }
+    }
+
+    @Override
+    public QueenStatementNode visitExpressionStatement(QueenParser.ExpressionStatementContext ctx) {
+        //@todo #63:60min Continue implementing visiting of expressionStatement.
+        return new QueenTextStatementNode(
+            getPosition(ctx),
+            asString(ctx.statementExpression())
+        );
     }
 
     @Override

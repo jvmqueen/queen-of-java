@@ -27,9 +27,11 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -51,11 +53,20 @@ public final class QueenTextStatementNode implements QueenStatementNode {
 
     @Override
     public void addToJavaNode(final Node java) {
-        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(stmt);
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(stmt);
+        Statement stmt = null;
+        try {
+            stmt = StaticJavaParser.parseStatement(this.statement);
+        } catch (ParseProblemException pbd) {
+            stmt = new ExpressionStmt(
+                StaticJavaParser.parseExpression(this.statement)
+            );
+        }
+        if(stmt != null) {
+            if(java instanceof BlockStmt) {
+                ((BlockStmt) java).addStatement(stmt);
+            } else if(java instanceof LabeledStmt) {
+                ((LabeledStmt) java).setStatement(stmt);
+            }
         }
     }
 

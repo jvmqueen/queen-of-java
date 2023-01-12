@@ -13,7 +13,7 @@ public final class NaiveFactorial implements Factorial {
     public final int result() {
         int current = limit;
         int result = 1;
-        while (current > 0) {
+        while (current > 1) {
             result = result * current;
             current--;
             if (current % 2 == 0) {
@@ -32,5 +32,20 @@ public final class NaiveFactorial implements Factorial {
             }
         }
         return result;
+    }
+
+    @Override
+    public final int resultWithDoWhile() {
+        int current = limit;
+        if (current <= 1) {
+            return 1;
+        } else {
+            int result = 1;
+            do {
+                result = result * current;
+                current--;
+            } while (curreny > 1);
+            return result;
+        }
     }
 }

@@ -964,6 +964,28 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenDoStatementNode visitDoStatement(QueenParser.DoStatementContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final QueenBlockStatements blockStatements;
+        if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
+            blockStatements = this.visitStatementWithoutTrailingSubstatement(
+                ctx.statement().statementWithoutTrailingSubstatement()
+            );
+        } else {
+            blockStatements = new QueenBlockStatements(
+                getPosition(ctx.statement()),
+                List.of(this.visitStatement(ctx.statement()))
+            );
+        }
+        return new QueenDoStatementNode(
+            position,
+            blockStatements,
+            expression
+        );
+    }
+
+    @Override
     public QueenLabeledStatementNode visitLabeledStatement(QueenParser.LabeledStatementContext ctx) {
         final QueenBlockStatements blockStatements;
         if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
@@ -1006,6 +1028,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             statementWithoutTrailingSubstatement = this.visitAssertStatement(ctx.assertStatement());
         } else if(ctx.expressionStatement() != null) {
             statementWithoutTrailingSubstatement = this.visitExpressionStatement(ctx.expressionStatement());
+        } else if(ctx.doStatement() != null) {
+            statementWithoutTrailingSubstatement = this.visitDoStatement(ctx.doStatement());
         } else {
             //@todo #63:60min Please implement the remaining types of StatementWithoutTrailingSubstatement
             statementWithoutTrailingSubstatement = new QueenTextStatementNode(

@@ -34,6 +34,7 @@ import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
 
+import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -1030,6 +1031,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             statementWithoutTrailingSubstatement = this.visitExpressionStatement(ctx.expressionStatement());
         } else if(ctx.doStatement() != null) {
             statementWithoutTrailingSubstatement = this.visitDoStatement(ctx.doStatement());
+        } else if(ctx.tryStatement() != null) {
+            statementWithoutTrailingSubstatement = this.visitTryStatement(ctx.tryStatement());
         } else {
             //@todo #63:60min Please implement the remaining types of StatementWithoutTrailingSubstatement
             statementWithoutTrailingSubstatement = new QueenTextStatementNode(
@@ -1096,6 +1099,159 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 this.visitExpression(ctx.expression(1))
             );
         }
+    }
+
+    @Override
+    public QueenTryStatementNode visitTryStatement(QueenParser.TryStatementContext ctx) {
+        if(ctx.tryWithResourcesStatement() != null) {
+            return this.visitTryWithResourcesStatement(ctx.tryWithResourcesStatement());
+        } else {
+            final Position position = getPosition(ctx);
+            final QueenBlockStatements tryBlockStatements;
+            if(ctx.block() != null && ctx.block().blockStatements() != null) {
+                tryBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
+            } else {
+                tryBlockStatements = null;
+            }
+            final QueenBlockStatements finallyBlockStatements = this.visitFinally_(ctx.finally_());
+            final List<QueenCatchClauseNode> catchClauses = new ArrayList<>();
+            if(ctx.catches() != null) {
+                ctx.catches().catchClause().forEach(
+                    cc -> catchClauses.add(this.visitCatchClause(cc))
+                );
+            }
+            return new QueenTryStatementNode(
+                position,
+                new ArrayList<>(),
+                tryBlockStatements,
+                catchClauses,
+                finallyBlockStatements
+            );
+        }
+    }
+
+    @Override
+    public QueenTryStatementNode visitTryWithResourcesStatement(QueenParser.TryWithResourcesStatementContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenExpressionNode> resources = new ArrayList<>();
+        ctx.resourceSpecification().resourceList().resource().forEach(
+            r -> resources.add(this.visitResource(r))
+        );
+        final QueenBlockStatements tryBlockStatements;
+        if(ctx.block() != null && ctx.block().blockStatements() != null) {
+            tryBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
+        } else {
+            tryBlockStatements = null;
+        }
+        final QueenBlockStatements finallyBlockStatements = this.visitFinally_(ctx.finally_());
+        final List<QueenCatchClauseNode> catchClauses = new ArrayList<>();
+        if(ctx.catches() != null) {
+            ctx.catches().catchClause().forEach(
+                cc -> catchClauses.add(this.visitCatchClause(cc))
+            );
+        }
+        return new QueenTryStatementNode(
+            position,
+            resources,
+            tryBlockStatements,
+            catchClauses,
+            finallyBlockStatements
+        );
+    }
+
+    @Override
+    public QueenBlockStatements visitFinally_(QueenParser.Finally_Context ctx) {
+        final QueenBlockStatements finallyBlockStatements;
+        if(ctx != null && ctx.block() != null && ctx.block().blockStatements() != null) {
+            finallyBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
+        } else {
+            finallyBlockStatements = null;
+        }
+        return finallyBlockStatements;
+    }
+
+    @Override
+    public QueenExpressionNode visitResource(QueenParser.ResourceContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenModifierNode> modifiers = new ArrayList<>();
+        if(ctx.variableModifier() != null) {
+            ctx.variableModifier().forEach(
+                vm -> {
+                    if(vm.annotation() != null) {
+                        annotations.add(this.visitAnnotation(vm.annotation()));
+                    }
+                    if(vm.FINAL() != null) {
+                        modifiers.add(
+                            new QueenModifierNode(
+                                this.getPosition(vm),
+                                vm.FINAL().getText()
+                            )
+                        );
+                    }
+                }
+            );
+        }
+
+        return new QueenLocalVariableDeclarationNode(
+            position,
+            annotations,
+            modifiers,
+            this.visitUnannType(ctx.unannType()),
+            Map.of(
+                asString(ctx.variableDeclaratorId()),
+                new QueenTextExpressionNode(getPosition(ctx.expression()), asString(ctx.expression()))
+            )
+        );
+    }
+
+    @Override
+    public QueenCatchClauseNode visitCatchClause(QueenParser.CatchClauseContext ctx) {
+        final Position position = getPosition(ctx);
+        final QueenCatchFormalParameterNode parameter = this.visitCatchFormalParameter(ctx.catchFormalParameter());
+        final QueenBlockStatements catchBlockStatements;
+        if(ctx.block() != null && ctx.block().blockStatements() != null) {
+            catchBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
+        } else {
+            catchBlockStatements = null;
+        }
+        return new QueenCatchClauseNode(
+            position,
+            parameter,
+            catchBlockStatements
+        );
+    }
+
+    @Override
+    public QueenCatchFormalParameterNode visitCatchFormalParameter(QueenParser.CatchFormalParameterContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<QueenModifierNode> modifiers = new ArrayList<>();
+        if(ctx.variableModifier() != null) {
+           ctx.variableModifier().forEach(
+               vm -> {
+                   if(vm.annotation() != null) {
+                       annotations.add(this.visitAnnotation(vm.annotation()));
+                   }
+                   if (vm.FINAL() != null) {
+                       modifiers.add(
+                           new QueenModifierNode(getPosition(vm), vm.FINAL().getText())
+                       );
+                   }
+               }
+           );
+        }
+        final List<QueenTypeNode> catchTypes = new ArrayList<>();
+        ctx.catchType().unannClassType().forEach(
+            ct -> catchTypes.add(this.visitUnannClassType(ct))
+        );
+        return new QueenCatchFormalParameterNode(
+            position,
+            annotations,
+            modifiers,
+            catchTypes,
+            asString(ctx.variableDeclaratorId())
+        );
     }
 
     @Override
@@ -1228,6 +1384,32 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             false,
             ctx.classOrInterfaceType() != null ?
                 this.visitClassOrInterfaceType(ctx.classOrInterfaceType())
+                :
+                null,
+            annotations,
+            name,
+            typeArguments
+        );
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode visitUnannClassType(QueenParser.UnannClassTypeContext ctx) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final String name = ctx.Identifier().getText();
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if(ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        return new QueenClassOrInterfaceTypeNode(
+            position,
+            false,
+            ctx.unannClassOrInterfaceType() != null ?
+                this.visitUnannClassOrInterfaceType(ctx.unannClassOrInterfaceType())
                 :
                 null,
             annotations,

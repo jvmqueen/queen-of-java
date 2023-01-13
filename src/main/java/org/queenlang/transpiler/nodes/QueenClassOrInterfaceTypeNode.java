@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -35,10 +34,11 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.WildcardType;
+import com.github.javaparser.ast.type.*;
+import com.github.javaparser.quality.NotNull;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,6 +138,15 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
             ((WildcardType) java).setSuperType(this.toClassOrInterfaceType());
         } else if(java instanceof QueenWildcardNode.WildcardExtendsBound) {
             ((WildcardType) java).setExtendedType(this.toClassOrInterfaceType());
+        } else if(java instanceof UnionType) {
+            final UnionType unionType = (UnionType) java;
+            final List<ReferenceType> existing = unionType.getElements();
+            final List<ReferenceType> added = new ArrayList<>();
+            if(existing != null && existing.size() > 0) {
+                added.addAll(existing);
+            }
+            added.add(this.toClassOrInterfaceType());
+            unionType.setElements(new NodeList<>(added));
         }
     }
 

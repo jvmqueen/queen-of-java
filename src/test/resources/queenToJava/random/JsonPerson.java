@@ -25,6 +25,35 @@ public final class JsonPerson implements Person {
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
+        try {
+            this.json = Json.readStream(jsonStream).toObject();
+        } catch (final IOException | Exception | com.ex.AnotherEx ex) {
+            throw new IllegalStateException(ex);
+        }
+        try {
+            this.json = Json.readStream(jsonStream).toObject();
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        } catch (final Exception ex) {
+            throw new IllegalStateException(ex);
+        } catch (final com.ex.AnotherEx ex) {
+            throw new IllegalStateException(ex);
+        } finally {
+            System.out.println("FINALLY");
+        }
+        try {
+            this.json = Json.readStream(jsonStream).toObject();
+        } finally {
+            System.out.println("Try without catch, with finally.");
+        }
+        try (InputStream inst = Json.readStream(jsonStream);
+            InputStream inst2 = Json.readStream(jsonStream)) {
+            this.json = inst.toObject();
+        } catch (final ex.ex.io.Exception exception) {
+            System.out.println("Caught in try-with-resources");
+        } finally {
+            System.out.println("Finally in try-with-resources");
+        }
     }
 
     public JsonPerson(final JsonObject json) {

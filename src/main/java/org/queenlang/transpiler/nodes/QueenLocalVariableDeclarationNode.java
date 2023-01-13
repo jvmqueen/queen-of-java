@@ -35,6 +35,7 @@ import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.TryStmt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,18 @@ public final class QueenLocalVariableDeclarationNode implements QueenStatementNo
 
     @Override
     public void addToJavaNode(Node java) {
-        ((BlockStmt) java).addStatement(this.toJavaStatement());
+        if(java instanceof BlockStmt) {
+            ((BlockStmt) java).addStatement(this.toJavaStatement());
+        } else if(java instanceof TryStmt) {
+            final TryStmt tryStmt = ((TryStmt) java);
+            final List<Expression> existing = ((TryStmt) java).getResources();
+            final List<Expression> added = new ArrayList<>();
+            if(existing != null && existing.size() > 0) {
+                added.addAll(existing);
+            }
+            added.add(this.toJavaExpression());
+            tryStmt.setResources(new NodeList<>(added));
+        }
     }
 
     /**

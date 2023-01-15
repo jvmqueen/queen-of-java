@@ -1035,6 +1035,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             statementWithoutTrailingSubstatement = this.visitTryStatement(ctx.tryStatement());
         } else if(ctx.synchronizedStatement() != null) {
             statementWithoutTrailingSubstatement = this.visitSynchronizedStatement(ctx.synchronizedStatement());
+        } else if(ctx.switchStatement() != null) {
+            statementWithoutTrailingSubstatement = this.visitSwitchStatement(ctx.switchStatement());
         } else {
             //@todo #63:60min Please implement the remaining types of StatementWithoutTrailingSubstatement
             statementWithoutTrailingSubstatement = new QueenTextStatementNode(
@@ -1117,6 +1119,78 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             position,
             expression,
             blockStatements
+        );
+    }
+
+    @Override
+    public QueenSwitchStatementNode visitSwitchStatement(QueenParser.SwitchStatementContext ctx) {
+        final Position position = getPosition(ctx);
+        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final List<QueenSwitchEntryNode> entries = new ArrayList<>();
+
+        if(ctx.switchBlock() != null) {
+            if(ctx.switchBlock().switchBlockStatementGroup() != null) {
+                ctx.switchBlock().switchBlockStatementGroup().forEach(
+                    sbsg -> {
+                        final Position p = getPosition(sbsg);
+                        final List<QueenSwitchLabelNode> labels = new ArrayList<>();
+                        final QueenBlockStatements blockStatements;
+                        if(sbsg.blockStatements() != null) {
+                            blockStatements = this.visitBlockStatements(sbsg.blockStatements());
+                        } else {
+                            blockStatements = null;
+                        }
+                        sbsg.switchLabels().switchLabel().forEach(
+                            (sl) -> labels.add(
+                                new QueenSwitchLabelNode(
+                                    getPosition(sl),
+                                    sl.DEFAULT() != null ? null :
+                                        new QueenTextExpressionNode(
+                                            getPosition(sl.constantExpression()),
+                                            asString(sl.constantExpression())
+                                        ),
+                                    sl.DEFAULT() != null
+                                )
+                            )
+                        );
+                        entries.add(
+                            new QueenSwitchEntryNode(
+                                p,
+                                labels,
+                                blockStatements
+                            )
+                        );
+                    }
+                );
+            } else if(ctx.switchBlock().switchLabel() != null) {
+                final List<QueenSwitchLabelNode> labels = new ArrayList<>();
+                ctx.switchBlock().switchLabel().forEach(
+                    (sl) -> labels.add(
+                        new QueenSwitchLabelNode(
+                            getPosition(sl),
+                            sl.DEFAULT() != null ? null :
+                                new QueenTextExpressionNode(
+                                    getPosition(sl.constantExpression()),
+                                    asString(sl.constantExpression())
+                                ),
+                            sl.DEFAULT() != null
+                        )
+                    )
+                );
+                entries.add(
+                    new QueenSwitchEntryNode(
+                        getPosition(ctx.switchBlock()),
+                        labels,
+                        null
+                    )
+                );
+            }
+        }
+
+        return new QueenSwitchStatementNode(
+            position,
+            expression,
+            entries
         );
     }
 

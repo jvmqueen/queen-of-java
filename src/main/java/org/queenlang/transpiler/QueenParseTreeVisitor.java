@@ -1038,7 +1038,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else if(ctx.switchStatement() != null) {
             statementWithoutTrailingSubstatement = this.visitSwitchStatement(ctx.switchStatement());
         } else {
-            //@todo #63:60min Please implement the remaining types of StatementWithoutTrailingSubstatement
             statementWithoutTrailingSubstatement = new QueenTextStatementNode(
                 getPosition(ctx),
                 asString(ctx)

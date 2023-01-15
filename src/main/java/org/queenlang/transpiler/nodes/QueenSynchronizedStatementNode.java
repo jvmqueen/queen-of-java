@@ -29,71 +29,42 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.TryStmt;
-
-import java.util.List;
+import com.github.javaparser.ast.stmt.SynchronizedStmt;
 
 /**
- * Queen Try Statement AST Node.
+ * Queen Synchronized Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTryStatementNode implements QueenStatementNode {
+public final class QueenSynchronizedStatementNode implements QueenStatementNode {
 
     private final Position position;
-    private final List<QueenExpressionNode> resources;
-    private final QueenBlockStatements tryBlockStatements;
-    private final List<QueenCatchClauseNode> catchClauses;
-    private final QueenBlockStatements finallyBlockStatements;
 
-    public QueenTryStatementNode(
+    private final QueenExpressionNode syncExpression;
+
+    private final QueenBlockStatements blockStatements;
+
+    public QueenSynchronizedStatementNode(
         final Position position,
-        final List<QueenExpressionNode> resources,
-        final QueenBlockStatements tryBlockStatements,
-        final List<QueenCatchClauseNode> catchClauses,
-        final QueenBlockStatements finallyBlockStatements
+        final QueenExpressionNode syncExpression,
+        final QueenBlockStatements blockStatements
     ) {
         this.position = position;
-        this.resources = resources;
-        this.tryBlockStatements = tryBlockStatements;
-        this.catchClauses = catchClauses;
-        this.finallyBlockStatements = finallyBlockStatements;
+        this.syncExpression = syncExpression;
+        this.blockStatements = blockStatements;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-
-        ((BlockStmt) java).addStatement(this.toJavaStatement());
-    }
-
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final TryStmt tryStmt = new TryStmt();
-        if(this.resources != null) {
-            this.resources.forEach(r -> r.addToJavaNode(tryStmt));
+        final SynchronizedStmt synchronizedStmt = new SynchronizedStmt();
+        this.syncExpression.addToJavaNode(synchronizedStmt);
+        if(this.blockStatements != null) {
+            final BlockStmt syncBockStmt = new BlockStmt();
+            this.blockStatements.addToJavaNode(syncBockStmt);
+            synchronizedStmt.setBody(syncBockStmt);
         }
-
-        if(this.tryBlockStatements != null) {
-            final BlockStmt tryBlockStmt = new BlockStmt();
-            this.tryBlockStatements.addToJavaNode(tryBlockStmt);
-            tryStmt.setTryBlock(tryBlockStmt);
-        }
-
-        if(this.catchClauses != null) {
-            this.catchClauses.forEach(c -> c.addToJavaNode(tryStmt));
-        }
-
-        if(this.finallyBlockStatements != null) {
-            final BlockStmt finallyBlockStmt = new BlockStmt();
-            this.finallyBlockStatements.addToJavaNode(finallyBlockStmt);
-            tryStmt.setFinallyBlock(finallyBlockStmt);
-        }
-        return tryStmt;
+        ((BlockStmt) java).addStatement(synchronizedStmt);
     }
 
     @Override

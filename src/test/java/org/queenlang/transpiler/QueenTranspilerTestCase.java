@@ -54,6 +54,7 @@ public final class QueenTranspilerTestCase {
             "NaiveFactorial.queen,NaiveFactorial.java",
             "ControlStatementsExamples.queen,ControlStatementsExamples.java",
             "LabeledGraph.queen,LabeledGraph.java",
+            "SyncCounter.queen,SyncCounter.java",
             "YamlMapping.queen,YamlMapping.java",
             "ClassWithFields.queen,ClassWithFields.java",
             "Collection.queen,Collection.java",

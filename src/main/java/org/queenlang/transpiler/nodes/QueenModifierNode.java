@@ -63,9 +63,11 @@ public final class QueenModifierNode implements QueenNode {
 
     @Override
     public void addToJavaNode(final Node java) {
-        ((NodeWithModifiers) java).addModifier(
-            Modifier.Keyword.valueOf(this.modifier.toUpperCase())
-        );
+        if(!this.modifier.equalsIgnoreCase("mutable")) {
+            ((NodeWithModifiers) java).addModifier(
+                Modifier.Keyword.valueOf(this.modifier.toUpperCase())
+            );
+        }
     }
 
     @Override

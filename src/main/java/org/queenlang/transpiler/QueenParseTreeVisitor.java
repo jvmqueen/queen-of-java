@@ -1033,6 +1033,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             statementWithoutTrailingSubstatement = this.visitDoStatement(ctx.doStatement());
         } else if(ctx.tryStatement() != null) {
             statementWithoutTrailingSubstatement = this.visitTryStatement(ctx.tryStatement());
+        } else if(ctx.synchronizedStatement() != null) {
+            statementWithoutTrailingSubstatement = this.visitSynchronizedStatement(ctx.synchronizedStatement());
         } else {
             //@todo #63:60min Please implement the remaining types of StatementWithoutTrailingSubstatement
             statementWithoutTrailingSubstatement = new QueenTextStatementNode(
@@ -1099,6 +1101,23 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 this.visitExpression(ctx.expression(1))
             );
         }
+    }
+
+    @Override
+    public QueenSynchronizedStatementNode visitSynchronizedStatement(QueenParser.SynchronizedStatementContext ctx) {
+        final Position position = getPosition(ctx);
+        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final QueenBlockStatements blockStatements;
+        if(ctx.block() != null && ctx.block().blockStatements() != null) {
+            blockStatements = this.visitBlockStatements(ctx.block().blockStatements());
+        } else {
+            blockStatements = null;
+        }
+        return new QueenSynchronizedStatementNode(
+            position,
+            expression,
+            blockStatements
+        );
     }
 
     @Override

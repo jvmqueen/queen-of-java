@@ -28,8 +28,8 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,6 +43,12 @@ public final class QueenBlockStatements implements QueenStatementNode, Iterable<
 
     private final Position position;
     private final List<QueenStatementNode> blockStatements;
+
+    public QueenBlockStatements(
+        final Position position
+    ) {
+        this(position, new ArrayList<>());
+    }
 
     public QueenBlockStatements(
         final Position position,

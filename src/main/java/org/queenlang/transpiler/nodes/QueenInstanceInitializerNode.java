@@ -74,10 +74,12 @@ public final class QueenInstanceInitializerNode implements QueenClassBodyDeclara
     @Override
     public void addToJavaNode(final Node java) {
         final ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        if(this.isStatic) {
-            this.blockStatements.addToJavaNode(clazz.addStaticInitializer());
-        } else {
-            this.blockStatements.addToJavaNode(clazz.addInitializer());
+        if(this.blockStatements != null) {
+            if(this.isStatic) {
+                this.blockStatements.addToJavaNode(clazz.addStaticInitializer());
+            } else {
+                this.blockStatements.addToJavaNode(clazz.addInitializer());
+            }
         }
     }
 

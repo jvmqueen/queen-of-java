@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
@@ -111,6 +112,8 @@ public final class QueenForStatementNode implements QueenStatementNode {
 
         if(this.comparison != null) {
             forStatement.setCompare(this.comparison.toJavaExpression());
+        } else {
+            forStatement.setCompare(new BooleanLiteralExpr(true));
         }
 
         if(this.update != null) {

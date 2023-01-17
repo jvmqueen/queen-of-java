@@ -522,7 +522,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(methodBodyContext.block() != null && methodBodyContext.block().blockStatements() != null) {
             queenBlockStatements = this.visitBlockStatements(methodBodyContext.block().blockStatements());
         } else {
-            queenBlockStatements = null;
+            queenBlockStatements = new QueenBlockStatements(getPosition(methodBodyContext));
         }
         final List<QueenTypeParameterNode> typeParams = new ArrayList<>();
         if(ctx.methodHeader().typeParameters() != null && ctx.methodHeader().typeParameters().typeParameterList() != null) {
@@ -723,16 +723,28 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenInstanceInitializerNode visitInstanceInitializer(QueenParser.InstanceInitializerContext ctx) {
+        final QueenBlockStatements queenBlockStatements;
+        if(ctx.block() != null && ctx.block().blockStatements() != null) {
+            queenBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
+        } else {
+            queenBlockStatements = new QueenBlockStatements(getPosition(ctx));
+        }
         return new QueenInstanceInitializerNode(
-            getPosition(ctx), this.visitBlockStatements(ctx.block().blockStatements())
+            getPosition(ctx), queenBlockStatements
         );
     }
 
     @Override
     public QueenInstanceInitializerNode visitStaticInitializer(QueenParser.StaticInitializerContext ctx) {
+        final QueenBlockStatements queenBlockStatements;
+        if(ctx.block() != null && ctx.block().blockStatements() != null) {
+            queenBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
+        } else {
+            queenBlockStatements = new QueenBlockStatements(getPosition(ctx));
+        }
         return new QueenInstanceInitializerNode(
             getPosition(ctx),
-            this.visitBlockStatements(ctx.block().blockStatements()),
+            queenBlockStatements,
             true
         );
     }
@@ -1260,14 +1272,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else if(ctx.switchStatement() != null) {
             statementWithoutTrailingSubstatement = this.visitSwitchStatement(ctx.switchStatement());
         } else {
-            statementWithoutTrailingSubstatement = new QueenTextStatementNode(
-                getPosition(ctx),
-                asString(ctx)
-            );
+            statementWithoutTrailingSubstatement = null;
         }
         return new QueenBlockStatements(
             getPosition(ctx),
-            List.of(statementWithoutTrailingSubstatement)
+            statementWithoutTrailingSubstatement != null
+                ? List.of(statementWithoutTrailingSubstatement)
+                : new ArrayList<>()
         );
     }
 
@@ -1334,7 +1345,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.block() != null && ctx.block().blockStatements() != null) {
             blockStatements = this.visitBlockStatements(ctx.block().blockStatements());
         } else {
-            blockStatements = null;
+            blockStatements = new QueenBlockStatements(getPosition(ctx));
         }
         return new QueenSynchronizedStatementNode(
             position,
@@ -1425,9 +1436,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             if(ctx.block() != null && ctx.block().blockStatements() != null) {
                 tryBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
             } else {
-                tryBlockStatements = null;
+                tryBlockStatements = new QueenBlockStatements(getPosition(ctx));
             }
-            final QueenBlockStatements finallyBlockStatements = this.visitFinally_(ctx.finally_());
+            final QueenBlockStatements finallyBlockStatements;
+            if(ctx.finally_() != null) {
+                finallyBlockStatements = this.visitFinally_(ctx.finally_());
+            } else {
+                finallyBlockStatements = null;
+            }
             final List<QueenCatchClauseNode> catchClauses = new ArrayList<>();
             if(ctx.catches() != null) {
                 ctx.catches().catchClause().forEach(
@@ -1455,7 +1471,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.block() != null && ctx.block().blockStatements() != null) {
             tryBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
         } else {
-            tryBlockStatements = null;
+            tryBlockStatements = new QueenBlockStatements(getPosition(ctx));
         }
         final QueenBlockStatements finallyBlockStatements = this.visitFinally_(ctx.finally_());
         final List<QueenCatchClauseNode> catchClauses = new ArrayList<>();
@@ -1479,7 +1495,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx != null && ctx.block() != null && ctx.block().blockStatements() != null) {
             finallyBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
         } else {
-            finallyBlockStatements = null;
+            finallyBlockStatements = new QueenBlockStatements(getPosition(ctx));
         }
         return finallyBlockStatements;
     }
@@ -1527,7 +1543,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.block() != null && ctx.block().blockStatements() != null) {
             catchBlockStatements = this.visitBlockStatements(ctx.block().blockStatements());
         } else {
-            catchBlockStatements = null;
+            catchBlockStatements = new QueenBlockStatements(getPosition(ctx));
         }
         return new QueenCatchClauseNode(
             position,

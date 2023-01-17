@@ -3,6 +3,15 @@ package org.queenlang.helloworld;
 @ControlStatements("examples")
 public final class ControlStatementsExamples implements IControlStatementsExamples {
 
+    {
+    }
+
+    static {
+    }
+
+    public ControlStatementsExamples() {
+    }
+
     @Override
     public final int simpleForLoop() {
         System.out.println("Before the for loop!");
@@ -17,10 +26,10 @@ public final class ControlStatementsExamples implements IControlStatementsExampl
         for (a = 3, b = 5; a < 99; a++) {
             hello();
         }
-        for (a(), b(); false; ) {
+        for (a(), b(); true; ) {
             hello();
         }
-        for (; false; ) {
+        for (; true; ) {
             somethingElse();
         }
         return 1;
@@ -91,5 +100,34 @@ public final class ControlStatementsExamples implements IControlStatementsExampl
                 break;
         }
         System.out.println(monthString);
+        return monthString;
+        ;
+        ;
+        ;
+    }
+
+    @Override
+    public void emptyAll() {
+        if (i == 2) {
+        }
+        while (true) {
+        }
+        for (; true; ) {
+        }
+        do {
+        } while (true);
+        if (i == 3) {
+        } else {
+        }
+        synchronized (this) {
+        }
+        try {
+        } catch (Exception ex) {
+        } finally {
+        }
+    }
+
+    @Override
+    public void emptyMethod() {
     }
 }

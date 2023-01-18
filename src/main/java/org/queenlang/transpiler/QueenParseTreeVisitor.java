@@ -653,7 +653,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else if(ctx.NullLiteral() != null) {
             return new QueenNullLiteralExpressionNode(getPosition(ctx));
         }
-        return null; //@todo #49:60min Decide what to do here, return null or throw exception.
+        return null;
+        //@todo #49:60min Decide what to do here, return null or throw exception.
     }
 
     @Override

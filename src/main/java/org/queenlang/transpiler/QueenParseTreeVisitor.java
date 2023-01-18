@@ -614,6 +614,48 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
     }
 
+    //@todo #63:60min Continue expression implementation with primary expressions.
+    @Override
+    public QueenExpressionNode visitLiteral(QueenParser.LiteralContext ctx) {
+        if(ctx.BooleanLiteral() != null) {
+            return new QueenBooleanLiteralExpressionNode(
+                getPosition(ctx),
+                Boolean.parseBoolean(ctx.BooleanLiteral().getText())
+            );
+        } else if(ctx.CharacterLiteral() != null) {
+            return new QueenCharLiteralExpressionNode(
+                getPosition(ctx),
+                ctx.CharacterLiteral().getText()
+            );
+        } else if(ctx.StringLiteral() != null) {
+            return new QueenStringLiteralExpressionNode(
+                getPosition(ctx),
+                ctx.StringLiteral().getText()
+            );
+        } else if(ctx.FloatingPointLiteral() != null) {
+            return new QueenDoubleLiteralExpressionNode(
+                getPosition(ctx),
+                ctx.FloatingPointLiteral().getText()
+            );
+        } else if(ctx.IntegerLiteral() != null) {
+            final String literal = ctx.IntegerLiteral().getText();
+            if(literal.endsWith("l") || literal.endsWith("L")) {
+                return new QueenLongLiteralExpressionNode(
+                    getPosition(ctx),
+                    literal
+                );
+            } else {
+                return new QueenIntegerLiteralExpressionNode(
+                    getPosition(ctx),
+                    literal
+                );
+            }
+        } else if(ctx.NullLiteral() != null) {
+            return new QueenNullLiteralExpressionNode(getPosition(ctx));
+        }
+        return null; //@todo #49:60min Decide what to do here, return null or throw exception.
+    }
+
     @Override
     public QueenExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
         return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));

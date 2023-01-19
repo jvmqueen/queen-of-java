@@ -111,17 +111,17 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
     @Override
     public void addToJavaNode(final Node java) {
         if(java instanceof VariableDeclarator) {
-            ((VariableDeclarator) java).setType(this.toClassOrInterfaceType());
+            ((VariableDeclarator) java).setType(this.toType());
         } else if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(this.toClassOrInterfaceType());
+            ((MethodDeclaration) java).setType(this.toType());
         } else if(java instanceof Parameter) {
-            ((Parameter) java).setType(this.toClassOrInterfaceType());
+            ((Parameter) java).setType(this.toType());
         } else if(java instanceof ClassOrInterfaceDeclaration) {
             final ClassOrInterfaceDeclaration clazz = ((ClassOrInterfaceDeclaration) java);
             if(this.interfaceType && !clazz.isInterface()) {
-                clazz.addImplementedType(this.toClassOrInterfaceType());
+                clazz.addImplementedType(this.toType());
             } else {
-                clazz.addExtendedType(this.toClassOrInterfaceType());
+                clazz.addExtendedType(this.toType());
             }
         } else if(java instanceof NodeWithTypeArguments) {
             final List<Type> existing = new ArrayList<>();
@@ -130,14 +130,14 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
                 .ifPresent(
                     tas -> existing.addAll(tas)
                 );
-            existing.add(this.toClassOrInterfaceType());
+            existing.add(this.toType());
 
             ((NodeWithTypeArguments<?>) java)
                 .setTypeArguments(new NodeList<>(existing));
         } else if(java instanceof QueenWildcardNode.WildcardSuperBound) {
-            ((WildcardType) java).setSuperType(this.toClassOrInterfaceType());
+            ((WildcardType) java).setSuperType(this.toType());
         } else if(java instanceof QueenWildcardNode.WildcardExtendsBound) {
-            ((WildcardType) java).setExtendedType(this.toClassOrInterfaceType());
+            ((WildcardType) java).setExtendedType(this.toType());
         } else if(java instanceof UnionType) {
             final UnionType unionType = (UnionType) java;
             final List<ReferenceType> existing = unionType.getElements();
@@ -145,7 +145,7 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
             if(existing != null && existing.size() > 0) {
                 added.addAll(existing);
             }
-            added.add(this.toClassOrInterfaceType());
+            added.add(this.toType());
             unionType.setElements(new NodeList<>(added));
         }
     }
@@ -171,14 +171,12 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         return this.scope;
     }
 
-    /**
-     * Turn it into a JavaParser ClassOrInterfaceType.
-     * @return ClassOrInterfaceType.
-     */
-    private ClassOrInterfaceType toClassOrInterfaceType() {
+
+    @Override
+    public ClassOrInterfaceType toType() {
         final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.name);
         if(this.scope != null) {
-            classOrInterfaceType.setScope(this.scope.toClassOrInterfaceType());
+            classOrInterfaceType.setScope(this.scope.toType());
         }
         if(this.annotations != null) {
             this.annotations.forEach(a -> a.addToJavaNode(classOrInterfaceType));

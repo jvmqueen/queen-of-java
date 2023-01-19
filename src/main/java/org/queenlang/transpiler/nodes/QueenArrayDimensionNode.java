@@ -28,57 +28,51 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
+
+import java.util.List;
 
 /**
- * Queen ExceptionType AST Node.
+ * The [] array dimension in Queen, AST Node. May contain expression between
+ * the brackets if it's part of an array creation expression. Can have annotations on top of it.
+ *
+ * final int[] arr = new int @Annotation[10]
+ *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenExceptionTypeNode implements QueenReferenceTypeNode {
+public final class QueenArrayDimensionNode implements QueenNode {
 
-    private final QueenClassOrInterfaceTypeNode exceptionType;
+    private final Position position;
+    private final List<QueenAnnotationNode> annotations;
+    private final QueenExpressionNode expression;
 
-    public QueenExceptionTypeNode(
-        final QueenClassOrInterfaceTypeNode exceptionType
+    public QueenArrayDimensionNode(
+        final Position position,
+        final List<QueenAnnotationNode> annotations
     ) {
-        this.exceptionType = exceptionType;
+        this(position, annotations, null);
+    }
+
+    public QueenArrayDimensionNode(
+        final Position position,
+        final List<QueenAnnotationNode> annotations,
+        final QueenExpressionNode expression
+    ) {
+        this.position = position;
+        this.annotations = annotations;
+        this.expression = expression;
+    }
+
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof NodeWithThrownExceptions) {
-            ((NodeWithThrownExceptions) java).addThrownException(this.toType());
-        }
-    }
+    public void addToJavaNode(final Node java) {}
 
     @Override
     public Position position() {
-        return this.exceptionType.position();
-    }
-
-    /**
-     * Turn it into a JavaParser ClassOrInterfaceType.
-     * @return ClassOrInterfaceType.
-     */
-    @Override
-    public ClassOrInterfaceType toType() {
-        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.exceptionType.name());
-        if(this.exceptionType.scope() != null) {
-            classOrInterfaceType.setScope(
-                new QueenExceptionTypeNode(this.exceptionType.scope()).toType()
-            );
-        }
-        if(this.exceptionType.annotations() != null) {
-            this.exceptionType.annotations().forEach(a -> a.addToJavaNode(classOrInterfaceType));
-        }
-        if(this.exceptionType.typeArguments() != null) {
-            this.exceptionType.typeArguments().forEach(
-                ta -> ta.addToJavaNode(classOrInterfaceType)
-            );
-        }
-        return classOrInterfaceType;
+        return this.position;
     }
 }

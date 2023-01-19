@@ -32,6 +32,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.type.ArrayType;
+import com.github.javaparser.ast.type.Type;
+
+import java.util.List;
 
 /**
  * Queen ArrayType AST Node.
@@ -52,42 +56,52 @@ public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
     private final QueenTypeNode type;
 
     /**
-     * Type with dims (square brackets) and their annotations
-     * We use it as String and probably will not have direct symbol resolution
-     * for the dims' annotations, because JavaParser doesn't seem to have
-     * modeled dims and their annotations.
+     * Array type dimensions (pairs of square brackets).
      */
-    private final String typeDims;
+    private final List<QueenArrayDimensionNode> dims;
 
     public QueenArrayTypeNode(
         final Position position,
         final QueenTypeNode type,
-        final String typeDims
+        final List<QueenArrayDimensionNode> dims
     ) {
         this.position = position;
         this.type = type;
-        this.typeDims = typeDims;
+        this.dims = dims;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
         if(java instanceof VariableDeclarator) {
-            ((VariableDeclarator) java).setType(
-                StaticJavaParser.parseType(this.typeDims)
-            );
+            ((VariableDeclarator) java).setType(this.toType());
         } else if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(
-                StaticJavaParser.parseType(this.typeDims)
-            );
+            ((MethodDeclaration) java).setType(toType());
         } else if(java instanceof Parameter) {
-            ((Parameter) java).setType(
-                StaticJavaParser.parseType(this.typeDims)
-            );
+            ((Parameter) java).setType(toType());
         }
     }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ArrayType toType() {
+        ArrayType arrayType = new ArrayType(
+            this.type.toType()
+        );
+        for(final QueenAnnotationNode annotation : this.dims.get(0).annotations()) {
+            annotation.addToJavaNode(arrayType);
+        }
+        for(int i=1; i<this.dims.size(); i++) {
+            arrayType = new ArrayType(
+                arrayType
+            );
+            for(final QueenAnnotationNode annotation : this.dims.get(i).annotations()) {
+                annotation.addToJavaNode(arrayType);
+            }
+        }
+        return arrayType;
     }
 }

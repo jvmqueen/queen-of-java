@@ -33,6 +33,8 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.PrimitiveType;
+import org.junit.Ignore;
+
 import java.util.List;
 
 /**
@@ -70,11 +72,11 @@ public final class QueenPrimitiveTypeNode implements QueenTypeNode {
     @Override
     public void addToJavaNode(final Node java) {
         if(java instanceof VariableDeclarator) {
-            ((VariableDeclarator) java).setType(this.toPrimitiveType());
+            ((VariableDeclarator) java).setType(this.toType());
         } else if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(this.toPrimitiveType());
+            ((MethodDeclaration) java).setType(this.toType());
         } else if(java instanceof Parameter) {
-            ((Parameter) java).setType(this.toPrimitiveType());
+            ((Parameter) java).setType(this.toType());
         }
     }
 
@@ -83,11 +85,8 @@ public final class QueenPrimitiveTypeNode implements QueenTypeNode {
         return this.position;
     }
 
-    /**
-     * Turn it into a JavaParser PrimitiveType.
-     * @return ClassOrInterfaceType.
-     */
-    private PrimitiveType toPrimitiveType() {
+    @Override
+    public PrimitiveType toType() {
         final PrimitiveType primitiveType = new PrimitiveType(
             PrimitiveType.Primitive.valueOf(this.name.toUpperCase())
         );

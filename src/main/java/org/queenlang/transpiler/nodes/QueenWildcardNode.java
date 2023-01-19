@@ -100,14 +100,7 @@ public final class QueenWildcardNode implements QueenTypeNode {
      * @return WildcardType.
      */
     private WildcardType toWildcardType() {
-        final WildcardType wildcardType;
-        if(this.extendedType != null) {
-            wildcardType = new WildcardExtendsBound();
-        } else if (this.superType != null) {
-            wildcardType = new WildcardSuperBound();
-        } else {
-            wildcardType = new WildcardType();
-        }
+        final WildcardType wildcardType = (WildcardType) this.toType();
         if(this.annotations != null) {
             this.annotations.forEach(a -> a.addToJavaNode(wildcardType));
         }
@@ -115,6 +108,19 @@ public final class QueenWildcardNode implements QueenTypeNode {
             this.extendedType.addToJavaNode(wildcardType);
         } else if(this.superType != null) {
             this.superType.addToJavaNode(wildcardType);
+        }
+        return wildcardType;
+    }
+
+    @Override
+    public Type toType() {
+        final WildcardType wildcardType;
+        if(this.extendedType != null) {
+            wildcardType = new WildcardExtendsBound();
+        } else if (this.superType != null) {
+            wildcardType = new WildcardSuperBound();
+        } else {
+            wildcardType = new WildcardType();
         }
         return wildcardType;
     }

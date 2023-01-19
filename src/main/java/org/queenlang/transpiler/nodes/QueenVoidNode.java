@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.type.Type;
 
 /**
  * Queen Void AST node.
@@ -54,5 +55,10 @@ public final class QueenVoidNode implements QueenTypeNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public Type toType() {
+        return null;
     }
 }

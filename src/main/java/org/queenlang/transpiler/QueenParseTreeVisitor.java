@@ -614,6 +614,54 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
     }
 
+    @Override
+    public QueenExpressionNode visitPrimary(QueenParser.PrimaryContext ctx) {
+        final QueenExpressionNode origin;
+        if(ctx.arrayCreationExpression() != null) {
+            origin = this.visitArrayCreationExpression(ctx.arrayCreationExpression());
+        } else {
+            origin = null;
+        }
+        return null;
+    }
+
+    @Override
+    public QueenExpressionNode visitArrayCreationExpression(QueenParser.ArrayCreationExpressionContext ctx) {
+        return null;
+    }
+
+    @Override
+    public QueenArrayDimensionNode visitDimExpr(QueenParser.DimExprContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        if(ctx.annotation() != null) {
+            ctx.annotation().forEach(
+                a -> annotations.add(this.visitAnnotation(a))
+            );
+        }
+        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        return new QueenArrayDimensionNode(
+            position,
+            annotations,
+            expression
+        );
+    }
+
+    @Override
+    public QueenArrayDimensionNode visitDim(QueenParser.DimContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        if(ctx.annotation() != null) {
+            ctx.annotation().forEach(
+                a -> annotations.add(this.visitAnnotation(a))
+            );
+        }
+        return new QueenArrayDimensionNode(
+            position,
+            annotations
+        );
+    }
+
     //@todo #63:60min Continue expression implementation with primary expressions.
     @Override
     public QueenExpressionNode visitLiteral(QueenParser.LiteralContext ctx) {
@@ -1973,10 +2021,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             type = this.visitTypeVariable(ctx.typeVariable());
         }
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        ctx.dims().dim().forEach(
+            d -> dims.add(this.visitDim(d))
+        );
         return new QueenArrayTypeNode(
             position,
             type,
-            asString(ctx)
+            dims
         );
     }
 
@@ -1991,10 +2043,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             type = this.visitUnannTypeVariable(ctx.unannTypeVariable());
         }
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        ctx.dims().dim().forEach(
+            d -> dims.add(this.visitDim(d))
+        );
         return new QueenArrayTypeNode(
             position,
             type,
-            asString(ctx)
+            dims
         );
     }
 

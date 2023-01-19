@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.type.Type;
+
 /**
  * Queen Type AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -34,4 +36,10 @@ package org.queenlang.transpiler.nodes;
  * @since 0.0.1
  */
 public interface QueenTypeNode extends QueenNode {
+
+    /**
+     * Turn it into a JavaParser Type.
+     * @return Type.
+     */
+    Type toType();
 }

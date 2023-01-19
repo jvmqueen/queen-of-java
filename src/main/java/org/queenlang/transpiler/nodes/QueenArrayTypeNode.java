@@ -91,10 +91,10 @@ public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
         ArrayType arrayType = new ArrayType(
             this.type.toType()
         );
-        for(final QueenAnnotationNode annotation : this.dims.get(0).annotations()) {
+        for(final QueenAnnotationNode annotation : this.dims.get(this.dims.size() - 1).annotations()) {
             annotation.addToJavaNode(arrayType);
         }
-        for(int i=1; i<this.dims.size(); i++) {
+        for(int i = this.dims.size() - 2; i>=0; i--) {
             arrayType = new ArrayType(
                 arrayType
             );

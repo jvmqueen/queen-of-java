@@ -11,7 +11,8 @@ public final class LabeledGraph implements Graph {
     @Override
     public final Graph loseEdges(final int i, final int j) {
         int n = edges.length;
-        int[][] newedges = new int[n][];
+        int[][] unAnnNewEdges = new int[n][];
+        int @NotNull [] @Ala [] newedges = new int[n][];
         for (int k = 0; k < n; ++k) {
             edgelist: {
                 int z;

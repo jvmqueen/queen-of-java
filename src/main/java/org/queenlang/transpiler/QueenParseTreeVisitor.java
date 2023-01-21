@@ -627,7 +627,36 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitArrayCreationExpression(QueenParser.ArrayCreationExpressionContext ctx) {
-        return null;
+        final Position position = getPosition(ctx);
+        final QueenTypeNode type;
+        if(ctx.primitiveType() != null) {
+            type = this.visitPrimitiveType(ctx.primitiveType());
+        } else {
+            type = this.visitClassOrInterfaceType(ctx.classOrInterfaceType());
+        }
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        if(ctx.dimExprs() != null) {
+            ctx.dimExprs().dimExpr().forEach(
+                de -> dims.add(this.visitDimExpr(de))
+            );
+        }
+        if(ctx.dims() != null) {
+            ctx.dims().dim().forEach(
+                d -> dims.add(this.visitDim(d))
+            );
+        }
+        final String arrayInitExpr;
+        if(ctx.arrayInitializer() != null) {
+            arrayInitExpr = asString(ctx.arrayInitializer());
+        } else {
+            arrayInitExpr = null;
+        }
+        return new QueenArrayCreationExpressionNode(
+            position,
+            type,
+            dims,
+            arrayInitExpr
+        );
     }
 
     @Override

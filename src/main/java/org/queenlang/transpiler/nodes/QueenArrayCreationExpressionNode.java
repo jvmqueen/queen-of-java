@@ -27,53 +27,64 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.ArrayCreationLevel;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.ArrayCreationExpr;
+import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.Expression;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The [] array dimension in Queen, AST Node. May contain expression between
- * the brackets if it's part of an array creation expression. Can have annotations on top of it.
- *
- * final int[] arr = new int @Annotation[10]
- *
+ * Queen array creation, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayDimensionNode implements QueenNode {
+public final class QueenArrayCreationExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
-    private final QueenExpressionNode expression;
+    private final QueenTypeNode type;
+    private final List<QueenArrayDimensionNode> dims;
+    private final String arrayInitializerExpr;
 
-    public QueenArrayDimensionNode(
+    public QueenArrayCreationExpressionNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations
-    ) {
-        this(position, annotations, null);
-    }
-
-    public QueenArrayDimensionNode(
-        final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final QueenExpressionNode expression
+        final QueenTypeNode type,
+        final List<QueenArrayDimensionNode> dims,
+        final String arrayInitializerExpr
     ) {
         this.position = position;
-        this.annotations = annotations;
-        this.expression = expression;
-    }
-
-    public List<QueenAnnotationNode> annotations() {
-        return this.annotations;
-    }
-
-    public QueenExpressionNode expression() {
-        return this.expression;
+        this.type = type;
+        this.dims = dims;
+        this.arrayInitializerExpr = arrayInitializerExpr;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {}
+    public Expression toJavaExpression() {
+        final List<ArrayCreationLevel> javaDims = new ArrayList<>();
+        this.dims.forEach(
+            d -> {
+                final ArrayCreationLevel javaDim = new ArrayCreationLevel();
+                javaDim.setDimension(d.expression().toJavaExpression());
+                d.annotations().forEach(
+                    a -> a.addToJavaNode(javaDim)
+                );
+                javaDims.add(javaDim);
+            }
+        );
+        final ArrayCreationExpr arrayCreation = new ArrayCreationExpr(
+            this.type.toType(),
+            new NodeList<>(javaDims),
+            this.arrayInitializerExpr != null
+                ? StaticJavaParser.parseExpression(this.arrayInitializerExpr)
+                : new ArrayInitializerExpr()
+
+        );
+        return arrayCreation;
+    }
 
     @Override
     public Position position() {

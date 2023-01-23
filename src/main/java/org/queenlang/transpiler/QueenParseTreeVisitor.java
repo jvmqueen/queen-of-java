@@ -616,13 +616,116 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitPrimary(QueenParser.PrimaryContext ctx) {
-        final QueenExpressionNode origin;
+        QueenExpressionNode primary;
         if(ctx.arrayCreationExpression() != null) {
-            origin = this.visitArrayCreationExpression(ctx.arrayCreationExpression());
-        } else {
-            origin = null;
+            primary = this.visitArrayCreationExpression(ctx.arrayCreationExpression());
+        } else if(ctx.primaryNoNewArray_lfno_primary() != null) {
+            primary = this.visitPrimaryNoNewArray_lfno_primary(
+                ctx.primaryNoNewArray_lfno_primary()
+            );
         }
         return null;
+    }
+
+    @Override
+    public QueenExpressionNode visitPrimaryNoNewArray_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primaryContext ctx) {
+        if(ctx.literal() != null) {
+            return this.visitLiteral(ctx.literal());
+        }
+        return null;
+    }
+
+    @Override
+    public QueenNameNode visitTypeName(QueenParser.TypeNameContext ctx) {
+        if(ctx.packageOrTypeName() == null) {
+            return new QueenNameNode(
+                getPosition(ctx),
+                ctx.Identifier().getText()
+            );
+        } else {
+            final QueenNameNode packageOrTypeName = this.visitPackageOrTypeName(ctx.packageOrTypeName());
+            return new QueenNameNode(
+                getPosition(ctx),
+                packageOrTypeName,
+                ctx.Identifier().getText()
+            );
+        }
+    }
+
+    @Override
+    public QueenNameNode visitPackageOrTypeName(QueenParser.PackageOrTypeNameContext ctx) {
+        if(ctx.packageOrTypeName() == null) {
+            return new QueenNameNode(
+                getPosition(ctx),
+                ctx.Identifier().getText()
+            );
+        } else {
+            final QueenNameNode packageOrTypeName = this.visitPackageOrTypeName(ctx.packageOrTypeName());
+            return new QueenNameNode(
+                getPosition(ctx),
+                packageOrTypeName,
+                ctx.Identifier().getText()
+            );
+        }
+    }
+
+    @Override
+    public QueenNameNode visitPackageName(QueenParser.PackageNameContext ctx) {
+        if(ctx.packageName() == null) {
+            return new QueenNameNode(
+                getPosition(ctx),
+                ctx.Identifier().getText()
+            );
+        } else {
+            final QueenNameNode packageName = this.visitPackageName(ctx.packageName());
+            return new QueenNameNode(
+                getPosition(ctx),
+                packageName,
+                ctx.Identifier().getText()
+            );
+        }
+    }
+
+    @Override
+    public QueenNameNode visitExpressionName(QueenParser.ExpressionNameContext ctx) {
+        if(ctx.ambiguousName() == null) {
+            return new QueenNameNode(
+                getPosition(ctx),
+                ctx.Identifier().getText()
+            );
+        } else {
+            final QueenNameNode ambiguousName = this.visitAmbiguousName(ctx.ambiguousName());
+            return new QueenNameNode(
+                getPosition(ctx),
+                ambiguousName,
+                ctx.Identifier().getText()
+            );
+        }
+    }
+
+    @Override
+    public QueenNameNode visitMethodName(QueenParser.MethodNameContext ctx) {
+        return new QueenNameNode(
+            getPosition(ctx),
+            ctx.Identifier().getText()
+        );
+    }
+
+    @Override
+    public QueenNameNode visitAmbiguousName(QueenParser.AmbiguousNameContext ctx) {
+        if(ctx.ambiguousName() == null) {
+            return new QueenNameNode(
+                getPosition(ctx),
+                ctx.Identifier().getText()
+            );
+        } else {
+            final QueenNameNode ambiguousName = this.visitAmbiguousName(ctx.ambiguousName());
+            return new QueenNameNode(
+                getPosition(ctx),
+                ambiguousName,
+                ctx.Identifier().getText()
+            );
+        }
     }
 
     @Override

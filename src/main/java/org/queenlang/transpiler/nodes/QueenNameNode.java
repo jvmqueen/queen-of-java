@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 /**
  * A name of something. Could be a package declaration, a type name, a method name etc.
@@ -36,7 +37,7 @@ import com.github.javaparser.ast.Node;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNameNode implements QueenNode {
+public final class QueenNameNode implements QueenReferenceTypeNode {
 
     private final Position position;
     private final QueenNameNode qualifier;
@@ -59,4 +60,12 @@ public final class QueenNameNode implements QueenNode {
     public Position position() {
         return this.position;
     }
+
+    @Override
+    public ClassOrInterfaceType toType() {
+        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.identifier);
+        if(this.qualifier != null) {
+            classOrInterfaceType.setScope(this.qualifier.toType());
+        }
+        return classOrInterfaceType;    }
 }

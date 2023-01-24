@@ -31,6 +31,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.VoidType;
 
 /**
  * Queen Void AST node.
@@ -48,7 +49,7 @@ public final class QueenVoidNode implements QueenTypeNode {
     @Override
     public void addToJavaNode(final Node java) {
         if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType("void");
+            ((MethodDeclaration) java).setType(this.toType());
         }
     }
 
@@ -59,6 +60,6 @@ public final class QueenVoidNode implements QueenTypeNode {
 
     @Override
     public Type toType() {
-        return null;
+        return new VoidType();
     }
 }

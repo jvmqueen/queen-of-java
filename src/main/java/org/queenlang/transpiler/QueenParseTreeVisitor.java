@@ -631,6 +631,42 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public QueenExpressionNode visitPrimaryNoNewArray_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primaryContext ctx) {
         if(ctx.literal() != null) {
             return this.visitLiteral(ctx.literal());
+        } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
+            final QueenNameNode typeName = this.visitTypeName(ctx.typeName());
+            final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+            if(ctx.unannDim() != null) {
+                ctx.unannDim().forEach(
+                    dim -> dims.add(
+                        new QueenArrayDimensionNode(getPosition(dim))
+                    )
+                );
+            }
+            return new QueenTypeImplementationExpressionNode(
+                getPosition(ctx.typeName()),
+                typeName,
+                dims
+            );
+        } else if(ctx.unannPrimitiveType() != null && ctx.IMPLEMENTATION() != null) {
+            final QueenPrimitiveTypeNode primitiveType = this.visitUnannPrimitiveType(ctx.unannPrimitiveType());
+            final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+            if(ctx.unannDim() != null) {
+                ctx.unannDim().forEach(
+                    dim -> dims.add(
+                        new QueenArrayDimensionNode(getPosition(dim))
+                    )
+                );
+            }
+            return new QueenTypeImplementationExpressionNode(
+                getPosition(ctx.unannPrimitiveType()),
+                primitiveType,
+                dims
+            );
+        } else if(ctx.VOID() != null && ctx.IMPLEMENTATION() != null) {
+            return new QueenTypeImplementationExpressionNode(
+                getPosition(ctx),
+                new QueenVoidNode(getPosition(ctx)),
+                new ArrayList<>()
+            );
         }
         return null;
     }

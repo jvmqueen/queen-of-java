@@ -27,59 +27,49 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.ClassExpr;
+import com.github.javaparser.ast.expr.Expression;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The [] array dimension in Queen, AST Node. May contain expression between
- * the brackets if it's part of an array creation expression. Can have annotations on top of it.
- *
- * final int[] arr = new int @Annotation[10]
- *
+ * Defines an expression that accesses the class of a type.
+ * Object.implementation, int.implementation, void.implementation etc.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayDimensionNode implements QueenNode {
+public final class QueenTypeImplementationExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
-    private final QueenExpressionNode expression;
+    private final QueenTypeNode type;
+    private final List<QueenArrayDimensionNode> dims;
 
-    public QueenArrayDimensionNode(
-        final Position position
-    ) {
-        this(position, null, null);
-    }
-
-    public QueenArrayDimensionNode(
+    public QueenTypeImplementationExpressionNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations
-    ) {
-        this(position, annotations, null);
-    }
-
-    public QueenArrayDimensionNode(
-        final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final QueenExpressionNode expression
+        final QueenTypeNode type,
+        final List<QueenArrayDimensionNode> dims
     ) {
         this.position = position;
-        this.annotations = annotations;
-        this.expression = expression;
-    }
-
-    public List<QueenAnnotationNode> annotations() {
-        return this.annotations;
-    }
-
-    public QueenExpressionNode expression() {
-        return this.expression;
+        this.type = type;
+        this.dims = dims;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {}
+    public Expression toJavaExpression() {
+        if(this.dims != null && !this.dims.isEmpty()) {
+            return new ClassExpr(
+                new QueenArrayTypeNode(
+                    this.position,
+                    this.type,
+                    this.dims
+                ).toType()
+            );
+        } else {
+            return new ClassExpr(this.type.toType());
+        }
+    }
 
     @Override
     public Position position() {

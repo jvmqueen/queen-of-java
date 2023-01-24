@@ -667,6 +667,17 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 new QueenVoidNode(getPosition(ctx)),
                 new ArrayList<>()
             );
+        } else if(ctx.THIS() != null) {
+            if(ctx.typeName() != null) {
+                return new QueenThisExpressionNode(
+                    getPosition(ctx),
+                    this.visitTypeName(ctx.typeName())
+                );
+            } else {
+                return new QueenThisExpressionNode(
+                    getPosition(ctx)
+                );
+            }
         }
         return null;
     }

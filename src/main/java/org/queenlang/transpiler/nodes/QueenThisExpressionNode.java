@@ -27,55 +27,41 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.Name;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.ThisExpr;
 
 /**
- * A name of something. Could be a package declaration, a type name, a method name etc.
- * In some cases, it can have a context/qualifier prefix like java.util.List (in the case of type name).
+ * Queen this expression, AST Node.
+ * this or Bicycle.this.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNameNode implements QueenReferenceTypeNode {
+public final class QueenThisExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final QueenNameNode qualifier;
-    private final String identifier;
+    private final QueenNameNode typeName;
 
-    public QueenNameNode(final Position position, final String identifier) {
-        this(position, null, identifier);
+    public QueenThisExpressionNode(final Position position){
+        this(position, null);
     }
 
-    public QueenNameNode(final Position position, final QueenNameNode qualifier, final String identifier) {
+    public QueenThisExpressionNode(final Position position, final QueenNameNode typeName){
         this.position = position;
-        this.qualifier = qualifier;
-        this.identifier = identifier;
+        this.typeName = typeName;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {}
+    public Expression toJavaExpression() {
+        if(this.typeName == null) {
+            return new ThisExpr();
+        } else {
+            return new ThisExpr(this.typeName.toName());
+        }
+    }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public ClassOrInterfaceType toType() {
-        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.identifier);
-        if(this.qualifier != null) {
-            classOrInterfaceType.setScope(this.qualifier.toType());
-        }
-        return classOrInterfaceType;
-    }
-
-    public Name toName() {
-        final Name name = new Name(this.identifier);
-        if(this.qualifier != null) {
-            name.setQualifier(this.qualifier.toName());
-        }
-        return name;
     }
 }

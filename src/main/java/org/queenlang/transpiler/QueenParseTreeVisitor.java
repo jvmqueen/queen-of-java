@@ -678,6 +678,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     getPosition(ctx)
                 );
             }
+        } else if(ctx.LPAREN() != null && ctx.expression() != null && ctx.RPAREN() != null) {
+            return new QueenBracketedExpressionNode(
+                getPosition(ctx.expression()),
+                this.visitExpression(ctx.expression())
+            );
         }
         return null;
     }

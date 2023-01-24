@@ -1862,9 +1862,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenStatementNode visitExpressionStatement(QueenParser.ExpressionStatementContext ctx) {
         //@todo #63:60min Continue implementing visiting of expressionStatement.
-        return new QueenTextStatementNode(
+        return new QueenExpressionStatementNode(
             getPosition(ctx),
-            asString(ctx.statementExpression())
+            new QueenTextExpressionNode(
+                getPosition(ctx),
+                asString(ctx.statementExpression())
+            )
         );
     }
 

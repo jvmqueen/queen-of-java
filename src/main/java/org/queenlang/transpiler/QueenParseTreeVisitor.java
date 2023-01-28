@@ -1861,13 +1861,44 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenStatementNode visitExpressionStatement(QueenParser.ExpressionStatementContext ctx) {
-        //@todo #63:60min Continue implementing visiting of expressionStatement.
         return new QueenExpressionStatementNode(
             getPosition(ctx),
-            new QueenTextExpressionNode(
-                getPosition(ctx),
-                asString(ctx.statementExpression())
-            )
+            this.visitStatementExpression(ctx.statementExpression())
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitStatementExpression(QueenParser.StatementExpressionContext ctx) {
+        //@todo #63:60min Continue implementing visiting of statementExpression.
+        if(ctx.assignment() != null) {
+            return this.visitAssignment(ctx.assignment());
+        }
+        return new QueenTextExpressionNode(
+            getPosition(ctx),
+            asString(ctx)
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitAssignment(QueenParser.AssignmentContext ctx) {
+        final Position position = getPosition(ctx);
+        final QueenExpressionNode target = this.visitLeftHandSide(ctx.leftHandSide());
+        final String operator = asString(ctx.assignmentOperator()).trim().toUpperCase();
+        final QueenExpressionNode value = this.visitExpression(ctx.expression());
+        return new QueenAssignmentExpressionNode(
+            position,
+            target,
+            operator,
+            value
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitLeftHandSide(QueenParser.LeftHandSideContext ctx) {
+        //@todo #63:60min Continue implementing visiting of leftHandSide.
+        return new QueenTextExpressionNode(
+            getPosition(ctx),
+            asString(ctx)
         );
     }
 

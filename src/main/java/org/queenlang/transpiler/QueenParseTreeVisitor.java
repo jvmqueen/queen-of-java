@@ -1977,8 +1977,33 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitUnaryExpressionNotPlusMinus(QueenParser.UnaryExpressionNotPlusMinusContext ctx) {
-        //@todo #63:60min Continue implementing UnaryExpressionNotPlusMinus.
-        return null;
+        if(ctx.postfixExpression() != null) {
+            return this.visitPostfixExpression(ctx.postfixExpression());
+        } else if(ctx.TILDE() != null) {
+            return new QueenUnaryExpressionNode(
+                getPosition(ctx),
+                ctx.TILDE().getText(),
+                true,
+                this.visitUnaryExpression(ctx.unaryExpression())
+            );
+        } else if(ctx.BANG() != null) {
+            return new QueenUnaryExpressionNode(
+                getPosition(ctx),
+                ctx.BANG().getText(),
+                true,
+                this.visitUnaryExpression(ctx.unaryExpression())
+            );
+        } else {
+            return this.visitCastExpression(ctx.castExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitCastExpression(QueenParser.CastExpressionContext ctx) {
+        return new QueenTextExpressionNode(
+            getPosition(ctx),
+            asString(ctx)
+        );
     }
 
     @Override

@@ -27,39 +27,60 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.nodeTypes.NodeWithCondition;
-import com.github.javaparser.ast.stmt.ReturnStmt;
-import com.github.javaparser.ast.stmt.SwitchStmt;
-import com.github.javaparser.ast.stmt.SynchronizedStmt;
-import com.github.javaparser.ast.stmt.ThrowStmt;
+import com.github.javaparser.ast.expr.UnaryExpr;
 
 /**
- * Queen Expression, AST Node.
+ * Queen Unary Expression, AST Node.
+ * An expression where an operator is applied to a single expression.
+ * 11++
+ * ++11
+ * ~1
+ * -333
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenExpressionNode extends QueenNode {
+public final class QueenUnaryExpressionNode implements QueenExpressionNode {
 
-    default void addToJavaNode(final Node java) {
-        if(java instanceof VariableDeclarator) {
-            final VariableDeclarator variableDeclarator = (VariableDeclarator) java;
-            variableDeclarator.setInitializer(this.toJavaExpression());
-        } else if (java instanceof NodeWithCondition) {
-            ((NodeWithCondition) java).setCondition(this.toJavaExpression());
-        } else if(java instanceof ThrowStmt) {
-            ((ThrowStmt) java).setExpression(this.toJavaExpression());
-        } else if(java instanceof ReturnStmt) {
-            ((ReturnStmt) java).setExpression(this.toJavaExpression());
-        } else if(java instanceof SynchronizedStmt) {
-            ((SynchronizedStmt) java).setExpression(this.toJavaExpression());
-        } else if(java instanceof SwitchStmt) {
-            ((SwitchStmt) java).setSelector(this.toJavaExpression());
-        }
+    private final Position position;
+    private final String operator;
+    private final boolean isPrefix;
+    private final QueenExpressionNode expression;
+
+    public QueenUnaryExpressionNode(
+        final Position position,
+        final String operator,
+        final boolean isPrefix,
+        final QueenExpressionNode expression
+    ) {
+        this.position = position;
+        this.operator = operator;
+        this.isPrefix = isPrefix;
+        this.expression = expression;
     }
 
-    Expression toJavaExpression();
+    @Override
+    public Expression toJavaExpression() {
+        UnaryExpr.Operator operator = null;
+        for(int i=0; i< UnaryExpr.Operator.values().length; i++) {
+            final UnaryExpr.Operator candidate = UnaryExpr.Operator.values()[i];
+            if(candidate.asString().equalsIgnoreCase(this.operator) && candidate.isPrefix() == this.isPrefix) {
+                operator = UnaryExpr.Operator.values()[i];
+                break;
+            }
+        }
+        if(operator == null) {
+            throw new IllegalStateException("Unkown unary operator: " + this.operator + ". (is prefix: " + this.isPrefix + ").");
+        }
+        return new UnaryExpr(
+            this.expression.toJavaExpression(),
+            operator
+        );
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

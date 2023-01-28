@@ -67,7 +67,7 @@ public final class QueenAssignmentExpressionNode implements QueenExpressionNode 
             }
         }
         if(operator == null) {
-            throw new IllegalStateException("Unkown operator: " + this.operator);
+            throw new IllegalStateException("Unkown assignment operator: " + this.operator);
         }
 
 

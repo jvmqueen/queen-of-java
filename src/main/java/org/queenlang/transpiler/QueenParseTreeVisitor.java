@@ -1872,6 +1872,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         //@todo #63:60min Continue implementing visiting of statementExpression.
         if(ctx.assignment() != null) {
             return this.visitAssignment(ctx.assignment());
+        } else if(ctx.preIncrementExpression() != null) {
+            return this.visitPreIncrementExpression(ctx.preIncrementExpression());
+        } else if(ctx.preDecrementExpression() != null) {
+            return this.visitPreDecrementExpression(ctx.preDecrementExpression());
+        } else if(ctx.postIncrementExpression() != null) {
+            return this.visitPostIncrementExpression(ctx.postIncrementExpression());
+        } else if(ctx.postDecrementExpression() != null) {
+            return this.visitPostDecrementExpression(ctx.postDecrementExpression());
         }
         return new QueenTextExpressionNode(
             getPosition(ctx),
@@ -1900,6 +1908,90 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             getPosition(ctx),
             asString(ctx)
         );
+    }
+
+    @Override
+    public QueenExpressionNode visitUnaryExpression(QueenParser.UnaryExpressionContext ctx) {
+        if(ctx.preIncrementExpression() != null) {
+            return this.visitPreIncrementExpression(ctx.preIncrementExpression());
+        } else if (ctx.preDecrementExpression() != null) {
+            return this.visitPreDecrementExpression(ctx.preDecrementExpression());
+        } else if(ctx.ADD() != null){
+            return new QueenUnaryExpressionNode(
+                getPosition(ctx),
+                ctx.ADD().getText(),
+                true,
+                this.visitUnaryExpression(ctx.unaryExpression())
+            );
+        } else if(ctx.SUB() != null){
+            return new QueenUnaryExpressionNode(
+                getPosition(ctx),
+                ctx.SUB().getText(),
+                true,
+                this.visitUnaryExpression(ctx.unaryExpression())
+            );
+        } else {
+            return this.visitUnaryExpressionNotPlusMinus(ctx.unaryExpressionNotPlusMinus());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitPreIncrementExpression(QueenParser.PreIncrementExpressionContext ctx) {
+        return new QueenUnaryExpressionNode(
+            getPosition(ctx),
+            "++",
+            true,
+            this.visitUnaryExpression(ctx.unaryExpression())
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitPreDecrementExpression(QueenParser.PreDecrementExpressionContext ctx) {
+        return new QueenUnaryExpressionNode(
+            getPosition(ctx),
+            "--",
+            true,
+            this.visitUnaryExpression(ctx.unaryExpression())
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitPostIncrementExpression(QueenParser.PostIncrementExpressionContext ctx) {
+        return new QueenUnaryExpressionNode(
+            getPosition(ctx),
+            "++",
+            false,
+            this.visitPostfixExpression(ctx.postfixExpression())
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitPostDecrementExpression(QueenParser.PostDecrementExpressionContext ctx) {
+        return new QueenUnaryExpressionNode(
+            getPosition(ctx),
+            "--",
+            false,
+            this.visitPostfixExpression(ctx.postfixExpression())
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitUnaryExpressionNotPlusMinus(QueenParser.UnaryExpressionNotPlusMinusContext ctx) {
+        //@todo #63:60min Continue implementing UnaryExpressionNotPlusMinus.
+        return null;
+    }
+
+    @Override
+    public QueenExpressionNode visitPostfixExpression(QueenParser.PostfixExpressionContext ctx) {
+        //@todo #63:60min Continue implementing PostfixExpression.
+        if(ctx.primary() != null) {
+            return this.visitPrimary(ctx.primary());
+        } else {
+            return new QueenTextExpressionNode(
+                getPosition(ctx),
+                asString(ctx)
+            );
+        }
     }
 
     @Override

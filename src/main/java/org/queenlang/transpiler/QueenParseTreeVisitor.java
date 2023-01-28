@@ -2000,6 +2000,41 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitCastExpression(QueenParser.CastExpressionContext ctx) {
+        if(ctx.primitiveType() != null) {
+            return new QueenCastExpressionNode(
+                getPosition(ctx),
+                this.visitPrimitiveType(ctx.primitiveType()),
+                List.of(),
+                this.visitUnaryExpression(ctx.unaryExpression())
+            );
+        } else {
+            final List<QueenReferenceTypeNode> referenceTypes = new ArrayList<>();
+            referenceTypes.add(this.visitReferenceType(ctx.referenceType()));
+            if(ctx.additionalBound() != null) {
+                ctx.additionalBound().forEach(
+                    ab -> referenceTypes.add(
+                        this.visitInterfaceType(ab.interfaceType())
+                    )
+                );
+            }
+            if(ctx.unaryExpressionNotPlusMinus() != null) {
+                return new QueenCastExpressionNode(
+                    getPosition(ctx),
+                    referenceTypes,
+                    this.visitUnaryExpressionNotPlusMinus(ctx.unaryExpressionNotPlusMinus())
+                );
+            } else {
+                return new QueenCastExpressionNode(
+                    getPosition(ctx),
+                    referenceTypes,
+                    this.visitLambdaExpression(ctx.lambdaExpression())
+                );
+            }
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitLambdaExpression(QueenParser.LambdaExpressionContext ctx) {
         return new QueenTextExpressionNode(
             getPosition(ctx),
             asString(ctx)

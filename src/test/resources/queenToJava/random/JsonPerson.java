@@ -82,6 +82,7 @@ public final class JsonPerson implements Person {
         java.x--;
         u++;
         int o = m++ + n + ++m;
+        casted = (int) i++;
         java.test.TestClass.xx = y + 2;
         return this.getString("name", supportMissing);
     }

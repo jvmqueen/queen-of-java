@@ -81,6 +81,7 @@ public final implementation JsonPerson of Person {
         java.x--;
         u++;
         int o = m++ + n + ++m;
+        casted = (int) i++;
         java.test.TestClass.xx = y + 2;
         return this.getString("name", supportMissing);
     }

@@ -78,6 +78,11 @@ public final class JsonPerson implements Person {
 
     @Override
     public final String name(final boolean supportMissing) {
+        java.test.TestClass.xx++;
+        java.x--;
+        u++;
+        int o = m++ + n + ++m;
+        java.test.TestClass.xx = y + 2;
         return this.getString("name", supportMissing);
     }
 

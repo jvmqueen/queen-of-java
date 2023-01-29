@@ -624,6 +624,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 ctx.primaryNoNewArray_lfno_primary()
             );
         }
+        //@todo #63:60min finish visitParymary.
         return null;
     }
 
@@ -2043,15 +2044,29 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitPostfixExpression(QueenParser.PostfixExpressionContext ctx) {
-        //@todo #63:60min Continue implementing PostfixExpression.
+        QueenExpressionNode postfixExpression;
         if(ctx.primary() != null) {
-            return this.visitPrimary(ctx.primary());
+            postfixExpression = this.visitPrimary(ctx.primary());
         } else {
-            return new QueenTextExpressionNode(
+            postfixExpression=  this.visitExpressionName(ctx.expressionName());
+        }
+        for(int i=0; i<ctx.postIncrementExpression_lf_postfixExpression().size(); i++) {
+            postfixExpression = new QueenUnaryExpressionNode(
                 getPosition(ctx),
-                asString(ctx)
+                "++",
+                false,
+                postfixExpression
             );
         }
+        for(int i=0; i<ctx.postDecrementExpression_lf_postfixExpression().size(); i++) {
+            postfixExpression = new QueenUnaryExpressionNode(
+                getPosition(ctx),
+                "--",
+                false,
+                postfixExpression
+            );
+        }
+        return postfixExpression;
     }
 
     @Override

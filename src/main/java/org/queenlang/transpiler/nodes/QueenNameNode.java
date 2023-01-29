@@ -28,17 +28,17 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 /**
  * A name of something. Could be a package declaration, a type name, a method name etc.
- * In some cases, it can have a context/qualifier prefix like java.util.List (in the case of type name).
+ * In some cases, it can have a context/qualifier prefix like java.util.List.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNameNode implements QueenReferenceTypeNode {
+public final class QueenNameNode implements QueenReferenceTypeNode, QueenExpressionNode {
 
     private final Position position;
     private final QueenNameNode qualifier;
@@ -69,6 +69,18 @@ public final class QueenNameNode implements QueenReferenceTypeNode {
             classOrInterfaceType.setScope(this.qualifier.toType());
         }
         return classOrInterfaceType;
+    }
+
+    @Override
+    public Expression toJavaExpression() {
+        if(this.qualifier == null) {
+            return new NameExpr(this.identifier);
+        } else {
+            return new FieldAccessExpr(
+                this.qualifier.toJavaExpression(),
+                this.identifier
+            );
+        }
     }
 
     public Name toName() {

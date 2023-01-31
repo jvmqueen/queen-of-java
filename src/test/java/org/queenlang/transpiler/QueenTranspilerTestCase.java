@@ -49,6 +49,7 @@ public final class QueenTranspilerTestCase {
     @ParameterizedTest
     @CsvSource(
         value = {
+            "Expressions.queen,Expressions.java",
             "JsonPerson.queen,JsonPerson.java",
             "Preamble.queen,Preamble.java",
             "NaiveFactorial.queen,NaiveFactorial.java",

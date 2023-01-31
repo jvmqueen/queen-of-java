@@ -5,6 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
+import com.github.javaparser.ast.type.UnknownType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,13 @@ public final class QueenParameterNode implements QueenNode{
     private final QueenTypeNode type;
     private final List<String> varArgsAnnotations;
     private final boolean varArgs;
+
+    public QueenParameterNode(
+        final Position position,
+        final String name
+    ) {
+        this(position, new ArrayList<>(), new ArrayList<>(), null, name, false);
+    }
 
     public QueenParameterNode(
         final Position position,
@@ -70,7 +78,11 @@ public final class QueenParameterNode implements QueenNode{
         final Parameter parameter = new Parameter();
         this.annotations.forEach( a -> a.addToJavaNode(parameter));
         this.modifiers.forEach(m -> m.addToJavaNode(parameter));
-        this.type.addToJavaNode(parameter);
+        if(this.type != null) {
+            this.type.addToJavaNode(parameter);
+        } else {
+            parameter.setType(new UnknownType());
+        }
         parameter.setName(this.name);
         parameter.setVarArgs(this.varArgs);
         parameter.setVarArgsAnnotations(

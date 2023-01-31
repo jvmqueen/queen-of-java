@@ -30,6 +30,7 @@ package org.queenlang.transpiler;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
@@ -611,7 +612,20 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx == null) {
             return null;
         }
-        return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
+        if(ctx.lambdaExpression() != null) {
+            return this.visitLambdaExpression(ctx.lambdaExpression());
+        } else {
+            return this.visitAssignmentExpression((ctx.assignmentExpression()));
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitAssignmentExpression(QueenParser.AssignmentExpressionContext ctx) {
+        if(ctx.assignment() != null) {
+            return this.visitAssignment(ctx.assignment());
+        } else {
+            return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
+        }
     }
 
     @Override
@@ -2036,9 +2050,54 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitLambdaExpression(QueenParser.LambdaExpressionContext ctx) {
-        return new QueenTextExpressionNode(
-            getPosition(ctx),
-            asString(ctx)
+        final Position position = getPosition(ctx);
+        final List<QueenParameterNode> parameters = new ArrayList<>();
+        if(ctx.lambdaParameters() != null) {
+            if(ctx.lambdaParameters().Identifier() != null) {
+                parameters.add(
+                    new QueenParameterNode(
+                        getPosition(ctx.lambdaParameters()),
+                        ctx.lambdaParameters().Identifier().getText()
+                    )
+                );
+            } else if(ctx.lambdaParameters().inferredFormalParameterList() != null) {
+                ctx.lambdaParameters().inferredFormalParameterList().Identifier().forEach(
+                    inferred -> parameters.add(
+                        new QueenParameterNode(
+                            getPosition(ctx.lambdaParameters().inferredFormalParameterList()),
+                            inferred.getText()
+                        )
+                    )
+                );
+            } else {
+                final QueenParser.FormalParameterListContext formalParameterList = ctx.lambdaParameters().formalParameterList();
+                if(formalParameterList.formalParameters() != null) {
+                    formalParameterList.formalParameters().formalParameter()
+                        .forEach(fp -> parameters.add(this.visitFormalParameter(fp)));
+                }
+                if(formalParameterList.lastFormalParameter() != null) {
+                    parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
+                }
+            }
+        }
+        final QueenBlockStatements queenBlockStatements;
+        if (ctx.lambdaBody().block() != null && ctx.lambdaBody().block().blockStatements() != null) {
+            queenBlockStatements = this.visitBlockStatements(ctx.lambdaBody().block().blockStatements());
+        } else {
+            queenBlockStatements = new QueenBlockStatements(
+                getPosition(ctx.lambdaBody().expression()),
+                List.of(
+                    new QueenExpressionStatementNode(
+                        getPosition(ctx.lambdaBody().expression()),
+                        this.visitExpression(ctx.lambdaBody().expression())
+                    )
+                )
+            );
+        }
+        return new QueenLambdaExpressionNode(
+            position,
+            parameters,
+            queenBlockStatements
         );
     }
 

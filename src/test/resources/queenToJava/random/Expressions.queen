@@ -1,0 +1,16 @@
+package org.test.queen;
+
+import org.test.Student;
+
+@JustTestingExpressions(value = "random_expressions")
+public final implementation Expressions of ExpressionsTest {
+    @Override
+    public Student casting(Object obj) {
+        return (Student) obj;
+    }
+
+    @Override
+    public Student castingLambda(Object obj) {
+        return (Student) () -> obj;
+    }
+}

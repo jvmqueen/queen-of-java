@@ -27,53 +27,48 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.expr.AssignExpr;
+import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 
-import java.util.Arrays;
-
 /**
- * Queen Assignment Expression, AST Node.
+ * Queen Binary Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.0.1
+ * @since 0.0.01
  */
-public final class QueenAssignmentExpressionNode implements QueenExpressionNode {
-
+public final class QueenBinaryExpressionNode implements QueenExpressionNode {
     private final Position position;
-    private final QueenExpressionNode target;
+    private final QueenExpressionNode left;
     private final String operator;
-    private final QueenExpressionNode value;
+    private final QueenExpressionNode right;
 
-    public QueenAssignmentExpressionNode(
+    public QueenBinaryExpressionNode(
         final Position position,
-        final QueenExpressionNode target,
+        final QueenExpressionNode left,
         final String operator,
-        final QueenExpressionNode value
+        final QueenExpressionNode right
     ) {
         this.position = position;
-        this.target = target;
+        this.left = left;
         this.operator = operator;
-        this.value = value;
+        this.right = right;
     }
 
     @Override
     public Expression toJavaExpression() {
-        AssignExpr.Operator operator = null;
-        for(int i=0; i< AssignExpr.Operator.values().length; i++) {
-            if(AssignExpr.Operator.values()[i].asString().equalsIgnoreCase(this.operator)) {
-                operator = AssignExpr.Operator.values()[i];
+        BinaryExpr.Operator operator = null;
+        for(int i=0; i< BinaryExpr.Operator.values().length; i++) {
+            if(BinaryExpr.Operator.values()[i].asString().equalsIgnoreCase(this.operator)) {
+                operator = BinaryExpr.Operator.values()[i];
                 break;
             }
         }
         if(operator == null) {
-            throw new IllegalStateException("Unknown assignment operator: " + this.operator);
+            throw new IllegalStateException("Unknown operator: " + this.operator);
         }
-
-
-        return new AssignExpr(
-            this.target.toJavaExpression(),
-            this.value.toJavaExpression(),
+        return new BinaryExpr(
+            this.left.toJavaExpression(),
+            this.right.toJavaExpression(),
             operator
         );
     }

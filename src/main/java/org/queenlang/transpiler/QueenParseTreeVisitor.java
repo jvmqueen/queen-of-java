@@ -624,7 +624,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.assignment() != null) {
             return this.visitAssignment(ctx.assignment());
         } else {
-            return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
+            return this.visitConditionalExpression(ctx.conditionalExpression());
+//            return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
         }
     }
 
@@ -639,7 +640,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
         //@todo #63:60min finish visitParymary.
-        return null;
+        return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
     }
 
     @Override
@@ -1947,6 +1948,222 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         } else {
             return this.visitUnaryExpressionNotPlusMinus(ctx.unaryExpressionNotPlusMinus());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitMultiplicativeExpression(QueenParser.MultiplicativeExpressionContext ctx) {
+        if(ctx.MUL() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitMultiplicativeExpression(ctx.multiplicativeExpression()),
+                ctx.MUL().getText(),
+                this.visitUnaryExpression(ctx.unaryExpression())
+            );
+        } else if(ctx.DIV() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitMultiplicativeExpression(ctx.multiplicativeExpression()),
+                ctx.DIV().getText(),
+                this.visitUnaryExpression(ctx.unaryExpression())
+            );
+        } else if(ctx.MOD() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitMultiplicativeExpression(ctx.multiplicativeExpression()),
+                ctx.MOD().getText(),
+                this.visitUnaryExpression(ctx.unaryExpression())
+            );
+        } else {
+            return this.visitUnaryExpression(ctx.unaryExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitAdditiveExpression(QueenParser.AdditiveExpressionContext ctx) {
+        if(ctx.ADD() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitAdditiveExpression(ctx.additiveExpression()),
+                ctx.ADD().getText(),
+                this.visitMultiplicativeExpression(ctx.multiplicativeExpression())
+            );
+        } else if(ctx.SUB() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitAdditiveExpression(ctx.additiveExpression()),
+                ctx.SUB().getText(),
+                this.visitMultiplicativeExpression(ctx.multiplicativeExpression())
+            );
+        } else {
+            return this.visitMultiplicativeExpression(ctx.multiplicativeExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitShiftExpression(QueenParser.ShiftExpressionContext ctx) {
+        if(ctx.GT() != null && ctx.GT().size() == 3) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitShiftExpression(ctx.shiftExpression()),
+                ">>>",
+                this.visitAdditiveExpression(ctx.additiveExpression())
+            );
+        } else if(ctx.GT() != null && ctx.GT().size() == 2) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitShiftExpression(ctx.shiftExpression()),
+                ">>",
+                this.visitAdditiveExpression(ctx.additiveExpression())
+            );
+        } else if(ctx.LT() != null && ctx.LT().size() == 2) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitShiftExpression(ctx.shiftExpression()),
+                "<<",
+                this.visitAdditiveExpression(ctx.additiveExpression())
+            );
+        } else {
+            return this.visitAdditiveExpression(ctx.additiveExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitRelationalExpression(QueenParser.RelationalExpressionContext ctx) {
+        if(ctx.LT() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitRelationalExpression(ctx.relationalExpression()),
+                ctx.LT().getText(),
+                this.visitShiftExpression(ctx.shiftExpression())
+            );
+        } else if(ctx.GT() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitRelationalExpression(ctx.relationalExpression()),
+                ctx.GT().getText(),
+                this.visitShiftExpression(ctx.shiftExpression())
+            );
+        } else if(ctx.LE() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitRelationalExpression(ctx.relationalExpression()),
+                ctx.LE().getText(),
+                this.visitShiftExpression(ctx.shiftExpression())
+            );
+        } else if(ctx.GE() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitRelationalExpression(ctx.relationalExpression()),
+                ctx.GE().getText(),
+                this.visitShiftExpression(ctx.shiftExpression())
+            );
+        } else if(ctx.INSTANCEOF() != null) {
+            //@todo #63:60min Implement InstanceofExpressionNode for Queen.
+            return null;
+        } else {
+            return this.visitShiftExpression(ctx.shiftExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitEqualityExpression(QueenParser.EqualityExpressionContext ctx) {
+        if(ctx.EQUAL() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitEqualityExpression(ctx.equalityExpression()),
+                ctx.EQUAL().getText(),
+                this.visitRelationalExpression(ctx.relationalExpression())
+            );
+        } else if(ctx.NOTEQUAL() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitEqualityExpression(ctx.equalityExpression()),
+                ctx.NOTEQUAL().getText(),
+                this.visitRelationalExpression(ctx.relationalExpression())
+            );
+        } else {
+            return this.visitRelationalExpression(ctx.relationalExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitAndExpression(QueenParser.AndExpressionContext ctx) {
+        if(ctx.BITAND() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitAndExpression(ctx.andExpression()),
+                ctx.BITAND().getText(),
+                this.visitEqualityExpression(ctx.equalityExpression())
+            );
+        } else {
+            return this.visitEqualityExpression(ctx.equalityExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitExclusiveOrExpression(final QueenParser.ExclusiveOrExpressionContext ctx) {
+        if(ctx.CARET() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitExclusiveOrExpression(ctx.exclusiveOrExpression()),
+                ctx.CARET().getText(),
+                this.visitAndExpression(ctx.andExpression())
+            );
+        } else {
+            return this.visitAndExpression(ctx.andExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitInclusiveOrExpression(final QueenParser.InclusiveOrExpressionContext ctx) {
+        if(ctx.BITOR() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitInclusiveOrExpression(ctx.inclusiveOrExpression()),
+                ctx.BITOR().getText(),
+                this.visitExclusiveOrExpression(ctx.exclusiveOrExpression())
+            );
+        } else {
+            return this.visitExclusiveOrExpression(ctx.exclusiveOrExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitConditionalAndExpression(final QueenParser.ConditionalAndExpressionContext ctx) {
+        if(ctx.AND() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitConditionalAndExpression(ctx.conditionalAndExpression()),
+                ctx.AND().getText(),
+                this.visitInclusiveOrExpression(ctx.inclusiveOrExpression())
+            );
+        } else {
+            return this.visitInclusiveOrExpression(ctx.inclusiveOrExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitConditionalOrExpression(final QueenParser.ConditionalOrExpressionContext ctx) {
+        if(ctx.OR() != null) {
+            return new QueenBinaryExpressionNode(
+                getPosition(ctx),
+                this.visitConditionalOrExpression(ctx.conditionalOrExpression()),
+                ctx.OR().getText(),
+                this.visitConditionalAndExpression(ctx.conditionalAndExpression())
+            );
+        } else {
+            return this.visitConditionalAndExpression(ctx.conditionalAndExpression());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitConditionalExpression(final QueenParser.ConditionalExpressionContext ctx) {
+        if(ctx.QUESTION() != null) {
+            //@todo #63:60min Implement ConditionalTernaryExpression node for Queen.
+            return null;
+        } else {
+            return this.visitConditionalOrExpression(ctx.conditionalOrExpression());
         }
     }
 

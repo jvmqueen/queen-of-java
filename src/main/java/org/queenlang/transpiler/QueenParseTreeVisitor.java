@@ -2288,11 +2288,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 );
             } else {
                 final QueenParser.FormalParameterListContext formalParameterList = ctx.lambdaParameters().formalParameterList();
-                if(formalParameterList.formalParameters() != null) {
+                if(formalParameterList != null && formalParameterList.formalParameters() != null) {
                     formalParameterList.formalParameters().formalParameter()
                         .forEach(fp -> parameters.add(this.visitFormalParameter(fp)));
                 }
-                if(formalParameterList.lastFormalParameter() != null) {
+                if(formalParameterList != null && formalParameterList.lastFormalParameter() != null) {
                     parameters.add(this.visitLastFormalParameter(formalParameterList.lastFormalParameter()));
                 }
             }

@@ -55,9 +55,6 @@ public final class QueenNameNode implements QueenReferenceTypeNode, QueenExpress
     }
 
     @Override
-    public void addToJavaNode(final Node java) {}
-
-    @Override
     public Position position() {
         return this.position;
     }

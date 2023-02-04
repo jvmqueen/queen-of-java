@@ -2269,7 +2269,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public QueenExpressionNode visitLambdaExpression(QueenParser.LambdaExpressionContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenParameterNode> parameters = new ArrayList<>();
+        boolean enclosedParameters = false;
         if(ctx.lambdaParameters() != null) {
+            if(ctx.lambdaParameters().LPAREN() != null) {
+                enclosedParameters = true;
+            }
             if(ctx.lambdaParameters().Identifier() != null) {
                 parameters.add(
                     new QueenParameterNode(
@@ -2297,23 +2301,20 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 }
             }
         }
+        final QueenExpressionNode expression;
         final QueenBlockStatements queenBlockStatements;
         if (ctx.lambdaBody().block() != null && ctx.lambdaBody().block().blockStatements() != null) {
             queenBlockStatements = this.visitBlockStatements(ctx.lambdaBody().block().blockStatements());
+            expression = null;
         } else {
-            queenBlockStatements = new QueenBlockStatements(
-                getPosition(ctx.lambdaBody().expression()),
-                List.of(
-                    new QueenExpressionStatementNode(
-                        getPosition(ctx.lambdaBody().expression()),
-                        this.visitExpression(ctx.lambdaBody().expression())
-                    )
-                )
-            );
+            queenBlockStatements = null;
+            expression = this.visitExpression(ctx.lambdaBody().expression());
         }
         return new QueenLambdaExpressionNode(
             position,
+            enclosedParameters,
             parameters,
+            expression,
             queenBlockStatements
         );
     }

@@ -1959,9 +1959,24 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     public QueenExpressionNode visitFieldAccess(QueenParser.FieldAccessContext ctx) {
-        return new QueenTextExpressionNode(
-            getPosition(ctx),
-            asString(ctx)
+        final Position position = getPosition(ctx);
+        final QueenExpressionNode scope;
+        if(ctx.primary() != null) {
+            scope = this.visitPrimary(ctx.primary());
+        } else if(ctx.typeName() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx.typeName()),
+                this.visitTypeName(ctx.typeName())
+            );
+        } else {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx)
+            );
+        }
+        return new QueenFieldAccessExpressionNode(
+            position,
+            scope,
+            ctx.Identifier().getText()
         );
     }
 

@@ -22,6 +22,8 @@ public final class JsonPerson implements Person {
         super();
         try {
             this.json = Json.readStream(jsonStream).toObject();
+            super.json2 = "{}";
+            Student.super.json3 = "{}";
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }

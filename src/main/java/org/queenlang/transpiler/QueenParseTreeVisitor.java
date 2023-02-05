@@ -2256,8 +2256,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 this.visitShiftExpression(ctx.shiftExpression())
             );
         } else if(ctx.INSTANCEOF() != null) {
-            //@todo #63:60min Implement InstanceofExpressionNode for Queen.
-            return null;
+            return new QueenInstanceOfExpressionNode(
+                getPosition(ctx),
+                this.visitRelationalExpression(ctx.relationalExpression()),
+                this.visitReferenceType(ctx.referenceType())
+            );
         } else {
             return this.visitShiftExpression(ctx.shiftExpression());
         }

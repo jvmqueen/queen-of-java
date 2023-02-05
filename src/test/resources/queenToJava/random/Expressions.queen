@@ -31,4 +31,9 @@ public final implementation Expressions of ExpressionsTest {
         };
         return () -> new Student(firstName, lastName);
     }
+
+    @Override
+    public boolean isInstanceOfStudent(Object obj) {
+        return obj instanceof Student;
+    }
 }

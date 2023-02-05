@@ -32,4 +32,9 @@ public final class Expressions implements ExpressionsTest {
         };
         return () -> new Student(firstName, lastName);
     }
+
+    @Override
+    public boolean isInstanceOfStudent(final Object obj) {
+        return obj instanceof Student;
+    }
 }

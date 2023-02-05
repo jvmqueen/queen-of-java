@@ -33,6 +33,7 @@ public final class LabeledGraph implements Graph {
                         }
                     }
                     newedges[k] = edges[k];
+                    other[k][y][z] = "test";
                     break edgelist;
                     continue edgeList;
                 }

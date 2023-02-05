@@ -27,67 +27,48 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.ArrayAccessExpr;
+import com.github.javaparser.ast.expr.Expression;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The [] array dimension in Queen, AST Node. May contain expression between
- * the brackets if it's part of an array creation expression. Can have annotations on top of it.
- *
- * final int[] arr = new int @Annotation[10]
- *
+ * Queen Array Access Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayDimensionNode implements QueenNode {
+public final class QueenArrayAccessExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
-    private final QueenExpressionNode expression;
 
-    public QueenArrayDimensionNode(
-        final Position position
-    ) {
-        this(position, null, null);
-    }
+    private final QueenExpressionNode name;
 
-    public QueenArrayDimensionNode(
+    private final List<QueenArrayDimensionNode> dims;
+
+    public QueenArrayAccessExpressionNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations
-    ) {
-        this(position, annotations, null);
-    }
-
-    public QueenArrayDimensionNode(
-        final Position position,
-        final QueenExpressionNode expression
-    ) {
-        this(position, new ArrayList<>(), expression);
-    }
-
-    public QueenArrayDimensionNode(
-        final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final QueenExpressionNode expression
+        final QueenExpressionNode name,
+        final List<QueenArrayDimensionNode> dims
     ) {
         this.position = position;
-        this.annotations = annotations;
-        this.expression = expression;
-    }
-
-    public List<QueenAnnotationNode> annotations() {
-        return this.annotations;
-    }
-
-    public QueenExpressionNode expression() {
-        return this.expression;
+        this.name = name;
+        this.dims = dims;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {}
+    public Expression toJavaExpression() {
+        ArrayAccessExpr arrayAccessExpr = new ArrayAccessExpr();
+        arrayAccessExpr.setName(this.name.toJavaExpression());
+        arrayAccessExpr.setIndex(this.dims.get(0).expression().toJavaExpression());
+        for(int i = 1; i<this.dims.size(); i++) {
+            arrayAccessExpr = new ArrayAccessExpr(
+                arrayAccessExpr,
+                this.dims.get(i).expression().toJavaExpression()
+            );
+        }
+        return arrayAccessExpr;
+    }
 
     @Override
     public Position position() {

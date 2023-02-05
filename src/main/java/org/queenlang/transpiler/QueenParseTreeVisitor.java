@@ -644,6 +644,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenExpressionNode visitPrimaryNoNewArray_lfno_arrayAccess(QueenParser.PrimaryNoNewArray_lfno_arrayAccessContext ctx) {
+        //@todo #63:60min finish visitPrimaryNoNewArray_lfno_arrayAccess.
+        return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
+    }
+
+    @Override
     public QueenExpressionNode visitPrimaryNoNewArray_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primaryContext ctx) {
         if(ctx.literal() != null) {
             return this.visitLiteral(ctx.literal());
@@ -1919,7 +1925,40 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitLeftHandSide(QueenParser.LeftHandSideContext ctx) {
-        //@todo #63:60min Continue implementing visiting of leftHandSide.
+        if(ctx.expressionName() != null) {
+            return this.visitExpressionName(ctx.expressionName());
+        } else if(ctx.arrayAccess() != null) {
+            return this.visitArrayAccess(ctx.arrayAccess());
+        } else {
+            return this.visitFieldAccess(ctx.fieldAccess());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitArrayAccess(QueenParser.ArrayAccessContext ctx) {
+        final QueenExpressionNode name;
+        if(ctx.expressionName() != null) {
+            name = this.visitExpressionName(ctx.expressionName());
+        } else {
+            name = this.visitPrimaryNoNewArray_lfno_arrayAccess(ctx.primaryNoNewArray_lfno_arrayAccess());
+        }
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        ctx.expression().forEach(
+            e -> dims.add(
+                new QueenArrayDimensionNode(
+                    getPosition(e),
+                    this.visitExpression(e)
+                )
+            )
+        );
+        return new QueenArrayAccessExpressionNode(
+            getPosition(ctx),
+            name,
+            dims
+        );
+    }
+
+    public QueenExpressionNode visitFieldAccess(QueenParser.FieldAccessContext ctx) {
         return new QueenTextExpressionNode(
             getPosition(ctx),
             asString(ctx)

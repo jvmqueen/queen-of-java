@@ -35,6 +35,7 @@ public final implementation LabeledGraph of Graph {
                     }
                     // No edge to be deleted; share this list.
                     newedges[k] = edges[k];
+                    other[k][y][z] = "test";
                     break edgelist;
                     continue edgeList;
                 } //search

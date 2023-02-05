@@ -47,6 +47,14 @@ public final class QueenFieldAccessExpressionNode implements QueenExpressionNode
 
     public QueenFieldAccessExpressionNode(
         final Position position,
+        final String name
+    ) {
+        this(position, null, name);
+    }
+
+
+    public QueenFieldAccessExpressionNode(
+        final Position position,
         final QueenExpressionNode scope,
         final String name
     ) {
@@ -58,7 +66,9 @@ public final class QueenFieldAccessExpressionNode implements QueenExpressionNode
     @Override
     public Expression toJavaExpression() {
         final FieldAccessExpr fieldAccessExpr = new FieldAccessExpr();
-        fieldAccessExpr.setScope(this.scope.toJavaExpression());
+        if(this.scope != null) {
+            fieldAccessExpr.setScope(this.scope.toJavaExpression());
+        }
         fieldAccessExpr.setName(new SimpleName(this.name));
         return fieldAccessExpr;
     }

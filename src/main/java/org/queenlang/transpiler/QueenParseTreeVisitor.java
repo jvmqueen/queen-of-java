@@ -1902,6 +1902,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return this.visitPostIncrementExpression(ctx.postIncrementExpression());
         } else if(ctx.postDecrementExpression() != null) {
             return this.visitPostDecrementExpression(ctx.postDecrementExpression());
+        } else if(ctx.methodInvocation() != null) {
+            return this.visitMethodInvocation(ctx.methodInvocation());
         }
         return new QueenTextExpressionNode(
             getPosition(ctx),
@@ -1932,6 +1934,54 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             return this.visitFieldAccess(ctx.fieldAccess());
         }
+    }
+
+    @Override
+    public QueenExpressionNode visitMethodInvocation(final QueenParser.MethodInvocationContext ctx) {
+        final Position position = getPosition(ctx);
+        final String name;
+        if(ctx.methodName() != null) {
+            name = ctx.methodName().Identifier().getText();
+        } else {
+            name = ctx.Identifier().getText();
+        }
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if(ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        if(ctx.argumentList() != null) {
+            ctx.argumentList().expression().forEach(
+                e -> arguments.add(this.visitExpression(e))
+            );
+        }
+        final QueenExpressionNode scope;
+        if(ctx.SUPER() != null && ctx.typeName() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx.typeName()),
+                this.visitTypeName(ctx.typeName())
+            );
+        } else if(ctx.SUPER() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx)
+            );
+        } else if(ctx.primary() != null) {
+            scope = this.visitPrimary(ctx.primary());
+        } else if(ctx.expressionName() != null) {
+            scope = this.visitExpressionName(ctx.expressionName());
+        } else if(ctx.typeName() != null) {
+            scope = this.visitTypeName(ctx.typeName());
+        } else {
+            scope = null;
+        }
+        return new QueenMethodInvocationExpressionNode(
+            position,
+            scope,
+            typeArguments,
+            name,
+            arguments
+        );
     }
 
     @Override

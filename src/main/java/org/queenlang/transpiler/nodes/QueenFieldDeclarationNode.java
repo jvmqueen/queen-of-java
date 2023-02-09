@@ -31,6 +31,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import javassist.compiler.ast.FieldDecl;
 
 import java.util.List;
@@ -86,7 +87,6 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
 
     @Override
     public void addToJavaNode(final Node java) {
-        ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
         this.variables.entrySet().forEach(
             vn -> {
                 final VariableDeclarator vd = new VariableDeclarator();
@@ -95,7 +95,11 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
 
                 final FieldDeclaration field = new FieldDeclaration();
                 field.addVariable(vd);
-                clazz.addMember(field);
+                if(java instanceof ClassOrInterfaceDeclaration) {
+                    ((ClassOrInterfaceDeclaration) java).addMember(field);
+                } else {
+                    ((ObjectCreationExpr) java).addAnonymousClassBody(field);
+                }
 
                 this.annotations.forEach(a -> a.addToJavaNode(field));
                 this.modifiers.forEach(m -> m.addToJavaNode(field));

@@ -308,17 +308,16 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 return this.visitMethodDeclaration(ctx.classMemberDeclaration().methodDeclaration());
             } else if(ctx.classMemberDeclaration().classDeclaration() != null) {
                 return this.visitClassDeclaration(ctx.classMemberDeclaration().classDeclaration());
-            } else if(ctx.classMemberDeclaration().interfaceDeclaration() != null) {
+            } else {
                 return this.visitInterfaceDeclaration(ctx.classMemberDeclaration().interfaceDeclaration());
             }
         } else if(ctx.instanceInitializer() != null) {
             return this.visitInstanceInitializer(ctx.instanceInitializer());
         } else if(ctx.staticInitializer() != null) {
             return this.visitStaticInitializer(ctx.staticInitializer());
-        } else if(ctx.constructorDeclaration() != null) {
+        } else {
             return this.visitConstructorDeclaration(ctx.constructorDeclaration());
         }
-        return null;
     }
 
     @Override
@@ -1891,7 +1890,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitStatementExpression(QueenParser.StatementExpressionContext ctx) {
-        //@todo #63:60min Continue implementing visiting of statementExpression.
         if(ctx.assignment() != null) {
             return this.visitAssignment(ctx.assignment());
         } else if(ctx.preIncrementExpression() != null) {
@@ -1904,11 +1902,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return this.visitPostDecrementExpression(ctx.postDecrementExpression());
         } else if(ctx.methodInvocation() != null) {
             return this.visitMethodInvocation(ctx.methodInvocation());
+        } else {
+            return this.visitClassInstanceCreationExpression(ctx.classInstanceCreationExpression());
         }
-        return new QueenTextExpressionNode(
-            getPosition(ctx),
-            asString(ctx)
-        );
     }
 
     @Override
@@ -1981,6 +1977,93 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             typeArguments,
             name,
             arguments
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitClassInstanceCreationExpression(QueenParser.ClassInstanceCreationExpressionContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if (ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        QueenExpressionNode scope = null;
+        if (ctx.primary() != null) {
+            scope = this.visitPrimary(ctx.primary());
+        } else if (ctx.expressionName() != null) {
+            scope = this.visitExpressionName(ctx.expressionName());
+        }
+
+        QueenClassOrInterfaceTypeNode type = null;
+        for (int i=0; i < ctx.constructorIdentifier().size(); i++) {
+            type = this.visitConstructorIdentifier(
+                ctx.constructorIdentifier(i),
+                i == ctx.constructorIdentifier().size() - 1 ? ctx.typeArgumentsOrDiamond() : null,
+                type
+            );
+        }
+        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        if(ctx.argumentList() != null) {
+            ctx.argumentList().expression().forEach(
+                e -> arguments.add(this.visitExpression(e))
+            );
+        }
+        final QueenClassBodyNode classBody;
+        if(ctx.classBody() != null) {
+            classBody = new QueenClassBodyNode(
+                getPosition(ctx.classBody()),
+                ctx.classBody().classBodyDeclaration().stream().map(
+                    this::visitClassBodyDeclaration
+                ).collect(Collectors.toList())
+            );
+        } else {
+            classBody = null;
+        }
+
+        return new QueenObjectCreationExpressionNode(
+            position,
+            scope,
+            type,
+            typeArguments,
+            arguments,
+            classBody
+        );
+    }
+
+    public QueenClassOrInterfaceTypeNode visitConstructorIdentifier(
+        QueenParser.ConstructorIdentifierContext ctx,
+        QueenParser.TypeArgumentsOrDiamondContext typeArgsOrDiamondCtx,
+        QueenClassOrInterfaceTypeNode scope
+    ) {
+        final Position position = this.getPosition(ctx);
+        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        ctx.annotation().forEach(
+            a -> annotations.add(this.visitAnnotation(a))
+        );
+        final String name = ctx.Identifier().getText();
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        final boolean isDiamondOperator;
+        if(typeArgsOrDiamondCtx != null) {
+            if(typeArgsOrDiamondCtx.typeArguments() != null && typeArgsOrDiamondCtx.typeArguments().typeArgumentList() != null) {
+                isDiamondOperator = false;
+                typeArgsOrDiamondCtx.typeArguments().typeArgumentList().typeArgument().forEach(
+                    ta -> typeArguments.add(this.visitTypeArgument(ta))
+                );
+            } else {
+                isDiamondOperator = true;
+            }
+        } else {
+            isDiamondOperator = false;
+        }
+        return new QueenClassOrInterfaceTypeNode(
+            position,
+            false,
+            scope,
+            annotations,
+            name,
+            typeArguments,
+            isDiamondOperator
         );
     }
 
@@ -2671,7 +2754,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 null,
             annotations,
             name,
-            typeArguments
+            typeArguments,
+            false
         );
     }
 
@@ -2697,7 +2781,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 null,
             annotations,
             name,
-            typeArguments
+            typeArguments,
+            false
         );
     }
 
@@ -2723,7 +2808,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 null,
             annotations,
             name,
-            typeArguments
+            typeArguments,
+            false
         );
     }
 
@@ -2844,7 +2930,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 classOrInterfaceTypeNode,
                 annotations,
                 name,
-                typeArguments
+                typeArguments,
+                false
             );
         }
         return classOrInterfaceTypeNode;
@@ -3014,7 +3101,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 unannClassOrInterfaceTypeNode,
                 annotations,
                 name,
-                typeArguments
+                typeArguments,
+                false
             );
         }
         return unannClassOrInterfaceTypeNode;

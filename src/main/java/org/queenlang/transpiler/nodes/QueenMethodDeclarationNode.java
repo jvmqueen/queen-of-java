@@ -31,6 +31,7 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
 import java.util.List;
@@ -113,7 +114,8 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
 
     @Override
     public void addToJavaNode(final Node java) {
-        final MethodDeclaration method = ((ClassOrInterfaceDeclaration) java).addMethod(this.name);
+        final MethodDeclaration method = new MethodDeclaration();
+        method.setName(this.name);
         method.removeModifier(Modifier.Keyword.PUBLIC);
         this.returnType.addToJavaNode(method);
         this.annotations.forEach(a -> a.addToJavaNode(method));
@@ -129,6 +131,11 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
             method.setBody(blockStmt);
         } else {
             method.removeBody();
+        }
+        if(java instanceof ClassOrInterfaceDeclaration) {
+            ((ClassOrInterfaceDeclaration) java).addMember(method);
+        } else {
+            ((ObjectCreationExpr) java).addAnonymousClassBody(method);
         }
     }
 

@@ -32,6 +32,7 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -138,6 +139,8 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
             ((BlockStmt) java).addStatement(
                 new LocalClassDeclarationStmt(this.toJavaClass())
             );
+        } else if(java instanceof ObjectCreationExpr) {
+            ((ObjectCreationExpr) java).addAnonymousClassBody(this.toJavaClass());
         }
     }
 

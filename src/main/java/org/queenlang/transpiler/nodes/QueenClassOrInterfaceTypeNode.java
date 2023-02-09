@@ -82,6 +82,8 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
      */
     private final List<QueenTypeNode> typeArguments;
 
+    private final boolean hasDiamondOperator;
+
     public QueenClassOrInterfaceTypeNode(
         final Position position,
         final boolean interfaceType,
@@ -89,7 +91,7 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         final String name,
         final List<QueenTypeNode> typeArguments
     ) {
-        this(position, interfaceType, null, annotations, name, typeArguments);
+        this(position, interfaceType, null, annotations, name, typeArguments, false);
     }
 
     public QueenClassOrInterfaceTypeNode(
@@ -98,7 +100,8 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         final QueenClassOrInterfaceTypeNode scope,
         final List<QueenAnnotationNode> annotations,
         final String name,
-        final List<QueenTypeNode> typeArguments
+        final List<QueenTypeNode> typeArguments,
+        final boolean hasDiamondOperator
     ) {
         this.position = position;
         this.interfaceType = interfaceType;
@@ -106,6 +109,7 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         this.annotations = annotations;
         this.name = name;
         this.typeArguments = typeArguments;
+        this.hasDiamondOperator = hasDiamondOperator;
     }
 
     @Override
@@ -181,10 +185,14 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         if(this.annotations != null) {
             this.annotations.forEach(a -> a.addToJavaNode(classOrInterfaceType));
         }
-        if(this.typeArguments != null) {
-            this.typeArguments.forEach(
-                ta -> ta.addToJavaNode(classOrInterfaceType)
-            );
+        if(this.hasDiamondOperator) {
+            classOrInterfaceType.setTypeArguments(new NodeList<>());
+        } else {
+            if(this.typeArguments != null) {
+                this.typeArguments.forEach(
+                    ta -> ta.addToJavaNode(classOrInterfaceType)
+                );
+            }
         }
         return classOrInterfaceType;
     }

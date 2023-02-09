@@ -37,4 +37,41 @@ public final class Expressions implements ExpressionsTest {
     public boolean isInstanceOfStudent(final Object obj) {
         return obj instanceof Student;
     }
+
+    @Override
+    public Student createStudent(final Object obj) {
+        new Student(obj);
+        new com.test.Student(obj);
+        new ArrayList<>();
+        new ArrayList<String>();
+        new ArrayList<String>(15);
+        new <String> ArrayList<String>(15);
+        new FunctionalAnonym() {
+
+            private int x;
+
+            private int y = 0;
+
+            @Override
+            public void test() {
+                return 1;
+            }
+
+            @Override
+            public void test2() {
+                return 2;
+            }
+
+            final class Test implements Other {
+
+                private int other = 0;
+
+                @Override
+                public void testOther() {
+                    System.out.println("ok");
+                }
+            }
+        };
+        return new Student(obj);
+    }
 }

@@ -48,18 +48,18 @@ public final class QueenArrayCreationExpressionNode implements QueenExpressionNo
     private final Position position;
     private final QueenTypeNode type;
     private final List<QueenArrayDimensionNode> dims;
-    private final String arrayInitializerExpr;
+    private final QueenExpressionNode arrayInitializer;
 
     public QueenArrayCreationExpressionNode(
         final Position position,
         final QueenTypeNode type,
         final List<QueenArrayDimensionNode> dims,
-        final String arrayInitializerExpr
+        final QueenExpressionNode arrayInitializer
     ) {
         this.position = position;
         this.type = type;
         this.dims = dims;
-        this.arrayInitializerExpr = arrayInitializerExpr;
+        this.arrayInitializer = arrayInitializer;
     }
 
     @Override
@@ -80,9 +80,9 @@ public final class QueenArrayCreationExpressionNode implements QueenExpressionNo
         final ArrayCreationExpr arrayCreation = new ArrayCreationExpr(
             this.type.toType(),
             new NodeList<>(javaDims),
-            this.arrayInitializerExpr != null
-                ? StaticJavaParser.parseExpression(this.arrayInitializerExpr)
-                : new ArrayInitializerExpr()
+            this.arrayInitializer != null
+                ? (ArrayInitializerExpr) this.arrayInitializer.toJavaExpression()
+                : null
 
         );
         return arrayCreation;

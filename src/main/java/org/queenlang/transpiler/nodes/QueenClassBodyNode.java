@@ -61,4 +61,8 @@ public final class QueenClassBodyNode implements QueenNode {
     public Position position() {
         return this.position;
     }
+
+    public boolean isEmpty() {
+        return this.classBodyDeclarations == null || this.classBodyDeclarations.isEmpty();
+    }
 }

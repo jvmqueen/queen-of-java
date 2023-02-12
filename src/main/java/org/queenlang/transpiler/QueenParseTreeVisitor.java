@@ -624,6 +624,23 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenExpressionNode visitArrayInitializer(QueenParser.ArrayInitializerContext ctx) {
+        final List<QueenExpressionNode> values;
+        if(ctx.variableInitializerList() != null) {
+            values = new ArrayList<>();
+            ctx.variableInitializerList().variableInitializer().forEach(
+                vi -> values.add(this.visitVariableInitializer(vi))
+            );
+        } else {
+            values = null;
+        }
+        return new QueenArrayInitializerExpressionNode(
+            getPosition(ctx),
+            values
+        );
+    }
+
+    @Override
     public QueenExpressionNode visitAssignmentExpression(QueenParser.AssignmentExpressionContext ctx) {
         if(ctx.assignment() != null) {
             return this.visitAssignment(ctx.assignment());
@@ -914,9 +931,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 d -> dims.add(this.visitDim(d))
             );
         }
-        final String arrayInitExpr;
+        final QueenExpressionNode arrayInitExpr;
         if(ctx.arrayInitializer() != null) {
-            arrayInitExpr = asString(ctx.arrayInitializer());
+            arrayInitExpr = this.visitArrayInitializer(ctx.arrayInitializer());
         } else {
             arrayInitExpr = null;
         }
@@ -1006,8 +1023,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public QueenExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
         if(ctx.expression() != null) {
             return this.visitExpression(ctx.expression());
+        } else {
+            return this.visitArrayInitializer(ctx.arrayInitializer());
         }
-        return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
     }
 
     @Override

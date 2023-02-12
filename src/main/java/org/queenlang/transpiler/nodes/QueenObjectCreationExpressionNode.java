@@ -98,7 +98,11 @@ public final class QueenObjectCreationExpressionNode implements QueenExpressionN
         }
         objectCreationExpr.setArguments(new NodeList<>(args));
         if(this.anonymousBody != null) {
-            this.anonymousBody.addToJavaNode(objectCreationExpr);
+            if(!this.anonymousBody.isEmpty()) {
+                this.anonymousBody.addToJavaNode(objectCreationExpr);
+            } else {
+                objectCreationExpr.setAnonymousClassBody(new NodeList<>());
+            }
         }
         return objectCreationExpr;
     }

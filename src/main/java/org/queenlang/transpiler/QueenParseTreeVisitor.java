@@ -866,7 +866,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    //@todo #63:60min Continue expression implementation with primary expressions.
     @Override
     public QueenExpressionNode visitLiteral(QueenParser.LiteralContext ctx) {
         if(ctx.BooleanLiteral() != null) {
@@ -2492,8 +2491,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenExpressionNode visitConditionalExpression(final QueenParser.ConditionalExpressionContext ctx) {
         if(ctx.QUESTION() != null) {
-            //@todo #63:60min Implement ConditionalTernaryExpression node for Queen.
-            return null;
+            return new QueenConditionalExpressionNode(
+                getPosition(ctx),
+                this.visitConditionalOrExpression(ctx.conditionalOrExpression()),
+                this.visitExpression(ctx.expression()),
+                this.visitConditionalExpression(ctx.conditionalExpression())
+            );
         } else {
             return this.visitConditionalOrExpression(ctx.conditionalOrExpression());
         }

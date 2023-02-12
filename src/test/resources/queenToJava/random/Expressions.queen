@@ -72,4 +72,9 @@ public final implementation Expressions of ExpressionsTest {
         };
         return new Student(obj);
     }
+
+    @Override
+    public boolean conditionalExpr(boolean test) {
+        return test ? true : false;
+    }
 }

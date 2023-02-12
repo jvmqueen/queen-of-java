@@ -2522,11 +2522,69 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitPrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primaryContext ctx) {
-        //@todo #64:60min Implement this method as well, similarly to the others.
-        return new QueenTextExpressionNode(
-            getPosition(ctx),
-            asString(ctx)
-        );
+        if(ctx.literal() != null) {
+            return this.visitLiteral(ctx.literal());
+        } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
+            final QueenNameNode typeName = this.visitTypeName(ctx.typeName());
+            final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+            if(ctx.unannDim() != null) {
+                ctx.unannDim().forEach(
+                    dim -> dims.add(
+                        new QueenArrayDimensionNode(getPosition(dim))
+                    )
+                );
+            }
+            return new QueenTypeImplementationExpressionNode(
+                getPosition(ctx.typeName()),
+                typeName,
+                dims
+            );
+        } else if(ctx.unannPrimitiveType() != null && ctx.IMPLEMENTATION() != null) {
+            final QueenPrimitiveTypeNode primitiveType = this.visitUnannPrimitiveType(ctx.unannPrimitiveType());
+            final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+            if(ctx.unannDim() != null) {
+                ctx.unannDim().forEach(
+                    dim -> dims.add(
+                        new QueenArrayDimensionNode(getPosition(dim))
+                    )
+                );
+            }
+            return new QueenTypeImplementationExpressionNode(
+                getPosition(ctx.unannPrimitiveType()),
+                primitiveType,
+                dims
+            );
+        } else if(ctx.VOID() != null && ctx.IMPLEMENTATION() != null) {
+            return new QueenTypeImplementationExpressionNode(
+                getPosition(ctx),
+                new QueenVoidNode(getPosition(ctx)),
+                new ArrayList<>()
+            );
+        } else if(ctx.THIS() != null) {
+            if(ctx.typeName() != null) {
+                return new QueenThisExpressionNode(
+                    getPosition(ctx),
+                    this.visitTypeName(ctx.typeName())
+                );
+            } else {
+                return new QueenThisExpressionNode(
+                    getPosition(ctx)
+                );
+            }
+        } else if(ctx.LPAREN() != null && ctx.expression() != null && ctx.RPAREN() != null) {
+            return new QueenBracketedExpressionNode(
+                getPosition(ctx.expression()),
+                this.visitExpression(ctx.expression())
+            );
+        } else if(ctx.classInstanceCreationExpression_lfno_primary() != null) {
+            return this.visitClassInstanceCreationExpression_lfno_primary(ctx.classInstanceCreationExpression_lfno_primary());
+        } else if(ctx.fieldAccess_lfno_primary() != null) {
+            return this.visitFieldAccess_lfno_primary(ctx.fieldAccess_lfno_primary());
+        } else if(ctx.methodInvocation_lfno_primary() != null) {
+            return this.visitMethodInvocation_lfno_primary(ctx.methodInvocation_lfno_primary());
+        } else {
+            return this.visitMethodReference_lfno_primary(ctx.methodReference_lfno_primary());
+        }
     }
 
     @Override

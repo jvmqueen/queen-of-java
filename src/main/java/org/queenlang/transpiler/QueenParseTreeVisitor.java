@@ -30,6 +30,7 @@ package org.queenlang.transpiler;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.junit.Ignore;
 import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
@@ -754,6 +755,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 getPosition(ctx.expression()),
                 this.visitExpression(ctx.expression())
             );
+        } else if(ctx.fieldAccess_lfno_primary() != null) {
+            return this.visitFieldAccess_lfno_primary(ctx.fieldAccess_lfno_primary());
+        } else if(ctx.arrayAccess_lfno_primary() != null) {
+            return this.visitArrayAccess_lfno_primary(ctx.arrayAccess_lfno_primary());
         }
         return null;
     }
@@ -2028,6 +2033,76 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenExpressionNode visitMethodInvocation_lf_primary(QueenParser.MethodInvocation_lf_primaryContext ctx) {
+        final Position position = getPosition(ctx);
+        final String name = ctx.Identifier().getText();
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if(ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        if(ctx.argumentList() != null) {
+            ctx.argumentList().expression().forEach(
+                e -> arguments.add(this.visitExpression(e))
+            );
+        }
+        return new QueenMethodInvocationExpressionNode(
+            position,
+            null,
+            typeArguments,
+            name,
+            arguments
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitMethodInvocation_lfno_primary(final QueenParser.MethodInvocation_lfno_primaryContext ctx) {
+        final Position position = getPosition(ctx);
+        final String name;
+        if(ctx.methodName() != null) {
+            name = ctx.methodName().Identifier().getText();
+        } else {
+            name = ctx.Identifier().getText();
+        }
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if(ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        if(ctx.argumentList() != null) {
+            ctx.argumentList().expression().forEach(
+                e -> arguments.add(this.visitExpression(e))
+            );
+        }
+        final QueenExpressionNode scope;
+        if(ctx.SUPER() != null && ctx.typeName() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx.typeName()),
+                this.visitTypeName(ctx.typeName())
+            );
+        } else if(ctx.SUPER() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx)
+            );
+        } else if(ctx.expressionName() != null) {
+            scope = this.visitExpressionName(ctx.expressionName());
+        } else if(ctx.typeName() != null) {
+            scope = this.visitTypeName(ctx.typeName());
+        } else {
+            scope = null;
+        }
+        return new QueenMethodInvocationExpressionNode(
+            position,
+            scope,
+            typeArguments,
+            name,
+            arguments
+        );
+    }
+
+    @Override
     public QueenExpressionNode visitMethodReference(QueenParser.MethodReferenceContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
@@ -2078,6 +2153,72 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenExpressionNode visitMethodReference_lf_primary(QueenParser.MethodReference_lf_primaryContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if (ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        final String identifier = ctx.Identifier().getText();
+        return new QueenMethodReferenceExpressionNode(
+            position,
+            null,
+            null,
+            typeArguments,
+            identifier
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitMethodReference_lfno_primary(QueenParser.MethodReference_lfno_primaryContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if (ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        final String identifier;
+        if(ctx.Identifier() != null) {
+            identifier = ctx.Identifier().getText();
+        } else {
+            identifier = ctx.NEW().getText();
+        }
+        final QueenExpressionNode scope;
+        if(ctx.expressionName() != null) {
+            scope = this.visitExpressionName(ctx.expressionName());
+        } else if(ctx.typeName() != null && ctx.SUPER() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx.typeName()),
+                this.visitTypeName(ctx.typeName())
+            );
+        } else if(ctx.SUPER() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx)
+            );
+        } else {
+            scope = null;
+        }
+        final QueenTypeNode type;
+        if(ctx.referenceType() != null) {
+            type = this.visitReferenceType(ctx.referenceType());
+        } else if(ctx.classType() != null) {
+            type = this.visitClassType(ctx.classType());
+        } else if(ctx.arrayType() != null) {
+            type = this.visitArrayType(ctx.arrayType());
+        } else {
+            type = null;
+        }
+        return new QueenMethodReferenceExpressionNode(
+            position,
+            type,
+            scope,
+            typeArguments,
+            identifier
+        );
+    }
+
+    @Override
     public QueenExpressionNode visitClassInstanceCreationExpression(QueenParser.ClassInstanceCreationExpressionContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
@@ -2089,6 +2230,97 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if (ctx.primary() != null) {
             scope = this.visitPrimary(ctx.primary());
         } else if (ctx.expressionName() != null) {
+            scope = this.visitExpressionName(ctx.expressionName());
+        }
+
+        QueenClassOrInterfaceTypeNode type = null;
+        for (int i=0; i < ctx.constructorIdentifier().size(); i++) {
+            type = this.visitConstructorIdentifier(
+                ctx.constructorIdentifier(i),
+                i == ctx.constructorIdentifier().size() - 1 ? ctx.typeArgumentsOrDiamond() : null,
+                type
+            );
+        }
+        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        if(ctx.argumentList() != null) {
+            ctx.argumentList().expression().forEach(
+                e -> arguments.add(this.visitExpression(e))
+            );
+        }
+        final QueenClassBodyNode classBody;
+        if(ctx.classBody() != null) {
+            classBody = new QueenClassBodyNode(
+                getPosition(ctx.classBody()),
+                ctx.classBody().classBodyDeclaration().stream().map(
+                    this::visitClassBodyDeclaration
+                ).collect(Collectors.toList())
+            );
+        } else {
+            classBody = null;
+        }
+
+        return new QueenObjectCreationExpressionNode(
+            position,
+            scope,
+            type,
+            typeArguments,
+            arguments,
+            classBody
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitClassInstanceCreationExpression_lf_primary(QueenParser.ClassInstanceCreationExpression_lf_primaryContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if (ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+
+        QueenClassOrInterfaceTypeNode type = this.visitConstructorIdentifier(
+            ctx.constructorIdentifier(),
+            ctx.typeArgumentsOrDiamond(),
+            null
+        );
+        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        if(ctx.argumentList() != null) {
+            ctx.argumentList().expression().forEach(
+                e -> arguments.add(this.visitExpression(e))
+            );
+        }
+        final QueenClassBodyNode classBody;
+        if(ctx.classBody() != null) {
+            classBody = new QueenClassBodyNode(
+                getPosition(ctx.classBody()),
+                ctx.classBody().classBodyDeclaration().stream().map(
+                    this::visitClassBodyDeclaration
+                ).collect(Collectors.toList())
+            );
+        } else {
+            classBody = null;
+        }
+
+        return new QueenObjectCreationExpressionNode(
+            position,
+            null,
+            type,
+            typeArguments,
+            arguments,
+            classBody
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitClassInstanceCreationExpression_lfno_primary(QueenParser.ClassInstanceCreationExpression_lfno_primaryContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if (ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        QueenExpressionNode scope = null;
+        if (ctx.expressionName() != null) {
             scope = this.visitExpressionName(ctx.expressionName());
         }
 

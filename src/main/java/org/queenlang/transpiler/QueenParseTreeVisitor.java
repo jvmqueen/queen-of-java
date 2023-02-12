@@ -1146,13 +1146,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return this.visitEnhancedForStatement(ctx.forStatement().enhancedForStatement());
         } else if(ctx.labeledStatement() != null) {
             return this.visitLabeledStatement(ctx.labeledStatement());
-        } else if(ctx.statementWithoutTrailingSubstatement() != null) {
-            return this.visitStatementWithoutTrailingSubstatement(ctx.statementWithoutTrailingSubstatement());
         } else {
-            return new QueenTextStatementNode(
-                getPosition(ctx),
-                asString(ctx)
-            );
+            return this.visitStatementWithoutTrailingSubstatement(ctx.statementWithoutTrailingSubstatement());
         }
     }
 
@@ -1168,13 +1163,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return this.visitEnhancedForStatementNoShortIf(ctx.forStatementNoShortIf().enhancedForStatementNoShortIf());
         } else if(ctx.labeledStatementNoShortIf() != null) {
             return this.visitLabeledStatementNoShortIf(ctx.labeledStatementNoShortIf());
-        } else if(ctx.statementWithoutTrailingSubstatement() != null) {
-            return this.visitStatementWithoutTrailingSubstatement(ctx.statementWithoutTrailingSubstatement());
         } else {
-            return new QueenTextStatementNode(
-                getPosition(ctx),
-                asString(ctx)
-            );
+            return this.visitStatementWithoutTrailingSubstatement(ctx.statementWithoutTrailingSubstatement());
         }
     }
 

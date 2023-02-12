@@ -30,7 +30,6 @@ package org.queenlang.transpiler;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
@@ -1977,6 +1976,56 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             typeArguments,
             name,
             arguments
+        );
+    }
+
+    @Override
+    public QueenExpressionNode visitMethodReference(QueenParser.MethodReferenceContext ctx) {
+        final Position position = getPosition(ctx);
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if (ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        final String identifier;
+        if(ctx.Identifier() != null) {
+            identifier = ctx.Identifier().getText();
+        } else {
+            identifier = ctx.NEW().getText();
+        }
+        final QueenExpressionNode scope;
+        if(ctx.expressionName() != null) {
+            scope = this.visitExpressionName(ctx.expressionName());
+        } else if(ctx.primary() != null) {
+            scope = this.visitPrimary(ctx.primary());
+        } else if(ctx.typeName() != null && ctx.SUPER() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx.typeName()),
+                this.visitTypeName(ctx.typeName())
+            );
+        } else if(ctx.SUPER() != null) {
+            scope = new QueenSuperExpressionNode(
+                getPosition(ctx)
+            );
+        } else {
+            scope = null;
+        }
+        final QueenTypeNode type;
+        if(ctx.referenceType() != null) {
+            type = this.visitReferenceType(ctx.referenceType());
+        } else if(ctx.classType() != null) {
+            type = this.visitClassType(ctx.classType());
+        } else if(ctx.arrayType() != null) {
+            type = this.visitArrayType(ctx.arrayType());
+        } else {
+            type = null;
+        }
+        return new QueenMethodReferenceExpressionNode(
+            position,
+            type,
+            scope,
+            typeArguments,
+            identifier
         );
     }
 

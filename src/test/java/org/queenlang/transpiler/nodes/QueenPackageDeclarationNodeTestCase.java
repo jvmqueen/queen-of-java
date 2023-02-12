@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.PackageDeclaration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -46,13 +47,13 @@ public final class QueenPackageDeclarationNodeTestCase {
     public void addsPackageToJavaNode() {
         final CompilationUnit java = Mockito.mock(CompilationUnit.class);
         final QueenNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            Mockito.mock(Position.class), () -> "com.amihaiemil.web"
+            Mockito.mock(Position.class), () -> new QueenNameNode(null, "com.amihaiemil.web")
         );
 
         packageDeclarationNode.addToJavaNode(java);
 
         Mockito.verify(java, Mockito.times(1))
-            .setPackageDeclaration("com.amihaiemil.web");
+            .setPackageDeclaration((PackageDeclaration) Mockito.any());
     }
 
     /**

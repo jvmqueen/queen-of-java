@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.PackageDeclaration;
 
 import java.util.function.Supplier;
 
@@ -50,7 +51,7 @@ public final class QueenPackageDeclarationNode implements QueenNode {
     /**
      * The package's name.
      */
-    private final String packageName;
+    private final QueenNameNode packageName;
 
     /**
      * Ctor.
@@ -59,7 +60,7 @@ public final class QueenPackageDeclarationNode implements QueenNode {
      */
     public QueenPackageDeclarationNode(
         final Position position,
-        final Supplier<String> packageName
+        final Supplier<QueenNameNode> packageName
     ) {
         this.position = position;
         this.packageName = packageName.get();
@@ -68,7 +69,9 @@ public final class QueenPackageDeclarationNode implements QueenNode {
     @Override
     public void addToJavaNode(final Node java) {
         if(this.packageName != null) {
-            ((CompilationUnit) java).setPackageDeclaration(this.packageName);
+            final PackageDeclaration packageDeclaration = new PackageDeclaration();
+            packageDeclaration.setName(this.packageName.toName());
+            ((CompilationUnit) java).setPackageDeclaration(packageDeclaration);
         }
     }
 

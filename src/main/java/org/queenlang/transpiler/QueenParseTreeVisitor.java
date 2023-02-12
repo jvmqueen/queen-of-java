@@ -60,8 +60,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 getPosition(ctx.packageDeclaration()),
                 () -> {
                     if(ctx.packageDeclaration() != null) {
-                        QueenParser.PackageNameContext packageNameContext = ctx.packageDeclaration().packageName();
-                        return asString(packageNameContext);
+                        return this.visitPackageName(ctx.packageDeclaration().packageName());
                     }
                     return null;
                 }

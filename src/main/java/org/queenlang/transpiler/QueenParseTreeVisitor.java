@@ -607,6 +607,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenExpressionNode visitConstantExpression(QueenParser.ConstantExpressionContext ctx) {
+        return this.visitExpression(ctx.expression());
+    }
+
+    @Override
     public QueenExpressionNode visitExpression(QueenParser.ExpressionContext ctx) {
         if(ctx == null) {
             return null;
@@ -999,6 +1004,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
+        if(ctx.expression() != null) {
+            return this.visitExpression(ctx.expression());
+        }
         return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
     }
 
@@ -1289,10 +1297,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             if(ctx.forInit().statementExpressionList() != null) {
                 ctx.forInit().statementExpressionList().statementExpression().forEach(
                     stmtExpression -> init.add(
-                        new QueenTextExpressionNode(
-                            getPosition(stmtExpression),
-                            asString(stmtExpression)
-                        )
+                        this.visitStatementExpression(stmtExpression)
                     )
                 );
             } else if(ctx.forInit().localVariableDeclaration() != null) {
@@ -1310,10 +1315,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             if(ctx.forUpdate().statementExpressionList() != null) {
                 ctx.forUpdate().statementExpressionList().statementExpression().forEach(
                     stmtExpression -> update.add(
-                        new QueenTextExpressionNode(
-                            getPosition(stmtExpression),
-                            asString(stmtExpression)
-                        )
+                        this.visitStatementExpression(stmtExpression)
                     )
                 );
             }
@@ -1347,10 +1349,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             if(ctx.forInit().statementExpressionList() != null) {
                 ctx.forInit().statementExpressionList().statementExpression().forEach(
                     stmtExpression -> init.add(
-                        new QueenTextExpressionNode(
-                            getPosition(stmtExpression),
-                            asString(stmtExpression)
-                        )
+                        this.visitStatementExpression(stmtExpression)
                     )
                 );
             } else if(ctx.forInit().localVariableDeclaration() != null) {
@@ -1368,10 +1367,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             if(ctx.forUpdate().statementExpressionList() != null) {
                 ctx.forUpdate().statementExpressionList().statementExpression().forEach(
                     stmtExpression -> update.add(
-                        new QueenTextExpressionNode(
-                            getPosition(stmtExpression),
-                            asString(stmtExpression)
-                        )
+                        this.visitStatementExpression(stmtExpression)
                     )
                 );
             }
@@ -1750,10 +1746,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                                 new QueenSwitchLabelNode(
                                     getPosition(sl),
                                     sl.DEFAULT() != null ? null :
-                                        new QueenTextExpressionNode(
-                                            getPosition(sl.constantExpression()),
-                                            asString(sl.constantExpression())
-                                        ),
+                                        this.visitConstantExpression(sl.constantExpression()),
                                     sl.DEFAULT() != null
                                 )
                             )
@@ -1774,10 +1767,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                         new QueenSwitchLabelNode(
                             getPosition(sl),
                             sl.DEFAULT() != null ? null :
-                                new QueenTextExpressionNode(
-                                    getPosition(sl.constantExpression()),
-                                    asString(sl.constantExpression())
-                                ),
+                                this.visitConstantExpression(sl.constantExpression()),
                             sl.DEFAULT() != null
                         )
                     )
@@ -1903,7 +1893,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             this.visitUnannType(ctx.unannType()),
             Map.of(
                 asString(ctx.variableDeclaratorId()),
-                new QueenTextExpressionNode(getPosition(ctx.expression()), asString(ctx.expression()))
+                this.visitExpression(ctx.expression())
             )
         );
     }
@@ -2514,6 +2504,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitPrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primaryContext ctx) {
+        //@todo #64:60min Implement this method as well, similarly to the others.
         return new QueenTextExpressionNode(
             getPosition(ctx),
             asString(ctx)

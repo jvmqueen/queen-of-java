@@ -68,7 +68,9 @@ public final class QueenArrayCreationExpressionNode implements QueenExpressionNo
         this.dims.forEach(
             d -> {
                 final ArrayCreationLevel javaDim = new ArrayCreationLevel();
-                javaDim.setDimension(d.expression().toJavaExpression());
+                if(d.expression() != null) {
+                    javaDim.setDimension(d.expression().toJavaExpression());
+                }
                 d.annotations().forEach(
                     a -> a.addToJavaNode(javaDim)
                 );

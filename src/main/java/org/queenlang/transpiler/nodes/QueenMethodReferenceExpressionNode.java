@@ -68,7 +68,7 @@ public final class QueenMethodReferenceExpressionNode implements QueenExpression
             methodReferenceExpr.setScope(
                 new TypeExpr(this.type.toType())
             );
-        } else if(this.scope != null) {
+        } else {
             methodReferenceExpr.setScope(
                 this.scope.toJavaExpression()
             );

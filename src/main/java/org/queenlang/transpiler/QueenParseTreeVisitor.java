@@ -631,15 +631,19 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenExpressionNode visitPrimary(QueenParser.PrimaryContext ctx) {
         QueenExpressionNode primary;
-        if(ctx.arrayCreationExpression() != null) {
-            primary = this.visitArrayCreationExpression(ctx.arrayCreationExpression());
-        } else if(ctx.primaryNoNewArray_lfno_primary() != null) {
+        if(ctx.primaryNoNewArray_lfno_primary() != null) {
             primary = this.visitPrimaryNoNewArray_lfno_primary(
                 ctx.primaryNoNewArray_lfno_primary()
             );
+        } else {
+            primary = this.visitArrayCreationExpression(ctx.arrayCreationExpression());
         }
-        //@todo #63:60min finish visitParymary.
-        return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
+        if(ctx.primaryNoNewArray_lf_primary() != null) {
+            for(final QueenParser.PrimaryNoNewArray_lf_primaryContext ctxp : ctx.primaryNoNewArray_lf_primary()) {
+                primary = this.visitPrimaryNoNewArray_lf_primary(primary, ctxp);
+            }
+        }
+        return primary;
     }
 
     @Override
@@ -694,9 +698,33 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         }
     }
 
-    @Override
-    public QueenExpressionNode visitPrimaryNoNewArray_lf_primary(QueenParser.PrimaryNoNewArray_lf_primaryContext ctx) {
-        return null;
+    public QueenExpressionNode visitPrimaryNoNewArray_lf_primary(QueenExpressionNode scope, QueenParser.PrimaryNoNewArray_lf_primaryContext ctx) {
+        if(ctx.classInstanceCreationExpression_lf_primary() != null) {
+            return this.visitClassInstanceCreationExpression_lf_primary(
+                scope,
+                ctx.classInstanceCreationExpression_lf_primary()
+            );
+        } else if(ctx.fieldAccess_lf_primary() != null) {
+            return this.visitFieldAccess_lf_primary(
+                scope,
+                ctx.fieldAccess_lf_primary()
+            );
+        } else if(ctx.arrayAccess_lf_primary() != null) {
+            return this.visitArrayAccess_lf_primary(
+                scope,
+                ctx.arrayAccess_lf_primary()
+            );
+        } else if(ctx.methodInvocation_lf_primary() != null) {
+            return this.visitMethodInvocation_lf_primary(
+                scope,
+                ctx.methodInvocation_lf_primary()
+            );
+        } else {
+            return this.visitMethodReference_lf_primary(
+                scope,
+                ctx.methodReference_lf_primary()
+            );
+        }
     }
 
     @Override
@@ -755,12 +783,17 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 getPosition(ctx.expression()),
                 this.visitExpression(ctx.expression())
             );
+        } else if(ctx.classInstanceCreationExpression_lfno_primary() != null) {
+            return this.visitClassInstanceCreationExpression_lfno_primary(ctx.classInstanceCreationExpression_lfno_primary());
         } else if(ctx.fieldAccess_lfno_primary() != null) {
             return this.visitFieldAccess_lfno_primary(ctx.fieldAccess_lfno_primary());
         } else if(ctx.arrayAccess_lfno_primary() != null) {
             return this.visitArrayAccess_lfno_primary(ctx.arrayAccess_lfno_primary());
+        } else if(ctx.methodInvocation_lfno_primary() != null) {
+            return this.visitMethodInvocation_lfno_primary(ctx.methodInvocation_lfno_primary());
+        } else {
+            return this.visitMethodReference_lfno_primary(ctx.methodReference_lfno_primary());
         }
-        return null;
     }
 
     @Override
@@ -935,9 +968,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 ctx.CharacterLiteral().getText()
             );
         } else if(ctx.StringLiteral() != null) {
+            final String withoutQuotes = ctx.StringLiteral().getText()
+                .substring(1,  ctx.StringLiteral().getText().length() - 1);
             return new QueenStringLiteralExpressionNode(
                 getPosition(ctx),
-                ctx.StringLiteral().getText()
+                withoutQuotes
             );
         } else if(ctx.FloatingPointLiteral() != null) {
             return new QueenDoubleLiteralExpressionNode(
@@ -2032,8 +2067,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    @Override
-    public QueenExpressionNode visitMethodInvocation_lf_primary(QueenParser.MethodInvocation_lf_primaryContext ctx) {
+    public QueenExpressionNode visitMethodInvocation_lf_primary(QueenExpressionNode scope, QueenParser.MethodInvocation_lf_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final String name = ctx.Identifier().getText();
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
@@ -2049,7 +2083,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         }
         return new QueenMethodInvocationExpressionNode(
             position,
-            null,
+            scope,
             typeArguments,
             name,
             arguments
@@ -2152,8 +2186,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    @Override
-    public QueenExpressionNode visitMethodReference_lf_primary(QueenParser.MethodReference_lf_primaryContext ctx) {
+    public QueenExpressionNode visitMethodReference_lf_primary(QueenExpressionNode scope, QueenParser.MethodReference_lf_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
         if (ctx.typeArguments() != null) {
@@ -2164,7 +2197,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         return new QueenMethodReferenceExpressionNode(
             position,
             null,
-            null,
+            scope,
             typeArguments,
             identifier
         );
@@ -2269,8 +2302,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    @Override
-    public QueenExpressionNode visitClassInstanceCreationExpression_lf_primary(QueenParser.ClassInstanceCreationExpression_lf_primaryContext ctx) {
+    public QueenExpressionNode visitClassInstanceCreationExpression_lf_primary(QueenExpressionNode scope, QueenParser.ClassInstanceCreationExpression_lf_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
         if (ctx.typeArguments() != null) {
@@ -2303,7 +2335,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
         return new QueenObjectCreationExpressionNode(
             position,
-            null,
+            scope,
             type,
             typeArguments,
             arguments,
@@ -2420,10 +2452,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    @Override
-    public QueenExpressionNode visitArrayAccess_lf_primary(QueenParser.ArrayAccess_lf_primaryContext ctx) {
+    public QueenExpressionNode visitArrayAccess_lf_primary(QueenExpressionNode scope, QueenParser.ArrayAccess_lf_primaryContext ctx) {
         final QueenExpressionNode name = this.visitPrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary(
-            ctx.primaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary()
+            scope, ctx.primaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary()
         );
         final List<QueenArrayDimensionNode> dims = new ArrayList<>();
         ctx.expression().forEach(
@@ -2467,12 +2498,28 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    @Override
-    public QueenExpressionNode visitPrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary(QueenParser.PrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primaryContext ctx) {
-        return new QueenTextExpressionNode(
-            getPosition(ctx),
-            asString(ctx)
-        );
+    public QueenExpressionNode visitPrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary(QueenExpressionNode scope, QueenParser.PrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primaryContext ctx) {
+        if(ctx.classInstanceCreationExpression_lf_primary() != null) {
+            return this.visitClassInstanceCreationExpression_lf_primary(
+                scope,
+                ctx.classInstanceCreationExpression_lf_primary()
+            );
+        } else if(ctx.fieldAccess_lf_primary() != null) {
+            return this.visitFieldAccess_lf_primary(
+                scope,
+                ctx.fieldAccess_lf_primary()
+            );
+        } else if(ctx.methodInvocation_lf_primary() != null) {
+            return this.visitMethodInvocation_lf_primary(
+                scope,
+                ctx.methodInvocation_lf_primary()
+            );
+        } else {
+            return this.visitMethodReference_lf_primary(
+                scope,
+                ctx.methodReference_lf_primary()
+            );
+        }
     }
 
     @Override
@@ -2506,10 +2553,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    @Override
-    public QueenExpressionNode visitFieldAccess_lf_primary(QueenParser.FieldAccess_lf_primaryContext ctx) {
+    public QueenExpressionNode visitFieldAccess_lf_primary(QueenExpressionNode scope, QueenParser.FieldAccess_lf_primaryContext ctx) {
         return new QueenFieldAccessExpressionNode(
             getPosition(ctx),
+            scope,
             ctx.Identifier().getText()
         );
     }

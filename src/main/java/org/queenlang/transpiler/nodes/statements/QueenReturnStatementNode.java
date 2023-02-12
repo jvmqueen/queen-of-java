@@ -25,49 +25,42 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ReturnStmt;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
- * Queen BlockStatements AST Node.
+ * Queen Return AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBlockStatements implements QueenStatementNode, Iterable<QueenStatementNode> {
+public final class QueenReturnStatementNode implements QueenStatementNode {
 
-    private final Position position;
-    private final List<QueenStatementNode> blockStatements;
+    private Position position;
 
-    public QueenBlockStatements(
-        final Position position
-    ) {
-        this(position, new ArrayList<>());
+    private QueenExpressionNode expression;
+
+    public QueenReturnStatementNode(final Position position) {
+        this(position, null);
     }
 
-    public QueenBlockStatements(
-        final Position position,
-        final List<QueenStatementNode> blockStatements
-    ) {
+    public QueenReturnStatementNode(final Position position, final QueenExpressionNode expression) {
         this.position = position;
-        this.blockStatements = blockStatements;
-    }
-
-    @Override
-    public Iterator<QueenStatementNode> iterator() {
-        return this.blockStatements.iterator();
+        this.expression = expression;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        this.blockStatements.forEach(
-            bs -> bs.addToJavaNode(java)
-        );
+        ReturnStmt returnStmt = new ReturnStmt();
+        if(this.expression != null) {
+            this.expression.addToJavaNode(returnStmt);
+        }
+        ((BlockStmt) java).addStatement(returnStmt);
     }
 
     @Override

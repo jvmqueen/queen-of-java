@@ -25,70 +25,49 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ForStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.*;
+import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Queen For Statement AST Node.
+ * Queen Do Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenForStatementNode implements QueenStatementNode {
+public final class QueenDoStatementNode implements QueenStatementNode {
 
     /**
-     * Position of this for statement in the original source code.
+     * Position in the original source code.
      */
     private final Position position;
 
     /**
-     * Initialization expressions.
-     */
-    private final List<QueenExpressionNode> initialization;
-
-    /**
-     * Comparison expression.
-     */
-    private final QueenExpressionNode comparison;
-
-    /**
-     * Update expressions.
-     */
-    private final List<QueenExpressionNode> update;
-
-    /**
-     * Statements inside the for statement.
+     * Statements inside the Do.
      */
     private final QueenBlockStatements blockStatements;
 
-    public QueenForStatementNode(
+    /**
+     * Expression condition.
+     */
+    private final QueenExpressionNode expression;
+
+
+    public QueenDoStatementNode(
         final Position position,
-        final List<QueenExpressionNode> initialization,
-        final QueenExpressionNode comparison,
-        final List<QueenExpressionNode> update,
-        final QueenBlockStatements blockStatements
+        final QueenBlockStatements blockStatements,
+        final QueenExpressionNode expression
     ) {
         this.position = position;
-        this.initialization = initialization;
-        this.comparison = comparison;
-        this.update = update;
         this.blockStatements = blockStatements;
+        this.expression = expression;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
+    public void addToJavaNode(Node java) {
         if(java instanceof BlockStmt) {
             ((BlockStmt) java).addStatement(this.toJavaStatement());
         } else if(java instanceof LabeledStmt) {
@@ -97,40 +76,17 @@ public final class QueenForStatementNode implements QueenStatementNode {
     }
 
     /**
-     * Turn into a JavaParser Statement.
+     * Turn it into a JavaParser Statement.
      * @return Statement, never null.
      */
     private Statement toJavaStatement() {
-        final ForStmt forStatement = new ForStmt();
-
-        if(this.initialization != null) {
-            List<Expression> init = new ArrayList<>();
-            this.initialization.forEach(i -> init.add(i.toJavaExpression()));
-            forStatement.setInitialization(
-                new NodeList<>(init)
-            );
-        }
-
-        if(this.comparison != null) {
-            forStatement.setCompare(this.comparison.toJavaExpression());
-        } else {
-            forStatement.setCompare(new BooleanLiteralExpr(true));
-        }
-
-        if(this.update != null) {
-            List<Expression> upd = new ArrayList<>();
-            this.update.forEach(u -> upd.add(u.toJavaExpression()));
-            forStatement.setUpdate(
-                new NodeList<>(upd)
-            );
-        }
-
+        final DoStmt doWhileStmt = new DoStmt();
+        this.expression.addToJavaNode(doWhileStmt);
+        final BlockStmt blockStmt = doWhileStmt.createBlockStatementAsBody();
         if(this.blockStatements != null) {
-            final BlockStmt block = new BlockStmt();
-            this.blockStatements.addToJavaNode(block);
-            forStatement.setBody(block);
+            this.blockStatements.addToJavaNode(blockStmt);
         }
-        return forStatement;
+        return doWhileStmt;
     }
 
     @Override

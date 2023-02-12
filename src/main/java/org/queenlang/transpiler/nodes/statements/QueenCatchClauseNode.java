@@ -25,73 +25,59 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.WhileStmt;
+import com.github.javaparser.ast.stmt.CatchClause;
+import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenBlockStatements;
-import org.queenlang.transpiler.nodes.QueenStatementNode;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Queen While AST Node.
+ * Queen CatchClause AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenWhileStatementNode implements QueenStatementNode {
+public final class QueenCatchClauseNode implements QueenNode {
 
-    /**
-     * Position in the original source code.
-     */
     private final Position position;
-
-    /**
-     * Expression.
-     */
-    private final QueenExpressionNode expression;
-
-    /**
-     * Statements inside the while.
-     */
+    private final QueenCatchFormalParameterNode parameter;
     private final QueenBlockStatements blockStatements;
 
-
-    public QueenWhileStatementNode(
+    public QueenCatchClauseNode(
         final Position position,
-        final QueenExpressionNode expression,
+        final QueenCatchFormalParameterNode parameter,
         final QueenBlockStatements blockStatements
     ) {
         this.position = position;
-        this.expression = expression;
+        this.parameter = parameter;
         this.blockStatements = blockStatements;
     }
 
     @Override
-    public void addToJavaNode(Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(this.toJavaStatement());
-        }
-    }
-
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final WhileStmt whileStmt = new WhileStmt();
-        this.expression.addToJavaNode(whileStmt);
-        final BlockStmt blockStmt = whileStmt.createBlockStatementAsBody();
+    public void addToJavaNode(final Node java) {
+        final CatchClause catchClause = new CatchClause();
+        this.parameter.addToJavaNode(catchClause);
+        final BlockStmt blockStmt = new BlockStmt();
         if(this.blockStatements != null) {
             this.blockStatements.addToJavaNode(blockStmt);
         }
-        return whileStmt;
+        catchClause.setBody(blockStmt);
+
+        final TryStmt tryStmt = ((TryStmt) java);
+        final List<CatchClause> existing = ((TryStmt) java).getCatchClauses();
+        final List<CatchClause> added = new ArrayList<>();
+        if(existing != null && existing.size() > 0) {
+            added.addAll(existing);
+        }
+        added.add(catchClause);
+        tryStmt.setCatchClauses(new NodeList<>(added));
     }
 
     @Override

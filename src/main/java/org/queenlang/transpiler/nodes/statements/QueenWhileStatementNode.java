@@ -25,60 +25,71 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.type.UnionType;
-
-import java.util.List;
+import com.github.javaparser.ast.stmt.LabeledStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.WhileStmt;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
- * Formal parameter of a Queen CatchClause AST Node.
+ * Queen While AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCatchFormalParameterNode implements QueenNode {
+public final class QueenWhileStatementNode implements QueenStatementNode {
 
+    /**
+     * Position in the original source code.
+     */
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
-    private final List<QueenModifierNode> modifiers;
-    private final List<QueenTypeNode> catchExceptionTypes;
-    private final String exceptionName;
 
-    public QueenCatchFormalParameterNode(
+    /**
+     * Expression.
+     */
+    private final QueenExpressionNode expression;
+
+    /**
+     * Statements inside the while.
+     */
+    private final QueenBlockStatements blockStatements;
+
+
+    public QueenWhileStatementNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
-        final List<QueenTypeNode> catchExceptionTypes,
-        final String exceptionName
+        final QueenExpressionNode expression,
+        final QueenBlockStatements blockStatements
     ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
-        this.catchExceptionTypes = catchExceptionTypes;
-        this.exceptionName = exceptionName;
+        this.expression = expression;
+        this.blockStatements = blockStatements;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        final Parameter parameter = new Parameter();
-        this.annotations.forEach( a -> a.addToJavaNode(parameter));
-        this.modifiers.forEach(m -> m.addToJavaNode(parameter));
+    public void addToJavaNode(Node java) {
+        if(java instanceof BlockStmt) {
+            ((BlockStmt) java).addStatement(this.toJavaStatement());
+        } else if(java instanceof LabeledStmt) {
+            ((LabeledStmt) java).setStatement(this.toJavaStatement());
+        }
+    }
 
-        final UnionType type = new UnionType();
-        this.catchExceptionTypes.forEach(
-            et -> et.addToJavaNode(type)
-        );
-        parameter.setType(type);
-
-        parameter.setName(this.exceptionName);
-
-        final CatchClause catchClause = ((CatchClause) java);
-        catchClause.setParameter(parameter);
+    /**
+     * Turn it into a JavaParser Statement.
+     * @return Statement, never null.
+     */
+    private Statement toJavaStatement() {
+        final WhileStmt whileStmt = new WhileStmt();
+        this.expression.addToJavaNode(whileStmt);
+        final BlockStmt blockStmt = whileStmt.createBlockStatementAsBody();
+        if(this.blockStatements != null) {
+            this.blockStatements.addToJavaNode(blockStmt);
+        }
+        return whileStmt;
     }
 
     @Override

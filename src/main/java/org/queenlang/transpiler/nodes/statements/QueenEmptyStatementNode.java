@@ -25,50 +25,32 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SwitchEntry;
-
-import java.util.List;
+import com.github.javaparser.ast.stmt.EmptyStmt;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * An entry in a Switch Statment, AST Node.
+ * Queen Empty Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSwitchEntryNode implements QueenNode {
+public final class QueenEmptyStatementNode implements QueenStatementNode {
 
     private final Position position;
-    private final List<QueenSwitchLabelNode> labels;
-    private final QueenBlockStatements blockStatements;
 
-    public QueenSwitchEntryNode(
-        final Position position,
-        final List<QueenSwitchLabelNode> labels,
-        final QueenBlockStatements blockStatements
-    ) {
+    public QueenEmptyStatementNode(final Position position) {
         this.position = position;
-        this.labels = labels;
-        this.blockStatements = blockStatements;
     }
-
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof SwitchEntry) {
-            final SwitchEntry entry = (SwitchEntry) java;
-            if(this.labels != null) {
-                this.labels.forEach(l -> l.addToJavaNode(entry));
-            }
-            if(this.blockStatements != null) {
-                final BlockStmt blockStmt = new BlockStmt();
-                this.blockStatements.addToJavaNode(blockStmt);
-                entry.setStatements(blockStmt.getStatements());
-            }
-        }
+        ((BlockStmt) java).addStatement(
+            new EmptyStmt()
+        );
     }
 
     @Override

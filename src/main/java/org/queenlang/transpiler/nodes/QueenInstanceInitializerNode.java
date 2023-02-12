@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 
 /**
  * Queen Instance Initializer AST Node.

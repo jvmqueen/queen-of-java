@@ -34,6 +34,7 @@ import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.*;
+import org.queenlang.transpiler.nodes.statements.*;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -25,44 +25,61 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.AssertStmt;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.SwitchEntry;
+import com.github.javaparser.ast.stmt.SwitchStmt;
+import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Queen Assert Statement AST Node.
+ * Queen Switch Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenAssertStatementNode implements QueenStatementNode {
+public final class QueenSwitchStatementNode implements QueenStatementNode {
 
     private final Position position;
+    private final QueenExpressionNode expression;
+    private final List<QueenSwitchEntryNode> entries;
 
-    private final QueenExpressionNode check;
-    private final QueenExpressionNode message;
-
-    public QueenAssertStatementNode(final Position position, final QueenExpressionNode check) {
-        this(position, check, null);
-    }
-
-    public QueenAssertStatementNode(final Position position, final QueenExpressionNode check, final QueenExpressionNode message) {
+    public QueenSwitchStatementNode(
+        final Position position,
+        final QueenExpressionNode expression,
+        final List<QueenSwitchEntryNode> entries
+    ) {
         this.position = position;
-        this.check = check;
-        this.message = message;
+        this.expression = expression;
+        this.entries = entries;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        final AssertStmt assertStmt = new AssertStmt();
-        assertStmt.setCheck(this.check.toJavaExpression());
-        if(this.message != null) {
-            assertStmt.setMessage(this.message.toJavaExpression());
+        final SwitchStmt switchStmt = new SwitchStmt();
+        if(this.expression != null) {
+            this.expression.addToJavaNode(switchStmt);
         }
-        ((BlockStmt) java).addStatement(assertStmt);
+        if(this.entries != null) {
+            final List<SwitchEntry> entries = new ArrayList<>();
+            this.entries.forEach(
+                e -> {
+                    final SwitchEntry entry = new SwitchEntry();
+                    e.addToJavaNode(entry);
+                    entries.add(entry);
+                }
+
+            );
+            switchStmt.setEntries(new NodeList<>(entries));
+        }
+        ((BlockStmt) java).addStatement(switchStmt);
+
     }
 
     @Override

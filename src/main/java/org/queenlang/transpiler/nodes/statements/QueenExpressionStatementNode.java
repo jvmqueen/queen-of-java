@@ -25,33 +25,40 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.BreakStmt;
-import com.github.javaparser.ast.stmt.EmptyStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
- * Queen Empty Statement AST Node.
+ * Queen expression as a statement (i++, ++i, etc), AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenEmptyStatementNode implements QueenStatementNode {
+public final class QueenExpressionStatementNode implements QueenStatementNode {
 
     private final Position position;
+    private final QueenExpressionNode expression;
 
-    public QueenEmptyStatementNode(final Position position) {
+    public QueenExpressionStatementNode(
+        final Position position,
+        final QueenExpressionNode expression
+    ) {
         this.position = position;
+        this.expression = expression;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        ((BlockStmt) java).addStatement(
-            new EmptyStmt()
-        );
+        if(java instanceof BlockStmt) {
+            ((BlockStmt) java).addStatement(
+                new ExpressionStmt(this.expression.toJavaExpression())
+            );
+        }
     }
 
     @Override

@@ -25,15 +25,21 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ForEachStmt;
+import com.github.javaparser.ast.stmt.ForStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Queen For Statement AST Node.
@@ -41,7 +47,7 @@ import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenForEachStatementNode implements QueenStatementNode {
+public final class QueenForStatementNode implements QueenStatementNode {
 
     /**
      * Position of this for statement in the original source code.
@@ -49,29 +55,36 @@ public final class QueenForEachStatementNode implements QueenStatementNode {
     private final Position position;
 
     /**
-     * Variable.
+     * Initialization expressions.
      */
-    private final QueenLocalVariableDeclarationNode variable;
+    private final List<QueenExpressionNode> initialization;
 
     /**
-     * Iterable.
+     * Comparison expression.
      */
-    private final QueenExpressionNode iterable;
+    private final QueenExpressionNode comparison;
 
     /**
-     * Statements inside the for-each statement.
+     * Update expressions.
+     */
+    private final List<QueenExpressionNode> update;
+
+    /**
+     * Statements inside the for statement.
      */
     private final QueenBlockStatements blockStatements;
 
-    public QueenForEachStatementNode(
+    public QueenForStatementNode(
         final Position position,
-        final QueenLocalVariableDeclarationNode variable,
-        final QueenExpressionNode iterable,
+        final List<QueenExpressionNode> initialization,
+        final QueenExpressionNode comparison,
+        final List<QueenExpressionNode> update,
         final QueenBlockStatements blockStatements
     ) {
         this.position = position;
-        this.variable = variable;
-        this.iterable = iterable;
+        this.initialization = initialization;
+        this.comparison = comparison;
+        this.update = update;
         this.blockStatements = blockStatements;
     }
 
@@ -89,16 +102,36 @@ public final class QueenForEachStatementNode implements QueenStatementNode {
      * @return Statement, never null.
      */
     private Statement toJavaStatement() {
-        final ForEachStmt forEachStmt = new ForEachStmt();
-        forEachStmt.setVariable((VariableDeclarationExpr) this.variable.toJavaExpression());
-        forEachStmt.setIterable(this.iterable.toJavaExpression());
+        final ForStmt forStatement = new ForStmt();
+
+        if(this.initialization != null) {
+            List<Expression> init = new ArrayList<>();
+            this.initialization.forEach(i -> init.add(i.toJavaExpression()));
+            forStatement.setInitialization(
+                new NodeList<>(init)
+            );
+        }
+
+        if(this.comparison != null) {
+            forStatement.setCompare(this.comparison.toJavaExpression());
+        } else {
+            forStatement.setCompare(new BooleanLiteralExpr(true));
+        }
+
+        if(this.update != null) {
+            List<Expression> upd = new ArrayList<>();
+            this.update.forEach(u -> upd.add(u.toJavaExpression()));
+            forStatement.setUpdate(
+                new NodeList<>(upd)
+            );
+        }
 
         if(this.blockStatements != null) {
             final BlockStmt block = new BlockStmt();
             this.blockStatements.addToJavaNode(block);
-            forEachStmt.setBody(block);
+            forStatement.setBody(block);
         }
-        return forEachStmt;
+        return forStatement;
     }
 
     @Override

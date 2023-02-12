@@ -25,48 +25,65 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.*;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.IfStmt;
+import com.github.javaparser.ast.stmt.LabeledStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
- * Queen Do Statement AST Node.
+ * Queen IfStatement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenDoStatementNode implements QueenStatementNode {
-
+public final class QueenIfStatementNode implements QueenStatementNode {
     /**
      * Position in the original source code.
      */
     private final Position position;
 
     /**
-     * Statements inside the Do.
+     * Condition expression.
      */
-    private final QueenBlockStatements blockStatements;
+    private final QueenExpressionNode condition;
 
     /**
-     * Expression condition.
+     * Statements inside the if.
      */
-    private final QueenExpressionNode expression;
+    private final QueenBlockStatements thenBlockStatements;
 
+    /**
+     * Statements inside the else.
+     */
+    private final QueenBlockStatements elseBlockStatements;
 
-    public QueenDoStatementNode(
+    public QueenIfStatementNode(
         final Position position,
-        final QueenBlockStatements blockStatements,
-        final QueenExpressionNode expression
+        final QueenExpressionNode condition,
+        final QueenBlockStatements thenBlockStatements
+    ) {
+        this(position, condition, thenBlockStatements, null);
+    }
+
+    public QueenIfStatementNode(
+        final Position position,
+        final QueenExpressionNode condition,
+        final QueenBlockStatements thenBlockStatements,
+        final QueenBlockStatements elseBlockStatements
     ) {
         this.position = position;
-        this.blockStatements = blockStatements;
-        this.expression = expression;
+        this.condition = condition;
+        this.thenBlockStatements = thenBlockStatements;
+        this.elseBlockStatements = elseBlockStatements;
     }
 
     @Override
-    public void addToJavaNode(Node java) {
+    public void addToJavaNode(final Node java) {
         if(java instanceof BlockStmt) {
             ((BlockStmt) java).addStatement(this.toJavaStatement());
         } else if(java instanceof LabeledStmt) {
@@ -79,13 +96,19 @@ public final class QueenDoStatementNode implements QueenStatementNode {
      * @return Statement, never null.
      */
     private Statement toJavaStatement() {
-        final DoStmt doWhileStmt = new DoStmt();
-        this.expression.addToJavaNode(doWhileStmt);
-        final BlockStmt blockStmt = doWhileStmt.createBlockStatementAsBody();
-        if(this.blockStatements != null) {
-            this.blockStatements.addToJavaNode(blockStmt);
+        final IfStmt ifStatement = new IfStmt();
+        this.condition.addToJavaNode(ifStatement);
+        final BlockStmt thenBlockStmt = new BlockStmt();
+        if(this.thenBlockStatements != null) {
+            this.thenBlockStatements.addToJavaNode(thenBlockStmt);
         }
-        return doWhileStmt;
+        ifStatement.setThenStmt(thenBlockStmt);
+        if(this.elseBlockStatements != null) {
+            final BlockStmt elseBlockStmt = new BlockStmt();
+            this.elseBlockStatements.addToJavaNode(elseBlockStmt);
+            ifStatement.setElseStmt(elseBlockStmt);
+        }
+        return ifStatement;
     }
 
     @Override

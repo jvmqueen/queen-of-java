@@ -1,7 +1,9 @@
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.SwitchEntry;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**

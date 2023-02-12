@@ -25,38 +25,51 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import com.github.javaparser.ast.stmt.SwitchEntry;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
- * Queen expression as a statement (i++, ++i, etc), AST Node.
+ * An entry in a Switch Statment, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenExpressionStatementNode implements QueenStatementNode {
+public final class QueenSwitchEntryNode implements QueenNode {
 
     private final Position position;
-    private final QueenExpressionNode expression;
+    private final List<QueenSwitchLabelNode> labels;
+    private final QueenBlockStatements blockStatements;
 
-    public QueenExpressionStatementNode(
+    public QueenSwitchEntryNode(
         final Position position,
-        final QueenExpressionNode expression
+        final List<QueenSwitchLabelNode> labels,
+        final QueenBlockStatements blockStatements
     ) {
         this.position = position;
-        this.expression = expression;
+        this.labels = labels;
+        this.blockStatements = blockStatements;
     }
+
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(
-                new ExpressionStmt(this.expression.toJavaExpression())
-            );
+        if(java instanceof SwitchEntry) {
+            final SwitchEntry entry = (SwitchEntry) java;
+            if(this.labels != null) {
+                this.labels.forEach(l -> l.addToJavaNode(entry));
+            }
+            if(this.blockStatements != null) {
+                final BlockStmt blockStmt = new BlockStmt();
+                this.blockStatements.addToJavaNode(blockStmt);
+                entry.setStatements(blockStmt.getStatements());
+            }
         }
     }
 

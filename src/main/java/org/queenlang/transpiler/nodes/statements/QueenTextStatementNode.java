@@ -25,64 +25,60 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SwitchEntry;
-import com.github.javaparser.ast.stmt.SwitchStmt;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.LabeledStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen Switch Statement AST Node.
+ * Queen Statment AST Node from text.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSwitchStatementNode implements QueenStatementNode {
+public final class QueenTextStatementNode implements QueenStatementNode {
 
     private final Position position;
-    private final QueenExpressionNode expression;
-    private final List<QueenSwitchEntryNode> entries;
+    private final String statement;
 
-    public QueenSwitchStatementNode(
-        final Position position,
-        final QueenExpressionNode expression,
-        final List<QueenSwitchEntryNode> entries
-    ) {
+    public QueenTextStatementNode(final Position position, final String statement) {
         this.position = position;
-        this.expression = expression;
-        this.entries = entries;
+        this.statement = statement;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        final SwitchStmt switchStmt = new SwitchStmt();
-        if(this.expression != null) {
-            this.expression.addToJavaNode(switchStmt);
-        }
-        if(this.entries != null) {
-            final List<SwitchEntry> entries = new ArrayList<>();
-            this.entries.forEach(
-                e -> {
-                    final SwitchEntry entry = new SwitchEntry();
-                    e.addToJavaNode(entry);
-                    entries.add(entry);
-                }
-
+        Statement stmt = null;
+        try {
+            stmt = StaticJavaParser.parseStatement(this.statement);
+        } catch (ParseProblemException pbd) {
+            stmt = new ExpressionStmt(
+                StaticJavaParser.parseExpression(this.statement)
             );
-            switchStmt.setEntries(new NodeList<>(entries));
         }
-        ((BlockStmt) java).addStatement(switchStmt);
-
+        if(stmt != null) {
+            if(java instanceof BlockStmt) {
+                ((BlockStmt) java).addStatement(stmt);
+            } else if(java instanceof LabeledStmt) {
+                ((LabeledStmt) java).setStatement(stmt);
+            }
+        }
     }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public String toString() {
+        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
+        return stmt.getClass().toString();
     }
 }

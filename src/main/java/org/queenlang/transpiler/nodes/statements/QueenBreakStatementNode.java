@@ -25,47 +25,38 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SynchronizedStmt;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import com.github.javaparser.ast.stmt.BreakStmt;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen Synchronized Statement AST Node.
+ * Queen Break AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSynchronizedStatementNode implements QueenStatementNode {
+public final class QueenBreakStatementNode implements QueenStatementNode {
 
     private final Position position;
 
-    private final QueenExpressionNode syncExpression;
+    private final String label;
 
-    private final QueenBlockStatements blockStatements;
-
-    public QueenSynchronizedStatementNode(
-        final Position position,
-        final QueenExpressionNode syncExpression,
-        final QueenBlockStatements blockStatements
-    ) {
+    public QueenBreakStatementNode(final Position position, final String label) {
         this.position = position;
-        this.syncExpression = syncExpression;
-        this.blockStatements = blockStatements;
+        this.label = label;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        final SynchronizedStmt synchronizedStmt = new SynchronizedStmt();
-        this.syncExpression.addToJavaNode(synchronizedStmt);
-        if(this.blockStatements != null) {
-            final BlockStmt syncBockStmt = new BlockStmt();
-            this.blockStatements.addToJavaNode(syncBockStmt);
-            synchronizedStmt.setBody(syncBockStmt);
+        BreakStmt breakStmt = new BreakStmt();
+        if(this.label != null) {
+            breakStmt.setLabel(new SimpleName(this.label));
         }
-        ((BlockStmt) java).addStatement(synchronizedStmt);
+        ((BlockStmt) java).addStatement(breakStmt);
     }
 
     @Override

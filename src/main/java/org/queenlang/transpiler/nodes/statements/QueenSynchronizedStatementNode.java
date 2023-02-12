@@ -25,41 +25,48 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ReturnStmt;
+import com.github.javaparser.ast.stmt.SynchronizedStmt;
+import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
- * Queen Return AST Node.
+ * Queen Synchronized Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenReturnStatementNode implements QueenStatementNode {
+public final class QueenSynchronizedStatementNode implements QueenStatementNode {
 
-    private Position position;
+    private final Position position;
 
-    private QueenExpressionNode expression;
+    private final QueenExpressionNode syncExpression;
 
-    public QueenReturnStatementNode(final Position position) {
-        this(position, null);
-    }
+    private final QueenBlockStatements blockStatements;
 
-    public QueenReturnStatementNode(final Position position, final QueenExpressionNode expression) {
+    public QueenSynchronizedStatementNode(
+        final Position position,
+        final QueenExpressionNode syncExpression,
+        final QueenBlockStatements blockStatements
+    ) {
         this.position = position;
-        this.expression = expression;
+        this.syncExpression = syncExpression;
+        this.blockStatements = blockStatements;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        ReturnStmt returnStmt = new ReturnStmt();
-        if(this.expression != null) {
-            this.expression.addToJavaNode(returnStmt);
+        final SynchronizedStmt synchronizedStmt = new SynchronizedStmt();
+        this.syncExpression.addToJavaNode(synchronizedStmt);
+        if(this.blockStatements != null) {
+            final BlockStmt syncBockStmt = new BlockStmt();
+            this.blockStatements.addToJavaNode(syncBockStmt);
+            synchronizedStmt.setBody(syncBockStmt);
         }
-        ((BlockStmt) java).addStatement(returnStmt);
+        ((BlockStmt) java).addStatement(synchronizedStmt);
     }
 
     @Override

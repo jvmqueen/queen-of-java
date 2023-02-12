@@ -25,60 +25,47 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.Named;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen IfStatement AST Node.
+ * Queen For Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenIfStatementNode implements QueenStatementNode {
+public final class QueenLabeledStatementNode implements Named, QueenStatementNode {
+
     /**
-     * Position in the original source code.
+     * Position of this for statement in the original source code.
      */
     private final Position position;
 
     /**
-     * Condition expression.
+     * Name/label of the statement.
      */
-    private final QueenExpressionNode condition;
+    private final String name;
 
     /**
-     * Statements inside the if.
+     * Statements inside this labeled statement.
      */
-    private final QueenBlockStatements thenBlockStatements;
+    private final QueenBlockStatements blockStatements;
 
-    /**
-     * Statements inside the else.
-     */
-    private final QueenBlockStatements elseBlockStatements;
-
-    public QueenIfStatementNode(
+    public QueenLabeledStatementNode(
         final Position position,
-        final QueenExpressionNode condition,
-        final QueenBlockStatements thenBlockStatements
-    ) {
-        this(position, condition, thenBlockStatements, null);
-    }
-
-    public QueenIfStatementNode(
-        final Position position,
-        final QueenExpressionNode condition,
-        final QueenBlockStatements thenBlockStatements,
-        final QueenBlockStatements elseBlockStatements
+        final String name,
+        final QueenBlockStatements blockStatements
     ) {
         this.position = position;
-        this.condition = condition;
-        this.thenBlockStatements = thenBlockStatements;
-        this.elseBlockStatements = elseBlockStatements;
+        this.name = name;
+        this.blockStatements = blockStatements;
     }
 
     @Override
@@ -95,23 +82,23 @@ public final class QueenIfStatementNode implements QueenStatementNode {
      * @return Statement, never null.
      */
     private Statement toJavaStatement() {
-        final IfStmt ifStatement = new IfStmt();
-        this.condition.addToJavaNode(ifStatement);
-        final BlockStmt thenBlockStmt = new BlockStmt();
-        if(this.thenBlockStatements != null) {
-            this.thenBlockStatements.addToJavaNode(thenBlockStmt);
+        final LabeledStmt labeledStmt = new LabeledStmt();
+        labeledStmt.setLabel(new SimpleName(this.name));
+        if(this.blockStatements != null) {
+            final BlockStmt block = new BlockStmt();
+            this.blockStatements.addToJavaNode(block);
+            labeledStmt.setStatement(block);
         }
-        ifStatement.setThenStmt(thenBlockStmt);
-        if(this.elseBlockStatements != null) {
-            final BlockStmt elseBlockStmt = new BlockStmt();
-            this.elseBlockStatements.addToJavaNode(elseBlockStmt);
-            ifStatement.setElseStmt(elseBlockStmt);
-        }
-        return ifStatement;
+        return labeledStmt;
     }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
     }
 }

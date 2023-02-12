@@ -25,59 +25,86 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenLocalVariableDeclarationNode;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
- * Queen Statment AST Node from text.
+ * Queen For Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTextStatementNode implements QueenStatementNode {
+public final class QueenForEachStatementNode implements QueenStatementNode {
 
+    /**
+     * Position of this for statement in the original source code.
+     */
     private final Position position;
-    private final String statement;
 
-    public QueenTextStatementNode(final Position position, final String statement) {
+    /**
+     * Variable.
+     */
+    private final QueenLocalVariableDeclarationNode variable;
+
+    /**
+     * Iterable.
+     */
+    private final QueenExpressionNode iterable;
+
+    /**
+     * Statements inside the for-each statement.
+     */
+    private final QueenBlockStatements blockStatements;
+
+    public QueenForEachStatementNode(
+        final Position position,
+        final QueenLocalVariableDeclarationNode variable,
+        final QueenExpressionNode iterable,
+        final QueenBlockStatements blockStatements
+    ) {
         this.position = position;
-        this.statement = statement;
+        this.variable = variable;
+        this.iterable = iterable;
+        this.blockStatements = blockStatements;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        Statement stmt = null;
-        try {
-            stmt = StaticJavaParser.parseStatement(this.statement);
-        } catch (ParseProblemException pbd) {
-            stmt = new ExpressionStmt(
-                StaticJavaParser.parseExpression(this.statement)
-            );
+        if(java instanceof BlockStmt) {
+            ((BlockStmt) java).addStatement(this.toJavaStatement());
+        } else if(java instanceof LabeledStmt) {
+            ((LabeledStmt) java).setStatement(this.toJavaStatement());
         }
-        if(stmt != null) {
-            if(java instanceof BlockStmt) {
-                ((BlockStmt) java).addStatement(stmt);
-            } else if(java instanceof LabeledStmt) {
-                ((LabeledStmt) java).setStatement(stmt);
-            }
+    }
+
+    /**
+     * Turn into a JavaParser Statement.
+     * @return Statement, never null.
+     */
+    private Statement toJavaStatement() {
+        final ForEachStmt forEachStmt = new ForEachStmt();
+        forEachStmt.setVariable((VariableDeclarationExpr) this.variable.toJavaExpression());
+        forEachStmt.setIterable(this.iterable.toJavaExpression());
+
+        if(this.blockStatements != null) {
+            final BlockStmt block = new BlockStmt();
+            this.blockStatements.addToJavaNode(block);
+            forEachStmt.setBody(block);
         }
+        return forEachStmt;
     }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public String toString() {
-        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
-        return stmt.getClass().toString();
     }
 }

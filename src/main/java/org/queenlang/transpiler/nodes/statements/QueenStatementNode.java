@@ -25,7 +25,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
+
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
  * Queen statement AST node.

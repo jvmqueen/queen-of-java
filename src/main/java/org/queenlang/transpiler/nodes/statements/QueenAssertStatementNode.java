@@ -25,76 +25,45 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.TryStmt;
+import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
-import java.util.List;
-
 /**
- * Queen Try Statement AST Node.
+ * Queen Assert Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTryStatementNode implements QueenStatementNode {
+public final class QueenAssertStatementNode implements QueenStatementNode {
 
     private final Position position;
-    private final List<QueenExpressionNode> resources;
-    private final QueenBlockStatements tryBlockStatements;
-    private final List<QueenCatchClauseNode> catchClauses;
-    private final QueenBlockStatements finallyBlockStatements;
 
-    public QueenTryStatementNode(
-        final Position position,
-        final List<QueenExpressionNode> resources,
-        final QueenBlockStatements tryBlockStatements,
-        final List<QueenCatchClauseNode> catchClauses,
-        final QueenBlockStatements finallyBlockStatements
-    ) {
+    private final QueenExpressionNode check;
+    private final QueenExpressionNode message;
+
+    public QueenAssertStatementNode(final Position position, final QueenExpressionNode check) {
+        this(position, check, null);
+    }
+
+    public QueenAssertStatementNode(final Position position, final QueenExpressionNode check, final QueenExpressionNode message) {
         this.position = position;
-        this.resources = resources;
-        this.tryBlockStatements = tryBlockStatements;
-        this.catchClauses = catchClauses;
-        this.finallyBlockStatements = finallyBlockStatements;
+        this.check = check;
+        this.message = message;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-
-        ((BlockStmt) java).addStatement(this.toJavaStatement());
-    }
-
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final TryStmt tryStmt = new TryStmt();
-        if(this.resources != null) {
-            this.resources.forEach(r -> r.addToJavaNode(tryStmt));
+        final AssertStmt assertStmt = new AssertStmt();
+        assertStmt.setCheck(this.check.toJavaExpression());
+        if(this.message != null) {
+            assertStmt.setMessage(this.message.toJavaExpression());
         }
-
-        if(this.tryBlockStatements != null) {
-            final BlockStmt tryBlockStmt = new BlockStmt();
-            this.tryBlockStatements.addToJavaNode(tryBlockStmt);
-            tryStmt.setTryBlock(tryBlockStmt);
-        }
-
-        if(this.catchClauses != null) {
-            this.catchClauses.forEach(c -> c.addToJavaNode(tryStmt));
-        }
-
-        if(this.finallyBlockStatements != null) {
-            final BlockStmt finallyBlockStmt = new BlockStmt();
-            this.finallyBlockStatements.addToJavaNode(finallyBlockStmt);
-            tryStmt.setFinallyBlock(finallyBlockStmt);
-        }
-        return tryStmt;
+        ((BlockStmt) java).addStatement(assertStmt);
     }
 
     @Override

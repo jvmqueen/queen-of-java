@@ -25,78 +25,54 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
+import org.queenlang.transpiler.nodes.Position;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * Queen For Statement AST Node.
+ * Queen BlockStatements AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLabeledStatementNode implements Named, QueenStatementNode {
+public final class QueenBlockStatements implements QueenStatementNode, Iterable<QueenStatementNode> {
 
-    /**
-     * Position of this for statement in the original source code.
-     */
     private final Position position;
+    private final List<QueenStatementNode> blockStatements;
 
-    /**
-     * Name/label of the statement.
-     */
-    private final String name;
+    public QueenBlockStatements(
+        final Position position
+    ) {
+        this(position, new ArrayList<>());
+    }
 
-    /**
-     * Statements inside this labeled statement.
-     */
-    private final QueenBlockStatements blockStatements;
-
-    public QueenLabeledStatementNode(
+    public QueenBlockStatements(
         final Position position,
-        final String name,
-        final QueenBlockStatements blockStatements
+        final List<QueenStatementNode> blockStatements
     ) {
         this.position = position;
-        this.name = name;
         this.blockStatements = blockStatements;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(this.toJavaStatement());
-        }
+    public Iterator<QueenStatementNode> iterator() {
+        return this.blockStatements.iterator();
     }
 
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final LabeledStmt labeledStmt = new LabeledStmt();
-        labeledStmt.setLabel(new SimpleName(this.name));
-        if(this.blockStatements != null) {
-            final BlockStmt block = new BlockStmt();
-            this.blockStatements.addToJavaNode(block);
-            labeledStmt.setStatement(block);
-        }
-        return labeledStmt;
+    @Override
+    public void addToJavaNode(final Node java) {
+        this.blockStatements.forEach(
+            bs -> bs.addToJavaNode(java)
+        );
     }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public String name() {
-        return this.name;
     }
 }

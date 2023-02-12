@@ -27,12 +27,12 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 
 import java.util.List;
 

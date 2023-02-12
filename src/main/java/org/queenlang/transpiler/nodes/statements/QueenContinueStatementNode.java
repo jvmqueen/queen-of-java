@@ -25,37 +25,37 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.BreakStmt;
+import com.github.javaparser.ast.stmt.ContinueStmt;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen Break AST Node.
+ * Queen Continue AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBreakStatementNode implements QueenStatementNode {
+public final class QueenContinueStatementNode implements QueenStatementNode {
 
     private final Position position;
 
     private final String label;
 
-    public QueenBreakStatementNode(final Position position, final String label) {
+    public QueenContinueStatementNode(final Position position, final String label) {
         this.position = position;
         this.label = label;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        BreakStmt breakStmt = new BreakStmt();
+        ContinueStmt continueStmt = new ContinueStmt();
         if(this.label != null) {
-            breakStmt.setLabel(new SimpleName(this.label));
+            continueStmt.setLabel(this.label);
         }
-        ((BlockStmt) java).addStatement(breakStmt);
+        ((BlockStmt) java).addStatement(continueStmt);
     }
 
     @Override

@@ -25,43 +25,25 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.ThisExpr;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen this expression, AST Node.
- * this or Bicycle.this.
+ * Queen char literal expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenThisExpressionNode implements QueenExpressionNode {
-
-    private final Position position;
-    private final QueenNameNode typeName;
-
-    public QueenThisExpressionNode(final Position position){
-        this(position, null);
-    }
-
-    public QueenThisExpressionNode(final Position position, final QueenNameNode typeName){
-        this.position = position;
-        this.typeName = typeName;
+public final class QueenCharLiteralExpressionNode extends QueenLiteralStringValueExpressionNode {
+    public QueenCharLiteralExpressionNode(final Position position, final String value) {
+        super(position, value);
     }
 
     @Override
     public Expression toJavaExpression() {
-        if(this.typeName == null) {
-            return new ThisExpr();
-        } else {
-            return new ThisExpr(this.typeName.toName());
-        }
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
+        return new CharLiteralExpr(this.value());
     }
 }

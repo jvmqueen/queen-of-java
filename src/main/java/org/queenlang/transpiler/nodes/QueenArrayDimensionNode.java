@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;

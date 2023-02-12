@@ -25,30 +25,41 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.ThisExpr;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
 
 /**
- * Queen expression between brackets (e.g. (2 + 2)), AST Node.
+ * Queen this expression, AST Node.
+ * this or Bicycle.this.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBracketedExpressionNode implements QueenExpressionNode {
+public final class QueenThisExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final QueenExpressionNode expression;
+    private final QueenNameNode typeName;
 
-    public QueenBracketedExpressionNode(final Position position, final QueenExpressionNode expression) {
+    public QueenThisExpressionNode(final Position position){
+        this(position, null);
+    }
+
+    public QueenThisExpressionNode(final Position position, final QueenNameNode typeName){
         this.position = position;
-        this.expression = expression;
+        this.typeName = typeName;
     }
 
     @Override
     public Expression toJavaExpression() {
-        return new EnclosedExpr(this.expression.toJavaExpression());
+        if(this.typeName == null) {
+            return new ThisExpr();
+        } else {
+            return new ThisExpr(this.typeName.toName());
+        }
     }
 
     @Override

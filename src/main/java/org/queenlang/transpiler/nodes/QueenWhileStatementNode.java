@@ -32,6 +32,10 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.WhileStmt;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenBlockStatements;
+import org.queenlang.transpiler.nodes.QueenStatementNode;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
  * Queen While AST Node.

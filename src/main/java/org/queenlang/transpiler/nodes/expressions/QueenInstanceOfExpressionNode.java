@@ -25,59 +25,42 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodReferenceExpr;
-import com.github.javaparser.ast.expr.TypeExpr;
-
-import java.util.List;
+import com.github.javaparser.ast.expr.InstanceOfExpr;
+import com.github.javaparser.ast.type.ReferenceType;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenReferenceTypeNode;
 
 /**
- * Queen Method Reference Expression, AST Node.
+ * Queen instanceof Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenMethodReferenceExpressionNode implements QueenExpressionNode {
+public final class QueenInstanceOfExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final QueenTypeNode type;
-    private final QueenExpressionNode scope;
-    private final List<QueenTypeNode> typeArguments;
-    private final String identifier;
+    private final QueenExpressionNode expression;
+    private final QueenReferenceTypeNode referenceType;
 
-    public QueenMethodReferenceExpressionNode(
+    public QueenInstanceOfExpressionNode(
         final Position position,
-        final QueenTypeNode type,
-        final QueenExpressionNode scope,
-        final List<QueenTypeNode> typeArguments,
-        final String identifier
+        final QueenExpressionNode expression,
+        final QueenReferenceTypeNode referenceType
     ) {
         this.position = position;
-        this.type = type;
-        this.scope = scope;
-        this.typeArguments = typeArguments;
-        this.identifier = identifier;
+        this.expression = expression;
+        this.referenceType = referenceType;
     }
 
     @Override
     public Expression toJavaExpression() {
-        final MethodReferenceExpr methodReferenceExpr = new MethodReferenceExpr();
-        if(this.type != null) {
-            methodReferenceExpr.setScope(
-                new TypeExpr(this.type.toType())
-            );
-        } else {
-            methodReferenceExpr.setScope(
-                this.scope.toJavaExpression()
-            );
-        }
-        if(this.typeArguments != null) {
-            this.typeArguments.forEach(ta -> ta.addToJavaNode(methodReferenceExpr));
-        }
-        methodReferenceExpr.setIdentifier(this.identifier);
-        return methodReferenceExpr;
+        final InstanceOfExpr instanceOfExpr = new InstanceOfExpr();
+        instanceOfExpr.setExpression(this.expression.toJavaExpression());
+        instanceOfExpr.setType((ReferenceType) this.referenceType.toType());
+        return instanceOfExpr;
     }
 
     @Override

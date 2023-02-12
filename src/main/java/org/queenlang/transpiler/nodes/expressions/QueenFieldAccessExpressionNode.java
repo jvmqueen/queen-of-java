@@ -25,49 +25,53 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.Expression;
-
-import java.util.List;
+import com.github.javaparser.ast.expr.FieldAccessExpr;
+import com.github.javaparser.ast.expr.SimpleName;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen Array Access Expression, AST Node.
+ * Queen Field Access Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayAccessExpressionNode implements QueenExpressionNode {
+public final class QueenFieldAccessExpressionNode implements QueenExpressionNode {
 
     private final Position position;
 
-    private final QueenExpressionNode name;
+    private final QueenExpressionNode scope;
 
-    private final List<QueenArrayDimensionNode> dims;
+    private final String name;
 
-    public QueenArrayAccessExpressionNode(
+    public QueenFieldAccessExpressionNode(
         final Position position,
-        final QueenExpressionNode name,
-        final List<QueenArrayDimensionNode> dims
+        final String name
+    ) {
+        this(position, null, name);
+    }
+
+
+    public QueenFieldAccessExpressionNode(
+        final Position position,
+        final QueenExpressionNode scope,
+        final String name
     ) {
         this.position = position;
+        this.scope = scope;
         this.name = name;
-        this.dims = dims;
     }
 
     @Override
     public Expression toJavaExpression() {
-        ArrayAccessExpr arrayAccessExpr = new ArrayAccessExpr();
-        arrayAccessExpr.setName(this.name.toJavaExpression());
-        arrayAccessExpr.setIndex(this.dims.get(0).expression().toJavaExpression());
-        for(int i = 1; i<this.dims.size(); i++) {
-            arrayAccessExpr = new ArrayAccessExpr(
-                arrayAccessExpr,
-                this.dims.get(i).expression().toJavaExpression()
-            );
+        final FieldAccessExpr fieldAccessExpr = new FieldAccessExpr();
+        if(this.scope != null) {
+            fieldAccessExpr.setScope(this.scope.toJavaExpression());
         }
-        return arrayAccessExpr;
+        fieldAccessExpr.setName(new SimpleName(this.name));
+        return fieldAccessExpr;
     }
 
     @Override

@@ -25,86 +25,61 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.expr.MethodReferenceExpr;
+import com.github.javaparser.ast.expr.TypeExpr;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenTypeNode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen object creation/class instantiation expression, AST Node.
+ * Queen Method Reference Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenObjectCreationExpressionNode implements QueenExpressionNode {
+public final class QueenMethodReferenceExpressionNode implements QueenExpressionNode {
 
     private final Position position;
+    private final QueenTypeNode type;
     private final QueenExpressionNode scope;
-    private final QueenClassOrInterfaceTypeNode type;
-
     private final List<QueenTypeNode> typeArguments;
+    private final String identifier;
 
-    private final List<QueenExpressionNode> arguments;
-
-    private final QueenClassBodyNode anonymousBody; //check only class member declaration (e.g. no constructors allowed!).
-
-    public QueenObjectCreationExpressionNode(
+    public QueenMethodReferenceExpressionNode(
         final Position position,
+        final QueenTypeNode type,
         final QueenExpressionNode scope,
-        final QueenClassOrInterfaceTypeNode type,
         final List<QueenTypeNode> typeArguments,
-        final List<QueenExpressionNode> arguments,
-        final QueenClassBodyNode anonymousBody
+        final String identifier
     ) {
         this.position = position;
-        this.scope = scope;
         this.type = type;
+        this.scope = scope;
         this.typeArguments = typeArguments;
-        this.arguments = arguments;
-        this.anonymousBody = anonymousBody;
+        this.identifier = identifier;
     }
+
     @Override
     public Expression toJavaExpression() {
-        final QueenExpressionNode ex = new QueenExpressionNode() {
-            private final int i = 0;
-
-            @Override
-            public Expression toJavaExpression() {
-                return null;
-            }
-
-            @Override
-            public Position position() {
-                return null;
-            }
-        };
-        final ObjectCreationExpr objectCreationExpr = new ObjectCreationExpr();
-        if(this.scope != null) {
-            objectCreationExpr.setScope(this.scope.toJavaExpression());
-        }
-        objectCreationExpr.setType(this.type.toType());
-        if(this.typeArguments != null) {
-            this.typeArguments.forEach(ta -> ta.addToJavaNode(objectCreationExpr));
-        }
-        final List<Expression> args = new ArrayList<>();
-        if(this.arguments != null) {
-            this.arguments.forEach(
-                a -> args.add(a.toJavaExpression())
+        final MethodReferenceExpr methodReferenceExpr = new MethodReferenceExpr();
+        if(this.type != null) {
+            methodReferenceExpr.setScope(
+                new TypeExpr(this.type.toType())
+            );
+        } else {
+            methodReferenceExpr.setScope(
+                this.scope.toJavaExpression()
             );
         }
-        objectCreationExpr.setArguments(new NodeList<>(args));
-        if(this.anonymousBody != null) {
-            if(!this.anonymousBody.isEmpty()) {
-                this.anonymousBody.addToJavaNode(objectCreationExpr);
-            } else {
-                objectCreationExpr.setAnonymousClassBody(new NodeList<>());
-            }
+        if(this.typeArguments != null) {
+            this.typeArguments.forEach(ta -> ta.addToJavaNode(methodReferenceExpr));
         }
-        return objectCreationExpr;
+        methodReferenceExpr.setIdentifier(this.identifier);
+        return methodReferenceExpr;
     }
 
     @Override

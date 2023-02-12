@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
  * Queen Assert Statement AST Node.

@@ -25,24 +25,57 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.CharLiteralExpr;
+import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen char literal expression, AST Node.
+ * Queen Binary Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.0.1
+ * @since 0.0.01
  */
-public final class QueenCharLiteralExpressionNode extends QueenLiteralStringValueExpressionNode {
-    public QueenCharLiteralExpressionNode(final Position position, final String value) {
-        super(position, value);
+public final class QueenBinaryExpressionNode implements QueenExpressionNode {
+    private final Position position;
+    private final QueenExpressionNode left;
+    private final String operator;
+    private final QueenExpressionNode right;
+
+    public QueenBinaryExpressionNode(
+        final Position position,
+        final QueenExpressionNode left,
+        final String operator,
+        final QueenExpressionNode right
+    ) {
+        this.position = position;
+        this.left = left;
+        this.operator = operator;
+        this.right = right;
     }
 
     @Override
     public Expression toJavaExpression() {
-        return new CharLiteralExpr(this.value());
+        BinaryExpr.Operator operator = null;
+        for(int i=0; i< BinaryExpr.Operator.values().length; i++) {
+            if(BinaryExpr.Operator.values()[i].asString().equalsIgnoreCase(this.operator)) {
+                operator = BinaryExpr.Operator.values()[i];
+                break;
+            }
+        }
+        if(operator == null) {
+            throw new IllegalStateException("Unknown operator: " + this.operator);
+        }
+        return new BinaryExpr(
+            this.left.toJavaExpression(),
+            this.right.toJavaExpression(),
+            operator
+        );
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
     }
 }

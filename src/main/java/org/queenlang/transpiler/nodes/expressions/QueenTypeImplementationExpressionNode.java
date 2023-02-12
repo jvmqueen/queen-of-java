@@ -25,24 +25,57 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.DoubleLiteralExpr;
+import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenArrayDimensionNode;
+import org.queenlang.transpiler.nodes.QueenArrayTypeNode;
+import org.queenlang.transpiler.nodes.QueenTypeNode;
+
+import java.util.List;
 
 /**
- * Queen doube literal expression, AST Node.
+ * Defines an expression that accesses the class of a type.
+ * Object.implementation, int.implementation, void.implementation etc.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenDoubleLiteralExpressionNode extends QueenLiteralStringValueExpressionNode {
-    public QueenDoubleLiteralExpressionNode(final Position position, final String value) {
-        super(position, value);
+public final class QueenTypeImplementationExpressionNode implements QueenExpressionNode {
+
+    private final Position position;
+    private final QueenTypeNode type;
+    private final List<QueenArrayDimensionNode> dims;
+
+    public QueenTypeImplementationExpressionNode(
+        final Position position,
+        final QueenTypeNode type,
+        final List<QueenArrayDimensionNode> dims
+    ) {
+        this.position = position;
+        this.type = type;
+        this.dims = dims;
     }
 
     @Override
     public Expression toJavaExpression() {
-        return new DoubleLiteralExpr(this.value());
+        if(this.dims != null && !this.dims.isEmpty()) {
+            return new ClassExpr(
+                new QueenArrayTypeNode(
+                    this.position,
+                    this.type,
+                    this.dims
+                ).toType()
+            );
+        } else {
+            return new ClassExpr(this.type.toType());
+        }
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
     }
 }

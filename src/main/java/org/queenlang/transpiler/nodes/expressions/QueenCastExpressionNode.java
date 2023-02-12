@@ -25,57 +25,73 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.AssignExpr;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.type.IntersectionType;
+import com.github.javaparser.ast.type.ReferenceType;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenReferenceTypeNode;
+import org.queenlang.transpiler.nodes.QueenTypeNode;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Queen Assignment Expression, AST Node.
+ * Queen Casting, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenAssignmentExpressionNode implements QueenExpressionNode {
+public final class QueenCastExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final QueenExpressionNode target;
-    private final String operator;
-    private final QueenExpressionNode value;
+    private final QueenTypeNode primitiveType;
+    private final List<QueenReferenceTypeNode> referenceTypes;
+    private final QueenExpressionNode expression;
 
-    public QueenAssignmentExpressionNode(
+    public QueenCastExpressionNode(
         final Position position,
-        final QueenExpressionNode target,
-        final String operator,
-        final QueenExpressionNode value
+        final List<QueenReferenceTypeNode> referenceTypes,
+        final QueenExpressionNode expression
+    ) {
+        this(position, null, referenceTypes, expression);
+    }
+
+    public QueenCastExpressionNode(
+        final Position position,
+        final QueenTypeNode primitiveType,
+        final List<QueenReferenceTypeNode> referenceTypes,
+        final QueenExpressionNode expression
     ) {
         this.position = position;
-        this.target = target;
-        this.operator = operator;
-        this.value = value;
+        this.primitiveType = primitiveType;
+        this.referenceTypes = referenceTypes;
+        this.expression = expression;
     }
 
     @Override
     public Expression toJavaExpression() {
-        AssignExpr.Operator operator = null;
-        for(int i=0; i< AssignExpr.Operator.values().length; i++) {
-            if(AssignExpr.Operator.values()[i].asString().equalsIgnoreCase(this.operator)) {
-                operator = AssignExpr.Operator.values()[i];
-                break;
-            }
+        if(this.primitiveType != null) {
+            return new CastExpr(
+                this.primitiveType.toType(),
+                this.expression.toJavaExpression()
+            );
+        } else {
+            final List<ReferenceType> javaTypes = new ArrayList<>();
+            this.referenceTypes.forEach(
+                rt -> javaTypes.add((ReferenceType) rt.toType())
+            );
+            final IntersectionType type = new IntersectionType(
+                new NodeList<>(javaTypes)
+            );
+            return new CastExpr(
+                type,
+                this.expression.toJavaExpression()
+            );
         }
-        if(operator == null) {
-            throw new IllegalStateException("Unknown assignment operator: " + this.operator);
-        }
-
-
-        return new AssignExpr(
-            this.target.toJavaExpression(),
-            this.value.toJavaExpression(),
-            operator
-        );
     }
 
     @Override

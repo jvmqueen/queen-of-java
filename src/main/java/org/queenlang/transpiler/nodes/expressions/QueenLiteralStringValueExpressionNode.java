@@ -25,24 +25,32 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen integer literal expression, AST Node.
+ * Queen literal based on a string value, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenIntegerLiteralExpressionNode extends QueenLiteralStringValueExpressionNode {
-    public QueenIntegerLiteralExpressionNode(final Position position, final String value) {
-        super(position, value);
+public abstract class QueenLiteralStringValueExpressionNode implements QueenExpressionNode {
+
+    private final Position position;
+    private final String value;
+
+    public QueenLiteralStringValueExpressionNode(final Position position, final String value) {
+        this.position = position;
+        this.value = value;
     }
 
-    @Override
-    public Expression toJavaExpression() {
-        return new IntegerLiteralExpr(this.value());
+    public String value() {
+        return this.value;
     }
+
+    public final Position position() {
+        return this.position;
+    }
+
 }

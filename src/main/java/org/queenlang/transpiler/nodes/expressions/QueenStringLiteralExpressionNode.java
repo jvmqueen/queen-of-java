@@ -25,56 +25,25 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
-import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen Field Access Expression, AST Node.
+ * Queen string literal expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenFieldAccessExpressionNode implements QueenExpressionNode {
-
-    private final Position position;
-
-    private final QueenExpressionNode scope;
-
-    private final String name;
-
-    public QueenFieldAccessExpressionNode(
-        final Position position,
-        final String name
-    ) {
-        this(position, null, name);
-    }
-
-
-    public QueenFieldAccessExpressionNode(
-        final Position position,
-        final QueenExpressionNode scope,
-        final String name
-    ) {
-        this.position = position;
-        this.scope = scope;
-        this.name = name;
+public final class QueenStringLiteralExpressionNode extends QueenLiteralStringValueExpressionNode {
+    public QueenStringLiteralExpressionNode(final Position position, final String value) {
+        super(position, value);
     }
 
     @Override
     public Expression toJavaExpression() {
-        final FieldAccessExpr fieldAccessExpr = new FieldAccessExpr();
-        if(this.scope != null) {
-            fieldAccessExpr.setScope(this.scope.toJavaExpression());
-        }
-        fieldAccessExpr.setName(new SimpleName(this.name));
-        return fieldAccessExpr;
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
+        return new StringLiteralExpr(this.value());
     }
 }

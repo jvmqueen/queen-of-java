@@ -28,6 +28,8 @@
 package org.queenlang.transpiler;
 
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.QueenTextExpressionNode;
 
 /**
  * Queen abstract syntax tree visitor.

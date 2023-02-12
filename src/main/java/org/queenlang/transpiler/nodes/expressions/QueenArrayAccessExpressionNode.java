@@ -25,58 +25,51 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
+import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.UnaryExpr;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenArrayDimensionNode;
+
+import java.util.List;
 
 /**
- * Queen Unary Expression, AST Node.
- * An expression where an operator is applied to a single expression.
- * 11++
- * ++11
- * ~1
- * -333
+ * Queen Array Access Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenUnaryExpressionNode implements QueenExpressionNode {
+public final class QueenArrayAccessExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final String operator;
-    private final boolean isPrefix;
-    private final QueenExpressionNode expression;
 
-    public QueenUnaryExpressionNode(
+    private final QueenExpressionNode name;
+
+    private final List<QueenArrayDimensionNode> dims;
+
+    public QueenArrayAccessExpressionNode(
         final Position position,
-        final String operator,
-        final boolean isPrefix,
-        final QueenExpressionNode expression
+        final QueenExpressionNode name,
+        final List<QueenArrayDimensionNode> dims
     ) {
         this.position = position;
-        this.operator = operator;
-        this.isPrefix = isPrefix;
-        this.expression = expression;
+        this.name = name;
+        this.dims = dims;
     }
 
     @Override
     public Expression toJavaExpression() {
-        UnaryExpr.Operator operator = null;
-        for(int i=0; i< UnaryExpr.Operator.values().length; i++) {
-            final UnaryExpr.Operator candidate = UnaryExpr.Operator.values()[i];
-            if(candidate.asString().equalsIgnoreCase(this.operator) && candidate.isPrefix() == this.isPrefix) {
-                operator = UnaryExpr.Operator.values()[i];
-                break;
-            }
+        ArrayAccessExpr arrayAccessExpr = new ArrayAccessExpr();
+        arrayAccessExpr.setName(this.name.toJavaExpression());
+        arrayAccessExpr.setIndex(this.dims.get(0).expression().toJavaExpression());
+        for(int i = 1; i<this.dims.size(); i++) {
+            arrayAccessExpr = new ArrayAccessExpr(
+                arrayAccessExpr,
+                this.dims.get(i).expression().toJavaExpression()
+            );
         }
-        if(operator == null) {
-            throw new IllegalStateException("Unkown unary operator: " + this.operator + ". (is prefix: " + this.isPrefix + ").");
-        }
-        return new UnaryExpr(
-            this.expression.toJavaExpression(),
-            operator
-        );
+        return arrayAccessExpr;
     }
 
     @Override

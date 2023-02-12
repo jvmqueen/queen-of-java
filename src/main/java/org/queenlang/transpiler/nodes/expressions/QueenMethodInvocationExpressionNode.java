@@ -25,52 +25,68 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.SimpleName;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenTypeNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Queen Binary Expression, AST Node.
+ * Queen Method Invocation Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.0.01
+ * @since 0.0.1
  */
-public final class QueenBinaryExpressionNode implements QueenExpressionNode {
-    private final Position position;
-    private final QueenExpressionNode left;
-    private final String operator;
-    private final QueenExpressionNode right;
+public final class QueenMethodInvocationExpressionNode implements QueenExpressionNode {
 
-    public QueenBinaryExpressionNode(
+    private final Position position;
+    private final QueenExpressionNode scope;
+
+    private final List<QueenTypeNode> typeArguments;
+    private final String name;
+
+    private final List<QueenExpressionNode> arguments;
+
+    public QueenMethodInvocationExpressionNode(
         final Position position,
-        final QueenExpressionNode left,
-        final String operator,
-        final QueenExpressionNode right
+        final QueenExpressionNode scope,
+        final List<QueenTypeNode> typeArguments,
+        final String name,
+        final List<QueenExpressionNode> arguments
     ) {
         this.position = position;
-        this.left = left;
-        this.operator = operator;
-        this.right = right;
+        this.scope = scope;
+        this.typeArguments = typeArguments;
+        this.name = name;
+        this.arguments = arguments;
     }
 
     @Override
     public Expression toJavaExpression() {
-        BinaryExpr.Operator operator = null;
-        for(int i=0; i< BinaryExpr.Operator.values().length; i++) {
-            if(BinaryExpr.Operator.values()[i].asString().equalsIgnoreCase(this.operator)) {
-                operator = BinaryExpr.Operator.values()[i];
-                break;
-            }
+        final MethodCallExpr methodCallExpr = new MethodCallExpr();
+        methodCallExpr.setName(new SimpleName(name));
+        if(this.scope != null) {
+            methodCallExpr.setScope(this.scope.toJavaExpression());
         }
-        if(operator == null) {
-            throw new IllegalStateException("Unknown operator: " + this.operator);
+        if(this.typeArguments != null) {
+            this.typeArguments.forEach(
+                ta -> ta.addToJavaNode(methodCallExpr)
+            );
         }
-        return new BinaryExpr(
-            this.left.toJavaExpression(),
-            this.right.toJavaExpression(),
-            operator
-        );
+        final List<Expression> args = new ArrayList<>();
+        if(this.arguments != null) {
+            this.arguments.forEach(
+                a -> args.add(a.toJavaExpression())
+            );
+        }
+        methodCallExpr.setArguments(new NodeList<>(args));
+        return methodCallExpr;
     }
 
     @Override

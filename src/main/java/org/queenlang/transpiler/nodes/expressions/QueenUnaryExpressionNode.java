@@ -25,72 +25,59 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.type.IntersectionType;
-import com.github.javaparser.ast.type.ReferenceType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.UnionType;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.javaparser.ast.expr.UnaryExpr;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen Casting, AST Node.
+ * Queen Unary Expression, AST Node.
+ * An expression where an operator is applied to a single expression.
+ * 11++
+ * ++11
+ * ~1
+ * -333
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCastExpressionNode implements QueenExpressionNode {
+public final class QueenUnaryExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final QueenTypeNode primitiveType;
-    private final List<QueenReferenceTypeNode> referenceTypes;
+    private final String operator;
+    private final boolean isPrefix;
     private final QueenExpressionNode expression;
 
-    public QueenCastExpressionNode(
+    public QueenUnaryExpressionNode(
         final Position position,
-        final List<QueenReferenceTypeNode> referenceTypes,
-        final QueenExpressionNode expression
-    ) {
-        this(position, null, referenceTypes, expression);
-    }
-
-    public QueenCastExpressionNode(
-        final Position position,
-        final QueenTypeNode primitiveType,
-        final List<QueenReferenceTypeNode> referenceTypes,
+        final String operator,
+        final boolean isPrefix,
         final QueenExpressionNode expression
     ) {
         this.position = position;
-        this.primitiveType = primitiveType;
-        this.referenceTypes = referenceTypes;
+        this.operator = operator;
+        this.isPrefix = isPrefix;
         this.expression = expression;
     }
 
     @Override
     public Expression toJavaExpression() {
-        if(this.primitiveType != null) {
-            return new CastExpr(
-                this.primitiveType.toType(),
-                this.expression.toJavaExpression()
-            );
-        } else {
-            final List<ReferenceType> javaTypes = new ArrayList<>();
-            this.referenceTypes.forEach(
-                rt -> javaTypes.add((ReferenceType) rt.toType())
-            );
-            final IntersectionType type = new IntersectionType(
-                new NodeList<>(javaTypes)
-            );
-            return new CastExpr(
-                type,
-                this.expression.toJavaExpression()
-            );
+        UnaryExpr.Operator operator = null;
+        for(int i=0; i< UnaryExpr.Operator.values().length; i++) {
+            final UnaryExpr.Operator candidate = UnaryExpr.Operator.values()[i];
+            if(candidate.asString().equalsIgnoreCase(this.operator) && candidate.isPrefix() == this.isPrefix) {
+                operator = UnaryExpr.Operator.values()[i];
+                break;
+            }
         }
+        if(operator == null) {
+            throw new IllegalStateException("Unkown unary operator: " + this.operator + ". (is prefix: " + this.isPrefix + ").");
+        }
+        return new UnaryExpr(
+            this.expression.toJavaExpression(),
+            operator
+        );
     }
 
     @Override

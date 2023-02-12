@@ -35,6 +35,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;

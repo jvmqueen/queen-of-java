@@ -25,57 +25,74 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenClassBodyNode;
+import org.queenlang.transpiler.nodes.QueenClassOrInterfaceTypeNode;
+import org.queenlang.transpiler.nodes.QueenTypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen Method Invocation Expression, AST Node.
+ * Queen object creation/class instantiation expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenMethodInvocationExpressionNode implements QueenExpressionNode {
+public final class QueenObjectCreationExpressionNode implements QueenExpressionNode {
 
     private final Position position;
     private final QueenExpressionNode scope;
+    private final QueenClassOrInterfaceTypeNode type;
 
     private final List<QueenTypeNode> typeArguments;
-    private final String name;
 
     private final List<QueenExpressionNode> arguments;
 
-    public QueenMethodInvocationExpressionNode(
+    private final QueenClassBodyNode anonymousBody; //check only class member declaration (e.g. no constructors allowed!).
+
+    public QueenObjectCreationExpressionNode(
         final Position position,
         final QueenExpressionNode scope,
+        final QueenClassOrInterfaceTypeNode type,
         final List<QueenTypeNode> typeArguments,
-        final String name,
-        final List<QueenExpressionNode> arguments
+        final List<QueenExpressionNode> arguments,
+        final QueenClassBodyNode anonymousBody
     ) {
         this.position = position;
         this.scope = scope;
+        this.type = type;
         this.typeArguments = typeArguments;
-        this.name = name;
         this.arguments = arguments;
+        this.anonymousBody = anonymousBody;
     }
-
     @Override
     public Expression toJavaExpression() {
-        final MethodCallExpr methodCallExpr = new MethodCallExpr();
-        methodCallExpr.setName(new SimpleName(name));
+        final QueenExpressionNode ex = new QueenExpressionNode() {
+            private final int i = 0;
+
+            @Override
+            public Expression toJavaExpression() {
+                return null;
+            }
+
+            @Override
+            public Position position() {
+                return null;
+            }
+        };
+        final ObjectCreationExpr objectCreationExpr = new ObjectCreationExpr();
         if(this.scope != null) {
-            methodCallExpr.setScope(this.scope.toJavaExpression());
+            objectCreationExpr.setScope(this.scope.toJavaExpression());
         }
+        objectCreationExpr.setType(this.type.toType());
         if(this.typeArguments != null) {
-            this.typeArguments.forEach(
-                ta -> ta.addToJavaNode(methodCallExpr)
-            );
+            this.typeArguments.forEach(ta -> ta.addToJavaNode(objectCreationExpr));
         }
         final List<Expression> args = new ArrayList<>();
         if(this.arguments != null) {
@@ -83,8 +100,15 @@ public final class QueenMethodInvocationExpressionNode implements QueenExpressio
                 a -> args.add(a.toJavaExpression())
             );
         }
-        methodCallExpr.setArguments(new NodeList<>(args));
-        return methodCallExpr;
+        objectCreationExpr.setArguments(new NodeList<>(args));
+        if(this.anonymousBody != null) {
+            if(!this.anonymousBody.isEmpty()) {
+                this.anonymousBody.addToJavaNode(objectCreationExpr);
+            } else {
+                objectCreationExpr.setAnonymousClassBody(new NodeList<>());
+            }
+        }
+        return objectCreationExpr;
     }
 
     @Override

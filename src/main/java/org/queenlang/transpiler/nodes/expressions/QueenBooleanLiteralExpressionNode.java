@@ -25,25 +25,36 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen string literal expression, AST Node.
+ * A literal boolean expression in Queen, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenStringLiteralExpressionNode extends QueenLiteralStringValueExpressionNode {
-    public QueenStringLiteralExpressionNode(final Position position, final String value) {
-        super(position, value);
+public final class QueenBooleanLiteralExpressionNode implements QueenExpressionNode {
+
+    private final Position position;
+
+    private final boolean value;
+
+    public QueenBooleanLiteralExpressionNode(final Position position, final boolean value) {
+        this.position = position;
+        this.value = value;
     }
 
     @Override
     public Expression toJavaExpression() {
-        return new StringLiteralExpr(this.value());
+        return new BooleanLiteralExpr(this.value);
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
     }
 }

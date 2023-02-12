@@ -25,30 +25,48 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
+
+import com.github.javaparser.ast.expr.ConditionalExpr;
+import com.github.javaparser.ast.expr.Expression;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen literal based on a string value, AST Node.
+ * Queen ternary conditional expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public abstract class QueenLiteralStringValueExpressionNode implements QueenExpressionNode {
+public final class QueenConditionalExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final String value;
+    private final QueenExpressionNode condition;
+    private final QueenExpressionNode thenExpr;
+    private final QueenExpressionNode elseExpr;
 
-    public QueenLiteralStringValueExpressionNode(final Position position, final String value) {
+    public QueenConditionalExpressionNode(
+        final Position position,
+        final QueenExpressionNode condition,
+        final QueenExpressionNode thenExpr,
+        final QueenExpressionNode elseExpr
+    ) {
         this.position = position;
-        this.value = value;
+        this.condition = condition;
+        this.thenExpr = thenExpr;
+        this.elseExpr = elseExpr;
     }
 
-    public String value() {
-        return this.value;
+    @Override
+    public Expression toJavaExpression() {
+        return new ConditionalExpr(
+            this.condition.toJavaExpression(),
+            this.thenExpr.toJavaExpression(),
+            this.elseExpr.toJavaExpression()
+        );
     }
 
-    public final Position position() {
+    @Override
+    public Position position() {
         return this.position;
     }
-
 }

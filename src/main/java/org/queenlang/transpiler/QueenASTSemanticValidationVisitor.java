@@ -28,6 +28,8 @@
 package org.queenlang.transpiler;
 
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.QueenTextExpressionNode;
 
 import java.util.ArrayList;
 import java.util.HashSet;

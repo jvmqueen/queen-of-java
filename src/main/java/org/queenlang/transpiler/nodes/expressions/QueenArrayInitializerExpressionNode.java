@@ -1,8 +1,9 @@
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
+import org.queenlang.transpiler.nodes.Position;
 
 import java.util.ArrayList;
 import java.util.List;

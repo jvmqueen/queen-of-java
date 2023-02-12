@@ -32,6 +32,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;

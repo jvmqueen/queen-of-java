@@ -2,6 +2,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.SwitchEntry;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
  * A Queen label in a switch case, AST Node.

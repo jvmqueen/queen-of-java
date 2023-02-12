@@ -25,40 +25,28 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.SuperExpr;
-import com.github.javaparser.ast.expr.ThisExpr;
+import com.github.javaparser.ast.expr.NullLiteralExpr;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen super expression, AST Node.
- * super or Bicycle.super.
+ * A literal null expression in Queen, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSuperExpressionNode implements QueenExpressionNode {
-
+public final class QueenNullLiteralExpressionNode implements QueenExpressionNode {
     private final Position position;
-    private final QueenNameNode typeName;
 
-    public QueenSuperExpressionNode(final Position position){
-        this(position, null);
-    }
-
-    public QueenSuperExpressionNode(final Position position, final QueenNameNode typeName){
+    public QueenNullLiteralExpressionNode(final Position position) {
         this.position = position;
-        this.typeName = typeName;
     }
 
     @Override
     public Expression toJavaExpression() {
-        if(this.typeName == null) {
-            return new SuperExpr();
-        } else {
-            return new SuperExpr(this.typeName.toName());
-        }
+        return new NullLiteralExpr();
     }
 
     @Override

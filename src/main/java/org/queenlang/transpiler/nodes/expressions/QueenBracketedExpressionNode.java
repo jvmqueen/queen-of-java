@@ -25,50 +25,31 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.ClassExpr;
+import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Defines an expression that accesses the class of a type.
- * Object.implementation, int.implementation, void.implementation etc.
+ * Queen expression between brackets (e.g. (2 + 2)), AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTypeImplementationExpressionNode implements QueenExpressionNode {
+public final class QueenBracketedExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final QueenTypeNode type;
-    private final List<QueenArrayDimensionNode> dims;
+    private final QueenExpressionNode expression;
 
-    public QueenTypeImplementationExpressionNode(
-        final Position position,
-        final QueenTypeNode type,
-        final List<QueenArrayDimensionNode> dims
-    ) {
+    public QueenBracketedExpressionNode(final Position position, final QueenExpressionNode expression) {
         this.position = position;
-        this.type = type;
-        this.dims = dims;
+        this.expression = expression;
     }
 
     @Override
     public Expression toJavaExpression() {
-        if(this.dims != null && !this.dims.isEmpty()) {
-            return new ClassExpr(
-                new QueenArrayTypeNode(
-                    this.position,
-                    this.type,
-                    this.dims
-                ).toType()
-            );
-        } else {
-            return new ClassExpr(this.type.toType());
-        }
+        return new EnclosedExpr(this.expression.toJavaExpression());
     }
 
     @Override

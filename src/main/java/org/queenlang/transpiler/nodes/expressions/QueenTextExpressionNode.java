@@ -1,7 +1,8 @@
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.Expression;
+import org.queenlang.transpiler.nodes.Position;
 
 public final class QueenTextExpressionNode implements QueenExpressionNode {
 

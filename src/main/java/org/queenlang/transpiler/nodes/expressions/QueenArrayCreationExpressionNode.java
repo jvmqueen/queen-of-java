@@ -25,40 +25,69 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
+import com.github.javaparser.ast.ArrayCreationLevel;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.ArrayCreationExpr;
+import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.InstanceOfExpr;
-import com.github.javaparser.ast.type.ReferenceType;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenArrayDimensionNode;
+import org.queenlang.transpiler.nodes.QueenTypeNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Queen instanceof Expression, AST Node.
+ * Queen array creation, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenInstanceOfExpressionNode implements QueenExpressionNode {
+public final class QueenArrayCreationExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final QueenExpressionNode expression;
-    private final QueenReferenceTypeNode referenceType;
+    private final QueenTypeNode type;
+    private final List<QueenArrayDimensionNode> dims;
+    private final QueenExpressionNode arrayInitializer;
 
-    public QueenInstanceOfExpressionNode(
+    public QueenArrayCreationExpressionNode(
         final Position position,
-        final QueenExpressionNode expression,
-        final QueenReferenceTypeNode referenceType
+        final QueenTypeNode type,
+        final List<QueenArrayDimensionNode> dims,
+        final QueenExpressionNode arrayInitializer
     ) {
         this.position = position;
-        this.expression = expression;
-        this.referenceType = referenceType;
+        this.type = type;
+        this.dims = dims;
+        this.arrayInitializer = arrayInitializer;
     }
 
     @Override
     public Expression toJavaExpression() {
-        final InstanceOfExpr instanceOfExpr = new InstanceOfExpr();
-        instanceOfExpr.setExpression(this.expression.toJavaExpression());
-        instanceOfExpr.setType((ReferenceType) this.referenceType.toType());
-        return instanceOfExpr;
+        final List<ArrayCreationLevel> javaDims = new ArrayList<>();
+        this.dims.forEach(
+            d -> {
+                final ArrayCreationLevel javaDim = new ArrayCreationLevel();
+                if(d.expression() != null) {
+                    javaDim.setDimension(d.expression().toJavaExpression());
+                }
+                d.annotations().forEach(
+                    a -> a.addToJavaNode(javaDim)
+                );
+                javaDims.add(javaDim);
+            }
+        );
+        final ArrayCreationExpr arrayCreation = new ArrayCreationExpr(
+            this.type.toType(),
+            new NodeList<>(javaDims),
+            this.arrayInitializer != null
+                ? (ArrayInitializerExpr) this.arrayInitializer.toJavaExpression()
+                : null
+
+        );
+        return arrayCreation;
     }
 
     @Override

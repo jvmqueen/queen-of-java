@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
  * Queen expression as a statement (i++, ++i, etc), AST Node.

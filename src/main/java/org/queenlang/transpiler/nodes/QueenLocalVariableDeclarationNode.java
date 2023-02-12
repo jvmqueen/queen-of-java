@@ -36,6 +36,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLocalVariableDeclarationNode implements QueenStatementNode, QueenExpressionNode{
+public final class QueenLocalVariableDeclarationNode implements QueenStatementNode, QueenExpressionNode {
 
     /**
      * Position in the original source code.

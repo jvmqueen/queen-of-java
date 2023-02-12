@@ -27,9 +27,9 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 /**
  * A name of something. Could be a package declaration, a type name, a method name etc.

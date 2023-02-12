@@ -31,6 +31,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 import java.util.List;
 import java.util.Map;

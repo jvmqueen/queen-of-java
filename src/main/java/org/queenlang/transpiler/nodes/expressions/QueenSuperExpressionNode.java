@@ -25,67 +25,41 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.ArrayCreationLevel;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.ArrayCreationExpr;
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.javaparser.ast.expr.SuperExpr;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
 
 /**
- * Queen array creation, AST Node.
+ * Queen super expression, AST Node.
+ * super or Bicycle.super.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayCreationExpressionNode implements QueenExpressionNode {
+public final class QueenSuperExpressionNode implements QueenExpressionNode {
 
     private final Position position;
-    private final QueenTypeNode type;
-    private final List<QueenArrayDimensionNode> dims;
-    private final QueenExpressionNode arrayInitializer;
+    private final QueenNameNode typeName;
 
-    public QueenArrayCreationExpressionNode(
-        final Position position,
-        final QueenTypeNode type,
-        final List<QueenArrayDimensionNode> dims,
-        final QueenExpressionNode arrayInitializer
-    ) {
+    public QueenSuperExpressionNode(final Position position){
+        this(position, null);
+    }
+
+    public QueenSuperExpressionNode(final Position position, final QueenNameNode typeName){
         this.position = position;
-        this.type = type;
-        this.dims = dims;
-        this.arrayInitializer = arrayInitializer;
+        this.typeName = typeName;
     }
 
     @Override
     public Expression toJavaExpression() {
-        final List<ArrayCreationLevel> javaDims = new ArrayList<>();
-        this.dims.forEach(
-            d -> {
-                final ArrayCreationLevel javaDim = new ArrayCreationLevel();
-                if(d.expression() != null) {
-                    javaDim.setDimension(d.expression().toJavaExpression());
-                }
-                d.annotations().forEach(
-                    a -> a.addToJavaNode(javaDim)
-                );
-                javaDims.add(javaDim);
-            }
-        );
-        final ArrayCreationExpr arrayCreation = new ArrayCreationExpr(
-            this.type.toType(),
-            new NodeList<>(javaDims),
-            this.arrayInitializer != null
-                ? (ArrayInitializerExpr) this.arrayInitializer.toJavaExpression()
-                : null
-
-        );
-        return arrayCreation;
+        if(this.typeName == null) {
+            return new SuperExpr();
+        } else {
+            return new SuperExpr(this.typeName.toName());
+        }
     }
 
     @Override

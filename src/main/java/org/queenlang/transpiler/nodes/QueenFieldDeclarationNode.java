@@ -32,11 +32,10 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import javassist.compiler.ast.FieldDecl;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Queen FieldDeclaration AST node.

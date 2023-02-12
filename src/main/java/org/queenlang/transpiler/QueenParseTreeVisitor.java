@@ -643,8 +643,59 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExpressionNode visitPrimaryNoNewArray_lfno_arrayAccess(QueenParser.PrimaryNoNewArray_lfno_arrayAccessContext ctx) {
-        //@todo #63:60min finish visitPrimaryNoNewArray_lfno_arrayAccess.
-        return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
+        if(ctx.literal() != null) {
+            return this.visitLiteral(ctx.literal());
+        } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
+            final QueenNameNode typeName = this.visitTypeName(ctx.typeName());
+            final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+            if(ctx.unannDim() != null) {
+                ctx.unannDim().forEach(
+                    dim -> dims.add(
+                        new QueenArrayDimensionNode(getPosition(dim))
+                    )
+                );
+            }
+            return new QueenTypeImplementationExpressionNode(
+                getPosition(ctx.typeName()),
+                typeName,
+                dims
+            );
+        } else if(ctx.VOID() != null && ctx.IMPLEMENTATION() != null) {
+            return new QueenTypeImplementationExpressionNode(
+                getPosition(ctx),
+                new QueenVoidNode(getPosition(ctx)),
+                new ArrayList<>()
+            );
+        } else if(ctx.THIS() != null) {
+            if(ctx.typeName() != null) {
+                return new QueenThisExpressionNode(
+                    getPosition(ctx),
+                    this.visitTypeName(ctx.typeName())
+                );
+            } else {
+                return new QueenThisExpressionNode(
+                    getPosition(ctx)
+                );
+            }
+        } else if(ctx.LPAREN() != null && ctx.expression() != null && ctx.RPAREN() != null) {
+            return new QueenBracketedExpressionNode(
+                getPosition(ctx.expression()),
+                this.visitExpression(ctx.expression())
+            );
+        } else if(ctx.classInstanceCreationExpression() != null) {
+            return this.visitClassInstanceCreationExpression(ctx.classInstanceCreationExpression());
+        } else if(ctx.fieldAccess() != null) {
+            return this.visitFieldAccess(ctx.fieldAccess());
+        } else if(ctx.methodInvocation() != null) {
+            return this.visitMethodInvocation(ctx.methodInvocation());
+        } else {
+            return this.visitMethodReference(ctx.methodReference());
+        }
+    }
+
+    @Override
+    public QueenExpressionNode visitPrimaryNoNewArray_lf_primary(QueenParser.PrimaryNoNewArray_lf_primaryContext ctx) {
+        return null;
     }
 
     @Override

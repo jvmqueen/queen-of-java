@@ -484,13 +484,25 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitConstantModifier(m))
         );
 
-        final Map<String, QueenExpressionNode> variables = new HashMap<>();
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new HashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
-                variables.put(asString(vd.variableDeclaratorId()), null);
+                final String identifier = vd.variableDeclaratorId().Identifier().getText();
+                final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+                if(vd.variableDeclaratorId().dims() != null) {
+                    vd.variableDeclaratorId().dims().dim().forEach(
+                        dim -> dims.add(this.visitDim(dim))
+                    );
+                }
+                final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
+                    getPosition(vd),
+                    identifier,
+                    dims
+                );
+                variables.put(variableDeclaratorId, null);
                 if(vd.variableInitializer() != null) {
                     variables.put(
-                        asString(vd.variableDeclaratorId()),
+                        variableDeclaratorId,
                         this.visitVariableInitializer(vd.variableInitializer())
                     );
                 }

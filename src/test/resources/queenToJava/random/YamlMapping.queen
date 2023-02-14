@@ -9,6 +9,10 @@ import java.util.Set;
 public interface YamlMapping extends YamlNode {
 
     int constant = 1;
+    int[][] doubleArray = {{1}};
+    int simpleArray[] = {1};
+    int @Annotation[] arr[] = {{1}};
+    int @Annotation2[][] arr2 = {{2}};
 
     Set<YamlNode> keys();
 

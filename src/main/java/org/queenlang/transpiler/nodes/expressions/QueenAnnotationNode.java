@@ -38,7 +38,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
  * @version $Id$
  * @since 0.0.1
  */
-public abstract class QueenAnnotationNode implements Named, QueenNode {
+public abstract class QueenAnnotationNode implements QueenExpressionNode, Named {
 
     /**
      * Position of the annotation in the source code.

@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
@@ -60,10 +61,16 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
 
     @Override
     public void addToJavaNode(final Node java) {
-        final NormalAnnotationExpr annotstion = ((NodeWithAnnotations) java)
-            .addAndGetAnnotation(this.name());
+        ((NodeWithAnnotations) java).addAnnotation(this.toJavaExpression());
+    }
+
+    @Override
+    public NormalAnnotationExpr toJavaExpression() {
+        final NormalAnnotationExpr annotation = new NormalAnnotationExpr();
+        annotation.setName(this.name());
         this.elementValuePairs.entrySet().forEach(
-            entry -> annotstion.addPair(entry.getKey(), entry.getValue())
+            entry -> annotation.addPair(entry.getKey(), entry.getValue())
         );
+        return annotation;
     }
 }

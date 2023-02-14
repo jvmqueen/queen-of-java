@@ -48,12 +48,12 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
     /**
      * Key-value pairs within the annotation.
      */
-    private final Map<String, String> elementValuePairs;
+    private final Map<String, QueenExpressionNode> elementValuePairs;
 
     public QueenNormalAnnotationNode(
         final Position position,
         final QueenNameNode name,
-        final Map<String, String> elementValuePairs
+        final Map<String, QueenExpressionNode> elementValuePairs
     ) {
         super(position, name);
         this.elementValuePairs = elementValuePairs;
@@ -69,7 +69,7 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
         final NormalAnnotationExpr annotation = new NormalAnnotationExpr();
         annotation.setName(this.name());
         this.elementValuePairs.entrySet().forEach(
-            entry -> annotation.addPair(entry.getKey(), entry.getValue())
+            entry -> annotation.addPair(entry.getKey(), entry.getValue().toJavaExpression())
         );
         return annotation;
     }

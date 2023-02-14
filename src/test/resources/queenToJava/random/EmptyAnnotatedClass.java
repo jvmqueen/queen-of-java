@@ -12,6 +12,6 @@ import com.example.other.more.*;
 @com.asdasd.Normal(a = "1", b = 2, c = 3l)
 @Simple("value")
 @Simple2(2 + 3)
-@Normal(a = "1", b = 2, c = 3l, d = 4+5)
+@Normal(a = "1", b = 2, c = 3l, d = 4 + 5)
 public final class EmptyAnnotatedClass implements SomeInterface {
 }

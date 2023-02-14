@@ -27,10 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
@@ -48,11 +45,11 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
     /**
      * Value of the annotation.
      */
-    private final String value;
+    private final QueenExpressionNode elementValue;
 
-    public QueenSingleMemberAnnotationNode(final Position position, final QueenNameNode name, final String value) {
+    public QueenSingleMemberAnnotationNode(final Position position, final QueenNameNode name, final QueenExpressionNode elementValue) {
         super(position, name);
-        this.value = value;
+        this.elementValue = elementValue;
     }
 
     @Override
@@ -64,7 +61,7 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
     public SingleMemberAnnotationExpr toJavaExpression() {
         final SingleMemberAnnotationExpr annotation = new SingleMemberAnnotationExpr();
         annotation.setName(this.name());
-        annotation.setMemberValue(StaticJavaParser.parseExpression(this.value));
+        annotation.setMemberValue(this.elementValue.toJavaExpression());
         return annotation;
     }
 }

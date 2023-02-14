@@ -307,14 +307,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.markerAnnotation() != null) {
             return new QueenMarkerAnnotationNode(getPosition(ctx), this.visitTypeName(ctx.markerAnnotation().typeName()));
         } else if(ctx.normalAnnotation() != null) {
-            final Map<String, String> pairs = new HashMap<>();
+            final Map<String, QueenExpressionNode> pairs = new HashMap<>();
             ctx.normalAnnotation()
                 .elementValuePairList()
                 .elementValuePair()
                 .forEach(
                     pair -> pairs.put(
                         pair.Identifier().getText(),
-                        asString(pair.elementValue())
+                        this.visitElementValue(pair.elementValue())
                     )
                 );
             return new QueenNormalAnnotationNode(
@@ -326,7 +326,22 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return new QueenSingleMemberAnnotationNode(
                 getPosition(ctx),
                 this.visitTypeName(ctx.singleElementAnnotation().typeName()),
-                asString(ctx.singleElementAnnotation().elementValue())
+                this.visitElementValue(ctx.singleElementAnnotation().elementValue())
+            );
+        }
+        return null;
+    }
+
+    @Override
+    public QueenExpressionNode visitElementValue(QueenParser.ElementValueContext ctx) {
+        if(ctx.conditionalExpression() != null) {
+            return this.visitConditionalExpression(ctx.conditionalExpression());
+        } else if(ctx.annotation() != null) {
+            return this.visitAnnotation(ctx.annotation());
+        } else if(ctx.elementValueArrayInitializer() != null) {
+            return new QueenTextExpressionNode(
+                getPosition(ctx),
+                asString(ctx)
             );
         }
         return null;

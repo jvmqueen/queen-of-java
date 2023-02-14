@@ -339,12 +339,26 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else if(ctx.annotation() != null) {
             return this.visitAnnotation(ctx.annotation());
         } else if(ctx.elementValueArrayInitializer() != null) {
-            return new QueenTextExpressionNode(
-                getPosition(ctx),
-                asString(ctx)
-            );
+            return this.visitElementValueArrayInitializer(ctx.elementValueArrayInitializer());
         }
         return null;
+    }
+
+    @Override
+    public QueenExpressionNode visitElementValueArrayInitializer(QueenParser.ElementValueArrayInitializerContext ctx) {
+        final List<QueenExpressionNode> values;
+        if(ctx.elementValueList() != null) {
+            values = new ArrayList<>();
+            ctx.elementValueList().elementValue().forEach(
+                ev -> values.add(this.visitElementValue(ev))
+            );
+        } else {
+            values = null;
+        }
+        return new QueenArrayInitializerExpressionNode(
+            getPosition(ctx),
+            values
+        );
     }
 
     @Override

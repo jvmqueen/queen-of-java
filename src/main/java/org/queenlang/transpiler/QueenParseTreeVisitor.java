@@ -1173,7 +1173,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if (ctx.expressionName() != null) {
             scope = this.visitExpressionName(ctx.expressionName());
         } else if(ctx.primary() != null){
-            System.out.println("PRIMARY EXPLICIT: " + asString(ctx.primary()));
             scope = this.visitPrimary(ctx.primary());
         }
         final boolean isThis = ctx.THIS() != null;
@@ -3209,15 +3208,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         ctx.annotationTypeElementModifier().forEach(
             m -> modifiers.add(this.visitAnnotationTypeElementModifier(m))
         );
-        final String type = asString(ctx.unannType());
-        final String name = ctx.Identifier().getText();
         return new QueenAnnotationElementDeclarationNode(
             this.getPosition(ctx),
             annotations,
             modifiers,
-            type,
-            name,
-            ctx.defaultValue() != null ? asString(ctx.defaultValue().elementValue()) : null
+            this.visitUnannType(ctx.unannType()),
+            ctx.Identifier().getText(),
+            ctx.defaultValue() != null ? this.visitElementValue(ctx.defaultValue().elementValue()) : null
         );
     }
 

@@ -27,12 +27,13 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.List;
 
@@ -62,7 +63,7 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
     /**
      * Type of this annotation element.
      */
-    private final String type;
+    private final QueenTypeNode type;
 
     /**
      * Name of this annotation element.
@@ -72,16 +73,16 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
     /**
      * Default value of the element.
      */
-    private final String defaultValue;
+    private final QueenExpressionNode defaultValue;
 
 
     public QueenAnnotationElementDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final String type,
+        final QueenTypeNode type,
         final String name,
-        final String defaultValue
+        final QueenExpressionNode defaultValue
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -100,12 +101,10 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
         this.modifiers.forEach(
             m -> m.addToJavaNode(annotationMemberDeclaration)
         );
-        annotationMemberDeclaration.setType(this.type);
+        annotationMemberDeclaration.setType(this.type.toType());
         annotationMemberDeclaration.setName(this.name);
         if(this.defaultValue != null) {
-            annotationMemberDeclaration.setDefaultValue(
-                StaticJavaParser.parseExpression(this.defaultValue)
-            );
+            annotationMemberDeclaration.setDefaultValue(this.defaultValue.toJavaExpression());
         }
         ((AnnotationDeclaration) java).addMember(annotationMemberDeclaration);
     }

@@ -59,7 +59,22 @@ public final class JsonPerson implements Person {
     }
 
     public JsonPerson(final JsonObject json) {
-        super();
+        super("A", "B", "C");
+        this.json = json;
+        if (this.json == null) {
+            throw new Exception("NOT OK");
+        }
+        if (this.json == null) {
+            for (int i = 0; i < 10; i++) {
+                System.out.println("No short if example for");
+            }
+        } else {
+            System.out.println("All cool");
+        }
+    }
+
+    public JsonPerson(final JsonObject json) {
+        com.util.List.super("A", "B", "C");
         this.json = json;
         if (this.json == null) {
             throw new Exception("NOT OK");

@@ -1135,7 +1135,33 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenExplicitConstructorInvocationNode visitExplicitConstructorInvocation(QueenParser.ExplicitConstructorInvocationContext ctx) {
-        return new QueenExplicitConstructorInvocationNode(getPosition(ctx), asString(ctx));
+        final Position position = getPosition(ctx);
+        final List<QueenTypeNode> typeArguments = new ArrayList<>();
+        if (ctx.typeArguments() != null) {
+            ctx.typeArguments().typeArgumentList().typeArgument()
+                .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
+        }
+        QueenExpressionNode scope = null;
+        if (ctx.expressionName() != null) {
+            scope = this.visitExpressionName(ctx.expressionName());
+        } else if(ctx.primary() != null){
+            System.out.println("PRIMARY EXPLICIT: " + asString(ctx.primary()));
+            scope = this.visitPrimary(ctx.primary());
+        }
+        final boolean isThis = ctx.THIS() != null;
+        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        if(ctx.argumentList() != null) {
+            ctx.argumentList().expression().forEach(
+                e -> arguments.add(this.visitExpression(e))
+            );
+        }
+        return new QueenExplicitConstructorInvocationNode(
+            position,
+            isThis,
+            scope,
+            typeArguments,
+            arguments
+        );
     }
 
     @Override

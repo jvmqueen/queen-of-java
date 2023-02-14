@@ -27,11 +27,17 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Queen Explicit Constructor Invocation AST Node.
@@ -42,26 +48,45 @@ import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
 public final class QueenExplicitConstructorInvocationNode implements QueenStatementNode {
 
     private final Position position;
-    private final String explicitConstructorInvocation;
+    private final boolean isThis;
+    private final QueenExpressionNode scope;
+    private final List<QueenTypeNode> typeArguments;
+    private final List<QueenExpressionNode> arguments;
 
-    /**
-     * Ctor.
-     * @param explicitConstructorInvocation String statement.
-     */
     public QueenExplicitConstructorInvocationNode(
         final Position position,
-        final String explicitConstructorInvocation
+        final boolean isThis,
+        final QueenExpressionNode scope,
+        final List<QueenTypeNode> typeArguments,
+        final List<QueenExpressionNode> arguments
     ) {
         this.position = position;
-        this.explicitConstructorInvocation = explicitConstructorInvocation;
+        this.isThis = isThis;
+        this.scope = scope;
+        this.typeArguments = typeArguments;
+        this.arguments = arguments;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
+        final ExplicitConstructorInvocationStmt explicitConstructorInvocation = new ExplicitConstructorInvocationStmt();
+        explicitConstructorInvocation.setThis(this.isThis);
+        if(this.scope != null) {
+            explicitConstructorInvocation.setExpression(this.scope.toJavaExpression());
+        }
+        if(this.typeArguments != null) {
+            this.typeArguments.forEach(ta -> ta.addToJavaNode(explicitConstructorInvocation));
+        }
+        final List<Expression> args = new ArrayList<>();
+        if(this.arguments != null) {
+            this.arguments.forEach(
+                a -> args.add(a.toJavaExpression())
+            );
+        }
+        explicitConstructorInvocation.setArguments(new NodeList<>(args));
+
         ((BlockStmt) java).addStatement(
-            StaticJavaParser.parseExplicitConstructorInvocationStmt(
-                this.explicitConstructorInvocation
-            )
+            explicitConstructorInvocation
         );
     }
 

@@ -1,4 +1,4 @@
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
@@ -6,7 +6,11 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.UnknownType;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.QueenModifierNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,7 @@ import java.util.stream.Collectors;
  * @since 0.0.1
  * @todo #33:60min Write unit tests for QueenParameterNode.
  */
-public final class QueenParameterNode implements QueenNode{
+public final class QueenParameterNode implements QueenNode {
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
     private final List<QueenModifierNode> modifiers;

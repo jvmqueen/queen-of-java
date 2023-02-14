@@ -30,9 +30,8 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenArrayDimensionNode;
-import org.queenlang.transpiler.nodes.QueenArrayTypeNode;
-import org.queenlang.transpiler.nodes.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenArrayTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.List;
 

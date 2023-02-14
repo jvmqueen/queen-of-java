@@ -25,89 +25,72 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.body;
+package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
+import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.WildcardType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen AnnotationElement AST Node.
+ * Queen Wildcard Type node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenAnnotationElementDeclarationNode implements QueenAnnotationTypeMemberDeclarationNode {
-
+public final class QueenWildcardNode implements QueenTypeNode {
     /**
      * Position in the original source code.
      */
     private final Position position;
 
     /**
-     * Annotations on top of this element.
+     * Annotations on top of this wildcard.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Modifiers of this element.
+     * Extended type bound.
      */
-    private final List<QueenModifierNode> modifiers;
+    private final QueenReferenceTypeNode extendedType;
 
     /**
-     * Type of this annotation element.
+     * Super type bound.
      */
-    private final String type;
+    private final QueenReferenceTypeNode superType;
 
-    /**
-     * Name of this annotation element.
-     */
-    private final String name;
-
-    /**
-     * Default value of the element.
-     */
-    private final String defaultValue;
-
-
-    public QueenAnnotationElementDeclarationNode(
+    public QueenWildcardNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
-        final String type,
-        final String name,
-        final String defaultValue
+        final QueenReferenceTypeNode extendedType,
+        final QueenReferenceTypeNode superType
     ) {
         this.position = position;
         this.annotations = annotations;
-        this.modifiers = modifiers;
-        this.type = type;
-        this.name = name;
-        this.defaultValue = defaultValue;
+        this.extendedType = extendedType;
+        this.superType = superType;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        final AnnotationMemberDeclaration annotationMemberDeclaration = new AnnotationMemberDeclaration();
-        this.annotations.forEach(
-            a -> a.addToJavaNode(annotationMemberDeclaration)
-        );
-        this.modifiers.forEach(
-            m -> m.addToJavaNode(annotationMemberDeclaration)
-        );
-        annotationMemberDeclaration.setType(this.type);
-        annotationMemberDeclaration.setName(this.name);
-        if(this.defaultValue != null) {
-            annotationMemberDeclaration.setDefaultValue(
-                StaticJavaParser.parseExpression(this.defaultValue)
-            );
+        if(java instanceof NodeWithTypeArguments) {
+            final List<Type> existing = new ArrayList<>();
+            ((NodeWithTypeArguments<?>) java)
+                .getTypeArguments()
+                .ifPresent(
+                    tas -> existing.addAll(tas)
+                );
+            existing.add(this.toWildcardType());
+
+            ((NodeWithTypeArguments<?>) java)
+                .setTypeArguments(new NodeList<>(existing));
         }
-        ((AnnotationDeclaration) java).addMember(annotationMemberDeclaration);
     }
 
     @Override
@@ -115,8 +98,41 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
         return this.position;
     }
 
+    /**
+     * Turn it into a JavaParser WildcardType.
+     * @return WildcardType.
+     */
+    private WildcardType toWildcardType() {
+        final WildcardType wildcardType = (WildcardType) this.toType();
+        if(this.annotations != null) {
+            this.annotations.forEach(a -> a.addToJavaNode(wildcardType));
+        }
+        if(this.extendedType != null) {
+            this.extendedType.addToJavaNode(wildcardType);
+        } else if(this.superType != null) {
+            this.superType.addToJavaNode(wildcardType);
+        }
+        return wildcardType;
+    }
+
     @Override
-    public String name() {
-        return this.name;
+    public Type toType() {
+        final WildcardType wildcardType;
+        if(this.extendedType != null) {
+            wildcardType = new WildcardExtendsBound();
+        } else if (this.superType != null) {
+            wildcardType = new WildcardSuperBound();
+        } else {
+            wildcardType = new WildcardType();
+        }
+        return wildcardType;
+    }
+
+    static class WildcardSuperBound extends WildcardType {
+
+    }
+
+    static class WildcardExtendsBound extends WildcardType {
+
     }
 }

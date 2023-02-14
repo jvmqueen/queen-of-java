@@ -33,8 +33,8 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.QueenTypeNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 import java.util.List;

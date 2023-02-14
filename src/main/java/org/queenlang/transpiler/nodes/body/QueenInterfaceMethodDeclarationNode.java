@@ -33,7 +33,12 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
+import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 
 import java.util.List;
 

@@ -25,31 +25,60 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.types;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.VoidType;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.type.ArrayType;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
+
+import java.util.List;
 
 /**
- * Queen Void AST node.
+ * Queen ArrayType AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenVoidNode implements QueenTypeNode {
+public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
+
+    /**
+     * Position in the original source code.
+     */
     private final Position position;
 
-    public QueenVoidNode(final Position position) {
+    /**
+     * Type of the array (used for symbol resolution etc).
+     */
+    private final QueenTypeNode type;
+
+    /**
+     * Array type dimensions (pairs of square brackets).
+     */
+    private final List<QueenArrayDimensionNode> dims;
+
+    public QueenArrayTypeNode(
+        final Position position,
+        final QueenTypeNode type,
+        final List<QueenArrayDimensionNode> dims
+    ) {
         this.position = position;
+        this.type = type;
+        this.dims = dims;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(this.toType());
+        if(java instanceof VariableDeclarator) {
+            ((VariableDeclarator) java).setType(this.toType());
+        } else if(java instanceof MethodDeclaration) {
+            ((MethodDeclaration) java).setType(toType());
+        } else if(java instanceof Parameter) {
+            ((Parameter) java).setType(toType());
         }
     }
 
@@ -59,7 +88,21 @@ public final class QueenVoidNode implements QueenTypeNode {
     }
 
     @Override
-    public Type toType() {
-        return new VoidType();
+    public ArrayType toType() {
+        ArrayType arrayType = new ArrayType(
+            this.type.toType()
+        );
+        for(final QueenAnnotationNode annotation : this.dims.get(this.dims.size() - 1).annotations()) {
+            annotation.addToJavaNode(arrayType);
+        }
+        for(int i = this.dims.size() - 2; i>=0; i--) {
+            arrayType = new ArrayType(
+                arrayType
+            );
+            for(final QueenAnnotationNode annotation : this.dims.get(i).annotations()) {
+                annotation.addToJavaNode(arrayType);
+            }
+        }
+        return arrayType;
     }
 }

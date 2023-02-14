@@ -25,72 +25,74 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.type.PrimitiveType;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen PrimitiveType AST Node.
+ * The [] array dimension in Queen, AST Node. May contain expression between
+ * the brackets if it's part of an array creation expression. Can have annotations on top of it.
+ *
+ * final int[] arr = new int @Annotation[10]
+ *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenPrimitiveTypeNode implements QueenTypeNode {
-    /**
-     * Position in the original source code.
-     */
+public final class QueenArrayDimensionNode implements QueenNode {
+
     private final Position position;
-
-    /**
-     * Annotations on top of this primitive type.
-     */
     private final List<QueenAnnotationNode> annotations;
+    private final QueenExpressionNode expression;
 
-    /**
-     * Name of this primitive type.
-     */
-    private final String name;
+    public QueenArrayDimensionNode(
+        final Position position
+    ) {
+        this(position, null, null);
+    }
 
-    public QueenPrimitiveTypeNode(
+    public QueenArrayDimensionNode(
+        final Position position,
+        final List<QueenAnnotationNode> annotations
+    ) {
+        this(position, annotations, null);
+    }
+
+    public QueenArrayDimensionNode(
+        final Position position,
+        final QueenExpressionNode expression
+    ) {
+        this(position, new ArrayList<>(), expression);
+    }
+
+    public QueenArrayDimensionNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final String name
+        final QueenExpressionNode expression
     ) {
         this.position = position;
         this.annotations = annotations;
-        this.name = name;
+        this.expression = expression;
+    }
+
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    public QueenExpressionNode expression() {
+        return this.expression;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof VariableDeclarator) {
-            ((VariableDeclarator) java).setType(this.toType());
-        } else if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(this.toType());
-        } else if(java instanceof Parameter) {
-            ((Parameter) java).setType(this.toType());
-        }
-    }
+    public void addToJavaNode(final Node java) {}
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public PrimitiveType toType() {
-        final PrimitiveType primitiveType = new PrimitiveType(
-            PrimitiveType.Primitive.valueOf(this.name.toUpperCase())
-        );
-        if(this.annotations != null) {
-            this.annotations.forEach(a -> a.addToJavaNode(primitiveType));
-        }
-        return primitiveType;
     }
 }

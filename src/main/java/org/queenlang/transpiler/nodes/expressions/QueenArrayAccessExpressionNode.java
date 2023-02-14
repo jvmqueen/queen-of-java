@@ -30,7 +30,6 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenArrayDimensionNode;
 
 import java.util.List;
 

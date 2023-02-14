@@ -36,6 +36,7 @@ import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.*;
+import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.*;
 import java.util.stream.Collectors;

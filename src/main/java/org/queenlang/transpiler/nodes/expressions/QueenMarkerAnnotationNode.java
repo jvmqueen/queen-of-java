@@ -25,39 +25,28 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
+
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen annotation declared on top of a class, field or method.
+ * Queen marker annotation (no parameters).
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #10:30min This class needs some unit tests.
  */
-public abstract class QueenAnnotationNode implements Named, QueenNode {
+public final class QueenMarkerAnnotationNode extends QueenAnnotationNode {
 
-    /**
-     * Position of the annotation in the source code.
-     */
-    private final Position position;
-
-    /**
-     * Name of the annotation.
-     */
-    private final String name;
-
-    public QueenAnnotationNode(final Position position, final String name) {
-        this.position = position;
-        this.name = name;
+    public QueenMarkerAnnotationNode(final Position position, final String name) {
+        super(position, name);
     }
 
     @Override
-    public Position position() {
-        return this.position;
-    }
-
-    @Override
-    public String name() {
-        return this.name;
+    public void addToJavaNode(final Node java) {
+        ((NodeWithAnnotations) java).addMarkerAnnotation(this.name());
     }
 
 }

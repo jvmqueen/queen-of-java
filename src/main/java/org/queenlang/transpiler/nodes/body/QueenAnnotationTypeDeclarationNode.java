@@ -32,7 +32,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.List;
 

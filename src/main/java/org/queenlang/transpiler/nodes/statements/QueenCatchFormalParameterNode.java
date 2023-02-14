@@ -33,6 +33,8 @@ import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.type.UnionType;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.body.QueenModifierNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.List;
 

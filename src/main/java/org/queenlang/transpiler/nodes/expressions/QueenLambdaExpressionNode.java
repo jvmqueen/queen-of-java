@@ -33,7 +33,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
-import org.queenlang.transpiler.nodes.QueenParameterNode;
+import org.queenlang.transpiler.nodes.body.QueenParameterNode;
 
 import java.util.List;
 

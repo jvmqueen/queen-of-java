@@ -25,21 +25,34 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen Type AST Node.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Queen single-member annotation.
+ * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #10:60min Write some unit tests for this class.
  */
-public interface QueenTypeNode extends QueenNode {
+public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
 
     /**
-     * Turn it into a JavaParser Type.
-     * @return Type.
+     * Value of the annotation.
      */
-    Type toType();
+    private final String value;
+
+    public QueenSingleMemberAnnotationNode(final Position position, final String name, final String value) {
+        super(position, name);
+        this.value = value;
+    }
+
+    @Override
+    public void addToJavaNode(final Node java) {
+        ((NodeWithAnnotations) java)
+            .addSingleMemberAnnotation(this.name(), this.value);
+    }
 }

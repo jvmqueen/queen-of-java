@@ -25,47 +25,22 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
+import com.github.javaparser.ast.type.Type;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
- * Queen Explicit Constructor Invocation AST Node.
+ * Queen Type AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenExplicitConstructorInvocationNode implements QueenStatementNode {
-
-    private final Position position;
-    private final String explicitConstructorInvocation;
+public interface QueenTypeNode extends QueenNode {
 
     /**
-     * Ctor.
-     * @param explicitConstructorInvocation String statement.
+     * Turn it into a JavaParser Type.
+     * @return Type.
      */
-    public QueenExplicitConstructorInvocationNode(
-        final Position position,
-        final String explicitConstructorInvocation
-    ) {
-        this.position = position;
-        this.explicitConstructorInvocation = explicitConstructorInvocation;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ((BlockStmt) java).addStatement(
-            StaticJavaParser.parseExplicitConstructorInvocationStmt(
-                this.explicitConstructorInvocation
-            )
-        );
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
+    Type toType();
 }

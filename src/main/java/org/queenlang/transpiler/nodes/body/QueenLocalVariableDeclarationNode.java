@@ -37,8 +37,8 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.QueenTypeNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
 

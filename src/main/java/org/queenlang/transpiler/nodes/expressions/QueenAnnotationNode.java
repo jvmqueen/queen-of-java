@@ -25,21 +25,43 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import java.util.List;
+import org.queenlang.transpiler.nodes.Named;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
- * Queen node with type parameters.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Queen annotation declared on top of a class, field or method.
+ * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenNodeWithTypeParameters {
+public abstract class QueenAnnotationNode implements Named, QueenNode {
 
     /**
-     * Return the list of type params.
-     * @return List of QueenTypeParameterNode.
+     * Position of the annotation in the source code.
      */
-    List<QueenTypeParameterNode> typeParameters();
+    private final Position position;
+
+    /**
+     * Name of the annotation.
+     */
+    private final String name;
+
+    public QueenAnnotationNode(final Position position, final String name) {
+        this.position = position;
+        this.name = name;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
+
 }

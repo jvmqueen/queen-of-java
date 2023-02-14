@@ -33,8 +33,8 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.type.IntersectionType;
 import com.github.javaparser.ast.type.ReferenceType;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenReferenceTypeNode;
-import org.queenlang.transpiler.nodes.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenReferenceTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.ArrayList;
 import java.util.List;

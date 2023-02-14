@@ -25,27 +25,21 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+import java.util.List;
 
 /**
- * Queen marker annotation (no parameters).
- * @author Mihai Emil Andronache (amihaiemil@gmail.com)
+ * Queen node with type parameters.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min This class needs some unit tests.
  */
-public final class QueenMarkerAnnotationNode extends QueenAnnotationNode {
+public interface QueenNodeWithTypeParameters {
 
-    public QueenMarkerAnnotationNode(final Position position, final String name) {
-        super(position, name);
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ((NodeWithAnnotations) java).addMarkerAnnotation(this.name());
-    }
-
+    /**
+     * Return the list of type params.
+     * @return List of QueenTypeParameterNode.
+     */
+    List<QueenTypeParameterNode> typeParameters();
 }

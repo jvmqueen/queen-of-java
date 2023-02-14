@@ -25,73 +25,41 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.types;
 
 import com.github.javaparser.ast.Node;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.VoidType;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * The [] array dimension in Queen, AST Node. May contain expression between
- * the brackets if it's part of an array creation expression. Can have annotations on top of it.
- *
- * final int[] arr = new int @Annotation[10]
- *
+ * Queen Void AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayDimensionNode implements QueenNode {
-
+public final class QueenVoidNode implements QueenTypeNode {
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
-    private final QueenExpressionNode expression;
 
-    public QueenArrayDimensionNode(
-        final Position position
-    ) {
-        this(position, null, null);
-    }
-
-    public QueenArrayDimensionNode(
-        final Position position,
-        final List<QueenAnnotationNode> annotations
-    ) {
-        this(position, annotations, null);
-    }
-
-    public QueenArrayDimensionNode(
-        final Position position,
-        final QueenExpressionNode expression
-    ) {
-        this(position, new ArrayList<>(), expression);
-    }
-
-    public QueenArrayDimensionNode(
-        final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final QueenExpressionNode expression
-    ) {
+    public QueenVoidNode(final Position position) {
         this.position = position;
-        this.annotations = annotations;
-        this.expression = expression;
-    }
-
-    public List<QueenAnnotationNode> annotations() {
-        return this.annotations;
-    }
-
-    public QueenExpressionNode expression() {
-        return this.expression;
     }
 
     @Override
-    public void addToJavaNode(final Node java) {}
+    public void addToJavaNode(final Node java) {
+        if(java instanceof MethodDeclaration) {
+            ((MethodDeclaration) java).setType(this.toType());
+        }
+    }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public Type toType() {
+        return new VoidType();
     }
 }

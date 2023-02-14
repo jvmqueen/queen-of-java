@@ -25,68 +25,58 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.types;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.WildcardType;
-import java.util.ArrayList;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.type.PrimitiveType;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+
 import java.util.List;
 
 /**
- * Queen Wildcard Type node.
+ * Queen PrimitiveType AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenWildcardNode implements QueenTypeNode {
+public final class QueenPrimitiveTypeNode implements QueenTypeNode {
     /**
      * Position in the original source code.
      */
     private final Position position;
 
     /**
-     * Annotations on top of this wildcard.
+     * Annotations on top of this primitive type.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Extended type bound.
+     * Name of this primitive type.
      */
-    private final QueenReferenceTypeNode extendedType;
+    private final String name;
 
-    /**
-     * Super type bound.
-     */
-    private final QueenReferenceTypeNode superType;
-
-    public QueenWildcardNode(
+    public QueenPrimitiveTypeNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final QueenReferenceTypeNode extendedType,
-        final QueenReferenceTypeNode superType
+        final String name
     ) {
         this.position = position;
         this.annotations = annotations;
-        this.extendedType = extendedType;
-        this.superType = superType;
+        this.name = name;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof NodeWithTypeArguments) {
-            final List<Type> existing = new ArrayList<>();
-            ((NodeWithTypeArguments<?>) java)
-                .getTypeArguments()
-                .ifPresent(
-                    tas -> existing.addAll(tas)
-                );
-            existing.add(this.toWildcardType());
-
-            ((NodeWithTypeArguments<?>) java)
-                .setTypeArguments(new NodeList<>(existing));
+        if(java instanceof VariableDeclarator) {
+            ((VariableDeclarator) java).setType(this.toType());
+        } else if(java instanceof MethodDeclaration) {
+            ((MethodDeclaration) java).setType(this.toType());
+        } else if(java instanceof Parameter) {
+            ((Parameter) java).setType(this.toType());
         }
     }
 
@@ -95,41 +85,14 @@ public final class QueenWildcardNode implements QueenTypeNode {
         return this.position;
     }
 
-    /**
-     * Turn it into a JavaParser WildcardType.
-     * @return WildcardType.
-     */
-    private WildcardType toWildcardType() {
-        final WildcardType wildcardType = (WildcardType) this.toType();
-        if(this.annotations != null) {
-            this.annotations.forEach(a -> a.addToJavaNode(wildcardType));
-        }
-        if(this.extendedType != null) {
-            this.extendedType.addToJavaNode(wildcardType);
-        } else if(this.superType != null) {
-            this.superType.addToJavaNode(wildcardType);
-        }
-        return wildcardType;
-    }
-
     @Override
-    public Type toType() {
-        final WildcardType wildcardType;
-        if(this.extendedType != null) {
-            wildcardType = new WildcardExtendsBound();
-        } else if (this.superType != null) {
-            wildcardType = new WildcardSuperBound();
-        } else {
-            wildcardType = new WildcardType();
+    public PrimitiveType toType() {
+        final PrimitiveType primitiveType = new PrimitiveType(
+            PrimitiveType.Primitive.valueOf(this.name.toUpperCase())
+        );
+        if(this.annotations != null) {
+            this.annotations.forEach(a -> a.addToJavaNode(primitiveType));
         }
-        return wildcardType;
-    }
-
-    static class WildcardSuperBound extends WildcardType {
-
-    }
-
-    static class WildcardExtendsBound extends WildcardType {
-
+        return primitiveType;
     }
 }

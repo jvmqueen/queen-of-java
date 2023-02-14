@@ -25,83 +25,48 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.type.ArrayType;
-import com.github.javaparser.ast.type.Type;
-
-import java.util.List;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
 
 /**
- * Queen ArrayType AST Node.
+ * Queen Explicit Constructor Invocation AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
+public final class QueenExplicitConstructorInvocationNode implements QueenStatementNode {
 
-    /**
-     * Position in the original source code.
-     */
     private final Position position;
+    private final String explicitConstructorInvocation;
 
     /**
-     * Type of the array (used for symbol resolution etc).
+     * Ctor.
+     * @param explicitConstructorInvocation String statement.
      */
-    private final QueenTypeNode type;
-
-    /**
-     * Array type dimensions (pairs of square brackets).
-     */
-    private final List<QueenArrayDimensionNode> dims;
-
-    public QueenArrayTypeNode(
+    public QueenExplicitConstructorInvocationNode(
         final Position position,
-        final QueenTypeNode type,
-        final List<QueenArrayDimensionNode> dims
+        final String explicitConstructorInvocation
     ) {
         this.position = position;
-        this.type = type;
-        this.dims = dims;
+        this.explicitConstructorInvocation = explicitConstructorInvocation;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof VariableDeclarator) {
-            ((VariableDeclarator) java).setType(this.toType());
-        } else if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(toType());
-        } else if(java instanceof Parameter) {
-            ((Parameter) java).setType(toType());
-        }
+        ((BlockStmt) java).addStatement(
+            StaticJavaParser.parseExplicitConstructorInvocationStmt(
+                this.explicitConstructorInvocation
+            )
+        );
     }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public ArrayType toType() {
-        ArrayType arrayType = new ArrayType(
-            this.type.toType()
-        );
-        for(final QueenAnnotationNode annotation : this.dims.get(this.dims.size() - 1).annotations()) {
-            annotation.addToJavaNode(arrayType);
-        }
-        for(int i = this.dims.size() - 2; i>=0; i--) {
-            arrayType = new ArrayType(
-                arrayType
-            );
-            for(final QueenAnnotationNode annotation : this.dims.get(i).annotations()) {
-                annotation.addToJavaNode(arrayType);
-            }
-        }
-        return arrayType;
     }
 }

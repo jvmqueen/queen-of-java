@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes.expressions;
 
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
@@ -47,9 +48,9 @@ public abstract class QueenAnnotationNode implements Named, QueenNode {
     /**
      * Name of the annotation.
      */
-    private final String name;
+    private final QueenNameNode name;
 
-    public QueenAnnotationNode(final Position position, final String name) {
+    public QueenAnnotationNode(final Position position, final QueenNameNode name) {
         this.position = position;
         this.name = name;
     }
@@ -61,7 +62,7 @@ public abstract class QueenAnnotationNode implements Named, QueenNode {
 
     @Override
     public String name() {
-        return this.name;
+        return this.name.toName().asString();
     }
 
 }

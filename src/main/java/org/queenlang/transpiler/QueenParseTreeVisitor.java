@@ -305,7 +305,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenAnnotationNode visitAnnotation(QueenParser.AnnotationContext ctx) {
         if(ctx.markerAnnotation() != null) {
-            return new QueenMarkerAnnotationNode(getPosition(ctx), asString(ctx.markerAnnotation().typeName()));
+            return new QueenMarkerAnnotationNode(getPosition(ctx), this.visitTypeName(ctx.markerAnnotation().typeName()));
         } else if(ctx.normalAnnotation() != null) {
             final Map<String, String> pairs = new HashMap<>();
             ctx.normalAnnotation()
@@ -319,13 +319,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 );
             return new QueenNormalAnnotationNode(
                 getPosition(ctx),
-                asString(ctx.normalAnnotation().typeName()),
+                this.visitTypeName(ctx.normalAnnotation().typeName()),
                 pairs
             );
         } else if(ctx.singleElementAnnotation() != null) {
             return new QueenSingleMemberAnnotationNode(
                 getPosition(ctx),
-                asString(ctx.singleElementAnnotation().typeName()),
+                this.visitTypeName(ctx.singleElementAnnotation().typeName()),
                 asString(ctx.singleElementAnnotation().elementValue())
             );
         }

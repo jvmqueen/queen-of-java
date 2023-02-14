@@ -31,6 +31,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
 
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
 
     public QueenNormalAnnotationNode(
         final Position position,
-        final String name,
+        final QueenNameNode name,
         final Map<String, String> elementValuePairs
     ) {
         super(position, name);

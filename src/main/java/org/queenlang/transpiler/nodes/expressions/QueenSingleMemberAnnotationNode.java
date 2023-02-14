@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
 
 /**
  * Queen single-member annotation.
@@ -45,7 +46,7 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
      */
     private final String value;
 
-    public QueenSingleMemberAnnotationNode(final Position position, final String name, final String value) {
+    public QueenSingleMemberAnnotationNode(final Position position, final QueenNameNode name, final String value) {
         super(position, name);
         this.value = value;
     }

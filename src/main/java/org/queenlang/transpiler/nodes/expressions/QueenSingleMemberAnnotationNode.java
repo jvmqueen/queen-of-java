@@ -57,8 +57,7 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
 
     @Override
     public void addToJavaNode(final Node java) {
-        ((NodeWithAnnotations) java)
-            .addSingleMemberAnnotation(this.name(), this.value);
+        ((NodeWithAnnotations) java).addAnnotation(this.toJavaExpression());
     }
 
     @Override

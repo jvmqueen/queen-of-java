@@ -49,11 +49,11 @@ public final class QueenMarkerAnnotationNode extends QueenAnnotationNode {
 
     @Override
     public void addToJavaNode(final Node java) {
-        ((NodeWithAnnotations) java).addMarkerAnnotation(this.name());
+        ((NodeWithAnnotations) java).addAnnotation(this.toJavaExpression());
     }
 
     @Override
-    public Expression toJavaExpression() {
+    public MarkerAnnotationExpr toJavaExpression() {
         return new MarkerAnnotationExpr(this.name());
     }
 

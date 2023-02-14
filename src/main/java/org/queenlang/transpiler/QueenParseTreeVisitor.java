@@ -529,7 +529,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             this.visitConstructorModifier(ctx.constructorModifier()),
             typeParams,
-            asString(ctx.constructorDeclarator().simpleTypeName()),
+            ctx.constructorDeclarator().simpleTypeName().Identifier().getText(),
             parameters,
             throwsList,
             explicitConstructorInvocationNode,
@@ -694,7 +694,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return this.visitAssignment(ctx.assignment());
         } else {
             return this.visitConditionalExpression(ctx.conditionalExpression());
-//            return new QueenTextExpressionNode(getPosition(ctx), asString(ctx));
         }
     }
 

@@ -27,13 +27,11 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.PrimitiveType;
-import org.junit.Ignore;
 
 import java.util.List;
 

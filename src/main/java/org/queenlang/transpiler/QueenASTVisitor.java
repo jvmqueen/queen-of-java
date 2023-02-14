@@ -28,6 +28,7 @@
 package org.queenlang.transpiler;
 
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenTextExpressionNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;

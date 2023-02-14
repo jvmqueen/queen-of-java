@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
+import org.queenlang.transpiler.nodes.body.QueenImportDeclarationNode;
 
 /**
  * Unit tests for {@link QueenImportDeclarationNode}.

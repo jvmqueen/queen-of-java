@@ -25,54 +25,15 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-
-import java.util.List;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
- * Queen CompilationUnit (highest) AST node. This is the node you want to start
- * with when traversing/visiting this tree.
+ * Queen ClassBody declaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCompilationUnitNode implements QueenNode {
-    private final Position position;
-    private final QueenPackageDeclarationNode packageDeclaration;
-    private final List<QueenImportDeclarationNode> importDeclarations;
-    private final List<QueenTypeDeclarationNode> typeDeclarations;
-
-    public QueenCompilationUnitNode(
-        final Position position,
-        final QueenPackageDeclarationNode packageDeclaration,
-        final List<QueenImportDeclarationNode> importDeclarations,
-        final List<QueenTypeDeclarationNode> typeDeclarations
-    ) {
-        this.position = position;
-        this.packageDeclaration = packageDeclaration;
-        this.importDeclarations = importDeclarations;
-        this.typeDeclarations = typeDeclarations;
-    }
-
-    @Override
-    public void addToJavaNode(Node java) {
-        this.packageDeclaration.addToJavaNode(java);
-        this.importDeclarations.forEach(i -> i.addToJavaNode(java));
-        this.typeDeclarations.forEach(t -> t.addToJavaNode(java));
-    }
-
-    public List<QueenImportDeclarationNode> importDeclarations() {
-        return this.importDeclarations;
-    }
-
-    public QueenTypeDeclarationNode typeDeclaration() {
-        return this.typeDeclarations.get(0);
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
+public interface QueenClassBodyDeclarationNode extends QueenNode {
 }

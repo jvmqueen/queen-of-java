@@ -6,6 +6,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.UnknownType;
+import org.queenlang.transpiler.nodes.body.QueenModifierNode;
 
 import java.util.ArrayList;
 import java.util.List;

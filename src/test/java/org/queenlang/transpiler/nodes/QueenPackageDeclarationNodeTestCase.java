@@ -31,6 +31,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.PackageDeclaration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.queenlang.transpiler.nodes.body.QueenPackageDeclarationNode;
 
 /**
  * Unit tests for {@link QueenPackageDeclarationNode}.

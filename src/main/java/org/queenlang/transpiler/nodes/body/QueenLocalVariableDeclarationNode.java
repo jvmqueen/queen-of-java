@@ -25,25 +25,34 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.TryStmt;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.QueenTypeNode;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Queen ConstantDeclaration AST node.
+ * Queen LocalVariableDeclaration AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:30min Class QueenConstantDeclarationNode needs unit tests.
  */
-public final class QueenConstantDeclarationNode implements QueenInterfaceMemberDeclarationNode {
+public final class QueenLocalVariableDeclarationNode implements QueenStatementNode, QueenExpressionNode {
 
     /**
      * Position in the original source code.
@@ -51,17 +60,17 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     private final Position position;
 
     /**
-     * Annotations on top of this constant declaration.
+     * Annotations on top of this local variable.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Access modifiers of this constant declaration.
+     * Access modifiers of this local variable.
      */
     private final List<QueenModifierNode> modifiers;
 
     /**
-     * Type of the constant declaration.
+     * Type of the local variable.
      */
     private final QueenTypeNode type;
 
@@ -70,7 +79,7 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
      */
     private final Map<String, QueenExpressionNode> variables;
 
-    public QueenConstantDeclarationNode(
+    public QueenLocalVariableDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
@@ -85,34 +94,54 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        this.variables.entrySet().forEach(
-            vn -> {
-                final VariableDeclarator vd = new VariableDeclarator();
-                vd.setName(vn.getKey());
-                this.type.addToJavaNode(vd);
-
-                final FieldDeclaration field = new FieldDeclaration();
-                field.addVariable(vd);
-                clazz.addMember(field);
-
-                this.annotations.forEach(a -> a.addToJavaNode(field));
-                this.modifiers.forEach(m -> m.addToJavaNode(field));
-                if(vn.getValue() != null) {
-                    vn.getValue().addToJavaNode(field.getVariable(0));
-                }
+    public void addToJavaNode(Node java) {
+        if(java instanceof BlockStmt) {
+            ((BlockStmt) java).addStatement(this.toJavaStatement());
+        } else if(java instanceof TryStmt) {
+            final TryStmt tryStmt = ((TryStmt) java);
+            final List<Expression> existing = ((TryStmt) java).getResources();
+            final List<Expression> added = new ArrayList<>();
+            if(existing != null && existing.size() > 0) {
+                added.addAll(existing);
             }
-        );
+            added.add(this.toJavaExpression());
+            tryStmt.setResources(new NodeList<>(added));
+        }
     }
 
-    @Override
-    public String name() {
-        return String.join(" ", this.variables.keySet());
+    /**
+     * Turn it into a JavaParser Statement.
+     * @return Statement, never null.
+     */
+    public Statement toJavaStatement() {
+        return new ExpressionStmt(this.toJavaExpression());
     }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public Expression toJavaExpression() {
+        VariableDeclarationExpr vde = new VariableDeclarationExpr();
+        this.annotations.forEach(a -> a.addToJavaNode(vde));
+        this.modifiers.forEach(m -> m.addToJavaNode(vde));
+
+        final List<VariableDeclarator> variableDeclarators = new ArrayList<>();
+        this.variables.entrySet().forEach(
+            vn -> {
+                final VariableDeclarator vd = new VariableDeclarator();
+                this.type.addToJavaNode(vd);
+                vd.setName(vn.getKey());
+                if(vn.getValue() != null) {
+                    vn.getValue().addToJavaNode(vd);
+                }
+                variableDeclarators.add(vd);
+            }
+        );
+
+        vde.setVariables(new NodeList<>(variableDeclarators));
+        return vde;
     }
 }

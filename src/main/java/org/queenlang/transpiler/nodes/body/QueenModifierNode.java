@@ -25,40 +25,72 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
-import java.util.List;
+import java.util.Objects;
 
 /**
- * Queen interface body AST Node.
+ * Queen modifier node used in interfaces, classes, methods, fields etc.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:30min Unit tests for QueenInterfaceBodyNode are needed.
+ * @todo #10:30min We need unit tests for all subclasses of QueenModifierNode.
  */
-public final class QueenInterfaceBodyNode implements QueenNode {
-    private final Position position;
-    private final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations;
+public final class QueenModifierNode implements QueenNode {
 
-    public QueenInterfaceBodyNode(
-        final Position position,
-        final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations
-    ) {
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
+     * Name of the modifier.
+     */
+    private final String modifier;
+
+    public QueenModifierNode(final Position position, final String modifier) {
         this.position = position;
-        this.interfaceMemberDeclarations = interfaceMemberDeclarations;
+        this.modifier = modifier;
+    }
+
+    public String modifier() {
+        return this.modifier.toLowerCase();
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        this.interfaceMemberDeclarations.forEach(
-            imd -> imd.addToJavaNode(java)
-        );
+        if(!this.modifier.equalsIgnoreCase("mutable")) {
+            ((NodeWithModifiers) java).addModifier(
+                Modifier.Keyword.valueOf(this.modifier.toUpperCase())
+            );
+        }
     }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        QueenModifierNode that = (QueenModifierNode) o;
+        return modifier.equals(that.modifier);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(modifier);
     }
 }

@@ -25,22 +25,28 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.QueenTypeNode;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Queen AnnotationElement AST Node.
+ * Queen FieldDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenAnnotationElementDeclarationNode implements QueenAnnotationTypeMemberDeclarationNode {
+public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -48,73 +54,71 @@ public final class QueenAnnotationElementDeclarationNode implements QueenAnnotat
     private final Position position;
 
     /**
-     * Annotations on top of this element.
+     * Annotations on top of this field.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Modifiers of this element.
+     * Access modifiers of this field.
      */
     private final List<QueenModifierNode> modifiers;
 
     /**
-     * Type of this annotation element.
+     * Type of the field declaration.
      */
-    private final String type;
+    private final QueenTypeNode type;
 
     /**
-     * Name of this annotation element.
+     * Variable names and initializer expressions.
      */
-    private final String name;
+    private final Map<String, QueenExpressionNode> variables;
 
-    /**
-     * Default value of the element.
-     */
-    private final String defaultValue;
-
-
-    public QueenAnnotationElementDeclarationNode(
+    public QueenFieldDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final String type,
-        final String name,
-        final String defaultValue
+        final QueenTypeNode type,
+        final Map<String, QueenExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.type = type;
-        this.name = name;
-        this.defaultValue = defaultValue;
+        this.variables = variables;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        final AnnotationMemberDeclaration annotationMemberDeclaration = new AnnotationMemberDeclaration();
-        this.annotations.forEach(
-            a -> a.addToJavaNode(annotationMemberDeclaration)
+        this.variables.entrySet().forEach(
+            vn -> {
+                final VariableDeclarator vd = new VariableDeclarator();
+                vd.setName(vn.getKey());
+                this.type.addToJavaNode(vd);
+
+                final FieldDeclaration field = new FieldDeclaration();
+                field.addVariable(vd);
+                if(java instanceof ClassOrInterfaceDeclaration) {
+                    ((ClassOrInterfaceDeclaration) java).addMember(field);
+                } else {
+                    ((ObjectCreationExpr) java).addAnonymousClassBody(field);
+                }
+
+                this.annotations.forEach(a -> a.addToJavaNode(field));
+                this.modifiers.forEach(m -> m.addToJavaNode(field));
+                if(vn.getValue() != null) {
+                    vn.getValue().addToJavaNode(field.getVariable(0));
+                }
+            }
         );
-        this.modifiers.forEach(
-            m -> m.addToJavaNode(annotationMemberDeclaration)
-        );
-        annotationMemberDeclaration.setType(this.type);
-        annotationMemberDeclaration.setName(this.name);
-        if(this.defaultValue != null) {
-            annotationMemberDeclaration.setDefaultValue(
-                StaticJavaParser.parseExpression(this.defaultValue)
-            );
-        }
-        ((AnnotationDeclaration) java).addMember(annotationMemberDeclaration);
+    }
+
+    @Override
+    public String name() {
+        return String.join(" ", this.variables.keySet());
     }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public String name() {
-        return this.name;
     }
 }

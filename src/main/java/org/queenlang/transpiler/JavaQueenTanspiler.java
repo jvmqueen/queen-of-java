@@ -34,8 +34,7 @@ import com.github.javaparser.printer.configuration.DefaultPrinterConfiguration;
 import org.antlr.v4.runtime.*;
 import org.queenlang.generated.antlr4.QueenLexer;
 import org.queenlang.generated.antlr4.QueenParser;
-import org.queenlang.transpiler.nodes.QueenCompilationUnitNode;
-import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.body.QueenCompilationUnitNode;
 
 import java.io.BufferedReader;
 import java.io.IOException;

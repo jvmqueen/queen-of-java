@@ -31,6 +31,10 @@ import com.github.javaparser.ast.Node;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.queenlang.transpiler.nodes.body.QueenCompilationUnitNode;
+import org.queenlang.transpiler.nodes.body.QueenImportDeclarationNode;
+import org.queenlang.transpiler.nodes.body.QueenPackageDeclarationNode;
+import org.queenlang.transpiler.nodes.body.QueenTypeDeclarationNode;
 
 import java.util.ArrayList;
 import java.util.List;

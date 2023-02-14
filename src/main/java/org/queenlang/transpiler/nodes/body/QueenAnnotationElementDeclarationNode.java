@@ -25,23 +25,24 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenAnnotationNode;
 
 import java.util.List;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen AnnotationElement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min Don't forget to unit test this class.
  */
-public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceDeclarationNode {
+public final class QueenAnnotationElementDeclarationNode implements QueenAnnotationTypeMemberDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -49,61 +50,64 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     private final Position position;
 
     /**
-     * Annotations on top of this annotation declaration.
+     * Annotations on top of this element.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Modifiers of this annotation.
+     * Modifiers of this element.
      */
     private final List<QueenModifierNode> modifiers;
 
     /**
-     * Name of this type.
+     * Type of this annotation element.
+     */
+    private final String type;
+
+    /**
+     * Name of this annotation element.
      */
     private final String name;
 
     /**
-     * The body.
+     * Default value of the element.
      */
-    private final QueenAnnotationTypeBodyNode body;
+    private final String defaultValue;
 
-    /**
-     * Ctor.
-     * @param position Position in the original source code.
-     * @param annotations Annotation nodes on top of this type.
-     * @param modifiers Modifiers of this annotation.
-     * @param name Name.
-     * @param body The body.
-     */
-    public QueenAnnotationTypeDeclarationNode(
+
+    public QueenAnnotationElementDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
+        final String type,
         final String name,
-        final QueenAnnotationTypeBodyNode body
+        final String defaultValue
     ) {
         this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
+        this.type = type;
         this.name = name;
-        this.body = body;
+        this.defaultValue = defaultValue;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(java instanceof CompilationUnit) {
-            ((CompilationUnit) java).addType(this.toJavaAnnotation());
-        } else if(java instanceof ClassOrInterfaceDeclaration) {
-            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaAnnotation());
-        } else if(java instanceof AnnotationDeclaration) {
-            ((AnnotationDeclaration) java).addMember(this.toJavaAnnotation());
+        final AnnotationMemberDeclaration annotationMemberDeclaration = new AnnotationMemberDeclaration();
+        this.annotations.forEach(
+            a -> a.addToJavaNode(annotationMemberDeclaration)
+        );
+        this.modifiers.forEach(
+            m -> m.addToJavaNode(annotationMemberDeclaration)
+        );
+        annotationMemberDeclaration.setType(this.type);
+        annotationMemberDeclaration.setName(this.name);
+        if(this.defaultValue != null) {
+            annotationMemberDeclaration.setDefaultValue(
+                StaticJavaParser.parseExpression(this.defaultValue)
+            );
         }
-    }
-
-    @Override
-    public String name() {
-        return this.name;
+        ((AnnotationDeclaration) java).addMember(annotationMemberDeclaration);
     }
 
     @Override
@@ -112,20 +116,7 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
-        return this.modifiers;
-    }
-
-    /**
-     * Turn it into a JavaParser annotation declaration.
-     * @return AnnotationDeclaration.
-     */
-    private AnnotationDeclaration toJavaAnnotation() {
-        final AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration();
-        annotationDeclaration.setName(this.name);
-        this.annotations.forEach(a -> a.addToJavaNode(annotationDeclaration));
-        this.modifiers.forEach(m -> m.addToJavaNode(annotationDeclaration));
-        this.body.addToJavaNode(annotationDeclaration);
-        return annotationDeclaration;
+    public String name() {
+        return this.name;
     }
 }

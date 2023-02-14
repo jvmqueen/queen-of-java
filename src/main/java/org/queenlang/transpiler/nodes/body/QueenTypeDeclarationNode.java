@@ -25,13 +25,28 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
+
+import org.queenlang.transpiler.nodes.Named;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
- * Queen InterfaceDeclaration AST node.
+ * Queen TypeDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #10:60min Handle access modifiers for the type declaration.
+ * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
+ * @todo #8:60min Handle the TypeBody AST node further.
  */
-public interface QueenInterfaceDeclarationNode extends QueenTypeDeclarationNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode, QueenAnnotationTypeMemberDeclarationNode {
+public interface QueenTypeDeclarationNode extends Named, QueenNode {
+
+    /**
+     * Get the modifiers list of this type declaration.
+     * @return List of QueenModifier.
+     */
+    List<QueenModifierNode> modifiers();
+
 }

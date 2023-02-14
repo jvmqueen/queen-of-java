@@ -25,58 +25,16 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.PackageDeclaration;
-
-import java.util.function.Supplier;
+import org.queenlang.transpiler.nodes.Named;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
- * Queen PackageDeclaration AST node.
+ * Queen interface member declaration node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #2:60min Analyize and implement annotation-level packages, as they are
- *  defined in the grammar.
  */
-public final class QueenPackageDeclarationNode implements QueenNode {
-
-    /**
-     * Position in the original source code.
-     */
-    private final Position position;
-
-    /**
-     * The package's name.
-     */
-    private final QueenNameNode packageName;
-
-    /**
-     * Ctor.
-     * @param position Position in the original source code.
-     * @param packageName Supplier giving us the package's name.
-     */
-    public QueenPackageDeclarationNode(
-        final Position position,
-        final Supplier<QueenNameNode> packageName
-    ) {
-        this.position = position;
-        this.packageName = packageName.get();
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(this.packageName != null) {
-            final PackageDeclaration packageDeclaration = new PackageDeclaration();
-            packageDeclaration.setName(this.packageName.toName());
-            ((CompilationUnit) java).setPackageDeclaration(packageDeclaration);
-        }
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
+public interface QueenInterfaceMemberDeclarationNode extends Named, QueenNode {
 }

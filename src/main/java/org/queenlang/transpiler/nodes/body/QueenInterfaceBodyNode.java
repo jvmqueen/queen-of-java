@@ -25,25 +25,42 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
+
+import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
 
 /**
- * Queen TypeDeclaration AST node.
+ * Queen interface body AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:60min Handle access modifiers for the type declaration.
- * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
- * @todo #8:60min Handle the TypeBody AST node further.
+ * @todo #33:30min Unit tests for QueenInterfaceBodyNode are needed.
  */
-public interface QueenTypeDeclarationNode extends Named, QueenNode {
+public final class QueenInterfaceBodyNode implements QueenNode {
+    private final Position position;
+    private final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations;
 
-    /**
-     * Get the modifiers list of this type declaration.
-     * @return List of QueenModifier.
-     */
-    List<QueenModifierNode> modifiers();
+    public QueenInterfaceBodyNode(
+        final Position position,
+        final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations
+    ) {
+        this.position = position;
+        this.interfaceMemberDeclarations = interfaceMemberDeclarations;
+    }
 
+    @Override
+    public void addToJavaNode(final Node java) {
+        this.interfaceMemberDeclarations.forEach(
+            imd -> imd.addToJavaNode(java)
+        );
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

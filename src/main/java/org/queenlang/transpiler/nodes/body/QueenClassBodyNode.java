@@ -25,67 +25,46 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
- * Queen Instance Initializer AST Node.
+ * Queen ClassBody AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:30min Unit tests for class QueenInstanceInitializerNode are needed.
  */
-public final class QueenInstanceInitializerNode implements QueenClassBodyDeclarationNode {
+public final class QueenClassBodyNode implements QueenNode {
 
-    /**
-     * Position in the original source code.
-     */
     private final Position position;
+    private final List<QueenClassBodyDeclarationNode> classBodyDeclarations;
 
-    /**
-     * Statements in this initializer.
-     */
-    private final QueenBlockStatements blockStatements;
-
-    /**
-     * Is it static or not?
-     */
-    private final boolean isStatic;
-
-    public QueenInstanceInitializerNode(
+    public QueenClassBodyNode(
         final Position position,
-        final QueenBlockStatements blockStatements
-    ) {
-        this(position, blockStatements, false);
-    }
-
-    public QueenInstanceInitializerNode(
-        final Position position,
-        final QueenBlockStatements blockStatements,
-        final boolean isStatic
+        final List<QueenClassBodyDeclarationNode> classBodyDeclarations
     ) {
         this.position = position;
-        this.blockStatements = blockStatements;
-        this.isStatic = isStatic;
+        this.classBodyDeclarations = classBodyDeclarations;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        final ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        if(this.blockStatements != null) {
-            if(this.isStatic) {
-                this.blockStatements.addToJavaNode(clazz.addStaticInitializer());
-            } else {
-                this.blockStatements.addToJavaNode(clazz.addInitializer());
-            }
-        }
+        this.classBodyDeclarations.forEach(
+            cbd -> cbd.addToJavaNode(java)
+        );
     }
 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    public boolean isEmpty() {
+        return this.classBodyDeclarations == null || this.classBodyDeclarations.isEmpty();
     }
 }

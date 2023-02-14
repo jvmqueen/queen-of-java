@@ -25,22 +25,21 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
-
-import java.util.Objects;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 
 /**
- * Queen modifier node used in interfaces, classes, methods, fields etc.
+ * Queen Instance Initializer AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min We need unit tests for all subclasses of QueenModifierNode.
+ * @todo #33:30min Unit tests for class QueenInstanceInitializerNode are needed.
  */
-public final class QueenModifierNode implements QueenNode {
+public final class QueenInstanceInitializerNode implements QueenClassBodyDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -48,47 +47,46 @@ public final class QueenModifierNode implements QueenNode {
     private final Position position;
 
     /**
-     * Name of the modifier.
+     * Statements in this initializer.
      */
-    private final String modifier;
+    private final QueenBlockStatements blockStatements;
 
-    public QueenModifierNode(final Position position, final String modifier) {
-        this.position = position;
-        this.modifier = modifier;
+    /**
+     * Is it static or not?
+     */
+    private final boolean isStatic;
+
+    public QueenInstanceInitializerNode(
+        final Position position,
+        final QueenBlockStatements blockStatements
+    ) {
+        this(position, blockStatements, false);
     }
 
-    public String modifier() {
-        return this.modifier.toLowerCase();
+    public QueenInstanceInitializerNode(
+        final Position position,
+        final QueenBlockStatements blockStatements,
+        final boolean isStatic
+    ) {
+        this.position = position;
+        this.blockStatements = blockStatements;
+        this.isStatic = isStatic;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        if(!this.modifier.equalsIgnoreCase("mutable")) {
-            ((NodeWithModifiers) java).addModifier(
-                Modifier.Keyword.valueOf(this.modifier.toUpperCase())
-            );
+        final ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
+        if(this.blockStatements != null) {
+            if(this.isStatic) {
+                this.blockStatements.addToJavaNode(clazz.addStaticInitializer());
+            } else {
+                this.blockStatements.addToJavaNode(clazz.addInitializer());
+            }
         }
     }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        QueenModifierNode that = (QueenModifierNode) o;
-        return modifier.equals(that.modifier);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(modifier);
     }
 }

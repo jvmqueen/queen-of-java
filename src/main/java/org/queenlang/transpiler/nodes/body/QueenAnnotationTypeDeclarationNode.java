@@ -25,25 +25,25 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.stmt.BlockStmt;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenAnnotationNode;
 
 import java.util.List;
 
 /**
- * Queen NormalInterfaceDeclaration AST node.
+ * Queen AnnotationDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:60min Don't forget to write some unit tests here.
+ * @todo #10:30min Don't forget to unit test this class.
  */
-public final class QueenNormalInterfaceDeclarationNode implements QueenInterfaceDeclarationNode, QueenNodeWithTypeParameters {
+public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -51,12 +51,12 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     private final Position position;
 
     /**
-     * Annotations on top of this interface.
+     * Annotations on top of this annotation declaration.
      */
     private final List<QueenAnnotationNode> annotations;
 
     /**
-     * Modifiers of this interface.
+     * Modifiers of this annotation.
      */
     private final List<QueenModifierNode> modifiers;
 
@@ -66,55 +66,40 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
     private final String name;
 
     /**
-     * Interface type params.
-     */
-    private final List<QueenTypeParameterNode> typeParams;
-
-    /**
-     * Types which are extended (an interface can extend more interfaces).
-     */
-    private final List<QueenClassOrInterfaceTypeNode> extendsTypes;
-
-    /**
      * The body.
      */
-    private final QueenInterfaceBodyNode body;
+    private final QueenAnnotationTypeBodyNode body;
 
     /**
      * Ctor.
+     * @param position Position in the original source code.
      * @param annotations Annotation nodes on top of this type.
-     * @param modifiers Modifiers on this interface.
+     * @param modifiers Modifiers of this annotation.
      * @param name Name.
-     * @param typeParams Type params.
-     * @param extendsTypes Types extended.
      * @param body The body.
      */
-    public QueenNormalInterfaceDeclarationNode(
+    public QueenAnnotationTypeDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final String name,
-        final List<QueenTypeParameterNode> typeParams,
-        final List<QueenClassOrInterfaceTypeNode> extendsTypes,
-        final QueenInterfaceBodyNode body
+        final QueenAnnotationTypeBodyNode body
     ) {
         this.position = position;
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.name = name;
-        this.typeParams = typeParams;
-        this.extendsTypes = extendsTypes;
         this.body = body;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
         if(java instanceof CompilationUnit) {
-            ((CompilationUnit) java).addType(this.toJavaInterface());
+            ((CompilationUnit) java).addType(this.toJavaAnnotation());
         } else if(java instanceof ClassOrInterfaceDeclaration) {
-            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaInterface());
+            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaAnnotation());
         } else if(java instanceof AnnotationDeclaration) {
-            ((AnnotationDeclaration) java).addMember(this.toJavaInterface());
+            ((AnnotationDeclaration) java).addMember(this.toJavaAnnotation());
         }
     }
 
@@ -128,37 +113,21 @@ public final class QueenNormalInterfaceDeclarationNode implements QueenInterface
         return this.position;
     }
 
-    /**
-     * Turn it into a JavaParser interface declaration.
-     * @return ClassOrInterfaceDeclaration.
-     */
-    private ClassOrInterfaceDeclaration toJavaInterface() {
-        ClassOrInterfaceDeclaration inter = new ClassOrInterfaceDeclaration();
-        inter.setInterface(true);
-        inter.setName(this.name);
-        inter.removeModifier(Modifier.Keyword.PUBLIC);
-        this.typeParams.forEach(tp -> tp.addToJavaNode(inter));
-        if(this.extendsTypes != null && this.extendsTypes.size() > 0) {
-            this.extendsTypes.forEach(et -> et.addToJavaNode(inter));
-        }
-        this.annotations.forEach(
-            a -> a.addToJavaNode(inter)
-        );
-        this.modifiers.forEach(
-            m -> m.addToJavaNode(inter)
-        );
-        this.body.addToJavaNode(inter);
-
-        return inter;
-    }
-
     @Override
     public List<QueenModifierNode> modifiers() {
         return this.modifiers;
     }
 
-    @Override
-    public List<QueenTypeParameterNode> typeParameters() {
-        return this.typeParams;
+    /**
+     * Turn it into a JavaParser annotation declaration.
+     * @return AnnotationDeclaration.
+     */
+    private AnnotationDeclaration toJavaAnnotation() {
+        final AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration();
+        annotationDeclaration.setName(this.name);
+        this.annotations.forEach(a -> a.addToJavaNode(annotationDeclaration));
+        this.modifiers.forEach(m -> m.addToJavaNode(annotationDeclaration));
+        this.body.addToJavaNode(annotationDeclaration);
+        return annotationDeclaration;
     }
 }

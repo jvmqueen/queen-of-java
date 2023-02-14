@@ -29,10 +29,10 @@ package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.type.UnionType;
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.body.QueenModifierNode;
 
 import java.util.List;
 

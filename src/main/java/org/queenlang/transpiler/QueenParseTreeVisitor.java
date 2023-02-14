@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler;
 
+import com.strumenta.kolasu.model.Link;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 import org.queenlang.generated.antlr4.QueenParser;
@@ -404,13 +405,25 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
-        final Map<String, QueenExpressionNode> variables = new LinkedHashMap<>();
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
-                variables.put(asString(vd.variableDeclaratorId()), null);
+                final String identifier = vd.variableDeclaratorId().Identifier().getText();
+                final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+                if(vd.variableDeclaratorId().dims() != null) {
+                    vd.variableDeclaratorId().dims().dim().forEach(
+                        dim -> dims.add(this.visitDim(dim))
+                    );
+                }
+                final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
+                    getPosition(vd),
+                    identifier,
+                    dims
+                );
+                variables.put(variableDeclaratorId, null);
                 if(vd.variableInitializer() != null) {
                     variables.put(
-                        asString(vd.variableDeclaratorId()),
+                        variableDeclaratorId,
                         this.visitVariableInitializer(vd.variableInitializer())
                     );
                 }
@@ -438,7 +451,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitFieldModifier(m))
         );
 
-        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new HashMap<>();
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
                 final String identifier = vd.variableDeclaratorId().Identifier().getText();
@@ -484,7 +497,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitConstantModifier(m))
         );
 
-        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new HashMap<>();
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
                 final String identifier = vd.variableDeclaratorId().Identifier().getText();
@@ -1544,8 +1557,20 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 }
             );
         }
-        final Map<String, QueenExpressionNode> variables = new LinkedHashMap<>();
-        variables.put(asString(ctx.variableDeclaratorId()), null);
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
+        final String identifier = ctx.variableDeclaratorId().Identifier().getText();
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        if(ctx.variableDeclaratorId().dims() != null) {
+            ctx.variableDeclaratorId().dims().dim().forEach(
+                dim -> dims.add(this.visitDim(dim))
+            );
+        }
+        final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
+            getPosition(ctx.variableDeclaratorId()),
+            identifier,
+            dims
+        );
+        variables.put(variableDeclaratorId, null);
         variable = new QueenLocalVariableDeclarationNode(
             getPosition(ctx),
             annotations,
@@ -1599,8 +1624,20 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 }
             );
         }
-        final Map<String, QueenExpressionNode> variables = new LinkedHashMap<>();
-        variables.put(asString(ctx.variableDeclaratorId()), null);
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
+        final String identifier = ctx.variableDeclaratorId().Identifier().getText();
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        if(ctx.variableDeclaratorId().dims() != null) {
+            ctx.variableDeclaratorId().dims().dim().forEach(
+                dim -> dims.add(this.visitDim(dim))
+            );
+        }
+        final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
+            getPosition(ctx.variableDeclaratorId()),
+            identifier,
+            dims
+        );
+        variables.put(variableDeclaratorId, null);
         variable = new QueenLocalVariableDeclarationNode(
             getPosition(ctx),
             annotations,
@@ -2013,13 +2050,26 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
+        final String identifier = ctx.variableDeclaratorId().Identifier().getText();
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        if(ctx.variableDeclaratorId().dims() != null) {
+            ctx.variableDeclaratorId().dims().dim().forEach(
+                dim -> dims.add(this.visitDim(dim))
+            );
+        }
+        final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
+            getPosition(ctx.variableDeclaratorId()),
+            identifier,
+            dims
+        );
+
         return new QueenLocalVariableDeclarationNode(
             position,
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
             Map.of(
-                asString(ctx.variableDeclaratorId()),
+                variableDeclaratorId,
                 this.visitExpression(ctx.expression())
             )
         );

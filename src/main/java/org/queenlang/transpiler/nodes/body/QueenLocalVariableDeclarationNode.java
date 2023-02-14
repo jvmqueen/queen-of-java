@@ -77,14 +77,14 @@ public final class QueenLocalVariableDeclarationNode implements QueenStatementNo
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<String, QueenExpressionNode> variables;
+    private final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables;
 
     public QueenLocalVariableDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final Map<String, QueenExpressionNode> variables
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -133,7 +133,7 @@ public final class QueenLocalVariableDeclarationNode implements QueenStatementNo
             vn -> {
                 final VariableDeclarator vd = new VariableDeclarator();
                 this.type.addToJavaNode(vd);
-                vd.setName(vn.getKey());
+                vn.getKey().addToJavaNode(vd);
                 if(vn.getValue() != null) {
                     vn.getValue().addToJavaNode(vd);
                 }

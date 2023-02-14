@@ -28,8 +28,10 @@
 package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.Objects;
@@ -62,47 +64,38 @@ public final class QueenImportDeclarationNode implements QueenNode {
     /**
      * Import's type name.
      */
-    private final String importDeclaration;
-
+    private final QueenNameNode importDeclarationName;
     /**
      * Ctor.
      * @param position Position in the original source code.
-     * @param importDeclaration Type name.
      * @param staticImport Is it a static import or not?
      * @param asteriskImport Is it an asterysk import or not?
      */
     public QueenImportDeclarationNode(
         final Position position,
-        final String importDeclaration,
+        final QueenNameNode importDeclarationName,
         final boolean staticImport,
         final boolean asteriskImport
     ) {
         this.position = position;
-        this.importDeclaration = importDeclaration;
         this.staticImport = staticImport;
         this.asteriskImport = asteriskImport;
+        this.importDeclarationName = importDeclarationName;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        ((CompilationUnit) java).addImport(this.importDeclaration, this.staticImport, this.asteriskImport);
+        final ImportDeclaration importDeclaration = new ImportDeclaration(
+            this.importDeclarationName.toName(),
+            this.staticImport,
+            this.asteriskImport
+        );
+        ((CompilationUnit) java).addImport(importDeclaration);
     }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    public boolean isStaticImport() {
-        return this.staticImport;
-    }
-
-    public boolean isAsteriskImport() {
-        return this.asteriskImport;
-    }
-
-    public String importDeclaration() {
-        return this.importDeclaration;
     }
 
     /**
@@ -113,34 +106,18 @@ public final class QueenImportDeclarationNode implements QueenNode {
      * @return True if this import declaration is contained by the other import declaration.
      */
     public boolean isContainedBy(final QueenImportDeclarationNode importDeclarationNode) {
-        if(this.equals(importDeclarationNode)) {
-            return true;
-        } else {
-            if(importDeclarationNode.isAsteriskImport()) {
-                final Pattern other = Pattern.compile("^" + importDeclarationNode.importDeclaration() + ".*$", Pattern.CASE_INSENSITIVE);
-                final Matcher matcher = other.matcher(this.importDeclaration);
-                if(matcher.find()) {
-                    return this.importDeclaration.split("\\.").length == importDeclarationNode.importDeclaration().split("\\.").length + 1;
-                }
-            }
-            return false;
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        QueenImportDeclarationNode that = (QueenImportDeclarationNode) o;
-        return staticImport == that.staticImport && asteriskImport == that.asteriskImport && importDeclaration.equals(that.importDeclaration);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(staticImport, asteriskImport, importDeclaration);
+//        if(this.equals(importDeclarationNode)) {
+//            return true;
+//        } else {
+//            if(importDeclarationNode.isAsteriskImport()) {
+//                final Pattern other = Pattern.compile("^" + importDeclarationNode.importDeclaration() + ".*$", Pattern.CASE_INSENSITIVE);
+//                final Matcher matcher = other.matcher(this.importDeclaration);
+//                if(matcher.find()) {
+//                    return this.importDeclaration.split("\\.").length == importDeclarationNode.importDeclaration().split("\\.").length + 1;
+//                }
+//            }
+//            return false;
+//        }
+        return false;
     }
 }

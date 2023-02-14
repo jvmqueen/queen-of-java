@@ -77,27 +77,58 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenImportDeclarationNode visitImportDeclaration(QueenParser.ImportDeclarationContext ctx) {
-        String importedType = "";
-        boolean isStaticImport = false;
-        boolean isAsteriskImport = false;
-
-        final ParseTree importDeclaration = ctx.getChild(0);
-        if(importDeclaration instanceof QueenParser.SingleTypeImportDeclarationContext) {
-            importedType = asString(ctx.singleTypeImportDeclaration().typeName());
-        } else if(importDeclaration instanceof QueenParser.StaticImportOnDemandDeclarationContext) {
-            importedType = asString(ctx.staticImportOnDemandDeclaration().typeName());
-            isAsteriskImport = true;
-            isStaticImport = true;
-        } else if(importDeclaration instanceof QueenParser.SingleStaticImportDeclarationContext) {
-            final QueenParser.SingleStaticImportDeclarationContext staticImport = ctx.singleStaticImportDeclaration();
-            importedType = asString(staticImport.typeName()) + "." + staticImport.Identifier().getText();
-            isStaticImport = true;
-        } else if(importDeclaration instanceof QueenParser.TypeImportOnDemandDeclarationContext) {
-            importedType = asString(ctx.typeImportOnDemandDeclaration().packageOrTypeName());
-            isAsteriskImport = true;
+        if(ctx.singleTypeImportDeclaration() != null) {
+            return this.visitSingleTypeImportDeclaration(ctx.singleTypeImportDeclaration());
+        } else if(ctx.typeImportOnDemandDeclaration() != null) {
+            return this.visitTypeImportOnDemandDeclaration(ctx.typeImportOnDemandDeclaration());
+        } else if(ctx.singleStaticImportDeclaration() != null) {
+            return this.visitSingleStaticImportDeclaration(ctx.singleStaticImportDeclaration());
+        } else {
+            return this.visitStaticImportOnDemandDeclaration(ctx.staticImportOnDemandDeclaration());
         }
+    }
+
+    @Override
+    public QueenImportDeclarationNode visitSingleTypeImportDeclaration(QueenParser.SingleTypeImportDeclarationContext ctx) {
         return new QueenImportDeclarationNode(
-            getPosition(ctx), importedType, isStaticImport, isAsteriskImport
+            getPosition(ctx),
+            this.visitTypeName(ctx.typeName()),
+            false,
+            false
+        );
+    }
+
+    @Override
+    public QueenImportDeclarationNode visitTypeImportOnDemandDeclaration(QueenParser.TypeImportOnDemandDeclarationContext ctx) {
+        return new QueenImportDeclarationNode(
+            getPosition(ctx),
+            this.visitPackageOrTypeName(ctx.packageOrTypeName()),
+            false,
+            true
+        );
+    }
+
+    @Override
+    public QueenImportDeclarationNode visitSingleStaticImportDeclaration(QueenParser.SingleStaticImportDeclarationContext ctx) {
+        return new QueenImportDeclarationNode(
+            getPosition(ctx),
+            new QueenNameNode(
+                getPosition(ctx.typeName()),
+                this.visitTypeName(ctx.typeName()),
+                ctx.Identifier().getText()
+            ),
+            true,
+            false
+        );
+    }
+
+    @Override
+    public QueenImportDeclarationNode visitStaticImportOnDemandDeclaration(QueenParser.StaticImportOnDemandDeclarationContext ctx) {
+        return new QueenImportDeclarationNode(
+            getPosition(ctx),
+            this.visitTypeName(ctx.typeName()),
+            true,
+            true
         );
     }
 

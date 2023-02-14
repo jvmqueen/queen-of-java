@@ -65,13 +65,13 @@ public final class QueenTypeParameterNode implements Named, QueenNode {
     /**
      * Type bounds.
      */
-    private final List<String> typeBound;
+    private final List<QueenClassOrInterfaceTypeNode> typeBound;
 
     public QueenTypeParameterNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final String name,
-        final List<String> typeBound
+        final List<QueenClassOrInterfaceTypeNode> typeBound
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -106,7 +106,7 @@ public final class QueenTypeParameterNode implements Named, QueenNode {
         tp.setTypeBound(
             new NodeList<>(
                 this.typeBound.stream().map(
-                    StaticJavaParser::parseClassOrInterfaceType
+                    tb -> tb.toType()
                 ).collect(Collectors.toList())
             )
         );

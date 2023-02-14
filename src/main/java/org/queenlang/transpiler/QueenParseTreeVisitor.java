@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler;
 
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -3218,6 +3219,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
+    @Override
     public QueenTypeParameterNode visitTypeParameter(QueenParser.TypeParameterContext ctx) {
         final Position position = this.getPosition(ctx);
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
@@ -3225,18 +3227,24 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             a -> annotations.add(this.visitAnnotation(a))
         );
         final String name = ctx.Identifier().getText();
-        final List<String> typeBound = new ArrayList<>();
+        final List<QueenClassOrInterfaceTypeNode> typeBound = new ArrayList<>();
         if(ctx.typeBound() != null) {
             final QueenParser.TypeBoundContext typeBoundContext = ctx.typeBound();
             if(typeBoundContext.typeVariable() != null) {
-                typeBound.add(asString(typeBoundContext.typeVariable()));
+                typeBound.add(
+                    this.visitTypeVariable(typeBoundContext.typeVariable())
+                );
             }
             if(typeBoundContext.classOrInterfaceType() != null) {
-                typeBound.add(asString(typeBoundContext.classOrInterfaceType()));
+                typeBound.add(
+                    this.visitClassOrInterfaceType(typeBoundContext.classOrInterfaceType())
+                );
             }
             if(typeBoundContext.additionalBound() != null) {
                 typeBoundContext.additionalBound().forEach(
-                    ab -> typeBound.add(asString(ab.interfaceType()))
+                    ab -> typeBound.add(
+                        this.visitInterfaceType(ab.interfaceType())
+                    )
                 );
             }
         }

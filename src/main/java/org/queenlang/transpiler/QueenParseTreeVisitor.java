@@ -27,10 +27,8 @@
  */
 package org.queenlang.transpiler;
 
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.generated.antlr4.QueenParserBaseVisitor;
 import org.queenlang.transpiler.nodes.*;
@@ -440,13 +438,25 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitFieldModifier(m))
         );
 
-        final Map<String, QueenExpressionNode> variables = new HashMap<>();
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new HashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
-                variables.put(asString(vd.variableDeclaratorId()), null);
+                final String identifier = vd.variableDeclaratorId().Identifier().getText();
+                final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+                if(vd.variableDeclaratorId().dims() != null) {
+                    vd.variableDeclaratorId().dims().dim().forEach(
+                        dim -> dims.add(this.visitDim(dim))
+                    );
+                }
+                final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
+                    getPosition(vd),
+                    identifier,
+                    dims
+                );
+                variables.put(variableDeclaratorId, null);
                 if(vd.variableInitializer() != null) {
                     variables.put(
-                        asString(vd.variableDeclaratorId()),
+                        variableDeclaratorId,
                         this.visitVariableInitializer(vd.variableInitializer())
                     );
                 }

@@ -71,14 +71,14 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<String, QueenExpressionNode> variables;
+    private final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables;
 
     public QueenFieldDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final Map<String, QueenExpressionNode> variables
+        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -92,8 +92,8 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
         this.variables.entrySet().forEach(
             vn -> {
                 final VariableDeclarator vd = new VariableDeclarator();
-                vd.setName(vn.getKey());
                 this.type.addToJavaNode(vd);
+                vn.getKey().addToJavaNode(vd);
 
                 final FieldDeclaration field = new FieldDeclaration();
                 field.addVariable(vd);
@@ -114,7 +114,7 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
 
     @Override
     public String name() {
-        return String.join(" ", this.variables.keySet());
+        return "todo...";
     }
 
     @Override

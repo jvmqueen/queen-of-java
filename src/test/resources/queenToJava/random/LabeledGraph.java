@@ -2,7 +2,15 @@ package org.queenlang.examples;
 
 public final class LabeledGraph implements Graph {
 
-    int edges[][];
+    int[][] edges;
+
+    int[] a;
+
+    int[][] b;
+
+    int[][][] c;
+
+    CrazyAnnotatedArray @First [] @Second [][] @ThirdMissing [][] crazy;
 
     public LabeledGraph(final int[][] edges) {
         this.edges = edges;

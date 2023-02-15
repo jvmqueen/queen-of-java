@@ -31,9 +31,13 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.nodeTypes.NodeWithType;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.type.ArrayType;
+import com.github.javaparser.ast.type.Type;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
@@ -72,6 +76,12 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     private final QueenTypeNode returnType;
 
     /**
+     * Dims on the method declaration. They can be found at the end of the method header:
+     * <pre>public int example()[]; </pre>
+     */
+    private final List<QueenArrayDimensionNode> dims;
+
+    /**
      * Method type params.
      */
     private final List<QueenTypeParameterNode> typeParams;
@@ -101,6 +111,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode returnType,
+        final List<QueenArrayDimensionNode> dims,
         final List<QueenTypeParameterNode> typeParams,
         final String name,
         final List<QueenParameterNode> parameters,
@@ -111,6 +122,7 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.returnType = returnType;
+        this.dims = dims;
         this.typeParams = typeParams;
         this.name = name;
         this.parameters = parameters;
@@ -123,6 +135,9 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
         final MethodDeclaration method = ((ClassOrInterfaceDeclaration) java).addMethod(this.name);
         method.removeModifier(Modifier.Keyword.PUBLIC);
         this.returnType.addToJavaNode(method);
+        if(this.dims != null && this.dims.size() > 0) {
+            this.setDims(method);
+        }
         this.annotations.forEach(a -> a.addToJavaNode(method));
         this.modifiers.forEach(m -> m.addToJavaNode(method));
         this.typeParams.forEach(tp -> tp.addToJavaNode(method));
@@ -152,5 +167,24 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
     @Override
     public List<QueenTypeParameterNode> typeParameters() {
         return this.typeParams;
+    }
+
+    /**
+     * Set the dims from the name to the type.
+     * @param withType Node with type.
+     */
+    private void setDims(final NodeWithType withType) {
+        if(this.dims != null && this.dims.size() > 0) {
+            Type setType = withType.getType();
+            for(int i = this.dims.size() - 1; i>=0; i--) {
+                setType = new ArrayType(
+                    setType
+                );
+                for(final QueenAnnotationNode annotation : this.dims.get(i).annotations()) {
+                    annotation.addToJavaNode(setType);
+                }
+            }
+            withType.setType(setType);
+        }
     }
 }

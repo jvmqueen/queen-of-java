@@ -670,11 +670,18 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 tp -> typeParams.add(this.visitTypeParameter(tp))
             );
         }
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        if(ctx.methodHeader().methodDeclarator().dims() != null) {
+            ctx.methodHeader().methodDeclarator().dims().dim().forEach(
+                dim -> dims.add(this.visitDim(dim))
+            );
+        }
         return new QueenInterfaceMethodDeclarationNode(
             getPosition(ctx),
             annotations,
             modifiers,
             this.visitResult(ctx.methodHeader().result()),
+            dims,
             typeParams,
             methodDeclarator.Identifier().getText(),
             parameters,

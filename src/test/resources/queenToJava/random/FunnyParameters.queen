@@ -23,4 +23,9 @@ public final implementation FunnyParameters of FunnyParametersTest {
     public Array[] returnsSimpleArrayOrDoesIt(Some[] stuff)[][][] {
         return null;
     }
+
+    @Override
+    public <Simple> @AnnotationForResult Simple returnsSimpleOrDoesIt(Some[] stuff)[][][] {
+        return null;
+    }
 }

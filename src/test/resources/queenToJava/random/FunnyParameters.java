@@ -24,4 +24,9 @@ public final class FunnyParameters implements FunnyParametersTest {
     public Array[][][][] returnsSimpleArrayOrDoesIt(final Some[] stuff) {
         return null;
     }
+
+    @Override
+    public <Simple> @AnnotationForResult Simple[][][] returnsSimpleOrDoesIt(final Some[] stuff) {
+        return null;
+    }
 }

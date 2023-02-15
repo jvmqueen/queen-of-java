@@ -18,4 +18,9 @@ public final implementation FunnyParameters of FunnyParametersTest {
     public Object annotatedVarArg(Object[] obj[], String @AnnonVarArg @Second("Bla") @Third({ 1 })... annotatedVarArg) {
         return null;
     }
+
+    @Override
+    public Array[] returnsSimpleArrayOrDoesIt(Some[] stuff)[][][] {
+        return null;
+    }
 }

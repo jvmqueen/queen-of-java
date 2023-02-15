@@ -1132,7 +1132,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.formalParameter() != null) {
             return this.visitFormalParameter(ctx.formalParameter());
         }
-        final List<String> varArgAnnotations = new ArrayList<>();
+        final List<QueenAnnotationNode> varArgAnnotations = new ArrayList<>();
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenModifierNode> modifiers = new ArrayList<>();
 
@@ -1154,7 +1154,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
         if(ctx.annotation() != null) {
             ctx.annotation().forEach(
-                va -> varArgAnnotations.add(asString(va))
+                va -> varArgAnnotations.add(this.visitAnnotation(va))
             );
         }
         return new QueenParameterNode(

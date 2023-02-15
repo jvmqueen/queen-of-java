@@ -4,6 +4,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
@@ -29,7 +30,7 @@ public final class QueenParameterNode implements QueenNode {
     private final List<QueenModifierNode> modifiers;
     private final QueenVariableDeclaratorId name;
     private final QueenTypeNode type;
-    private final List<String> varArgsAnnotations;
+    private final List<QueenAnnotationNode> varArgsAnnotations;
     private final boolean varArgs;
 
     public QueenParameterNode(
@@ -66,7 +67,7 @@ public final class QueenParameterNode implements QueenNode {
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
         final QueenVariableDeclaratorId name,
-        final List<String> varArgsAnnotations,
+        final List<QueenAnnotationNode> varArgsAnnotations,
         final boolean varArgs
     ) {
         this.position = position;
@@ -90,13 +91,15 @@ public final class QueenParameterNode implements QueenNode {
         }
         this.name.addToJavaNode(parameter);
         parameter.setVarArgs(this.varArgs);
-        parameter.setVarArgsAnnotations(
-            new NodeList<>(
-                this.varArgsAnnotations.stream().map(
-                    varga -> StaticJavaParser.parseAnnotation(varga)
-                ).collect(Collectors.toList())
-            )
-        );
+        if(this.varArgsAnnotations != null) {
+            parameter.setVarArgsAnnotations(
+                new NodeList<>(
+                    this.varArgsAnnotations.stream().map(
+                        varga -> (AnnotationExpr) varga.toJavaExpression()
+                    ).collect(Collectors.toList())
+                )
+            );
+        }
         ((NodeWithParameters) java).addParameter(parameter);
     }
 

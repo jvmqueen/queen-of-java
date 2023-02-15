@@ -1,15 +1,14 @@
 package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.TypeExpr;
 import com.github.javaparser.ast.type.ArrayType;
 import com.github.javaparser.ast.type.Type;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
-import org.queenlang.transpiler.nodes.types.QueenArrayTypeNode;
 
 import java.util.List;
 import java.util.Objects;
@@ -47,6 +46,9 @@ public final class QueenVariableDeclaratorId implements QueenNode {
                 }
                 vd.setType(setType);
             }
+        } else if(java instanceof Parameter) {
+            final Parameter parameter = (Parameter) java;
+            parameter.setName(this.name);
         }
     }
 

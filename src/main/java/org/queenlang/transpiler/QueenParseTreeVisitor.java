@@ -2072,7 +2072,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             catchTypes,
-            asString(ctx.variableDeclaratorId())
+            this.visitVariableDeclaratorId(ctx.variableDeclaratorId())
         );
     }
 

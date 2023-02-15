@@ -33,6 +33,7 @@ import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.type.UnionType;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.body.QueenModifierNode;
+import org.queenlang.transpiler.nodes.body.QueenVariableDeclaratorId;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
@@ -50,14 +51,14 @@ public final class QueenCatchFormalParameterNode implements QueenNode {
     private final List<QueenAnnotationNode> annotations;
     private final List<QueenModifierNode> modifiers;
     private final List<QueenTypeNode> catchExceptionTypes;
-    private final String exceptionName;
+    private final QueenVariableDeclaratorId exceptionName;
 
     public QueenCatchFormalParameterNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final List<QueenTypeNode> catchExceptionTypes,
-        final String exceptionName
+        final QueenVariableDeclaratorId exceptionName
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -78,7 +79,7 @@ public final class QueenCatchFormalParameterNode implements QueenNode {
         );
         parameter.setType(type);
 
-        parameter.setName(this.exceptionName);
+        this.exceptionName.addToJavaNode(parameter);
 
         final CatchClause catchClause = ((CatchClause) java);
         catchClause.setParameter(parameter);

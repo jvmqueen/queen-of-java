@@ -408,17 +408,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
-                final String identifier = vd.variableDeclaratorId().Identifier().getText();
-                final List<QueenArrayDimensionNode> dims = new ArrayList<>();
-                if(vd.variableDeclaratorId().dims() != null) {
-                    vd.variableDeclaratorId().dims().dim().forEach(
-                        dim -> dims.add(this.visitDim(dim))
-                    );
-                }
-                final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-                    getPosition(vd),
-                    identifier,
-                    dims
+                final QueenVariableDeclaratorId variableDeclaratorId = this.visitVariableDeclaratorId(
+                    vd.variableDeclaratorId()
                 );
                 variables.put(variableDeclaratorId, null);
                 if(vd.variableInitializer() != null) {
@@ -454,17 +445,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
-                final String identifier = vd.variableDeclaratorId().Identifier().getText();
-                final List<QueenArrayDimensionNode> dims = new ArrayList<>();
-                if(vd.variableDeclaratorId().dims() != null) {
-                    vd.variableDeclaratorId().dims().dim().forEach(
-                        dim -> dims.add(this.visitDim(dim))
-                    );
-                }
-                final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-                    getPosition(vd),
-                    identifier,
-                    dims
+                final QueenVariableDeclaratorId variableDeclaratorId = this.visitVariableDeclaratorId(
+                    vd.variableDeclaratorId()
                 );
                 variables.put(variableDeclaratorId, null);
                 if(vd.variableInitializer() != null) {
@@ -500,17 +482,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
-                final String identifier = vd.variableDeclaratorId().Identifier().getText();
-                final List<QueenArrayDimensionNode> dims = new ArrayList<>();
-                if(vd.variableDeclaratorId().dims() != null) {
-                    vd.variableDeclaratorId().dims().dim().forEach(
-                        dim -> dims.add(this.visitDim(dim))
-                    );
-                }
-                final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-                    getPosition(vd),
-                    identifier,
-                    dims
+                final QueenVariableDeclaratorId variableDeclaratorId = this.visitVariableDeclaratorId(
+                    vd.variableDeclaratorId()
                 );
                 variables.put(variableDeclaratorId, null);
                 if(vd.variableInitializer() != null) {
@@ -1558,19 +1531,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
         final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
-        final String identifier = ctx.variableDeclaratorId().Identifier().getText();
-        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
-        if(ctx.variableDeclaratorId().dims() != null) {
-            ctx.variableDeclaratorId().dims().dim().forEach(
-                dim -> dims.add(this.visitDim(dim))
-            );
-        }
-        final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            getPosition(ctx.variableDeclaratorId()),
-            identifier,
-            dims
-        );
-        variables.put(variableDeclaratorId, null);
+        variables.put(this.visitVariableDeclaratorId(ctx.variableDeclaratorId()), null);
         variable = new QueenLocalVariableDeclarationNode(
             getPosition(ctx),
             annotations,
@@ -1601,6 +1562,22 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
+    public QueenVariableDeclaratorId visitVariableDeclaratorId(QueenParser.VariableDeclaratorIdContext ctx) {
+        final String identifier = ctx.Identifier().getText();
+        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
+        if(ctx.dims() != null) {
+            ctx.dims().dim().forEach(
+                dim -> dims.add(this.visitDim(dim))
+            );
+        }
+        return new QueenVariableDeclaratorId(
+            getPosition(ctx),
+            identifier,
+            dims
+        );
+    }
+
+    @Override
     public QueenForEachStatementNode visitEnhancedForStatementNoShortIf(QueenParser.EnhancedForStatementNoShortIfContext ctx) {
         final Position position = this.getPosition(ctx);
 
@@ -1625,19 +1602,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
         final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
-        final String identifier = ctx.variableDeclaratorId().Identifier().getText();
-        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
-        if(ctx.variableDeclaratorId().dims() != null) {
-            ctx.variableDeclaratorId().dims().dim().forEach(
-                dim -> dims.add(this.visitDim(dim))
-            );
-        }
-        final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            getPosition(ctx.variableDeclaratorId()),
-            identifier,
-            dims
-        );
-        variables.put(variableDeclaratorId, null);
+        variables.put(this.visitVariableDeclaratorId(ctx.variableDeclaratorId()), null);
         variable = new QueenLocalVariableDeclarationNode(
             getPosition(ctx),
             annotations,
@@ -2050,26 +2015,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
-        final String identifier = ctx.variableDeclaratorId().Identifier().getText();
-        final List<QueenArrayDimensionNode> dims = new ArrayList<>();
-        if(ctx.variableDeclaratorId().dims() != null) {
-            ctx.variableDeclaratorId().dims().dim().forEach(
-                dim -> dims.add(this.visitDim(dim))
-            );
-        }
-        final QueenVariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            getPosition(ctx.variableDeclaratorId()),
-            identifier,
-            dims
-        );
-
         return new QueenLocalVariableDeclarationNode(
             position,
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
             Map.of(
-                variableDeclaratorId,
+                this.visitVariableDeclaratorId(ctx.variableDeclaratorId()),
                 this.visitExpression(ctx.expression())
             )
         );

@@ -3690,6 +3690,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
      *
      * On terminal nodes such as Identifier() and FINAL(), getText is fine to use.
      *
+     * <b>ATTENTION!</b><br><br>
+     * This method is to be used only on nodes such as access modifiers, operators, primitive type names
+     * or for debugging/quick PoC purposes. All complex nodes should be modeled as an AST Node
+     * and not read as String.
+     *
      * @param ctx ParserRuleContext.
      * @return String.
      */

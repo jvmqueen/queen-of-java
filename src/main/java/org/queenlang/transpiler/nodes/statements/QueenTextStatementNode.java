@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.Position;
 
 /**
  * Queen Statment AST Node from text.
+ * To be used for debugging or quick PoCs only!
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1

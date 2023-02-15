@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler;
 
-import com.strumenta.kolasu.model.Link;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 import org.queenlang.generated.antlr4.QueenParser;

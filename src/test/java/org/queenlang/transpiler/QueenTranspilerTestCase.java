@@ -50,6 +50,7 @@ public final class QueenTranspilerTestCase {
     @CsvSource(
         value = {
             "Expressions.queen,Expressions.java",
+            "FunnyParameters.queen,FunnyParameters.java",
             "JsonPerson.queen,JsonPerson.java",
             "Preamble.queen,Preamble.java",
             "NaiveFactorial.queen,NaiveFactorial.java",

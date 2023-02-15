@@ -27,14 +27,14 @@ public final class QueenParameterNode implements QueenNode {
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
     private final List<QueenModifierNode> modifiers;
-    private final String name;
+    private final QueenVariableDeclaratorId name;
     private final QueenTypeNode type;
     private final List<String> varArgsAnnotations;
     private final boolean varArgs;
 
     public QueenParameterNode(
         final Position position,
-        final String name
+        final QueenVariableDeclaratorId name
     ) {
         this(position, new ArrayList<>(), new ArrayList<>(), null, name, false);
     }
@@ -44,7 +44,7 @@ public final class QueenParameterNode implements QueenNode {
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final String name
+        final QueenVariableDeclaratorId name
     ) {
         this(position, annotations, modifiers, type, name, false);
     }
@@ -54,7 +54,7 @@ public final class QueenParameterNode implements QueenNode {
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final String name,
+        final QueenVariableDeclaratorId name,
         final boolean varArgs
     ) {
         this(position, annotations, modifiers, type, name, new ArrayList<>(), varArgs);
@@ -65,7 +65,7 @@ public final class QueenParameterNode implements QueenNode {
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final String name,
+        final QueenVariableDeclaratorId name,
         final List<String> varArgsAnnotations,
         final boolean varArgs
     ) {
@@ -88,7 +88,7 @@ public final class QueenParameterNode implements QueenNode {
         } else {
             parameter.setType(new UnknownType());
         }
-        parameter.setName(this.name);
+        this.name.addToJavaNode(parameter);
         parameter.setVarArgs(this.varArgs);
         parameter.setVarArgsAnnotations(
             new NodeList<>(

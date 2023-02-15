@@ -1118,13 +1118,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(modifiers.isEmpty()) {
             modifiers.add(new QueenModifierNode(getPosition(ctx),"final"));
         }
-        final String name = asString(ctx.variableDeclaratorId());
         return new QueenParameterNode(
             getPosition(ctx),
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            name
+            this.visitVariableDeclaratorId(ctx.variableDeclaratorId())
         );
     }
 
@@ -1153,7 +1152,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             modifiers.add(new QueenModifierNode(getPosition(ctx),"final"));
         }
 
-        final String name = asString(ctx.variableDeclaratorId());
         if(ctx.annotation() != null) {
             ctx.annotation().forEach(
                 va -> varArgAnnotations.add(asString(va))
@@ -1164,7 +1162,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            name,
+            this.visitVariableDeclaratorId(ctx.variableDeclaratorId()),
             varArgAnnotations,
             true
         );
@@ -3109,7 +3107,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 parameters.add(
                     new QueenParameterNode(
                         getPosition(ctx.lambdaParameters()),
-                        ctx.lambdaParameters().Identifier().getText()
+                        new QueenVariableDeclaratorId(
+                            getPosition(ctx.lambdaParameters()),
+                            ctx.lambdaParameters().Identifier().getText()
+                        )
                     )
                 );
             } else if(ctx.lambdaParameters().inferredFormalParameterList() != null) {
@@ -3117,7 +3118,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     inferred -> parameters.add(
                         new QueenParameterNode(
                             getPosition(ctx.lambdaParameters().inferredFormalParameterList()),
-                            inferred.getText()
+                            new QueenVariableDeclaratorId(
+                                getPosition(ctx.lambdaParameters().inferredFormalParameterList()),
+                                inferred.getText()
+                            )
                         )
                     )
                 );

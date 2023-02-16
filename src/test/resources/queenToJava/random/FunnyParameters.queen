@@ -28,4 +28,14 @@ public final implementation FunnyParameters of FunnyParametersTest {
     public <Simple> @AnnotationForResult Simple returnsSimpleOrDoesIt(Some[] stuff)[][][] {
         return null;
     }
+
+    @Override
+    public <Simple> @AnnotationForResult Simple returnsAnnotatedSimple(Some[] stuff) {
+        return null;
+    }
+
+    @Override
+    public <Simple> @AnnotationForResult int returnsAnnotatedInt(Some[] stuff) {
+        return null;
+    }
 }

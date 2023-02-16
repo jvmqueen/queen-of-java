@@ -29,4 +29,14 @@ public final class FunnyParameters implements FunnyParametersTest {
     public <Simple> @AnnotationForResult Simple[][][] returnsSimpleOrDoesIt(final Some[] stuff) {
         return null;
     }
+
+    @Override
+    public <Simple> @AnnotationForResult Simple returnsAnnotatedSimple(final Some[] stuff) {
+        return null;
+    }
+
+    @Override
+    public <Simple>  @AnnotationForResult int returnsAnnotatedInt(final Some[] stuff) {
+        return null;
+    }
 }

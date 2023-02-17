@@ -32,7 +32,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.List;
 
@@ -45,14 +45,14 @@ import java.util.List;
 public final class QueenTryStatementNode implements QueenStatementNode {
 
     private final Position position;
-    private final List<QueenExpressionNode> resources;
+    private final List<ExpressionNode> resources;
     private final QueenBlockStatements tryBlockStatements;
     private final List<QueenCatchClauseNode> catchClauses;
     private final QueenBlockStatements finallyBlockStatements;
 
     public QueenTryStatementNode(
         final Position position,
-        final List<QueenExpressionNode> resources,
+        final List<ExpressionNode> resources,
         final QueenBlockStatements tryBlockStatements,
         final List<QueenCatchClauseNode> catchClauses,
         final QueenBlockStatements finallyBlockStatements

@@ -38,11 +38,11 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenFieldAccessExpressionNode implements QueenExpressionNode {
+public final class QueenFieldAccessExpressionNode implements ExpressionNode {
 
     private final Position position;
 
-    private final QueenExpressionNode scope;
+    private final ExpressionNode scope;
 
     private final String name;
 
@@ -56,7 +56,7 @@ public final class QueenFieldAccessExpressionNode implements QueenExpressionNode
 
     public QueenFieldAccessExpressionNode(
         final Position position,
-        final QueenExpressionNode scope,
+        final ExpressionNode scope,
         final String name
     ) {
         this.position = position;

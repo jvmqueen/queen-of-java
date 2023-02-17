@@ -14,14 +14,14 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayInitializerExpressionNode implements QueenExpressionNode {
+public final class QueenArrayInitializerExpressionNode implements ExpressionNode {
 
     private final Position position;
-    private final List<QueenExpressionNode> values;
+    private final List<ExpressionNode> values;
 
     public QueenArrayInitializerExpressionNode(
         final Position position,
-        final List<QueenExpressionNode> values
+        final List<ExpressionNode> values
     ) {
         this.position = position;
         this.values = values;

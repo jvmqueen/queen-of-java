@@ -42,18 +42,18 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenUnaryExpressionNode implements QueenExpressionNode {
+public final class QueenUnaryExpressionNode implements ExpressionNode {
 
     private final Position position;
     private final String operator;
     private final boolean isPrefix;
-    private final QueenExpressionNode expression;
+    private final ExpressionNode expression;
 
     public QueenUnaryExpressionNode(
         final Position position,
         final String operator,
         final boolean isPrefix,
-        final QueenExpressionNode expression
+        final ExpressionNode expression
     ) {
         this.position = position;
         this.operator = operator;

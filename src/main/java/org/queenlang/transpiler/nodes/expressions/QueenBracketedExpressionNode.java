@@ -37,12 +37,12 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBracketedExpressionNode implements QueenExpressionNode {
+public final class QueenBracketedExpressionNode implements ExpressionNode {
 
     private final Position position;
-    private final QueenExpressionNode expression;
+    private final ExpressionNode expression;
 
-    public QueenBracketedExpressionNode(final Position position, final QueenExpressionNode expression) {
+    public QueenBracketedExpressionNode(final Position position, final ExpressionNode expression) {
         this.position = position;
         this.expression = expression;
     }

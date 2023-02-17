@@ -31,7 +31,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
  * Queen Return AST Node.
@@ -43,13 +43,13 @@ public final class QueenReturnStatementNode implements QueenStatementNode {
 
     private Position position;
 
-    private QueenExpressionNode expression;
+    private ExpressionNode expression;
 
     public QueenReturnStatementNode(final Position position) {
         this(position, null);
     }
 
-    public QueenReturnStatementNode(final Position position, final QueenExpressionNode expression) {
+    public QueenReturnStatementNode(final Position position, final ExpressionNode expression) {
         this.position = position;
         this.expression = expression;
     }

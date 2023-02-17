@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.QueenNameNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenThisExpressionNode implements QueenExpressionNode {
+public final class QueenThisExpressionNode implements ExpressionNode {
 
     private final Position position;
     private final QueenNameNode typeName;

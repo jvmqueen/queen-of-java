@@ -36,7 +36,7 @@ import com.github.javaparser.ast.stmt.ForStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,17 +57,17 @@ public final class QueenForStatementNode implements QueenStatementNode {
     /**
      * Initialization expressions.
      */
-    private final List<QueenExpressionNode> initialization;
+    private final List<ExpressionNode> initialization;
 
     /**
      * Comparison expression.
      */
-    private final QueenExpressionNode comparison;
+    private final ExpressionNode comparison;
 
     /**
      * Update expressions.
      */
-    private final List<QueenExpressionNode> update;
+    private final List<ExpressionNode> update;
 
     /**
      * Statements inside the for statement.
@@ -76,9 +76,9 @@ public final class QueenForStatementNode implements QueenStatementNode {
 
     public QueenForStatementNode(
         final Position position,
-        final List<QueenExpressionNode> initialization,
-        final QueenExpressionNode comparison,
-        final List<QueenExpressionNode> update,
+        final List<ExpressionNode> initialization,
+        final ExpressionNode comparison,
+        final List<ExpressionNode> update,
         final QueenBlockStatements blockStatements
     ) {
         this.position = position;

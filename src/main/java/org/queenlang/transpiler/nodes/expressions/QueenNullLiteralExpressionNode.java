@@ -37,7 +37,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNullLiteralExpressionNode implements QueenExpressionNode {
+public final class QueenNullLiteralExpressionNode implements ExpressionNode {
     private final Position position;
 
     public QueenNullLiteralExpressionNode(final Position position) {

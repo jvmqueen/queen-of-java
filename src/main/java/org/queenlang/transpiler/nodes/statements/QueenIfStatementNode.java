@@ -33,7 +33,7 @@ import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
  * Queen IfStatement AST Node.
@@ -50,7 +50,7 @@ public final class QueenIfStatementNode implements QueenStatementNode {
     /**
      * Condition expression.
      */
-    private final QueenExpressionNode condition;
+    private final ExpressionNode condition;
 
     /**
      * Statements inside the if.
@@ -64,7 +64,7 @@ public final class QueenIfStatementNode implements QueenStatementNode {
 
     public QueenIfStatementNode(
         final Position position,
-        final QueenExpressionNode condition,
+        final ExpressionNode condition,
         final QueenBlockStatements thenBlockStatements
     ) {
         this(position, condition, thenBlockStatements, null);
@@ -72,7 +72,7 @@ public final class QueenIfStatementNode implements QueenStatementNode {
 
     public QueenIfStatementNode(
         final Position position,
-        final QueenExpressionNode condition,
+        final ExpressionNode condition,
         final QueenBlockStatements thenBlockStatements,
         final QueenBlockStatements elseBlockStatements
     ) {

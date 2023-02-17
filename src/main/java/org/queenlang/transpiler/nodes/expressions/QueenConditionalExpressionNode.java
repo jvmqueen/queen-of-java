@@ -37,18 +37,18 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenConditionalExpressionNode implements QueenExpressionNode {
+public final class QueenConditionalExpressionNode implements ExpressionNode {
 
     private final Position position;
-    private final QueenExpressionNode condition;
-    private final QueenExpressionNode thenExpr;
-    private final QueenExpressionNode elseExpr;
+    private final ExpressionNode condition;
+    private final ExpressionNode thenExpr;
+    private final ExpressionNode elseExpr;
 
     public QueenConditionalExpressionNode(
         final Position position,
-        final QueenExpressionNode condition,
-        final QueenExpressionNode thenExpr,
-        final QueenExpressionNode elseExpr
+        final ExpressionNode condition,
+        final ExpressionNode thenExpr,
+        final ExpressionNode elseExpr
     ) {
         this.position = position;
         this.condition = condition;

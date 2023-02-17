@@ -28,7 +28,7 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.List;
@@ -59,5 +59,5 @@ public interface AnnotationElementDeclarationNode extends AnnotationTypeMemberDe
     /**
      * Default value of the element.
      */
-    QueenExpressionNode defaultValue();
+    ExpressionNode defaultValue();
 }

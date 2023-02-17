@@ -29,7 +29,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.QueenReferenceTypeNode;
 
 /**
@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.types.QueenReferenceTypeNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNameNode implements QueenReferenceTypeNode, QueenExpressionNode {
+public final class QueenNameNode implements QueenReferenceTypeNode, ExpressionNode {
 
     private final Position position;
     private final QueenNameNode qualifier;

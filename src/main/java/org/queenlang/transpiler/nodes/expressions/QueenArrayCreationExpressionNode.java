@@ -44,18 +44,18 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayCreationExpressionNode implements QueenExpressionNode {
+public final class QueenArrayCreationExpressionNode implements ExpressionNode {
 
     private final Position position;
     private final QueenTypeNode type;
     private final List<QueenArrayDimensionNode> dims;
-    private final QueenExpressionNode arrayInitializer;
+    private final ExpressionNode arrayInitializer;
 
     public QueenArrayCreationExpressionNode(
         final Position position,
         final QueenTypeNode type,
         final List<QueenArrayDimensionNode> dims,
-        final QueenExpressionNode arrayInitializer
+        final ExpressionNode arrayInitializer
     ) {
         this.position = position;
         this.type = type;

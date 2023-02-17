@@ -43,7 +43,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenExpressionNode extends QueenNode {
+public interface ExpressionNode extends QueenNode {
 
     default void addToJavaNode(final Node java) {
         if(java instanceof VariableDeclarator) {

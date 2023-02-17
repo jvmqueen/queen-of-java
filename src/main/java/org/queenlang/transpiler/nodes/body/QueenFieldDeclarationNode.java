@@ -35,7 +35,7 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.List;
 import java.util.Map;
@@ -71,14 +71,14 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables;
+    private final Map<QueenVariableDeclaratorId, ExpressionNode> variables;
 
     public QueenFieldDeclarationNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
-        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables
+        final Map<QueenVariableDeclaratorId, ExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -138,7 +138,7 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     }
 
     @Override
-    public Map<QueenVariableDeclaratorId, QueenExpressionNode> variables() {
+    public Map<QueenVariableDeclaratorId, ExpressionNode> variables() {
         return this.variables;
     }
 }

@@ -30,7 +30,6 @@ package org.queenlang.transpiler.nodes.expressions;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
-import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
  * Queen annotation declared on top of a class, field or method.
@@ -38,7 +37,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
  * @version $Id$
  * @since 0.0.1
  */
-public abstract class QueenAnnotationNode implements QueenExpressionNode, Named {
+public abstract class QueenAnnotationNode implements ExpressionNode, Named {
 
     /**
      * Position of the annotation in the source code.

@@ -31,7 +31,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.SynchronizedStmt;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
  * Queen Synchronized Statement AST Node.
@@ -43,13 +43,13 @@ public final class QueenSynchronizedStatementNode implements QueenStatementNode 
 
     private final Position position;
 
-    private final QueenExpressionNode syncExpression;
+    private final ExpressionNode syncExpression;
 
     private final QueenBlockStatements blockStatements;
 
     public QueenSynchronizedStatementNode(
         final Position position,
-        final QueenExpressionNode syncExpression,
+        final ExpressionNode syncExpression,
         final QueenBlockStatements blockStatements
     ) {
         this.position = position;

@@ -4,7 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
  * A Queen label in a switch case, AST Node.
@@ -15,10 +15,10 @@ import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 public final class QueenSwitchLabelNode implements QueenNode {
 
     private final Position position;
-    private final QueenExpressionNode expressionNode;
+    private final ExpressionNode expressionNode;
     private final boolean isDefaultLabel;
 
-    public QueenSwitchLabelNode(final Position position, final QueenExpressionNode expressionNode, final boolean isDefaultLabel) {
+    public QueenSwitchLabelNode(final Position position, final ExpressionNode expressionNode, final boolean isDefaultLabel) {
         this.position = position;
         this.expressionNode = expressionNode;
         this.isDefaultLabel = isDefaultLabel;

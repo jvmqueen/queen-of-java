@@ -27,22 +27,11 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.TryStmt;
-import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +41,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public interface LocalVariableDeclarationNode extends QueenStatementNode, QueenExpressionNode {
+public interface LocalVariableDeclarationNode extends QueenStatementNode, ExpressionNode {
 
     /**
      * Annotations on top of this local variable.
@@ -72,5 +61,5 @@ public interface LocalVariableDeclarationNode extends QueenStatementNode, QueenE
     /**
      * Variable names and initializer expressions.
      */
-    Map<QueenVariableDeclaratorId, QueenExpressionNode> variables();
+    Map<QueenVariableDeclaratorId, ExpressionNode> variables();
 }

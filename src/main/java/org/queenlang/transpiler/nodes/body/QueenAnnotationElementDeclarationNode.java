@@ -32,7 +32,7 @@ import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.List;
@@ -73,7 +73,7 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
     /**
      * Default value of the element.
      */
-    private final QueenExpressionNode defaultValue;
+    private final ExpressionNode defaultValue;
 
 
     public QueenAnnotationElementDeclarationNode(
@@ -82,7 +82,7 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
         final List<QueenModifierNode> modifiers,
         final QueenTypeNode type,
         final String name,
-        final QueenExpressionNode defaultValue
+        final ExpressionNode defaultValue
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -135,7 +135,7 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
     }
 
     @Override
-    public QueenExpressionNode defaultValue() {
+    public ExpressionNode defaultValue() {
         return this.defaultValue;
     }
 }

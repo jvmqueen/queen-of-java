@@ -48,7 +48,7 @@ public final class QueenArrayDimensionNode implements QueenNode {
 
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
-    private final QueenExpressionNode expression;
+    private final ExpressionNode expression;
 
     public QueenArrayDimensionNode(
         final Position position
@@ -65,7 +65,7 @@ public final class QueenArrayDimensionNode implements QueenNode {
 
     public QueenArrayDimensionNode(
         final Position position,
-        final QueenExpressionNode expression
+        final ExpressionNode expression
     ) {
         this(position, new ArrayList<>(), expression);
     }
@@ -73,7 +73,7 @@ public final class QueenArrayDimensionNode implements QueenNode {
     public QueenArrayDimensionNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final QueenExpressionNode expression
+        final ExpressionNode expression
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -84,7 +84,7 @@ public final class QueenArrayDimensionNode implements QueenNode {
         return this.annotations;
     }
 
-    public QueenExpressionNode expression() {
+    public ExpressionNode expression() {
         return this.expression;
     }
 

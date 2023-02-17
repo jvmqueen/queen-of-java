@@ -43,22 +43,22 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenMethodInvocationExpressionNode implements QueenExpressionNode {
+public final class QueenMethodInvocationExpressionNode implements ExpressionNode {
 
     private final Position position;
-    private final QueenExpressionNode scope;
+    private final ExpressionNode scope;
 
     private final List<QueenTypeNode> typeArguments;
     private final String name;
 
-    private final List<QueenExpressionNode> arguments;
+    private final List<ExpressionNode> arguments;
 
     public QueenMethodInvocationExpressionNode(
         final Position position,
-        final QueenExpressionNode scope,
+        final ExpressionNode scope,
         final List<QueenTypeNode> typeArguments,
         final String name,
-        final List<QueenExpressionNode> arguments
+        final List<ExpressionNode> arguments
     ) {
         this.position = position;
         this.scope = scope;

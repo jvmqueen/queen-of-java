@@ -28,7 +28,6 @@
 package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
@@ -48,12 +47,12 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
     /**
      * Key-value pairs within the annotation.
      */
-    private final Map<String, QueenExpressionNode> elementValuePairs;
+    private final Map<String, ExpressionNode> elementValuePairs;
 
     public QueenNormalAnnotationNode(
         final Position position,
         final QueenNameNode name,
-        final Map<String, QueenExpressionNode> elementValuePairs
+        final Map<String, ExpressionNode> elementValuePairs
     ) {
         super(position, name);
         this.elementValuePairs = elementValuePairs;

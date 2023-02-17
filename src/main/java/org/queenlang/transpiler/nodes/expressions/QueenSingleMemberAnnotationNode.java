@@ -45,9 +45,9 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
     /**
      * Value of the annotation.
      */
-    private final QueenExpressionNode elementValue;
+    private final ExpressionNode elementValue;
 
-    public QueenSingleMemberAnnotationNode(final Position position, final QueenNameNode name, final QueenExpressionNode elementValue) {
+    public QueenSingleMemberAnnotationNode(final Position position, final QueenNameNode name, final ExpressionNode elementValue) {
         super(position, name);
         this.elementValue = elementValue;
     }

@@ -37,17 +37,17 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.01
  */
-public final class QueenBinaryExpressionNode implements QueenExpressionNode {
+public final class QueenBinaryExpressionNode implements ExpressionNode {
     private final Position position;
-    private final QueenExpressionNode left;
+    private final ExpressionNode left;
     private final String operator;
-    private final QueenExpressionNode right;
+    private final ExpressionNode right;
 
     public QueenBinaryExpressionNode(
         final Position position,
-        final QueenExpressionNode left,
+        final ExpressionNode left,
         final String operator,
-        final QueenExpressionNode right
+        final ExpressionNode right
     ) {
         this.position = position;
         this.left = left;

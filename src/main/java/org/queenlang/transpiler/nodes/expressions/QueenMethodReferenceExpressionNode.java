@@ -41,18 +41,18 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenMethodReferenceExpressionNode implements QueenExpressionNode {
+public final class QueenMethodReferenceExpressionNode implements ExpressionNode {
 
     private final Position position;
     private final QueenTypeNode type;
-    private final QueenExpressionNode scope;
+    private final ExpressionNode scope;
     private final List<QueenTypeNode> typeArguments;
     private final String identifier;
 
     public QueenMethodReferenceExpressionNode(
         final Position position,
         final QueenTypeNode type,
-        final QueenExpressionNode scope,
+        final ExpressionNode scope,
         final List<QueenTypeNode> typeArguments,
         final String identifier
     ) {

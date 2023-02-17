@@ -39,17 +39,17 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayAccessExpressionNode implements QueenExpressionNode {
+public final class QueenArrayAccessExpressionNode implements ExpressionNode {
 
     private final Position position;
 
-    private final QueenExpressionNode name;
+    private final ExpressionNode name;
 
     private final List<QueenArrayDimensionNode> dims;
 
     public QueenArrayAccessExpressionNode(
         final Position position,
-        final QueenExpressionNode name,
+        final ExpressionNode name,
         final List<QueenArrayDimensionNode> dims
     ) {
         this.position = position;

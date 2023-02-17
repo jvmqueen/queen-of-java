@@ -44,24 +44,24 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenObjectCreationExpressionNode implements QueenExpressionNode {
+public final class QueenObjectCreationExpressionNode implements ExpressionNode {
 
     private final Position position;
-    private final QueenExpressionNode scope;
+    private final ExpressionNode scope;
     private final QueenClassOrInterfaceTypeNode type;
 
     private final List<QueenTypeNode> typeArguments;
 
-    private final List<QueenExpressionNode> arguments;
+    private final List<ExpressionNode> arguments;
 
     private final QueenClassBodyNode anonymousBody; //check only class member declaration (e.g. no constructors allowed!).
 
     public QueenObjectCreationExpressionNode(
         final Position position,
-        final QueenExpressionNode scope,
+        final ExpressionNode scope,
         final QueenClassOrInterfaceTypeNode type,
         final List<QueenTypeNode> typeArguments,
-        final List<QueenExpressionNode> arguments,
+        final List<ExpressionNode> arguments,
         final QueenClassBodyNode anonymousBody
     ) {
         this.position = position;
@@ -73,7 +73,7 @@ public final class QueenObjectCreationExpressionNode implements QueenExpressionN
     }
     @Override
     public Expression toJavaExpression() {
-        final QueenExpressionNode ex = new QueenExpressionNode() {
+        final ExpressionNode ex = new ExpressionNode() {
             private final int i = 0;
 
             @Override

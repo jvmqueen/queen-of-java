@@ -30,7 +30,7 @@ package org.queenlang.transpiler.nodes.statements;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.*;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
  * Queen Do Statement AST Node.
@@ -53,13 +53,13 @@ public final class QueenDoStatementNode implements QueenStatementNode {
     /**
      * Expression condition.
      */
-    private final QueenExpressionNode expression;
+    private final ExpressionNode expression;
 
 
     public QueenDoStatementNode(
         final Position position,
         final QueenBlockStatements blockStatements,
-        final QueenExpressionNode expression
+        final ExpressionNode expression
     ) {
         this.position = position;
         this.blockStatements = blockStatements;

@@ -45,17 +45,17 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCastExpressionNode implements QueenExpressionNode {
+public final class QueenCastExpressionNode implements ExpressionNode {
 
     private final Position position;
     private final QueenTypeNode primitiveType;
     private final List<QueenReferenceTypeNode> referenceTypes;
-    private final QueenExpressionNode expression;
+    private final ExpressionNode expression;
 
     public QueenCastExpressionNode(
         final Position position,
         final List<QueenReferenceTypeNode> referenceTypes,
-        final QueenExpressionNode expression
+        final ExpressionNode expression
     ) {
         this(position, null, referenceTypes, expression);
     }
@@ -64,7 +64,7 @@ public final class QueenCastExpressionNode implements QueenExpressionNode {
         final Position position,
         final QueenTypeNode primitiveType,
         final List<QueenReferenceTypeNode> referenceTypes,
-        final QueenExpressionNode expression
+        final ExpressionNode expression
     ) {
         this.position = position;
         this.primitiveType = primitiveType;

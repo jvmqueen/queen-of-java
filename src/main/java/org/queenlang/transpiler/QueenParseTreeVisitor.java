@@ -306,7 +306,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.markerAnnotation() != null) {
             return new QueenMarkerAnnotationNode(getPosition(ctx), this.visitTypeName(ctx.markerAnnotation().typeName()));
         } else if(ctx.normalAnnotation() != null) {
-            final Map<String, QueenExpressionNode> pairs = new HashMap<>();
+            final Map<String, ExpressionNode> pairs = new HashMap<>();
             ctx.normalAnnotation()
                 .elementValuePairList()
                 .elementValuePair()
@@ -332,7 +332,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitElementValue(QueenParser.ElementValueContext ctx) {
+    public ExpressionNode visitElementValue(QueenParser.ElementValueContext ctx) {
         if(ctx.conditionalExpression() != null) {
             return this.visitConditionalExpression(ctx.conditionalExpression());
         } else if(ctx.annotation() != null) {
@@ -344,8 +344,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitElementValueArrayInitializer(QueenParser.ElementValueArrayInitializerContext ctx) {
-        final List<QueenExpressionNode> values;
+    public ExpressionNode visitElementValueArrayInitializer(QueenParser.ElementValueArrayInitializerContext ctx) {
+        final List<ExpressionNode> values;
         if(ctx.elementValueList() != null) {
             values = new ArrayList<>();
             ctx.elementValueList().elementValue().forEach(
@@ -404,7 +404,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
-        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
+        final Map<QueenVariableDeclaratorId, ExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
                 final QueenVariableDeclaratorId variableDeclaratorId = this.visitVariableDeclaratorId(
@@ -441,7 +441,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitFieldModifier(m))
         );
 
-        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
+        final Map<QueenVariableDeclaratorId, ExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
                 final QueenVariableDeclaratorId variableDeclaratorId = this.visitVariableDeclaratorId(
@@ -478,7 +478,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitConstantModifier(m))
         );
 
-        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
+        final Map<QueenVariableDeclaratorId, ExpressionNode> variables = new LinkedHashMap<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> {
                 final QueenVariableDeclaratorId variableDeclaratorId = this.visitVariableDeclaratorId(
@@ -700,12 +700,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitConstantExpression(QueenParser.ConstantExpressionContext ctx) {
+    public ExpressionNode visitConstantExpression(QueenParser.ConstantExpressionContext ctx) {
         return this.visitExpression(ctx.expression());
     }
 
     @Override
-    public QueenExpressionNode visitExpression(QueenParser.ExpressionContext ctx) {
+    public ExpressionNode visitExpression(QueenParser.ExpressionContext ctx) {
         if(ctx == null) {
             return null;
         }
@@ -717,8 +717,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitArrayInitializer(QueenParser.ArrayInitializerContext ctx) {
-        final List<QueenExpressionNode> values;
+    public ExpressionNode visitArrayInitializer(QueenParser.ArrayInitializerContext ctx) {
+        final List<ExpressionNode> values;
         if(ctx.variableInitializerList() != null) {
             values = new ArrayList<>();
             ctx.variableInitializerList().variableInitializer().forEach(
@@ -734,7 +734,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitAssignmentExpression(QueenParser.AssignmentExpressionContext ctx) {
+    public ExpressionNode visitAssignmentExpression(QueenParser.AssignmentExpressionContext ctx) {
         if(ctx.assignment() != null) {
             return this.visitAssignment(ctx.assignment());
         } else {
@@ -743,8 +743,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPrimary(QueenParser.PrimaryContext ctx) {
-        QueenExpressionNode primary;
+    public ExpressionNode visitPrimary(QueenParser.PrimaryContext ctx) {
+        ExpressionNode primary;
         if(ctx.primaryNoNewArray_lfno_primary() != null) {
             primary = this.visitPrimaryNoNewArray_lfno_primary(
                 ctx.primaryNoNewArray_lfno_primary()
@@ -761,7 +761,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPrimaryNoNewArray_lfno_arrayAccess(QueenParser.PrimaryNoNewArray_lfno_arrayAccessContext ctx) {
+    public ExpressionNode visitPrimaryNoNewArray_lfno_arrayAccess(QueenParser.PrimaryNoNewArray_lfno_arrayAccessContext ctx) {
         if(ctx.literal() != null) {
             return this.visitLiteral(ctx.literal());
         } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
@@ -812,7 +812,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         }
     }
 
-    public QueenExpressionNode visitPrimaryNoNewArray_lf_primary(QueenExpressionNode scope, QueenParser.PrimaryNoNewArray_lf_primaryContext ctx) {
+    public ExpressionNode visitPrimaryNoNewArray_lf_primary(ExpressionNode scope, QueenParser.PrimaryNoNewArray_lf_primaryContext ctx) {
         if(ctx.classInstanceCreationExpression_lf_primary() != null) {
             return this.visitClassInstanceCreationExpression_lf_primary(
                 scope,
@@ -842,7 +842,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPrimaryNoNewArray_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primaryContext ctx) {
+    public ExpressionNode visitPrimaryNoNewArray_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primaryContext ctx) {
         if(ctx.literal() != null) {
             return this.visitLiteral(ctx.literal());
         } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
@@ -1004,7 +1004,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitArrayCreationExpression(QueenParser.ArrayCreationExpressionContext ctx) {
+    public ExpressionNode visitArrayCreationExpression(QueenParser.ArrayCreationExpressionContext ctx) {
         final Position position = getPosition(ctx);
         final QueenTypeNode type;
         if(ctx.primitiveType() != null) {
@@ -1023,7 +1023,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 d -> dims.add(this.visitDim(d))
             );
         }
-        final QueenExpressionNode arrayInitExpr;
+        final ExpressionNode arrayInitExpr;
         if(ctx.arrayInitializer() != null) {
             arrayInitExpr = this.visitArrayInitializer(ctx.arrayInitializer());
         } else {
@@ -1046,7 +1046,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 a -> annotations.add(this.visitAnnotation(a))
             );
         }
-        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final ExpressionNode expression = this.visitExpression(ctx.expression());
         return new QueenArrayDimensionNode(
             position,
             annotations,
@@ -1070,7 +1070,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitLiteral(QueenParser.LiteralContext ctx) {
+    public ExpressionNode visitLiteral(QueenParser.LiteralContext ctx) {
         if(ctx.BooleanLiteral() != null) {
             return new QueenBooleanLiteralExpressionNode(
                 getPosition(ctx),
@@ -1112,7 +1112,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
+    public ExpressionNode visitVariableInitializer(QueenParser.VariableInitializerContext ctx) {
         if(ctx.expression() != null) {
             return this.visitExpression(ctx.expression());
         } else {
@@ -1198,14 +1198,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             ctx.typeArguments().typeArgumentList().typeArgument()
                 .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
         }
-        QueenExpressionNode scope = null;
+        ExpressionNode scope = null;
         if (ctx.expressionName() != null) {
             scope = this.visitExpressionName(ctx.expressionName());
         } else if(ctx.primary() != null){
             scope = this.visitPrimary(ctx.primary());
         }
         final boolean isThis = ctx.THIS() != null;
-        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        final List<ExpressionNode> arguments = new ArrayList<>();
         if(ctx.argumentList() != null) {
             ctx.argumentList().expression().forEach(
                 e -> arguments.add(this.visitExpression(e))
@@ -1312,7 +1312,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenIfStatementNode visitIfThenStatement(QueenParser.IfThenStatementContext ctx) {
         final Position position = this.getPosition(ctx);
-        final QueenExpressionNode condition = this.visitExpression(ctx.expression());
+        final ExpressionNode condition = this.visitExpression(ctx.expression());
         final QueenBlockStatements thenBlockStatements;
         if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
             thenBlockStatements = this.visitStatementWithoutTrailingSubstatement(
@@ -1334,7 +1334,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenIfStatementNode visitIfThenElseStatement(QueenParser.IfThenElseStatementContext ctx) {
         final Position position = this.getPosition(ctx);
-        final QueenExpressionNode condition = this.visitExpression(ctx.expression());
+        final ExpressionNode condition = this.visitExpression(ctx.expression());
 
         final QueenBlockStatements thenBlockStatements;
         if(ctx.statementNoShortIf().statementWithoutTrailingSubstatement() != null) {
@@ -1370,7 +1370,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenIfStatementNode visitIfThenElseStatementNoShortIf(QueenParser.IfThenElseStatementNoShortIfContext ctx) {
         final Position position = this.getPosition(ctx);
-        final QueenExpressionNode condition = this.visitExpression(ctx.expression());
+        final ExpressionNode condition = this.visitExpression(ctx.expression());
 
         QueenBlockStatements thenBlockStatements = null;
         QueenBlockStatements elseBlockStatements = null;
@@ -1425,7 +1425,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenForStatementNode visitBasicForStatement(QueenParser.BasicForStatementContext ctx) {
         final Position position = this.getPosition(ctx);
-        final List<QueenExpressionNode> init = new ArrayList<>();
+        final List<ExpressionNode> init = new ArrayList<>();
         if(ctx.forInit() != null) {
             if(ctx.forInit().statementExpressionList() != null) {
                 ctx.forInit().statementExpressionList().statementExpression().forEach(
@@ -1442,8 +1442,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             }
         }
 
-        final QueenExpressionNode condition = this.visitExpression(ctx.expression());
-        final List<QueenExpressionNode> update = new ArrayList<>();
+        final ExpressionNode condition = this.visitExpression(ctx.expression());
+        final List<ExpressionNode> update = new ArrayList<>();
         if(ctx.forUpdate() != null) {
             if(ctx.forUpdate().statementExpressionList() != null) {
                 ctx.forUpdate().statementExpressionList().statementExpression().forEach(
@@ -1477,7 +1477,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenForStatementNode visitBasicForStatementNoShortIf(QueenParser.BasicForStatementNoShortIfContext ctx) {
         final Position position = this.getPosition(ctx);
-        final List<QueenExpressionNode> init = new ArrayList<>();
+        final List<ExpressionNode> init = new ArrayList<>();
         if(ctx.forInit() != null) {
             if(ctx.forInit().statementExpressionList() != null) {
                 ctx.forInit().statementExpressionList().statementExpression().forEach(
@@ -1494,8 +1494,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             }
         }
 
-        final QueenExpressionNode condition = this.visitExpression(ctx.expression());
-        final List<QueenExpressionNode> update = new ArrayList<>();
+        final ExpressionNode condition = this.visitExpression(ctx.expression());
+        final List<ExpressionNode> update = new ArrayList<>();
         if(ctx.forUpdate() != null) {
             if(ctx.forUpdate().statementExpressionList() != null) {
                 ctx.forUpdate().statementExpressionList().statementExpression().forEach(
@@ -1550,7 +1550,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 }
             );
         }
-        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
+        final Map<QueenVariableDeclaratorId, ExpressionNode> variables = new LinkedHashMap<>();
         variables.put(this.visitVariableDeclaratorId(ctx.variableDeclaratorId()), null);
         variable = new QueenLocalVariableDeclarationNode(
             getPosition(ctx),
@@ -1561,7 +1561,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
 
 
-        final QueenExpressionNode iterable = this.visitExpression(ctx.expression());
+        final ExpressionNode iterable = this.visitExpression(ctx.expression());
         final QueenBlockStatements blockStatements;
         if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
             blockStatements = this.visitStatementWithoutTrailingSubstatement(
@@ -1621,7 +1621,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 }
             );
         }
-        final Map<QueenVariableDeclaratorId, QueenExpressionNode> variables = new LinkedHashMap<>();
+        final Map<QueenVariableDeclaratorId, ExpressionNode> variables = new LinkedHashMap<>();
         variables.put(this.visitVariableDeclaratorId(ctx.variableDeclaratorId()), null);
         variable = new QueenLocalVariableDeclarationNode(
             getPosition(ctx),
@@ -1632,7 +1632,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
 
 
-        final QueenExpressionNode iterable = this.visitExpression(ctx.expression());
+        final ExpressionNode iterable = this.visitExpression(ctx.expression());
         final QueenBlockStatements blockStatements;
         if(ctx.statementNoShortIf().statementWithoutTrailingSubstatement() != null) {
             blockStatements = this.visitStatementWithoutTrailingSubstatement(
@@ -1655,7 +1655,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenWhileStatementNode visitWhileStatement(QueenParser.WhileStatementContext ctx) {
         final Position position = this.getPosition(ctx);
-        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final ExpressionNode expression = this.visitExpression(ctx.expression());
         final QueenBlockStatements blockStatements;
         if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
             blockStatements = this.visitStatementWithoutTrailingSubstatement(
@@ -1677,7 +1677,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenWhileStatementNode visitWhileStatementNoShortIf(QueenParser.WhileStatementNoShortIfContext ctx) {
         final Position position = this.getPosition(ctx);
-        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final ExpressionNode expression = this.visitExpression(ctx.expression());
         final QueenBlockStatements blockStatements;
         if(ctx.statementNoShortIf().statementWithoutTrailingSubstatement() != null) {
             blockStatements = this.visitStatementWithoutTrailingSubstatement(
@@ -1699,7 +1699,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenDoStatementNode visitDoStatement(QueenParser.DoStatementContext ctx) {
         final Position position = this.getPosition(ctx);
-        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final ExpressionNode expression = this.visitExpression(ctx.expression());
         final QueenBlockStatements blockStatements;
         if(ctx.statement().statementWithoutTrailingSubstatement() != null) {
             blockStatements = this.visitStatementWithoutTrailingSubstatement(
@@ -1858,7 +1858,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenSynchronizedStatementNode visitSynchronizedStatement(QueenParser.SynchronizedStatementContext ctx) {
         final Position position = getPosition(ctx);
-        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final ExpressionNode expression = this.visitExpression(ctx.expression());
         final QueenBlockStatements blockStatements;
         if(ctx.block() != null && ctx.block().blockStatements() != null) {
             blockStatements = this.visitBlockStatements(ctx.block().blockStatements());
@@ -1875,7 +1875,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenSwitchStatementNode visitSwitchStatement(QueenParser.SwitchStatementContext ctx) {
         final Position position = getPosition(ctx);
-        final QueenExpressionNode expression = this.visitExpression(ctx.expression());
+        final ExpressionNode expression = this.visitExpression(ctx.expression());
         final List<QueenSwitchEntryNode> entries = new ArrayList<>();
 
         if(ctx.switchBlock() != null) {
@@ -1975,7 +1975,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     @Override
     public QueenTryStatementNode visitTryWithResourcesStatement(QueenParser.TryWithResourcesStatementContext ctx) {
         final Position position = getPosition(ctx);
-        final List<QueenExpressionNode> resources = new ArrayList<>();
+        final List<ExpressionNode> resources = new ArrayList<>();
         ctx.resourceSpecification().resourceList().resource().forEach(
             r -> resources.add(this.visitResource(r))
         );
@@ -2013,7 +2013,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitResource(QueenParser.ResourceContext ctx) {
+    public ExpressionNode visitResource(QueenParser.ResourceContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenAnnotationNode> annotations = new ArrayList<>();
         final List<QueenModifierNode> modifiers = new ArrayList<>();
@@ -2105,7 +2105,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitStatementExpression(QueenParser.StatementExpressionContext ctx) {
+    public ExpressionNode visitStatementExpression(QueenParser.StatementExpressionContext ctx) {
         if(ctx.assignment() != null) {
             return this.visitAssignment(ctx.assignment());
         } else if(ctx.preIncrementExpression() != null) {
@@ -2124,11 +2124,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitAssignment(QueenParser.AssignmentContext ctx) {
+    public ExpressionNode visitAssignment(QueenParser.AssignmentContext ctx) {
         final Position position = getPosition(ctx);
-        final QueenExpressionNode target = this.visitLeftHandSide(ctx.leftHandSide());
+        final ExpressionNode target = this.visitLeftHandSide(ctx.leftHandSide());
         final String operator = asString(ctx.assignmentOperator()).trim().toUpperCase();
-        final QueenExpressionNode value = this.visitExpression(ctx.expression());
+        final ExpressionNode value = this.visitExpression(ctx.expression());
         return new QueenAssignmentExpressionNode(
             position,
             target,
@@ -2138,7 +2138,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitLeftHandSide(QueenParser.LeftHandSideContext ctx) {
+    public ExpressionNode visitLeftHandSide(QueenParser.LeftHandSideContext ctx) {
         if(ctx.expressionName() != null) {
             return this.visitExpressionName(ctx.expressionName());
         } else if(ctx.arrayAccess() != null) {
@@ -2149,7 +2149,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitMethodInvocation(final QueenParser.MethodInvocationContext ctx) {
+    public ExpressionNode visitMethodInvocation(final QueenParser.MethodInvocationContext ctx) {
         final Position position = getPosition(ctx);
         final String name;
         if(ctx.methodName() != null) {
@@ -2162,13 +2162,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             ctx.typeArguments().typeArgumentList().typeArgument()
                 .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
         }
-        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        final List<ExpressionNode> arguments = new ArrayList<>();
         if(ctx.argumentList() != null) {
             ctx.argumentList().expression().forEach(
                 e -> arguments.add(this.visitExpression(e))
             );
         }
-        final QueenExpressionNode scope;
+        final ExpressionNode scope;
         if(ctx.SUPER() != null && ctx.typeName() != null) {
             scope = new QueenSuperExpressionNode(
                 getPosition(ctx.typeName()),
@@ -2196,7 +2196,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    public QueenExpressionNode visitMethodInvocation_lf_primary(QueenExpressionNode scope, QueenParser.MethodInvocation_lf_primaryContext ctx) {
+    public ExpressionNode visitMethodInvocation_lf_primary(ExpressionNode scope, QueenParser.MethodInvocation_lf_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final String name = ctx.Identifier().getText();
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
@@ -2204,7 +2204,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             ctx.typeArguments().typeArgumentList().typeArgument()
                 .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
         }
-        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        final List<ExpressionNode> arguments = new ArrayList<>();
         if(ctx.argumentList() != null) {
             ctx.argumentList().expression().forEach(
                 e -> arguments.add(this.visitExpression(e))
@@ -2220,7 +2220,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitMethodInvocation_lfno_primary(final QueenParser.MethodInvocation_lfno_primaryContext ctx) {
+    public ExpressionNode visitMethodInvocation_lfno_primary(final QueenParser.MethodInvocation_lfno_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final String name;
         if(ctx.methodName() != null) {
@@ -2233,13 +2233,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             ctx.typeArguments().typeArgumentList().typeArgument()
                 .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
         }
-        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        final List<ExpressionNode> arguments = new ArrayList<>();
         if(ctx.argumentList() != null) {
             ctx.argumentList().expression().forEach(
                 e -> arguments.add(this.visitExpression(e))
             );
         }
-        final QueenExpressionNode scope;
+        final ExpressionNode scope;
         if(ctx.SUPER() != null && ctx.typeName() != null) {
             scope = new QueenSuperExpressionNode(
                 getPosition(ctx.typeName()),
@@ -2266,7 +2266,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitMethodReference(QueenParser.MethodReferenceContext ctx) {
+    public ExpressionNode visitMethodReference(QueenParser.MethodReferenceContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
         if (ctx.typeArguments() != null) {
@@ -2279,7 +2279,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             identifier = ctx.NEW().getText();
         }
-        final QueenExpressionNode scope;
+        final ExpressionNode scope;
         if(ctx.expressionName() != null) {
             scope = this.visitExpressionName(ctx.expressionName());
         } else if(ctx.primary() != null) {
@@ -2315,7 +2315,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    public QueenExpressionNode visitMethodReference_lf_primary(QueenExpressionNode scope, QueenParser.MethodReference_lf_primaryContext ctx) {
+    public ExpressionNode visitMethodReference_lf_primary(ExpressionNode scope, QueenParser.MethodReference_lf_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
         if (ctx.typeArguments() != null) {
@@ -2333,7 +2333,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitMethodReference_lfno_primary(QueenParser.MethodReference_lfno_primaryContext ctx) {
+    public ExpressionNode visitMethodReference_lfno_primary(QueenParser.MethodReference_lfno_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
         if (ctx.typeArguments() != null) {
@@ -2346,7 +2346,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             identifier = ctx.NEW().getText();
         }
-        final QueenExpressionNode scope;
+        final ExpressionNode scope;
         if(ctx.expressionName() != null) {
             scope = this.visitExpressionName(ctx.expressionName());
         } else if(ctx.typeName() != null && ctx.SUPER() != null) {
@@ -2381,14 +2381,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitClassInstanceCreationExpression(QueenParser.ClassInstanceCreationExpressionContext ctx) {
+    public ExpressionNode visitClassInstanceCreationExpression(QueenParser.ClassInstanceCreationExpressionContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
         if (ctx.typeArguments() != null) {
             ctx.typeArguments().typeArgumentList().typeArgument()
                 .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
         }
-        QueenExpressionNode scope = null;
+        ExpressionNode scope = null;
         if (ctx.primary() != null) {
             scope = this.visitPrimary(ctx.primary());
         } else if (ctx.expressionName() != null) {
@@ -2403,7 +2403,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 type
             );
         }
-        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        final List<ExpressionNode> arguments = new ArrayList<>();
         if(ctx.argumentList() != null) {
             ctx.argumentList().expression().forEach(
                 e -> arguments.add(this.visitExpression(e))
@@ -2431,7 +2431,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    public QueenExpressionNode visitClassInstanceCreationExpression_lf_primary(QueenExpressionNode scope, QueenParser.ClassInstanceCreationExpression_lf_primaryContext ctx) {
+    public ExpressionNode visitClassInstanceCreationExpression_lf_primary(ExpressionNode scope, QueenParser.ClassInstanceCreationExpression_lf_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
         if (ctx.typeArguments() != null) {
@@ -2444,7 +2444,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             ctx.typeArgumentsOrDiamond(),
             null
         );
-        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        final List<ExpressionNode> arguments = new ArrayList<>();
         if(ctx.argumentList() != null) {
             ctx.argumentList().expression().forEach(
                 e -> arguments.add(this.visitExpression(e))
@@ -2473,14 +2473,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitClassInstanceCreationExpression_lfno_primary(QueenParser.ClassInstanceCreationExpression_lfno_primaryContext ctx) {
+    public ExpressionNode visitClassInstanceCreationExpression_lfno_primary(QueenParser.ClassInstanceCreationExpression_lfno_primaryContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenTypeNode> typeArguments = new ArrayList<>();
         if (ctx.typeArguments() != null) {
             ctx.typeArguments().typeArgumentList().typeArgument()
                 .forEach(ta -> typeArguments.add(this.visitTypeArgument(ta)));
         }
-        QueenExpressionNode scope = null;
+        ExpressionNode scope = null;
         if (ctx.expressionName() != null) {
             scope = this.visitExpressionName(ctx.expressionName());
         }
@@ -2493,7 +2493,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 type
             );
         }
-        final List<QueenExpressionNode> arguments = new ArrayList<>();
+        final List<ExpressionNode> arguments = new ArrayList<>();
         if(ctx.argumentList() != null) {
             ctx.argumentList().expression().forEach(
                 e -> arguments.add(this.visitExpression(e))
@@ -2558,8 +2558,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitArrayAccess(QueenParser.ArrayAccessContext ctx) {
-        final QueenExpressionNode name;
+    public ExpressionNode visitArrayAccess(QueenParser.ArrayAccessContext ctx) {
+        final ExpressionNode name;
         if(ctx.expressionName() != null) {
             name = this.visitExpressionName(ctx.expressionName());
         } else {
@@ -2581,8 +2581,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    public QueenExpressionNode visitArrayAccess_lf_primary(QueenExpressionNode scope, QueenParser.ArrayAccess_lf_primaryContext ctx) {
-        final QueenExpressionNode name = this.visitPrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary(
+    public ExpressionNode visitArrayAccess_lf_primary(ExpressionNode scope, QueenParser.ArrayAccess_lf_primaryContext ctx) {
+        final ExpressionNode name = this.visitPrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary(
             scope, ctx.primaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary()
         );
         final List<QueenArrayDimensionNode> dims = new ArrayList<>();
@@ -2602,8 +2602,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitArrayAccess_lfno_primary(QueenParser.ArrayAccess_lfno_primaryContext ctx) {
-        final QueenExpressionNode name;
+    public ExpressionNode visitArrayAccess_lfno_primary(QueenParser.ArrayAccess_lfno_primaryContext ctx) {
+        final ExpressionNode name;
         if(ctx.expressionName() != null) {
             name = this.visitExpressionName(ctx.expressionName());
         } else {
@@ -2627,7 +2627,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    public QueenExpressionNode visitPrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary(QueenExpressionNode scope, QueenParser.PrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primaryContext ctx) {
+    public ExpressionNode visitPrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primary(ExpressionNode scope, QueenParser.PrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primaryContext ctx) {
         if(ctx.classInstanceCreationExpression_lf_primary() != null) {
             return this.visitClassInstanceCreationExpression_lf_primary(
                 scope,
@@ -2652,7 +2652,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primaryContext ctx) {
+    public ExpressionNode visitPrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primary(QueenParser.PrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primaryContext ctx) {
         if(ctx.literal() != null) {
             return this.visitLiteral(ctx.literal());
         } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
@@ -2719,9 +2719,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitFieldAccess(QueenParser.FieldAccessContext ctx) {
+    public ExpressionNode visitFieldAccess(QueenParser.FieldAccessContext ctx) {
         final Position position = getPosition(ctx);
-        final QueenExpressionNode scope;
+        final ExpressionNode scope;
         if(ctx.primary() != null) {
             scope = this.visitPrimary(ctx.primary());
         } else if(ctx.typeName() != null) {
@@ -2741,7 +2741,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         );
     }
 
-    public QueenExpressionNode visitFieldAccess_lf_primary(QueenExpressionNode scope, QueenParser.FieldAccess_lf_primaryContext ctx) {
+    public ExpressionNode visitFieldAccess_lf_primary(ExpressionNode scope, QueenParser.FieldAccess_lf_primaryContext ctx) {
         return new QueenFieldAccessExpressionNode(
             getPosition(ctx),
             scope,
@@ -2750,9 +2750,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitFieldAccess_lfno_primary(QueenParser.FieldAccess_lfno_primaryContext ctx) {
+    public ExpressionNode visitFieldAccess_lfno_primary(QueenParser.FieldAccess_lfno_primaryContext ctx) {
         final Position position = getPosition(ctx);
-        final QueenExpressionNode scope;
+        final ExpressionNode scope;
         if(ctx.typeName() != null) {
             scope = new QueenSuperExpressionNode(
                 getPosition(ctx.typeName()),
@@ -2771,7 +2771,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitUnaryExpression(QueenParser.UnaryExpressionContext ctx) {
+    public ExpressionNode visitUnaryExpression(QueenParser.UnaryExpressionContext ctx) {
         if(ctx.preIncrementExpression() != null) {
             return this.visitPreIncrementExpression(ctx.preIncrementExpression());
         } else if (ctx.preDecrementExpression() != null) {
@@ -2796,7 +2796,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitMultiplicativeExpression(QueenParser.MultiplicativeExpressionContext ctx) {
+    public ExpressionNode visitMultiplicativeExpression(QueenParser.MultiplicativeExpressionContext ctx) {
         if(ctx.MUL() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2824,7 +2824,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitAdditiveExpression(QueenParser.AdditiveExpressionContext ctx) {
+    public ExpressionNode visitAdditiveExpression(QueenParser.AdditiveExpressionContext ctx) {
         if(ctx.ADD() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2845,7 +2845,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitShiftExpression(QueenParser.ShiftExpressionContext ctx) {
+    public ExpressionNode visitShiftExpression(QueenParser.ShiftExpressionContext ctx) {
         if(ctx.GT() != null && ctx.GT().size() == 3) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2873,7 +2873,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitRelationalExpression(QueenParser.RelationalExpressionContext ctx) {
+    public ExpressionNode visitRelationalExpression(QueenParser.RelationalExpressionContext ctx) {
         if(ctx.LT() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2914,7 +2914,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitEqualityExpression(QueenParser.EqualityExpressionContext ctx) {
+    public ExpressionNode visitEqualityExpression(QueenParser.EqualityExpressionContext ctx) {
         if(ctx.EQUAL() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2935,7 +2935,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitAndExpression(QueenParser.AndExpressionContext ctx) {
+    public ExpressionNode visitAndExpression(QueenParser.AndExpressionContext ctx) {
         if(ctx.BITAND() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2949,7 +2949,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitExclusiveOrExpression(final QueenParser.ExclusiveOrExpressionContext ctx) {
+    public ExpressionNode visitExclusiveOrExpression(final QueenParser.ExclusiveOrExpressionContext ctx) {
         if(ctx.CARET() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2963,7 +2963,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitInclusiveOrExpression(final QueenParser.InclusiveOrExpressionContext ctx) {
+    public ExpressionNode visitInclusiveOrExpression(final QueenParser.InclusiveOrExpressionContext ctx) {
         if(ctx.BITOR() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2977,7 +2977,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitConditionalAndExpression(final QueenParser.ConditionalAndExpressionContext ctx) {
+    public ExpressionNode visitConditionalAndExpression(final QueenParser.ConditionalAndExpressionContext ctx) {
         if(ctx.AND() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -2991,7 +2991,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitConditionalOrExpression(final QueenParser.ConditionalOrExpressionContext ctx) {
+    public ExpressionNode visitConditionalOrExpression(final QueenParser.ConditionalOrExpressionContext ctx) {
         if(ctx.OR() != null) {
             return new QueenBinaryExpressionNode(
                 getPosition(ctx),
@@ -3005,7 +3005,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitConditionalExpression(final QueenParser.ConditionalExpressionContext ctx) {
+    public ExpressionNode visitConditionalExpression(final QueenParser.ConditionalExpressionContext ctx) {
         if(ctx.QUESTION() != null) {
             return new QueenConditionalExpressionNode(
                 getPosition(ctx),
@@ -3019,7 +3019,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPreIncrementExpression(QueenParser.PreIncrementExpressionContext ctx) {
+    public ExpressionNode visitPreIncrementExpression(QueenParser.PreIncrementExpressionContext ctx) {
         return new QueenUnaryExpressionNode(
             getPosition(ctx),
             "++",
@@ -3029,7 +3029,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPreDecrementExpression(QueenParser.PreDecrementExpressionContext ctx) {
+    public ExpressionNode visitPreDecrementExpression(QueenParser.PreDecrementExpressionContext ctx) {
         return new QueenUnaryExpressionNode(
             getPosition(ctx),
             "--",
@@ -3039,7 +3039,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPostIncrementExpression(QueenParser.PostIncrementExpressionContext ctx) {
+    public ExpressionNode visitPostIncrementExpression(QueenParser.PostIncrementExpressionContext ctx) {
         return new QueenUnaryExpressionNode(
             getPosition(ctx),
             "++",
@@ -3049,7 +3049,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPostDecrementExpression(QueenParser.PostDecrementExpressionContext ctx) {
+    public ExpressionNode visitPostDecrementExpression(QueenParser.PostDecrementExpressionContext ctx) {
         return new QueenUnaryExpressionNode(
             getPosition(ctx),
             "--",
@@ -3059,7 +3059,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitUnaryExpressionNotPlusMinus(QueenParser.UnaryExpressionNotPlusMinusContext ctx) {
+    public ExpressionNode visitUnaryExpressionNotPlusMinus(QueenParser.UnaryExpressionNotPlusMinusContext ctx) {
         if(ctx.postfixExpression() != null) {
             return this.visitPostfixExpression(ctx.postfixExpression());
         } else if(ctx.TILDE() != null) {
@@ -3082,7 +3082,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitCastExpression(QueenParser.CastExpressionContext ctx) {
+    public ExpressionNode visitCastExpression(QueenParser.CastExpressionContext ctx) {
         if(ctx.primitiveType() != null) {
             return new QueenCastExpressionNode(
                 getPosition(ctx),
@@ -3117,7 +3117,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitLambdaExpression(QueenParser.LambdaExpressionContext ctx) {
+    public ExpressionNode visitLambdaExpression(QueenParser.LambdaExpressionContext ctx) {
         final Position position = getPosition(ctx);
         final List<QueenParameterNode> parameters = new ArrayList<>();
         boolean enclosedParameters = false;
@@ -3158,7 +3158,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 }
             }
         }
-        final QueenExpressionNode expression;
+        final ExpressionNode expression;
         final QueenBlockStatements queenBlockStatements;
         if (ctx.lambdaBody().block() != null && ctx.lambdaBody().block().blockStatements() != null) {
             queenBlockStatements = this.visitBlockStatements(ctx.lambdaBody().block().blockStatements());
@@ -3177,8 +3177,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenExpressionNode visitPostfixExpression(QueenParser.PostfixExpressionContext ctx) {
-        QueenExpressionNode postfixExpression;
+    public ExpressionNode visitPostfixExpression(QueenParser.PostfixExpressionContext ctx) {
+        ExpressionNode postfixExpression;
         if(ctx.primary() != null) {
             postfixExpression = this.visitPrimary(ctx.primary());
         } else {

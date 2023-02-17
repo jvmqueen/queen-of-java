@@ -28,7 +28,7 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.List;
@@ -60,5 +60,5 @@ public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode 
     /**
      * Variable names and initializer expressions.
      */
-    Map<QueenVariableDeclaratorId, QueenExpressionNode> variables();
+    Map<QueenVariableDeclaratorId, ExpressionNode> variables();
 }

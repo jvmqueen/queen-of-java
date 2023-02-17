@@ -33,7 +33,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +47,12 @@ import java.util.List;
 public final class QueenSwitchStatementNode implements QueenStatementNode {
 
     private final Position position;
-    private final QueenExpressionNode expression;
+    private final ExpressionNode expression;
     private final List<QueenSwitchEntryNode> entries;
 
     public QueenSwitchStatementNode(
         final Position position,
-        final QueenExpressionNode expression,
+        final ExpressionNode expression,
         final List<QueenSwitchEntryNode> entries
     ) {
         this.position = position;

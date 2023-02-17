@@ -31,7 +31,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
  * Queen Assert Statement AST Node.
@@ -43,14 +43,14 @@ public final class QueenAssertStatementNode implements QueenStatementNode {
 
     private final Position position;
 
-    private final QueenExpressionNode check;
-    private final QueenExpressionNode message;
+    private final ExpressionNode check;
+    private final ExpressionNode message;
 
-    public QueenAssertStatementNode(final Position position, final QueenExpressionNode check) {
+    public QueenAssertStatementNode(final Position position, final ExpressionNode check) {
         this(position, check, null);
     }
 
-    public QueenAssertStatementNode(final Position position, final QueenExpressionNode check, final QueenExpressionNode message) {
+    public QueenAssertStatementNode(final Position position, final ExpressionNode check, final ExpressionNode message) {
         this.position = position;
         this.check = check;
         this.message = message;

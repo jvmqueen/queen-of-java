@@ -43,19 +43,19 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLambdaExpressionNode implements QueenExpressionNode {
+public final class QueenLambdaExpressionNode implements ExpressionNode {
 
     private final Position position;
     private final boolean enclosedParameters;
     private final List<QueenParameterNode> parameters;
-    private final QueenExpressionNode expression;
+    private final ExpressionNode expression;
     private final QueenBlockStatements blockStatements;
 
     public QueenLambdaExpressionNode(
         final Position position,
         final boolean enclosedParameters,
         final List<QueenParameterNode> parameters,
-        final QueenExpressionNode expression,
+        final ExpressionNode expression,
         final QueenBlockStatements blockStatements
     ) {
         this.position = position;

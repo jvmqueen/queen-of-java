@@ -42,7 +42,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTypeImplementationExpressionNode implements QueenExpressionNode {
+public final class QueenTypeImplementationExpressionNode implements ExpressionNode {
 
     private final Position position;
     private final QueenTypeNode type;

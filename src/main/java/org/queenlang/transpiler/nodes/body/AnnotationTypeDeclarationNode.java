@@ -27,41 +27,31 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.List;
 
 /**
- * Queen annotation type declaration body AST node.
+ * Queen AnnotationDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenAnnotationTypeBodyNode implements AnnotationTypeBodyNode {
-    private final Position position;
-    private final List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations;
+public interface AnnotationTypeDeclarationNode extends QueenInterfaceDeclarationNode {
 
-    public QueenAnnotationTypeBodyNode(final Position position, final List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations) {
-        this.position = position;
-        this.annotationMemberDeclarations = annotationMemberDeclarations;
-    }
 
-    @Override
-    public void addToJavaNode(final Node java) {
-        this.annotationMemberDeclarations.forEach(
-            amd -> amd.addToJavaNode(java)
-        );
-    }
+    /**
+     * Annotations on top of this annotation declaration.
+     */
+    List<QueenAnnotationNode> annotations();
 
-    @Override
-    public Position position() {
-        return this.position;
-    }
+    /**
+     * Modifiers of this annotation.
+     */
+    List<QueenModifierNode> modifiers();
 
-    @Override
-    public List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations() {
-        return this.annotationMemberDeclarations;
-    }
+    /**
+     * The body.
+     */
+    QueenAnnotationTypeBodyNode body();
 }

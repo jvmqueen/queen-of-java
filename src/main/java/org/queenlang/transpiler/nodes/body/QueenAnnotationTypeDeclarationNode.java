@@ -43,7 +43,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min Don't forget to unit test this class.
  */
-public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceDeclarationNode {
+public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -114,8 +114,18 @@ public final class QueenAnnotationTypeDeclarationNode implements QueenInterfaceD
     }
 
     @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
     public List<QueenModifierNode> modifiers() {
         return this.modifiers;
+    }
+
+    @Override
+    public QueenAnnotationTypeBodyNode body() {
+        return this.body;
     }
 
     /**

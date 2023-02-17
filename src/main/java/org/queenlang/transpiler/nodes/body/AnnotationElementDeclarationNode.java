@@ -43,99 +43,25 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenAnnotationElementDeclarationNode implements AnnotationElementDeclarationNode {
-
-    /**
-     * Position in the original source code.
-     */
-    private final Position position;
+public interface AnnotationElementDeclarationNode extends QueenAnnotationTypeMemberDeclarationNode {
 
     /**
      * Annotations on top of this element.
      */
-    private final List<QueenAnnotationNode> annotations;
+    List<QueenAnnotationNode> annotations();
 
     /**
      * Modifiers of this element.
      */
-    private final List<QueenModifierNode> modifiers;
+    List<QueenModifierNode> modifiers();
 
     /**
      * Type of this annotation element.
      */
-    private final QueenTypeNode type;
-
-    /**
-     * Name of this annotation element.
-     */
-    private final String name;
+    public QueenTypeNode type();
 
     /**
      * Default value of the element.
      */
-    private final QueenExpressionNode defaultValue;
-
-
-    public QueenAnnotationElementDeclarationNode(
-        final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
-        final QueenTypeNode type,
-        final String name,
-        final QueenExpressionNode defaultValue
-    ) {
-        this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
-        this.type = type;
-        this.name = name;
-        this.defaultValue = defaultValue;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final AnnotationMemberDeclaration annotationMemberDeclaration = new AnnotationMemberDeclaration();
-        this.annotations.forEach(
-            a -> a.addToJavaNode(annotationMemberDeclaration)
-        );
-        this.modifiers.forEach(
-            m -> m.addToJavaNode(annotationMemberDeclaration)
-        );
-        annotationMemberDeclaration.setType(this.type.toType());
-        annotationMemberDeclaration.setName(this.name);
-        if(this.defaultValue != null) {
-            annotationMemberDeclaration.setDefaultValue(this.defaultValue.toJavaExpression());
-        }
-        ((AnnotationDeclaration) java).addMember(annotationMemberDeclaration);
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
-
-    @Override
-    public String name() {
-        return this.name;
-    }
-
-    @Override
-    public List<QueenAnnotationNode> annotations() {
-        return this.annotations;
-    }
-
-    @Override
-    public List<QueenModifierNode> modifiers() {
-        return this.modifiers;
-    }
-
-    @Override
-    public QueenTypeNode type() {
-        return this.type;
-    }
-
-    @Override
-    public QueenExpressionNode defaultValue() {
-        return this.defaultValue;
-    }
+    QueenExpressionNode defaultValue();
 }

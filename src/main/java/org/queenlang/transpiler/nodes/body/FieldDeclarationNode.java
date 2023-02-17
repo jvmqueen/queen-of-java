@@ -28,30 +28,37 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen FieldDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode {
-
+public interface FieldDeclarationNode extends ClassMemberDeclarationNode {
 
     /**
-     * Annotations on top of this annotation declaration.
+     * Annotations on top of this field.
      */
     List<QueenAnnotationNode> annotations();
 
     /**
-     * Modifiers of this annotation.
+     * Access modifiers of this field.
      */
     List<QueenModifierNode> modifiers();
 
     /**
-     * The body.
+     * Type of the field declaration.
      */
-    QueenAnnotationTypeBodyNode body();
+    QueenTypeNode type();
+
+    /**
+     * Variable names and initializer expressions.
+     */
+    Map<QueenVariableDeclaratorId, QueenExpressionNode> variables();
 }

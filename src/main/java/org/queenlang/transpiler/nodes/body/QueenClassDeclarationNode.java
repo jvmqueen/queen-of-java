@@ -37,9 +37,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 
 import java.util.List;
@@ -51,7 +49,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
-public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode, QueenStatementNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode, QueenAnnotationTypeMemberDeclarationNode, QueenNodeWithTypeParameters {
+public final class QueenClassDeclarationNode implements ClassDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -189,5 +187,40 @@ public final class QueenClassDeclarationNode implements QueenTypeDeclarationNode
     @Override
     public List<QueenTypeParameterNode> typeParameters() {
         return this.typeParams;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<QueenModifierNode> accessModifiers() {
+        return this.accessModifiers;
+    }
+
+    @Override
+    public QueenModifierNode extensionModifier() {
+        return this.extensionModifier;
+    }
+
+    @Override
+    public List<QueenTypeParameterNode> typeParams() {
+        return this.typeParams;
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode extendsType() {
+        return this.extendsType;
+    }
+
+    @Override
+    public List<QueenClassOrInterfaceTypeNode> of() {
+        return this.of;
+    }
+
+    @Override
+    public QueenClassBodyNode body() {
+        return this.body;
     }
 }

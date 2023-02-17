@@ -27,31 +27,32 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-
-import java.util.List;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.ImportDeclaration;
+import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen ImportDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode {
-
+public interface ImportDeclarationNode extends QueenNode {
+    /**
+     * Is it a static import or not?
+     */
+    boolean staticImport();
 
     /**
-     * Annotations on top of this annotation declaration.
+     * Is it an asterysk import or not?
      */
-    List<QueenAnnotationNode> annotations();
+    boolean asteriskImport();
 
     /**
-     * Modifiers of this annotation.
+     * Import's type name.
      */
-    List<QueenModifierNode> modifiers();
-
-    /**
-     * The body.
-     */
-    QueenAnnotationTypeBodyNode body();
+    QueenNameNode importDeclarationName();
 }

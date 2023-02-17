@@ -28,25 +28,12 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.Named;
-import org.queenlang.transpiler.nodes.QueenNode;
-
-import java.util.List;
 
 /**
- * Queen TypeDeclaration AST node.
+ * Queen ClassMember AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:60min Handle access modifiers for the type declaration.
- * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
- * @todo #8:60min Handle the TypeBody AST node further.
  */
-public interface QueenTypeDeclarationNode extends Named, QueenNode {
-
-    /**
-     * Get the modifiers list of this type declaration.
-     * @return List of QueenModifier.
-     */
-    List<QueenModifierNode> modifiers();
-
+public interface ClassMemberDeclarationNode extends Named, ClassBodyDeclarationNode {
 }

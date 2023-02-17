@@ -29,7 +29,6 @@ package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
 
@@ -39,14 +38,14 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenClassBodyNode implements QueenNode {
+public final class QueenClassBodyNode implements ClassBodyNode {
 
     private final Position position;
-    private final List<QueenClassBodyDeclarationNode> classBodyDeclarations;
+    private final List<ClassBodyDeclarationNode> classBodyDeclarations;
 
     public QueenClassBodyNode(
         final Position position,
-        final List<QueenClassBodyDeclarationNode> classBodyDeclarations
+        final List<ClassBodyDeclarationNode> classBodyDeclarations
     ) {
         this.position = position;
         this.classBodyDeclarations = classBodyDeclarations;
@@ -64,7 +63,9 @@ public final class QueenClassBodyNode implements QueenNode {
         return this.position;
     }
 
-    public boolean isEmpty() {
-        return this.classBodyDeclarations == null || this.classBodyDeclarations.isEmpty();
+    @Override
+    public List<ClassBodyDeclarationNode> classBodyDeclarations() {
+        return this.classBodyDeclarations;
     }
+
 }

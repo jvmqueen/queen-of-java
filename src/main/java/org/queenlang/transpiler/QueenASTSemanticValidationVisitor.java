@@ -91,7 +91,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitQueenTypeDeclarationNode(final QueenTypeDeclarationNode node) {
+    public List<SemanticProblem> visitQueenTypeDeclarationNode(final TypeDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         final List<QueenModifierNode> modifiers = node.modifiers();
         if(modifiers != null && modifiers.size() > 0) {
@@ -125,10 +125,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     (QueenClassDeclarationNode) node
                 )
             );
-        } else if(node instanceof QueenInterfaceDeclarationNode) {
+        } else if(node instanceof InterfaceDeclarationNode) {
             problems.addAll(
                 this.visitQueenInterfaceDeclarationNode(
-                    (QueenInterfaceDeclarationNode) node
+                    (InterfaceDeclarationNode) node
                 )
             );
         }
@@ -205,7 +205,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitQueenAnnotationTypeMemberDeclarationNode(final QueenAnnotationTypeMemberDeclarationNode node) {
+    public List<SemanticProblem> visitQueenAnnotationTypeMemberDeclarationNode(final AnnotationTypeMemberDeclarationNode node) {
         return new ArrayList<>();
     }
 
@@ -215,7 +215,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitQueenClassBodyDeclarationNode(final QueenClassBodyDeclarationNode node) {
+    public List<SemanticProblem> visitQueenClassBodyDeclarationNode(final ClassBodyDeclarationNode node) {
         return new ArrayList<>();
     }
 
@@ -233,7 +233,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitQueenClassMemberDeclarationNode(final QueenClassMemberDeclarationNode node) {
+    public List<SemanticProblem> visitQueenClassMemberDeclarationNode(final ClassMemberDeclarationNode node) {
         return new ArrayList<>();
     }
 
@@ -282,7 +282,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitQueenInterfaceDeclarationNode(final QueenInterfaceDeclarationNode node) {
+    public List<SemanticProblem> visitQueenInterfaceDeclarationNode(final InterfaceDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         final List<QueenModifierNode> modifiers = node.modifiers();
         modifiers.forEach(
@@ -315,7 +315,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitQueenInterfaceMemberDeclarationNode(final QueenInterfaceMemberDeclarationNode node) {
+    public List<SemanticProblem> visitQueenInterfaceMemberDeclarationNode(final InterfaceMemberDeclarationNode node) {
         return new ArrayList<>();
     }
 

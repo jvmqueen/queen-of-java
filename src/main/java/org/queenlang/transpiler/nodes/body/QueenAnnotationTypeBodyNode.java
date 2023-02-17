@@ -29,7 +29,6 @@ package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
 
@@ -41,9 +40,9 @@ import java.util.List;
  */
 public final class QueenAnnotationTypeBodyNode implements AnnotationTypeBodyNode {
     private final Position position;
-    private final List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations;
+    private final List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations;
 
-    public QueenAnnotationTypeBodyNode(final Position position, final List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations) {
+    public QueenAnnotationTypeBodyNode(final Position position, final List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations) {
         this.position = position;
         this.annotationMemberDeclarations = annotationMemberDeclarations;
     }
@@ -61,7 +60,7 @@ public final class QueenAnnotationTypeBodyNode implements AnnotationTypeBodyNode
     }
 
     @Override
-    public List<QueenAnnotationTypeMemberDeclarationNode> annotationMemberDeclarations() {
+    public List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations() {
         return this.annotationMemberDeclarations;
     }
 }

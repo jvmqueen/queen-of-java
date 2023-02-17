@@ -8,14 +8,13 @@ import com.github.javaparser.ast.type.ArrayType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class QueenVariableDeclaratorId implements QueenNode {
+public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
 
     private final Position position;
     private final String name;
@@ -88,5 +87,15 @@ public final class QueenVariableDeclaratorId implements QueenNode {
             }
             withType.setType(setType);
         }
+    }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    @Override
+    public List<QueenArrayDimensionNode> dims() {
+        return this.dims;
     }
 }

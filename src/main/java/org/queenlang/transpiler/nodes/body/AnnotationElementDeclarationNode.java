@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
-import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
@@ -43,7 +39,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationElementDeclarationNode extends QueenAnnotationTypeMemberDeclarationNode {
+public interface AnnotationElementDeclarationNode extends AnnotationTypeMemberDeclarationNode {
 
     /**
      * Annotations on top of this element.

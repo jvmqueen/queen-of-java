@@ -46,7 +46,7 @@ import java.util.Map;
  * @since 0.0.1
  * @todo #33:30min Class QueenConstantDeclarationNode needs unit tests.
  */
-public final class QueenConstantDeclarationNode implements QueenInterfaceMemberDeclarationNode {
+public final class QueenConstantDeclarationNode implements ConstantDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -117,5 +117,25 @@ public final class QueenConstantDeclarationNode implements QueenInterfaceMemberD
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.modifiers;
+    }
+
+    @Override
+    public QueenTypeNode type() {
+        return this.type;
+    }
+
+    @Override
+    public Map<QueenVariableDeclaratorId, QueenExpressionNode> variables() {
+        return this.variables;
     }
 }

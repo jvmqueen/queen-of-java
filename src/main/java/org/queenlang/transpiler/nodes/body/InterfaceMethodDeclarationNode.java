@@ -27,14 +27,56 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.Named;
-import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
+import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
+import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+
+import java.util.List;
 
 /**
- * Queen interface member declaration node.
+ * Queen InterfaceMethodDeclaration AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenInterfaceMemberDeclarationNode extends Named, QueenNode {
+public interface InterfaceMethodDeclarationNode extends InterfaceMemberDeclarationNode, QueenNodeWithTypeParameters {
+
+    /**
+     * Annotations on top of this method.
+     */
+    List<QueenAnnotationNode> annotations();
+
+    /**
+     * Access modifiers of this method.
+     */
+    List<QueenModifierNode> modifiers();
+
+    /**
+     * Return type.
+     */
+    QueenTypeNode returnType();
+
+    /**
+     * Dims on the method declaration. They can be found at the end of the method header:
+     * <pre>public int example()[]; </pre>
+     */
+    List<QueenArrayDimensionNode> dims();
+
+    /**
+     * Method parameters.
+     */
+    List<QueenParameterNode> parameters();
+
+    /**
+     * Thrown exceptions.
+     */
+    List<QueenExceptionTypeNode> throwsList();
+
+    /**
+     * Method body.
+     */
+    QueenBlockStatements blockStatements();
 }

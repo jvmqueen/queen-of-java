@@ -27,31 +27,25 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.PackageDeclaration;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 
-import java.util.List;
+import java.util.function.Supplier;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen PackageDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode {
-
-
-    /**
-     * Annotations on top of this annotation declaration.
-     */
-    List<QueenAnnotationNode> annotations();
+public interface PackageDeclarationNode extends QueenNode {
 
     /**
-     * Modifiers of this annotation.
+     * The package's name.
      */
-    List<QueenModifierNode> modifiers();
-
-    /**
-     * The body.
-     */
-    QueenAnnotationTypeBodyNode body();
+    QueenNameNode packageName();
 }

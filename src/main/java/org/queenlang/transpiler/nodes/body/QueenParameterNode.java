@@ -1,6 +1,5 @@
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
@@ -9,7 +8,6 @@ import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.body.QueenModifierNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
  * @since 0.0.1
  * @todo #33:60min Write unit tests for QueenParameterNode.
  */
-public final class QueenParameterNode implements QueenNode {
+public final class QueenParameterNode implements ParameterNode {
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
     private final List<QueenModifierNode> modifiers;
@@ -106,5 +104,35 @@ public final class QueenParameterNode implements QueenNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.modifiers;
+    }
+
+    @Override
+    public QueenVariableDeclaratorId name() {
+        return this.name;
+    }
+
+    @Override
+    public QueenTypeNode type() {
+        return this.type;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> varArgsAnnotations() {
+        return this.varArgsAnnotations;
+    }
+
+    @Override
+    public boolean varArgs() {
+        return this.varArgs;
     }
 }

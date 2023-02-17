@@ -27,13 +27,37 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.Named;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
+
+import java.util.List;
 
 /**
- * Queen ClassMember AST Node.
+ * Queen NormalInterfaceDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenClassMemberDeclarationNode extends Named, QueenClassBodyDeclarationNode {
+public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode, QueenNodeWithTypeParameters {
+
+    /**
+     * Annotations on top of this interface.
+     */
+    List<QueenAnnotationNode> annotations();
+
+    /**
+     * Modifiers of this interface.
+     */
+    List<QueenModifierNode> modifiers();
+
+    /**
+     * Types which are extended (an interface can extend more interfaces).
+     */
+    List<QueenClassOrInterfaceTypeNode> extendsTypes();
+
+    /**
+     * The body.
+     */
+    QueenInterfaceBodyNode body();
 }

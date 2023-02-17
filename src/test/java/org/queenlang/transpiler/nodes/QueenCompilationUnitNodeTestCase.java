@@ -34,7 +34,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.body.QueenCompilationUnitNode;
 import org.queenlang.transpiler.nodes.body.QueenImportDeclarationNode;
 import org.queenlang.transpiler.nodes.body.QueenPackageDeclarationNode;
-import org.queenlang.transpiler.nodes.body.QueenTypeDeclarationNode;
+import org.queenlang.transpiler.nodes.body.TypeDeclarationNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +58,8 @@ public final class QueenCompilationUnitNodeTestCase {
         final QueenPackageDeclarationNode packageDeclaration = Mockito.mock(QueenPackageDeclarationNode.class);
         final List<QueenImportDeclarationNode> imports = new ArrayList<>();
         imports.add(Mockito.mock(QueenImportDeclarationNode.class));
-        final List<QueenTypeDeclarationNode> types = new ArrayList<>();
-        types.add(Mockito.mock(QueenTypeDeclarationNode.class));
+        final List<TypeDeclarationNode> types = new ArrayList<>();
+        types.add(Mockito.mock(TypeDeclarationNode.class));
 
         final QueenNode compilationUnit = new QueenCompilationUnitNode(
             Mockito.mock(Position.class),

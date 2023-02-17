@@ -27,31 +27,26 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.Named;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen TypeDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #10:60min Handle access modifiers for the type declaration.
+ * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
+ * @todo #8:60min Handle the TypeBody AST node further.
  */
-public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode {
-
-
-    /**
-     * Annotations on top of this annotation declaration.
-     */
-    List<QueenAnnotationNode> annotations();
+public interface TypeDeclarationNode extends Named, QueenNode {
 
     /**
-     * Modifiers of this annotation.
+     * Get the modifiers list of this type declaration.
+     * @return List of QueenModifier.
      */
     List<QueenModifierNode> modifiers();
 
-    /**
-     * The body.
-     */
-    QueenAnnotationTypeBodyNode body();
 }

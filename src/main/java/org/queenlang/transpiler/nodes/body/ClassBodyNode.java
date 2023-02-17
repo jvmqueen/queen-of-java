@@ -27,31 +27,21 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen ClassBody AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode {
+public interface ClassBodyNode extends QueenNode {
 
+    List<ClassBodyDeclarationNode> classBodyDeclarations();
 
-    /**
-     * Annotations on top of this annotation declaration.
-     */
-    List<QueenAnnotationNode> annotations();
-
-    /**
-     * Modifiers of this annotation.
-     */
-    List<QueenModifierNode> modifiers();
-
-    /**
-     * The body.
-     */
-    QueenAnnotationTypeBodyNode body();
+    default boolean isEmpty() {
+        return this.classBodyDeclarations() == null || this.classBodyDeclarations().isEmpty();
+    }
 }

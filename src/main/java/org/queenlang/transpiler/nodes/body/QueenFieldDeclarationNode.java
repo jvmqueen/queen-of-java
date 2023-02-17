@@ -46,7 +46,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarationNode {
+public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -120,5 +120,25 @@ public final class QueenFieldDeclarationNode implements QueenClassMemberDeclarat
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.modifiers;
+    }
+
+    @Override
+    public QueenTypeNode type() {
+        return this.type;
+    }
+
+    @Override
+    public Map<QueenVariableDeclaratorId, QueenExpressionNode> variables() {
+        return this.variables;
     }
 }

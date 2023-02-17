@@ -52,7 +52,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLocalVariableDeclarationNode implements QueenStatementNode, QueenExpressionNode {
+public final class QueenLocalVariableDeclarationNode implements LocalVariableDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -143,5 +143,25 @@ public final class QueenLocalVariableDeclarationNode implements QueenStatementNo
 
         vde.setVariables(new NodeList<>(variableDeclarators));
         return vde;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return annotations;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return modifiers;
+    }
+
+    @Override
+    public QueenTypeNode type() {
+        return type;
+    }
+
+    @Override
+    public Map<QueenVariableDeclaratorId, QueenExpressionNode> variables() {
+        return variables;
     }
 }

@@ -27,31 +27,19 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen CompilationUnit (highest) AST node. This is the node you want to start
+ * with when traversing/visiting this tree.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode {
-
-
-    /**
-     * Annotations on top of this annotation declaration.
-     */
-    List<QueenAnnotationNode> annotations();
-
-    /**
-     * Modifiers of this annotation.
-     */
-    List<QueenModifierNode> modifiers();
-
-    /**
-     * The body.
-     */
-    QueenAnnotationTypeBodyNode body();
+public interface CompilationUnitNode extends QueenNode {
+    QueenPackageDeclarationNode packageDeclaration();
+    List<QueenImportDeclarationNode> importDeclarations();
+    TypeDeclarationNode typeDeclaration();
 }

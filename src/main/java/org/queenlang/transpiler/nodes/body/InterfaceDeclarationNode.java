@@ -33,5 +33,5 @@ package org.queenlang.transpiler.nodes.body;
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenInterfaceDeclarationNode extends QueenTypeDeclarationNode, QueenClassMemberDeclarationNode, QueenInterfaceMemberDeclarationNode, QueenAnnotationTypeMemberDeclarationNode {
+public interface InterfaceDeclarationNode extends TypeDeclarationNode, ClassMemberDeclarationNode, InterfaceMemberDeclarationNode, AnnotationTypeMemberDeclarationNode {
 }

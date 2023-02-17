@@ -54,7 +54,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min Unit tests for QueenMethodDeclarationNode are needed.
  */
-public final class QueenMethodDeclarationNode implements QueenClassMemberDeclarationNode, QueenNodeWithTypeParameters {
+public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -193,5 +193,40 @@ public final class QueenMethodDeclarationNode implements QueenClassMemberDeclara
             }
             withType.setType(setType);
         }
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.modifiers;
+    }
+
+    @Override
+    public QueenTypeNode returnType() {
+        return this.returnType;
+    }
+
+    @Override
+    public List<QueenArrayDimensionNode> dims() {
+        return this.dims;
+    }
+
+    @Override
+    public List<QueenParameterNode> parameters() {
+        return this.parameters;
+    }
+
+    @Override
+    public List<QueenExceptionTypeNode> throwsList() {
+        return this.throwsList;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

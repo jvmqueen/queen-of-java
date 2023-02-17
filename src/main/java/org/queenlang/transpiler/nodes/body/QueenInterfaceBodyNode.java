@@ -29,7 +29,6 @@ package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
 
@@ -40,13 +39,13 @@ import java.util.List;
  * @since 0.0.1
  * @todo #33:30min Unit tests for QueenInterfaceBodyNode are needed.
  */
-public final class QueenInterfaceBodyNode implements QueenNode {
+public final class QueenInterfaceBodyNode implements InterfaceBodyNode {
     private final Position position;
-    private final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations;
+    private final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations;
 
     public QueenInterfaceBodyNode(
         final Position position,
-        final List<QueenInterfaceMemberDeclarationNode> interfaceMemberDeclarations
+        final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations
     ) {
         this.position = position;
         this.interfaceMemberDeclarations = interfaceMemberDeclarations;
@@ -62,5 +61,10 @@ public final class QueenInterfaceBodyNode implements QueenNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations() {
+        return this.interfaceMemberDeclarations;
     }
 }

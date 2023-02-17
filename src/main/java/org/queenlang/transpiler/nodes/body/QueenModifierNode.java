@@ -42,7 +42,7 @@ import java.util.Objects;
  * @since 0.0.1
  * @todo #10:30min We need unit tests for all subclasses of QueenModifierNode.
  */
-public final class QueenModifierNode implements QueenNode {
+public final class QueenModifierNode implements ModifierNode {
 
     /**
      * Position in the original source code.
@@ -59,6 +59,7 @@ public final class QueenModifierNode implements QueenNode {
         this.modifier = modifier;
     }
 
+    @Override
     public String modifier() {
         return this.modifier.toLowerCase();
     }

@@ -44,7 +44,7 @@ import java.util.function.Supplier;
  * @todo #2:60min Analyize and implement annotation-level packages, as they are
  *  defined in the grammar.
  */
-public final class QueenPackageDeclarationNode implements QueenNode {
+public final class QueenPackageDeclarationNode implements PackageDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -81,5 +81,10 @@ public final class QueenPackageDeclarationNode implements QueenNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenNameNode packageName() {
+        return this.packageName;
     }
 }

@@ -40,7 +40,6 @@ import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.QueenTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 
@@ -53,7 +52,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #10:30min Unit tests for QueenMethodDeclarationNode are needed.
  */
-public final class QueenInterfaceMethodDeclarationNode implements QueenInterfaceMemberDeclarationNode, QueenNodeWithTypeParameters {
+public final class QueenInterfaceMethodDeclarationNode implements InterfaceMethodDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -186,5 +185,40 @@ public final class QueenInterfaceMethodDeclarationNode implements QueenInterface
             }
             withType.setType(setType);
         }
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.modifiers;
+    }
+
+    @Override
+    public QueenTypeNode returnType() {
+        return this.returnType;
+    }
+
+    @Override
+    public List<QueenArrayDimensionNode> dims() {
+        return this.dims;
+    }
+
+    @Override
+    public List<QueenParameterNode> parameters() {
+        return this.parameters;
+    }
+
+    @Override
+    public List<QueenExceptionTypeNode> throwsList() {
+        return this.throwsList;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

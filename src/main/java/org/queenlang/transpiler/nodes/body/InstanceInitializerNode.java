@@ -27,31 +27,23 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-
-import java.util.List;
+import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 
 /**
- * Queen AnnotationDeclaration AST node.
+ * Queen Instance Initializer AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode {
-
-
-    /**
-     * Annotations on top of this annotation declaration.
-     */
-    List<QueenAnnotationNode> annotations();
+public interface InstanceInitializerNode extends ClassBodyDeclarationNode {
 
     /**
-     * Modifiers of this annotation.
+     * Statements in this initializer.
      */
-    List<QueenModifierNode> modifiers();
+    QueenBlockStatements blockStatements();
 
     /**
-     * The body.
+     * Is it static or not?
      */
-    QueenAnnotationTypeBodyNode body();
+    boolean isStatic();
 }

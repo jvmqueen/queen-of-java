@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenImportDeclarationNode implements QueenNode {
+public final class QueenImportDeclarationNode implements ImportDeclarationNode {
 
     /**
      * Position in the original source code.
@@ -119,5 +119,20 @@ public final class QueenImportDeclarationNode implements QueenNode {
 //            return false;
 //        }
         return false;
+    }
+
+    @Override
+    public boolean staticImport() {
+        return this.staticImport;
+    }
+
+    @Override
+    public boolean asteriskImport() {
+        return this.asteriskImport;
+    }
+
+    @Override
+    public QueenNameNode importDeclarationName() {
+        return this.importDeclarationName;
     }
 }

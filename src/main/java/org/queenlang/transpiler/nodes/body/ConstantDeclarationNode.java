@@ -27,13 +27,38 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.QueenExpressionNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+
+import java.util.List;
+import java.util.Map;
 
 /**
- * Queen ClassBody declaration AST node.
+ * Queen ConstantDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenClassBodyDeclarationNode extends QueenNode {
+public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode {
+
+    /**
+     * Annotations on top of this constant declaration.
+     */
+    List<QueenAnnotationNode> annotations();
+
+    /**
+     * Access modifiers of this constant declaration.
+     */
+    List<QueenModifierNode> modifiers();
+
+    /**
+     * Type of the constant declaration.
+     */
+    QueenTypeNode type();
+
+    /**
+     * Variable names and initializer expressions.
+     */
+    Map<QueenVariableDeclaratorId, QueenExpressionNode> variables();
 }

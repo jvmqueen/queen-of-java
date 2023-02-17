@@ -132,7 +132,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenTypeDeclarationNode visitTypeDeclaration(QueenParser.TypeDeclarationContext ctx) {
+    public TypeDeclarationNode visitTypeDeclaration(QueenParser.TypeDeclarationContext ctx) {
         if(ctx.classDeclaration() != null) {
             return this.visitClassDeclaration(ctx.classDeclaration());
         } else if(ctx.interfaceDeclaration() != null) {
@@ -188,7 +188,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenInterfaceDeclarationNode visitInterfaceDeclaration(QueenParser.InterfaceDeclarationContext ctx) {
+    public InterfaceDeclarationNode visitInterfaceDeclaration(QueenParser.InterfaceDeclarationContext ctx) {
         if(ctx.normalInterfaceDeclaration() != null) {
             return this.visitNormalInterfaceDeclaration(ctx.normalInterfaceDeclaration());
         } else {
@@ -361,7 +361,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenClassBodyDeclarationNode visitClassBodyDeclaration(QueenParser.ClassBodyDeclarationContext ctx) {
+    public ClassBodyDeclarationNode visitClassBodyDeclaration(QueenParser.ClassBodyDeclarationContext ctx) {
         if(ctx.classMemberDeclaration() != null) {
             if(ctx.classMemberDeclaration().fieldDeclaration() != null) {
                 return this.visitFieldDeclaration(ctx.classMemberDeclaration().fieldDeclaration());
@@ -3205,7 +3205,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenInterfaceBodyNode visitInterfaceBody(QueenParser.InterfaceBodyContext ctx) {
-        final List<QueenInterfaceMemberDeclarationNode> members = new ArrayList<>();
+        final List<InterfaceMemberDeclarationNode> members = new ArrayList<>();
         if(ctx.interfaceMemberDeclaration() != null) {
             ctx.interfaceMemberDeclaration().forEach(
                 imd -> members.add(this.visitInterfaceMemberDeclaration(imd))
@@ -3216,7 +3216,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenAnnotationTypeBodyNode visitAnnotationTypeBody(QueenParser.AnnotationTypeBodyContext ctx) {
-        final List<QueenAnnotationTypeMemberDeclarationNode> members = new ArrayList<>();
+        final List<AnnotationTypeMemberDeclarationNode> members = new ArrayList<>();
         if(ctx.annotationTypeMemberDeclaration() != null) {
             ctx.annotationTypeMemberDeclaration().forEach(
                 amd -> members.add(this.visitAnnotationTypeMemberDeclaration(amd))
@@ -3226,7 +3226,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenInterfaceMemberDeclarationNode visitInterfaceMemberDeclaration(QueenParser.InterfaceMemberDeclarationContext ctx) {
+    public InterfaceMemberDeclarationNode visitInterfaceMemberDeclaration(QueenParser.InterfaceMemberDeclarationContext ctx) {
         if(ctx.classDeclaration() != null) {
             return this.visitClassDeclaration(ctx.classDeclaration());
         } else if(ctx.interfaceDeclaration() != null) {
@@ -3240,7 +3240,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenAnnotationTypeMemberDeclarationNode visitAnnotationTypeMemberDeclaration(QueenParser.AnnotationTypeMemberDeclarationContext ctx) {
+    public AnnotationTypeMemberDeclarationNode visitAnnotationTypeMemberDeclaration(QueenParser.AnnotationTypeMemberDeclarationContext ctx) {
         if(ctx.classDeclaration() != null) {
             return this.visitClassDeclaration(ctx.classDeclaration());
         } else if(ctx.interfaceDeclaration() != null) {

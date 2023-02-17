@@ -48,12 +48,12 @@ public interface QueenASTVisitor<T> {
     T visitQueenAnnotationNode(final QueenAnnotationNode node);
     T visitQueenAnnotationTypeBodyNode(final QueenAnnotationTypeBodyNode node);
     T visitQueenAnnotationTypeDeclarationNode(final QueenAnnotationTypeDeclarationNode node);
-    T visitQueenAnnotationTypeMemberDeclarationNode(final QueenAnnotationTypeMemberDeclarationNode node);
+    T visitQueenAnnotationTypeMemberDeclarationNode(final AnnotationTypeMemberDeclarationNode node);
     T visitQueenBlockStatementsNode(final QueenBlockStatements node);
-    T visitQueenClassBodyDeclarationNode(final QueenClassBodyDeclarationNode node);
+    T visitQueenClassBodyDeclarationNode(final ClassBodyDeclarationNode node);
     T visitQueenClassBodyNode(final QueenClassBodyNode node);
     T visitQueenClassDeclarationNode(final QueenClassDeclarationNode node);
-    T visitQueenClassMemberDeclarationNode(final QueenClassMemberDeclarationNode node);
+    T visitQueenClassMemberDeclarationNode(final ClassMemberDeclarationNode node);
     T visitQueenCompilationUnitNode(final QueenCompilationUnitNode node);
     T visitQueenConstantDeclarationNode(final QueenConstantDeclarationNode node);
     T visitQueenConstructorDeclarationNode(final QueenConstructorDeclarationNode node);
@@ -63,8 +63,8 @@ public interface QueenASTVisitor<T> {
     T visitQueenImportDeclarationNode(final QueenImportDeclarationNode node);
     T visitQueenInstanceInitializerNode(final QueenInstanceInitializerNode node);
     T visitQueenInterfaceBodyNode(final QueenInterfaceBodyNode node);
-    T visitQueenInterfaceDeclarationNode(final QueenInterfaceDeclarationNode node);
-    T visitQueenInterfaceMemberDeclarationNode(final QueenInterfaceMemberDeclarationNode node);
+    T visitQueenInterfaceDeclarationNode(final InterfaceDeclarationNode node);
+    T visitQueenInterfaceMemberDeclarationNode(final InterfaceMemberDeclarationNode node);
     T visitQueenInterfaceMethodDeclarationNode(final QueenInterfaceMethodDeclarationNode node);
     T visitQueenMarkerAnnotationNode(final QueenMarkerAnnotationNode node);
     T visitQueenMethodDeclarationNode(final QueenMethodDeclarationNode node);
@@ -78,7 +78,7 @@ public interface QueenASTVisitor<T> {
     T visitQueenStatementNode(final QueenStatementNode node);
     T visitQueenTextExpressionNode(final QueenTextExpressionNode node);
     T visitQueenTextStatementNode(final QueenTextStatementNode node);
-    T visitQueenTypeDeclarationNode(final QueenTypeDeclarationNode node);
+    T visitQueenTypeDeclarationNode(final TypeDeclarationNode node);
     T visitQueenTypeParameterNode(final QueenTypeParameterNode node);
     T visitQueenNodeWithTypeParameters(final QueenNodeWithTypeParameters node);
     T visitQueenTypeNode(final QueenTypeNode node);

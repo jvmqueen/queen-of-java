@@ -29,7 +29,6 @@ package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
 
@@ -40,17 +39,17 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCompilationUnitNode implements QueenNode {
+public final class QueenCompilationUnitNode implements CompilationUnitNode {
     private final Position position;
     private final QueenPackageDeclarationNode packageDeclaration;
     private final List<QueenImportDeclarationNode> importDeclarations;
-    private final List<QueenTypeDeclarationNode> typeDeclarations;
+    private final List<TypeDeclarationNode> typeDeclarations;
 
     public QueenCompilationUnitNode(
         final Position position,
         final QueenPackageDeclarationNode packageDeclaration,
         final List<QueenImportDeclarationNode> importDeclarations,
-        final List<QueenTypeDeclarationNode> typeDeclarations
+        final List<TypeDeclarationNode> typeDeclarations
     ) {
         this.position = position;
         this.packageDeclaration = packageDeclaration;
@@ -65,11 +64,18 @@ public final class QueenCompilationUnitNode implements QueenNode {
         this.typeDeclarations.forEach(t -> t.addToJavaNode(java));
     }
 
+    @Override
+    public QueenPackageDeclarationNode packageDeclaration() {
+        return this.packageDeclaration;
+    }
+
+    @Override
     public List<QueenImportDeclarationNode> importDeclarations() {
         return this.importDeclarations;
     }
 
-    public QueenTypeDeclarationNode typeDeclaration() {
+    @Override
+    public TypeDeclarationNode typeDeclaration() {
         return this.typeDeclarations.get(0);
     }
 

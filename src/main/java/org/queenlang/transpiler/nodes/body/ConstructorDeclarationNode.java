@@ -29,12 +29,33 @@ package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
+import org.queenlang.transpiler.nodes.statements.QueenExplicitConstructorInvocationNode;
+import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
+import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
+
+import java.util.List;
 
 /**
- * Queen annotation type member declaration node.
+ * Queen ConstructorDeclaration AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenAnnotationTypeMemberDeclarationNode extends Named, QueenNode {
+public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationNode, QueenNodeWithTypeParameters {
+
+    List<QueenNode> annotations();
+
+    QueenModifierNode modifier();
+
+    List<QueenTypeParameterNode> typeParams();
+
+    List<QueenParameterNode> parameters();
+
+    List<QueenExceptionTypeNode> throwsList();
+
+    QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode();
+
+    QueenBlockStatements blockStatements();
 }

@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
  * @since 0.0.1
  * @todo #33:30min Unit tests for class QueenInstanceInitializerNode are needed.
  */
-public final class QueenInstanceInitializerNode implements QueenClassBodyDeclarationNode {
+public final class QueenInstanceInitializerNode implements InstanceInitializerNode {
 
     /**
      * Position in the original source code.
@@ -88,5 +88,15 @@ public final class QueenInstanceInitializerNode implements QueenClassBodyDeclara
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
+    }
+
+    @Override
+    public boolean isStatic() {
+        return this.isStatic;
     }
 }

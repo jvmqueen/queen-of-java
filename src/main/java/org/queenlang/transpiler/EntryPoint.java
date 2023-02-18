@@ -37,7 +37,7 @@ import java.io.*;
  */
 public final class EntryPoint {
     public static void run(String path, String fileName) throws IOException, QueenTranspilationException {
-        final QueenTranspiler transpiler = new JavaQueenTanspiler();
+        final QueenTranspiler transpiler = new JavaQueenTranspiler();
         final String javaClass = transpiler.transpile(
             EntryPoint.class.getClassLoader()
                 .getResourceAsStream(path),

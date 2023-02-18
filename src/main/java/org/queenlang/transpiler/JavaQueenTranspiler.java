@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
  * @version $Id$
  * @since 0.0.1
  */
-public final class JavaQueenTanspiler implements QueenTranspiler {
+public final class gitJavaQueenTranspiler implements QueenTranspiler {
     @Override
     public String transpile(final InputStream clazz, final String fileName) throws IOException, QueenTranspilationException {
         final String input = this.inputToString(clazz);

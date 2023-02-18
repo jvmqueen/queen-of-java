@@ -73,7 +73,7 @@ public final class QueenTranspilerTestCase {
         final String dirPath = "src/test/resources/queenToJava/random/";
         final String queenClass = this.readTestResource(dirPath, queenInput);
         final String javaClass = this.readTestResource(dirPath, javaOuput);
-        final QueenTranspiler transpiler = new JavaQueenTanspiler();
+        final QueenTranspiler transpiler = new JavaQueenTranspiler();
         MatcherAssert.assertThat(
             transpiler.transpile(queenClass, queenInput),
             Matchers.equalTo(javaClass)

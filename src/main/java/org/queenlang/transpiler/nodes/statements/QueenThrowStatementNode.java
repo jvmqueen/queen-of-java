@@ -12,7 +12,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenThrowStatementNode implements StatementNode {
+public final class QueenThrowStatementNode implements ThrowStatementNode {
 
     private final Position position;
 
@@ -36,5 +36,10 @@ public final class QueenThrowStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
     }
 }

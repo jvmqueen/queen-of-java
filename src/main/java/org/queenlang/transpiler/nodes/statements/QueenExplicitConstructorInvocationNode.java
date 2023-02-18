@@ -45,7 +45,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenExplicitConstructorInvocationNode implements StatementNode {
+public final class QueenExplicitConstructorInvocationNode implements ExplicitConstructorInvocationNode {
 
     private final Position position;
     private final boolean isThis;
@@ -93,5 +93,25 @@ public final class QueenExplicitConstructorInvocationNode implements StatementNo
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public boolean isThis() {
+        return this.isThis;
+    }
+
+    @Override
+    public ExpressionNode scope() {
+        return this.scope;
+    }
+
+    @Override
+    public List<TypeNode> typeArguments() {
+        return this.typeArguments;
+    }
+
+    @Override
+    public List<ExpressionNode> arguments() {
+        return this.arguments;
     }
 }

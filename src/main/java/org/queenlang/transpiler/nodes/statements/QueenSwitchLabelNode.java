@@ -12,7 +12,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSwitchLabelNode implements QueenNode {
+public final class QueenSwitchLabelNode implements SwitchLabelNode {
 
     private final Position position;
     private final ExpressionNode expressionNode;
@@ -39,5 +39,15 @@ public final class QueenSwitchLabelNode implements QueenNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode expressionNode() {
+        return this.expressionNode;
+    }
+
+    @Override
+    public boolean isDefaultLabel() {
+        return this.isDefaultLabel;
     }
 }

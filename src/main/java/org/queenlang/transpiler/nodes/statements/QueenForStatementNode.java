@@ -47,7 +47,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenForStatementNode implements StatementNode {
+public final class QueenForStatementNode implements ForStatementNode {
 
     /**
      * Position of this for statement in the original source code.
@@ -137,5 +137,25 @@ public final class QueenForStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<ExpressionNode> initialization() {
+        return this.initialization;
+    }
+
+    @Override
+    public ExpressionNode comparison() {
+        return this.comparison;
+    }
+
+    @Override
+    public List<ExpressionNode> update() {
+        return this.update;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

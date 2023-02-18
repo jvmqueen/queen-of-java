@@ -27,34 +27,16 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.EmptyStmt;
-import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
- * Queen Empty Statement AST Node.
+ * Queen CatchClause AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenEmptyStatementNode implements EmptyStatementNode {
+public interface CatchClauseNode extends QueenNode {
 
-    private final Position position;
-
-    public QueenEmptyStatementNode(final Position position) {
-        this.position = position;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ((BlockStmt) java).addStatement(
-            new EmptyStmt()
-        );
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
+    QueenCatchFormalParameterNode parameter();
+    QueenBlockStatements blockStatements();
 }

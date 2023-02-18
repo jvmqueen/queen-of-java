@@ -45,7 +45,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCatchFormalParameterNode implements QueenNode {
+public final class QueenCatchFormalParameterNode implements CatchFormalParameterNode {
 
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
@@ -88,5 +88,25 @@ public final class QueenCatchFormalParameterNode implements QueenNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<QueenModifierNode> modifiers() {
+        return this.modifiers;
+    }
+
+    @Override
+    public List<TypeNode> catchExceptionTypes() {
+        return this.catchExceptionTypes;
+    }
+
+    @Override
+    public QueenVariableDeclaratorId exceptionName() {
+        return this.exceptionName;
     }
 }

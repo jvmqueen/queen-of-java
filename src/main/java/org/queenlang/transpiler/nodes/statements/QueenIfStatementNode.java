@@ -41,7 +41,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenIfStatementNode implements StatementNode {
+public final class QueenIfStatementNode implements IfStatementNode {
     /**
      * Position in the original source code.
      */
@@ -114,5 +114,20 @@ public final class QueenIfStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode condition() {
+        return this.condition;
+    }
+
+    @Override
+    public QueenBlockStatements thenBlockStatements() {
+        return this.thenBlockStatements;
+    }
+
+    @Override
+    public QueenBlockStatements elseBlockStatements() {
+        return this.elseBlockStatements;
     }
 }

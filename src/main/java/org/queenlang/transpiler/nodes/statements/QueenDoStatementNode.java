@@ -38,7 +38,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenDoStatementNode implements StatementNode {
+public final class QueenDoStatementNode implements DoStatementNode {
 
     /**
      * Position in the original source code.
@@ -92,5 +92,15 @@ public final class QueenDoStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
     }
 }

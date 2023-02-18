@@ -43,7 +43,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenForEachStatementNode implements StatementNode {
+public final class QueenForEachStatementNode implements ForEachStatementNode {
 
     /**
      * Position of this for statement in the original source code.
@@ -106,5 +106,20 @@ public final class QueenForEachStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenLocalVariableDeclarationNode variable() {
+        return this.variable;
+    }
+
+    @Override
+    public ExpressionNode iterable() {
+        return this.iterable;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

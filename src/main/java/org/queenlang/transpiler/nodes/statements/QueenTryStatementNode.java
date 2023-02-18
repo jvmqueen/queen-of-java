@@ -42,7 +42,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTryStatementNode implements StatementNode {
+public final class QueenTryStatementNode implements TryStatementNode {
 
     private final Position position;
     private final List<ExpressionNode> resources;
@@ -101,5 +101,25 @@ public final class QueenTryStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<ExpressionNode> resources() {
+        return this.resources;
+    }
+
+    @Override
+    public QueenBlockStatements tryBlockStatements() {
+        return this.tryBlockStatements;
+    }
+
+    @Override
+    public List<QueenCatchClauseNode> catchClauses() {
+        return this.catchClauses;
+    }
+
+    @Override
+    public QueenBlockStatements finallyBlockStatements() {
+        return this.finallyBlockStatements;
     }
 }

@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSynchronizedStatementNode implements StatementNode {
+public final class QueenSynchronizedStatementNode implements SynchronizedStatementNode {
 
     private final Position position;
 
@@ -72,5 +72,15 @@ public final class QueenSynchronizedStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode syncExpression() {
+        return this.syncExpression;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

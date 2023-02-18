@@ -38,7 +38,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenContinueStatementNode implements StatementNode {
+public final class QueenContinueStatementNode implements ContinueStatementNode {
 
     private final Position position;
 
@@ -61,5 +61,10 @@ public final class QueenContinueStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public String label() {
+        return this.label;
     }
 }

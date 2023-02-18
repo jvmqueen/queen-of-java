@@ -41,7 +41,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSwitchEntryNode implements QueenNode {
+public final class QueenSwitchEntryNode implements SwitchEntryNode {
 
     private final Position position;
     private final List<QueenSwitchLabelNode> labels;
@@ -76,5 +76,15 @@ public final class QueenSwitchEntryNode implements QueenNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenSwitchLabelNode> labels() {
+        return this.labels;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

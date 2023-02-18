@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCatchClauseNode implements QueenNode {
+public final class QueenCatchClauseNode implements CatchClauseNode {
 
     private final Position position;
     private final QueenCatchFormalParameterNode parameter;
@@ -83,5 +83,15 @@ public final class QueenCatchClauseNode implements QueenNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenCatchFormalParameterNode parameter() {
+        return this.parameter;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

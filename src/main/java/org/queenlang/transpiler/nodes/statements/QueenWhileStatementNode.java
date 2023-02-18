@@ -41,7 +41,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenWhileStatementNode implements StatementNode {
+public final class QueenWhileStatementNode implements WhileStatementNode {
 
     /**
      * Position in the original source code.
@@ -95,5 +95,15 @@ public final class QueenWhileStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

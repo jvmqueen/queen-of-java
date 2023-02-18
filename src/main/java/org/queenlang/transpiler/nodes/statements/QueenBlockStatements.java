@@ -40,7 +40,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBlockStatements implements StatementNode, Iterable<StatementNode> {
+public final class QueenBlockStatements implements BlockStatements {
 
     private final Position position;
     private final List<StatementNode> blockStatements;
@@ -60,8 +60,8 @@ public final class QueenBlockStatements implements StatementNode, Iterable<State
     }
 
     @Override
-    public Iterator<StatementNode> iterator() {
-        return this.blockStatements.iterator();
+    public List<StatementNode> blockStatements() {
+        return this.blockStatements;
     }
 
     @Override

@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenAssertStatementNode implements StatementNode {
+public final class QueenAssertStatementNode implements AssertStatementNode {
 
     private final Position position;
 
@@ -69,5 +69,15 @@ public final class QueenAssertStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode check() {
+        return this.check;
+    }
+
+    @Override
+    public ExpressionNode message() {
+        return this.message;
     }
 }

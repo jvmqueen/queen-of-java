@@ -41,7 +41,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLabeledStatementNode implements Named, StatementNode {
+public final class QueenLabeledStatementNode implements LabeledStatementNode {
 
     /**
      * Position of this for statement in the original source code.
@@ -100,5 +100,10 @@ public final class QueenLabeledStatementNode implements Named, StatementNode {
     @Override
     public String name() {
         return this.name;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

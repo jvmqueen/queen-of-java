@@ -27,34 +27,20 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.EmptyStmt;
-import org.queenlang.transpiler.nodes.Position;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * Queen Empty Statement AST Node.
+ * Queen BlockStatements AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenEmptyStatementNode implements EmptyStatementNode {
+public interface BlockStatements extends StatementNode, Iterable<StatementNode> {
 
-    private final Position position;
+    List<StatementNode> blockStatements();
 
-    public QueenEmptyStatementNode(final Position position) {
-        this.position = position;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ((BlockStmt) java).addStatement(
-            new EmptyStmt()
-        );
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
+    default Iterator<StatementNode> iterator() {
+        return this.blockStatements().iterator();
     }
 }

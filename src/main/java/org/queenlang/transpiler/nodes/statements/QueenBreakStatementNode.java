@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBreakStatementNode implements StatementNode {
+public final class QueenBreakStatementNode implements BreakStatementNode {
 
     private final Position position;
 
@@ -62,5 +62,10 @@ public final class QueenBreakStatementNode implements StatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public String label() {
+        return this.label;
     }
 }

@@ -27,34 +27,29 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.EmptyStmt;
-import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.body.QueenLocalVariableDeclarationNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
- * Queen Empty Statement AST Node.
+ * Queen For Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenEmptyStatementNode implements EmptyStatementNode {
+public interface ForEachStatementNode extends StatementNode {
 
-    private final Position position;
+    /**
+     * Variable.
+     */
+    QueenLocalVariableDeclarationNode variable();
 
-    public QueenEmptyStatementNode(final Position position) {
-        this.position = position;
-    }
+    /**
+     * Iterable.
+     */
+    ExpressionNode iterable();
 
-    @Override
-    public void addToJavaNode(final Node java) {
-        ((BlockStmt) java).addStatement(
-            new EmptyStmt()
-        );
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
+    /**
+     * Statements inside the for-each statement.
+     */
+    QueenBlockStatements blockStatements();
 }

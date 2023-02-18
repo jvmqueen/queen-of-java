@@ -38,7 +38,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     /**
      * Type of the local variable.
      */
-    private final QueenTypeNode type;
+    private final TypeNode type;
 
     /**
      * Variable names and initializer expressions.
@@ -82,7 +82,7 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final QueenTypeNode type,
+        final TypeNode type,
         final Map<QueenVariableDeclaratorId, ExpressionNode> variables
     ) {
         this.position = position;
@@ -155,7 +155,7 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     }
 
     @Override
-    public QueenTypeNode type() {
+    public TypeNode type() {
         return type;
     }
 

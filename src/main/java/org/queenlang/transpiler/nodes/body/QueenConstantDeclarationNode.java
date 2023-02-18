@@ -33,7 +33,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     /**
      * Type of the constant declaration.
      */
-    private final QueenTypeNode type;
+    private final TypeNode type;
 
     /**
      * Variable names and initializer expressions.
@@ -77,7 +77,7 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final QueenTypeNode type,
+        final TypeNode type,
         final Map<QueenVariableDeclaratorId, ExpressionNode> variables
     ) {
         this.position = position;
@@ -130,7 +130,7 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     }
 
     @Override
-    public QueenTypeNode type() {
+    public TypeNode type() {
         return this.type;
     }
 

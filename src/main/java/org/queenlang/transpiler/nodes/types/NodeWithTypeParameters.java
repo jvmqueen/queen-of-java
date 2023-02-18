@@ -27,11 +27,19 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import java.util.List;
+
 /**
- * Queen ReferenceType AST Node.
+ * Queen node with type parameters.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenReferenceTypeNode extends QueenTypeNode {
+public interface NodeWithTypeParameters {
+
+    /**
+     * Return the list of type params.
+     * @return List of QueenTypeParameterNode.
+     */
+    List<QueenTypeParameterNode> typeParameters();
 }

@@ -48,7 +48,7 @@ import java.util.List;
  * @since 0.0.1
  * @todo #49:60min Implement other types like primitive, array etc.
  */
-public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeNode {
+public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceTypeNode {
 
     /**
      * Position in the original source code.
@@ -79,7 +79,7 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
     /**
      * Type arguments of this reference type.
      */
-    private final List<QueenTypeNode> typeArguments;
+    private final List<TypeNode> typeArguments;
 
     private final boolean hasDiamondOperator;
 
@@ -88,7 +88,7 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         final boolean interfaceType,
         final List<QueenAnnotationNode> annotations,
         final String name,
-        final List<QueenTypeNode> typeArguments
+        final List<TypeNode> typeArguments
     ) {
         this(position, interfaceType, null, annotations, name, typeArguments, false);
     }
@@ -99,7 +99,7 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         final QueenClassOrInterfaceTypeNode scope,
         final List<QueenAnnotationNode> annotations,
         final String name,
-        final List<QueenTypeNode> typeArguments,
+        final List<TypeNode> typeArguments,
         final boolean hasDiamondOperator
     ) {
         this.position = position;
@@ -158,18 +158,32 @@ public final class QueenClassOrInterfaceTypeNode  implements QueenReferenceTypeN
         return this.position;
     }
 
+    @Override
     public String name() {
         return this.name;
     }
 
+    @Override
     public List<QueenAnnotationNode> annotations() {
         return this.annotations;
     }
 
-    public List<QueenTypeNode> typeArguments() {
+    @Override
+    public List<TypeNode> typeArguments() {
         return this.typeArguments;
     }
 
+    @Override
+    public boolean hasDiamondOperator() {
+        return this.hasDiamondOperator;
+    }
+
+    @Override
+    public boolean interfaceType() {
+        return this.interfaceType;
+    }
+
+    @Override
     public QueenClassOrInterfaceTypeNode scope() {
         return this.scope;
     }

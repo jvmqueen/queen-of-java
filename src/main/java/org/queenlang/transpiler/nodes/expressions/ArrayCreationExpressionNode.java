@@ -27,7 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ import java.util.List;
  */
 public interface ArrayCreationExpressionNode extends ExpressionNode {
 
-    QueenTypeNode type();
+    TypeNode type();
     List<QueenArrayDimensionNode> dims();
     ExpressionNode arrayInitializer();
 }

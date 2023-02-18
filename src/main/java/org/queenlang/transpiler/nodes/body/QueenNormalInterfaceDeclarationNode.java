@@ -35,7 +35,6 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 
 import java.util.List;

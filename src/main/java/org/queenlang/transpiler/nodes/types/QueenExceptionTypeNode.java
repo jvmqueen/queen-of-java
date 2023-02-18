@@ -38,7 +38,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenExceptionTypeNode implements QueenReferenceTypeNode {
+public final class QueenExceptionTypeNode implements ExceptionTypeNode {
 
     private final QueenClassOrInterfaceTypeNode exceptionType;
 
@@ -81,5 +81,10 @@ public final class QueenExceptionTypeNode implements QueenReferenceTypeNode {
             );
         }
         return classOrInterfaceType;
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode exceptionType() {
+        return this.exceptionType;
     }
 }

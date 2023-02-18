@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenVoidNode implements QueenTypeNode {
+public final class QueenVoidNode implements VoidTypeNode {
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
 
@@ -73,5 +73,10 @@ public final class QueenVoidNode implements QueenTypeNode {
     @Override
     public Type toType() {
         return new VoidType();
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
     }
 }

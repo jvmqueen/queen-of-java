@@ -35,7 +35,7 @@ import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.body.QueenModifierNode;
 import org.queenlang.transpiler.nodes.body.QueenVariableDeclaratorId;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
 
@@ -50,14 +50,14 @@ public final class QueenCatchFormalParameterNode implements QueenNode {
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
     private final List<QueenModifierNode> modifiers;
-    private final List<QueenTypeNode> catchExceptionTypes;
+    private final List<TypeNode> catchExceptionTypes;
     private final QueenVariableDeclaratorId exceptionName;
 
     public QueenCatchFormalParameterNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final List<QueenTypeNode> catchExceptionTypes,
+        final List<TypeNode> catchExceptionTypes,
         final QueenVariableDeclaratorId exceptionName
     ) {
         this.position = position;

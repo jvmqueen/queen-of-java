@@ -30,7 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
 import java.util.Map;
@@ -56,7 +56,7 @@ public interface LocalVariableDeclarationNode extends QueenStatementNode, Expres
     /**
      * Type of the local variable.
      */
-    QueenTypeNode type();
+    TypeNode type();
 
     /**
      * Variable names and initializer expressions.

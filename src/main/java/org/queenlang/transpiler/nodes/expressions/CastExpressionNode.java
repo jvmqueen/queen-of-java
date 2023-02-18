@@ -27,8 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import org.queenlang.transpiler.nodes.types.QueenReferenceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 import java.util.List;
 
 /**
@@ -39,7 +39,7 @@ import java.util.List;
  */
 public interface CastExpressionNode extends ExpressionNode {
 
-    QueenTypeNode primitiveType();
-    List<QueenReferenceTypeNode> referenceTypes();
+    TypeNode primitiveType();
+    List<ReferenceTypeNode> referenceTypes();
     ExpressionNode expression();
 }

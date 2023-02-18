@@ -32,7 +32,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public final class QueenMethodInvocationExpressionNode implements MethodInvocati
     private final Position position;
     private final ExpressionNode scope;
 
-    private final List<QueenTypeNode> typeArguments;
+    private final List<TypeNode> typeArguments;
     private final String name;
 
     private final List<ExpressionNode> arguments;
@@ -56,7 +56,7 @@ public final class QueenMethodInvocationExpressionNode implements MethodInvocati
     public QueenMethodInvocationExpressionNode(
         final Position position,
         final ExpressionNode scope,
-        final List<QueenTypeNode> typeArguments,
+        final List<TypeNode> typeArguments,
         final String name,
         final List<ExpressionNode> arguments
     ) {
@@ -100,7 +100,7 @@ public final class QueenMethodInvocationExpressionNode implements MethodInvocati
     }
 
     @Override
-    public List<QueenTypeNode> typeArguments() {
+    public List<TypeNode> typeArguments() {
         return this.typeArguments;
     }
 

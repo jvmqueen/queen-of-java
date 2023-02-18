@@ -27,7 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 import java.util.List;
 
 /**
@@ -40,7 +40,7 @@ public interface MethodInvocationExpressionNode extends ExpressionNode {
 
     ExpressionNode scope();
 
-    List<QueenTypeNode> typeArguments();
+    List<TypeNode> typeArguments();
     String name();
 
     List<ExpressionNode> arguments();

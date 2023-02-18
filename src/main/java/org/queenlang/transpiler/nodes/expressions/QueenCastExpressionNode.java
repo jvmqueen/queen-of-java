@@ -33,8 +33,8 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.type.IntersectionType;
 import com.github.javaparser.ast.type.ReferenceType;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.types.QueenReferenceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +48,13 @@ import java.util.List;
 public final class QueenCastExpressionNode implements CastExpressionNode {
 
     private final Position position;
-    private final QueenTypeNode primitiveType;
-    private final List<QueenReferenceTypeNode> referenceTypes;
+    private final TypeNode primitiveType;
+    private final List<ReferenceTypeNode> referenceTypes;
     private final ExpressionNode expression;
 
     public QueenCastExpressionNode(
         final Position position,
-        final List<QueenReferenceTypeNode> referenceTypes,
+        final List<ReferenceTypeNode> referenceTypes,
         final ExpressionNode expression
     ) {
         this(position, null, referenceTypes, expression);
@@ -62,8 +62,8 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
 
     public QueenCastExpressionNode(
         final Position position,
-        final QueenTypeNode primitiveType,
-        final List<QueenReferenceTypeNode> referenceTypes,
+        final TypeNode primitiveType,
+        final List<ReferenceTypeNode> referenceTypes,
         final ExpressionNode expression
     ) {
         this.position = position;
@@ -100,12 +100,12 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
     }
 
     @Override
-    public QueenTypeNode primitiveType() {
+    public TypeNode primitiveType() {
         return this.primitiveType;
     }
 
     @Override
-    public List<QueenReferenceTypeNode> referenceTypes() {
+    public List<ReferenceTypeNode> referenceTypes() {
         return this.referenceTypes;
     }
 

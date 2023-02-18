@@ -80,9 +80,9 @@ public interface QueenASTVisitor<T> {
     T visitQueenTextStatementNode(final QueenTextStatementNode node);
     T visitQueenTypeDeclarationNode(final TypeDeclarationNode node);
     T visitQueenTypeParameterNode(final QueenTypeParameterNode node);
-    T visitQueenNodeWithTypeParameters(final QueenNodeWithTypeParameters node);
-    T visitQueenTypeNode(final QueenTypeNode node);
-    T visitQueenReferenceTypeNode(final QueenReferenceTypeNode node);
+    T visitQueenNodeWithTypeParameters(final NodeWithTypeParameters node);
+    T visitQueenTypeNode(final TypeNode node);
+    T visitQueenReferenceTypeNode(final ReferenceTypeNode node);
     T visitQueenClassOrInterfaceTypeNode(final QueenClassOrInterfaceTypeNode node);
     T visitQueenWildcardNode(final QueenWildcardNode node);
     //todo #49:Add visitor methods for each and every kind of Node. Last added was WildcardNode#d869ce8f

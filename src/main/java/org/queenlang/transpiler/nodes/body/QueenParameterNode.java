@@ -7,9 +7,8 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public final class QueenParameterNode implements ParameterNode {
     private final List<QueenAnnotationNode> annotations;
     private final List<QueenModifierNode> modifiers;
     private final QueenVariableDeclaratorId name;
-    private final QueenTypeNode type;
+    private final TypeNode type;
     private final List<QueenAnnotationNode> varArgsAnnotations;
     private final boolean varArgs;
 
@@ -42,7 +41,7 @@ public final class QueenParameterNode implements ParameterNode {
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final QueenTypeNode type,
+        final TypeNode type,
         final QueenVariableDeclaratorId name
     ) {
         this(position, annotations, modifiers, type, name, false);
@@ -52,7 +51,7 @@ public final class QueenParameterNode implements ParameterNode {
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final QueenTypeNode type,
+        final TypeNode type,
         final QueenVariableDeclaratorId name,
         final boolean varArgs
     ) {
@@ -63,7 +62,7 @@ public final class QueenParameterNode implements ParameterNode {
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final QueenTypeNode type,
+        final TypeNode type,
         final QueenVariableDeclaratorId name,
         final List<QueenAnnotationNode> varArgsAnnotations,
         final boolean varArgs
@@ -122,7 +121,7 @@ public final class QueenParameterNode implements ParameterNode {
     }
 
     @Override
-    public QueenTypeNode type() {
+    public TypeNode type() {
         return this.type;
     }
 

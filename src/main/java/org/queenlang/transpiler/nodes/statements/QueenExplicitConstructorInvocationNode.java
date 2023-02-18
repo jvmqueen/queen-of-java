@@ -34,7 +34,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,14 +50,14 @@ public final class QueenExplicitConstructorInvocationNode implements QueenStatem
     private final Position position;
     private final boolean isThis;
     private final ExpressionNode scope;
-    private final List<QueenTypeNode> typeArguments;
+    private final List<TypeNode> typeArguments;
     private final List<ExpressionNode> arguments;
 
     public QueenExplicitConstructorInvocationNode(
         final Position position,
         final boolean isThis,
         final ExpressionNode scope,
-        final List<QueenTypeNode> typeArguments,
+        final List<TypeNode> typeArguments,
         final List<ExpressionNode> arguments
     ) {
         this.position = position;

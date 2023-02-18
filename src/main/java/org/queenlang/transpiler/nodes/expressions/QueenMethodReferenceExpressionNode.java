@@ -31,7 +31,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import com.github.javaparser.ast.expr.TypeExpr;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
 
@@ -44,16 +44,16 @@ import java.util.List;
 public final class QueenMethodReferenceExpressionNode implements MethodReferenceExpressionNode {
 
     private final Position position;
-    private final QueenTypeNode type;
+    private final TypeNode type;
     private final ExpressionNode scope;
-    private final List<QueenTypeNode> typeArguments;
+    private final List<TypeNode> typeArguments;
     private final String identifier;
 
     public QueenMethodReferenceExpressionNode(
         final Position position,
-        final QueenTypeNode type,
+        final TypeNode type,
         final ExpressionNode scope,
-        final List<QueenTypeNode> typeArguments,
+        final List<TypeNode> typeArguments,
         final String identifier
     ) {
         this.position = position;
@@ -88,7 +88,7 @@ public final class QueenMethodReferenceExpressionNode implements MethodReference
     }
 
     @Override
-    public QueenTypeNode type() {
+    public TypeNode type() {
         return this.type;
     }
 
@@ -98,7 +98,7 @@ public final class QueenMethodReferenceExpressionNode implements MethodReference
     }
 
     @Override
-    public List<QueenTypeNode> typeArguments() {
+    public List<TypeNode> typeArguments() {
         return this.typeArguments;
     }
 

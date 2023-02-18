@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenWildcardNode implements QueenTypeNode {
+public final class QueenWildcardNode implements WildcardTypeNode {
     /**
      * Position in the original source code.
      */
@@ -58,18 +58,18 @@ public final class QueenWildcardNode implements QueenTypeNode {
     /**
      * Extended type bound.
      */
-    private final QueenReferenceTypeNode extendedType;
+    private final ReferenceTypeNode extendedType;
 
     /**
      * Super type bound.
      */
-    private final QueenReferenceTypeNode superType;
+    private final ReferenceTypeNode superType;
 
     public QueenWildcardNode(
         final Position position,
         final List<QueenAnnotationNode> annotations,
-        final QueenReferenceTypeNode extendedType,
-        final QueenReferenceTypeNode superType
+        final ReferenceTypeNode extendedType,
+        final ReferenceTypeNode superType
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -126,6 +126,21 @@ public final class QueenWildcardNode implements QueenTypeNode {
             wildcardType = new WildcardType();
         }
         return wildcardType;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public ReferenceTypeNode extendedType() {
+        return this.extendedType;
+    }
+
+    @Override
+    public ReferenceTypeNode superType() {
+        return this.superType;
     }
 
     static class WildcardSuperBound extends WildcardType {

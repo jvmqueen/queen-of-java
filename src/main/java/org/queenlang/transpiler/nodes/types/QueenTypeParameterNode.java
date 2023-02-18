@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTypeParameterNode implements Named, QueenNode {
+public final class QueenTypeParameterNode implements TypeParameterNode {
     /**
      * Position in the original source code.
      */
@@ -111,5 +111,15 @@ public final class QueenTypeParameterNode implements Named, QueenNode {
             )
         );
         return tp;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<QueenClassOrInterfaceTypeNode> typeBound() {
+        return this.typeBound;
     }
 }

@@ -30,7 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
+import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 
 import java.util.List;
@@ -41,7 +41,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ClassDeclarationNode extends TypeDeclarationNode, QueenStatementNode, ClassMemberDeclarationNode, InterfaceMemberDeclarationNode, AnnotationTypeMemberDeclarationNode, QueenNodeWithTypeParameters {
+public interface ClassDeclarationNode extends TypeDeclarationNode, QueenStatementNode, ClassMemberDeclarationNode, InterfaceMemberDeclarationNode, AnnotationTypeMemberDeclarationNode, NodeWithTypeParameters {
 
     /**
      * Annotations on top of this class.

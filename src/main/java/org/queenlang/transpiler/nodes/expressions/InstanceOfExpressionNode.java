@@ -27,7 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import org.queenlang.transpiler.nodes.types.QueenReferenceTypeNode;
+import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 
 /**
  * Queen instanceof Expression, AST Node.
@@ -38,5 +38,5 @@ import org.queenlang.transpiler.nodes.types.QueenReferenceTypeNode;
 public interface InstanceOfExpressionNode extends ExpressionNode {
 
     ExpressionNode expression();
-    QueenReferenceTypeNode referenceType();
+    ReferenceTypeNode referenceType();
 }

@@ -29,7 +29,7 @@ package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public interface AnnotationElementDeclarationNode extends AnnotationTypeMemberDe
     /**
      * Type of this annotation element.
      */
-    public QueenTypeNode type();
+    public TypeNode type();
 
     /**
      * Default value of the element.

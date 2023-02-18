@@ -29,7 +29,7 @@ package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
+import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode, QueenNodeWithTypeParameters {
+public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode, NodeWithTypeParameters {
 
     /**
      * Annotations on top of this interface.

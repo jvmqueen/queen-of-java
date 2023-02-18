@@ -29,7 +29,7 @@ package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +55,7 @@ public interface FieldDeclarationNode extends ClassMemberDeclarationNode {
     /**
      * Type of the field declaration.
      */
-    QueenTypeNode type();
+    TypeNode type();
 
     /**
      * Variable names and initializer expressions.

@@ -43,7 +43,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenPrimitiveTypeNode implements QueenTypeNode {
+public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
     /**
      * Position in the original source code.
      */
@@ -94,5 +94,15 @@ public final class QueenPrimitiveTypeNode implements QueenTypeNode {
             this.annotations.forEach(a -> a.addToJavaNode(primitiveType));
         }
         return primitiveType;
+    }
+
+    @Override
+    public List<QueenAnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
     }
 }

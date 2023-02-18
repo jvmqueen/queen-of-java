@@ -25,37 +25,15 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.body;
-
-import org.queenlang.transpiler.nodes.Named;
-import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
-import org.queenlang.transpiler.nodes.statements.QueenExplicitConstructorInvocationNode;
-import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
-import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
-import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
-
-import java.util.List;
+package org.queenlang.transpiler.nodes.types;
 
 /**
- * Queen ConstructorDeclaration AST Node.
+ * Queen ExceptionType AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationNode, NodeWithTypeParameters {
+public interface ExceptionTypeNode extends ReferenceTypeNode {
 
-    List<QueenNode> annotations();
-
-    QueenModifierNode modifier();
-
-    List<QueenTypeParameterNode> typeParams();
-
-    List<QueenParameterNode> parameters();
-
-    List<QueenExceptionTypeNode> throwsList();
-
-    QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode();
-
-    QueenBlockStatements blockStatements();
+    QueenClassOrInterfaceTypeNode exceptionType();
 }

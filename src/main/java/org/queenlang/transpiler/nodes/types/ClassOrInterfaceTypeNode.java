@@ -25,37 +25,44 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.body;
+package org.queenlang.transpiler.nodes.types;
 
-import org.queenlang.transpiler.nodes.Named;
-import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
-import org.queenlang.transpiler.nodes.statements.QueenExplicitConstructorInvocationNode;
-import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
-import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
-import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
-
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import java.util.List;
 
 /**
- * Queen ConstructorDeclaration AST Node.
+ * Queen class or interface reference type.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationNode, NodeWithTypeParameters {
+public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode {
 
-    List<QueenNode> annotations();
+    /**
+     * Is it an interface type or class type?
+     */
+    boolean interfaceType();
 
-    QueenModifierNode modifier();
+    /**
+     * Scope of this reference type (what comes before the dot). E.g.
+     * java.util.List (util is the scope of List).
+     */
+    ClassOrInterfaceTypeNode scope();
 
-    List<QueenTypeParameterNode> typeParams();
+    /**
+     * Annotations on top of this reference type.
+     */
+    List<QueenAnnotationNode> annotations();
 
-    List<QueenParameterNode> parameters();
+    /**
+     * Name of this reference type.
+     */
+    String name();
 
-    List<QueenExceptionTypeNode> throwsList();
+    /**
+     * Type arguments of this reference type.
+     */
+    List<TypeNode> typeArguments();
 
-    QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode();
-
-    QueenBlockStatements blockStatements();
+    boolean hasDiamondOperator();
 }

@@ -31,7 +31,7 @@ import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.types.QueenArrayTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
 
@@ -45,12 +45,12 @@ import java.util.List;
 public final class QueenTypeImplementationExpressionNode implements TypeImplementationExpressionNode {
 
     private final Position position;
-    private final QueenTypeNode type;
+    private final TypeNode type;
     private final List<QueenArrayDimensionNode> dims;
 
     public QueenTypeImplementationExpressionNode(
         final Position position,
-        final QueenTypeNode type,
+        final TypeNode type,
         final List<QueenArrayDimensionNode> dims
     ) {
         this.position = position;
@@ -79,7 +79,7 @@ public final class QueenTypeImplementationExpressionNode implements TypeImplemen
     }
 
     @Override
-    public QueenTypeNode type() {
+    public TypeNode type() {
         return this.type;
     }
 

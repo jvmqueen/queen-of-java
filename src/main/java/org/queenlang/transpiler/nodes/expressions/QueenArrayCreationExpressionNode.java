@@ -33,7 +33,7 @@ import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,13 +47,13 @@ import java.util.List;
 public final class QueenArrayCreationExpressionNode implements ArrayCreationExpressionNode {
 
     private final Position position;
-    private final QueenTypeNode type;
+    private final TypeNode type;
     private final List<QueenArrayDimensionNode> dims;
     private final ExpressionNode arrayInitializer;
 
     public QueenArrayCreationExpressionNode(
         final Position position,
-        final QueenTypeNode type,
+        final TypeNode type,
         final List<QueenArrayDimensionNode> dims,
         final ExpressionNode arrayInitializer
     ) {
@@ -95,7 +95,7 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
     }
 
     @Override
-    public QueenTypeNode type() {
+    public TypeNode type() {
         return this.type;
     }
 

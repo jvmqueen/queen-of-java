@@ -41,8 +41,7 @@ import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenNodeWithTypeParameters;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 
 import java.util.List;
@@ -74,7 +73,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     /**
      * Return type.
      */
-    private final QueenTypeNode returnType;
+    private final TypeNode returnType;
 
     /**
      * Dims on the method declaration. They can be found at the end of the method header:
@@ -111,7 +110,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final QueenTypeNode returnType,
+        final TypeNode returnType,
         final List<QueenArrayDimensionNode> dims,
         final List<QueenTypeParameterNode> typeParams,
         final String name,
@@ -206,7 +205,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     }
 
     @Override
-    public QueenTypeNode returnType() {
+    public TypeNode returnType() {
         return this.returnType;
     }
 

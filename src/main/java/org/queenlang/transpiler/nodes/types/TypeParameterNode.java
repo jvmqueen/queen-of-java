@@ -27,19 +27,33 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
+import com.github.javaparser.ast.type.TypeParameter;
+import org.queenlang.transpiler.nodes.Named;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Queen node with type parameters.
+ * Queen TypeParameter AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenNodeWithTypeParameters {
+public interface TypeParameterNode extends Named, QueenNode {
 
     /**
-     * Return the list of type params.
-     * @return List of QueenTypeParameterNode.
+     * Annotations on top of this type parameter.
      */
-    List<QueenTypeParameterNode> typeParameters();
+    List<QueenAnnotationNode> annotations();
+
+    /**
+     * Type bounds.
+     */
+    List<QueenClassOrInterfaceTypeNode> typeBound();
 }

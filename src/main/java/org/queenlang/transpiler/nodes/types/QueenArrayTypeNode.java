@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
+public final class QueenArrayTypeNode implements ArrayTypeNode {
 
     /**
      * Position in the original source code.
@@ -54,7 +54,7 @@ public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
     /**
      * Type of the array (used for symbol resolution etc).
      */
-    private final QueenTypeNode type;
+    private final TypeNode type;
 
     /**
      * Array type dimensions (pairs of square brackets).
@@ -63,7 +63,7 @@ public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
 
     public QueenArrayTypeNode(
         final Position position,
-        final QueenTypeNode type,
+        final TypeNode type,
         final List<QueenArrayDimensionNode> dims
     ) {
         this.position = position;
@@ -104,5 +104,15 @@ public final class QueenArrayTypeNode implements QueenReferenceTypeNode {
             }
         }
         return arrayType;
+    }
+
+    @Override
+    public TypeNode type() {
+        return this.type;
+    }
+
+    @Override
+    public List<QueenArrayDimensionNode> dims() {
+        return this.dims;
     }
 }

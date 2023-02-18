@@ -33,7 +33,7 @@ import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
     /**
      * Type of this annotation element.
      */
-    private final QueenTypeNode type;
+    private final TypeNode type;
 
     /**
      * Name of this annotation element.
@@ -80,7 +80,7 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
         final Position position,
         final List<QueenAnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
-        final QueenTypeNode type,
+        final TypeNode type,
         final String name,
         final ExpressionNode defaultValue
     ) {
@@ -130,7 +130,7 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
     }
 
     @Override
-    public QueenTypeNode type() {
+    public TypeNode type() {
         return this.type;
     }
 

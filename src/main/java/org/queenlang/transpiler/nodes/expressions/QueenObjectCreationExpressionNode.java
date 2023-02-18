@@ -33,7 +33,7 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.body.QueenClassBodyNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
     private final ExpressionNode scope;
     private final QueenClassOrInterfaceTypeNode type;
 
-    private final List<QueenTypeNode> typeArguments;
+    private final List<TypeNode> typeArguments;
 
     private final List<ExpressionNode> arguments;
 
@@ -60,7 +60,7 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
         final Position position,
         final ExpressionNode scope,
         final QueenClassOrInterfaceTypeNode type,
-        final List<QueenTypeNode> typeArguments,
+        final List<TypeNode> typeArguments,
         final List<ExpressionNode> arguments,
         final QueenClassBodyNode anonymousBody
     ) {
@@ -114,7 +114,7 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
     }
 
     @Override
-    public List<QueenTypeNode> typeArguments() {
+    public List<TypeNode> typeArguments() {
         return this.typeArguments;
     }
 

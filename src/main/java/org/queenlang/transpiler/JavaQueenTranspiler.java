@@ -34,6 +34,7 @@ import com.github.javaparser.printer.configuration.DefaultPrinterConfiguration;
 import org.antlr.v4.runtime.*;
 import org.queenlang.generated.antlr4.QueenLexer;
 import org.queenlang.generated.antlr4.QueenParser;
+import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
 import org.queenlang.transpiler.nodes.body.QueenCompilationUnitNode;
 
 import java.io.BufferedReader;
@@ -64,7 +65,7 @@ public final class JavaQueenTranspiler implements QueenTranspiler {
         parser.addErrorListener(parsingErrorListener);
 
         final QueenParseTreeVisitor visitor = new QueenParseTreeVisitor();
-        final QueenCompilationUnitNode queenCompilationUnitNode = visitor.visitCompilationUnit(
+        final CompilationUnitNode queenCompilationUnitNode = visitor.visitCompilationUnit(
             parser.compilationUnit()
         );
 
@@ -72,7 +73,7 @@ public final class JavaQueenTranspiler implements QueenTranspiler {
             throw new QueenTranspilationException(parsingErrorListener.errors());
         } else {
             final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor(fileName);
-            final List<SemanticProblem> problems = validator.visitQueenCompilationUnitNode(queenCompilationUnitNode);
+            final List<SemanticProblem> problems = validator.visitCompilationUnit(queenCompilationUnitNode);
             if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
                 throw new QueenTranspilationException(problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
             } else {

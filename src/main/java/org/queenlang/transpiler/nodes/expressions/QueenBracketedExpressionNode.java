@@ -37,7 +37,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBracketedExpressionNode implements ExpressionNode {
+public final class QueenBracketedExpressionNode implements BracketedExpressionNode {
 
     private final Position position;
     private final ExpressionNode expression;
@@ -55,5 +55,10 @@ public final class QueenBracketedExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
     }
 }

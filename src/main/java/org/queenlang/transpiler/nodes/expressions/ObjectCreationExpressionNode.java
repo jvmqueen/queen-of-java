@@ -27,30 +27,26 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NullLiteralExpr;
-import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.body.QueenClassBodyNode;
+import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeNode;
+
+import java.util.List;
 
 /**
- * A literal null expression in Queen, AST Node.
+ * Queen object creation/class instantiation expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNullLiteralExpressionNode implements NullLiteralExpressionNode {
-    private final Position position;
+public interface ObjectCreationExpressionNode extends ExpressionNode {
 
-    public QueenNullLiteralExpressionNode(final Position position) {
-        this.position = position;
-    }
+    ExpressionNode scope();
+    QueenClassOrInterfaceTypeNode type();
 
-    @Override
-    public Expression toJavaExpression() {
-        return new NullLiteralExpr();
-    }
+    List<QueenTypeNode> typeArguments();
 
-    @Override
-    public Position position() {
-        return this.position;
-    }
+    List<ExpressionNode> arguments();
+
+    QueenClassBodyNode anonymousBody();
 }

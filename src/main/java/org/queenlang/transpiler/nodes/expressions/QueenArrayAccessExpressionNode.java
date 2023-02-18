@@ -39,7 +39,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayAccessExpressionNode implements ExpressionNode {
+public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressionNode {
 
     private final Position position;
 
@@ -74,5 +74,15 @@ public final class QueenArrayAccessExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode name() {
+        return this.name;
+    }
+
+    @Override
+    public List<QueenArrayDimensionNode> dims() {
+        return this.dims;
     }
 }

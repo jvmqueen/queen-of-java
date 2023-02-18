@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.types.QueenReferenceTypeNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenInstanceOfExpressionNode implements ExpressionNode {
+public final class QueenInstanceOfExpressionNode implements InstanceOfExpressionNode {
 
     private final Position position;
     private final ExpressionNode expression;
@@ -66,5 +66,15 @@ public final class QueenInstanceOfExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
+    }
+
+    @Override
+    public QueenReferenceTypeNode referenceType() {
+        return this.referenceType;
     }
 }

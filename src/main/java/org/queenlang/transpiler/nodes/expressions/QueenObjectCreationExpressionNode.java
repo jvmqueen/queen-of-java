@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenObjectCreationExpressionNode implements ExpressionNode {
+public final class QueenObjectCreationExpressionNode implements ObjectCreationExpressionNode {
 
     private final Position position;
     private final ExpressionNode scope;
@@ -73,19 +73,6 @@ public final class QueenObjectCreationExpressionNode implements ExpressionNode {
     }
     @Override
     public Expression toJavaExpression() {
-        final ExpressionNode ex = new ExpressionNode() {
-            private final int i = 0;
-
-            @Override
-            public Expression toJavaExpression() {
-                return null;
-            }
-
-            @Override
-            public Position position() {
-                return null;
-            }
-        };
         final ObjectCreationExpr objectCreationExpr = new ObjectCreationExpr();
         if(this.scope != null) {
             objectCreationExpr.setScope(this.scope.toJavaExpression());
@@ -114,5 +101,30 @@ public final class QueenObjectCreationExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode scope() {
+        return this.scope;
+    }
+
+    @Override
+    public QueenClassOrInterfaceTypeNode type() {
+        return this.type;
+    }
+
+    @Override
+    public List<QueenTypeNode> typeArguments() {
+        return this.typeArguments;
+    }
+
+    @Override
+    public List<ExpressionNode> arguments() {
+        return this.arguments;
+    }
+
+    @Override
+    public QueenClassBodyNode anonymousBody() {
+        return this.anonymousBody;
     }
 }

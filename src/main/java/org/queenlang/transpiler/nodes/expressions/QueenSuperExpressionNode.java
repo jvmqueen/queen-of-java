@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.QueenNameNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSuperExpressionNode implements ExpressionNode {
+public final class QueenSuperExpressionNode implements SuperExpressionNode {
 
     private final Position position;
     private final QueenNameNode typeName;
@@ -65,5 +65,10 @@ public final class QueenSuperExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenNameNode typeName() {
+        return typeName;
     }
 }

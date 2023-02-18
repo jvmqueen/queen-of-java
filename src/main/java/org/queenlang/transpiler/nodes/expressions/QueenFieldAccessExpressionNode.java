@@ -38,7 +38,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenFieldAccessExpressionNode implements ExpressionNode {
+public final class QueenFieldAccessExpressionNode implements FieldAccessExpressionNode {
 
     private final Position position;
 
@@ -77,5 +77,15 @@ public final class QueenFieldAccessExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode scope() {
+        return this.scope;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
     }
 }

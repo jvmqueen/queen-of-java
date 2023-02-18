@@ -40,7 +40,7 @@ import org.queenlang.transpiler.nodes.QueenNameNode;
  * @since 0.0.1
  * @todo #10:60min Write some unit tests for this class.
  */
-public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
+public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode implements SingleMemberAnnotationNode {
 
     /**
      * Value of the annotation.
@@ -63,5 +63,10 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode {
         annotation.setName(this.name());
         annotation.setMemberValue(this.elementValue.toJavaExpression());
         return annotation;
+    }
+
+    @Override
+    public ExpressionNode elementValue() {
+        return this.elementValue;
     }
 }

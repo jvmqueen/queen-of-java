@@ -14,7 +14,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayInitializerExpressionNode implements ExpressionNode {
+public final class QueenArrayInitializerExpressionNode implements ArrayInitializerExpressionNode {
 
     private final Position position;
     private final List<ExpressionNode> values;
@@ -43,5 +43,10 @@ public final class QueenArrayInitializerExpressionNode implements ExpressionNode
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<ExpressionNode> values() {
+        return this.values;
     }
 }

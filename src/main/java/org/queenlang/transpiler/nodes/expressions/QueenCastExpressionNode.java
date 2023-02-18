@@ -45,7 +45,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenCastExpressionNode implements ExpressionNode {
+public final class QueenCastExpressionNode implements CastExpressionNode {
 
     private final Position position;
     private final QueenTypeNode primitiveType;
@@ -97,5 +97,20 @@ public final class QueenCastExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenTypeNode primitiveType() {
+        return this.primitiveType;
+    }
+
+    @Override
+    public List<QueenReferenceTypeNode> referenceTypes() {
+        return this.referenceTypes;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
     }
 }

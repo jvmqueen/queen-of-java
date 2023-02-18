@@ -42,7 +42,7 @@ import java.util.Map;
  * @since 0.0.1
  * @todo #10:60min Write some unit tests for QueenNormalAnnotationNode.
  */
-public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
+public final class QueenNormalAnnotationNode extends QueenAnnotationNode implements NormalAnnotationNode {
 
     /**
      * Key-value pairs within the annotation.
@@ -71,5 +71,10 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode {
             entry -> annotation.addPair(entry.getKey(), entry.getValue().toJavaExpression())
         );
         return annotation;
+    }
+
+    @Override
+    public Map<String, ExpressionNode> elementValuePairs() {
+        return this.elementValuePairs;
     }
 }

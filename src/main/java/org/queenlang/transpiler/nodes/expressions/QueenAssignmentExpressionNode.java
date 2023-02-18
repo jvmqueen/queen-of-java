@@ -37,7 +37,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenAssignmentExpressionNode implements ExpressionNode {
+public final class QueenAssignmentExpressionNode implements AssignmentExpressionNode {
 
     private final Position position;
     private final ExpressionNode target;
@@ -80,5 +80,20 @@ public final class QueenAssignmentExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode target() {
+        return this.target;
+    }
+
+    @Override
+    public String operator() {
+        return this.operator;
+    }
+
+    @Override
+    public ExpressionNode value() {
+        return this.value;
     }
 }

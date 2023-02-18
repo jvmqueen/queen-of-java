@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayCreationExpressionNode implements ExpressionNode {
+public final class QueenArrayCreationExpressionNode implements ArrayCreationExpressionNode {
 
     private final Position position;
     private final QueenTypeNode type;
@@ -92,5 +92,20 @@ public final class QueenArrayCreationExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenTypeNode type() {
+        return this.type;
+    }
+
+    @Override
+    public List<QueenArrayDimensionNode> dims() {
+        return this.dims;
+    }
+
+    @Override
+    public ExpressionNode arrayInitializer() {
+        return this.arrayInitializer;
     }
 }

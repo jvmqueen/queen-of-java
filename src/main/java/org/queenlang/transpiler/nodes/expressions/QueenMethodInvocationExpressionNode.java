@@ -43,7 +43,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenMethodInvocationExpressionNode implements ExpressionNode {
+public final class QueenMethodInvocationExpressionNode implements MethodInvocationExpressionNode {
 
     private final Position position;
     private final ExpressionNode scope;
@@ -92,5 +92,25 @@ public final class QueenMethodInvocationExpressionNode implements ExpressionNode
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode scope() {
+        return this.scope;
+    }
+
+    @Override
+    public List<QueenTypeNode> typeArguments() {
+        return this.typeArguments;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    @Override
+    public List<ExpressionNode> arguments() {
+        return this.arguments;
     }
 }

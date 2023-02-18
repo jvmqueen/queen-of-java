@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.UnaryExpr;
-import org.queenlang.transpiler.nodes.Position;
-
 /**
  * Queen Unary Expression, AST Node.
  * An expression where an operator is applied to a single expression.
@@ -42,61 +38,9 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
+public interface UnaryExpressionNode extends ExpressionNode {
 
-    private final Position position;
-    private final String operator;
-    private final boolean isPrefix;
-    private final ExpressionNode expression;
-
-    public QueenUnaryExpressionNode(
-        final Position position,
-        final String operator,
-        final boolean isPrefix,
-        final ExpressionNode expression
-    ) {
-        this.position = position;
-        this.operator = operator;
-        this.isPrefix = isPrefix;
-        this.expression = expression;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        UnaryExpr.Operator operator = null;
-        for(int i=0; i< UnaryExpr.Operator.values().length; i++) {
-            final UnaryExpr.Operator candidate = UnaryExpr.Operator.values()[i];
-            if(candidate.asString().equalsIgnoreCase(this.operator) && candidate.isPrefix() == this.isPrefix) {
-                operator = UnaryExpr.Operator.values()[i];
-                break;
-            }
-        }
-        if(operator == null) {
-            throw new IllegalStateException("Unkown unary operator: " + this.operator + ". (is prefix: " + this.isPrefix + ").");
-        }
-        return new UnaryExpr(
-            this.expression.toJavaExpression(),
-            operator
-        );
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
-
-    @Override
-    public String operator() {
-        return this.operator;
-    }
-
-    @Override
-    public boolean isPrefix() {
-        return this.isPrefix;
-    }
-
-    @Override
-    public ExpressionNode expression() {
-        return this.expression;
-    }
+    String operator();
+    boolean isPrefix();
+    ExpressionNode expression();
 }

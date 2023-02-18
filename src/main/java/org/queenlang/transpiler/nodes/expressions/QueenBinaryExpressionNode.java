@@ -37,7 +37,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.01
  */
-public final class QueenBinaryExpressionNode implements ExpressionNode {
+public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
     private final Position position;
     private final ExpressionNode left;
     private final String operator;
@@ -77,5 +77,20 @@ public final class QueenBinaryExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode left() {
+        return this.left;
+    }
+
+    @Override
+    public String operator() {
+        return this.operator;
+    }
+
+    @Override
+    public ExpressionNode right() {
+        return this.right;
     }
 }

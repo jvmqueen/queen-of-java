@@ -41,7 +41,7 @@ import org.queenlang.transpiler.nodes.QueenNameNode;
  * @since 0.0.1
  * @todo #10:30min This class needs some unit tests.
  */
-public final class QueenMarkerAnnotationNode extends QueenAnnotationNode {
+public final class QueenMarkerAnnotationNode extends QueenAnnotationNode implements MarkerAnnotationNode {
 
     public QueenMarkerAnnotationNode(final Position position, final QueenNameNode name) {
         super(position, name);

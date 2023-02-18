@@ -43,7 +43,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLambdaExpressionNode implements ExpressionNode {
+public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
 
     private final Position position;
     private final boolean enclosedParameters;
@@ -87,5 +87,25 @@ public final class QueenLambdaExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public boolean enclosedParameters() {
+        return this.enclosedParameters;
+    }
+
+    @Override
+    public List<QueenParameterNode> parameters() {
+        return this.parameters;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
+    }
+
+    @Override
+    public QueenBlockStatements blockStatements() {
+        return this.blockStatements;
     }
 }

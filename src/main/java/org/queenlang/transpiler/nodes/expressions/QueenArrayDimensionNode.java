@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayDimensionNode implements QueenNode {
+public final class QueenArrayDimensionNode implements ArrayDimensionNode {
 
     private final Position position;
     private final List<QueenAnnotationNode> annotations;
@@ -80,10 +80,12 @@ public final class QueenArrayDimensionNode implements QueenNode {
         this.expression = expression;
     }
 
+    @Override
     public List<QueenAnnotationNode> annotations() {
         return this.annotations;
     }
 
+    @Override
     public ExpressionNode expression() {
         return this.expression;
     }

@@ -35,7 +35,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public abstract class QueenLiteralStringValueExpressionNode implements ExpressionNode {
+public abstract class QueenLiteralStringValueExpressionNode implements LiteralStringValueExpressionNode {
 
     private final Position position;
     private final String value;
@@ -45,10 +45,12 @@ public abstract class QueenLiteralStringValueExpressionNode implements Expressio
         this.value = value;
     }
 
+    @Override
     public String value() {
         return this.value;
     }
 
+    @Override
     public final Position position() {
         return this.position;
     }

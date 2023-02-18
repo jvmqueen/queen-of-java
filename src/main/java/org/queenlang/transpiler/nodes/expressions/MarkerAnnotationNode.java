@@ -27,30 +27,12 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NullLiteralExpr;
-import org.queenlang.transpiler.nodes.Position;
-
 /**
- * A literal null expression in Queen, AST Node.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Queen marker annotation (no parameters).
+ * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNullLiteralExpressionNode implements NullLiteralExpressionNode {
-    private final Position position;
+public interface MarkerAnnotationNode extends AnnotationNode {
 
-    public QueenNullLiteralExpressionNode(final Position position) {
-        this.position = position;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        return new NullLiteralExpr();
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
 }

@@ -37,7 +37,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenConditionalExpressionNode implements ExpressionNode {
+public final class QueenConditionalExpressionNode implements ConditionalExpressionNode {
 
     private final Position position;
     private final ExpressionNode condition;
@@ -68,5 +68,20 @@ public final class QueenConditionalExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public ExpressionNode condition() {
+        return this.condition;
+    }
+
+    @Override
+    public ExpressionNode thenExpr() {
+        return this.thenExpr;
+    }
+
+    @Override
+    public ExpressionNode elseExpr() {
+        return this.elseExpr;
     }
 }

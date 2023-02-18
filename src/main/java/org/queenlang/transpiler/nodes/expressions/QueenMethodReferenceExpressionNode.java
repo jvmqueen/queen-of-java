@@ -41,7 +41,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenMethodReferenceExpressionNode implements ExpressionNode {
+public final class QueenMethodReferenceExpressionNode implements MethodReferenceExpressionNode {
 
     private final Position position;
     private final QueenTypeNode type;
@@ -85,5 +85,25 @@ public final class QueenMethodReferenceExpressionNode implements ExpressionNode 
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenTypeNode type() {
+        return this.type;
+    }
+
+    @Override
+    public ExpressionNode scope() {
+        return this.scope;
+    }
+
+    @Override
+    public List<QueenTypeNode> typeArguments() {
+        return this.typeArguments;
+    }
+
+    @Override
+    public String identifier() {
+        return this.identifier;
     }
 }

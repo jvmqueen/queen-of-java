@@ -47,7 +47,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenForStatementNode implements QueenStatementNode {
+public final class QueenForStatementNode implements StatementNode {
 
     /**
      * Position of this for statement in the original source code.

@@ -1222,7 +1222,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenBlockStatements visitBlockStatements(QueenParser.BlockStatementsContext ctx) {
-        final List<QueenStatementNode> blockStatements = new ArrayList<>();
+        final List<StatementNode> blockStatements = new ArrayList<>();
         ctx.blockStatement().forEach(
             bs -> {
                 if(bs.classDeclaration() != null) {
@@ -1274,7 +1274,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenStatementNode visitStatement(QueenParser.StatementContext ctx) {
+    public StatementNode visitStatement(QueenParser.StatementContext ctx) {
         if(ctx.ifThenStatement() != null) {
             return this.visitIfThenStatement(ctx.ifThenStatement());
         } else if(ctx.ifThenElseStatement() != null) {
@@ -1293,7 +1293,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenStatementNode visitStatementNoShortIf(QueenParser.StatementNoShortIfContext ctx) {
+    public StatementNode visitStatementNoShortIf(QueenParser.StatementNoShortIfContext ctx) {
         if(ctx.ifThenElseStatementNoShortIf() != null) {
             return this.visitIfThenElseStatementNoShortIf(ctx.ifThenElseStatementNoShortIf());
         } else if(ctx.whileStatementNoShortIf() != null) {
@@ -1762,7 +1762,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public QueenBlockStatements visitStatementWithoutTrailingSubstatement(
         QueenParser.StatementWithoutTrailingSubstatementContext ctx
     ) {
-        final QueenStatementNode statementWithoutTrailingSubstatement;
+        final StatementNode statementWithoutTrailingSubstatement;
         if (ctx.block() != null && ctx.block().blockStatements() != null) {
             return visitBlockStatements(
                 ctx.block().blockStatements()
@@ -2097,7 +2097,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenStatementNode visitExpressionStatement(QueenParser.ExpressionStatementContext ctx) {
+    public StatementNode visitExpressionStatement(QueenParser.ExpressionStatementContext ctx) {
         return new QueenExpressionStatementNode(
             getPosition(ctx),
             this.visitStatementExpression(ctx.statementExpression())

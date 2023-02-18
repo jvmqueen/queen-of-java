@@ -29,7 +29,7 @@ package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
+import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
@@ -41,7 +41,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public interface LocalVariableDeclarationNode extends QueenStatementNode, ExpressionNode {
+public interface LocalVariableDeclarationNode extends StatementNode, ExpressionNode {
 
     /**
      * Annotations on top of this local variable.

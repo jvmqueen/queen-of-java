@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenBreakStatementNode implements QueenStatementNode {
+public final class QueenBreakStatementNode implements StatementNode {
 
     private final Position position;
 

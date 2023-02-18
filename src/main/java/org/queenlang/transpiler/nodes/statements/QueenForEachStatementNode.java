@@ -43,7 +43,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenForEachStatementNode implements QueenStatementNode {
+public final class QueenForEachStatementNode implements StatementNode {
 
     /**
      * Position of this for statement in the original source code.

@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSwitchStatementNode implements QueenStatementNode {
+public final class QueenSwitchStatementNode implements StatementNode {
 
     private final Position position;
     private final ExpressionNode expression;

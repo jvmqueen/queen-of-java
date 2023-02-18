@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenSynchronizedStatementNode implements QueenStatementNode {
+public final class QueenSynchronizedStatementNode implements StatementNode {
 
     private final Position position;
 

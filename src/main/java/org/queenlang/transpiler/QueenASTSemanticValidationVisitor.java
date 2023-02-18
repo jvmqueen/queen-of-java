@@ -32,7 +32,7 @@ import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenExplicitConstructorInvocationNode;
-import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
+import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.statements.QueenTextStatementNode;
 import org.queenlang.transpiler.nodes.types.*;
 
@@ -379,7 +379,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitQueenStatementNode(final QueenStatementNode node) {
+    public List<SemanticProblem> visitQueenStatementNode(final StatementNode node) {
         return new ArrayList<>();
     }
 

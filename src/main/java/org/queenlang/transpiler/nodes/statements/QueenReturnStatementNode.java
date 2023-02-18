@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenReturnStatementNode implements QueenStatementNode {
+public final class QueenReturnStatementNode implements StatementNode {
 
     private Position position;
 

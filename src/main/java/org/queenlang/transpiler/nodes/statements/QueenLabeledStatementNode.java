@@ -41,7 +41,7 @@ import org.queenlang.transpiler.nodes.Position;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenLabeledStatementNode implements Named, QueenStatementNode {
+public final class QueenLabeledStatementNode implements Named, StatementNode {
 
     /**
      * Position of this for statement in the original source code.

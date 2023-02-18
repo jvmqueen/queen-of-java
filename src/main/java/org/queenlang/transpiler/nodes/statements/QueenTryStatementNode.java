@@ -42,7 +42,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTryStatementNode implements QueenStatementNode {
+public final class QueenTryStatementNode implements StatementNode {
 
     private final Position position;
     private final List<ExpressionNode> resources;

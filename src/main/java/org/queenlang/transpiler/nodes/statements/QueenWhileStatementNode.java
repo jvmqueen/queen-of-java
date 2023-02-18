@@ -41,7 +41,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenWhileStatementNode implements QueenStatementNode {
+public final class QueenWhileStatementNode implements StatementNode {
 
     /**
      * Position in the original source code.

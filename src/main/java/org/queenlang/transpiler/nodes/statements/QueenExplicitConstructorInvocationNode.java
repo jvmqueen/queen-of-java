@@ -45,7 +45,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenExplicitConstructorInvocationNode implements QueenStatementNode {
+public final class QueenExplicitConstructorInvocationNode implements StatementNode {
 
     private final Position position;
     private final boolean isThis;

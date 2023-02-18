@@ -32,7 +32,7 @@ import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenExplicitConstructorInvocationNode;
-import org.queenlang.transpiler.nodes.statements.QueenStatementNode;
+import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.statements.QueenTextStatementNode;
 import org.queenlang.transpiler.nodes.types.*;
 
@@ -75,7 +75,7 @@ public interface QueenASTVisitor<T> {
     T visitQueenPackageDeclarationNode(final QueenPackageDeclarationNode node);
     T visitQueenParameterNode(final QueenParameterNode node);
     T visitQueenSingleMemberAnnotationNode(final QueenSingleMemberAnnotationNode node);
-    T visitQueenStatementNode(final QueenStatementNode node);
+    T visitQueenStatementNode(final StatementNode node);
     T visitQueenTextExpressionNode(final QueenTextExpressionNode node);
     T visitQueenTextStatementNode(final QueenTextStatementNode node);
     T visitQueenTypeDeclarationNode(final TypeDeclarationNode node);

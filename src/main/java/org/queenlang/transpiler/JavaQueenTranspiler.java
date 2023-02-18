@@ -41,6 +41,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,16 @@ import java.util.stream.Collectors;
  * @since 0.0.1
  */
 public final class JavaQueenTranspiler implements QueenTranspiler {
+    @Override
+    public void transpile(List<Path> files, Path output, boolean verbose) {
+        System.out.println("TRANSPILING FILES: ");
+        files.forEach(
+            f -> System.out.println(f.toString())
+        );
+        System.out.println("TRANSPILING TO OUTPUT PATH: " + output.toString());
+        System.out.println("VERBOSE: " + verbose);
+    }
+
     @Override
     public String transpile(final InputStream clazz, final String fileName) throws IOException, QueenTranspilationException {
         final String input = this.inputToString(clazz);

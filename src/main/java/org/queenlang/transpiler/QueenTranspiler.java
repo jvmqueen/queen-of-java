@@ -28,6 +28,8 @@
 package org.queenlang.transpiler;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Queen transpiler.
@@ -36,6 +38,7 @@ import java.io.*;
  * @since 0.0.1
  */
 public interface QueenTranspiler {
+    void transpile(final List<Path> files, final Path output, final boolean verbose);
 
     default String transpile(final File input) throws IOException, QueenTranspilationException {
         return this.transpile(new FileInputStream(input), input.getName());

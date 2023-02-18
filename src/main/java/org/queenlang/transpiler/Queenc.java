@@ -41,7 +41,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class EntryPoint {
+public final class Queenc {
 
     private static final Options options = new Options();
 
@@ -85,7 +85,7 @@ public final class EntryPoint {
                 verbose = true;
             }
         }
-        if(cmd.getOptionValues('f') != null && !calledWithUtilityParam) {
+        if(cmd.getOptionValues('f') != null) {
             final List<Path> files = new ArrayList<>();
             for (final String path : cmd.getOptionValues('f')) {
                 files.add(Path.of(path));
@@ -103,10 +103,8 @@ public final class EntryPoint {
                 output,
                 verbose
             );
-        } else {
-            if(!calledWithUtilityParam) {
-                printFilesMissing();
-            }
+        } else if(!calledWithUtilityParam) {
+            printFilesMissing();
         }
 
 //        final String javaClass = transpiler.transpile(

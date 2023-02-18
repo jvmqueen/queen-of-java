@@ -54,7 +54,7 @@ public interface AnnotationElementDeclarationNode extends AnnotationTypeMemberDe
     /**
      * Type of this annotation element.
      */
-    public TypeNode type();
+    TypeNode type();
 
     /**
      * Default value of the element.

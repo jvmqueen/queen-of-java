@@ -36,11 +36,10 @@ import org.queenlang.generated.antlr4.QueenLexer;
 import org.queenlang.generated.antlr4.QueenParser;
 import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,13 +51,35 @@ import java.util.stream.Collectors;
  */
 public final class JavaQueenTranspiler implements QueenTranspiler {
     @Override
-    public void transpile(List<Path> files, Path output, boolean verbose) {
-        System.out.println("TRANSPILING FILES: ");
-        files.forEach(
-            f -> System.out.println(f.toString())
-        );
-        System.out.println("TRANSPILING TO OUTPUT PATH: " + output.toString());
-        System.out.println("VERBOSE: " + verbose);
+    public void transpile(List<Path> files, Path output, boolean verbose) throws QueenTranspilationException, IOException {
+        if(verbose) {
+            System.out.println("TRANSPILING FILES: ");
+            files.forEach(
+                f -> System.out.println(f.toString())
+            );
+            System.out.println("TRANSPILING TO OUTPUT PATH: " + output.toString());
+        }
+        if(!Files.isDirectory(output) || !Files.exists(output)) {
+            throw new IllegalArgumentException("Indicated output location " + output.toString() + " is not a directory!");
+        }
+        if(files.size() > 0) {
+            String fileName = files.get(0).getFileName().toString();
+            InputStream stream = new FileInputStream(files.get(0).toFile());
+            final String transpiled = this.transpile(
+                stream, fileName
+            );
+            final String javaFileName = fileName.replaceAll("\\.queen", "\\.java");
+            Path javaFile = Path.of(output.toString(), javaFileName);
+            if(Files.exists(javaFile)) {
+                Files.delete(javaFile);
+            }
+            javaFile = Files.createFile(javaFile);
+            Files.writeString(javaFile, transpiled);
+            if(verbose) {
+                System.out.println("TRANSPILED QUEEN CLASS: ");
+                System.out.println(transpiled);
+            }
+        }
     }
 
     @Override

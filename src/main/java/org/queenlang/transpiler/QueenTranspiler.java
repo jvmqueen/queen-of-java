@@ -38,7 +38,7 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface QueenTranspiler {
-    void transpile(final List<Path> files, final Path output, final boolean verbose);
+    void transpile(final List<Path> files, final Path output, final boolean verbose) throws QueenTranspilationException, IOException;
 
     default String transpile(final File input) throws IOException, QueenTranspilationException {
         return this.transpile(new FileInputStream(input), input.getName());

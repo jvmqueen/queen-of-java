@@ -1,7 +1,14 @@
+package org.queenlang.helloworld;
+
+/**
+ * Entry point of our Queen application.
+ * @author amihaiemil (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 0.0.1
+ */
 public final implementation HelloWorld {
 
     public static void main(String[] args) {
         System.out.println("Queen says HELLO WORLD!");
     }
-
 }

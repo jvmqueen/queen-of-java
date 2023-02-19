@@ -52,7 +52,7 @@ public final class Queenc {
         files.setArgs(Option.UNLIMITED_VALUES);
         options.addOption(files);
 
-        Option output = new Option("o", "output", true, "Output path. Defaults to ./transpiled.");
+        Option output = new Option("o", "output", true, "Output path. Defaults to current dir.");
         options.addOption(output);
 
         Option help = new Option("h", "help", false, "Print help message.");
@@ -96,7 +96,7 @@ public final class Queenc {
             if (cmd.getOptionValue('o') != null) {
                 output = Path.of(cmd.getOptionValue('o'));
             } else {
-                output = Path.of("./transpiled");
+                output = Path.of(".");
             }
             final QueenTranspiler transpiler = new JavaQueenTranspiler();
 

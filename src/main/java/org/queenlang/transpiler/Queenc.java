@@ -42,7 +42,9 @@ import java.util.List;
  * @since 0.0.1
  */
 public final class Queenc {
+    private static final String NAME_AND_VERSION = "Queenc version: %s";
 
+    private static final Config config = new Config();
     private static final Options options = new Options();
 
     static {
@@ -149,7 +151,7 @@ public final class Queenc {
      * Print quennc's version.
      */
     private static void printVersion() {
-        System.out.println("queenc version: 0.0.1");
+        System.out.println(String.format(NAME_AND_VERSION, config.version()));
     }
 
     /**

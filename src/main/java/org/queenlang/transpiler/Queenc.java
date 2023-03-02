@@ -98,6 +98,12 @@ public final class Queenc {
             } else {
                 output = Path.of(".");
             }
+            //instantiate QueenProject with the classpath and input parameters
+            //QueenProject should represent the parsed/AST compilation units
+            //which were given as input.
+            //
+            //Then we iterate over the "project"/input files, check for semantic/symbol errors
+            //and use the QueenTranspiler to turn them into Java files.
             final QueenTranspiler transpiler = new JavaQueenTranspiler();
 
             transpiler.transpile(

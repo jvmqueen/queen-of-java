@@ -27,36 +27,21 @@
  */
 package org.queenlang.transpiler;
 
-import java.io.*;
 import java.nio.file.Path;
-import java.util.List;
 
 /**
- * Queen transpiler.
+ * Classpath used by queenc to search for user-defined classes.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
-
-    @Deprecated
-    default String transpile(final File input) throws IOException, QueenTranspilationException {
-        return this.transpile(new FileInputStream(input), input.getName());
-    }
-
-    @Deprecated
-    default String transpile(final String input, final String fileName) throws IOException, QueenTranspilationException {
-        return this.transpile(new ByteArrayInputStream(input.getBytes()), fileName);
-    }
+public interface Classpath {
 
     /**
-     * Transpile the given Queen class into some other code.
-     * @param clazz InputStream class.
-     * @return Transpiled code.
-     * @throws IOException If we cannot read the InputStream.
+     * Search and return the full path to a user-defined class.
+     * @param clazz Path to class.
+     * @return Path or null if the given class path is not found.
      */
-    @Deprecated
-    String transpile(final InputStream clazz, final String fileName) throws IOException, QueenTranspilationException;
+    Path find(final Path clazz);
 
 }

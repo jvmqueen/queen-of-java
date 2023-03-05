@@ -27,36 +27,38 @@
  */
 package org.queenlang.transpiler;
 
-import java.io.*;
+import com.github.javaparser.ast.CompilationUnit;
+
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 /**
- * Queen transpiler.
+ * Write the java compilation unit to a java file on disk.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #64:60min If it's a direct compilation (file specified as cmd line argument), override if existing.
+ *  If it's not a direct compilation, but a dependency, do NOT override the existing .class file if any.
+ * @todo #64:60min If output path is "." write it there directly. If it's something else, create the whole
+ *  directory structure according to the java package of the compilation unit.
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class JavaFileOutput implements Output {
 
-    @Deprecated
-    default String transpile(final File input) throws IOException, QueenTranspilationException {
-        return this.transpile(new FileInputStream(input), input.getName());
+    private final Path output;
+
+    public JavaFileOutput(final Path output) {
+        this.output = output;
     }
 
-    @Deprecated
-    default String transpile(final String input, final String fileName) throws IOException, QueenTranspilationException {
-        return this.transpile(new ByteArrayInputStream(input.getBytes()), fileName);
+    @Override
+    public void write(final CompilationUnit javaCompilationUnit) throws IOException {
+        final String javaFileName = javaCompilationUnit.getType(0).getName() + ".java";
+        Path javaFile = Path.of(this.output.toString(), javaFileName);
+        if(Files.exists(javaFile)) {
+            Files.delete(javaFile);
+        }
+        javaFile = Files.createFile(javaFile);
+        Files.writeString(javaFile, javaCompilationUnit.toString());
     }
-
-    /**
-     * Transpile the given Queen class into some other code.
-     * @param clazz InputStream class.
-     * @return Transpiled code.
-     * @throws IOException If we cannot read the InputStream.
-     */
-    @Deprecated
-    String transpile(final InputStream clazz, final String fileName) throws IOException, QueenTranspilationException;
-
 }

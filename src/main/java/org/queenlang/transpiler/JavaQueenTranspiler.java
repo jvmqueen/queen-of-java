@@ -45,23 +45,20 @@ import java.util.stream.Collectors;
 
 /**
  * Queen-to-Java transpiler, implemented with JavaParser.
+ * DEPRECATED: will be removed as the architecture of queenc is put in place.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
+@Deprecated
 public final class JavaQueenTranspiler implements QueenTranspiler {
     @Override
-    public void transpile(List<Path> files, Path output, boolean verbose) throws QueenTranspilationException, IOException {
-        if(verbose) {
-            System.out.println("TRANSPILING FILES: ");
-            files.forEach(
-                f -> System.out.println(f.toString())
-            );
-            System.out.println("TRANSPILING TO OUTPUT PATH: " + output.toString());
-        }
-        if(!Files.isDirectory(output) || !Files.exists(output)) {
-            throw new IllegalArgumentException("Indicated output location " + output.toString() + " is not a directory!");
-        }
+    public void transpile(List<Path> files) throws QueenTranspilationException, IOException {
+        System.out.println("TRANSPILING FILES: ");
+        files.forEach(
+            f -> System.out.println(f.toString())
+        );
+        Path output = Path.of(".");
         if(files.size() > 0) {
             String fileName = files.get(0).getFileName().toString();
             InputStream stream = new FileInputStream(files.get(0).toFile());
@@ -75,10 +72,6 @@ public final class JavaQueenTranspiler implements QueenTranspiler {
             }
             javaFile = Files.createFile(javaFile);
             Files.writeString(javaFile, transpiled);
-            if(verbose) {
-                System.out.println("TRANSPILED QUEEN CLASS: ");
-                System.out.println(transpiled);
-            }
         }
     }
 

@@ -98,36 +98,15 @@ public final class Queenc {
             } else {
                 output = Path.of(".");
             }
-            //instantiate QueenProject with the classpath and input parameters
-            //QueenProject should represent the parsed/AST compilation units
-            //which were given as input.
-            //
-            //Then we iterate over the "project"/input files, check for semantic/symbol errors
-            //and use the QueenTranspiler to turn them into Java files.
-            final QueenTranspiler transpiler = new JavaQueenTranspiler();
-
-            transpiler.transpile(
-                files,
-                output,
-                verbose
+            final QueenTranspiler transpiler = new QueenToJavaTranspiler(
+                new QueenASTParserANTLR(),
+                new JavaFileOutput(output)
             );
+            transpiler.transpile(files);
         } else if(!calledWithUtilityParam) {
             printFilesMissing();
         }
 
-//        final String javaClass = transpiler.transpile(
-//            EntryPoint.class.getClassLoader()
-//                .getResourceAsStream("/path"),
-//            "fileName"
-//        );
-//
-//        System.out.println("[DEBUG] Transpiled Java Class:");
-//        System.out.println("------------------------------");
-//
-//        System.out.println(javaClass);
-//
-//        System.out.println("------------------------------");
-//        System.out.println("[DEBUG] End of transpiled java class.");
     }
 
     public static void main(String[] args) throws QueenTranspilationException {
@@ -140,17 +119,6 @@ public final class Queenc {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-//        if(args == null || args.length !=1) {
-//            System.out.println("[ERROR] Expecting exactly 1 argument.");
-//        } else {
-//            System.out.println("[DEBUG] Received arg: " + args[0]);
-//            try {
-//                //run(args[0]);
-//                run("HelloWorldWrong.queen", "HelloWorldWrong.queen");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     /**

@@ -27,36 +27,18 @@
  */
 package org.queenlang.transpiler;
 
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import com.github.javaparser.ast.CompilationUnit;
+
+import java.io.IOException;
 
 /**
- * Queen transpiler.
+ * Write the Java compilation unit somewhere.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface Output {
 
-    @Deprecated
-    default String transpile(final File input) throws IOException, QueenTranspilationException {
-        return this.transpile(new FileInputStream(input), input.getName());
-    }
-
-    @Deprecated
-    default String transpile(final String input, final String fileName) throws IOException, QueenTranspilationException {
-        return this.transpile(new ByteArrayInputStream(input.getBytes()), fileName);
-    }
-
-    /**
-     * Transpile the given Queen class into some other code.
-     * @param clazz InputStream class.
-     * @return Transpiled code.
-     * @throws IOException If we cannot read the InputStream.
-     */
-    @Deprecated
-    String transpile(final InputStream clazz, final String fileName) throws IOException, QueenTranspilationException;
+    void write(final CompilationUnit javaCompilationUnit) throws IOException;
 
 }

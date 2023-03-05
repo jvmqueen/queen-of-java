@@ -27,36 +27,26 @@
  */
 package org.queenlang.transpiler;
 
-import java.io.*;
+import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
+
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen AST Parser.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
-
-    @Deprecated
-    default String transpile(final File input) throws IOException, QueenTranspilationException {
-        return this.transpile(new FileInputStream(input), input.getName());
-    }
-
-    @Deprecated
-    default String transpile(final String input, final String fileName) throws IOException, QueenTranspilationException {
-        return this.transpile(new ByteArrayInputStream(input.getBytes()), fileName);
-    }
+public interface QueenASTParser {
 
     /**
-     * Transpile the given Queen class into some other code.
-     * @param clazz InputStream class.
-     * @return Transpiled code.
-     * @throws IOException If we cannot read the InputStream.
+     * Parse the given Queen files into AST CompilationUnits.
+     * @param file Given Queen file.
+     * @return List of CompilationUnitNode.
+     * @throws IOException If there's any problem at reading the input.
+     * @throws QueenTranspilationException If there are any parsing errors.
      */
-    @Deprecated
-    String transpile(final InputStream clazz, final String fileName) throws IOException, QueenTranspilationException;
-
+    CompilationUnitNode parse(final Path file) throws IOException, QueenTranspilationException;
 }

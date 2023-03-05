@@ -28,6 +28,7 @@
 package org.queenlang.transpiler;
 
 import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -37,6 +38,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
 
 /**
  * QueenTranspiler test case.
@@ -71,15 +74,21 @@ public final class QueenTranspilerTestCase {
     )
     public void testTranspilerWithRandomClasses(final String queenInput, final String javaOuput) throws Exception {
         final String dirPath = "src/test/resources/queenToJava/random/";
-        final String queenClass = this.readTestResource(dirPath, queenInput);
-        final String javaClass = this.readTestResource(dirPath, javaOuput);
-        final QueenTranspiler transpiler = new JavaQueenTranspiler();
-        MatcherAssert.assertThat(
-            transpiler.transpile(queenClass, queenInput),
-            Matchers.equalTo(javaClass)
+        final String expectedJavaClass = this.readTestResource(dirPath, javaOuput);
+        final QueenTranspiler transpiler = new QueenToJavaTranspiler(
+            new QueenASTParserANTLR(),
+            javaCompilationUnit -> {
+                final String javaClass = javaCompilationUnit.toString();
+                MatcherAssert.assertThat(
+                    javaClass,
+                    Matchers.equalTo(expectedJavaClass)
+                );
+                StaticJavaParser.parse(javaClass);
+            }
         );
-        StaticJavaParser.parse(javaClass);
+        transpiler.transpile(List.of(Path.of(dirPath, queenInput)));
     }
+
 
     /**
      * Read a test resource file's contents.

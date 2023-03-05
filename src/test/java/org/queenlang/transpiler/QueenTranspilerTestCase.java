@@ -77,6 +77,7 @@ public final class QueenTranspilerTestCase {
         final String expectedJavaClass = this.readTestResource(dirPath, javaOuput);
         final QueenTranspiler transpiler = new QueenToJavaTranspiler(
             new QueenASTParserANTLR(),
+            null,
             javaCompilationUnit -> {
                 final String javaClass = javaCompilationUnit.toString();
                 MatcherAssert.assertThat(

@@ -30,10 +30,6 @@ package org.queenlang.transpiler;
 import org.apache.commons.cli.*;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * The transpiler's entry point.
@@ -52,6 +48,10 @@ public final class Queenc {
         files.setArgs(Option.UNLIMITED_VALUES);
         options.addOption(files);
 
+        Option classpath = new Option("cp", "classpath", true, "Classpath(s) to look for user-defined classes. Defaults to current dir.");
+        classpath.setArgs(Option.UNLIMITED_VALUES);
+        options.addOption(classpath);
+
         Option output = new Option("o", "output", true, "Output path. Defaults to current dir.");
         options.addOption(output);
 
@@ -66,45 +66,26 @@ public final class Queenc {
     }
 
 
-    public static void run(final CommandLine cmd) throws IOException, QueenTranspilationException {
-        final List<Option> options = Arrays.asList(cmd.getOptions());
-        if(options.size() == 0) {
-            printFilesMissing();
-            return;
-        }
-        boolean calledWithUtilityParam = false;
-        boolean verbose = false;
-        for(final Option opt : options) {
-            if(opt.getOpt().equalsIgnoreCase("v")) {
-                calledWithUtilityParam = true;
-                printVersion();
-            }
-            if(opt.getOpt().equalsIgnoreCase("h")) {
-                calledWithUtilityParam = true;
-                printHelp();
-            }
-            if(opt.getOpt().equalsIgnoreCase("verbose")) {
-                verbose = true;
-            }
-        }
-        if(cmd.getOptionValues('f') != null) {
-            final List<Path> files = new ArrayList<>();
-            for (final String path : cmd.getOptionValues('f')) {
-                files.add(Path.of(path));
-            }
-            final Path output;
-            if (cmd.getOptionValue('o') != null) {
-                output = Path.of(cmd.getOptionValue('o'));
-            } else {
-                output = Path.of(".");
-            }
+    public static void run(final Arguments arguments) throws IOException, QueenTranspilationException {
+        if(!arguments.files().isEmpty()) {
             final QueenTranspiler transpiler = new QueenToJavaTranspiler(
                 new QueenASTParserANTLR(),
-                new JavaFileOutput(output)
+                arguments.classpath(),
+                new JavaFileOutput(arguments.output())
             );
-            transpiler.transpile(files);
-        } else if(!calledWithUtilityParam) {
+            transpiler.transpile(arguments.files());
+        } else if(!arguments.hasUtilityArgs()) {
             printFilesMissing();
+        }
+
+        if(arguments.version()) {
+            printVersion();
+        }
+        if(arguments.help()) {
+            printHelp();
+        }
+        if(arguments.verbose()) {
+            System.out.println("RUNNING VERBOSE... set logger to DEBUG");
         }
 
     }
@@ -113,7 +94,7 @@ public final class Queenc {
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cmd = parser.parse(options, args);
-            run(cmd);
+            run(new CmdArguments(cmd));
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ParseException e) {

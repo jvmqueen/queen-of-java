@@ -50,13 +50,16 @@ import java.util.List;
 public final class QueenToJavaTranspiler implements QueenTranspiler {
 
     private final QueenASTParser parser;
+    private final Classpath classpath;
     private final Output output;
 
     public QueenToJavaTranspiler(
         final QueenASTParser parser,
+        final Classpath classpath,
         final Output output
     ) {
         this.parser = parser;
+        this.classpath = classpath;
         this.output = output;
     }
 

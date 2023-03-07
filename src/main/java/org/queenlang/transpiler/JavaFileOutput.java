@@ -28,10 +28,13 @@
 package org.queenlang.transpiler;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.PackageDeclaration;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * Write the java compilation unit to a java file on disk.
@@ -54,11 +57,31 @@ public final class JavaFileOutput implements Output {
     @Override
     public void write(final CompilationUnit javaCompilationUnit) throws IOException {
         final String javaFileName = javaCompilationUnit.getType(0).getName() + ".java";
-        Path javaFile = Path.of(this.output.toString(), javaFileName);
+        final Path dir = this.createDirStructure(javaCompilationUnit.getPackageDeclaration());
+        Path javaFile = Path.of(dir.toString(), javaFileName);
         if(Files.exists(javaFile)) {
             Files.delete(javaFile);
         }
         javaFile = Files.createFile(javaFile);
         Files.writeString(javaFile, javaCompilationUnit.toString());
+    }
+
+    private Path createDirStructure(final Optional<PackageDeclaration> packageName) throws IOException {
+        final Path dir;
+        if(packageName.isPresent()) {
+            dir = Path.of(
+                this.output.toString(),
+                packageName.get()
+                    .getNameAsString()
+                    .replaceAll("\\.", File.separator)
+            );
+        } else {
+            dir = Path.of(this.output.toString());
+        }
+
+        if(!Files.exists(dir)) {
+            Files.createDirectories(dir);
+        }
+        return dir;
     }
 }

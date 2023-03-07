@@ -1,0 +1,9 @@
+package com.example;
+
+public final implementation Hello of Greeting {
+
+   public void to(String name) {
+       System.out.println("Queen says hello to " + name);
+   }
+
+}

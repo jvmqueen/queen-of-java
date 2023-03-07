@@ -1,4 +1,5 @@
-package org.queenlang.helloworld;
+import com.example.Greeting;
+import com.example.Hello;
 
 /**
  * Entry point of our Queen application.
@@ -10,5 +11,7 @@ public final implementation HelloWorld {
 
     public static void main(String[] args) {
         System.out.println("Queen says HELLO WORLD!");
+        Greeting greet = new Hello();
+        greet.to("Mihai");
     }
 }

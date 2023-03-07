@@ -45,7 +45,7 @@ public final class PathCp implements Classpath {
     }
 
     @Override
-    public Path find(Path clazz) {
+    public Path find(final Path clazz) {
         return null;
     }
 }

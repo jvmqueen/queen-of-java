@@ -63,7 +63,7 @@ public final class CmdArguments implements Arguments {
         } else {
             classpaths.add(Path.of("."));
         }
-        return new PathCp(classpaths);
+        return new PathsCp(classpaths);
     }
 
     private boolean isOptionPresent(final String name) {

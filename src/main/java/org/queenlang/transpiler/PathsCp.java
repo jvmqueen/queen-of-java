@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -36,16 +37,22 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class PathCp implements Classpath {
+public final class PathsCp implements Classpath {
 
     private final List<Path> classpaths;
 
-    public PathCp(final List<Path> classpaths) {
+    public PathsCp(final List<Path> classpaths) {
         this.classpaths = classpaths;
     }
 
     @Override
     public Path find(final Path clazz) {
+        for(final Path path : this.classpaths) {
+            final Path whole = Path.of(path.toString(), clazz.toString());
+            if(Files.exists(whole)) {
+                return whole;
+            }
+        }
         return null;
     }
 }

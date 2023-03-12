@@ -47,11 +47,6 @@ public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode
     List<QueenAnnotationNode> annotations();
 
     /**
-     * Modifiers of this interface.
-     */
-    List<QueenModifierNode> modifiers();
-
-    /**
      * Types which are extended (an interface can extend more interfaces).
      */
     List<QueenClassOrInterfaceTypeNode> extendsTypes();

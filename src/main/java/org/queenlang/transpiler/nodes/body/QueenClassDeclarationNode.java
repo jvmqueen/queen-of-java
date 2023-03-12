@@ -180,11 +180,6 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
-        return this.accessModifiers;
-    }
-
-    @Override
     public List<QueenTypeParameterNode> typeParameters() {
         return this.typeParams;
     }
@@ -195,7 +190,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public List<QueenModifierNode> accessModifiers() {
+    public List<QueenModifierNode> modifiers() {
         return this.accessModifiers;
     }
 

@@ -49,11 +49,6 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
     List<QueenAnnotationNode> annotations();
 
     /**
-     * Access modifiers of this class.
-     */
-    List<QueenModifierNode> accessModifiers();
-
-    /**
      * Extension modifier (abstract or final).
      */
     QueenModifierNode extensionModifier();

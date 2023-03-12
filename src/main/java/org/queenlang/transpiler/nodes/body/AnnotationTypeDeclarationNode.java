@@ -46,11 +46,6 @@ public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode 
     List<QueenAnnotationNode> annotations();
 
     /**
-     * Modifiers of this annotation.
-     */
-    List<QueenModifierNode> modifiers();
-
-    /**
      * The body.
      */
     QueenAnnotationTypeBodyNode body();

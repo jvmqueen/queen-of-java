@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.nodes.body.NodeWithParameters;
 import org.queenlang.transpiler.nodes.body.QueenParameterNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 
@@ -38,10 +39,9 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface LambdaExpressionNode extends ExpressionNode {
+public interface LambdaExpressionNode extends ExpressionNode, NodeWithParameters {
 
     boolean enclosedParameters();
-    List<QueenParameterNode> parameters();
     ExpressionNode expression();
     QueenBlockStatements blockStatements();
 }

@@ -42,7 +42,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeWithTypeParameters {
+public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeWithParameters, NodeWithTypeParameters {
 
     /**
      * Annotations on top of this method.
@@ -64,11 +64,6 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeW
      * <pre>public int example()[] {...} </pre>
      */
     List<QueenArrayDimensionNode> dims();
-
-    /**
-     * Method parameters.
-     */
-    List<QueenParameterNode> parameters();
 
     /**
      * Thrown exceptions.

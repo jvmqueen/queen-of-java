@@ -125,6 +125,8 @@ public interface QueenASTVisitor<T> {
     T visitArrayTypeNode(final ArrayTypeNode node);
     T visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node);
     T visitExceptionTypeNode(final ExceptionTypeNode node);
+    T visitNodeWithParameters(final NodeWithParameters node);
+
     T visitNodeWithTypeParameters(final NodeWithTypeParameters node);
     T visitPrimitiveTypeNode(final PrimitiveTypeNode node);
     T visitReferenceTypeNode(final ReferenceTypeNode node);

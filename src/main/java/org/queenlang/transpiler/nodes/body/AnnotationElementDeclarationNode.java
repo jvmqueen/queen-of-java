@@ -27,7 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -44,12 +44,12 @@ public interface AnnotationElementDeclarationNode extends AnnotationTypeMemberDe
     /**
      * Annotations on top of this element.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * Modifiers of this element.
      */
-    List<QueenModifierNode> modifiers();
+    List<ModifierNode> modifiers();
 
     /**
      * Type of this annotation element.

@@ -36,9 +36,10 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import org.queenlang.transpiler.nodes.*;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
+import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     /**
      * Annotations on top of this class.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Access modifiers of this class.
@@ -69,7 +70,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     /**
      * Extension modifier (abstract or final).
      */
-    private final QueenModifierNode extensionModifier;
+    private final ModifierNode extensionModifier;
 
     /**
      * Name of this type.
@@ -84,17 +85,17 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     /**
      * Type which is extended.
      */
-    private final QueenClassOrInterfaceTypeNode extendsType;
+    private final ClassOrInterfaceTypeNode extendsType;
 
     /**
      * Interfaces this type implements.
      */
-    private final List<QueenClassOrInterfaceTypeNode> of;
+    private final List<ClassOrInterfaceTypeNode> of;
 
     /**
      * The body.
      */
-    private final QueenClassBodyNode body;
+    private final ClassBodyNode body;
 
     /**
      * Ctor.
@@ -110,14 +111,14 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
      */
     public QueenClassDeclarationNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
+        final List<AnnotationNode> annotations,
         final List<QueenModifierNode> accessModifiers,
-        final QueenModifierNode extensionModifier,
+        final ModifierNode extensionModifier,
         final String name,
         final List<QueenTypeParameterNode> typeParams,
-        final QueenClassOrInterfaceTypeNode extendsType,
-        final List<QueenClassOrInterfaceTypeNode> of,
-        final QueenClassBodyNode body
+        final ClassOrInterfaceTypeNode extendsType,
+        final List<ClassOrInterfaceTypeNode> of,
+        final ClassBodyNode body
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -185,7 +186,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
@@ -195,7 +196,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public QueenModifierNode extensionModifier() {
+    public ModifierNode extensionModifier() {
         return this.extensionModifier;
     }
 
@@ -205,17 +206,17 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public QueenClassOrInterfaceTypeNode extendsType() {
+    public ClassOrInterfaceTypeNode extendsType() {
         return this.extendsType;
     }
 
     @Override
-    public List<QueenClassOrInterfaceTypeNode> of() {
+    public List<ClassOrInterfaceTypeNode> of() {
         return this.of;
     }
 
     @Override
-    public QueenClassBodyNode body() {
+    public ClassBodyNode body() {
         return this.body;
     }
 }

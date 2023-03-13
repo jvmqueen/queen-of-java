@@ -32,6 +32,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     /**
      * Annotations on top of this annotation declaration.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Modifiers of this annotation.
@@ -80,7 +81,7 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
      */
     public QueenAnnotationTypeDeclarationNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
+        final List<AnnotationNode> annotations,
         final List<QueenModifierNode> modifiers,
         final String name,
         final QueenAnnotationTypeBodyNode body
@@ -114,7 +115,7 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 

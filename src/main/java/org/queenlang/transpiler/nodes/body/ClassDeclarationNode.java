@@ -27,11 +27,10 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.statements.StatementNode;
-import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
-import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
+import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.List;
 
@@ -46,12 +45,12 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
     /**
      * Annotations on top of this class.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * Extension modifier (abstract or final).
      */
-    QueenModifierNode extensionModifier();
+    ModifierNode extensionModifier();
 
     /**
      * Class type params.
@@ -61,15 +60,15 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
     /**
      * Type which is extended.
      */
-    QueenClassOrInterfaceTypeNode extendsType();
+    ClassOrInterfaceTypeNode extendsType();
 
     /**
      * Interfaces this type implements.
      */
-    List<QueenClassOrInterfaceTypeNode> of();
+    List<ClassOrInterfaceTypeNode> of();
 
     /**
      * The body.
      */
-    QueenClassBodyNode body();
+    ClassBodyNode body();
 }

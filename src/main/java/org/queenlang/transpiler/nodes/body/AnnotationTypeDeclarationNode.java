@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.List;
@@ -43,10 +44,10 @@ public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode 
     /**
      * Annotations on top of this annotation declaration.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * The body.
      */
-    QueenAnnotationTypeBodyNode body();
+    AnnotationTypeBodyNode body();
 }

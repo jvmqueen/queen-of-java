@@ -143,7 +143,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenClassDeclarationNode visitClassDeclaration(QueenParser.ClassDeclarationContext ctx) {
-        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<AnnotationNode> annotations = new ArrayList<>();
         final List<QueenModifierNode> accessModifiers = new ArrayList<>();
         final List<QueenTypeParameterNode> typeParameters = new ArrayList<>();
 
@@ -153,7 +153,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 tp -> typeParameters.add(this.visitTypeParameter(tp))
             );
         }
-        final List<QueenClassOrInterfaceTypeNode> ofTypes = new ArrayList<>();
+        final List<ClassOrInterfaceTypeNode> ofTypes = new ArrayList<>();
         if(ctx.superinterfaces() != null && ctx.superinterfaces().interfaceTypeList() != null) {
             ctx.superinterfaces().interfaceTypeList().interfaceType().forEach(
                 inter -> ofTypes.add(this.visitInterfaceType(inter))
@@ -238,7 +238,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenAnnotationTypeDeclarationNode visitAnnotationTypeDeclaration(QueenParser.AnnotationTypeDeclarationContext ctx) {
-        final List<QueenAnnotationNode> annotations = new ArrayList<>();
+        final List<AnnotationNode> annotations = new ArrayList<>();
         final List<QueenModifierNode> modifiers = new ArrayList<>();
 
         final String name = ctx.Identifier().getText();
@@ -3251,8 +3251,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public QueenAnnotationElementDeclarationNode visitAnnotationTypeElementDeclaration(QueenParser.AnnotationTypeElementDeclarationContext ctx) {
-        final List<QueenAnnotationNode> annotations = new ArrayList<>();
-        final List<QueenModifierNode> modifiers = new ArrayList<>();
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        final List<ModifierNode> modifiers = new ArrayList<>();
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
         );

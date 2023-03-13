@@ -657,7 +657,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> g(final NodeWithThrows node) {
+    public List<SemanticProblem> visitNodeWithThrows(final NodeWithThrows node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         final List<QueenExceptionTypeNode> exceptions = node.throwsList();
 

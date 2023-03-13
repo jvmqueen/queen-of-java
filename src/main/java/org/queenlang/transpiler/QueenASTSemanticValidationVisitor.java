@@ -132,6 +132,21 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitClassDeclarationNode(ClassDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithTypeParameters(node));
+
+        final List<QueenClassOrInterfaceTypeNode> interfaces = node.of();
+        final Set<String> unique = new HashSet<>();
+        for(final QueenClassOrInterfaceTypeNode implementedInterface : interfaces) {
+            final String fullName = implementedInterface.fullName();
+            if(!unique.add(fullName)) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Interface '" + fullName + "' already present in of list.",
+                        implementedInterface.position()
+                    )
+                );
+            }
+        }
+
         problems.addAll(this.visitClassBodyNode(node.body()));
         return problems;
     }
@@ -299,6 +314,20 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitInterfaceBodyNode(node.body()));
+
+        final List<QueenClassOrInterfaceTypeNode> extendsInterfaces = node.extendsTypes();
+        final Set<String> unique = new HashSet<>();
+        for(final QueenClassOrInterfaceTypeNode extendsInterface : extendsInterfaces) {
+            final String fullName = extendsInterface.fullName();
+            if(!unique.add(fullName)) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Interface '" + fullName + "' already present in extends list.",
+                        extendsInterface.position()
+                    )
+                );
+            }
+        }
 
         return problems;
     }

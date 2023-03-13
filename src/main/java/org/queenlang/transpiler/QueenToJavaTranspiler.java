@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen to Java transpiler.
@@ -67,11 +68,17 @@ public final class QueenToJavaTranspiler implements QueenTranspiler {
     public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
         for(final Path file : files) {
             final CompilationUnitNode compilationUnitNode = this.parser.parse(file);
-            final CompilationUnit javaCompilationUnit  = new CompilationUnit();
-            compilationUnitNode.addToJavaNode(javaCompilationUnit);
-            final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
-            this.reparseJavaClass(javaClass);
-            this.output.write(javaCompilationUnit);
+            final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor(file.getFileName().toString());
+            final List<SemanticProblem> problems = validator.visitCompilationUnit(compilationUnitNode);
+            if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
+                throw new QueenTranspilationException(problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
+            } else {
+                final CompilationUnit javaCompilationUnit  = new CompilationUnit();
+                compilationUnitNode.addToJavaNode(javaCompilationUnit);
+                final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
+                this.reparseJavaClass(javaClass);
+                this.output.write(javaCompilationUnit);
+            }
         }
     }
 

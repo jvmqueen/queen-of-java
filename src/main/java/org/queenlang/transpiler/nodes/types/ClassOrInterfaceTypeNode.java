@@ -60,6 +60,20 @@ public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode {
     String name();
 
     /**
+     * Full name of this reference type, with package/scope, for example: java.util.List.
+     * @return Full name.
+     */
+    default String fullName() {
+        final String fullName;
+        if(this.scope() != null) {
+            fullName = this.scope().fullName() + "." + this.name();
+        } else {
+            fullName = this.name();
+        }
+        return fullName;
+    }
+
+    /**
      * Type arguments of this reference type.
      */
     List<TypeNode> typeArguments();

@@ -43,15 +43,13 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationNode, NodeWithParameters, NodeWithTypeParameters {
+public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationNode, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows {
 
     List<QueenNode> annotations();
 
     QueenModifierNode modifier();
 
     List<QueenTypeParameterNode> typeParams();
-
-    List<QueenExceptionTypeNode> throwsList();
 
     QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode();
 

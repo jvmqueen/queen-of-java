@@ -128,6 +128,9 @@ public interface QueenASTVisitor<T> {
     T visitNodeWithParameters(final NodeWithParameters node);
 
     T visitNodeWithTypeParameters(final NodeWithTypeParameters node);
+
+    T visitNodeWithThrows(final NodeWithThrows node);
+
     T visitPrimitiveTypeNode(final PrimitiveTypeNode node);
     T visitReferenceTypeNode(final ReferenceTypeNode node);
     T visitTypeNode(final TypeNode node);

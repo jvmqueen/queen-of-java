@@ -150,6 +150,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
+        problems.addAll(this.visitNodeWithThrows(node));
 
         return problems;
     }
@@ -217,6 +218,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
+        problems.addAll(this.visitNodeWithThrows(node));
 
         return problems;
     }
@@ -231,6 +233,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
+        problems.addAll(this.visitNodeWithThrows(node));
 
         return problems;
     }
@@ -599,7 +602,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitNodeWithParameters(NodeWithParameters node) {
+    public List<SemanticProblem> visitNodeWithParameters(final NodeWithParameters node) {
         final List<SemanticProblem> problems = new ArrayList<>();
 
         final List<QueenParameterNode> parameters = node.parameters();
@@ -630,7 +633,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitNodeWithTypeParameters(NodeWithTypeParameters node) {
+    public List<SemanticProblem> visitNodeWithTypeParameters(final NodeWithTypeParameters node) {
         final List<SemanticProblem> problems = new ArrayList<>();
 
         final List<QueenTypeParameterNode> typeParameters = node.typeParameters();
@@ -650,6 +653,27 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             );
         }
         //@todo #49:60min Validate boundTypes of each type parameter.
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> g(final NodeWithThrows node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<QueenExceptionTypeNode> exceptions = node.throwsList();
+
+        final Set<String> unique = new HashSet<>();
+        for(final QueenExceptionTypeNode exception : exceptions) {
+            final String fullName = exception.exceptionType().fullName();
+            if(!unique.add(fullName)) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Exception '" + fullName + "' already present in throws list.",
+                        exception.position()
+                    )
+                );
+            }
+        }
+
         return problems;
     }
 

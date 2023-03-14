@@ -53,11 +53,6 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
     ModifierNode extensionModifier();
 
     /**
-     * Class type params.
-     */
-    List<QueenTypeParameterNode> typeParams();
-
-    /**
      * Type which is extended.
      */
     ClassOrInterfaceTypeNode extendsType();

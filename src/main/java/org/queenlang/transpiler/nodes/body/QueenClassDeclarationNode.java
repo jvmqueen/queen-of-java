@@ -201,11 +201,6 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public List<QueenTypeParameterNode> typeParams() {
-        return this.typeParams;
-    }
-
-    @Override
     public ClassOrInterfaceTypeNode extendsType() {
         return this.extendsType;
     }

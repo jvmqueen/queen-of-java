@@ -41,6 +41,6 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface ArrayDimensionNode extends QueenNode {
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
     ExpressionNode expression();
 }

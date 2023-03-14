@@ -37,6 +37,6 @@ import org.queenlang.transpiler.nodes.QueenNode;
  */
 public interface CatchClauseNode extends QueenNode {
 
-    QueenCatchFormalParameterNode parameter();
-    QueenBlockStatements blockStatements();
+    CatchFormalParameterNode parameter();
+    BlockStatements blockStatements();
 }

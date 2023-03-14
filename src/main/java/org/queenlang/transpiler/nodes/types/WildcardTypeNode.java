@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public interface WildcardTypeNode extends TypeNode {
     /**
      * Annotations on top of this wildcard.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * Extended type bound.

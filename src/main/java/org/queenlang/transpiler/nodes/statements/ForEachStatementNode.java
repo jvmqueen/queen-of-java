@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.body.QueenLocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
@@ -41,7 +42,7 @@ public interface ForEachStatementNode extends StatementNode {
     /**
      * Variable.
      */
-    QueenLocalVariableDeclarationNode variable();
+    LocalVariableDeclarationNode variable();
 
     /**
      * Iterable.
@@ -51,5 +52,5 @@ public interface ForEachStatementNode extends StatementNode {
     /**
      * Statements inside the for-each statement.
      */
-    QueenBlockStatements blockStatements();
+    BlockStatements blockStatements();
 }

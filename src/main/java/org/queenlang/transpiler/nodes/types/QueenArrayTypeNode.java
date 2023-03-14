@@ -33,6 +33,8 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.ArrayType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 
@@ -59,12 +61,12 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
     /**
      * Array type dimensions (pairs of square brackets).
      */
-    private final List<QueenArrayDimensionNode> dims;
+    private final List<ArrayDimensionNode> dims;
 
     public QueenArrayTypeNode(
         final Position position,
         final TypeNode type,
-        final List<QueenArrayDimensionNode> dims
+        final List<ArrayDimensionNode> dims
     ) {
         this.position = position;
         this.type = type;
@@ -92,14 +94,14 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
         ArrayType arrayType = new ArrayType(
             this.type.toType()
         );
-        for(final QueenAnnotationNode annotation : this.dims.get(this.dims.size() - 1).annotations()) {
+        for(final AnnotationNode annotation : this.dims.get(this.dims.size() - 1).annotations()) {
             annotation.addToJavaNode(arrayType);
         }
         for(int i = this.dims.size() - 2; i>=0; i--) {
             arrayType = new ArrayType(
                 arrayType
             );
-            for(final QueenAnnotationNode annotation : this.dims.get(i).annotations()) {
+            for(final AnnotationNode annotation : this.dims.get(i).annotations()) {
                 annotation.addToJavaNode(arrayType);
             }
         }
@@ -112,7 +114,7 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
     }
 
     @Override
-    public List<QueenArrayDimensionNode> dims() {
+    public List<ArrayDimensionNode> dims() {
         return this.dims;
     }
 }

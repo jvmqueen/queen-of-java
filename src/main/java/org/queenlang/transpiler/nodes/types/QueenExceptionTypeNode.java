@@ -40,10 +40,10 @@ import org.queenlang.transpiler.nodes.Position;
  */
 public final class QueenExceptionTypeNode implements ExceptionTypeNode {
 
-    private final QueenClassOrInterfaceTypeNode exceptionType;
+    private final ClassOrInterfaceTypeNode exceptionType;
 
     public QueenExceptionTypeNode(
-        final QueenClassOrInterfaceTypeNode exceptionType
+        final ClassOrInterfaceTypeNode exceptionType
     ) {
         this.exceptionType = exceptionType;
     }
@@ -84,7 +84,7 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
     }
 
     @Override
-    public QueenClassOrInterfaceTypeNode exceptionType() {
+    public ClassOrInterfaceTypeNode exceptionType() {
         return this.exceptionType;
     }
 }

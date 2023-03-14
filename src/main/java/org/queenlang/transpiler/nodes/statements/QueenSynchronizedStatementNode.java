@@ -45,12 +45,12 @@ public final class QueenSynchronizedStatementNode implements SynchronizedStateme
 
     private final ExpressionNode syncExpression;
 
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
     public QueenSynchronizedStatementNode(
         final Position position,
         final ExpressionNode syncExpression,
-        final QueenBlockStatements blockStatements
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.syncExpression = syncExpression;
@@ -80,7 +80,7 @@ public final class QueenSynchronizedStatementNode implements SynchronizedStateme
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

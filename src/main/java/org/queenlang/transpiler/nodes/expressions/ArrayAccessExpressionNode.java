@@ -39,5 +39,5 @@ public interface ArrayAccessExpressionNode extends ExpressionNode {
 
     ExpressionNode name();
 
-    List<QueenArrayDimensionNode> dims();
+    List<ArrayDimensionNode> dims();
 }

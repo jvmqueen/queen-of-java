@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -40,10 +41,10 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface ParameterNode extends QueenNode {
-    List<QueenAnnotationNode> annotations();
-    List<QueenModifierNode> modifiers();
-    QueenVariableDeclaratorId variableDeclaratorId();
+    List<AnnotationNode> annotations();
+    List<ModifierNode> modifiers();
+    VariableDeclaratorId variableDeclaratorId();
     TypeNode type();
-    List<QueenAnnotationNode> varArgsAnnotations();
+    List<AnnotationNode> varArgsAnnotations();
     boolean varArgs();
 }

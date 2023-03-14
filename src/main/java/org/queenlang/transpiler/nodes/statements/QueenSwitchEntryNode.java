@@ -44,13 +44,13 @@ import java.util.List;
 public final class QueenSwitchEntryNode implements SwitchEntryNode {
 
     private final Position position;
-    private final List<QueenSwitchLabelNode> labels;
-    private final QueenBlockStatements blockStatements;
+    private final List<SwitchLabelNode> labels;
+    private final BlockStatements blockStatements;
 
     public QueenSwitchEntryNode(
         final Position position,
-        final List<QueenSwitchLabelNode> labels,
-        final QueenBlockStatements blockStatements
+        final List<SwitchLabelNode> labels,
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.labels = labels;
@@ -79,12 +79,12 @@ public final class QueenSwitchEntryNode implements SwitchEntryNode {
     }
 
     @Override
-    public List<QueenSwitchLabelNode> labels() {
+    public List<SwitchLabelNode> labels() {
         return this.labels;
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

@@ -36,6 +36,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
 import com.github.javaparser.ast.type.*;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.ArrayList;
@@ -64,12 +65,12 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
      * Scope of this reference type (what comes before the dot). E.g.
      * java.util.List (util is the scope of List).
      */
-    private final QueenClassOrInterfaceTypeNode scope;
+    private final ClassOrInterfaceTypeNode scope;
 
     /**
      * Annotations on top of this reference type.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Name of this reference type.
@@ -86,7 +87,7 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     public QueenClassOrInterfaceTypeNode(
         final Position position,
         final boolean interfaceType,
-        final List<QueenAnnotationNode> annotations,
+        final List<AnnotationNode> annotations,
         final String name,
         final List<TypeNode> typeArguments
     ) {
@@ -96,8 +97,8 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     public QueenClassOrInterfaceTypeNode(
         final Position position,
         final boolean interfaceType,
-        final QueenClassOrInterfaceTypeNode scope,
-        final List<QueenAnnotationNode> annotations,
+        final ClassOrInterfaceTypeNode scope,
+        final List<AnnotationNode> annotations,
         final String name,
         final List<TypeNode> typeArguments,
         final boolean hasDiamondOperator
@@ -164,7 +165,7 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
@@ -184,7 +185,7 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     }
 
     @Override
-    public QueenClassOrInterfaceTypeNode scope() {
+    public ClassOrInterfaceTypeNode scope() {
         return this.scope;
     }
 
@@ -193,7 +194,7 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     public ClassOrInterfaceType toType() {
         final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.name);
         if(this.scope != null) {
-            classOrInterfaceType.setScope(this.scope.toType());
+            classOrInterfaceType.setScope((ClassOrInterfaceType) this.scope.toType());
         }
         if(this.annotations != null) {
             this.annotations.forEach(a -> a.addToJavaNode(classOrInterfaceType));

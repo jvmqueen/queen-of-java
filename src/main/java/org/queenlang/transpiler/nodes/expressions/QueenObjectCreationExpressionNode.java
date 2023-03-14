@@ -30,8 +30,11 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.body.ClassBodyNode;
 import org.queenlang.transpiler.nodes.body.QueenClassBodyNode;
+import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -48,21 +51,21 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
 
     private final Position position;
     private final ExpressionNode scope;
-    private final QueenClassOrInterfaceTypeNode type;
+    private final ClassOrInterfaceTypeNode type;
 
     private final List<TypeNode> typeArguments;
 
     private final List<ExpressionNode> arguments;
 
-    private final QueenClassBodyNode anonymousBody; //check only class member declaration (e.g. no constructors allowed!).
+    private final ClassBodyNode anonymousBody; //check only class member declaration (e.g. no constructors allowed!).
 
     public QueenObjectCreationExpressionNode(
         final Position position,
         final ExpressionNode scope,
-        final QueenClassOrInterfaceTypeNode type,
+        final ClassOrInterfaceTypeNode type,
         final List<TypeNode> typeArguments,
         final List<ExpressionNode> arguments,
-        final QueenClassBodyNode anonymousBody
+        final ClassBodyNode anonymousBody
     ) {
         this.position = position;
         this.scope = scope;
@@ -77,7 +80,7 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
         if(this.scope != null) {
             objectCreationExpr.setScope(this.scope.toJavaExpression());
         }
-        objectCreationExpr.setType(this.type.toType());
+        objectCreationExpr.setType((ClassOrInterfaceType) this.type.toType());
         if(this.typeArguments != null) {
             this.typeArguments.forEach(ta -> ta.addToJavaNode(objectCreationExpr));
         }
@@ -109,7 +112,7 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
     }
 
     @Override
-    public QueenClassOrInterfaceTypeNode type() {
+    public ClassOrInterfaceTypeNode type() {
         return this.type;
     }
 
@@ -124,7 +127,7 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
     }
 
     @Override
-    public QueenClassBodyNode anonymousBody() {
+    public ClassBodyNode anonymousBody() {
         return this.anonymousBody;
     }
 }

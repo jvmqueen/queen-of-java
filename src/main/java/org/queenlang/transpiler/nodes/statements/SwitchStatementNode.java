@@ -39,5 +39,5 @@ import java.util.List;
  */
 public interface SwitchStatementNode extends StatementNode {
     ExpressionNode expression();
-    List<QueenSwitchEntryNode> entries();
+    List<SwitchEntryNode> entries();
 }

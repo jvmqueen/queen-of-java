@@ -45,5 +45,5 @@ public interface WhileStatementNode extends StatementNode {
     /**
      * Statements inside the while.
      */
-    QueenBlockStatements blockStatements();
+    BlockStatements blockStatements();
 }

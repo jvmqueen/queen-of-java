@@ -31,10 +31,14 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.statements.BlockStatements;
+import org.queenlang.transpiler.nodes.statements.ExplicitConstructorInvocationNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenExplicitConstructorInvocationNode;
+import org.queenlang.transpiler.nodes.types.ExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
+import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.List;
 
@@ -51,30 +55,30 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
 
     private final List<QueenNode> annotations;
 
-    private final QueenModifierNode modifier;
+    private final ModifierNode modifier;
 
-    private final List<QueenTypeParameterNode> typeParams;
+    private final List<TypeParameterNode> typeParams;
 
     private final String name;
 
-    private final List<QueenParameterNode> parameters;
+    private final List<ParameterNode> parameters;
 
-    private final List<QueenExceptionTypeNode> throwsList;
+    private final List<ExceptionTypeNode> throwsList;
 
-    private final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode;
+    private final ExplicitConstructorInvocationNode explicitConstructorInvocationNode;
 
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
     public QueenConstructorDeclarationNode(
         final Position position,
         final List<QueenNode> annotations,
-        final QueenModifierNode modifier,
-        final List<QueenTypeParameterNode> typeParams,
+        final ModifierNode modifier,
+        final List<TypeParameterNode> typeParams,
         final String name,
-        final List<QueenParameterNode> parameters,
-        final List<QueenExceptionTypeNode> throwsList,
-        final QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode,
-        final QueenBlockStatements blockStatements
+        final List<ParameterNode> parameters,
+        final List<ExceptionTypeNode> throwsList,
+        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode,
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -125,7 +129,7 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
     }
 
     @Override
-    public List<QueenTypeParameterNode> typeParameters() {
+    public List<TypeParameterNode> typeParameters() {
         return this.typeParams;
     }
 
@@ -135,32 +139,32 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
     }
 
     @Override
-    public QueenModifierNode modifier() {
+    public ModifierNode modifier() {
         return this.modifier;
     }
 
     @Override
-    public List<QueenTypeParameterNode> typeParams() {
+    public List<TypeParameterNode> typeParams() {
         return this.typeParams;
     }
 
     @Override
-    public List<QueenParameterNode> parameters() {
+    public List<ParameterNode> parameters() {
         return this.parameters;
     }
 
     @Override
-    public List<QueenExceptionTypeNode> throwsList() {
+    public List<ExceptionTypeNode> throwsList() {
         return this.throwsList;
     }
 
     @Override
-    public QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode() {
+    public ExplicitConstructorInvocationNode explicitConstructorInvocationNode() {
         return this.explicitConstructorInvocationNode;
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

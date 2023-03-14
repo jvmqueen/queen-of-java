@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode {
     /**
      * Annotations on top of this reference type.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * Name of this reference type.

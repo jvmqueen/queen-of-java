@@ -39,6 +39,6 @@ import java.util.List;
  */
 public interface SwitchEntryNode extends QueenNode {
 
-    List<QueenSwitchLabelNode> labels();
-    QueenBlockStatements blockStatements();
+    List<SwitchLabelNode> labels();
+    BlockStatements blockStatements();
 }

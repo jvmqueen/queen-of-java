@@ -32,8 +32,11 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.type.UnionType;
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.body.ModifierNode;
 import org.queenlang.transpiler.nodes.body.QueenModifierNode;
 import org.queenlang.transpiler.nodes.body.QueenVariableDeclaratorId;
+import org.queenlang.transpiler.nodes.body.VariableDeclaratorId;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -48,17 +51,17 @@ import java.util.List;
 public final class QueenCatchFormalParameterNode implements CatchFormalParameterNode {
 
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
-    private final List<QueenModifierNode> modifiers;
+    private final List<AnnotationNode> annotations;
+    private final List<ModifierNode> modifiers;
     private final List<TypeNode> catchExceptionTypes;
-    private final QueenVariableDeclaratorId exceptionName;
+    private final VariableDeclaratorId exceptionName;
 
     public QueenCatchFormalParameterNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final List<TypeNode> catchExceptionTypes,
-        final QueenVariableDeclaratorId exceptionName
+        final VariableDeclaratorId exceptionName
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -91,12 +94,12 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return this.modifiers;
     }
 
@@ -106,7 +109,7 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
     }
 
     @Override
-    public QueenVariableDeclaratorId exceptionName() {
+    public VariableDeclaratorId exceptionName() {
         return this.exceptionName;
     }
 }

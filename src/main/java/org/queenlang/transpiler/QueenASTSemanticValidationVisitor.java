@@ -67,19 +67,19 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 )
             );
         }
-        final List<QueenImportDeclarationNode> imports = node.importDeclarations();
-        for(int i=imports.size() - 1; i>=0; i--) {
-            for(int j=0; j<imports.size(); j++) {
-                if(i!= j && imports.get(i).isContainedBy(imports.get(j))) {
-                    problems.add(
-                        new QueenSemanticWarning(
-                            "Type already imported. ",
-                            imports.get(i).position()
-                        )
-                    );
-                }
-            }
-        }
+        final List<ImportDeclarationNode> imports = node.importDeclarations();
+//        for(int i=imports.size() - 1; i>=0; i--) {
+//            for(int j=0; j<imports.size(); j++) {
+//                if(i!= j && imports.get(i).isContainedBy(imports.get(j))) {
+//                    problems.add(
+//                        new QueenSemanticWarning(
+//                            "Type already imported. ",
+//                            imports.get(i).position()
+//                        )
+//                    );
+//                }
+//            }
+//        }
         problems.addAll(
             this.visitTypeDeclarationNode(node.typeDeclaration())
         );
@@ -233,7 +233,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitInterfaceDeclarationNode(InterfaceDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        final List<QueenModifierNode> modifiers = node.modifiers();
+        final List<ModifierNode> modifiers = node.modifiers();
         modifiers.forEach(
             m -> {
                 final String modifierString = m.modifier();
@@ -314,9 +314,9 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitInterfaceBodyNode(node.body()));
 
-        final List<QueenClassOrInterfaceTypeNode> extendsInterfaces = node.extendsTypes();
+        final List<ClassOrInterfaceTypeNode> extendsInterfaces = node.extendsTypes();
         final Set<String> unique = new HashSet<>();
-        for(final QueenClassOrInterfaceTypeNode extendsInterface : extendsInterfaces) {
+        for(final ClassOrInterfaceTypeNode extendsInterface : extendsInterfaces) {
             final String fullName = extendsInterface.fullName();
             if(!unique.add(fullName)) {
                 problems.add(
@@ -344,10 +344,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitTypeDeclarationNode(TypeDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        final List<QueenModifierNode> modifiers = node.modifiers();
+        final List<ModifierNode> modifiers = node.modifiers();
         if(modifiers != null && modifiers.size() > 0) {
             final List<String> allowedModifiers = List.of("public", "abstract", "strictfp");
-            final Set<QueenModifierNode> unique = new HashSet<>();
+            final Set<ModifierNode> unique = new HashSet<>();
             modifiers.forEach(m -> {
                 final String modifierString = m.modifier();
                 if(!allowedModifiers.contains(modifierString)) {
@@ -685,9 +685,9 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitNodeWithParameters(final NodeWithParameters node) {
         final List<SemanticProblem> problems = new ArrayList<>();
 
-        final List<QueenParameterNode> parameters = node.parameters();
+        final List<ParameterNode> parameters = node.parameters();
         final Set<String> unique = new HashSet<>();
-        for(final QueenParameterNode parameter : parameters) {
+        for(final ParameterNode parameter : parameters) {
             final String name = parameter.variableDeclaratorId().name();
             if(!unique.add(name)) {
                 problems.add(
@@ -716,7 +716,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitNodeWithTypeParameters(final NodeWithTypeParameters node) {
         final List<SemanticProblem> problems = new ArrayList<>();
 
-        final List<QueenTypeParameterNode> typeParameters = node.typeParameters();
+        final List<TypeParameterNode> typeParameters = node.typeParameters();
         if(typeParameters != null && typeParameters.size() > 0) {
             final Set<String> unique = new HashSet<>();
             typeParameters.forEach(
@@ -739,10 +739,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitNodeWithThrows(final NodeWithThrows node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        final List<QueenExceptionTypeNode> exceptions = node.throwsList();
+        final List<ExceptionTypeNode> exceptions = node.throwsList();
 
         final Set<String> unique = new HashSet<>();
-        for(final QueenExceptionTypeNode exception : exceptions) {
+        for(final ExceptionTypeNode exception : exceptions) {
             final String fullName = exception.exceptionType().fullName();
             if(!unique.add(fullName)) {
                 problems.add(

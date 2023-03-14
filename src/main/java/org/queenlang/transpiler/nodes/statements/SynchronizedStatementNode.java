@@ -39,5 +39,5 @@ public interface SynchronizedStatementNode extends StatementNode {
 
     ExpressionNode syncExpression();
 
-    QueenBlockStatements blockStatements();
+    BlockStatements blockStatements();
 }

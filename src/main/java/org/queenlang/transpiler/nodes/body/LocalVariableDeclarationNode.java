@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.statements.StatementNode;
@@ -46,12 +47,12 @@ public interface LocalVariableDeclarationNode extends StatementNode, ExpressionN
     /**
      * Annotations on top of this local variable.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * Access modifiers of this local variable.
      */
-    List<QueenModifierNode> modifiers();
+    List<ModifierNode> modifiers();
 
     /**
      * Type of the local variable.
@@ -61,5 +62,5 @@ public interface LocalVariableDeclarationNode extends StatementNode, ExpressionN
     /**
      * Variable names and initializer expressions.
      */
-    Map<QueenVariableDeclaratorId, ExpressionNode> variables();
+    Map<VariableDeclaratorId, ExpressionNode> variables();
 }

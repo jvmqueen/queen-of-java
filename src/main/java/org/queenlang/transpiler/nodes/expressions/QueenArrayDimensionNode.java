@@ -47,7 +47,7 @@ import java.util.List;
 public final class QueenArrayDimensionNode implements ArrayDimensionNode {
 
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
     private final ExpressionNode expression;
 
     public QueenArrayDimensionNode(
@@ -58,7 +58,7 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
 
     public QueenArrayDimensionNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations
+        final List<AnnotationNode> annotations
     ) {
         this(position, annotations, null);
     }
@@ -72,7 +72,7 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
 
     public QueenArrayDimensionNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
+        final List<AnnotationNode> annotations,
         final ExpressionNode expression
     ) {
         this.position = position;
@@ -81,7 +81,7 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 

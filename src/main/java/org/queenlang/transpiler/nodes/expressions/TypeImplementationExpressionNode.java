@@ -41,5 +41,5 @@ import java.util.List;
 public interface TypeImplementationExpressionNode extends ExpressionNode {
 
     TypeNode type();
-    List<QueenArrayDimensionNode> dims();
+    List<ArrayDimensionNode> dims();
 }

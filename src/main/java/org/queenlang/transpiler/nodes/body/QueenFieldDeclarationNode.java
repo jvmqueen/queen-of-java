@@ -33,6 +33,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -56,12 +57,12 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     /**
      * Annotations on top of this field.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Access modifiers of this field.
      */
-    private final List<QueenModifierNode> modifiers;
+    private final List<ModifierNode> modifiers;
 
     /**
      * Type of the field declaration.
@@ -71,14 +72,14 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<QueenVariableDeclaratorId, ExpressionNode> variables;
+    private final Map<VariableDeclaratorId, ExpressionNode> variables;
 
     public QueenFieldDeclarationNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final TypeNode type,
-        final Map<QueenVariableDeclaratorId, ExpressionNode> variables
+        final Map<VariableDeclaratorId, ExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -123,12 +124,12 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return this.modifiers;
     }
 
@@ -138,7 +139,7 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     }
 
     @Override
-    public Map<QueenVariableDeclaratorId, ExpressionNode> variables() {
+    public Map<VariableDeclaratorId, ExpressionNode> variables() {
         return this.variables;
     }
 }

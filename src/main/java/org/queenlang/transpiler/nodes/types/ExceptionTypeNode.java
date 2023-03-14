@@ -35,5 +35,5 @@ package org.queenlang.transpiler.nodes.types;
  */
 public interface ExceptionTypeNode extends ReferenceTypeNode {
 
-    QueenClassOrInterfaceTypeNode exceptionType();
+    ClassOrInterfaceTypeNode exceptionType();
 }

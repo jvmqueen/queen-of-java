@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 
 import java.util.List;
@@ -47,5 +48,5 @@ public interface ArrayTypeNode extends ReferenceTypeNode {
     /**
      * Array type dimensions (pairs of square brackets).
      */
-    List<QueenArrayDimensionNode> dims();
+    List<ArrayDimensionNode> dims();
 }

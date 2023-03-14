@@ -33,6 +33,7 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.PrimitiveType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
     /**
      * Annotations on top of this primitive type.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Name of this primitive type.
@@ -61,7 +62,7 @@ public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
 
     public QueenPrimitiveTypeNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
+        final List<AnnotationNode> annotations,
         final String name
     ) {
         this.position = position;
@@ -97,7 +98,7 @@ public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 

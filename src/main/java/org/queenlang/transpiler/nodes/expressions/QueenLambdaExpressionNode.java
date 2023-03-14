@@ -32,6 +32,8 @@ import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.body.ParameterNode;
+import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.body.QueenParameterNode;
 
@@ -47,16 +49,16 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
 
     private final Position position;
     private final boolean enclosedParameters;
-    private final List<QueenParameterNode> parameters;
+    private final List<ParameterNode> parameters;
     private final ExpressionNode expression;
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
     public QueenLambdaExpressionNode(
         final Position position,
         final boolean enclosedParameters,
-        final List<QueenParameterNode> parameters,
+        final List<ParameterNode> parameters,
         final ExpressionNode expression,
-        final QueenBlockStatements blockStatements
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.enclosedParameters = enclosedParameters;
@@ -95,7 +97,7 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
     }
 
     @Override
-    public List<QueenParameterNode> parameters() {
+    public List<ParameterNode> parameters() {
         return this.parameters;
     }
 
@@ -105,7 +107,7 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

@@ -45,10 +45,10 @@ public interface IfStatementNode extends StatementNode {
     /**
      * Statements inside the if.
      */
-    QueenBlockStatements thenBlockStatements();
+    BlockStatements thenBlockStatements();
 
     /**
      * Statements inside the else.
      */
-    QueenBlockStatements elseBlockStatements();
+    BlockStatements elseBlockStatements();
 }

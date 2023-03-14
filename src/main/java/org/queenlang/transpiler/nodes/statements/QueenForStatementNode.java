@@ -72,14 +72,14 @@ public final class QueenForStatementNode implements ForStatementNode {
     /**
      * Statements inside the for statement.
      */
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
     public QueenForStatementNode(
         final Position position,
         final List<ExpressionNode> initialization,
         final ExpressionNode comparison,
         final List<ExpressionNode> update,
-        final QueenBlockStatements blockStatements
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.initialization = initialization;
@@ -155,7 +155,7 @@ public final class QueenForStatementNode implements ForStatementNode {
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

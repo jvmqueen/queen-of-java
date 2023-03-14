@@ -46,16 +46,16 @@ public final class QueenTryStatementNode implements TryStatementNode {
 
     private final Position position;
     private final List<ExpressionNode> resources;
-    private final QueenBlockStatements tryBlockStatements;
-    private final List<QueenCatchClauseNode> catchClauses;
-    private final QueenBlockStatements finallyBlockStatements;
+    private final BlockStatements tryBlockStatements;
+    private final List<CatchClauseNode> catchClauses;
+    private final BlockStatements finallyBlockStatements;
 
     public QueenTryStatementNode(
         final Position position,
         final List<ExpressionNode> resources,
-        final QueenBlockStatements tryBlockStatements,
-        final List<QueenCatchClauseNode> catchClauses,
-        final QueenBlockStatements finallyBlockStatements
+        final BlockStatements tryBlockStatements,
+        final List<CatchClauseNode> catchClauses,
+        final BlockStatements finallyBlockStatements
     ) {
         this.position = position;
         this.resources = resources;
@@ -109,17 +109,17 @@ public final class QueenTryStatementNode implements TryStatementNode {
     }
 
     @Override
-    public QueenBlockStatements tryBlockStatements() {
+    public BlockStatements tryBlockStatements() {
         return this.tryBlockStatements;
     }
 
     @Override
-    public List<QueenCatchClauseNode> catchClauses() {
+    public List<CatchClauseNode> catchClauses() {
         return this.catchClauses;
     }
 
     @Override
-    public QueenBlockStatements finallyBlockStatements() {
+    public BlockStatements finallyBlockStatements() {
         return this.finallyBlockStatements;
     }
 }

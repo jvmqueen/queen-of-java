@@ -56,13 +56,13 @@ public final class QueenWhileStatementNode implements WhileStatementNode {
     /**
      * Statements inside the while.
      */
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
 
     public QueenWhileStatementNode(
         final Position position,
         final ExpressionNode expression,
-        final QueenBlockStatements blockStatements
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.expression = expression;
@@ -103,7 +103,7 @@ public final class QueenWhileStatementNode implements WhileStatementNode {
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

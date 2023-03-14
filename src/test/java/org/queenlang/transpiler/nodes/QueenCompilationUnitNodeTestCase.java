@@ -31,10 +31,7 @@ import com.github.javaparser.ast.Node;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.queenlang.transpiler.nodes.body.QueenCompilationUnitNode;
-import org.queenlang.transpiler.nodes.body.QueenImportDeclarationNode;
-import org.queenlang.transpiler.nodes.body.QueenPackageDeclarationNode;
-import org.queenlang.transpiler.nodes.body.TypeDeclarationNode;
+import org.queenlang.transpiler.nodes.body.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +53,8 @@ public final class QueenCompilationUnitNodeTestCase {
         final Node java = Mockito.mock(Node.class);
 
         final QueenPackageDeclarationNode packageDeclaration = Mockito.mock(QueenPackageDeclarationNode.class);
-        final List<QueenImportDeclarationNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(QueenImportDeclarationNode.class));
+        final List<ImportDeclarationNode> imports = new ArrayList<>();
+        imports.add(Mockito.mock(ImportDeclarationNode.class));
         final List<TypeDeclarationNode> types = new ArrayList<>();
         types.add(Mockito.mock(TypeDeclarationNode.class));
 

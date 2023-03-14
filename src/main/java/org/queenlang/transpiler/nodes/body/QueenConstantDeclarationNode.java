@@ -32,6 +32,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -56,12 +57,12 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     /**
      * Annotations on top of this constant declaration.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Access modifiers of this constant declaration.
      */
-    private final List<QueenModifierNode> modifiers;
+    private final List<ModifierNode> modifiers;
 
     /**
      * Type of the constant declaration.
@@ -71,14 +72,14 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<QueenVariableDeclaratorId, ExpressionNode> variables;
+    private final Map<VariableDeclaratorId, ExpressionNode> variables;
 
     public QueenConstantDeclarationNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final TypeNode type,
-        final Map<QueenVariableDeclaratorId, ExpressionNode> variables
+        final Map<VariableDeclaratorId, ExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -120,12 +121,12 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return this.modifiers;
     }
 
@@ -135,7 +136,7 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     }
 
     @Override
-    public Map<QueenVariableDeclaratorId, ExpressionNode> variables() {
+    public Map<VariableDeclaratorId, ExpressionNode> variables() {
         return this.variables;
     }
 }

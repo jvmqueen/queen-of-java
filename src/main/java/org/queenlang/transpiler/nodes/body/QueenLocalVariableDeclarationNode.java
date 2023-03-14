@@ -37,6 +37,7 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -61,12 +62,12 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     /**
      * Annotations on top of this local variable.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Access modifiers of this local variable.
      */
-    private final List<QueenModifierNode> modifiers;
+    private final List<ModifierNode> modifiers;
 
     /**
      * Type of the local variable.
@@ -76,14 +77,14 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<QueenVariableDeclaratorId, ExpressionNode> variables;
+    private final Map<VariableDeclaratorId, ExpressionNode> variables;
 
     public QueenLocalVariableDeclarationNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final TypeNode type,
-        final Map<QueenVariableDeclaratorId, ExpressionNode> variables
+        final Map<VariableDeclaratorId, ExpressionNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -145,12 +146,12 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return annotations;
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return modifiers;
     }
 
@@ -160,7 +161,7 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     }
 
     @Override
-    public Map<QueenVariableDeclaratorId, ExpressionNode> variables() {
+    public Map<VariableDeclaratorId, ExpressionNode> variables() {
         return variables;
     }
 }

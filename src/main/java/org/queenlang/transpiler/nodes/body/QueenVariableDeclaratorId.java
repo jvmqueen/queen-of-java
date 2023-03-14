@@ -8,6 +8,8 @@ import com.github.javaparser.ast.type.ArrayType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 
@@ -18,7 +20,7 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
 
     private final Position position;
     private final String name;
-    private final List<QueenArrayDimensionNode> dims;
+    private final List<ArrayDimensionNode> dims;
 
     public QueenVariableDeclaratorId(
         final Position position,
@@ -30,7 +32,7 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
     public QueenVariableDeclaratorId(
         final Position position,
         final String name,
-        final List<QueenArrayDimensionNode> dims
+        final List<ArrayDimensionNode> dims
     ) {
         this.position = position;
         this.name = name;
@@ -81,7 +83,7 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
                 setType = new ArrayType(
                     setType
                 );
-                for(final QueenAnnotationNode annotation : this.dims.get(i).annotations()) {
+                for(final AnnotationNode annotation : this.dims.get(i).annotations()) {
                     annotation.addToJavaNode(setType);
                 }
             }
@@ -95,7 +97,7 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
     }
 
     @Override
-    public List<QueenArrayDimensionNode> dims() {
+    public List<ArrayDimensionNode> dims() {
         return this.dims;
     }
 }

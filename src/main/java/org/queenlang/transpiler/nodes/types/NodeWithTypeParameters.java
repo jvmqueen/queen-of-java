@@ -41,5 +41,5 @@ public interface NodeWithTypeParameters {
      * Return the list of type params.
      * @return List of QueenTypeParameterNode.
      */
-    List<QueenTypeParameterNode> typeParameters();
+    List<TypeParameterNode> typeParameters();
 }

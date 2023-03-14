@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 
 /**
@@ -49,7 +50,7 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
     /**
      * Statements in this initializer.
      */
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
     /**
      * Is it static or not?
@@ -58,14 +59,14 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
 
     public QueenInstanceInitializerNode(
         final Position position,
-        final QueenBlockStatements blockStatements
+        final BlockStatements blockStatements
     ) {
         this(position, blockStatements, false);
     }
 
     public QueenInstanceInitializerNode(
         final Position position,
-        final QueenBlockStatements blockStatements,
+        final BlockStatements blockStatements,
         final boolean isStatic
     ) {
         this.position = position;
@@ -91,7 +92,7 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 

@@ -34,6 +34,7 @@ import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.body.QueenLocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
@@ -53,7 +54,7 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     /**
      * Variable.
      */
-    private final QueenLocalVariableDeclarationNode variable;
+    private final LocalVariableDeclarationNode variable;
 
     /**
      * Iterable.
@@ -63,13 +64,13 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     /**
      * Statements inside the for-each statement.
      */
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
     public QueenForEachStatementNode(
         final Position position,
-        final QueenLocalVariableDeclarationNode variable,
+        final LocalVariableDeclarationNode variable,
         final ExpressionNode iterable,
-        final QueenBlockStatements blockStatements
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.variable = variable;
@@ -109,7 +110,7 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     }
 
     @Override
-    public QueenLocalVariableDeclarationNode variable() {
+    public LocalVariableDeclarationNode variable() {
         return this.variable;
     }
 
@@ -119,7 +120,7 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

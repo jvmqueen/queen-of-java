@@ -56,12 +56,12 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
     /**
      * Statements inside this labeled statement.
      */
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
     public QueenLabeledStatementNode(
         final Position position,
         final String name,
-        final QueenBlockStatements blockStatements
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.name = name;
@@ -103,7 +103,7 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

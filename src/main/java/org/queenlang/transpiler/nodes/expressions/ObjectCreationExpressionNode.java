@@ -27,7 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.nodes.body.ClassBodyNode;
 import org.queenlang.transpiler.nodes.body.QueenClassBodyNode;
+import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -42,11 +44,11 @@ import java.util.List;
 public interface ObjectCreationExpressionNode extends ExpressionNode {
 
     ExpressionNode scope();
-    QueenClassOrInterfaceTypeNode type();
+    ClassOrInterfaceTypeNode type();
 
     List<TypeNode> typeArguments();
 
     List<ExpressionNode> arguments();
 
-    QueenClassBodyNode anonymousBody();
+    ClassBodyNode anonymousBody();
 }

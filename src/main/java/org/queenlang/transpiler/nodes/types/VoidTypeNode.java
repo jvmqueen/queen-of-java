@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.List;
@@ -38,5 +39,5 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface VoidTypeNode extends TypeNode {
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 }

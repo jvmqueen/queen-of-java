@@ -40,5 +40,5 @@ public interface LabeledStatementNode extends Named, StatementNode {
     /**
      * Statements inside this labeled statement.
      */
-    QueenBlockStatements blockStatements();
+    BlockStatements blockStatements();
 }

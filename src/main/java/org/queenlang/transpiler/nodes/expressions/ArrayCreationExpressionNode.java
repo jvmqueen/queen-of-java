@@ -40,6 +40,6 @@ import java.util.List;
 public interface ArrayCreationExpressionNode extends ExpressionNode {
 
     TypeNode type();
-    List<QueenArrayDimensionNode> dims();
+    List<ArrayDimensionNode> dims();
     ExpressionNode arrayInitializer();
 }

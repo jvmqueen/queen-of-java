@@ -47,13 +47,13 @@ import java.util.List;
 public final class QueenCatchClauseNode implements CatchClauseNode {
 
     private final Position position;
-    private final QueenCatchFormalParameterNode parameter;
-    private final QueenBlockStatements blockStatements;
+    private final CatchFormalParameterNode parameter;
+    private final BlockStatements blockStatements;
 
     public QueenCatchClauseNode(
         final Position position,
-        final QueenCatchFormalParameterNode parameter,
-        final QueenBlockStatements blockStatements
+        final CatchFormalParameterNode parameter,
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.parameter = parameter;
@@ -86,12 +86,12 @@ public final class QueenCatchClauseNode implements CatchClauseNode {
     }
 
     @Override
-    public QueenCatchFormalParameterNode parameter() {
+    public CatchFormalParameterNode parameter() {
         return this.parameter;
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

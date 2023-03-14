@@ -31,9 +31,11 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -55,7 +57,7 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
     /**
      * Annotations on top of this type parameter.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Name of this type parameter.
@@ -65,13 +67,13 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
     /**
      * Type bounds.
      */
-    private final List<QueenClassOrInterfaceTypeNode> typeBound;
+    private final List<ClassOrInterfaceTypeNode> typeBound;
 
     public QueenTypeParameterNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
+        final List<AnnotationNode> annotations,
         final String name,
-        final List<QueenClassOrInterfaceTypeNode> typeBound
+        final List<ClassOrInterfaceTypeNode> typeBound
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -104,9 +106,9 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
         final TypeParameter tp = new TypeParameter(this.name);
         this.annotations.forEach(a -> a.addToJavaNode(tp));
         tp.setTypeBound(
-            new NodeList<>(
+            new NodeList(
                 this.typeBound.stream().map(
-                    tb -> tb.toType()
+                    tb -> (ClassOrInterfaceType) tb.toType()
                 ).collect(Collectors.toList())
             )
         );
@@ -114,12 +116,12 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
     @Override
-    public List<QueenClassOrInterfaceTypeNode> typeBound() {
+    public List<ClassOrInterfaceTypeNode> typeBound() {
         return this.typeBound;
     }
 }

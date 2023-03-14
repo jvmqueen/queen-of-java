@@ -33,6 +33,7 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.VoidType;
 import org.checkerframework.checker.units.qual.A;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.ArrayList;
@@ -46,13 +47,13 @@ import java.util.List;
  */
 public final class QueenVoidNode implements VoidTypeNode {
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     public QueenVoidNode(final Position position) {
         this(position, new ArrayList<>());
     }
 
-    public QueenVoidNode(final Position position, final List<QueenAnnotationNode> annotations) {
+    public QueenVoidNode(final Position position, final List<AnnotationNode> annotations) {
         this.position = position;
         this.annotations = annotations;
     }
@@ -76,7 +77,7 @@ public final class QueenVoidNode implements VoidTypeNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 }

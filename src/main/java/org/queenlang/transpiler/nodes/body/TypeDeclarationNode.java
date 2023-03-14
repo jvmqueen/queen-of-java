@@ -47,6 +47,6 @@ public interface TypeDeclarationNode extends Named, QueenNode {
      * Get the modifiers list of this type declaration.
      * @return List of QueenModifier.
      */
-    List<QueenModifierNode> modifiers();
+    List<ModifierNode> modifiers();
 
 }

@@ -27,8 +27,11 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
+import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
@@ -47,12 +50,12 @@ public interface InterfaceMethodDeclarationNode extends InterfaceMemberDeclarati
     /**
      * Annotations on top of this method.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * Access modifiers of this method.
      */
-    List<QueenModifierNode> modifiers();
+    List<ModifierNode> modifiers();
 
     /**
      * Return type.
@@ -63,10 +66,10 @@ public interface InterfaceMethodDeclarationNode extends InterfaceMemberDeclarati
      * Dims on the method declaration. They can be found at the end of the method header:
      * <pre>public int example()[]; </pre>
      */
-    List<QueenArrayDimensionNode> dims();
+    List<ArrayDimensionNode> dims();
 
     /**
      * Method body.
      */
-    QueenBlockStatements blockStatements();
+    BlockStatements blockStatements();
 }

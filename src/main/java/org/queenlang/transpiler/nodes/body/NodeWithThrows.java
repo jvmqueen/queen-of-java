@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.nodes.types.ExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
 
 import java.util.List;
@@ -43,6 +44,6 @@ public interface NodeWithThrows {
      * Thrown exceptions.
      * @return List of thrown exceptions.
      */
-    List<QueenExceptionTypeNode> throwsList();
+    List<ExceptionTypeNode> throwsList();
 
 }

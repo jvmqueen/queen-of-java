@@ -46,12 +46,12 @@ public final class QueenTypeImplementationExpressionNode implements TypeImplemen
 
     private final Position position;
     private final TypeNode type;
-    private final List<QueenArrayDimensionNode> dims;
+    private final List<ArrayDimensionNode> dims;
 
     public QueenTypeImplementationExpressionNode(
         final Position position,
         final TypeNode type,
-        final List<QueenArrayDimensionNode> dims
+        final List<ArrayDimensionNode> dims
     ) {
         this.position = position;
         this.type = type;
@@ -84,7 +84,7 @@ public final class QueenTypeImplementationExpressionNode implements TypeImplemen
     }
 
     @Override
-    public List<QueenArrayDimensionNode> dims() {
+    public List<ArrayDimensionNode> dims() {
         return this.dims;
     }
 }

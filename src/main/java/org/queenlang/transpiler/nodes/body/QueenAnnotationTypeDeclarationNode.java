@@ -59,7 +59,7 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     /**
      * Modifiers of this annotation.
      */
-    private final List<QueenModifierNode> modifiers;
+    private final List<ModifierNode> modifiers;
 
     /**
      * Name of this type.
@@ -69,7 +69,7 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     /**
      * The body.
      */
-    private final QueenAnnotationTypeBodyNode body;
+    private final AnnotationTypeBodyNode body;
 
     /**
      * Ctor.
@@ -82,9 +82,9 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     public QueenAnnotationTypeDeclarationNode(
         final Position position,
         final List<AnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<ModifierNode> modifiers,
         final String name,
-        final QueenAnnotationTypeBodyNode body
+        final AnnotationTypeBodyNode body
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -120,12 +120,12 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return this.modifiers;
     }
 
     @Override
-    public QueenAnnotationTypeBodyNode body() {
+    public AnnotationTypeBodyNode body() {
         return this.body;
     }
 

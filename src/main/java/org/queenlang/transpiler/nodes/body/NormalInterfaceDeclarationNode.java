@@ -27,7 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 
@@ -44,15 +46,15 @@ public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode
     /**
      * Annotations on top of this interface.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * Types which are extended (an interface can extend more interfaces).
      */
-    List<QueenClassOrInterfaceTypeNode> extendsTypes();
+    List<ClassOrInterfaceTypeNode> extendsTypes();
 
     /**
      * The body.
      */
-    QueenInterfaceBodyNode body();
+    InterfaceBodyNode body();
 }

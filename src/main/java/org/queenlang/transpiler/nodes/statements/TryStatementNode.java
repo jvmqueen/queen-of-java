@@ -40,7 +40,7 @@ import java.util.List;
 public interface TryStatementNode extends StatementNode {
 
     List<ExpressionNode> resources();
-    QueenBlockStatements tryBlockStatements();
-    List<QueenCatchClauseNode> catchClauses();
-    QueenBlockStatements finallyBlockStatements();
+    BlockStatements tryBlockStatements();
+    List<CatchClauseNode> catchClauses();
+    BlockStatements finallyBlockStatements();
 }

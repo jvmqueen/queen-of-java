@@ -33,9 +33,12 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
+import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.List;
 
@@ -56,12 +59,12 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     /**
      * Annotations on top of this interface.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Modifiers of this interface.
      */
-    private final List<QueenModifierNode> modifiers;
+    private final List<ModifierNode> modifiers;
 
     /**
      * Name of this type.
@@ -71,17 +74,17 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     /**
      * Interface type params.
      */
-    private final List<QueenTypeParameterNode> typeParams;
+    private final List<TypeParameterNode> typeParams;
 
     /**
      * Types which are extended (an interface can extend more interfaces).
      */
-    private final List<QueenClassOrInterfaceTypeNode> extendsTypes;
+    private final List<ClassOrInterfaceTypeNode> extendsTypes;
 
     /**
      * The body.
      */
-    private final QueenInterfaceBodyNode body;
+    private final InterfaceBodyNode body;
 
     /**
      * Ctor.
@@ -94,12 +97,12 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
      */
     public QueenNormalInterfaceDeclarationNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final String name,
-        final List<QueenTypeParameterNode> typeParams,
-        final List<QueenClassOrInterfaceTypeNode> extendsTypes,
-        final QueenInterfaceBodyNode body
+        final List<TypeParameterNode> typeParams,
+        final List<ClassOrInterfaceTypeNode> extendsTypes,
+        final InterfaceBodyNode body
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -156,27 +159,27 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return this.modifiers;
     }
 
     @Override
-    public List<QueenClassOrInterfaceTypeNode> extendsTypes() {
+    public List<ClassOrInterfaceTypeNode> extendsTypes() {
         return this.extendsTypes;
     }
 
     @Override
-    public QueenInterfaceBodyNode body() {
+    public InterfaceBodyNode body() {
         return this.body;
     }
 
     @Override
-    public List<QueenTypeParameterNode> typeParameters() {
+    public List<TypeParameterNode> typeParameters() {
         return this.typeParams;
     }
 }

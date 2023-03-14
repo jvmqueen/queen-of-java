@@ -28,8 +28,11 @@
 package org.queenlang.transpiler.nodes.statements;
 
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.body.ModifierNode;
 import org.queenlang.transpiler.nodes.body.QueenModifierNode;
 import org.queenlang.transpiler.nodes.body.QueenVariableDeclaratorId;
+import org.queenlang.transpiler.nodes.body.VariableDeclaratorId;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -43,8 +46,8 @@ import java.util.List;
  */
 public interface CatchFormalParameterNode extends QueenNode {
 
-    List<QueenAnnotationNode> annotations();
-    List<QueenModifierNode> modifiers();
+    List<AnnotationNode> annotations();
+    List<ModifierNode> modifiers();
     List<TypeNode> catchExceptionTypes();
-    QueenVariableDeclaratorId exceptionName();
+    VariableDeclaratorId exceptionName();
 }

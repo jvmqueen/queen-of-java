@@ -34,6 +34,7 @@ import com.github.javaparser.ast.type.TypeParameter;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.List;
@@ -50,10 +51,10 @@ public interface TypeParameterNode extends Named, QueenNode {
     /**
      * Annotations on top of this type parameter.
      */
-    List<QueenAnnotationNode> annotations();
+    List<AnnotationNode> annotations();
 
     /**
      * Type bounds.
      */
-    List<QueenClassOrInterfaceTypeNode> typeBound();
+    List<ClassOrInterfaceTypeNode> typeBound();
 }

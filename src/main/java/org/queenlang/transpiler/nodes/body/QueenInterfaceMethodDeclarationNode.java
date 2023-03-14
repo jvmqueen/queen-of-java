@@ -36,12 +36,13 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.type.ArrayType;
 import com.github.javaparser.ast.type.Type;
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
+import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
-import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
-import org.queenlang.transpiler.nodes.types.TypeNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
+import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.List;
 
@@ -62,12 +63,12 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
     /**
      * Annotations on top of this method.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Access modifiers of this method.
      */
-    private final List<QueenModifierNode> modifiers;
+    private final List<ModifierNode> modifiers;
 
     /**
      * Return type.
@@ -78,12 +79,12 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
      * Dims on the method declaration. They can be found at the end of the method header:
      * <pre>public int example()[]; </pre>
      */
-    private final List<QueenArrayDimensionNode> dims;
+    private final List<ArrayDimensionNode> dims;
 
     /**
      * Method type params.
      */
-    private final List<QueenTypeParameterNode> typeParams;
+    private final List<TypeParameterNode> typeParams;
 
     /**
      * Method name.
@@ -93,29 +94,29 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
     /**
      * Method parameters.
      */
-    private final List<QueenParameterNode> parameters;
+    private final List<ParameterNode> parameters;
 
     /**
      * Thrown exceptions.
      */
-    private final List<QueenExceptionTypeNode> throwsList;
+    private final List<ExceptionTypeNode> throwsList;
 
     /**
      * Method body.
      */
-    private final QueenBlockStatements blockStatements;
+    private final BlockStatements blockStatements;
 
     public QueenInterfaceMethodDeclarationNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final TypeNode returnType,
-        final List<QueenArrayDimensionNode> dims,
-        final List<QueenTypeParameterNode> typeParams,
+        final List<ArrayDimensionNode> dims,
+        final List<TypeParameterNode> typeParams,
         final String name,
-        final List<QueenParameterNode> parameters,
-        final List<QueenExceptionTypeNode> throwsList,
-        final QueenBlockStatements blockStatements
+        final List<ParameterNode> parameters,
+        final List<ExceptionTypeNode> throwsList,
+        final BlockStatements blockStatements
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -164,7 +165,7 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
     }
 
     @Override
-    public List<QueenTypeParameterNode> typeParameters() {
+    public List<TypeParameterNode> typeParameters() {
         return this.typeParams;
     }
 
@@ -179,7 +180,7 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
                 setType = new ArrayType(
                     setType
                 );
-                for(final QueenAnnotationNode annotation : this.dims.get(i).annotations()) {
+                for(final AnnotationNode annotation : this.dims.get(i).annotations()) {
                     annotation.addToJavaNode(setType);
                 }
             }
@@ -188,12 +189,12 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return this.modifiers;
     }
 
@@ -203,22 +204,22 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
     }
 
     @Override
-    public List<QueenArrayDimensionNode> dims() {
+    public List<ArrayDimensionNode> dims() {
         return this.dims;
     }
 
     @Override
-    public List<QueenParameterNode> parameters() {
+    public List<ParameterNode> parameters() {
         return this.parameters;
     }
 
     @Override
-    public List<QueenExceptionTypeNode> throwsList() {
+    public List<ExceptionTypeNode> throwsList() {
         return this.throwsList;
     }
 
     @Override
-    public QueenBlockStatements blockStatements() {
+    public BlockStatements blockStatements() {
         return this.blockStatements;
     }
 }

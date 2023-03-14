@@ -65,7 +65,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     /**
      * Access modifiers of this class.
      */
-    private final List<QueenModifierNode> accessModifiers;
+    private final List<ModifierNode> accessModifiers;
 
     /**
      * Extension modifier (abstract or final).
@@ -80,7 +80,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     /**
      * Class type params.
      */
-    private final List<QueenTypeParameterNode> typeParams;
+    private final List<TypeParameterNode> typeParams;
 
     /**
      * Type which is extended.
@@ -112,10 +112,10 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     public QueenClassDeclarationNode(
         final Position position,
         final List<AnnotationNode> annotations,
-        final List<QueenModifierNode> accessModifiers,
+        final List<ModifierNode> accessModifiers,
         final ModifierNode extensionModifier,
         final String name,
-        final List<QueenTypeParameterNode> typeParams,
+        final List<TypeParameterNode> typeParams,
         final ClassOrInterfaceTypeNode extendsType,
         final List<ClassOrInterfaceTypeNode> of,
         final ClassBodyNode body
@@ -181,7 +181,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public List<QueenTypeParameterNode> typeParameters() {
+    public List<TypeParameterNode> typeParameters() {
         return this.typeParams;
     }
 
@@ -191,7 +191,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return this.accessModifiers;
     }
 

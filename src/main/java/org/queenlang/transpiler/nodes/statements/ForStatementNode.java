@@ -56,5 +56,5 @@ public interface ForStatementNode extends StatementNode {
     /**
      * Statements inside the for statement.
      */
-    QueenBlockStatements blockStatements();
+    BlockStatements blockStatements();
 }

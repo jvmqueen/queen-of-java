@@ -34,6 +34,7 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -50,36 +51,36 @@ import java.util.stream.Collectors;
  */
 public final class QueenParameterNode implements ParameterNode {
     private final Position position;
-    private final List<QueenAnnotationNode> annotations;
-    private final List<QueenModifierNode> modifiers;
-    private final QueenVariableDeclaratorId variableDeclaratorId;
+    private final List<AnnotationNode> annotations;
+    private final List<ModifierNode> modifiers;
+    private final VariableDeclaratorId variableDeclaratorId;
     private final TypeNode type;
-    private final List<QueenAnnotationNode> varArgsAnnotations;
+    private final List<AnnotationNode> varArgsAnnotations;
     private final boolean varArgs;
 
     public QueenParameterNode(
         final Position position,
-        final QueenVariableDeclaratorId variableDeclaratorId
+        final VariableDeclaratorId variableDeclaratorId
     ) {
         this(position, new ArrayList<>(), new ArrayList<>(), null, variableDeclaratorId, false);
     }
 
     public QueenParameterNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final TypeNode type,
-        final QueenVariableDeclaratorId variableDeclaratorId
+        final VariableDeclaratorId variableDeclaratorId
     ) {
         this(position, annotations, modifiers, type, variableDeclaratorId, false);
     }
 
     public QueenParameterNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final TypeNode type,
-        final QueenVariableDeclaratorId variableDeclaratorId,
+        final VariableDeclaratorId variableDeclaratorId,
         final boolean varArgs
     ) {
         this(position, annotations, modifiers, type, variableDeclaratorId, new ArrayList<>(), varArgs);
@@ -87,11 +88,11 @@ public final class QueenParameterNode implements ParameterNode {
 
     public QueenParameterNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
-        final List<QueenModifierNode> modifiers,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
         final TypeNode type,
-        final QueenVariableDeclaratorId variableDeclaratorId,
-        final List<QueenAnnotationNode> varArgsAnnotations,
+        final VariableDeclaratorId variableDeclaratorId,
+        final List<AnnotationNode> varArgsAnnotations,
         final boolean varArgs
     ) {
         this.position = position;
@@ -133,17 +134,17 @@ public final class QueenParameterNode implements ParameterNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 
     @Override
-    public List<QueenModifierNode> modifiers() {
+    public List<ModifierNode> modifiers() {
         return this.modifiers;
     }
 
     @Override
-    public QueenVariableDeclaratorId variableDeclaratorId() {
+    public VariableDeclaratorId variableDeclaratorId() {
         return this.variableDeclaratorId;
     }
 
@@ -153,7 +154,7 @@ public final class QueenParameterNode implements ParameterNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> varArgsAnnotations() {
+    public List<AnnotationNode> varArgsAnnotations() {
         return this.varArgsAnnotations;
     }
 

@@ -48,13 +48,13 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
 
     private final Position position;
     private final TypeNode type;
-    private final List<QueenArrayDimensionNode> dims;
+    private final List<ArrayDimensionNode> dims;
     private final ExpressionNode arrayInitializer;
 
     public QueenArrayCreationExpressionNode(
         final Position position,
         final TypeNode type,
-        final List<QueenArrayDimensionNode> dims,
+        final List<ArrayDimensionNode> dims,
         final ExpressionNode arrayInitializer
     ) {
         this.position = position;
@@ -100,7 +100,7 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
     }
 
     @Override
-    public List<QueenArrayDimensionNode> dims() {
+    public List<ArrayDimensionNode> dims() {
         return this.dims;
     }
 

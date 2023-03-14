@@ -39,7 +39,7 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface CompilationUnitNode extends QueenNode {
-    QueenPackageDeclarationNode packageDeclaration();
-    List<QueenImportDeclarationNode> importDeclarations();
+    PackageDeclarationNode packageDeclaration();
+    List<ImportDeclarationNode> importDeclarations();
     TypeDeclarationNode typeDeclaration();
 }

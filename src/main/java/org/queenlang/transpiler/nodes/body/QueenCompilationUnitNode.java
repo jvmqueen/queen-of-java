@@ -41,14 +41,14 @@ import java.util.List;
  */
 public final class QueenCompilationUnitNode implements CompilationUnitNode {
     private final Position position;
-    private final QueenPackageDeclarationNode packageDeclaration;
-    private final List<QueenImportDeclarationNode> importDeclarations;
+    private final PackageDeclarationNode packageDeclaration;
+    private final List<ImportDeclarationNode> importDeclarations;
     private final List<TypeDeclarationNode> typeDeclarations;
 
     public QueenCompilationUnitNode(
         final Position position,
-        final QueenPackageDeclarationNode packageDeclaration,
-        final List<QueenImportDeclarationNode> importDeclarations,
+        final PackageDeclarationNode packageDeclaration,
+        final List<ImportDeclarationNode> importDeclarations,
         final List<TypeDeclarationNode> typeDeclarations
     ) {
         this.position = position;
@@ -65,12 +65,12 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
     }
 
     @Override
-    public QueenPackageDeclarationNode packageDeclaration() {
+    public PackageDeclarationNode packageDeclaration() {
         return this.packageDeclaration;
     }
 
     @Override
-    public List<QueenImportDeclarationNode> importDeclarations() {
+    public List<ImportDeclarationNode> importDeclarations() {
         return this.importDeclarations;
     }
 

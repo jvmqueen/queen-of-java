@@ -29,11 +29,14 @@ package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.statements.BlockStatements;
+import org.queenlang.transpiler.nodes.statements.ExplicitConstructorInvocationNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenExplicitConstructorInvocationNode;
 import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
+import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.List;
 
@@ -47,11 +50,11 @@ public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationN
 
     List<QueenNode> annotations();
 
-    QueenModifierNode modifier();
+    ModifierNode modifier();
 
-    List<QueenTypeParameterNode> typeParams();
+    List<TypeParameterNode> typeParams();
 
-    QueenExplicitConstructorInvocationNode explicitConstructorInvocationNode();
+    ExplicitConstructorInvocationNode explicitConstructorInvocationNode();
 
-    QueenBlockStatements blockStatements();
+    BlockStatements blockStatements();
 }

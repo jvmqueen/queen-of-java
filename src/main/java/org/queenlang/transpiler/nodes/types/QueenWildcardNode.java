@@ -33,6 +33,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.WildcardType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public final class QueenWildcardNode implements WildcardTypeNode {
     /**
      * Annotations on top of this wildcard.
      */
-    private final List<QueenAnnotationNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     /**
      * Extended type bound.
@@ -67,7 +68,7 @@ public final class QueenWildcardNode implements WildcardTypeNode {
 
     public QueenWildcardNode(
         final Position position,
-        final List<QueenAnnotationNode> annotations,
+        final List<AnnotationNode> annotations,
         final ReferenceTypeNode extendedType,
         final ReferenceTypeNode superType
     ) {
@@ -129,7 +130,7 @@ public final class QueenWildcardNode implements WildcardTypeNode {
     }
 
     @Override
-    public List<QueenAnnotationNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 

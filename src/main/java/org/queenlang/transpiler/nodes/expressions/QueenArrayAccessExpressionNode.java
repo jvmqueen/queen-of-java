@@ -45,12 +45,12 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
 
     private final ExpressionNode name;
 
-    private final List<QueenArrayDimensionNode> dims;
+    private final List<ArrayDimensionNode> dims;
 
     public QueenArrayAccessExpressionNode(
         final Position position,
         final ExpressionNode name,
-        final List<QueenArrayDimensionNode> dims
+        final List<ArrayDimensionNode> dims
     ) {
         this.position = position;
         this.name = name;
@@ -82,7 +82,7 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
     }
 
     @Override
-    public List<QueenArrayDimensionNode> dims() {
+    public List<ArrayDimensionNode> dims() {
         return this.dims;
     }
 }

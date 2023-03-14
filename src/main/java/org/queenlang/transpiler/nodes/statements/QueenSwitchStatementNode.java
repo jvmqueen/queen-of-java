@@ -48,12 +48,12 @@ public final class QueenSwitchStatementNode implements SwitchStatementNode {
 
     private final Position position;
     private final ExpressionNode expression;
-    private final List<QueenSwitchEntryNode> entries;
+    private final List<SwitchEntryNode> entries;
 
     public QueenSwitchStatementNode(
         final Position position,
         final ExpressionNode expression,
-        final List<QueenSwitchEntryNode> entries
+        final List<SwitchEntryNode> entries
     ) {
         this.position = position;
         this.expression = expression;
@@ -93,7 +93,7 @@ public final class QueenSwitchStatementNode implements SwitchStatementNode {
     }
 
     @Override
-    public List<QueenSwitchEntryNode> entries() {
+    public List<SwitchEntryNode> entries() {
         return this.entries;
     }
 }

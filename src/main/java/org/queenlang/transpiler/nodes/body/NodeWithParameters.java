@@ -14,6 +14,6 @@ public interface NodeWithParameters {
      * Parameters.
      * @return List of parameters.
      */
-    List<QueenParameterNode> parameters();
+    List<ParameterNode> parameters();
 
 }

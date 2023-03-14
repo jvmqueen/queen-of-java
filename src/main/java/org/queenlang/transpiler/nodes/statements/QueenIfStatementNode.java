@@ -55,17 +55,17 @@ public final class QueenIfStatementNode implements IfStatementNode {
     /**
      * Statements inside the if.
      */
-    private final QueenBlockStatements thenBlockStatements;
+    private final BlockStatements thenBlockStatements;
 
     /**
      * Statements inside the else.
      */
-    private final QueenBlockStatements elseBlockStatements;
+    private final BlockStatements elseBlockStatements;
 
     public QueenIfStatementNode(
         final Position position,
         final ExpressionNode condition,
-        final QueenBlockStatements thenBlockStatements
+        final BlockStatements thenBlockStatements
     ) {
         this(position, condition, thenBlockStatements, null);
     }
@@ -73,8 +73,8 @@ public final class QueenIfStatementNode implements IfStatementNode {
     public QueenIfStatementNode(
         final Position position,
         final ExpressionNode condition,
-        final QueenBlockStatements thenBlockStatements,
-        final QueenBlockStatements elseBlockStatements
+        final BlockStatements thenBlockStatements,
+        final BlockStatements elseBlockStatements
     ) {
         this.position = position;
         this.condition = condition;
@@ -122,12 +122,12 @@ public final class QueenIfStatementNode implements IfStatementNode {
     }
 
     @Override
-    public QueenBlockStatements thenBlockStatements() {
+    public BlockStatements thenBlockStatements() {
         return this.thenBlockStatements;
     }
 
     @Override
-    public QueenBlockStatements elseBlockStatements() {
+    public BlockStatements elseBlockStatements() {
         return this.elseBlockStatements;
     }
 }

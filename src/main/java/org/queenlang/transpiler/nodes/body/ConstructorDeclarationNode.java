@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.ExplicitConstructorInvocationNode;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
@@ -48,7 +49,7 @@ import java.util.List;
  */
 public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationNode, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows {
 
-    List<QueenNode> annotations();
+    List<AnnotationNode> annotations();
 
     ModifierNode modifier();
 

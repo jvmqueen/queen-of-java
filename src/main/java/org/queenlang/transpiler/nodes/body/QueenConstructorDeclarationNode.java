@@ -31,13 +31,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.ExplicitConstructorInvocationNode;
-import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
-import org.queenlang.transpiler.nodes.statements.QueenExplicitConstructorInvocationNode;
 import org.queenlang.transpiler.nodes.types.ExceptionTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.List;
@@ -47,13 +44,12 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min QueenConstructorDeclaration needs unit tests.
  */
 public final class QueenConstructorDeclarationNode implements ConstructorDeclarationNode {
 
     private final Position position;
 
-    private final List<QueenNode> annotations;
+    private final List<AnnotationNode> annotations;
 
     private final ModifierNode modifier;
 
@@ -71,7 +67,7 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
 
     public QueenConstructorDeclarationNode(
         final Position position,
-        final List<QueenNode> annotations,
+        final List<AnnotationNode> annotations,
         final ModifierNode modifier,
         final List<TypeParameterNode> typeParams,
         final String name,
@@ -134,7 +130,7 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
     }
 
     @Override
-    public List<QueenNode> annotations() {
+    public List<AnnotationNode> annotations() {
         return this.annotations;
     }
 

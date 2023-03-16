@@ -38,7 +38,6 @@ import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.List;
@@ -48,7 +47,6 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min QueenClassDeclarationNode needs unit testing.
  */
 public final class QueenClassDeclarationNode implements ClassDeclarationNode {
 

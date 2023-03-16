@@ -505,7 +505,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public ConstructorDeclarationNode visitConstructorDeclaration(QueenParser.ConstructorDeclarationContext ctx) {
-        final List<QueenNode> annotations = new ArrayList<>();
+        final List<AnnotationNode> annotations = new ArrayList<>();
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
         );

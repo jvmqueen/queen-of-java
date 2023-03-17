@@ -38,10 +38,7 @@ import com.github.javaparser.ast.type.Type;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
-import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.List;
@@ -51,7 +48,6 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min Unit tests for QueenMethodDeclarationNode are needed.
  */
 public final class QueenInterfaceMethodDeclarationNode implements InterfaceMethodDeclarationNode {
 

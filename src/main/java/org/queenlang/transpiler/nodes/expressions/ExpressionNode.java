@@ -31,10 +31,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithCondition;
-import com.github.javaparser.ast.stmt.ReturnStmt;
-import com.github.javaparser.ast.stmt.SwitchStmt;
-import com.github.javaparser.ast.stmt.SynchronizedStmt;
-import com.github.javaparser.ast.stmt.ThrowStmt;
+import com.github.javaparser.ast.stmt.*;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
@@ -61,6 +58,8 @@ public interface ExpressionNode extends QueenNode {
             ((SwitchStmt) java).setSelector(this.toJavaExpression());
         }
     }
-
+    default Statement toJavaStatement() {
+        return new ExpressionStmt(this.toJavaExpression());
+    }
     Expression toJavaExpression();
 }

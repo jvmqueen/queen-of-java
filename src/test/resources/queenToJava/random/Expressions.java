@@ -12,6 +12,16 @@ public final class Expressions implements ExpressionsTest {
 
     @Override
     public Student castingLambda(final Object obj) {
+        try (Closeable x = 0;
+            Closeable y = 0) {
+            System.out.println("Close em after try");
+        } finally {
+        }
+        int x = 1, y = 0, z = 2;
+        int m, n, p;
+        for (int m = 0, v = 0; i < 10; i++) {
+            System.out.println("OK");
+        }
         return (Student) () -> obj;
     }
 

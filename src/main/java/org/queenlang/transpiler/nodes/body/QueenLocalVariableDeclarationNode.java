@@ -33,12 +33,9 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
@@ -109,14 +106,6 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
         }
     }
 
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    public Statement toJavaStatement() {
-        return new ExpressionStmt(this.toJavaExpression());
-    }
-
     @Override
     public Position position() {
         return this.position;
@@ -127,7 +116,6 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
         VariableDeclarationExpr vde = new VariableDeclarationExpr();
         this.annotations.forEach(a -> a.addToJavaNode(vde));
         this.modifiers.forEach(m -> m.addToJavaNode(vde));
-
         final List<VariableDeclarator> variableDeclarators = new ArrayList<>();
         this.variables.entrySet().forEach(
             vn -> {

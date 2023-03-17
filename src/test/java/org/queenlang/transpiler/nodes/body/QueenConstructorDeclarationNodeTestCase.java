@@ -28,7 +28,6 @@
 package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import org.checkerframework.checker.units.qual.C;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

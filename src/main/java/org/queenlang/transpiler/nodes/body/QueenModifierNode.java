@@ -31,7 +31,6 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.Objects;
 
@@ -40,7 +39,6 @@ import java.util.Objects;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min We need unit tests for all subclasses of QueenModifierNode.
  */
 public final class QueenModifierNode implements ModifierNode {
 

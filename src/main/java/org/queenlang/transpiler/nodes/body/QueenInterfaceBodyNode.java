@@ -37,7 +37,6 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:30min Unit tests for QueenInterfaceBodyNode are needed.
  */
 public final class QueenInterfaceBodyNode implements InterfaceBodyNode {
     private final Position position;

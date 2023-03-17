@@ -31,14 +31,12 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
-import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 
 /**
  * Queen Instance Initializer AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:30min Unit tests for class QueenInstanceInitializerNode are needed.
  */
 public final class QueenInstanceInitializerNode implements InstanceInitializerNode {
 

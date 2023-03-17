@@ -45,7 +45,6 @@ import java.util.Map;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:30min Class QueenConstantDeclarationNode needs unit tests.
  */
 public final class QueenConstantDeclarationNode implements ConstantDeclarationNode {
 

@@ -46,16 +46,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Unit tests for {@link QueenFieldDeclarationNode}.
+ * Unit tests for {@link QueenConstantDeclarationNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenFieldDeclarationNodeTestCase {
+public final class QueenConstantDeclarationNodeTestCase {
     @Test
     public void returnsPosition() {
         final Position position = Mockito.mock(Position.class);
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
+        final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             position,
             new ArrayList<>(),
             new ArrayList<>(),
@@ -63,7 +63,7 @@ public final class QueenFieldDeclarationNodeTestCase {
             new HashMap<>()
         );
         MatcherAssert.assertThat(
-            fieldDeclaration.position(),
+            constantDeclarationNode.position(),
             Matchers.is(position)
         );
     }
@@ -72,7 +72,7 @@ public final class QueenFieldDeclarationNodeTestCase {
     public void returnsAnnotations() {
         final List<AnnotationNode> annotations = new ArrayList<>();
         annotations.add(Mockito.mock(AnnotationNode.class));
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
+        final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             Mockito.mock(Position.class),
             annotations,
             new ArrayList<>(),
@@ -80,7 +80,7 @@ public final class QueenFieldDeclarationNodeTestCase {
             new HashMap<>()
         );
         MatcherAssert.assertThat(
-            fieldDeclaration.annotations(),
+            constantDeclarationNode.annotations(),
             Matchers.is(annotations)
         );
     }
@@ -89,7 +89,7 @@ public final class QueenFieldDeclarationNodeTestCase {
     public void returnsModifiers() {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(Mockito.mock(ModifierNode.class));
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
+        final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             Mockito.mock(Position.class),
             new ArrayList<>(),
             modifiers,
@@ -97,7 +97,7 @@ public final class QueenFieldDeclarationNodeTestCase {
             new HashMap<>()
         );
         MatcherAssert.assertThat(
-            fieldDeclaration.modifiers(),
+            constantDeclarationNode.modifiers(),
             Matchers.is(modifiers)
         );
     }
@@ -105,7 +105,7 @@ public final class QueenFieldDeclarationNodeTestCase {
     @Test
     public void returnTypes() {
         final TypeNode typeNode = Mockito.mock(TypeNode.class);
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
+        final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             Mockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
@@ -113,7 +113,7 @@ public final class QueenFieldDeclarationNodeTestCase {
             new HashMap<>()
         );
         MatcherAssert.assertThat(
-            fieldDeclaration.type(),
+            constantDeclarationNode.type(),
             Matchers.is(typeNode)
         );
     }
@@ -122,7 +122,7 @@ public final class QueenFieldDeclarationNodeTestCase {
     public void returnsVariables() {
         final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
         variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
+        final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             Mockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
@@ -130,7 +130,7 @@ public final class QueenFieldDeclarationNodeTestCase {
             variables
         );
         MatcherAssert.assertThat(
-            fieldDeclaration.variables(),
+            constantDeclarationNode.variables(),
             Matchers.is(variables)
         );
     }
@@ -146,7 +146,7 @@ public final class QueenFieldDeclarationNodeTestCase {
         variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
         variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
 
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
+        final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             Mockito.mock(Position.class),
             annotations,
             modifiers,
@@ -155,7 +155,7 @@ public final class QueenFieldDeclarationNodeTestCase {
         );
 
         final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        fieldDeclaration.addToJavaNode(clazz);
+        constantDeclarationNode.addToJavaNode(clazz);
         MatcherAssert.assertThat(
             clazz.getMembers().size(),
             Matchers.equalTo(2)
@@ -166,64 +166,6 @@ public final class QueenFieldDeclarationNodeTestCase {
         );
         MatcherAssert.assertThat(
             clazz.getMember(1).asFieldDeclaration().getVariable(0).getInitializer(),
-            Matchers.notNullValue()
-        );
-        Mockito.verify(type, Mockito.times(2)).addToJavaNode(
-            Mockito.any(VariableDeclarator.class)
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(2)).addToJavaNode(
-                Mockito.any(FieldDeclaration.class)
-            )
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(2)).addToJavaNode(
-                Mockito.any(FieldDeclaration.class)
-            )
-        );
-        variables.entrySet().forEach(
-            variable -> {
-                Mockito.verify(variable.getKey(), Mockito.times(1)).addToJavaNode(
-                    Mockito.any(VariableDeclarator.class)
-                );
-                Mockito.verify(variable.getValue(), Mockito.times(1)).addToJavaNode(
-                    Mockito.any(VariableDeclarator.class)
-                );
-            }
-        );
-    }
-
-    @Test
-    public void addsToObjectCreationJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final TypeNode type = Mockito.mock(TypeNode.class);
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
-
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
-            Mockito.mock(Position.class),
-            annotations,
-            modifiers,
-            type,
-            variables
-        );
-
-        final ObjectCreationExpr objectCreationExpr = new ObjectCreationExpr();
-        fieldDeclaration.addToJavaNode(objectCreationExpr);
-        MatcherAssert.assertThat(
-            objectCreationExpr.getAnonymousClassBody().get().size(),
-            Matchers.equalTo(2)
-        );
-        MatcherAssert.assertThat(
-            objectCreationExpr.getAnonymousClassBody().get().get(0).asFieldDeclaration().getVariable(0).getInitializer(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            objectCreationExpr.getAnonymousClassBody().get().get(1).asFieldDeclaration().getVariable(0).getInitializer(),
             Matchers.notNullValue()
         );
         Mockito.verify(type, Mockito.times(2)).addToJavaNode(

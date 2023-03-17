@@ -52,7 +52,6 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min Unit tests for QueenMethodDeclarationNode are needed.
  */
 public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
 

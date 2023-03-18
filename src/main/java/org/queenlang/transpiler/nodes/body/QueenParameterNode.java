@@ -35,7 +35,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
@@ -47,7 +47,6 @@ import java.util.stream.Collectors;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #33:60min Write unit tests for QueenParameterNode.
  */
 public final class QueenParameterNode implements ParameterNode {
     private final Position position;

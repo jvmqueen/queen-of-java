@@ -27,53 +27,58 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
-import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Queen array initialized expression, AST Node.
+ * Unit tests for {@link QueenCharLiteralExpressionNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayInitializerExpressionNode implements ArrayInitializerExpressionNode {
+public final class QueenCharLiteralExpressionNodeTestCase {
 
-    private final Position position;
-    private final List<ExpressionNode> values;
-
-    public QueenArrayInitializerExpressionNode(
-        final Position position,
-        final List<ExpressionNode> values
-    ) {
-        this.position = position;
-        this.values = values;
+    @Test
+    public void returnsPosition() {
+        final Position position = Mockito.mock(Position.class);
+        final CharLiteralExpressionNode charLiteral = new QueenCharLiteralExpressionNode(
+            position,
+            "c"
+        );
+        MatcherAssert.assertThat(
+            charLiteral.position(),
+            Matchers.is(position)
+        );
     }
 
-    @Override
-    public Expression toJavaExpression() {
-        final ArrayInitializerExpr arrayInitializerExpr = new ArrayInitializerExpr();
-        if(this.values != null) {
-            final List<Expression> javaExp = new ArrayList<>();
-            this.values.forEach(
-                v -> javaExp.add(v.toJavaExpression())
-            );
-            arrayInitializerExpr.setValues(new NodeList<>(javaExp));
-        }
-        return arrayInitializerExpr;
+    @Test
+    public void returnsValue() {
+        final Position position = Mockito.mock(Position.class);
+        final CharLiteralExpressionNode charLiteral = new QueenCharLiteralExpressionNode(
+            position,
+            "c"
+        );
+        MatcherAssert.assertThat(
+            charLiteral.value(),
+            Matchers.equalTo("c")
+        );
     }
 
-    @Override
-    public Position position() {
-        return this.position;
+    @Test
+    public void returnsJavaExpression() {
+        final Position position = Mockito.mock(Position.class);
+        final CharLiteralExpressionNode charLiteral = new QueenCharLiteralExpressionNode(
+            position,
+            "c"
+        );
+        MatcherAssert.assertThat(
+            ((CharLiteralExpr) charLiteral.toJavaExpression()).asChar(),
+            Matchers.equalTo('c')
+        );
     }
 
-    @Override
-    public List<ExpressionNode> values() {
-        return this.values;
-    }
 }

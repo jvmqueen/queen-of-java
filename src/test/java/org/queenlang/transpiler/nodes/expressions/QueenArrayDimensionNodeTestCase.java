@@ -27,53 +27,60 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
-import com.github.javaparser.ast.expr.Expression;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen array initialized expression, AST Node.
+ * Unit tests for {@link QueenArrayDimensionNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenArrayInitializerExpressionNode implements ArrayInitializerExpressionNode {
+public final class QueenArrayDimensionNodeTestCase {
 
-    private final Position position;
-    private final List<ExpressionNode> values;
-
-    public QueenArrayInitializerExpressionNode(
-        final Position position,
-        final List<ExpressionNode> values
-    ) {
-        this.position = position;
-        this.values = values;
+    @Test
+    public void returnsPosition() {
+        final Position position = Mockito.mock(Position.class);
+        final ArrayDimensionNode dim = new QueenArrayDimensionNode(position);
+        MatcherAssert.assertThat(
+            dim.position(),
+            Matchers.is(position)
+        );
     }
 
-    @Override
-    public Expression toJavaExpression() {
-        final ArrayInitializerExpr arrayInitializerExpr = new ArrayInitializerExpr();
-        if(this.values != null) {
-            final List<Expression> javaExp = new ArrayList<>();
-            this.values.forEach(
-                v -> javaExp.add(v.toJavaExpression())
-            );
-            arrayInitializerExpr.setValues(new NodeList<>(javaExp));
-        }
-        return arrayInitializerExpr;
+    @Test
+    public void returnsAnnotations() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final ArrayDimensionNode dim = new QueenArrayDimensionNode(
+            Mockito.mock(Position.class),
+            annotations,
+            Mockito.mock(ExpressionNode.class)
+        );
+        MatcherAssert.assertThat(
+            dim.annotations(),
+            Matchers.is(annotations)
+        );
     }
 
-    @Override
-    public Position position() {
-        return this.position;
+    @Test
+    public void returnsExpression() {
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ArrayDimensionNode dim = new QueenArrayDimensionNode(
+            Mockito.mock(Position.class),
+            new ArrayList<>(),
+            expressionNode
+        );
+        MatcherAssert.assertThat(
+            dim.expression(),
+            Matchers.is(expressionNode)
+        );
     }
 
-    @Override
-    public List<ExpressionNode> values() {
-        return this.values;
-    }
 }

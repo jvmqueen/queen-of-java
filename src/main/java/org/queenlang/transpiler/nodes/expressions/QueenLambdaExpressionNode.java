@@ -34,8 +34,6 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.body.ParameterNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
-import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
-import org.queenlang.transpiler.nodes.body.QueenParameterNode;
 
 import java.util.List;
 
@@ -71,10 +69,15 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
     public Expression toJavaExpression() {
         final LambdaExpr lambdaExpr = new LambdaExpr();
         lambdaExpr.setEnclosingParameters(this.enclosedParameters);
-        if(this.parameters != null) {
+        if(this.parameters != null && !this.parameters.isEmpty()) {
             this.parameters.forEach(
                 p -> p.addToJavaNode(lambdaExpr)
             );
+            if(parameters.size() > 1) {
+                lambdaExpr.setEnclosingParameters(true);
+            }
+        } else {
+            lambdaExpr.setEnclosingParameters(true);
         }
         if(this.blockStatements != null) {
             final BlockStmt blockStmt = new BlockStmt();

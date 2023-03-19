@@ -28,7 +28,6 @@
 package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
@@ -39,7 +38,6 @@ import org.queenlang.transpiler.nodes.QueenNameNode;
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:30min This class needs some unit tests.
  */
 public final class QueenMarkerAnnotationNode extends QueenAnnotationNode implements MarkerAnnotationNode {
 

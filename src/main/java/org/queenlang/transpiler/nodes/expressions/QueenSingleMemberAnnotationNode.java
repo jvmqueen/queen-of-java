@@ -38,7 +38,6 @@ import org.queenlang.transpiler.nodes.QueenNameNode;
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:60min Write some unit tests for this class.
  */
 public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode implements SingleMemberAnnotationNode {
 

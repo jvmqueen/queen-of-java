@@ -40,7 +40,6 @@ import java.util.Map;
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:60min Write some unit tests for QueenNormalAnnotationNode.
  */
 public final class QueenNormalAnnotationNode extends QueenAnnotationNode implements NormalAnnotationNode {
 

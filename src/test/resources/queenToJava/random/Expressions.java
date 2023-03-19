@@ -27,7 +27,7 @@ public final class Expressions implements ExpressionsTest {
 
     @Override
     public Student returnLambda(final Object obj) {
-        return (firstName, lastName) -> new Student(firstName, lastName);
+        return (firstName, lastName) -> new java.util.Student(firstName, lastName);
     }
 
     @Override

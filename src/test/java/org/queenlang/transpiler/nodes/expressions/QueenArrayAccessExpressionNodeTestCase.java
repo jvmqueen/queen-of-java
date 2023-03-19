@@ -46,7 +46,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public class QueenArrayAccessExpressionNodeTestCase {
+public final class QueenArrayAccessExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {

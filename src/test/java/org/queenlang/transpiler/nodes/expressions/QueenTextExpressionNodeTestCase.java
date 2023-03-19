@@ -25,52 +25,45 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.PackageDeclaration;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.queenlang.transpiler.nodes.body.QueenPackageDeclarationNode;
+import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Unit tests for {@link QueenPackageDeclarationNode}.
+ * Unit tests for {@link QueenTextExpressionNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenPackageDeclarationNodeTestCase {
+public final class QueenTextExpressionNodeTestCase {
 
-    /**
-     * It can add the package data to the Java node.
-     */
     @Test
-    public void addsPackageToJavaNode() {
-        final CompilationUnit java = Mockito.mock(CompilationUnit.class);
-        final QueenNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            Mockito.mock(Position.class), () -> new QueenNameNode(null, "com.amihaiemil.web")
+    public void returnsPosition() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode textExpression = new QueenTextExpressionNode(
+            position,
+            "a = 2 + 2"
         );
-
-        packageDeclarationNode.addToJavaNode(java);
-
-        Mockito.verify(java, Mockito.times(1))
-            .setPackageDeclaration((PackageDeclaration) Mockito.any());
+        MatcherAssert.assertThat(
+            textExpression.position(),
+            Matchers.is(position)
+        );
     }
 
-    /**
-     * It does not add the package to the java node if it's null.
-     */
     @Test
-    public void doesNotAddNullPackage() {
-        final CompilationUnit java = Mockito.mock(CompilationUnit.class);
-        final QueenNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            Mockito.mock(Position.class), () -> null
+    public void returnsJavaExpression() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode textExpression = new QueenTextExpressionNode(
+            position,
+            "a = 2 + 2"
         );
-
-        packageDeclarationNode.addToJavaNode(java);
-
-        Mockito.verify(java, Mockito.times(0))
-            .setPackageDeclaration(Mockito.anyString());
+        MatcherAssert.assertThat(
+            textExpression.toJavaExpression().asAssignExpr().toString(),
+            Matchers.equalTo("a = 2 + 2")
+        );
     }
-
 }

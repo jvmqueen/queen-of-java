@@ -72,7 +72,7 @@ public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
             }
         }
         if(operator == null) {
-            throw new IllegalStateException("Unkown unary operator: " + this.operator + ". (is prefix: " + this.isPrefix + ").");
+            throw new IllegalStateException("Unknown unary operator: " + this.operator + ". (is prefix: " + this.isPrefix + ").");
         }
         return new UnaryExpr(
             this.expression.toJavaExpression(),

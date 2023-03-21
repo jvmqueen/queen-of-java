@@ -27,46 +27,70 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ThrowStmt;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
- * Queen Throw AST Node.
+ * Unit tests for {@link QueenThrowStatementNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenThrowStatementNode implements ThrowStatementNode {
+public final class QueenThrowStatementNodeTestCase {
 
-    private final Position position;
+    @Test
+    public void returnsPosition() {
+        final Position position = Mockito.mock(Position.class);
+        final ThrowStatementNode throwStatementNode = new QueenThrowStatementNode(
+            position,
+            Mockito.mock(ExpressionNode.class)
+        );
 
-    private final ExpressionNode expression;
-
-    public QueenThrowStatementNode(
-        final Position position,
-        final ExpressionNode expression
-    ) {
-        this.position = position;
-        this.expression = expression;
+        MatcherAssert.assertThat(
+            throwStatementNode.position(),
+            Matchers.is(position)
+        );
     }
 
-    @Override
-    public void addToJavaNode(final Node java) {
-        ThrowStmt throwStmt = new ThrowStmt();
-        this.expression.addToJavaNode(throwStmt);
-        ((BlockStmt) java).addStatement(throwStmt);
+    @Test
+    public void returnsExpression() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ThrowStatementNode throwStatementNode = new QueenThrowStatementNode(
+            position,
+            expressionNode
+        );
+
+        MatcherAssert.assertThat(
+            throwStatementNode.expression(),
+            Matchers.is(expressionNode)
+        );
     }
 
-    @Override
-    public Position position() {
-        return this.position;
+    @Test
+    public void addsToJavaNode() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ThrowStatementNode throwStatementNode = new QueenThrowStatementNode(
+            position,
+            expressionNode
+        );
+
+        final BlockStmt blockStmt = new BlockStmt();
+        throwStatementNode.addToJavaNode(blockStmt);
+        Mockito.verify(expressionNode, Mockito.times(1)).addToJavaNode(
+            Mockito.any(ThrowStmt.class)
+        );
+        MatcherAssert.assertThat(
+            blockStmt.getStatement(0).asThrowStmt(),
+            Matchers.notNullValue()
+        );
     }
 
-    @Override
-    public ExpressionNode expression() {
-        return this.expression;
-    }
 }

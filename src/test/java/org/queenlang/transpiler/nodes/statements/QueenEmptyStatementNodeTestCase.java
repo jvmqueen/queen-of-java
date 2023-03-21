@@ -27,59 +27,44 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 
 /**
- * Queen Statment AST Node from text.
- * To be used for debugging or quick PoCs only!
+ * Unit tests for {@link QueenEmptyStatementNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenTextStatementNode implements StatementNode {
+public final class QueenEmptyStatementNodeTestCase {
 
-    private final Position position;
-    private final String statement;
+    @Test
+    public void returnsPosition() {
+        final Position position = Mockito.mock(Position.class);
+        final EmptyStatementNode emptyStatement = new QueenEmptyStatementNode(position);
 
-    public QueenTextStatementNode(final Position position, final String statement) {
-        this.position = position;
-        this.statement = statement;
+        MatcherAssert.assertThat(
+            emptyStatement.position(),
+            Matchers.is(position)
+        );
     }
 
-    @Override
-    public void addToJavaNode(final Node java) {
-        Statement stmt = null;
-        try {
-            stmt = StaticJavaParser.parseStatement(this.statement);
-        } catch (ParseProblemException pbd) {
-            stmt = new ExpressionStmt(
-                StaticJavaParser.parseExpression(this.statement)
-            );
-        }
-        if(stmt != null) {
-            if(java instanceof BlockStmt) {
-                ((BlockStmt) java).addStatement(stmt);
-            } else if(java instanceof LabeledStmt) {
-                ((LabeledStmt) java).setStatement(stmt);
-            }
-        }
+    @Test
+    public void addsToJavaNode() {
+        final Position position = Mockito.mock(Position.class);
+        final EmptyStatementNode emptyStatement = new QueenEmptyStatementNode(position);
+
+        final BlockStmt blockStmt = new BlockStmt();
+        emptyStatement.addToJavaNode(blockStmt);
+
+        MatcherAssert.assertThat(
+            blockStmt.getStatement(0).asEmptyStmt().toString(),
+            Matchers.equalTo(";")
+        );
     }
 
-    @Override
-    public Position position() {
-        return this.position;
-    }
-
-    @Override
-    public String toString() {
-        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
-        return stmt.toString();
-    }
 }

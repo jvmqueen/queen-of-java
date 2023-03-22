@@ -37,7 +37,6 @@ import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
 import com.github.javaparser.ast.type.*;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,6 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #49:60min Implement other types like primitive, array etc.
  */
 public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceTypeNode {
 

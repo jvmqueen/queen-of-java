@@ -27,58 +27,76 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.VoidType;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen Void AST node.
+ * Unit tests for {@link QueenVoidNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenVoidNode implements VoidTypeNode {
-    private final Position position;
-    private final List<AnnotationNode> annotations;
+public final class QueenVoidNodeTestCase {
 
-    public QueenVoidNode(final Position position) {
-        this(position, new ArrayList<>());
-    }
-
-    public QueenVoidNode(final Position position, final List<AnnotationNode> annotations) {
-        this.position = position;
-        this.annotations = annotations;
-    }
-
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(this.toType());
-        }
-    }
-
-    @Override
-    public Position position() {
-        return this.position;
-    }
-
-    @Override
-    public Type toType() {
-        final VoidType voidType = new VoidType();
-        this.annotations.forEach(
-            a -> a.addToJavaNode(voidType)
+    @Test
+    public void returnsPosition() {
+        final Position position = Mockito.mock(Position.class);
+        final VoidTypeNode voidTypeNode = new QueenVoidNode(
+            position,
+            new ArrayList<>()
         );
-        return voidType;
+        MatcherAssert.assertThat(
+            voidTypeNode.position(),
+            Matchers.is(position)
+        );
     }
 
-    @Override
-    public List<AnnotationNode> annotations() {
-        return this.annotations;
+    @Test
+    public void returnsAnnotations() {
+        final Position position = Mockito.mock(Position.class);
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final VoidTypeNode voidTypeNode = new QueenVoidNode(
+            position,
+            annotations
+        );
+        MatcherAssert.assertThat(
+            voidTypeNode.annotations(),
+            Matchers.is(annotations)
+        );
     }
+
+    @Test
+    public void addsToJavaNode() {
+        final Position position = Mockito.mock(Position.class);
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final VoidTypeNode voidTypeNode = new QueenVoidNode(
+            position,
+            annotations
+        );
+
+        final MethodDeclaration method = new MethodDeclaration();
+        voidTypeNode.addToJavaNode(method);
+
+        MatcherAssert.assertThat(
+            method.getType().asVoidType(),
+            Matchers.notNullValue()
+        );
+        annotations.forEach(
+            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
+                Mockito.any(VoidType.class)
+            )
+        );
+    }
+
 }

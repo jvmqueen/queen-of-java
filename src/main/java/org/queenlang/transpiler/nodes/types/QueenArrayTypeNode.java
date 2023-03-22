@@ -35,8 +35,6 @@ import com.github.javaparser.ast.type.ArrayType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 
 import java.util.List;
 

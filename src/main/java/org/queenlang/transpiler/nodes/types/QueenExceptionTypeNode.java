@@ -69,7 +69,7 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
         final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.exceptionType.name());
         if(this.exceptionType.scope() != null) {
             classOrInterfaceType.setScope(
-                new QueenExceptionTypeNode(this.exceptionType.scope()).toType()
+                (ClassOrInterfaceType) this.exceptionType.scope().toType()
             );
         }
         if(this.exceptionType.annotations() != null) {

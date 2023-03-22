@@ -36,7 +36,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 import java.util.List;
 
 /**
- * An entry in a Switch Statment, AST Node.
+ * An entry in a Switch Statement, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1

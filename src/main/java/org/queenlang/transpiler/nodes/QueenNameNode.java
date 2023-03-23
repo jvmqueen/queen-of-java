@@ -88,4 +88,9 @@ public final class QueenNameNode implements ReferenceTypeNode, ExpressionNode {
         }
         return name;
     }
+
+    @Override
+    public String name() {
+        return this.toName().toString();
+    }
 }

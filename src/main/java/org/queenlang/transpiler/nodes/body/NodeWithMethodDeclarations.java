@@ -25,23 +25,18 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.types;
+package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.type.Type;
-import org.queenlang.transpiler.nodes.Named;
-import org.queenlang.transpiler.nodes.QueenNode;
+import java.util.List;
 
 /**
- * Queen Type AST Node.
+ * A Queen AST Node with method declarations (e.g. class declaration).
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface TypeNode extends Named, QueenNode {
+public interface NodeWithMethodDeclarations {
 
-    /**
-     * Turn it into a JavaParser Type.
-     * @return Type.
-     */
-    Type toType();
+    List<MethodDeclarationNode> methodDeclarations();
+
 }

@@ -31,6 +31,7 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithType;
 import com.github.javaparser.ast.stmt.BlockStmt;
@@ -43,6 +44,7 @@ import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Queen MethodDeclaration AST Node.
@@ -224,5 +226,36 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     @Override
     public BlockStatements blockStatements() {
         return this.blockStatements;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        final QueenMethodDeclarationNode that = (QueenMethodDeclarationNode) other;
+        if(!this.name.equals(that.name)) {
+            return false;
+        } else {
+            if(this.parameters.size() != that.parameters.size()) {
+                return false;
+            } else {
+                boolean equalParams = false;
+                for(int i=0; i < this.parameters.size(); i++) {
+                    final ParameterNode thisParam = this.parameters.get(i);
+                    final ParameterNode thatParam = that.parameters.get(i);
+
+                }
+            }
+        }
+        return name.equals(that.name) && parameters.equals(that.parameters);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name, this.parameters);
     }
 }

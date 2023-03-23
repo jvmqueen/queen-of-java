@@ -128,7 +128,7 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
     }
 
     @Test
-    public void returnsName() {
+    public void returnsSimpleName() {
         final Position position = Mockito.mock(Position.class);
         final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
@@ -143,7 +143,7 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
             false
         );
         MatcherAssert.assertThat(
-            classOrInterfaceTypeNode.name(),
+            classOrInterfaceTypeNode.simpleName(),
             Matchers.equalTo("SomeClass")
         );
     }

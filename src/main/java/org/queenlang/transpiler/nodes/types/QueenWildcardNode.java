@@ -144,6 +144,11 @@ public final class QueenWildcardNode implements WildcardTypeNode {
         return this.superType;
     }
 
+    @Override
+    public String name() {
+        return "?";
+    }
+
     static class WildcardSuperBound extends WildcardType {
 
     }

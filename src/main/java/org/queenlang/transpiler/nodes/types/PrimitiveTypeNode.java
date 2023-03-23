@@ -36,9 +36,4 @@ import org.queenlang.transpiler.nodes.body.NodeWithAnnotations;
  * @since 0.0.1
  */
 public interface PrimitiveTypeNode extends TypeNode, NodeWithAnnotations {
-
-    /**
-     * Name of this primitive type.
-     */
-    String name();
 }

@@ -158,11 +158,6 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     }
 
     @Override
-    public String name() {
-        return this.name;
-    }
-
-    @Override
     public List<AnnotationNode> annotations() {
         return this.annotations;
     }
@@ -185,6 +180,11 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     @Override
     public ClassOrInterfaceTypeNode scope() {
         return this.scope;
+    }
+
+    @Override
+    public String simpleName() {
+        return this.name;
     }
 
 

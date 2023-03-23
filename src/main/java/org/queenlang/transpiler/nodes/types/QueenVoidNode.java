@@ -81,4 +81,9 @@ public final class QueenVoidNode implements VoidTypeNode {
     public List<AnnotationNode> annotations() {
         return this.annotations;
     }
+
+    @Override
+    public String name() {
+        return "void";
+    }
 }

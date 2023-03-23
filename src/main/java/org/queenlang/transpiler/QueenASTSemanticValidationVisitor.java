@@ -149,7 +149,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<ClassOrInterfaceTypeNode> interfaces = node.of();
         final Set<String> unique = new HashSet<>();
         for(final ClassOrInterfaceTypeNode implementedInterface : interfaces) {
-            final String fullName = implementedInterface.fullName();
+            final String fullName = implementedInterface.name();
             if(!unique.add(fullName)) {
                 problems.add(
                     new QueenSemanticError(
@@ -310,7 +310,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<ClassOrInterfaceTypeNode> extendsInterfaces = node.extendsTypes();
         final Set<String> unique = new HashSet<>();
         for(final ClassOrInterfaceTypeNode extendsInterface : extendsInterfaces) {
-            final String fullName = extendsInterface.fullName();
+            final String fullName = extendsInterface.name();
             if(!unique.add(fullName)) {
                 problems.add(
                     new QueenSemanticError(
@@ -717,7 +717,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
         final Set<String> unique = new HashSet<>();
         for(final ExceptionTypeNode exception : exceptions) {
-            final String fullName = exception.exceptionType().fullName();
+            final String fullName = exception.exceptionType().name();
             if(!unique.add(fullName)) {
                 problems.add(
                     new QueenSemanticError(

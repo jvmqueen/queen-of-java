@@ -52,20 +52,20 @@ public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode, NodeWithAnn
     ClassOrInterfaceTypeNode scope();
 
     /**
-     * Name of this reference type.
+     * Simple name of this reference type, without scope
      */
-    String name();
+    String simpleName();
 
     /**
      * Full name of this reference type, with package/scope, for example: java.util.List.
      * @return Full name.
      */
-    default String fullName() {
+    default String name() {
         final String fullName;
         if(this.scope() != null) {
-            fullName = this.scope().fullName() + "." + this.name();
+            fullName = this.scope().name() + "." + this.simpleName();
         } else {
-            fullName = this.name();
+            fullName = this.simpleName();
         }
         return fullName;
     }

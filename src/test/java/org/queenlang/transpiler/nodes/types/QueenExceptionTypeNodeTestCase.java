@@ -89,7 +89,7 @@ public final class QueenExceptionTypeNodeTestCase {
 
         final ClassOrInterfaceTypeNode encapsulated = Mockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(encapsulated.position()).thenReturn(position);
-        Mockito.when(encapsulated.name()).thenReturn("Exception");
+        Mockito.when(encapsulated.simpleName()).thenReturn("Exception");
         Mockito.when(encapsulated.annotations()).thenReturn(annotations);
         Mockito.when(encapsulated.scope()).thenReturn(scope);
         Mockito.when(encapsulated.typeArguments()).thenReturn(typeArgs);
@@ -100,7 +100,7 @@ public final class QueenExceptionTypeNodeTestCase {
             exceptionTypeNode.toType().asClassOrInterfaceType().getName().asString(),
             Matchers.equalTo("Exception")
         );
-        Mockito.verify(encapsulated, Mockito.times(1)).name();
+        Mockito.verify(encapsulated, Mockito.times(1)).simpleName();
         Mockito.verify(scope, Mockito.times(1)).toType();
         annotations.forEach(
             a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any(
@@ -126,7 +126,7 @@ public final class QueenExceptionTypeNodeTestCase {
 
         final ClassOrInterfaceTypeNode encapsulated = Mockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(encapsulated.position()).thenReturn(position);
-        Mockito.when(encapsulated.name()).thenReturn("Exception");
+        Mockito.when(encapsulated.simpleName()).thenReturn("Exception");
         Mockito.when(encapsulated.annotations()).thenReturn(annotations);
         Mockito.when(encapsulated.scope()).thenReturn(scope);
         Mockito.when(encapsulated.typeArguments()).thenReturn(typeArgs);
@@ -139,7 +139,7 @@ public final class QueenExceptionTypeNodeTestCase {
             methodDeclaration.getThrownException(0).asClassOrInterfaceType().getName().asString(),
             Matchers.equalTo("Exception")
         );
-        Mockito.verify(encapsulated, Mockito.times(1)).name();
+        Mockito.verify(encapsulated, Mockito.times(1)).simpleName();
         Mockito.verify(scope, Mockito.times(1)).toType();
         annotations.forEach(
             a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any(

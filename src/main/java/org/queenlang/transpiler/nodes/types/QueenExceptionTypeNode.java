@@ -66,7 +66,7 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
      */
     @Override
     public ClassOrInterfaceType toType() {
-        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.exceptionType.name());
+        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.exceptionType.simpleName());
         if(this.exceptionType.scope() != null) {
             classOrInterfaceType.setScope(
                 (ClassOrInterfaceType) this.exceptionType.scope().toType()
@@ -86,5 +86,10 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
     @Override
     public ClassOrInterfaceTypeNode exceptionType() {
         return this.exceptionType;
+    }
+
+    @Override
+    public String name() {
+        return this.exceptionType.name();
     }
 }

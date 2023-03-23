@@ -115,4 +115,9 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
     public List<ArrayDimensionNode> dims() {
         return this.dims;
     }
+
+    @Override
+    public String name() {
+        return this.type.name();
+    }
 }

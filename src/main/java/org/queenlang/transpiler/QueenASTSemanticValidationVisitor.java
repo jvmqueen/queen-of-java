@@ -88,22 +88,36 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitAnnotationElementDeclarationNode(AnnotationElementDeclarationNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithModifiers(node));
+        return problems;
     }
 
     @Override
     public List<SemanticProblem> visitAnnotationTypeBodyNode(AnnotationTypeBodyNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        for(final AnnotationTypeMemberDeclarationNode amdn : node.annotationMemberDeclarations()) {
+            problems.addAll(this.visitAnnotationTypeMemberDeclarationNode(amdn));
+        }
+        return problems;
     }
 
     @Override
     public List<SemanticProblem> visitAnnotationTypeDeclarationNode(AnnotationTypeDeclarationNode node) {
-        return new ArrayList<>();
+        return this.visitAnnotationTypeBodyNode(node.body());
     }
 
     @Override
     public List<SemanticProblem> visitAnnotationTypeMemberDeclarationNode(AnnotationTypeMemberDeclarationNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        if(node instanceof AnnotationElementDeclarationNode) {
+            problems.addAll(this.visitAnnotationElementDeclarationNode((AnnotationElementDeclarationNode) node));
+        } else if(node instanceof ClassDeclarationNode) {
+            problems.addAll(this.visitClassDeclarationNode((ClassDeclarationNode) node));
+        } else if(node instanceof InterfaceDeclarationNode) {
+            problems.addAll(this.visitInterfaceDeclarationNode((InterfaceDeclarationNode) node));
+        }
+        return problems;
     }
 
     @Override

@@ -168,18 +168,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitConstantDeclarationNode(ConstantDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        final Set<String> unique = new HashSet<>();
-        node.modifiers().forEach(m -> {
-            final String modifierString = m.modifier();
-            if(!unique.add(modifierString)) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Modifier '" + modifierString + "' already present.",
-                        m.position()
-                    )
-                );
-            }
-        });
+        problems.addAll(this.visitNodeWithModifiers(node));
         return problems;
     }
 
@@ -196,18 +185,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitFieldDeclarationNode(FieldDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        final Set<String> unique = new HashSet<>();
-        node.modifiers().forEach(m -> {
-            final String modifierString = m.modifier();
-            if(!unique.add(modifierString)) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Modifier '" + modifierString + "' already present.",
-                        m.position()
-                    )
-                );
-            }
-        });
+        problems.addAll(this.visitNodeWithModifiers(node));
         return problems;
     }
 
@@ -281,6 +259,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitInterfaceMethodDeclarationNode(InterfaceMethodDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithModifiers(node));
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitNodeWithThrows(node));
@@ -296,10 +275,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitMethodDeclarationNode(MethodDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithModifiers(node));
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitNodeWithThrows(node));
-
         return problems;
     }
 
@@ -344,10 +323,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitTypeDeclarationNode(TypeDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithModifiers(node));
         final List<ModifierNode> modifiers = node.modifiers();
         if(modifiers != null && modifiers.size() > 0) {
             final List<String> allowedModifiers = List.of("public", "abstract", "strictfp");
-            final Set<ModifierNode> unique = new HashSet<>();
             modifiers.forEach(m -> {
                 final String modifierString = m.modifier();
                 if(!allowedModifiers.contains(modifierString)) {
@@ -357,16 +336,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                             m.position()
                         )
                     );
-                } else {
-                    final boolean added = unique.add(m);
-                    if(!added) {
-                        problems.add(
-                            new QueenSemanticError(
-                                "Modifier '" + modifierString + "' already present.",
-                                m.position()
-                            )
-                        );
-                    }
                 }
             });
         }
@@ -692,21 +661,12 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             if(!unique.add(name)) {
                 problems.add(
                     new QueenSemanticError(
-                        "Parameter '" + name + "' already present.",
+                        "Parameter '" + name + "' is duplicated.",
                         parameter.position()
                     )
                 );
             }
-            if(parameter.modifiers() != null && parameter.modifiers().size() > 1) {
-                for(int i = 1; i< parameter.modifiers().size(); i++) {
-                    problems.add(
-                        new QueenSemanticError(
-                            "Modifier '" + parameter.modifiers().get(i).modifier() + "' already present.",
-                            parameter.modifiers().get(i).position()
-                        )
-                    );
-                }
-            }
+            problems.addAll(this.visitNodeWithModifiers(parameter));
         }
 
         return problems;
@@ -759,7 +719,20 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitNodeWithModifiers(final NodeWithModifiers node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final Set<String> unique = new HashSet<>();
+        node.modifiers().forEach(m -> {
+            final String modifierString = m.modifier();
+            if(!unique.add(modifierString)) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Modifier '" + modifierString + "' is duplicated.",
+                        m.position()
+                    )
+                );
+            }
+        });
+        return problems;
     }
 
     @Override

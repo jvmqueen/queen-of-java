@@ -37,16 +37,6 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #10:60min Handle access modifiers for the type declaration.
- * @todo #8:60min Handle TypeDeclaration Parameters (for generic types).
- * @todo #8:60min Handle the TypeBody AST node further.
  */
-public interface TypeDeclarationNode extends Named, QueenNode {
-
-    /**
-     * Get the modifiers list of this type declaration.
-     * @return List of QueenModifier.
-     */
-    List<ModifierNode> modifiers();
-
+public interface TypeDeclarationNode extends Named, NodeWithModifiers, QueenNode {
 }

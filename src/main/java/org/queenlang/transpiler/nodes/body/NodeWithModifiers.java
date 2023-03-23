@@ -27,44 +27,20 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
-import org.queenlang.transpiler.nodes.statements.BlockStatements;
-import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
-import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
-import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
-import org.queenlang.transpiler.nodes.types.TypeNode;
-
 import java.util.List;
 
 /**
- * Queen MethodDeclaration AST Node.
+ * Queen AST Node with modifiers (constructor declaration, method declaration etc).
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeWithModifiers, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows {
+public interface NodeWithModifiers {
 
     /**
-     * Annotations on top of this method.
+     * Modifiers of this AST Node.
+     * @return List of modifiers.
      */
-    List<AnnotationNode> annotations();
+    List<ModifierNode> modifiers();
 
-    /**
-     * Return type.
-     */
-    TypeNode returnType();
-
-    /**
-     * Dims on the method declaration. They can be found at the end of the method header:
-     * <pre>public int example()[] {...} </pre>
-     */
-    List<ArrayDimensionNode> dims();
-
-    /**
-     * Method body.
-     */
-    BlockStatements blockStatements();
 }

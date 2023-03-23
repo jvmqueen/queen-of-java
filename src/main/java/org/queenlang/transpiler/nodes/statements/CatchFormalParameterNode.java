@@ -28,10 +28,7 @@
 package org.queenlang.transpiler.nodes.statements;
 
 import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.body.ModifierNode;
-import org.queenlang.transpiler.nodes.body.QueenModifierNode;
-import org.queenlang.transpiler.nodes.body.QueenVariableDeclaratorId;
-import org.queenlang.transpiler.nodes.body.VariableDeclaratorId;
+import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -44,10 +41,9 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface CatchFormalParameterNode extends QueenNode {
+public interface CatchFormalParameterNode extends QueenNode, NodeWithModifiers {
 
     List<AnnotationNode> annotations();
-    List<ModifierNode> modifiers();
     List<TypeNode> catchExceptionTypes();
     VariableDeclaratorId exceptionName();
 }

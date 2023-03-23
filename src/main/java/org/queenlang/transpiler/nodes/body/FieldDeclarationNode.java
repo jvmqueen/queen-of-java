@@ -41,17 +41,12 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public interface FieldDeclarationNode extends ClassMemberDeclarationNode {
+public interface FieldDeclarationNode extends ClassMemberDeclarationNode, NodeWithModifiers {
 
     /**
      * Annotations on top of this field.
      */
     List<AnnotationNode> annotations();
-
-    /**
-     * Access modifiers of this field.
-     */
-    List<ModifierNode> modifiers();
 
     /**
      * Type of the field declaration.

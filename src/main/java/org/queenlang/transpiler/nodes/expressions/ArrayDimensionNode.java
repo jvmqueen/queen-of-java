@@ -28,7 +28,7 @@
 package org.queenlang.transpiler.nodes.expressions;
 
 import org.queenlang.transpiler.nodes.QueenNode;
-import java.util.List;
+import org.queenlang.transpiler.nodes.body.NodeWithAnnotations;
 
 /**
  * The [] array dimension in Queen, AST Node. May contain expression between
@@ -40,7 +40,6 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ArrayDimensionNode extends QueenNode {
-    List<AnnotationNode> annotations();
+public interface ArrayDimensionNode extends QueenNode, NodeWithAnnotations {
     ExpressionNode expression();
 }

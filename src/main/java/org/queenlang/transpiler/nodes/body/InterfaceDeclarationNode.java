@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import java.util.List;
-
 /**
  * Queen InterfaceDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)

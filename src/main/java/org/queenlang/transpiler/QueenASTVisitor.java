@@ -133,6 +133,8 @@ public interface QueenASTVisitor<T> {
 
     T visitNodeWithModifiers(final NodeWithModifiers node);
 
+    T visitNodeWithAnnotations(final NodeWithAnnotations node);
+
     T visitPrimitiveTypeNode(final PrimitiveTypeNode node);
     T visitReferenceTypeNode(final ReferenceTypeNode node);
     T visitTypeNode(final TypeNode node);

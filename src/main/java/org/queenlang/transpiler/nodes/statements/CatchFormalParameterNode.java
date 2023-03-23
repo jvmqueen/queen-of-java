@@ -41,9 +41,8 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface CatchFormalParameterNode extends QueenNode, NodeWithModifiers {
+public interface CatchFormalParameterNode extends QueenNode, NodeWithModifiers, NodeWithAnnotations {
 
-    List<AnnotationNode> annotations();
     List<TypeNode> catchExceptionTypes();
     VariableDeclaratorId exceptionName();
 }

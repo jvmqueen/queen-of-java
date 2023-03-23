@@ -39,12 +39,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationElementDeclarationNode extends AnnotationTypeMemberDeclarationNode, NodeWithModifiers {
-
-    /**
-     * Annotations on top of this element.
-     */
-    List<AnnotationNode> annotations();
+public interface AnnotationElementDeclarationNode extends AnnotationTypeMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations {
 
     /**
      * Type of this annotation element.

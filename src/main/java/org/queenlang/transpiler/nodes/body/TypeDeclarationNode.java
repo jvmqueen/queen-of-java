@@ -38,5 +38,5 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface TypeDeclarationNode extends Named, NodeWithModifiers, QueenNode {
+public interface TypeDeclarationNode extends Named, NodeWithModifiers, NodeWithAnnotations, QueenNode {
 }

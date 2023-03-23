@@ -41,12 +41,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers{
-
-    /**
-     * Annotations on top of this constant declaration.
-     */
-    List<AnnotationNode> annotations();
+public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations {
 
     /**
      * Type of the constant declaration.

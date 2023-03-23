@@ -43,11 +43,6 @@ import java.util.List;
 public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode, ClassMemberDeclarationNode, InterfaceMemberDeclarationNode, AnnotationTypeMemberDeclarationNode, NodeWithTypeParameters {
 
     /**
-     * Annotations on top of this class.
-     */
-    List<AnnotationNode> annotations();
-
-    /**
      * Extension modifier (abstract or final).
      */
     ModifierNode extensionModifier();

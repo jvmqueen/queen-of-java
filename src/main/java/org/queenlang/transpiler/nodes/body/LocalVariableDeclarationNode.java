@@ -42,12 +42,7 @@ import java.util.Map;
  * @version $Id$
  * @since 0.0.1
  */
-public interface LocalVariableDeclarationNode extends StatementNode, ExpressionNode, NodeWithModifiers{
-
-    /**
-     * Annotations on top of this local variable.
-     */
-    List<AnnotationNode> annotations();
+public interface LocalVariableDeclarationNode extends StatementNode, ExpressionNode, NodeWithModifiers, NodeWithAnnotations {
 
     /**
      * Type of the local variable.

@@ -40,12 +40,6 @@ import java.util.List;
  */
 public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode {
 
-
-    /**
-     * Annotations on top of this annotation declaration.
-     */
-    List<AnnotationNode> annotations();
-
     /**
      * The body.
      */

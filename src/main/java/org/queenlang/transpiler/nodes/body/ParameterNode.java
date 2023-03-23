@@ -40,8 +40,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ParameterNode extends NodeWithModifiers, QueenNode {
-    List<AnnotationNode> annotations();
+public interface ParameterNode extends NodeWithModifiers, NodeWithAnnotations, QueenNode {
     VariableDeclaratorId variableDeclaratorId();
     TypeNode type();
     List<AnnotationNode> varArgsAnnotations();

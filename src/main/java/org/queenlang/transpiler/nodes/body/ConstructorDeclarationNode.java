@@ -47,9 +47,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationNode, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows {
-
-    List<AnnotationNode> annotations();
+public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationNode, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows, NodeWithAnnotations {
 
     ModifierNode modifier();
 

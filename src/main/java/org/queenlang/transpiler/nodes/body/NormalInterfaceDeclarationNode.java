@@ -44,11 +44,6 @@ import java.util.List;
 public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode, NodeWithTypeParameters {
 
     /**
-     * Annotations on top of this interface.
-     */
-    List<AnnotationNode> annotations();
-
-    /**
      * Types which are extended (an interface can extend more interfaces).
      */
     List<ClassOrInterfaceTypeNode> extendsTypes();

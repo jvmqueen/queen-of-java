@@ -45,12 +45,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface InterfaceMethodDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows {
-
-    /**
-     * Annotations on top of this method.
-     */
-    List<AnnotationNode> annotations();
+public interface InterfaceMethodDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows {
 
     /**
      * Return type.

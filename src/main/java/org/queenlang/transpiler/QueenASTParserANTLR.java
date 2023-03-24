@@ -54,17 +54,17 @@ public final class QueenASTParserANTLR implements QueenASTParser {
                 )
             )
         );
-        final QueenAntlrErrorListener parsingErrorListener = new QueenAntlrErrorListener();
+        final QueenAntlrErrorListener parsingErrorListener = new QueenAntlrErrorListener(file.getFileName().toString());
         parser.addErrorListener(parsingErrorListener);
 
-        final QueenParseTreeVisitor visitor = new QueenParseTreeVisitor();
-        final CompilationUnitNode queenCompilationUnitNode = visitor.visitCompilationUnit(
-            parser.compilationUnit()
-        );
-
+        final QueenParser.CompilationUnitContext compilationUnitContext = parser.compilationUnit();
         if (parsingErrorListener.errors().size() > 0) {
             throw new QueenTranspilationException(parsingErrorListener.errors());
         }
+
+        final QueenParseTreeVisitor visitor = new QueenParseTreeVisitor();
+        final CompilationUnitNode queenCompilationUnitNode = visitor.visitCompilationUnit(compilationUnitContext);
+
         return queenCompilationUnitNode;
     }
 

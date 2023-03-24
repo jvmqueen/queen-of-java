@@ -85,7 +85,7 @@ public final class JavaQueenTranspiler implements QueenTranspiler {
         final QueenParser parser = new QueenParser(
             new CommonTokenStream(lexer)
         );
-        final QueenAntlrErrorListener parsingErrorListener = new QueenAntlrErrorListener();
+        final QueenAntlrErrorListener parsingErrorListener = new QueenAntlrErrorListener(fileName);
         parser.addErrorListener(parsingErrorListener);
 
         final QueenParseTreeVisitor visitor = new QueenParseTreeVisitor();

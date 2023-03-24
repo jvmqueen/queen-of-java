@@ -10,9 +10,11 @@ import java.util.List;
 public final class QueenAntlrErrorListener extends BaseErrorListener {
 
     private final List<String> errors;
+    private final String fileName;
 
-    public QueenAntlrErrorListener() {
+    public QueenAntlrErrorListener(final String fileName) {
         this.errors = new ArrayList<>();
+        this.fileName = fileName;
     }
 
     @Override
@@ -23,7 +25,7 @@ public final class QueenAntlrErrorListener extends BaseErrorListener {
                             String msg,
                             RecognitionException e)
     {
-        this.errors.add("line " + line + ":" + charPositionInLine + " " + msg);
+        this.errors.add(this.fileName + ": position " + line + ":" + charPositionInLine + ": " + msg);
     }
 
     public List<String> errors() {

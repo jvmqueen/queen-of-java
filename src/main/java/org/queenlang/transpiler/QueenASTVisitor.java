@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler;
 
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.RuleNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
@@ -142,4 +144,8 @@ public interface QueenASTVisitor<T> {
     T visitVoidTypeNode(final VoidTypeNode node);
     T visitWildcardTypeNode(final WildcardTypeNode node);
     T visitQueenNode(final QueenNode node);
+
+    default T visitChildren(final QueenNode node) {
+        return null; //TODO implement it...
+    }
 }

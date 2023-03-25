@@ -331,7 +331,9 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitParameterNode(ParameterNode node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithModifiers(node));
+        return problems;
     }
 
     @Override
@@ -680,7 +682,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     )
                 );
             }
-            problems.addAll(this.visitNodeWithModifiers(parameter));
+            problems.addAll(this.visitParameterNode(parameter));
         }
 
         return problems;

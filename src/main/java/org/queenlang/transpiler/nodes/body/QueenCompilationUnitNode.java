@@ -29,7 +29,9 @@ package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,5 +84,18 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.packageDeclaration);
+        if(this.importDeclarations != null) {
+            children.addAll(this.importDeclarations);
+        }
+        if(this.typeDeclarations != null) {
+            children.addAll(this.typeDeclarations);
+        }
+        return children;
     }
 }

@@ -30,6 +30,9 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Queen expression between brackets (e.g. (2 + 2)), AST Node.
@@ -55,6 +58,11 @@ public final class QueenBracketedExpressionNode implements BracketedExpressionNo
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.expression);
     }
 
     @Override

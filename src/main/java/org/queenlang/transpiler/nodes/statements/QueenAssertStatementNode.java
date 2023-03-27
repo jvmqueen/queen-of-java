@@ -31,7 +31,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Queen Assert Statement AST Node.
@@ -69,6 +72,11 @@ public final class QueenAssertStatementNode implements AssertStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.check, this.message);
     }
 
     @Override

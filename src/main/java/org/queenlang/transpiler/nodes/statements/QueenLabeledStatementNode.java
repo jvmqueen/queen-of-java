@@ -34,6 +34,9 @@ import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Queen For Statement AST Node.
@@ -95,6 +98,11 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.blockStatements);
     }
 
     @Override

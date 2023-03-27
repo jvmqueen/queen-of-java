@@ -31,6 +31,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Queen ExceptionType AST Node.
@@ -91,5 +95,12 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
     @Override
     public String name() {
         return this.exceptionType.name();
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.exceptionType);
+        return children;
     }
 }

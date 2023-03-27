@@ -32,6 +32,10 @@ import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Queen single-member annotation.
@@ -67,5 +71,13 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode i
     @Override
     public ExpressionNode elementValue() {
         return this.elementValue;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.addAll(super.children());
+        children.add(this.elementValue);
+        return children;
     }
 }

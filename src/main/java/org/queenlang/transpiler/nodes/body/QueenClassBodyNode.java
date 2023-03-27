@@ -29,7 +29,9 @@ package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,4 +70,12 @@ public final class QueenClassBodyNode implements ClassBodyNode {
         return this.classBodyDeclarations;
     }
 
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.classBodyDeclarations != null) {
+            children.addAll(this.classBodyDeclarations);
+        }
+        return children;
+    }
 }

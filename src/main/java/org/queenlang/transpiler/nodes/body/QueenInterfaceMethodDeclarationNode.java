@@ -41,6 +41,7 @@ import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.types.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -217,5 +218,31 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
     @Override
     public BlockStatements blockStatements() {
         return this.blockStatements;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.modifiers != null) {
+            children.addAll(this.modifiers);
+        }
+        if(this.typeParams != null) {
+            children.addAll(this.typeParams);
+        }
+        if(this.parameters != null) {
+            children.addAll(this.parameters);
+        }
+        if(this.dims != null) {
+            children.addAll(this.dims);
+        }
+        if(this.throwsList != null) {
+            children.addAll(this.throwsList);
+        }
+        children.add(this.returnType);
+        children.add(this.blockStatements);
+        return children;
     }
 }

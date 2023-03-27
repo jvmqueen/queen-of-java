@@ -37,6 +37,7 @@ import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -177,5 +178,24 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     @Override
     public List<TypeParameterNode> typeParameters() {
         return this.typeParams;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.modifiers != null) {
+            children.addAll(this.modifiers);
+        }
+        if(this.typeParams != null) {
+            children.addAll(this.typeParams);
+        }
+        if(this.extendsTypes != null) {
+            children.addAll(this.extendsTypes);
+        }
+        children.add(this.body);
+        return children;
     }
 }

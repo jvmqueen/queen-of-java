@@ -32,6 +32,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ClassBodyNode;
 import org.queenlang.transpiler.nodes.body.QueenClassBodyNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
@@ -104,6 +105,21 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.scope);
+        children.add(this.type);
+        if(this.typeArguments != null) {
+            children.addAll(this.typeArguments);
+        }
+        if(this.arguments != null) {
+            children.addAll(this.arguments);
+        }
+        children.add(this.anonymousBody);
+        return children;
     }
 
     @Override

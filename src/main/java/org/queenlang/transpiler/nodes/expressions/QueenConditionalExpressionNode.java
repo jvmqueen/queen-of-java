@@ -30,6 +30,9 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.ConditionalExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Queen ternary conditional expression, AST Node.
@@ -68,6 +71,11 @@ public final class QueenConditionalExpressionNode implements ConditionalExpressi
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.condition, this.thenExpr, this.elseExpr);
     }
 
     @Override

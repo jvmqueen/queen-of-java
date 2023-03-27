@@ -33,6 +33,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.type.IntersectionType;
 import com.github.javaparser.ast.type.ReferenceType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -97,6 +98,17 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.primitiveType);
+        children.add(this.expression);
+        if(this.referenceTypes != null) {
+            children.addAll(this.referenceTypes);
+        }
+        return children;
     }
 
     @Override

@@ -31,7 +31,10 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.InstanceOfExpr;
 import com.github.javaparser.ast.type.ReferenceType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
+
+import java.util.List;
 
 /**
  * Queen instanceof Expression, AST Node.
@@ -66,6 +69,11 @@ public final class QueenInstanceOfExpressionNode implements InstanceOfExpression
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.expression, this.referenceType);
     }
 
     @Override

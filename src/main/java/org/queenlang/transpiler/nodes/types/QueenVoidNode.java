@@ -32,6 +32,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.VoidType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,5 +86,14 @@ public final class QueenVoidNode implements VoidTypeNode {
     @Override
     public String name() {
         return "void";
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        return children;
     }
 }

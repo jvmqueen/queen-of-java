@@ -30,7 +30,10 @@ package org.queenlang.transpiler.nodes.body;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
+
+import java.util.List;
 
 /**
  * Queen Instance Initializer AST Node.
@@ -87,6 +90,11 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.blockStatements);
     }
 
     @Override

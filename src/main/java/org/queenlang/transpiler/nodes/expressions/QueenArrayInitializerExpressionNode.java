@@ -31,6 +31,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,15 @@ public final class QueenArrayInitializerExpressionNode implements ArrayInitializ
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.values != null) {
+            children.addAll(this.values);
+        }
+        return children;
     }
 
     @Override

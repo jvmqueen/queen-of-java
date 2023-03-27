@@ -32,6 +32,9 @@ import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Queen marker annotation (no parameters).

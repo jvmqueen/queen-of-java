@@ -32,6 +32,10 @@ import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.BreakStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Queen Break AST Node.
@@ -62,6 +66,11 @@ public final class QueenBreakStatementNode implements BreakStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
     }
 
     @Override

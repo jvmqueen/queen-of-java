@@ -33,6 +33,8 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
+import java.util.List;
+
 /**
  * A Queen label in a switch case, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -66,6 +68,11 @@ public final class QueenSwitchLabelNode implements SwitchLabelNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.expressionNode);
     }
 
     @Override

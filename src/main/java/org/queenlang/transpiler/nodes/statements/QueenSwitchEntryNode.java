@@ -33,6 +33,7 @@ import com.github.javaparser.ast.stmt.SwitchEntry;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,6 +77,16 @@ public final class QueenSwitchEntryNode implements SwitchEntryNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.labels != null) {
+            children.addAll(this.labels);
+        }
+        children.add(this.blockStatements);
+        return children;
     }
 
     @Override

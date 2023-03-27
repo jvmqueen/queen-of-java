@@ -33,9 +33,11 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.ArrayType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,5 +121,15 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
     @Override
     public String name() {
         return this.type.name();
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.type);
+        if(this.dims != null) {
+            children.addAll(this.dims);
+        }
+        return children;
     }
 }

@@ -33,6 +33,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -93,6 +94,19 @@ public final class QueenExplicitConstructorInvocationNode implements ExplicitCon
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.scope);
+        if(this.typeArguments != null) {
+            children.addAll(this.typeArguments);
+        }
+        if(this.arguments != null) {
+            children.addAll(this.arguments);
+        }
+        return children;
     }
 
     @Override

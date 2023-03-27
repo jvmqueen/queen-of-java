@@ -27,6 +27,11 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A literal boolean expression in Queen, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -36,4 +41,8 @@ package org.queenlang.transpiler.nodes.expressions;
 public interface BooleanLiteralExpressionNode extends ExpressionNode {
 
     boolean value();
+
+    default List<QueenNode> children() {
+        return new ArrayList<>();
+    }
 }

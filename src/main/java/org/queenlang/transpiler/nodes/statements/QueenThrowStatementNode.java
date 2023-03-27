@@ -31,7 +31,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ThrowStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Queen Throw AST Node.
@@ -63,6 +66,11 @@ public final class QueenThrowStatementNode implements ThrowStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.expression);
     }
 
     @Override

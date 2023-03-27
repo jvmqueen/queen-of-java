@@ -37,6 +37,7 @@ import org.queenlang.transpiler.nodes.statements.ExplicitConstructorInvocationNo
 import org.queenlang.transpiler.nodes.types.ExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -162,5 +163,26 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
     @Override
     public BlockStatements blockStatements() {
         return this.blockStatements;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        children.add(this.modifier);
+        if(this.typeParams != null) {
+            children.addAll(this.typeParams);
+        }
+        if(this.parameters != null) {
+            children.addAll(this.parameters);
+        }
+        if(this.throwsList != null) {
+            children.addAll(this.throwsList);
+        }
+        children.add(this.explicitConstructorInvocationNode);
+        children.add(this.blockStatements);
+        return children;
     }
 }

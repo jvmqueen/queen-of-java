@@ -32,9 +32,11 @@ import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ParameterNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -92,6 +94,17 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.parameters != null) {
+            children.addAll(this.parameters);
+        }
+        children.add(this.expression);
+        children.add(this.blockStatements);
+        return children;
     }
 
     @Override

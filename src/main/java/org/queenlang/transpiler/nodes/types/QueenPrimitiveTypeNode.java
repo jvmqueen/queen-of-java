@@ -33,9 +33,11 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.PrimitiveType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -105,5 +107,14 @@ public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
     @Override
     public String name() {
         return this.name;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        return children;
     }
 }

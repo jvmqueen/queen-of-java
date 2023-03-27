@@ -32,8 +32,10 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -101,6 +103,20 @@ public final class QueenTryStatementNode implements TryStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.resources != null) {
+            children.addAll(this.resources);
+        }
+        children.add(this.tryBlockStatements);
+        if(this.catchClauses != null) {
+            children.addAll(this.catchClauses);
+        }
+        children.add(this.finallyBlockStatements);
+        return children;
     }
 
     @Override

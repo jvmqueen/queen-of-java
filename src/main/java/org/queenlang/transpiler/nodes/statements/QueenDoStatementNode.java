@@ -30,7 +30,10 @@ package org.queenlang.transpiler.nodes.statements;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.*;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Queen Do Statement AST Node.
@@ -92,6 +95,11 @@ public final class QueenDoStatementNode implements DoStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.blockStatements, this.expression);
     }
 
     @Override

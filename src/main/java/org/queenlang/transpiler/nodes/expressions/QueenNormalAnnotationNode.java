@@ -32,7 +32,10 @@ import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,5 +78,15 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
     @Override
     public Map<String, ExpressionNode> elementValuePairs() {
         return this.elementValuePairs;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.addAll(super.children());
+        if(this.elementValuePairs != null) {
+            children.addAll(this.elementValuePairs.values());
+        }
+        return children;
     }
 }

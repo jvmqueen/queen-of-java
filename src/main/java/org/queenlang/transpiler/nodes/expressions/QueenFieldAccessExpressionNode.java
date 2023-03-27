@@ -31,6 +31,9 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Queen Field Access Expression, AST Node.
@@ -77,6 +80,11 @@ public final class QueenFieldAccessExpressionNode implements FieldAccessExpressi
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.scope);
     }
 
     @Override

@@ -31,6 +31,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.EmptyStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Queen Empty Statement AST Node.
@@ -56,5 +60,10 @@ public final class QueenEmptyStatementNode implements EmptyStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
     }
 }

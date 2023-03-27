@@ -33,7 +33,10 @@ import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.WhileStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Queen While AST Node.
@@ -95,6 +98,11 @@ public final class QueenWhileStatementNode implements WhileStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.expression, this.blockStatements);
     }
 
     @Override

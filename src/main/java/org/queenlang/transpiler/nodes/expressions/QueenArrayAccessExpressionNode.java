@@ -30,7 +30,9 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,6 +76,16 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.name);
+        if(this.dims != null) {
+            children.addAll(this.dims);
+        }
+        return children;
     }
 
     @Override

@@ -40,6 +40,7 @@ import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -211,5 +212,26 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     @Override
     public ClassBodyNode body() {
         return this.body;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.accessModifiers != null) {
+            children.addAll(this.accessModifiers);
+        }
+        children.add(this.extensionModifier);
+        if(this.typeParams != null) {
+            children.addAll(this.typeParams);
+        }
+        children.add(this.extendsType);
+        if(this.of != null) {
+            children.addAll(this.of);
+        }
+        children.add(this.body);
+        return children;
     }
 }

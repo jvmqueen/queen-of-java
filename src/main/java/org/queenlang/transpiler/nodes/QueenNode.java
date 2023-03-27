@@ -29,6 +29,8 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
 
+import java.util.List;
+
 /**
  * A node in Queen's Abstract Syntax Tree.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -47,4 +49,11 @@ public interface QueenNode {
      * @return Position.
      */
     Position position();
+
+    /**
+     * Return the children of this node. If the list is empty, it means it's a
+     * terminal node.
+     * @return List of children, never null.
+     */
+    List<QueenNode> children();
 }

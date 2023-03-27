@@ -35,6 +35,7 @@ import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -151,5 +152,23 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     @Override
     public Map<VariableDeclaratorId, ExpressionNode> variables() {
         return variables;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.modifiers != null) {
+            children.addAll(this.modifiers);
+        }
+        children.add(this.type);
+
+        if(this.variables != null) {
+            children.addAll(this.variables.keySet());
+            children.addAll(this.variables.values());
+        }
+        return children;
     }
 }

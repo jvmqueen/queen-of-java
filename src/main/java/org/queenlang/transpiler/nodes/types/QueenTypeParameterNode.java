@@ -33,7 +33,10 @@ import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,5 +121,17 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
     @Override
     public List<ClassOrInterfaceTypeNode> typeBound() {
         return this.typeBound;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.typeBound != null) {
+            children.addAll(this.typeBound);
+        }
+        return children;
     }
 }

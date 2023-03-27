@@ -33,7 +33,10 @@ import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Queen IfStatement AST Node.
@@ -114,6 +117,11 @@ public final class QueenIfStatementNode implements IfStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.condition, this.thenBlockStatements, this.elseBlockStatements);
     }
 
     @Override

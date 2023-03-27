@@ -31,7 +31,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.SynchronizedStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Queen Synchronized Statement AST Node.
@@ -72,6 +75,11 @@ public final class QueenSynchronizedStatementNode implements SynchronizedStateme
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.syncExpression, this.blockStatements);
     }
 
     @Override

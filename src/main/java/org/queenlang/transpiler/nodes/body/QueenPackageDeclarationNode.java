@@ -32,7 +32,9 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -80,6 +82,11 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.packageName);
     }
 
     @Override

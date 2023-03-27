@@ -36,6 +36,7 @@ import com.github.javaparser.ast.stmt.ForStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
@@ -137,6 +138,20 @@ public final class QueenForStatementNode implements ForStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.initialization != null) {
+            children.addAll(this.initialization);
+        }
+        children.add(this.comparison);
+        if(this.update != null) {
+            children.addAll(this.update);
+        }
+        children.add(this.blockStatements);
+        return children;
     }
 
     @Override

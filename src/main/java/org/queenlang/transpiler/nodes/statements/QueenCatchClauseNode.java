@@ -86,6 +86,11 @@ public final class QueenCatchClauseNode implements CatchClauseNode {
     }
 
     @Override
+    public List<QueenNode> children() {
+        return List.of(this.parameter, this.blockStatements);
+    }
+
+    @Override
     public CatchFormalParameterNode parameter() {
         return this.parameter;
     }

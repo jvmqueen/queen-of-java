@@ -30,6 +30,10 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NullLiteralExpr;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A literal null expression in Queen, AST Node.
@@ -52,5 +56,10 @@ public final class QueenNullLiteralExpressionNode implements NullLiteralExpressi
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
     }
 }

@@ -30,6 +30,10 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Queen Text Expression. This class is for debugging/quick PoC purposes and should never be
@@ -59,5 +63,10 @@ public final class QueenTextExpressionNode implements ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
     }
 }

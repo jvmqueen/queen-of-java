@@ -36,6 +36,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
 import com.github.javaparser.ast.type.*;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
@@ -207,5 +208,18 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
             }
         }
         return classOrInterfaceType;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.scope);
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.typeArguments != null) {
+            children.addAll(this.typeArguments);
+        }
+        return children;
     }
 }

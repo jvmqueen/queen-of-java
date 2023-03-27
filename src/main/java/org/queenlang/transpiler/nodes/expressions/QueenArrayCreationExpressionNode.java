@@ -33,6 +33,7 @@ import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
@@ -92,6 +93,17 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.type);
+        children.add(this.arrayInitializer);
+        if(this.dims != null) {
+            children.addAll(this.dims);
+        }
+        return children;
     }
 
     @Override

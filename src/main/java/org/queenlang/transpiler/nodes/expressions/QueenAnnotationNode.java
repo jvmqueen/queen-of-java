@@ -30,6 +30,9 @@ package org.queenlang.transpiler.nodes.expressions;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Queen annotation declared on top of a class, field or method.
@@ -62,6 +65,11 @@ public abstract class QueenAnnotationNode implements AnnotationNode {
     @Override
     public String name() {
         return this.name.toName().asString();
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.name);
     }
 
 }

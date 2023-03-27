@@ -34,9 +34,12 @@ import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.body.QueenLocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Queen For Statement AST Node.
@@ -107,6 +110,11 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.variable, this.iterable, this.blockStatements);
     }
 
     @Override

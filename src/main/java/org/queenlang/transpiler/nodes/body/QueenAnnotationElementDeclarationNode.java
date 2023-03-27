@@ -31,10 +31,12 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -112,6 +114,20 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.modifiers != null) {
+            children.addAll(this.modifiers);
+        }
+        children.add(this.type);
+        children.add(this.defaultValue);
+        return children;
     }
 
     @Override

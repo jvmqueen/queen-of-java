@@ -34,6 +34,7 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -160,5 +161,22 @@ public final class QueenParameterNode implements ParameterNode {
     @Override
     public boolean varArgs() {
         return this.varArgs;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.modifiers != null) {
+            children.addAll(this.modifiers);
+        }
+        children.add(this.variableDeclaratorId);
+        children.add(this.type);
+        if(this.varArgsAnnotations != null) {
+            children.addAll(this.varArgsAnnotations);
+        }
+        return children;
     }
 }

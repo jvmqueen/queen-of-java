@@ -32,8 +32,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -138,5 +140,18 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
         this.modifiers.forEach(m -> m.addToJavaNode(annotationDeclaration));
         this.body.addToJavaNode(annotationDeclaration);
         return annotationDeclaration;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.modifiers != null) {
+            children.addAll(this.modifiers);
+        }
+        children.add(this.body);
+        return children;
     }
 }

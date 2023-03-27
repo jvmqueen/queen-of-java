@@ -32,6 +32,8 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 
+import java.util.List;
+
 /**
  * A name of something. Could be a package declaration, a type name, a method name etc.
  * In some cases, it can have a context/qualifier prefix like java.util.List.
@@ -58,6 +60,11 @@ public final class QueenNameNode implements ReferenceTypeNode, ExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.qualifier);
     }
 
     @Override

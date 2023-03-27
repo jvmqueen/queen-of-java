@@ -40,6 +40,7 @@ import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,6 +92,22 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.modifiers != null) {
+            children.addAll(this.modifiers);
+        }
+        if(this.catchExceptionTypes != null) {
+            children.addAll(this.catchExceptionTypes);
+        }
+        children.add(this.exceptionName);
+        return children;
     }
 
     @Override

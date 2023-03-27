@@ -31,6 +31,9 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.SuperExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Queen super expression, AST Node.
@@ -65,6 +68,11 @@ public final class QueenSuperExpressionNode implements SuperExpressionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.typeName);
     }
 
     @Override

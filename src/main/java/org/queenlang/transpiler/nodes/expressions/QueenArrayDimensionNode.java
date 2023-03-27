@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,5 +96,15 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.expression);
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        return children;
     }
 }

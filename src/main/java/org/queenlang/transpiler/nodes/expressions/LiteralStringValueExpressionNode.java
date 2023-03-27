@@ -27,6 +27,11 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Queen literal based on a string value, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -35,5 +40,9 @@ package org.queenlang.transpiler.nodes.expressions;
  */
 public interface LiteralStringValueExpressionNode extends ExpressionNode {
     String value();
+
+    default List<QueenNode> children() {
+        return new ArrayList<>();
+    }
 
 }

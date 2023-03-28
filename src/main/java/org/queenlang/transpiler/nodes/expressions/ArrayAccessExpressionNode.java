@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 import java.util.List;
 
 /**
@@ -40,4 +42,8 @@ public interface ArrayAccessExpressionNode extends ExpressionNode {
     ExpressionNode name();
 
     List<ArrayDimensionNode> dims();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitArrayAccessExpressionNode(this);
+    }
 }

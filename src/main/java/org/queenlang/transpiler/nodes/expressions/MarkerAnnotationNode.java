@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen marker annotation (no parameters).
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
@@ -34,5 +36,9 @@ package org.queenlang.transpiler.nodes.expressions;
  * @since 0.0.1
  */
 public interface MarkerAnnotationNode extends AnnotationNode {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitMarkerAnnotationNode(this);
+    }
 
 }

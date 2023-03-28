@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -43,4 +44,8 @@ public interface ExplicitConstructorInvocationNode extends StatementNode {
     ExpressionNode scope();
     List<TypeNode> typeArguments();
     List<ExpressionNode> arguments();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitExplicitConstructorInvocationNode(this);
+    }
 }

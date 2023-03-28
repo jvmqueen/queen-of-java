@@ -1,5 +1,6 @@
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
@@ -10,4 +11,8 @@ public interface VariableDeclaratorId extends QueenNode {
 
     String name();
     List<ArrayDimensionNode> dims();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitVariableDeclaratorId(this);
+    }
 }

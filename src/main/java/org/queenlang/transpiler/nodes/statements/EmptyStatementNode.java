@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen Empty Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -34,4 +36,9 @@ package org.queenlang.transpiler.nodes.statements;
  * @since 0.0.1
  */
 public interface EmptyStatementNode extends StatementNode {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitEmptyStatementNode(this);
+    }
+
 }

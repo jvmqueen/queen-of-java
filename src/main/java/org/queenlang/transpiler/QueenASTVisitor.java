@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler;
 
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.RuleNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
@@ -41,90 +43,286 @@ import org.queenlang.transpiler.nodes.types.*;
  * @since 0.0.1
  */
 public interface QueenASTVisitor<T> {
-    T visitCompilationUnit(final CompilationUnitNode node);
-    T visitAnnotationElementDeclarationNode(final AnnotationElementDeclarationNode node);
-    T visitAnnotationTypeBodyNode(final AnnotationTypeBodyNode node);
-    T visitAnnotationTypeDeclarationNode(final AnnotationTypeDeclarationNode node);
-    T visitAnnotationTypeMemberDeclarationNode(final AnnotationTypeMemberDeclarationNode node);
-    T visitClassBodyDeclarationNode(final ClassBodyDeclarationNode node);
-    T visitClassBodyNode(final ClassBodyNode node);
-    T visitClassDeclarationNode(final ClassDeclarationNode node);
-    T visitClassMemberDeclarationNode(final ClassMemberDeclarationNode node);
-    T visitConstantDeclarationNode(final ConstantDeclarationNode node);
-    T visitConstructorDeclarationNode(final ConstructorDeclarationNode node);
-    T visitFieldDeclarationNode(final FieldDeclarationNode node);
-    T visitImportDeclarationNode(final ImportDeclarationNode node);
-    T visitInstanceInitializerNode(final InstanceInitializerNode node);
-    T visitInterfaceBodyNode(final InterfaceBodyNode node);
-    T visitInterfaceDeclarationNode(final InterfaceDeclarationNode node);
-    T visitInterfaceMemberDeclarationNode(final InterfaceMemberDeclarationNode node);
-    T visitInterfaceMethodDeclarationNode(final InterfaceMethodDeclarationNode node);
-    T visitLocalVariableDeclarationNode(final LocalVariableDeclarationNode node);
-    T visitMethodDeclarationNode(final MethodDeclarationNode node);
-    T visitModifierNode(final ModifierNode node);
-    T visitNormalInterfaceDeclarationNode(final NormalInterfaceDeclarationNode node);
-    T visitPackageDeclarationNode(final PackageDeclarationNode node);
-    T visitParameterNode(final ParameterNode node);
-    T visitTypeDeclarationNode(final TypeDeclarationNode node);
-    T visitVariableDeclaratorId(final VariableDeclaratorId node);
-    T visitAnnotationNode(final AnnotationNode node);
-    T visitArrayAccessExpressionNode(final ArrayAccessExpressionNode node);
-    T visitArrayCreationExpressionNode(final ArrayCreationExpressionNode node);
-    T visitArrayDimensionNode(final ArrayDimensionNode node);
-    T visitArrayInitializerExpressionNode(final ArrayInitializerExpressionNode node);
-    T visitAssignmentExpressionNode(final AssignmentExpressionNode node);
-    T visitBinaryExpressionNode(final BinaryExpressionNode node);
-    T visitBooleanLiteralExpressionNode(final BooleanLiteralExpressionNode node);
-    T visitBracketedExpressionNode(final BracketedExpressionNode node);
-    T visitCastExpressionNode(final CastExpressionNode node);
-    T visitCharLiteralExpressionNode(final CharLiteralExpressionNode node);
-    T visitConditionalExpressionNode(final ConditionalExpressionNode node);
-    T visitDoubleLiteralExpressionNode(final DoubleLiteralExpressionNode node);
-    T visitExpressionNode(final ExpressionNode node);
-    T visitFieldAccessExpressionNode(final FieldAccessExpressionNode node);
-    T visitInstanceOfExpressionNode(final InstanceOfExpressionNode node);
-    T visitIntegerLiteralExpressionNode(final IntegerLiteralExpressionNode node);
-    T visitLambdaExpressionNode(final LambdaExpressionNode node);
-    T visitLiteralStringValueExpressionNode(final LiteralStringValueExpressionNode node);
-    T visitLongLiteralExpressionNode(final LongLiteralExpressionNode node);
-    T visitMarkerAnnotationNode(final MarkerAnnotationNode node);
-    T visitMethodInvocationExpressionNode(final MethodInvocationExpressionNode node);
-    T visitMethodReferenceExpressionNode(final MethodReferenceExpressionNode node);
-    T visitNormalAnnotationNode(final NormalAnnotationNode node);
-    T visitNullLiteralExpressionNode(final NullLiteralExpressionNode node);
-    T visitObjectCreationExpressionNode(final ObjectCreationExpressionNode node);
-    T visitSingleMemberAnnotationNode(final SingleMemberAnnotationNode node);
-    T visitStringLiteralExpressionNode(final StringLiteralExpressionNode node);
-    T visitSuperExpressionNode(final SuperExpressionNode node);
-    T visitThisExpressionNode(final ThisExpressionNode node);
-    T visitTypeImplementationExpressionNode(final TypeImplementationExpressionNode node);
-    T visitUnaryExpressionNode(final UnaryExpressionNode node);
-    T visitAssertStatementNode(final AssertStatementNode node);
-    T visitBlockStatements(final BlockStatements node);
-    T visitBreakStatementNode(final BreakStatementNode node);
-    T visitCatchClauseNode(final CatchClauseNode node);
-    T visitCatchFormalParameterNode(final CatchFormalParameterNode node);
-    T visitContinueStatementNode(final ContinueStatementNode node);
-    T visitDoStatementNode(final DoStatementNode node);
-    T visitEmptyStatementNode(final EmptyStatementNode node);
-    T visitExplicitConstructorInvocationNode(final ExplicitConstructorInvocationNode node);
-    T visitExpressionStatementNode(final ExpressionStatementNode node);
-    T visitForEachStatementNode(final ForEachStatementNode node);
-    T visitForStatementNode(final ForStatementNode node);
-    T visitIfStatementNode(final IfStatementNode node);
-    T visitLabeledStatementNode(final LabeledStatementNode node);
-    T visitReturnStatementNode(final ReturnStatementNode node);
-    T visitStatementNode(final StatementNode node);
-    T visitSwitchEntryNode(final SwitchEntryNode node);
-    T visitSwitchLabelNode(final SwitchLabelNode node);
-    T visitSwitchStatementNode(final SwitchStatementNode node);
-    T visitSynchronizedStatementNode(final SynchronizedStatementNode node);
-    T visitThrowStatementNode(final ThrowStatementNode node);
-    T visitTryStatementNode(final TryStatementNode node);
-    T visitWhileStatementNode(final WhileStatementNode node);
-    T visitArrayTypeNode(final ArrayTypeNode node);
-    T visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node);
-    T visitExceptionTypeNode(final ExceptionTypeNode node);
+    default T visitCompilationUnit(final CompilationUnitNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitAnnotationElementDeclarationNode(final AnnotationElementDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitAnnotationTypeBodyNode(final AnnotationTypeBodyNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitAnnotationTypeDeclarationNode(final AnnotationTypeDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitAnnotationTypeMemberDeclarationNode(final AnnotationTypeMemberDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitClassBodyDeclarationNode(final ClassBodyDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitClassBodyNode(final ClassBodyNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitClassDeclarationNode(final ClassDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitClassMemberDeclarationNode(final ClassMemberDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitConstantDeclarationNode(final ConstantDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitConstructorDeclarationNode(final ConstructorDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitFieldDeclarationNode(final FieldDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitImportDeclarationNode(final ImportDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitInstanceInitializerNode(final InstanceInitializerNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitInterfaceBodyNode(final InterfaceBodyNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitInterfaceDeclarationNode(final InterfaceDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitInterfaceMemberDeclarationNode(final InterfaceMemberDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitInterfaceMethodDeclarationNode(final InterfaceMethodDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitLocalVariableDeclarationNode(final LocalVariableDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitMethodDeclarationNode(final MethodDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitModifierNode(final ModifierNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitNormalInterfaceDeclarationNode(final NormalInterfaceDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitPackageDeclarationNode(final PackageDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitParameterNode(final ParameterNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitTypeDeclarationNode(final TypeDeclarationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitVariableDeclaratorId(final VariableDeclaratorId node) {
+        return this.visitChildren(node);
+    }
+    default T visitAnnotationNode(final AnnotationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitArrayAccessExpressionNode(final ArrayAccessExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitArrayCreationExpressionNode(final ArrayCreationExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitArrayDimensionNode(final ArrayDimensionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitArrayInitializerExpressionNode(final ArrayInitializerExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitAssignmentExpressionNode(final AssignmentExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitBinaryExpressionNode(final BinaryExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitBooleanLiteralExpressionNode(final BooleanLiteralExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitBracketedExpressionNode(final BracketedExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitCastExpressionNode(final CastExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitCharLiteralExpressionNode(final CharLiteralExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitConditionalExpressionNode(final ConditionalExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitDoubleLiteralExpressionNode(final DoubleLiteralExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitExpressionNode(final ExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitFieldAccessExpressionNode(final FieldAccessExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitInstanceOfExpressionNode(final InstanceOfExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitIntegerLiteralExpressionNode(final IntegerLiteralExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitLambdaExpressionNode(final LambdaExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitLiteralStringValueExpressionNode(final LiteralStringValueExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitLongLiteralExpressionNode(final LongLiteralExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitMarkerAnnotationNode(final MarkerAnnotationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitMethodInvocationExpressionNode(final MethodInvocationExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitMethodReferenceExpressionNode(final MethodReferenceExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitNormalAnnotationNode(final NormalAnnotationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitNullLiteralExpressionNode(final NullLiteralExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitObjectCreationExpressionNode(final ObjectCreationExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitSingleMemberAnnotationNode(final SingleMemberAnnotationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitStringLiteralExpressionNode(final StringLiteralExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitSuperExpressionNode(final SuperExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitThisExpressionNode(final ThisExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitTypeImplementationExpressionNode(final TypeImplementationExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitUnaryExpressionNode(final UnaryExpressionNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitAssertStatementNode(final AssertStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitBlockStatements(final BlockStatements node) {
+        return this.visitChildren(node);
+    }
+    default T visitBreakStatementNode(final BreakStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitCatchClauseNode(final CatchClauseNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitCatchFormalParameterNode(final CatchFormalParameterNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitContinueStatementNode(final ContinueStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitDoStatementNode(final DoStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitEmptyStatementNode(final EmptyStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitExplicitConstructorInvocationNode(final ExplicitConstructorInvocationNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitExpressionStatementNode(final ExpressionStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitForEachStatementNode(final ForEachStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitForStatementNode(final ForStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitIfStatementNode(final IfStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitLabeledStatementNode(final LabeledStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitReturnStatementNode(final ReturnStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitStatementNode(final StatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitSwitchEntryNode(final SwitchEntryNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitSwitchLabelNode(final SwitchLabelNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitSwitchStatementNode(final SwitchStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitSynchronizedStatementNode(final SynchronizedStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitThrowStatementNode(final ThrowStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitTryStatementNode(final TryStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitWhileStatementNode(final WhileStatementNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitArrayTypeNode(final ArrayTypeNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitExceptionTypeNode(final ExceptionTypeNode node) {
+        return this.visitChildren(node);
+    }
+
+    default T visitPrimitiveTypeNode(final PrimitiveTypeNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitReferenceTypeNode(final ReferenceTypeNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitTypeNode(final TypeNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitTypeParameterNode(final TypeParameterNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitVoidTypeNode(final VoidTypeNode node) {
+        return this.visitChildren(node);
+    }
+    default T visitWildcardTypeNode(final WildcardTypeNode node) {
+        return this.visitChildren(node);
+    }
+
+    default T visitNameNode(final NameNode node) {
+        return this.visitChildren(node);
+    }
+
+    default T visitQueenNode(final QueenNode node) {
+        return this.visitChildren(node);
+    }
+
     T visitNodeWithParameters(final NodeWithParameters node);
 
     T visitNodeWithTypeParameters(final NodeWithTypeParameters node);
@@ -132,14 +330,19 @@ public interface QueenASTVisitor<T> {
     T visitNodeWithThrows(final NodeWithThrows node);
 
     T visitNodeWithModifiers(final NodeWithModifiers node);
-
     T visitNodeWithAnnotations(final NodeWithAnnotations node);
 
-    T visitPrimitiveTypeNode(final PrimitiveTypeNode node);
-    T visitReferenceTypeNode(final ReferenceTypeNode node);
-    T visitTypeNode(final TypeNode node);
-    T visitTypeParameterNode(final TypeParameterNode node);
-    T visitVoidTypeNode(final VoidTypeNode node);
-    T visitWildcardTypeNode(final WildcardTypeNode node);
-    T visitQueenNode(final QueenNode node);
+    default T visitChildren(final QueenNode node) {
+        T result = defaultResult();
+        for (final QueenNode child : node.children()) {
+            if(child != null) {
+                T childResult = child.accept(this);
+                result = aggregateResult(result, childResult);
+            }
+        }
+        return result;
+    }
+
+    T defaultResult();
+    T aggregateResult(T aggregate, T nextResult);
 }

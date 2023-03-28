@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Position;
 
 /**
@@ -44,4 +45,8 @@ public interface BracketedExpressionNode extends ExpressionNode {
      * @return Expression.
      */
     ExpressionNode expression();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitBracketedExpressionNode(this);
+    }
 }

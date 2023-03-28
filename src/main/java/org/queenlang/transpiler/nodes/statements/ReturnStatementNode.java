@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
@@ -38,4 +39,8 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 public interface ReturnStatementNode extends StatementNode {
 
     ExpressionNode expression();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitReturnStatementNode(this);
+    }
 }

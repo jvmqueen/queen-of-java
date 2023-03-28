@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.NodeWithParameters;
 import org.queenlang.transpiler.nodes.body.QueenParameterNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
@@ -45,4 +46,8 @@ public interface LambdaExpressionNode extends ExpressionNode, NodeWithParameters
     boolean enclosedParameters();
     ExpressionNode expression();
     BlockStatements blockStatements();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitLambdaExpressionNode(this);
+    }
 }

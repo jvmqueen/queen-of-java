@@ -1,5 +1,7 @@
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 import java.util.List;
 
 /**
@@ -11,4 +13,8 @@ import java.util.List;
 public interface ArrayInitializerExpressionNode extends ExpressionNode {
 
     List<ExpressionNode> values();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitArrayInitializerExpressionNode(this);
+    }
 }

@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen InterfaceDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -34,4 +36,7 @@ package org.queenlang.transpiler.nodes.body;
  * @since 0.0.1
  */
 public interface InterfaceDeclarationNode extends TypeDeclarationNode, ClassMemberDeclarationNode, InterfaceMemberDeclarationNode, AnnotationTypeMemberDeclarationNode {
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitInterfaceDeclarationNode(this);
+    }
 }

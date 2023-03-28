@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen Assignment Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -38,4 +40,8 @@ public interface AssignmentExpressionNode extends ExpressionNode {
     ExpressionNode target();
     String operator();
     ExpressionNode value();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitAssignmentExpressionNode(this);
+    }
 }

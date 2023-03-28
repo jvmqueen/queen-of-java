@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -39,4 +40,9 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface TypeDeclarationNode extends Named, NodeWithModifiers, NodeWithAnnotations, QueenNode {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitTypeDeclarationNode(this);
+    }
+
 }

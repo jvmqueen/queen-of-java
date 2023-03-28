@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import java.util.List;
 
@@ -44,4 +45,8 @@ public interface MethodInvocationExpressionNode extends ExpressionNode {
     String name();
 
     List<ExpressionNode> arguments();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitMethodInvocationExpressionNode(this);
+    }
 }

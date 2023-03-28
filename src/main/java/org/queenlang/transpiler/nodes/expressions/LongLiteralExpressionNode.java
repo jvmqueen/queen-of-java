@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen long literal expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -34,4 +36,9 @@ package org.queenlang.transpiler.nodes.expressions;
  * @since 0.0.1
  */
 public interface LongLiteralExpressionNode extends LiteralStringValueExpressionNode {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitLongLiteralExpressionNode(this);
+    }
+
 }

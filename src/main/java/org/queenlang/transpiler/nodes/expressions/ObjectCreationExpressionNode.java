@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.ClassBodyNode;
 import org.queenlang.transpiler.nodes.body.QueenClassBodyNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
@@ -51,4 +52,8 @@ public interface ObjectCreationExpressionNode extends ExpressionNode {
     List<ExpressionNode> arguments();
 
     ClassBodyNode anonymousBody();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitObjectCreationExpressionNode(this);
+    }
 }

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
@@ -41,4 +42,8 @@ public interface SwitchEntryNode extends QueenNode {
 
     List<SwitchLabelNode> labels();
     BlockStatements blockStatements();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitSwitchEntryNode(this);
+    }
 }

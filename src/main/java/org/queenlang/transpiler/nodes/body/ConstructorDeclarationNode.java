@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -56,4 +57,8 @@ public interface ConstructorDeclarationNode extends Named, ClassBodyDeclarationN
     ExplicitConstructorInvocationNode explicitConstructorInvocationNode();
 
     BlockStatements blockStatements();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitConstructorDeclarationNode(this);
+    }
 }

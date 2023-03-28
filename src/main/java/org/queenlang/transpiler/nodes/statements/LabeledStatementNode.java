@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Named;
 
 /**
@@ -41,4 +42,8 @@ public interface LabeledStatementNode extends Named, StatementNode {
      * Statements inside this labeled statement.
      */
     BlockStatements blockStatements();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitLabeledStatementNode(this);
+    }
 }

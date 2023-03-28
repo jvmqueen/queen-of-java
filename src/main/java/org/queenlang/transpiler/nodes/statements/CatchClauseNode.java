@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
@@ -39,4 +40,8 @@ public interface CatchClauseNode extends QueenNode {
 
     CatchFormalParameterNode parameter();
     BlockStatements blockStatements();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitCatchClauseNode(this);
+    }
 }

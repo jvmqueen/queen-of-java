@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen ReferenceType AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -34,4 +36,9 @@ package org.queenlang.transpiler.nodes.types;
  * @since 0.0.1
  */
 public interface ReferenceTypeNode extends TypeNode {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitReferenceTypeNode(this);
+    }
+
 }

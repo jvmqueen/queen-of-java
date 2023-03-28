@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 
 /**
@@ -39,4 +40,8 @@ public interface InstanceOfExpressionNode extends ExpressionNode {
 
     ExpressionNode expression();
     ReferenceTypeNode referenceType();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitInstanceOfExpressionNode(this);
+    }
 }

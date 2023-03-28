@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen Field Access Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -38,4 +40,8 @@ public interface FieldAccessExpressionNode extends ExpressionNode {
     ExpressionNode scope();
 
     String name();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitFieldAccessExpressionNode(this);
+    }
 }

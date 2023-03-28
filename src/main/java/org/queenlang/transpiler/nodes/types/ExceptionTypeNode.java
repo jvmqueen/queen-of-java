@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen ExceptionType AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -36,4 +38,8 @@ package org.queenlang.transpiler.nodes.types;
 public interface ExceptionTypeNode extends ReferenceTypeNode {
 
     ClassOrInterfaceTypeNode exceptionType();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitExceptionTypeNode(this);
+    }
 }

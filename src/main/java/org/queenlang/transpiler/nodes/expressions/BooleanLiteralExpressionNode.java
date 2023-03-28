@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
@@ -44,5 +45,9 @@ public interface BooleanLiteralExpressionNode extends ExpressionNode {
 
     default List<QueenNode> children() {
         return new ArrayList<>();
+    }
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitBooleanLiteralExpressionNode(this);
     }
 }

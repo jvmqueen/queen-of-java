@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 import java.util.List;
 
@@ -38,4 +39,8 @@ import java.util.List;
  */
 public interface AnnotationTypeBodyNode extends QueenNode {
     List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitAnnotationTypeBodyNode(this);
+    }
 }

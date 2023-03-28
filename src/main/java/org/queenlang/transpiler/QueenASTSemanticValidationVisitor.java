@@ -94,15 +94,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitAnnotationTypeBodyNode(AnnotationTypeBodyNode node) {
-        final List<SemanticProblem> problems = new ArrayList<>();
-        for(final AnnotationTypeMemberDeclarationNode amdn : node.annotationMemberDeclarations()) {
-            problems.addAll(this.visitAnnotationTypeMemberDeclarationNode(amdn));
-        }
-        return problems;
-    }
-
-    @Override
     public List<SemanticProblem> visitAnnotationTypeDeclarationNode(AnnotationTypeDeclarationNode node) {
         return this.visitAnnotationTypeBodyNode(node.body());
     }
@@ -122,23 +113,12 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitClassBodyDeclarationNode(ClassBodyDeclarationNode node) {
-        if(node instanceof ClassMemberDeclarationNode) {
-            return this.visitClassMemberDeclarationNode((ClassMemberDeclarationNode) node);
-        } else if(node instanceof InstanceInitializerNode) {
+        if(node instanceof InstanceInitializerNode) {
             return this.visitInstanceInitializerNode((InstanceInitializerNode) node);
         } else if(node instanceof ConstructorDeclarationNode) {
             return this.visitConstructorDeclarationNode((ConstructorDeclarationNode) node);
         }
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitClassBodyNode(ClassBodyNode node) {
-        final List<SemanticProblem> problems = new ArrayList<>();
-        for(final ClassBodyDeclarationNode cbd : node.classBodyDeclarations()) {
-            problems.addAll(this.visitClassBodyDeclarationNode(cbd));
-        }
-        return problems;
+        return this.visitClassMemberDeclarationNode((ClassMemberDeclarationNode) node);
     }
 
     @Override
@@ -204,25 +184,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitImportDeclarationNode(ImportDeclarationNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitInstanceInitializerNode(InstanceInitializerNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitInterfaceBodyNode(InterfaceBodyNode node) {
-        final List<SemanticProblem> problems = new ArrayList<>();
-        for(final InterfaceMemberDeclarationNode imdn : node.interfaceMemberDeclarations()) {
-            problems.addAll(this.visitInterfaceMemberDeclarationNode(imdn));
-        }
-        return problems;
-    }
-
-    @Override
     public List<SemanticProblem> visitInterfaceDeclarationNode(InterfaceDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         final List<ModifierNode> modifiers = node.modifiers();
@@ -282,11 +243,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitLocalVariableDeclarationNode(LocalVariableDeclarationNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
     public List<SemanticProblem> visitMethodDeclarationNode(MethodDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithModifiers(node));
@@ -294,11 +250,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitNodeWithThrows(node));
         return problems;
-    }
-
-    @Override
-    public List<SemanticProblem> visitModifierNode(ModifierNode node) {
-        return new ArrayList<>();
     }
 
     @Override
@@ -322,11 +273,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         }
 
         return problems;
-    }
-
-    @Override
-    public List<SemanticProblem> visitPackageDeclarationNode(PackageDeclarationNode node) {
-        return new ArrayList<>();
     }
 
     @Override
@@ -369,301 +315,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             );
         }
         return problems;
-    }
-
-    @Override
-    public List<SemanticProblem> visitVariableDeclaratorId(VariableDeclaratorId node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitAnnotationNode(AnnotationNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitArrayAccessExpressionNode(ArrayAccessExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitArrayCreationExpressionNode(ArrayCreationExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitArrayDimensionNode(ArrayDimensionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitArrayInitializerExpressionNode(ArrayInitializerExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitAssignmentExpressionNode(AssignmentExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitBinaryExpressionNode(BinaryExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitBooleanLiteralExpressionNode(BooleanLiteralExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitBracketedExpressionNode(BracketedExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitCastExpressionNode(CastExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitCharLiteralExpressionNode(CharLiteralExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitConditionalExpressionNode(ConditionalExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitDoubleLiteralExpressionNode(DoubleLiteralExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitExpressionNode(ExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitFieldAccessExpressionNode(FieldAccessExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitInstanceOfExpressionNode(InstanceOfExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitIntegerLiteralExpressionNode(IntegerLiteralExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitLambdaExpressionNode(LambdaExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitLiteralStringValueExpressionNode(LiteralStringValueExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitLongLiteralExpressionNode(LongLiteralExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitMarkerAnnotationNode(MarkerAnnotationNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitMethodInvocationExpressionNode(MethodInvocationExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitMethodReferenceExpressionNode(MethodReferenceExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitNormalAnnotationNode(NormalAnnotationNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitNullLiteralExpressionNode(NullLiteralExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitObjectCreationExpressionNode(ObjectCreationExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitSingleMemberAnnotationNode(SingleMemberAnnotationNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitStringLiteralExpressionNode(StringLiteralExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitSuperExpressionNode(SuperExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitThisExpressionNode(ThisExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitTypeImplementationExpressionNode(TypeImplementationExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitUnaryExpressionNode(UnaryExpressionNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitAssertStatementNode(AssertStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitBlockStatements(BlockStatements node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitBreakStatementNode(BreakStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitCatchClauseNode(CatchClauseNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitCatchFormalParameterNode(CatchFormalParameterNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitContinueStatementNode(ContinueStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitDoStatementNode(DoStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitEmptyStatementNode(EmptyStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitExplicitConstructorInvocationNode(ExplicitConstructorInvocationNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitExpressionStatementNode(ExpressionStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitForEachStatementNode(ForEachStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitForStatementNode(ForStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitIfStatementNode(IfStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitLabeledStatementNode(LabeledStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitReturnStatementNode(ReturnStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitStatementNode(StatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitSwitchEntryNode(SwitchEntryNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitSwitchLabelNode(SwitchLabelNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitSwitchStatementNode(SwitchStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitSynchronizedStatementNode(SynchronizedStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitThrowStatementNode(ThrowStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitTryStatementNode(TryStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitWhileStatementNode(WhileStatementNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitArrayTypeNode(ArrayTypeNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitClassOrInterfaceTypeNode(ClassOrInterfaceTypeNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitExceptionTypeNode(ExceptionTypeNode node) {
-        return new ArrayList<>();
     }
 
     @Override
@@ -757,37 +408,18 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitPrimitiveTypeNode(PrimitiveTypeNode node) {
+    public List<SemanticProblem>  defaultResult() {
         return new ArrayList<>();
     }
 
     @Override
-    public List<SemanticProblem> visitReferenceTypeNode(ReferenceTypeNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitTypeNode(TypeNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitTypeParameterNode(TypeParameterNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitVoidTypeNode(VoidTypeNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitWildcardTypeNode(WildcardTypeNode node) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<SemanticProblem> visitQueenNode(QueenNode node) {
-        return new ArrayList<>();
+    public List<SemanticProblem> aggregateResult(
+        final List<SemanticProblem> aggregate,
+        final List<SemanticProblem> nextResult
+    ) {
+        final List<SemanticProblem> all = new ArrayList<>();
+        all.addAll(aggregate);
+        all.addAll(nextResult);
+        return all;
     }
 }

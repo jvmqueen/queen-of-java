@@ -28,6 +28,8 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+import org.queenlang.transpiler.QueenASTVisitor;
 
 import java.util.List;
 
@@ -56,4 +58,12 @@ public interface QueenNode {
      * @return List of children, never null.
      */
     List<QueenNode> children();
+
+    /**
+     * Accept a QueenASTVisitor.
+     * @param visitor Visitor.
+     * @return Result of the visit.
+     * @param <T> Type of the result.
+     */
+    <T> T accept(QueenASTVisitor<? extends T> visitor);
 }

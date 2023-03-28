@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
@@ -38,4 +39,8 @@ import org.queenlang.transpiler.nodes.QueenNameNode;
  * @since 0.0.1
  */
 public interface AnnotationNode extends ExpressionNode, Named {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitAnnotationNode(this);
+    }
 }

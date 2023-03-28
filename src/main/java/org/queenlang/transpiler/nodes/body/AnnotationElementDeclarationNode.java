@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -50,4 +51,8 @@ public interface AnnotationElementDeclarationNode extends AnnotationTypeMemberDe
      * Default value of the element.
      */
     ExpressionNode defaultValue();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitAnnotationElementDeclarationNode(this);
+    }
 }

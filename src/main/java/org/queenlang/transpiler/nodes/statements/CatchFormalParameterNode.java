@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -45,4 +46,8 @@ public interface CatchFormalParameterNode extends QueenNode, NodeWithModifiers, 
 
     List<TypeNode> catchExceptionTypes();
     VariableDeclaratorId exceptionName();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitCatchFormalParameterNode(this);
+    }
 }

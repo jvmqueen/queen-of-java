@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen Binary Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -37,4 +39,8 @@ public interface BinaryExpressionNode extends ExpressionNode {
     ExpressionNode left();
     String operator();
     ExpressionNode right();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitBinaryExpressionNode(this);
+    }
 }

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.body.QueenLocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -53,4 +54,8 @@ public interface ForEachStatementNode extends StatementNode {
      * Statements inside the for-each statement.
      */
     BlockStatements blockStatements();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitForEachStatementNode(this);
+    }
 }

@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen single-member annotation.
  * @author Mihai Emil Andronache (amihaiemil@gmail.com)
@@ -39,4 +41,8 @@ public interface SingleMemberAnnotationNode extends AnnotationNode {
      * Value of the annotation.
      */
     ExpressionNode elementValue();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitSingleMemberAnnotationNode(this);
+    }
 }

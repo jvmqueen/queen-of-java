@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 
@@ -47,4 +48,8 @@ public interface InstanceInitializerNode extends ClassBodyDeclarationNode {
      * Is it static or not?
      */
     boolean isStatic();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitInstanceInitializerNode(this);
+    }
 }

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.List;
@@ -40,4 +41,8 @@ import java.util.List;
 public interface SwitchStatementNode extends StatementNode {
     ExpressionNode expression();
     List<SwitchEntryNode> entries();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitSwitchStatementNode(this);
+    }
 }

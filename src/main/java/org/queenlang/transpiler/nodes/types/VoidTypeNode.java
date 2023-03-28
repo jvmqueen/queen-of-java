@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.NodeWithAnnotations;
 
 /**
@@ -36,4 +37,9 @@ import org.queenlang.transpiler.nodes.body.NodeWithAnnotations;
  * @since 0.0.1
  */
 public interface VoidTypeNode extends TypeNode, NodeWithAnnotations {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitVoidTypeNode(this);
+    }
+
 }

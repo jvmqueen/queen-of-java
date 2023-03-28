@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.List;
@@ -43,4 +44,8 @@ public interface TryStatementNode extends StatementNode {
     BlockStatements tryBlockStatements();
     List<CatchClauseNode> catchClauses();
     BlockStatements finallyBlockStatements();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitTryStatementNode(this);
+    }
 }

@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 import java.util.Map;
 
 /**
@@ -41,4 +43,8 @@ public interface NormalAnnotationNode extends AnnotationNode {
      * Key-value pairs within the annotation.
      */
     Map<String, ExpressionNode> elementValuePairs();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitNormalAnnotationNode(this);
+    }
 }

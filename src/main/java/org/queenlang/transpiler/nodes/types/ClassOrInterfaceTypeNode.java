@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
@@ -76,4 +77,8 @@ public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode, NodeWithAnn
     List<TypeNode> typeArguments();
 
     boolean hasDiamondOperator();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitClassOrInterfaceTypeNode(this);
+    }
 }

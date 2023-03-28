@@ -28,6 +28,8 @@
 package org.queenlang.transpiler.nodes.expressions;
 
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * A literal null expression in Queen, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -35,4 +37,9 @@ package org.queenlang.transpiler.nodes.expressions;
  * @since 0.0.1
  */
 public interface NullLiteralExpressionNode extends ExpressionNode {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitNullLiteralExpressionNode(this);
+    }
+
 }

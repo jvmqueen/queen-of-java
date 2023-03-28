@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen ternary conditional expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -38,4 +40,8 @@ public interface ConditionalExpressionNode extends ExpressionNode {
     ExpressionNode condition();
     ExpressionNode thenExpr();
     ExpressionNode elseExpr();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitConditionalExpressionNode(this);
+    }
 }

@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -55,4 +56,8 @@ public interface ImportDeclarationNode extends QueenNode {
      * Import's type name.
      */
     QueenNameNode importDeclarationName();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitImportDeclarationNode(this);
+    }
 }

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.statements.StatementNode;
@@ -61,4 +62,8 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
      * The body.
      */
     ClassBodyNode body();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitClassDeclarationNode(this);
+    }
 }

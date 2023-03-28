@@ -27,6 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+import org.queenlang.generated.antlr4.QueenParserVisitor;
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.List;
@@ -42,4 +45,8 @@ public interface CompilationUnitNode extends QueenNode {
     PackageDeclarationNode packageDeclaration();
     List<ImportDeclarationNode> importDeclarations();
     TypeDeclarationNode typeDeclaration();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitCompilationUnit(this);
+    }
 }

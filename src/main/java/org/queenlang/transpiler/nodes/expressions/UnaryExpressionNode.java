@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen Unary Expression, AST Node.
  * An expression where an operator is applied to a single expression.
@@ -43,4 +45,8 @@ public interface UnaryExpressionNode extends ExpressionNode {
     String operator();
     boolean isPrefix();
     ExpressionNode expression();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitUnaryExpressionNode(this);
+    }
 }

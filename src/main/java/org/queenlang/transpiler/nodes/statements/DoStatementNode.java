@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
@@ -46,4 +47,8 @@ public interface DoStatementNode extends StatementNode {
      * Expression condition.
      */
     ExpressionNode expression();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitDoStatementNode(this);
+    }
 }

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
@@ -62,4 +63,8 @@ public interface InterfaceMethodDeclarationNode extends InterfaceMemberDeclarati
      * Method body.
      */
     BlockStatements blockStatements();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitInterfaceMethodDeclarationNode(this);
+    }
 }

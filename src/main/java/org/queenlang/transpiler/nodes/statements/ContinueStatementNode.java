@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 /**
  * Queen Continue AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -36,4 +38,8 @@ package org.queenlang.transpiler.nodes.statements;
 public interface ContinueStatementNode extends StatementNode {
 
     String label();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitContinueStatementNode(this);
+    }
 }

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
@@ -36,4 +37,9 @@ import org.queenlang.transpiler.nodes.QueenNode;
  * @since 0.0.1
  */
 public interface ClassBodyDeclarationNode extends QueenNode {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitClassBodyDeclarationNode(this);
+    }
+
 }

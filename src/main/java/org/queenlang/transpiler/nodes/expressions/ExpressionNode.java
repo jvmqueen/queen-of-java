@@ -32,6 +32,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithCondition;
 import com.github.javaparser.ast.stmt.*;
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
@@ -62,4 +63,8 @@ public interface ExpressionNode extends QueenNode {
         return new ExpressionStmt(this.toJavaExpression());
     }
     Expression toJavaExpression();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitExpressionNode(this);
+    }
 }

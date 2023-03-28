@@ -25,21 +25,22 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.statements;
+package org.queenlang.transpiler;
 
-import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 
 /**
- * Queen Break AST Node.
+ * A name of something. Could be a package declaration, a type name, a method name etc.
+ * In some cases, it can have a context/qualifier prefix like java.util.List.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface BreakStatementNode extends StatementNode {
-
-    String label();
+public interface NameNode extends ReferenceTypeNode, ExpressionNode {
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitBreakStatementNode(this);
+        return visitor.visitNameNode(this);
     }
+
 }

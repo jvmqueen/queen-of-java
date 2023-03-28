@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
@@ -44,4 +45,8 @@ public interface AnnotationTypeDeclarationNode extends InterfaceDeclarationNode 
      * The body.
      */
     AnnotationTypeBodyNode body();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitAnnotationTypeDeclarationNode(this);
+    }
 }

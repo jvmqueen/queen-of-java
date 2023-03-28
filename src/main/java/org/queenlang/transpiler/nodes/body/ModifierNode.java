@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
@@ -41,4 +42,8 @@ public interface ModifierNode extends QueenNode {
      * Name of the modifier.
      */
     String modifier();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitModifierNode(this);
+    }
 }

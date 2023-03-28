@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.NodeWithAnnotations;
 
 /**
@@ -46,4 +47,9 @@ public interface WildcardTypeNode extends TypeNode, NodeWithAnnotations {
      * Super type bound.
      */
     ReferenceTypeNode superType();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitWildcardTypeNode(this);
+    }
+
 }

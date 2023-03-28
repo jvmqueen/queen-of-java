@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 
@@ -49,4 +50,8 @@ public interface ArrayTypeNode extends ReferenceTypeNode {
      * Array type dimensions (pairs of square brackets).
      */
     List<ArrayDimensionNode> dims();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitArrayTypeNode(this);
+    }
 }

@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,5 +44,9 @@ public interface BlockStatements extends StatementNode, Iterable<StatementNode> 
 
     default Iterator<StatementNode> iterator() {
         return this.blockStatements().iterator();
+    }
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitBlockStatements(this);
     }
 }

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
@@ -52,4 +53,8 @@ public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode
      * The body.
      */
     InterfaceBodyNode body();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitInterfaceDeclarationNode(this);
+    }
 }

@@ -1,5 +1,6 @@
 package org.queenlang.transpiler.nodes.statements;
 
+import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
@@ -13,4 +14,8 @@ public interface SwitchLabelNode extends QueenNode {
 
     ExpressionNode expressionNode();
     boolean isDefaultLabel();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitSwitchLabelNode(this);
+    }
 }

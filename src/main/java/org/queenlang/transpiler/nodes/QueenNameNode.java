@@ -29,10 +29,6 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.queenlang.transpiler.NameNode;
-import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 
 import java.util.List;
 

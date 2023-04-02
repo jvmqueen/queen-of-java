@@ -58,6 +58,28 @@ public interface InterfaceMethodDeclarationNode extends InterfaceMemberDeclarati
      */
     BlockStatements blockStatements();
 
+    /**
+     * Does this method declaration have the specified modifier?
+     * @param modifier String modifier.
+     * @return ModifierNode if found, null otherwise.
+     */
+    default ModifierNode modifier(final String modifier) {
+        for(final ModifierNode m : this.modifiers()) {
+            if(modifier.equals(m.modifier())) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * An interface method is abstract if it is neither static nor default.
+     * @return True if it's abstract, false otherwise.
+     */
+    default boolean isAbstract() {
+        return this.modifier("static") == null && this.modifier("default") == null;
+    }
+
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitInterfaceMethodDeclarationNode(this);
     }

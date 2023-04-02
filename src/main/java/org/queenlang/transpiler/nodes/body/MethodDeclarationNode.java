@@ -54,12 +54,6 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeW
     TypeNode returnType();
 
     /**
-     * Dims on the method declaration. They can be found at the end of the method header:
-     * <pre>public int example()[] {...} </pre>
-     */
-    List<ArrayDimensionNode> dims();
-
-    /**
      * Method body.
      */
     BlockStatements blockStatements();

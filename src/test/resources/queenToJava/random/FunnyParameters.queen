@@ -10,22 +10,22 @@ import com.example.other.more.*;
 @org.some.JustTestingFunnyParams({"random_funny_params"})
 public final implementation FunnyParameters of FunnyParametersTest {
     @Override
-    public Object arrayParam(Object[] obj[], Object[][][] three, Object one[], Object nonArray) {
+    public Object arrayParam(Object[][] obj, Object[][][] three, Object[] one, Object nonArray) {
         return null;
     }
 
     @Override
-    public Object annotatedVarArg(Object[] obj[], String @AnnonVarArg @Second("Bla") @Third({ 1 })... annotatedVarArg) {
+    public Object annotatedVarArg(Object[][] obj, String @AnnonVarArg @Second("Bla") @Third({ 1 })... annotatedVarArg) {
         return null;
     }
 
     @Override
-    public Array[] returnsSimpleArrayOrDoesIt(Some[] stuff)[][][] {
+    public Array[][][][] returnsSimpleArrayOrDoesIt(Some[] stuff) {
         return null;
     }
 
     @Override
-    public <Simple> @AnnotationForResult Simple returnsSimpleOrDoesIt(Some[] stuff)[][][] {
+    public <Simple> @AnnotationForResult Simple[][][] returnsSimpleOrDoesIt(Some[] stuff) {
         return null;
     }
 

@@ -10,7 +10,6 @@ import java.util.List;
 public interface VariableDeclaratorId extends QueenNode {
 
     String name();
-    List<ArrayDimensionNode> dims();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitVariableDeclaratorId(this);

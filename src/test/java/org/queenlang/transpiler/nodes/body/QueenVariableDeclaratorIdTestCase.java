@@ -35,10 +35,6 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Unit tests for {@link QueenVariableDeclaratorId}.
@@ -53,8 +49,7 @@ public final class QueenVariableDeclaratorIdTestCase {
         final Position position = Mockito.mock(Position.class);
         final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
             position,
-            "variable",
-            new ArrayList<>()
+            "variable"
         );
         MatcherAssert.assertThat(
             variableDeclaratorId.position(),
@@ -66,8 +61,7 @@ public final class QueenVariableDeclaratorIdTestCase {
     public void returnsName() {
         final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
             Mockito.mock(Position.class),
-            "a",
-            new ArrayList<>()
+            "a"
         );
         MatcherAssert.assertThat(
             variableDeclaratorId.name(),
@@ -76,55 +70,10 @@ public final class QueenVariableDeclaratorIdTestCase {
     }
 
     @Test
-    public void returnsDims() {
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-
+    public void addsToVariableDeclaratorJavaNode() {
         final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
             Mockito.mock(Position.class),
-            "a",
-            dims
-        );
-        MatcherAssert.assertThat(
-            variableDeclaratorId.dims(),
-            Matchers.is(dims)
-        );
-    }
-
-    @Test
-    public void addsToVariableDeclaratorJavaNodeWithDims() {
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-
-        final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            Mockito.mock(Position.class),
-            "i",
-            dims
-        );
-        final VariableDeclarator variableDeclarator = new VariableDeclarator();
-        variableDeclarator.setType(PrimitiveType.intType());
-        variableDeclaratorId.addToJavaNode(variableDeclarator);
-
-        MatcherAssert.assertThat(
-            variableDeclarator.getName().asString(),
-            Matchers.equalTo("i")
-        );
-        MatcherAssert.assertThat(
-            variableDeclarator.getTypeAsString(),
-            Matchers.equalTo("int[][][]")
-        );
-    }
-
-    @Test
-    public void addsToVariableDeclaratorJavaNodeWithoutDims() {
-        final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            Mockito.mock(Position.class),
-            "i",
-            new ArrayList<>()
+            "i"
         );
         final VariableDeclarator variableDeclarator = new VariableDeclarator();
         variableDeclarator.setType(PrimitiveType.intType());
@@ -141,37 +90,10 @@ public final class QueenVariableDeclaratorIdTestCase {
     }
 
     @Test
-    public void addsToParameterJavaNodeWithDims() {
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-
+    public void addsToParameterJavaNode() {
         final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
             Mockito.mock(Position.class),
-            "i",
-            dims
-        );
-        final Parameter parameter = new Parameter();
-        parameter.setType(PrimitiveType.intType());
-        variableDeclaratorId.addToJavaNode(parameter);
-
-        MatcherAssert.assertThat(
-            parameter.getName().asString(),
-            Matchers.equalTo("i")
-        );
-        MatcherAssert.assertThat(
-            parameter.getTypeAsString(),
-            Matchers.equalTo("int[][][]")
-        );
-    }
-
-    @Test
-    public void addsToParameterJavaNodeWithoutDims() {
-        final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            Mockito.mock(Position.class),
-            "i",
-            new ArrayList<>()
+            "i"
         );
         final Parameter parameter = new Parameter();
         parameter.setType(PrimitiveType.intType());

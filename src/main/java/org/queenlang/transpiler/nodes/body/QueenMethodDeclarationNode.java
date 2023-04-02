@@ -74,12 +74,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     private final TypeNode returnType;
 
     /**
-     * Dims on the method declaration. They can be found at the end of the method header:
-     * <pre>public int example()[] {...} </pre>
-     */
-    private final List<ArrayDimensionNode> dims;
-
-    /**
      * Method type params.
      */
     private final List<TypeParameterNode> typeParams;
@@ -109,7 +103,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         final List<AnnotationNode> annotations,
         final List<ModifierNode> modifiers,
         final TypeNode returnType,
-        final List<ArrayDimensionNode> dims,
         final List<TypeParameterNode> typeParams,
         final String name,
         final List<ParameterNode> parameters,
@@ -120,7 +113,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         this.annotations = annotations;
         this.modifiers = modifiers;
         this.returnType = returnType;
-        this.dims = dims;
         this.typeParams = typeParams;
         this.name = name;
         this.parameters = parameters;
@@ -134,9 +126,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         method.setName(this.name);
         method.removeModifier(Modifier.Keyword.PUBLIC);
         this.returnType.addToJavaNode(method);
-        if(this.dims != null && this.dims.size() > 0) {
-            this.setDims(method);
-        }
         this.annotations.forEach(a -> a.addToJavaNode(method));
         this.modifiers.forEach(m -> m.addToJavaNode(method));
         this.typeParams.forEach(tp -> tp.addToJavaNode(method));
@@ -183,9 +172,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         if(this.parameters != null) {
             children.addAll(this.parameters);
         }
-        if(this.dims != null) {
-            children.addAll(this.dims);
-        }
         if(this.throwsList != null) {
             children.addAll(this.throwsList);
         }
@@ -197,25 +183,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     @Override
     public List<TypeParameterNode> typeParameters() {
         return this.typeParams;
-    }
-
-    /**
-     * Set the dims from the name to the type.
-     * @param withType Node with type.
-     */
-    private void setDims(final NodeWithType withType) {
-        if(this.dims != null && this.dims.size() > 0) {
-            Type setType = withType.getType();
-            for(int i = this.dims.size() - 1; i>=0; i--) {
-                setType = new ArrayType(
-                    setType
-                );
-                for(final AnnotationNode annotation : this.dims.get(i).annotations()) {
-                    annotation.addToJavaNode(setType);
-                }
-            }
-            withType.setType(setType);
-        }
     }
 
     @Override
@@ -231,11 +198,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     @Override
     public TypeNode returnType() {
         return this.returnType;
-    }
-
-    @Override
-    public List<ArrayDimensionNode> dims() {
-        return this.dims;
     }
 
     @Override

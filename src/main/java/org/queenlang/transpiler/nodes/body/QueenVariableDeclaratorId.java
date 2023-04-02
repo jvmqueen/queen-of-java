@@ -20,23 +20,13 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
 
     private final Position position;
     private final String name;
-    private final List<ArrayDimensionNode> dims;
 
     public QueenVariableDeclaratorId(
         final Position position,
         final String name
     ) {
-        this(position, name, null);
-    }
-
-    public QueenVariableDeclaratorId(
-        final Position position,
-        final String name,
-        final List<ArrayDimensionNode> dims
-    ) {
         this.position = position;
         this.name = name;
-        this.dims = dims;
     }
 
     @Override
@@ -44,13 +34,9 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
         if(java instanceof VariableDeclarator) {
             final VariableDeclarator vd = (VariableDeclarator) java;
             vd.setName(this.name);
-            this.setDims(vd);
         } else if(java instanceof Parameter) {
             final Parameter parameter = (Parameter) java;
             parameter.setName(this.name);
-            if(parameter.getType() != null && !(parameter.getType() instanceof UnknownType)) {
-                this.setDims(parameter);
-            }
         }
     }
 
@@ -61,11 +47,7 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
 
     @Override
     public List<QueenNode> children() {
-        final List<QueenNode> children = new ArrayList<>();
-        if(this.dims != null) {
-            children.addAll(this.dims);
-        }
-        return children;
+        return new ArrayList<>();
     }
 
     @Override
@@ -81,32 +63,9 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
         return Objects.hash(name);
     }
 
-    /**
-     * Set the dims from the name to the type.
-     * @param withType Node with type.
-     */
-    private void setDims(final NodeWithType withType) {
-        if(this.dims != null && this.dims.size() > 0) {
-            Type setType = withType.getType();
-            for(int i = this.dims.size() - 1; i>=0; i--) {
-                setType = new ArrayType(
-                    setType
-                );
-                for(final AnnotationNode annotation : this.dims.get(i).annotations()) {
-                    annotation.addToJavaNode(setType);
-                }
-            }
-            withType.setType(setType);
-        }
-    }
-
     @Override
     public String name() {
         return this.name;
     }
 
-    @Override
-    public List<ArrayDimensionNode> dims() {
-        return this.dims;
-    }
 }

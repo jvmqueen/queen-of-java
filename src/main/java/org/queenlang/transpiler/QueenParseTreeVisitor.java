@@ -604,18 +604,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 a -> annotationsOnResult.add(this.visitAnnotation(a))
             );
         }
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        if(ctx.methodHeader().methodDeclarator().dims() != null) {
-            ctx.methodHeader().methodDeclarator().dims().dim().forEach(
-                dim -> dims.add(this.visitDim(dim))
-            );
-        }
         return new QueenMethodDeclarationNode(
             getPosition(ctx),
             annotations,
             modifiers,
             this.visitResult(annotationsOnResult, ctx.methodHeader().result()),
-            dims,
             typeParams,
             methodDeclarator.Identifier().getText(),
             parameters,
@@ -678,19 +671,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 a -> annotationsOnResult.add(this.visitAnnotation(a))
             );
         }
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
 
-        if(ctx.methodHeader().methodDeclarator().dims() != null) {
-            ctx.methodHeader().methodDeclarator().dims().dim().forEach(
-                dim -> dims.add(this.visitDim(dim))
-            );
-        }
         return new QueenInterfaceMethodDeclarationNode(
             getPosition(ctx),
             annotations,
             modifiers,
             this.visitResult(annotationsOnResult, ctx.methodHeader().result()),
-            dims,
             typeParams,
             methodDeclarator.Identifier().getText(),
             parameters,
@@ -1583,17 +1569,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public VariableDeclaratorId visitVariableDeclaratorId(QueenParser.VariableDeclaratorIdContext ctx) {
-        final String identifier = ctx.Identifier().getText();
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        if(ctx.dims() != null) {
-            ctx.dims().dim().forEach(
-                dim -> dims.add(this.visitDim(dim))
-            );
-        }
         return new QueenVariableDeclaratorId(
             getPosition(ctx),
-            identifier,
-            dims
+            ctx.Identifier().getText()
         );
     }
 

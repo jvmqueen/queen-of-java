@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.types.ExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -61,7 +60,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
             new ArrayList<>(),
-            new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
@@ -82,7 +80,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             annotations,
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
-            new ArrayList<>(),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
@@ -105,7 +102,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             modifiers,
             Mockito.mock(TypeNode.class),
             new ArrayList<>(),
-            new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
@@ -126,7 +122,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             new ArrayList<>(),
             returnType,
             new ArrayList<>(),
-            new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
@@ -139,28 +134,6 @@ public final class QueenMethodDeclarationNodeTestCase {
     }
 
     @Test
-    public void returnsDims() {
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        final MethodDeclarationNode methodDeclaration = new QueenMethodDeclarationNode(
-            Mockito.mock(Position.class),
-            new ArrayList<>(),
-            new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
-            dims,
-            new ArrayList<>(),
-            "myMethod",
-            new ArrayList<>(),
-            new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
-        );
-        MatcherAssert.assertThat(
-            methodDeclaration.dims(),
-            Matchers.is(dims)
-        );
-    }
-
-    @Test
     public void returnsTypeParameters() {
         final List<TypeParameterNode> typeParameters = new ArrayList<>();
         typeParameters.add(Mockito.mock(TypeParameterNode.class));
@@ -169,7 +142,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
-            new ArrayList<>(),
             typeParameters,
             "myMethod",
             new ArrayList<>(),
@@ -189,7 +161,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
-            new ArrayList<>(),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
@@ -212,7 +183,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
             new ArrayList<>(),
-            new ArrayList<>(),
             "myMethod",
             parameters,
             new ArrayList<>(),
@@ -234,7 +204,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
             new ArrayList<>(),
-            new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             throwsList,
@@ -254,7 +223,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
-            new ArrayList<>(),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
@@ -279,8 +247,6 @@ public final class QueenMethodDeclarationNodeTestCase {
         parameters.add(Mockito.mock(ParameterNode.class));
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
         throwsList.add(Mockito.mock(ExceptionTypeNode.class));
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
         final TypeNode returnType = Mockito.mock(TypeNode.class);
         final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
         final String name = "myMethod";
@@ -290,7 +256,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             annotations,
             modifiers,
             returnType,
-            dims,
             typeParameters,
             name,
             parameters,
@@ -336,8 +301,6 @@ public final class QueenMethodDeclarationNodeTestCase {
         parameters.add(Mockito.mock(ParameterNode.class));
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
         throwsList.add(Mockito.mock(ExceptionTypeNode.class));
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
         final TypeNode returnType = Mockito.mock(TypeNode.class);
         final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
         final String name = "myMethod";
@@ -347,7 +310,6 @@ public final class QueenMethodDeclarationNodeTestCase {
             annotations,
             modifiers,
             returnType,
-            dims,
             typeParameters,
             name,
             parameters,

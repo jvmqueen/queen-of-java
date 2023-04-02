@@ -162,7 +162,27 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitConstantDeclarationNode(ConstantDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithModifiers(node));
+        final ModifierNode publicModifier = node.modifier("public");
+        final ModifierNode staticModifier = node.modifier("static");
+        if(publicModifier != null) {
+            problems.add(
+                new QueenSemanticWarning(
+                    "Mofifier 'public' is redundant.",
+                    publicModifier.position()
+                )
+            );
+        }
+        if(staticModifier != null) {
+            problems.add(
+                new QueenSemanticWarning(
+                    "Mofifier 'static' is redundant.",
+                    staticModifier.position()
+                )
+            );
+        }
+        problems.addAll(this.visitTypeNode(node.type()));
         return problems;
     }
 

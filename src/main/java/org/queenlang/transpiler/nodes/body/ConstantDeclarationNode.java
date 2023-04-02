@@ -41,6 +41,7 @@ import java.util.Map;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @todo #65:60min Don't use a Map for variables, as they might be duplicated. Use a list of VariableDeclarator (new node).
  */
 public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations {
 
@@ -56,5 +57,19 @@ public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode,
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitConstantDeclarationNode(this);
+    }
+
+    /**
+     * Does this constant declaration have the specified modifier?
+     * @param modifier String modifier.
+     * @return ModifierNode if found, null otherwise.
+     */
+    default ModifierNode modifier(final String modifier) {
+        for(final ModifierNode m : this.modifiers()) {
+            if(modifier.equals(m.modifier())) {
+                return m;
+            }
+        }
+        return null;
     }
 }

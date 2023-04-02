@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.types;
 
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.VoidType;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -45,6 +46,10 @@ public interface TypeNode extends Named, QueenNode {
      * @return Type.
      */
     Type toType();
+
+    default boolean isVoid() {
+        return this instanceof VoidType;
+    }
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitTypeNode(this);

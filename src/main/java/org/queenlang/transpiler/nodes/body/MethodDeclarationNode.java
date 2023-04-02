@@ -34,6 +34,7 @@ import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
+import org.queenlang.transpiler.nodes.types.ArrayTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -57,6 +58,57 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeW
      * Method body.
      */
     BlockStatements blockStatements();
+
+    /**
+     * It this method public?
+     * @return True or false.
+     */
+    default boolean isPublic() {
+        for(final ModifierNode modifier : this.modifiers()) {
+            if("public".equals(modifier.modifier())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * It this method static?
+     * @return True or false.
+     */
+    default boolean isStatic() {
+        for(final ModifierNode modifier : this.modifiers()) {
+            if("static".equals(modifier.modifier())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Is this the main method?
+     * @return True or false.
+     */
+    default boolean isMainMethod() {
+        final boolean isPublic = this.isPublic();
+        final boolean isStatic = this.isStatic();
+        final boolean isVoid = this.returnType().isVoid();
+        final boolean hasSingleStringArrayParam;
+        final List<ParameterNode> params = this.parameters();
+        if(params != null && params.size() == 1) {
+            final ParameterNode param = params.get(0);
+            final boolean isArray = param.type() instanceof ArrayTypeNode;
+            final String fullName = param.type().name();
+            if(isArray && ("String".equals(fullName) || "java.lang.String".equals(fullName))) {
+                hasSingleStringArrayParam = true;
+            } else {
+                hasSingleStringArrayParam = false;
+            }
+        } else {
+            hasSingleStringArrayParam = false;
+        }
+        return isPublic && isStatic && isVoid && "main".equals(this.name()) && hasSingleStringArrayParam;
+    }
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitMethodDeclarationNode(this);

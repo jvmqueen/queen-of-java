@@ -239,6 +239,65 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitNodeWithThrows(node));
 
+        final boolean isAbstractMethod = node.isAbstract();
+        final ModifierNode publicModifier = node.modifier("public");
+        final ModifierNode abstractModifier = node.modifier("abstract");
+
+        if(publicModifier != null) {
+            problems.add(
+                new QueenSemanticWarning(
+                    "Modifier 'public' is redundant.",
+                    publicModifier.position()
+                )
+            );
+        }
+        if(isAbstractMethod) {
+            if(abstractModifier != null) {
+                problems.add(
+                    new QueenSemanticWarning(
+                        "Modifier 'abstract' is redundant.",
+                        abstractModifier.position()
+                    )
+                );
+            }
+            final ModifierNode strictfpModifier = node.modifier("strictfp");
+            if(strictfpModifier != null) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Modifier 'strictfp' cannot be placed on abstract methods.",
+                        strictfpModifier.position()
+                    )
+                );
+            }
+            if(node.blockStatements() != null) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Method '" + node.name() +  "' is abstract, it cannot have a body.",
+                        abstractModifier.position()
+                    )
+                );
+            }
+        } else {
+            if(abstractModifier != null) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Modifier 'abstract' on non-abstract method.",
+                        abstractModifier.position()
+                    )
+                );
+            }
+            if(node.blockStatements() == null) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Method '" + node.name() +  "' is not abstract, it needs to have a body.",
+                        abstractModifier.position()
+                    )
+                );
+            }
+        }
+        problems.addAll(this.visitTypeNode(node.returnType()));
+        problems.addAll(this.visitBlockStatements(node.blockStatements()));
+
         return problems;
     }
 
@@ -356,6 +415,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                             )
                         );
                     }
+                    problems.addAll(this.visitTypeParameterNode(tp));
                 }
             );
         }
@@ -379,6 +439,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     )
                 );
             }
+            problems.addAll(this.visitExceptionTypeNode(exception));
         }
 
         return problems;

@@ -60,7 +60,7 @@ public final class QueenConstantDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
-            new HashMap<>()
+            new ArrayList<>()
         );
         MatcherAssert.assertThat(
             constantDeclarationNode.position(),
@@ -77,7 +77,7 @@ public final class QueenConstantDeclarationNodeTestCase {
             annotations,
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
-            new HashMap<>()
+            new ArrayList<>()
         );
         MatcherAssert.assertThat(
             constantDeclarationNode.annotations(),
@@ -94,7 +94,7 @@ public final class QueenConstantDeclarationNodeTestCase {
             new ArrayList<>(),
             modifiers,
             Mockito.mock(TypeNode.class),
-            new HashMap<>()
+            new ArrayList<>()
         );
         MatcherAssert.assertThat(
             constantDeclarationNode.modifiers(),
@@ -110,7 +110,7 @@ public final class QueenConstantDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             typeNode,
-            new HashMap<>()
+            new ArrayList<>()
         );
         MatcherAssert.assertThat(
             constantDeclarationNode.type(),
@@ -120,8 +120,8 @@ public final class QueenConstantDeclarationNodeTestCase {
 
     @Test
     public void returnsVariables() {
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             Mockito.mock(Position.class),
             new ArrayList<>(),
@@ -142,9 +142,9 @@ public final class QueenConstantDeclarationNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(Mockito.mock(ModifierNode.class));
         final TypeNode type = Mockito.mock(TypeNode.class);
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
 
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             Mockito.mock(Position.class),
@@ -181,12 +181,9 @@ public final class QueenConstantDeclarationNodeTestCase {
                 Mockito.any(FieldDeclaration.class)
             )
         );
-        variables.entrySet().forEach(
+        variables.forEach(
             variable -> {
-                Mockito.verify(variable.getKey(), Mockito.times(1)).addToJavaNode(
-                    Mockito.any(VariableDeclarator.class)
-                );
-                Mockito.verify(variable.getValue(), Mockito.times(1)).addToJavaNode(
+                Mockito.verify(variable, Mockito.times(1)).addToJavaNode(
                     Mockito.any(VariableDeclarator.class)
                 );
             }

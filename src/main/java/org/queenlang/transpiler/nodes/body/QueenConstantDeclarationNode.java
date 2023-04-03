@@ -73,14 +73,14 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<VariableDeclaratorId, ExpressionNode> variables;
+    private final List<VariableDeclaratorNode> variables;
 
     public QueenConstantDeclarationNode(
         final Position position,
         final List<AnnotationNode> annotations,
         final List<ModifierNode> modifiers,
         final TypeNode type,
-        final Map<VariableDeclaratorId, ExpressionNode> variables
+        final List<VariableDeclaratorNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -92,11 +92,11 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     @Override
     public void addToJavaNode(final Node java) {
         ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        this.variables.entrySet().forEach(
-            vn -> {
+        this.variables.forEach(
+            v -> {
                 final VariableDeclarator vd = new VariableDeclarator();
                 this.type.addToJavaNode(vd);
-                vn.getKey().addToJavaNode(vd);
+                v.addToJavaNode(vd);
 
                 final FieldDeclaration field = new FieldDeclaration();
                 field.addVariable(vd);
@@ -104,9 +104,6 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
 
                 this.annotations.forEach(a -> a.addToJavaNode(field));
                 this.modifiers.forEach(m -> m.addToJavaNode(field));
-                if(vn.getValue() != null) {
-                    vn.getValue().addToJavaNode(field.getVariable(0));
-                }
             }
         );
     }
@@ -137,7 +134,7 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
     }
 
     @Override
-    public Map<VariableDeclaratorId, ExpressionNode> variables() {
+    public List<VariableDeclaratorNode> variables() {
         return this.variables;
     }
 
@@ -153,8 +150,7 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
         children.add(this.type);
 
         if(this.variables != null) {
-            children.addAll(this.variables.keySet());
-            children.addAll(this.variables.values());
+            children.addAll(this.variables);
         }
         return children;
     }

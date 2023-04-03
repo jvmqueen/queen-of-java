@@ -28,48 +28,34 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.types.TypeNode;
-
-import java.util.List;
-import java.util.Map;
 
 /**
- * Queen ConstantDeclaration AST node.
+ * A variable declarator node consisting of the VariableDeclaratorId (name) and
+ * initializing expression, Queen AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #65:60min Don't use a Map for variables, as they might be duplicated. Use a list of VariableDeclarator (new node).
  */
-public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations {
+public interface VariableDeclaratorNode extends QueenNode {
 
     /**
-     * Type of the constant declaration.
+     * VariableDeclaratorId (name of the variable).
+     * @return VariableDeclaratorId, never null.
      */
-    TypeNode type();
+    VariableDeclaratorId variableDeclaratorId();
 
     /**
-     * Variable names and initializer expressions.
+     * Variable initializing expression. May be null.
+     * @return ExpressionNode, may be null.
      */
-    List<VariableDeclaratorNode> variables();
+    ExpressionNode initializer();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitConstantDeclarationNode(this);
+        return visitor.visitVariableDeclaratorNode(this);
     }
 
-    /**
-     * Does this constant declaration have the specified modifier?
-     * @param modifier String modifier.
-     * @return ModifierNode if found, null otherwise.
-     */
-    default ModifierNode modifier(final String modifier) {
-        for(final ModifierNode m : this.modifiers()) {
-            if(modifier.equals(m.modifier())) {
-                return m;
-            }
-        }
-        return null;
-    }
+
+
 }

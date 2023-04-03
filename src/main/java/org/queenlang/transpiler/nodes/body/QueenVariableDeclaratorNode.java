@@ -27,49 +27,62 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Queen ConstantDeclaration AST node.
+ * Queen VariableDeclarator, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #65:60min Don't use a Map for variables, as they might be duplicated. Use a list of VariableDeclarator (new node).
  */
-public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations {
+public final class QueenVariableDeclaratorNode implements VariableDeclaratorNode {
 
-    /**
-     * Type of the constant declaration.
-     */
-    TypeNode type();
+    private final Position position;
+    private final VariableDeclaratorId variableDeclaratorId;
+    private final ExpressionNode initializer;
 
-    /**
-     * Variable names and initializer expressions.
-     */
-    List<VariableDeclaratorNode> variables();
-
-    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitConstantDeclarationNode(this);
+    public QueenVariableDeclaratorNode(
+        final Position position,
+        final VariableDeclaratorId variableDeclaratorId,
+        final ExpressionNode initializer
+    ) {
+        this.position = position;
+        this.variableDeclaratorId = variableDeclaratorId;
+        this.initializer = initializer;
     }
 
-    /**
-     * Does this constant declaration have the specified modifier?
-     * @param modifier String modifier.
-     * @return ModifierNode if found, null otherwise.
-     */
-    default ModifierNode modifier(final String modifier) {
-        for(final ModifierNode m : this.modifiers()) {
-            if(modifier.equals(m.modifier())) {
-                return m;
-            }
+    @Override
+    public void addToJavaNode(final Node java) {
+        final VariableDeclarator vd = (VariableDeclarator) java;
+        this.variableDeclaratorId.addToJavaNode(vd);
+        if(this.initializer != null) {
+            this.initializer.addToJavaNode(vd);
         }
-        return null;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.variableDeclaratorId, this.initializer);
+    }
+
+    @Override
+    public VariableDeclaratorId variableDeclaratorId() {
+        return this.variableDeclaratorId;
+    }
+
+    @Override
+    public ExpressionNode initializer() {
+        return this.initializer;
     }
 }

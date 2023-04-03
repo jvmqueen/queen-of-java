@@ -40,13 +40,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Unit tests for {@link QueenLocalVariableDeclarationNode}.
@@ -64,7 +61,7 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
-            new HashMap<>()
+            new ArrayList<>()
         );
         MatcherAssert.assertThat(
             localVariable.position(),
@@ -81,7 +78,7 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
             annotations,
             new ArrayList<>(),
             Mockito.mock(TypeNode.class),
-            new HashMap<>()
+            new ArrayList<>()
         );
         MatcherAssert.assertThat(
             localVariable.annotations(),
@@ -97,7 +94,7 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             type,
-            new HashMap<>()
+            new ArrayList<>()
         );
         MatcherAssert.assertThat(
             localVariable.type(),
@@ -114,7 +111,7 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
             new ArrayList<>(),
             modifiers,
             Mockito.mock(TypeNode.class),
-            new HashMap<>()
+            new ArrayList<>()
         );
         MatcherAssert.assertThat(
             localVariable.modifiers(),
@@ -124,8 +121,8 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
 
     @Test
     public void returnsVariables() {
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
         final LocalVariableDeclarationNode localVariable = new QueenLocalVariableDeclarationNode(
             Mockito.mock(Position.class),
             new ArrayList<>(),
@@ -146,9 +143,9 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(Mockito.mock(ModifierNode.class));
         final TypeNode type = Mockito.mock(TypeNode.class);
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
 
         final LocalVariableDeclarationNode localVariable = new QueenLocalVariableDeclarationNode(
             Mockito.mock(Position.class),
@@ -179,12 +176,9 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
         Mockito.verify(type, Mockito.times(2)).addToJavaNode(
             Mockito.any(VariableDeclarator.class)
         );
-        variables.entrySet().forEach(
-            entry -> {
-                Mockito.verify(entry.getKey(), Mockito.times(1)).addToJavaNode(
-                    Mockito.any(VariableDeclarator.class)
-                );
-                Mockito.verify(entry.getValue(), Mockito.times(1)).addToJavaNode(
+        variables.forEach(
+            v -> {
+                Mockito.verify(v, Mockito.times(1)).addToJavaNode(
                     Mockito.any(VariableDeclarator.class)
                 );
             }
@@ -198,9 +192,9 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(Mockito.mock(ModifierNode.class));
         final TypeNode type = Mockito.mock(TypeNode.class);
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
 
         final LocalVariableDeclarationNode localVariable = new QueenLocalVariableDeclarationNode(
             Mockito.mock(Position.class),
@@ -232,12 +226,9 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
         Mockito.verify(type, Mockito.times(2)).addToJavaNode(
             Mockito.any(VariableDeclarator.class)
         );
-        variables.entrySet().forEach(
-            entry -> {
-                Mockito.verify(entry.getKey(), Mockito.times(1)).addToJavaNode(
-                    Mockito.any(VariableDeclarator.class)
-                );
-                Mockito.verify(entry.getValue(), Mockito.times(1)).addToJavaNode(
+        variables.forEach(
+            v -> {
+                Mockito.verify(v, Mockito.times(1)).addToJavaNode(
                     Mockito.any(VariableDeclarator.class)
                 );
             }
@@ -251,9 +242,9 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(Mockito.mock(ModifierNode.class));
         final TypeNode type = Mockito.mock(TypeNode.class);
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
 
         final LocalVariableDeclarationNode localVariable = new QueenLocalVariableDeclarationNode(
             Mockito.mock(Position.class),
@@ -287,12 +278,9 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
         Mockito.verify(type, Mockito.times(2)).addToJavaNode(
             Mockito.any(VariableDeclarator.class)
         );
-        variables.entrySet().forEach(
-            entry -> {
-                Mockito.verify(entry.getKey(), Mockito.times(1)).addToJavaNode(
-                    Mockito.any(VariableDeclarator.class)
-                );
-                Mockito.verify(entry.getValue(), Mockito.times(1)).addToJavaNode(
+        variables.forEach(
+            v -> {
+                Mockito.verify(v, Mockito.times(1)).addToJavaNode(
                     Mockito.any(VariableDeclarator.class)
                 );
             }
@@ -306,9 +294,9 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(Mockito.mock(ModifierNode.class));
         final TypeNode type = Mockito.mock(TypeNode.class);
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new HashMap<>();
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
-        variables.put(Mockito.mock(VariableDeclaratorId.class), Mockito.mock(ExpressionNode.class));
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
 
         final LocalVariableDeclarationNode localVariable = new QueenLocalVariableDeclarationNode(
             Mockito.mock(Position.class),
@@ -342,12 +330,9 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
         Mockito.verify(type, Mockito.times(2)).addToJavaNode(
             Mockito.any(VariableDeclarator.class)
         );
-        variables.entrySet().forEach(
-            entry -> {
-                Mockito.verify(entry.getKey(), Mockito.times(1)).addToJavaNode(
-                    Mockito.any(VariableDeclarator.class)
-                );
-                Mockito.verify(entry.getValue(), Mockito.times(1)).addToJavaNode(
+        variables.forEach(
+            v -> {
+                Mockito.verify(v, Mockito.times(1)).addToJavaNode(
                     Mockito.any(VariableDeclarator.class)
                 );
             }

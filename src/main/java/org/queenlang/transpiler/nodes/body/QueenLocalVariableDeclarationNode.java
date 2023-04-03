@@ -38,11 +38,9 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
-import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Queen LocalVariableDeclaration AST Node.
@@ -75,14 +73,14 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<VariableDeclaratorId, ExpressionNode> variables;
+    private final List<VariableDeclaratorNode> variables;
 
     public QueenLocalVariableDeclarationNode(
         final Position position,
         final List<AnnotationNode> annotations,
         final List<ModifierNode> modifiers,
         final TypeNode type,
-        final Map<VariableDeclaratorId, ExpressionNode> variables
+        final List<VariableDeclaratorNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -118,14 +116,11 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
         this.annotations.forEach(a -> a.addToJavaNode(vde));
         this.modifiers.forEach(m -> m.addToJavaNode(vde));
         final List<VariableDeclarator> variableDeclarators = new ArrayList<>();
-        this.variables.entrySet().forEach(
-            vn -> {
+        this.variables.forEach(
+            v -> {
                 final VariableDeclarator vd = new VariableDeclarator();
                 this.type.addToJavaNode(vd);
-                vn.getKey().addToJavaNode(vd);
-                if(vn.getValue() != null) {
-                    vn.getValue().addToJavaNode(vd);
-                }
+                v.addToJavaNode(vd);
                 variableDeclarators.add(vd);
             }
         );
@@ -150,7 +145,7 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     }
 
     @Override
-    public Map<VariableDeclaratorId, ExpressionNode> variables() {
+    public List<VariableDeclaratorNode> variables() {
         return variables;
     }
 
@@ -166,8 +161,7 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
         children.add(this.type);
 
         if(this.variables != null) {
-            children.addAll(this.variables.keySet());
-            children.addAll(this.variables.values());
+            children.addAll(this.variables);
         }
         return children;
     }

@@ -25,27 +25,37 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.expressions;
+package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.body.ElementValuePairNode;
-
-import java.util.List;
+import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 /**
- * Queen normal annotation.
- * @author Mihai Emil Andronache (amihaiemil@gmail.com)
+ * An element-value paid node consisting of the Identifier and
+ * initializing expression, Queen AST Node. User in annotations.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface NormalAnnotationNode extends AnnotationNode {
+public interface ElementValuePairNode extends QueenNode {
 
     /**
-     * Element-value pairs within the annotation.
+     * Identifier (name).
+     * @return String, never null.
      */
-    List<ElementValuePairNode> elementValuePairs();
+    String identifier();
+
+    /**
+     * Expression.
+     * @return ExpressionNode, never null.
+     */
+    ExpressionNode expression();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitNormalAnnotationNode(this);
+        return visitor.visitElementValuePairNode(this);
     }
+
+
+
 }

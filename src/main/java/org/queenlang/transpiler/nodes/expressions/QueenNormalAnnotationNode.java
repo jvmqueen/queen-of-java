@@ -33,10 +33,10 @@ import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.body.ElementValuePairNode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Queen normal annotation.
@@ -49,12 +49,12 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
     /**
      * Key-value pairs within the annotation.
      */
-    private final Map<String, ExpressionNode> elementValuePairs;
+    private final List<ElementValuePairNode> elementValuePairs;
 
     public QueenNormalAnnotationNode(
         final Position position,
         final QueenNameNode name,
-        final Map<String, ExpressionNode> elementValuePairs
+        final List<ElementValuePairNode> elementValuePairs
     ) {
         super(position, name);
         this.elementValuePairs = elementValuePairs;
@@ -69,14 +69,14 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
     public NormalAnnotationExpr toJavaExpression() {
         final NormalAnnotationExpr annotation = new NormalAnnotationExpr();
         annotation.setName(this.name());
-        this.elementValuePairs.entrySet().forEach(
-            entry -> annotation.addPair(entry.getKey(), entry.getValue().toJavaExpression())
+        this.elementValuePairs.forEach(
+            entry -> entry.addToJavaNode(annotation)
         );
         return annotation;
     }
 
     @Override
-    public Map<String, ExpressionNode> elementValuePairs() {
+    public List<ElementValuePairNode> elementValuePairs() {
         return this.elementValuePairs;
     }
 
@@ -85,7 +85,7 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
         final List<QueenNode> children = new ArrayList<>();
         children.addAll(super.children());
         if(this.elementValuePairs != null) {
-            children.addAll(this.elementValuePairs.values());
+            children.addAll(this.elementValuePairs);
         }
         return children;
     }

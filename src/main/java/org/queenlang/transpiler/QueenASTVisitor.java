@@ -317,6 +317,11 @@ public interface QueenASTVisitor<T> {
     default T visitVariableDeclaratorNode(final VariableDeclaratorNode node) {
         return this.visitChildren(node);
     }
+
+    default T visitElementValuePairNode(final ElementValuePairNode node) {
+        return this.visitChildren(node);
+    }
+
     default T visitNameNode(final NameNode node) {
         return this.visitChildren(node);
     }

@@ -306,14 +306,13 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.markerAnnotation() != null) {
             return new QueenMarkerAnnotationNode(getPosition(ctx), this.visitTypeName(ctx.markerAnnotation().typeName()));
         } else if(ctx.normalAnnotation() != null) {
-            final Map<String, ExpressionNode> pairs = new HashMap<>();
+            final List<ElementValuePairNode> pairs = new LinkedList<>();
             ctx.normalAnnotation()
                 .elementValuePairList()
                 .elementValuePair()
                 .forEach(
-                    pair -> pairs.put(
-                        pair.Identifier().getText(),
-                        this.visitElementValue(pair.elementValue())
+                    pair -> pairs.add(
+                        this.visitElementValuePair(pair)
                     )
                 );
             return new QueenNormalAnnotationNode(
@@ -484,6 +483,15 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 ctx.variableDeclaratorId()
             ),
             initializer
+        );
+    }
+
+    @Override
+    public ElementValuePairNode visitElementValuePair(QueenParser.ElementValuePairContext ctx) {
+        return new QueenElementValuePairNode(
+            getPosition(ctx),
+            ctx.Identifier().getText(),
+            this.visitElementValue(ctx.elementValue())
         );
     }
 

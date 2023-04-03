@@ -25,27 +25,58 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.expressions;
+package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.body.ElementValuePairNode;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.List;
 
 /**
- * Queen normal annotation.
- * @author Mihai Emil Andronache (amihaiemil@gmail.com)
+ * An element-value paid node consisting of the Identifier and
+ * initializing expression, Queen AST Node. User in annotations.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface NormalAnnotationNode extends AnnotationNode {
+public final class QueenElementValuePairNode implements ElementValuePairNode {
 
-    /**
-     * Element-value pairs within the annotation.
-     */
-    List<ElementValuePairNode> elementValuePairs();
+    private final Position position;
+    private final String identifier;
+    private final ExpressionNode expression;
 
-    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitNormalAnnotationNode(this);
+    public QueenElementValuePairNode(final Position position, final String identifier, final ExpressionNode expression) {
+        this.position = position;
+        this.identifier = identifier;
+        this.expression = expression;
+    }
+
+    @Override
+    public void addToJavaNode(final Node java) {
+        final NormalAnnotationExpr annotation = (NormalAnnotationExpr) java;
+        annotation.addPair(this.identifier, this.expression.toJavaExpression());
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return List.of(this.expression);
+    }
+
+    @Override
+    public String identifier() {
+        return this.identifier;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
     }
 }

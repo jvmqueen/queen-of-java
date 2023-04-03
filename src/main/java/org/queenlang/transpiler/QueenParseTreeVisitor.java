@@ -441,20 +441,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitFieldModifier(m))
         );
 
-        final Map<VariableDeclaratorId, ExpressionNode> variables = new LinkedHashMap<>();
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
-            vd -> {
-                final VariableDeclaratorId variableDeclaratorId = this.visitVariableDeclaratorId(
-                    vd.variableDeclaratorId()
-                );
-                variables.put(variableDeclaratorId, null);
-                if(vd.variableInitializer() != null) {
-                    variables.put(
-                        variableDeclaratorId,
-                        this.visitVariableInitializer(vd.variableInitializer())
-                    );
-                }
-            }
+            vd -> variables.add(this.visitVariableDeclarator(vd))
         );
 
         return new QueenFieldDeclarationNode(
@@ -494,12 +483,18 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public VariableDeclaratorNode visitVariableDeclarator(QueenParser.VariableDeclaratorContext ctx) {
+        final ExpressionNode initializer;
+        if(ctx.variableInitializer() != null) {
+            initializer = this.visitVariableInitializer(ctx.variableInitializer());
+        } else {
+            initializer = null;
+        }
         return new QueenVariableDeclaratorNode(
             getPosition(ctx),
             this.visitVariableDeclaratorId(
                 ctx.variableDeclaratorId()
             ),
-            this.visitVariableInitializer(ctx.variableInitializer())
+            initializer
         );
     }
 

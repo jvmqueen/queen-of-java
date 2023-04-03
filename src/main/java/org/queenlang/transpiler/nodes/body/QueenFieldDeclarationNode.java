@@ -36,11 +36,9 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
-import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Queen FieldDeclaration AST node.
@@ -73,14 +71,14 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     /**
      * Variable names and initializer expressions.
      */
-    private final Map<VariableDeclaratorId, ExpressionNode> variables;
+    private final List<VariableDeclaratorNode> variables;
 
     public QueenFieldDeclarationNode(
         final Position position,
         final List<AnnotationNode> annotations,
         final List<ModifierNode> modifiers,
         final TypeNode type,
-        final Map<VariableDeclaratorId, ExpressionNode> variables
+        final List<VariableDeclaratorNode> variables
     ) {
         this.position = position;
         this.annotations = annotations;
@@ -91,11 +89,11 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
 
     @Override
     public void addToJavaNode(final Node java) {
-        this.variables.entrySet().forEach(
-            vn -> {
+        this.variables.forEach(
+            v -> {
                 final VariableDeclarator vd = new VariableDeclarator();
                 this.type.addToJavaNode(vd);
-                vn.getKey().addToJavaNode(vd);
+                v.addToJavaNode(vd);
 
                 final FieldDeclaration field = new FieldDeclaration();
                 field.addVariable(vd);
@@ -107,9 +105,6 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
 
                 this.annotations.forEach(a -> a.addToJavaNode(field));
                 this.modifiers.forEach(m -> m.addToJavaNode(field));
-                if(vn.getValue() != null) {
-                    vn.getValue().addToJavaNode(field.getVariable(0));
-                }
             }
         );
     }
@@ -140,7 +135,7 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     }
 
     @Override
-    public Map<VariableDeclaratorId, ExpressionNode> variables() {
+    public List<VariableDeclaratorNode> variables() {
         return this.variables;
     }
 
@@ -156,8 +151,7 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
         children.add(this.type);
 
         if(this.variables != null) {
-            children.addAll(this.variables.keySet());
-            children.addAll(this.variables.values());
+            children.addAll(this.variables);
         }
         return children;
     }

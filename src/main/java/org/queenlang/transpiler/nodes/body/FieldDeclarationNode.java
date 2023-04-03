@@ -28,13 +28,9 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Queen FieldDeclaration AST node.
@@ -52,7 +48,7 @@ public interface FieldDeclarationNode extends ClassMemberDeclarationNode, NodeWi
     /**
      * Variable names and initializer expressions.
      */
-    Map<VariableDeclaratorId, ExpressionNode> variables();
+    List<VariableDeclaratorNode> variables();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitFieldDeclarationNode(this);

@@ -17,8 +17,12 @@ public final class Expressions implements ExpressionsTest {
             System.out.println("Close em after try");
         } finally {
         }
-        int x = 1, y = 0, z = 2;
-        int m, n, p;
+        int x = 1;
+        int y = 0;
+        int z = 2;
+        int m;
+        int n;
+        int p;
         for (int m = 0, v = 0; i < 10; i++) {
             System.out.println("OK");
         }

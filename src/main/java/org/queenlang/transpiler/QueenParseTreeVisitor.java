@@ -403,6 +403,38 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
+        return new QueenLocalVariableDeclarationNode(
+            getPosition(ctx),
+            annotations,
+            modifiers,
+            this.visitUnannType(ctx.unannType()),
+            List.of(this.visitVariableDeclarator(ctx.variableDeclarator()))
+        );
+    }
+
+    @Override
+    public LocalVariableDeclarationNode visitForInitlocalVariableDeclaration(QueenParser.ForInitlocalVariableDeclarationContext ctx) {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        final List<ModifierNode> modifiers = new ArrayList<>();
+
+        if(ctx.variableModifier() != null) {
+            ctx.variableModifier().forEach(
+                vm -> {
+                    if(vm.annotation() != null) {
+                        annotations.add(this.visitAnnotation(vm.annotation()));
+                    }
+                    if(vm.FINAL() != null) {
+                        modifiers.add(
+                            new QueenModifierNode(
+                                this.getPosition(vm),
+                                vm.FINAL().getText()
+                            )
+                        );
+                    }
+                }
+            );
+        }
+
         final List<VariableDeclaratorNode> variables = new LinkedList<>();
         ctx.variableDeclaratorList().variableDeclarator().forEach(
             vd -> variables.add(this.visitVariableDeclarator(vd))
@@ -429,17 +461,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitFieldModifier(m))
         );
 
-        final List<VariableDeclaratorNode> variables = new LinkedList<>();
-        ctx.variableDeclaratorList().variableDeclarator().forEach(
-            vd -> variables.add(this.visitVariableDeclarator(vd))
-        );
-
         return new QueenFieldDeclarationNode(
             getPosition(ctx),
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            variables
+            List.of(this.visitVariableDeclarator(ctx.variableDeclarator()))
         );
     }
 
@@ -455,17 +482,12 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             m -> modifiers.add(this.visitConstantModifier(m))
         );
 
-        final List<VariableDeclaratorNode> variables = new LinkedList<>();
-        ctx.variableDeclaratorList().variableDeclarator().forEach(
-            vd -> variables.add(this.visitVariableDeclarator(vd))
-        );
-
         return new QueenConstantDeclarationNode(
             getPosition(ctx),
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            variables
+            List.of(this.visitVariableDeclarator(ctx.variableDeclarator()))
         );
     }
 
@@ -1411,10 +1433,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                         this.visitStatementExpression(stmtExpression)
                     )
                 );
-            } else if(ctx.forInit().localVariableDeclaration() != null) {
+            } else if(ctx.forInit().forInitlocalVariableDeclaration() != null) {
                 init.add(
-                    this.visitLocalVariableDeclaration(
-                        ctx.forInit().localVariableDeclaration()
+                    this.visitForInitlocalVariableDeclaration(
+                        ctx.forInit().forInitlocalVariableDeclaration()
                     )
                 );
             }
@@ -1463,10 +1485,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                         this.visitStatementExpression(stmtExpression)
                     )
                 );
-            } else if(ctx.forInit().localVariableDeclaration() != null) {
+            } else if(ctx.forInit().forInitlocalVariableDeclaration() != null) {
                 init.add(
-                    this.visitLocalVariableDeclaration(
-                        ctx.forInit().localVariableDeclaration()
+                    this.visitForInitlocalVariableDeclaration(
+                        ctx.forInit().forInitlocalVariableDeclaration()
                     )
                 );
             }

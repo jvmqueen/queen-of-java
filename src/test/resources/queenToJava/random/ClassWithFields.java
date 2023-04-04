@@ -20,10 +20,8 @@ public final class ClassWithFields<T, K extends Other, V extends Stuff, A extend
     @AnnotatedField
     private int m = 0;
 
-    @AnnotatedField
     private int n = 1;
 
-    @AnnotatedField
     private int p = 2;
 
     private Object objs;

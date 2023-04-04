@@ -14,8 +14,12 @@ public final implementation Expressions of ExpressionsTest {
         try(Closeable x = 0; Closeable y = 0) {
             System.out.println("Close em after try");
         }
-        int x = 1, y = 0, z = 2;
-        int m, n, p;
+        int x = 1;
+        int y = 0;
+        int z = 2;
+        int m;
+        int n;
+        int p;
         for(int m=0, v=0; i<10;i++) {
             System.out.println("OK");
         }
@@ -55,7 +59,8 @@ public final implementation Expressions of ExpressionsTest {
         new <String> ArrayList<String>(15);
         new FunctionalAnonym() {
 
-            private int x,y = 0;
+            private int x;
+            private int y = 0;
 
             @Override
             public void test() {

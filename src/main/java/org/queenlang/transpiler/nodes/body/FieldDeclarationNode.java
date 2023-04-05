@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,5 +53,41 @@ public interface FieldDeclarationNode extends ClassMemberDeclarationNode, NodeWi
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitFieldDeclarationNode(this);
+    }
+
+    /**
+     * Does this field declaration have the specified modifier?
+     * @param modifier String modifier.
+     * @return ModifierNode if found, null otherwise.
+     */
+    default ModifierNode modifier(final String modifier) {
+        for(final ModifierNode m : this.modifiers()) {
+            if(modifier.equals(m.modifier())) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    default List<ModifierNode> accessModifiers() {
+        final List<ModifierNode> accessModifiers = new ArrayList<>();
+        for(final ModifierNode m : this.modifiers()) {
+            if("public".equals(m.modifier()) || "private".equals(m.modifier())) {
+                accessModifiers.add(m);
+            }
+        }
+        return accessModifiers;
+    }
+
+    default boolean isPublic() {
+        return this.modifier("public") != null;
+    }
+
+    default boolean isStatic() {
+        return this.modifier("static") != null;
+    }
+
+    default boolean isMutable() {
+        return this.modifier("mutable") != null;
     }
 }

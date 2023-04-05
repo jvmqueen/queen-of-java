@@ -200,6 +200,27 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitFieldDeclarationNode(FieldDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithModifiers(node));
+        final List<ModifierNode> accessModifiers = node.accessModifiers();
+        if(accessModifiers.size() > 1) {
+            for(final ModifierNode modifier : accessModifiers) {
+                problems.add(
+                    new QueenSemanticError(
+                        "A field may have only one access modifier.",
+                        modifier.position()
+                    )
+                );
+            }
+        }
+        if(node.isPublic() || accessModifiers.isEmpty()) {
+            if(!node.isStatic() || node.isMutable()) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Public or package-private fields must be static constants.",
+                        node.position()
+                    )
+                );
+            }
+        }
         return problems;
     }
 

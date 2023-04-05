@@ -136,7 +136,33 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 );
             }
         }
-
+        final ClassBodyNode body = node.body();
+        boolean defaultCtorPresent = false;
+        for(final ClassBodyDeclarationNode declaration : body) {
+            if(declaration instanceof ConstructorDeclarationNode) {
+                final ConstructorDeclarationNode ctor = (ConstructorDeclarationNode) declaration;
+                if(!node.name().equals(ctor.name())) {
+                    problems.add(
+                        new QueenSemanticError(
+                            "Constructor name '" + ctor.name() + "' does not match the implementation name.",
+                            ctor.position()
+                        )
+                    );
+                } else {
+                    if(ctor.parameters() == null || ctor.parameters().isEmpty()) {
+                        if(defaultCtorPresent) {
+                            problems.add(
+                                new QueenSemanticError(
+                                    "Default Constructor '" + ctor.name() + "' is duplicated.",
+                                    ctor.position()
+                                )
+                            );
+                        }
+                        defaultCtorPresent = true;
+                    }
+                }
+            }
+        }
         problems.addAll(this.visitClassBodyNode(node.body()));
         return problems;
     }

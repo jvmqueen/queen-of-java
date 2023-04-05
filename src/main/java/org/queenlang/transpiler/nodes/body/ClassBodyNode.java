@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ClassBodyNode extends QueenNode {
+public interface ClassBodyNode extends QueenNode, Iterable<ClassBodyDeclarationNode> {
 
     List<ClassBodyDeclarationNode> classBodyDeclarations();
 
@@ -48,5 +49,9 @@ public interface ClassBodyNode extends QueenNode {
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitClassBodyNode(this);
+    }
+
+    default Iterator<ClassBodyDeclarationNode> iterator() {
+        return this.classBodyDeclarations().iterator();
     }
 }

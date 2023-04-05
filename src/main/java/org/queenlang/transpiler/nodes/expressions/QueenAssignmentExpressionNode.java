@@ -32,6 +32,7 @@ import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -87,7 +88,7 @@ public final class QueenAssignmentExpressionNode implements AssignmentExpression
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.target, this.value);
+        return Arrays.asList(this.target, this.value);
     }
 
     @Override

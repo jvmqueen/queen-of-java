@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -73,7 +74,7 @@ public final class QueenVariableDeclaratorNode implements VariableDeclaratorNode
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.variableDeclaratorId, this.initializer);
+        return Arrays.asList(this.variableDeclaratorId, this.initializer);
     }
 
     @Override

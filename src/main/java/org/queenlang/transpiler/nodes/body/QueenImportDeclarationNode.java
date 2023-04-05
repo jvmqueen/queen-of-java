@@ -34,6 +34,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -98,7 +99,7 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.importDeclarationName);
+        return Arrays.asList(this.importDeclarationName);
     }
 
     /**

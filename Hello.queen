@@ -2,6 +2,21 @@ package com.example;
 
 public final implementation Hello of Greeting {
 
+   public Hello() {
+
+   }
+   PackagePrivateWrongHello() {
+
+   }
+
+   public Hello2Wrong(int x) {
+
+   }
+
+   public Hello(int y) {
+
+   }
+
    public void to(String name) {
        System.out.println("Queen says hello to " + name);
    }

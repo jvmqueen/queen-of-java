@@ -341,10 +341,12 @@ public interface QueenASTVisitor<T> {
 
     default T visitChildren(final QueenNode node) {
         T result = defaultResult();
-        for (final QueenNode child : node.children()) {
-            if(child != null) {
-                T childResult = child.accept(this);
-                result = aggregateResult(result, childResult);
+        if(node != null) {
+            for (final QueenNode child : node.children()) {
+                if(child != null) {
+                    T childResult = child.accept(this);
+                    result = aggregateResult(result, childResult);
+                }
             }
         }
         return result;

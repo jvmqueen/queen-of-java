@@ -32,6 +32,7 @@ import com.github.javaparser.ast.expr.UnaryExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -90,7 +91,7 @@ public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.expression);
+        return Arrays.asList(this.expression);
     }
 
     @Override

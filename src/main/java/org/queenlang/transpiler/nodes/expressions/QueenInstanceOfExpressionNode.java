@@ -34,6 +34,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -73,7 +74,7 @@ public final class QueenInstanceOfExpressionNode implements InstanceOfExpression
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.expression, this.referenceType);
+        return Arrays.asList(this.expression, this.referenceType);
     }
 
     @Override

@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,7 +63,7 @@ public final class QueenNameNode implements NameNode {
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.qualifier);
+        return Arrays.asList(this.qualifier);
     }
 
     @Override

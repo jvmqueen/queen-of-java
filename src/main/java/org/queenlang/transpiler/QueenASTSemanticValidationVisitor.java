@@ -33,10 +33,7 @@ import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * AST Visitor for semantic/contextual validation of Queen code.
@@ -189,16 +186,19 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitConstructorDeclarationNode(ConstructorDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitNodeWithThrows(node));
-
+        problems.addAll(this.visitExplicitConstructorInvocationNode(node.explicitConstructorInvocationNode()));
+        problems.addAll(this.visitBlockStatements(node.blockStatements()));
         return problems;
     }
 
     @Override
     public List<SemanticProblem> visitFieldDeclarationNode(FieldDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithModifiers(node));
         final List<ModifierNode> accessModifiers = node.accessModifiers();
         if(accessModifiers.size() > 1) {
@@ -221,6 +221,22 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 );
             }
         }
+        problems.addAll(this.visitTypeNode(node.type()));
+        node.variables().forEach(
+            v -> problems.addAll(this.visitVariableDeclaratorNode(v))
+        );
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitLocalVariableDeclarationNode(final LocalVariableDeclarationNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithAnnotations(node));
+        problems.addAll(this.visitNodeWithModifiers(node));
+        problems.addAll(this.visitTypeNode(node.type()));
+        node.variables().forEach(
+            v -> problems.addAll(this.visitVariableDeclaratorNode(v))
+        );
         return problems;
     }
 
@@ -349,6 +365,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitNodeWithThrows(node));
+        problems.addAll(this.visitBlockStatements(node.blockStatements()));
         return problems;
     }
 
@@ -388,7 +405,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         problems.addAll(this.visitNodeWithModifiers(node));
         final List<ModifierNode> modifiers = node.modifiers();
         if(modifiers != null && modifiers.size() > 0) {
-            final List<String> allowedModifiers = List.of("public", "abstract", "strictfp");
+            final List<String> allowedModifiers = Arrays.asList("public", "abstract", "strictfp");
             modifiers.forEach(m -> {
                 final String modifierString = m.modifier();
                 if(!allowedModifiers.contains(modifierString)) {

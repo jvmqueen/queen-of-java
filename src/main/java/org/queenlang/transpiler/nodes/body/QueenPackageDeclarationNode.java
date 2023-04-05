@@ -34,6 +34,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -86,7 +87,7 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.packageName);
+        return Arrays.asList(this.packageName);
     }
 
     @Override

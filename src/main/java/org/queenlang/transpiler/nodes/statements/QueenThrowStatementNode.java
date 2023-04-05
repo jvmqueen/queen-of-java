@@ -34,6 +34,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -70,7 +71,7 @@ public final class QueenThrowStatementNode implements ThrowStatementNode {
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.expression);
+        return Arrays.asList(this.expression);
     }
 
     @Override

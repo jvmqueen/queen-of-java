@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -94,7 +95,7 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.blockStatements);
+        return Arrays.asList(this.blockStatements);
     }
 
     @Override

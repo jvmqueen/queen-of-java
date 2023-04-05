@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -99,7 +100,7 @@ public final class QueenDoStatementNode implements DoStatementNode {
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.blockStatements, this.expression);
+        return Arrays.asList(this.blockStatements, this.expression);
     }
 
     @Override

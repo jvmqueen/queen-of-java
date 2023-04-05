@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.body.QueenLocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -114,7 +115,7 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.variable, this.iterable, this.blockStatements);
+        return Arrays.asList(this.variable, this.iterable, this.blockStatements);
     }
 
     @Override

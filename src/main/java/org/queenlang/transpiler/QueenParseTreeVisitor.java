@@ -70,7 +70,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             ctx.importDeclaration().stream().map(
                 this::visitImportDeclaration
             ).collect(Collectors.toList()),
-            List.of(this.visitTypeDeclaration(ctx.typeDeclaration()))
+            Arrays.asList(this.visitTypeDeclaration(ctx.typeDeclaration()))
         );
     }
 
@@ -408,7 +408,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            List.of(this.visitVariableDeclarator(ctx.variableDeclarator()))
+            Arrays.asList(this.visitVariableDeclarator(ctx.variableDeclarator()))
         );
     }
 
@@ -466,7 +466,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            List.of(this.visitVariableDeclarator(ctx.variableDeclarator()))
+            Arrays.asList(this.visitVariableDeclarator(ctx.variableDeclarator()))
         );
     }
 
@@ -487,7 +487,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            List.of(this.visitVariableDeclarator(ctx.variableDeclarator()))
+            Arrays.asList(this.visitVariableDeclarator(ctx.variableDeclarator()))
         );
     }
 
@@ -1321,7 +1321,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             thenBlockStatements = new QueenBlockStatements(
                 getPosition(ctx.statement()),
-                List.of(this.visitStatement(ctx.statement()))
+                Arrays.asList(this.visitStatement(ctx.statement()))
             );
         }
         return new QueenIfStatementNode(
@@ -1344,7 +1344,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             thenBlockStatements = new QueenBlockStatements(
                 getPosition(ctx.statementNoShortIf()),
-                List.of(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
+                Arrays.asList(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
             );
         }
 
@@ -1356,7 +1356,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             elseBlockStatements = new QueenBlockStatements(
                 getPosition(ctx.statement()),
-                List.of(this.visitStatement(ctx.statement()))
+                Arrays.asList(this.visitStatement(ctx.statement()))
             );
         }
         return new QueenIfStatementNode(
@@ -1384,7 +1384,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 } else {
                     thenBlockStatements = new QueenBlockStatements(
                         getPosition(thenStatementNoShortIfContext),
-                        List.of(this.visitStatementNoShortIf(thenStatementNoShortIfContext))
+                        Arrays.asList(this.visitStatementNoShortIf(thenStatementNoShortIfContext))
                     );
                 }
             } else if(ctx.statementNoShortIf().size() == 2) {
@@ -1396,7 +1396,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 } else {
                     thenBlockStatements = new QueenBlockStatements(
                         getPosition(thenStatementNoShortIfContext),
-                        List.of(this.visitStatementNoShortIf(thenStatementNoShortIfContext))
+                        Arrays.asList(this.visitStatementNoShortIf(thenStatementNoShortIfContext))
                     );
                 }
                 final QueenParser.StatementNoShortIfContext elseStatementNoShortIfContext = ctx.statementNoShortIf().get(1);
@@ -1407,7 +1407,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 } else {
                     elseBlockStatements = new QueenBlockStatements(
                         getPosition(elseStatementNoShortIfContext),
-                        List.of(this.visitStatementNoShortIf(elseStatementNoShortIfContext))
+                        Arrays.asList(this.visitStatementNoShortIf(elseStatementNoShortIfContext))
                     );
                 }
             }
@@ -1462,7 +1462,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statement()),
-                List.of(this.visitStatement(ctx.statement()))
+                Arrays.asList(this.visitStatement(ctx.statement()))
             );
         }
         return new QueenForStatementNode(
@@ -1514,7 +1514,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statementNoShortIf()),
-                List.of(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
+                Arrays.asList(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
             );
         }
         return new QueenForStatementNode(
@@ -1556,7 +1556,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            List.of(
+            Arrays.asList(
                 new QueenVariableDeclaratorNode(
                     getPosition(ctx.variableDeclaratorId()),
                     this.visitVariableDeclaratorId(ctx.variableDeclaratorId()),
@@ -1575,7 +1575,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statement()),
-                List.of(this.visitStatement(ctx.statement()))
+                Arrays.asList(this.visitStatement(ctx.statement()))
             );
         }
         return new QueenForEachStatementNode(
@@ -1623,7 +1623,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            List.of(
+            Arrays.asList(
                 new QueenVariableDeclaratorNode(
                     getPosition(ctx.variableDeclaratorId()),
                     this.visitVariableDeclaratorId(ctx.variableDeclaratorId()),
@@ -1642,7 +1642,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statementNoShortIf()),
-                List.of(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
+                Arrays.asList(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
             );
         }
         return new QueenForEachStatementNode(
@@ -1665,7 +1665,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statement()),
-                List.of(this.visitStatement(ctx.statement()))
+                Arrays.asList(this.visitStatement(ctx.statement()))
             );
         }
         return new QueenWhileStatementNode(
@@ -1687,7 +1687,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statementNoShortIf()),
-                List.of(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
+                Arrays.asList(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
             );
         }
         return new QueenWhileStatementNode(
@@ -1709,7 +1709,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statement()),
-                List.of(this.visitStatement(ctx.statement()))
+                Arrays.asList(this.visitStatement(ctx.statement()))
             );
         }
         return new QueenDoStatementNode(
@@ -1729,7 +1729,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statement()),
-                List.of(this.visitStatement(ctx.statement()))
+                Arrays.asList(this.visitStatement(ctx.statement()))
             );
         }
         return new QueenLabeledStatementNode(
@@ -1749,7 +1749,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         } else {
             blockStatements = new QueenBlockStatements(
                 getPosition(ctx.statementNoShortIf()),
-                List.of(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
+                Arrays.asList(this.visitStatementNoShortIf(ctx.statementNoShortIf()))
             );
         }
         return new QueenLabeledStatementNode(
@@ -1796,7 +1796,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         return new QueenBlockStatements(
             getPosition(ctx),
             statementWithoutTrailingSubstatement != null
-                ? List.of(statementWithoutTrailingSubstatement)
+                ? Arrays.asList(statementWithoutTrailingSubstatement)
                 : new ArrayList<>()
         );
     }
@@ -2041,7 +2041,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            List.of(
+            Arrays.asList(
                 new QueenVariableDeclaratorNode(
                     getPosition(ctx),
                     this.visitVariableDeclaratorId(ctx.variableDeclaratorId()),
@@ -3091,7 +3091,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return new QueenCastExpressionNode(
                 getPosition(ctx),
                 this.visitPrimitiveType(ctx.primitiveType()),
-                List.of(),
+                Arrays.asList(),
                 this.visitUnaryExpression(ctx.unaryExpression())
             );
         } else {

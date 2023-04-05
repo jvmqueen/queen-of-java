@@ -33,6 +33,7 @@ import com.github.javaparser.ast.expr.SimpleName;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -84,7 +85,7 @@ public final class QueenFieldAccessExpressionNode implements FieldAccessExpressi
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.scope);
+        return Arrays.asList(this.scope);
     }
 
     @Override

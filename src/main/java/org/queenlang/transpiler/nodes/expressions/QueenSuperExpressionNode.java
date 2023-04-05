@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -72,7 +73,7 @@ public final class QueenSuperExpressionNode implements SuperExpressionNode {
 
     @Override
     public List<QueenNode> children() {
-        return List.of(this.typeName);
+        return Arrays.asList(this.typeName);
     }
 
     @Override

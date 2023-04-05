@@ -32,6 +32,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,7 +49,7 @@ public final class PathsCpTestCase {
     @Test
     public void findsQueenFileInClassPath() {
         final Classpath cp = new PathsCp(
-            List.of(
+            Arrays.asList(
                 Path.of("."),
                 Path.of("src/test/resources"),
                 Path.of("src/test/resources/test_classpath")
@@ -67,7 +68,7 @@ public final class PathsCpTestCase {
     @Test
     public void returnsNullIfQueenFileNotFoundInClassPath() {
         final Classpath cp = new PathsCp(
-            List.of(
+            Arrays.asList(
                 Path.of("."),
                 Path.of("src/test/resources"),
                 Path.of("src/test/resources/test_classpath")

@@ -43,6 +43,7 @@ import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenReturnStatementNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -253,7 +254,7 @@ public final class QueenLambdaExpressionNodeTestCase {
         parameters.add(param);
         final BlockStatements block = new QueenBlockStatements(
             Mockito.mock(Position.class),
-            List.of(
+            Arrays.asList(
                 new QueenReturnStatementNode(
                     Mockito.mock(Position.class),
                     new QueenNameNode(Mockito.mock(Position.class), "test")
@@ -285,7 +286,7 @@ public final class QueenLambdaExpressionNodeTestCase {
         parameters.add(param);
         final BlockStatements block = new QueenBlockStatements(
             Mockito.mock(Position.class),
-            List.of(
+            Arrays.asList(
                 new QueenReturnStatementNode(
                     Mockito.mock(Position.class),
                     new QueenNameNode(Mockito.mock(Position.class), "test")
@@ -322,7 +323,7 @@ public final class QueenLambdaExpressionNodeTestCase {
         parameters.add(param2);
         final BlockStatements block = new QueenBlockStatements(
             Mockito.mock(Position.class),
-            List.of(
+            Arrays.asList(
                 new QueenReturnStatementNode(
                     Mockito.mock(Position.class),
                     new QueenNameNode(Mockito.mock(Position.class), "test")

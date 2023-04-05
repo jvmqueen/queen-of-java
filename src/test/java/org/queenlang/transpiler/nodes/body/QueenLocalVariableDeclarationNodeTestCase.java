@@ -39,6 +39,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -336,6 +337,44 @@ public final class QueenLocalVariableDeclarationNodeTestCase {
                     Mockito.any(VariableDeclarator.class)
                 );
             }
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<ModifierNode> modifiers = new ArrayList<>();
+        modifiers.add(Mockito.mock(ModifierNode.class));
+        final TypeNode type = Mockito.mock(TypeNode.class);
+        final List<VariableDeclaratorNode> variables = new ArrayList<>();
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+
+        final LocalVariableDeclarationNode localVariable = new QueenLocalVariableDeclarationNode(
+            Mockito.mock(Position.class),
+            annotations,
+            modifiers,
+            type,
+            variables
+        );
+
+        final List<QueenNode> children = localVariable.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(5)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    modifiers.get(0),
+                    type,
+                    variables.get(0),
+                    variables.get(1)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

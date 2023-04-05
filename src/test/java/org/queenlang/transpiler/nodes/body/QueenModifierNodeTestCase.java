@@ -123,4 +123,15 @@ public final class QueenModifierNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenModifierNode(
+                Mockito.mock(Position.class),
+                "public"
+            ).children(),
+            Matchers.hasSize(0)
+        );
+    }
+
 }

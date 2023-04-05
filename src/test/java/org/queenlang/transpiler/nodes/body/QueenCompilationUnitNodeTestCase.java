@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,6 +164,38 @@ public final class QueenCompilationUnitNodeTestCase {
         MatcherAssert.assertThat(
             compilationUnit.typeDeclaration(),
             Matchers.is(types.get(0))
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final PackageDeclarationNode packageDeclaration = Mockito.mock(PackageDeclarationNode.class);
+        final List<ImportDeclarationNode> imports = new ArrayList<>();
+        imports.add(Mockito.mock(ImportDeclarationNode.class));
+        final List<TypeDeclarationNode> types = new ArrayList<>();
+        types.add(Mockito.mock(TypeDeclarationNode.class));
+
+        final CompilationUnitNode compilationUnit = new QueenCompilationUnitNode(
+            Mockito.mock(Position.class),
+            packageDeclaration,
+            imports,
+            types
+        );
+
+        final List<QueenNode> children = compilationUnit.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    packageDeclaration,
+                    imports.get(0),
+                    types.get(0)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

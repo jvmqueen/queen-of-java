@@ -126,4 +126,23 @@ public final class QueenInstanceInitializerNodeTestCase {
             Mockito.any(BlockStmt.class)
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
+            Mockito.mock(Position.class),
+            blockStatements,
+            true
+        );
+
+        MatcherAssert.assertThat(
+            instanceInitializer.children(),
+            Matchers.hasSize(1)
+        );
+        MatcherAssert.assertThat(
+            instanceInitializer.children().get(0),
+            Matchers.is(blockStatements)
+        );
+    }
 }

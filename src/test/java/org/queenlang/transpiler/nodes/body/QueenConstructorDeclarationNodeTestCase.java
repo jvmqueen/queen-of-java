@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.ExplicitConstructorInvocationNode;
@@ -282,5 +283,53 @@ public final class QueenConstructorDeclarationNodeTestCase {
         );
         Mockito.verify(explicitConstructorInvocationNode, Mockito.times(1)).addToJavaNode(Mockito.any());
         Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(Mockito.any());
+    }
+
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final ModifierNode modifier = Mockito.mock(ModifierNode.class);
+        final List<TypeParameterNode> typeParameters = new ArrayList<>();
+        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        final List<ParameterNode> parameters = new ArrayList<>();
+        parameters.add(Mockito.mock(ParameterNode.class));
+        final List<ExceptionTypeNode> throwsList = new ArrayList<>();
+        throwsList.add(Mockito.mock(ExceptionTypeNode.class));
+        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode = Mockito.mock(ExplicitConstructorInvocationNode.class);
+        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final String name = "MyClass";
+
+        final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
+            Mockito.mock(Position.class),
+            annotations,
+            modifier,
+            typeParameters,
+            name,
+            parameters,
+            throwsList,
+            explicitConstructorInvocationNode,
+            blockStatements
+        );
+
+        final List<QueenNode> children = constructorDeclarationNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(7)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    modifier,
+                    typeParameters.get(0),
+                    parameters.get(0),
+                    throwsList.get(0),
+                    explicitConstructorInvocationNode,
+                    blockStatements
+                )
+            ),
+            Matchers.is(true)
+        );
     }
 }

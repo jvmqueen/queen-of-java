@@ -109,4 +109,15 @@ public final class QueenVariableDeclaratorIdTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenVariableDeclaratorId(
+                Mockito.mock(Position.class),
+                "i"
+            ).children(),
+            Matchers.hasSize(0)
+        );
+    }
+
 }

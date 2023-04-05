@@ -35,9 +35,11 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -223,5 +225,34 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
             m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(Mockito.any())
         );
         Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
+    }
+
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<ModifierNode> modifiers = new ArrayList<>();
+        modifiers.add(Mockito.mock(ModifierNode.class));
+        final AnnotationTypeBodyNode body = Mockito.mock(AnnotationTypeBodyNode.class);
+
+        final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
+            Mockito.mock(Position.class),
+            annotations,
+            modifiers,
+            "MyAnnotation",
+            body
+        );
+
+        final List<QueenNode> children = annotationTypeDeclarationNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                Arrays.asList(annotations.get(0), modifiers.get(0), body)
+            ),
+            Matchers.is(true)
+        );
     }
 }

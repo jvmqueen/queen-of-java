@@ -83,4 +83,16 @@ public final class QueenPackageDeclarationNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
+            Mockito.mock(Position.class),
+            () -> new QueenNameNode(Mockito.mock(Position.class), "com.example.package")
+        );
+        MatcherAssert.assertThat(
+            packageDeclarationNode.children(),
+            Matchers.hasSize(1)
+        );
+    }
+
 }

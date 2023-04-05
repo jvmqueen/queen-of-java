@@ -36,6 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -210,6 +211,52 @@ public final class QueenParameterNodeTestCase {
             m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(
                 Mockito.any(Parameter.class)
             )
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<ModifierNode> modifiers = new ArrayList<>();
+        modifiers.add(Mockito.mock(ModifierNode.class));
+        final TypeNode type = Mockito.mock(TypeNode.class);
+        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
+        final VariableDeclaratorId variableDeclaratorId = Mockito.mock(VariableDeclaratorId.class);
+        Mockito.when(variableDeclaratorId.name()).thenReturn("p");
+        final List<AnnotationNode> varArgsAnnotations = new ArrayList<>();
+        final AnnotationNode varArgAnnotation = Mockito.mock(AnnotationNode.class);
+        Mockito.when(varArgAnnotation.toJavaExpression()).thenReturn(
+            new MarkerAnnotationExpr("VarArgAnnotation")
+        );
+        varArgsAnnotations.add(varArgAnnotation);
+
+        final ParameterNode parameter = new QueenParameterNode(
+            Mockito.mock(Position.class),
+            annotations,
+            modifiers,
+            type,
+            variableDeclaratorId,
+            varArgsAnnotations,
+            true
+        );
+
+        final List<QueenNode> children = parameter.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(5)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    modifiers.get(0),
+                    type,
+                    variableDeclaratorId,
+                    varArgsAnnotations.get(0)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

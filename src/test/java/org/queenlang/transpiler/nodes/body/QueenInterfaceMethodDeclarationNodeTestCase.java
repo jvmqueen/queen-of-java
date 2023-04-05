@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.types.ExceptionTypeNode;
@@ -286,5 +287,54 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
         );
         Mockito.verify(returnType, Mockito.times(1)).addToJavaNode(Mockito.any());
         Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(Mockito.any());
+    }
+
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<ModifierNode> modifiers = new ArrayList<>();
+        modifiers.add(Mockito.mock(ModifierNode.class));
+        final List<TypeParameterNode> typeParameters = new ArrayList<>();
+        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        final List<ParameterNode> parameters = new ArrayList<>();
+        parameters.add(Mockito.mock(ParameterNode.class));
+        final List<ExceptionTypeNode> throwsList = new ArrayList<>();
+        throwsList.add(Mockito.mock(ExceptionTypeNode.class));
+        final TypeNode returnType = Mockito.mock(TypeNode.class);
+        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final String name = "myMethod";
+
+        final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
+            Mockito.mock(Position.class),
+            annotations,
+            modifiers,
+            returnType,
+            typeParameters,
+            name,
+            parameters,
+            throwsList,
+            blockStatements
+        );
+
+        final List<QueenNode> children = methodDeclaration.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(7)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    modifiers.get(0),
+                    returnType,
+                    throwsList.get(0),
+                    parameters.get(0),
+                    blockStatements,
+                    typeParameters.get(0)
+                )
+            ),
+            Matchers.is(true)
+        );
     }
 }

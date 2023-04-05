@@ -35,6 +35,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
@@ -334,4 +335,46 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
         );
         Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
     }
+
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<ModifierNode> modifiers = new ArrayList<>();
+        modifiers.add(Mockito.mock(ModifierNode.class));
+        final List<TypeParameterNode> typeParams = new ArrayList<>();
+        typeParams.add(Mockito.mock(TypeParameterNode.class));
+        final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
+        extendsTypes.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
+        final InterfaceBodyNode body = Mockito.mock(InterfaceBodyNode.class);
+
+        final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
+            Mockito.mock(Position.class),
+            annotations,
+            modifiers,
+            "SomeInterface",
+            typeParams,
+            extendsTypes,
+            body
+        );
+
+        final List<QueenNode> children = normalInterfaceDeclarationNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(5)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    modifiers.get(0),
+                    typeParams.get(0),
+                    extendsTypes.get(0),
+                    body
+                )
+            ),
+            Matchers.is(true)
+        );
+    }
+
 }

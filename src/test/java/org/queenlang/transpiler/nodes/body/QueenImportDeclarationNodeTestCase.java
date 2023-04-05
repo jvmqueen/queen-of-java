@@ -133,4 +133,35 @@ public final class QueenImportDeclarationNodeTestCase {
             Matchers.equalTo("com.example.List")
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final QueenNameNode name = new QueenNameNode(
+            Mockito.mock(Position.class),
+            new QueenNameNode(
+                Mockito.mock(Position.class),
+                new QueenNameNode(
+                    Mockito.mock(Position.class),
+                    "com"
+                ),
+                "example"
+            ),
+            "List"
+        );
+        final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
+            position,
+            name,
+            false,
+            false
+        );
+        MatcherAssert.assertThat(
+            importDeclaration.children().size(),
+            Matchers.is(1)
+        );
+        MatcherAssert.assertThat(
+            importDeclaration.children().get(0),
+            Matchers.is(name)
+        );
+    }
 }

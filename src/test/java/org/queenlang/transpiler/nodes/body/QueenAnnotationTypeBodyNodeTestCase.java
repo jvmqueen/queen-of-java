@@ -90,4 +90,27 @@ public final class QueenAnnotationTypeBodyNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations = new ArrayList<>();
+        annotationMemberDeclarations.add(Mockito.mock(AnnotationTypeMemberDeclarationNode.class));
+        annotationMemberDeclarations.add(Mockito.mock(AnnotationTypeMemberDeclarationNode.class));
+        annotationMemberDeclarations.add(Mockito.mock(AnnotationTypeMemberDeclarationNode.class));
+
+        final AnnotationTypeBodyNode annotationTypeBodyNode = new QueenAnnotationTypeBodyNode(
+            Mockito.mock(Position.class),
+            annotationMemberDeclarations
+        );
+
+        MatcherAssert.assertThat(
+            annotationTypeBodyNode.children(),
+            Matchers.hasSize(3)
+        );
+
+        MatcherAssert.assertThat(
+            annotationTypeBodyNode.children().containsAll(annotationMemberDeclarations),
+            Matchers.is(true)
+        );
+    }
+
 }

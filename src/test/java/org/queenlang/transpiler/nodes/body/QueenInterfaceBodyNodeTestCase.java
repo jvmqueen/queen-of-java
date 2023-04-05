@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,4 +91,26 @@ public final class QueenInterfaceBodyNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations = new ArrayList<>();
+        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
+
+        final InterfaceBodyNode interfaceBody = new QueenInterfaceBodyNode(
+            Mockito.mock(Position.class),
+            interfaceMemberDeclarations
+        );
+
+        final List<QueenNode> children = interfaceBody.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(interfaceMemberDeclarations),
+            Matchers.is(true)
+        );
+    }
 }

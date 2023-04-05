@@ -35,11 +35,13 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -201,5 +203,41 @@ public final class QueenAnnotationElementDeclarationNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<ModifierNode> modifiers = new ArrayList<>();
+        modifiers.add(Mockito.mock(ModifierNode.class));
+        final TypeNode type = Mockito.mock(TypeNode.class);
+        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
 
+        final ExpressionNode defaultValue = Mockito.mock(ExpressionNode.class);
+
+        final AnnotationElementDeclarationNode annotationElementDeclarationNode = new QueenAnnotationElementDeclarationNode(
+            Mockito.mock(Position.class),
+            annotations,
+            modifiers,
+            type,
+            "someName",
+            defaultValue
+        );
+
+        final List<QueenNode> children = annotationElementDeclarationNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(4)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                Arrays.asList(
+                    annotations.get(0),
+                    modifiers.get(0),
+                    type,
+                    defaultValue
+                )
+            ),
+            Matchers.is(true)
+        );
+    }
 }

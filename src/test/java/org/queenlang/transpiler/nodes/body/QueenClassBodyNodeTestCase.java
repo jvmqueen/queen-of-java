@@ -105,4 +105,24 @@ public final class QueenClassBodyNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final List<ClassBodyDeclarationNode> classBodyDeclarations = new ArrayList<>();
+        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
+        final ClassBodyNode classBody = new QueenClassBodyNode(
+            Mockito.mock(Position.class),
+            classBodyDeclarations
+        );
+        MatcherAssert.assertThat(
+            classBody.children(),
+            Matchers.iterableWithSize(3)
+        );
+        MatcherAssert.assertThat(
+            classBody.children().containsAll(classBodyDeclarations),
+            Matchers.is(true)
+        );
+    }
+
 }

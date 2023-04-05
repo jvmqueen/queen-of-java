@@ -37,6 +37,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
@@ -499,6 +500,54 @@ public final class QueenClassDeclarationNodeTestCase {
         Mockito.verify(extendsType, Mockito.times(1)).addToJavaNode(Mockito.any());
         Mockito.verify(extensionModifier, Mockito.times(1)).addToJavaNode(Mockito.any());
         Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
+    }
+
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<ModifierNode> modifiers = new ArrayList<>();
+        modifiers.add(Mockito.mock(ModifierNode.class));
+        final List<TypeParameterNode> typeParameters = new ArrayList<>();
+        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        final List<ClassOrInterfaceTypeNode> of = new ArrayList<>();
+        of.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
+        final ClassOrInterfaceTypeNode extendsType = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final ModifierNode extensionModifier = Mockito.mock(ModifierNode.class);
+        final ClassBodyNode body = Mockito.mock(ClassBodyNode.class);
+
+        final ClassDeclarationNode classDeclarationNode = new QueenClassDeclarationNode(
+            Mockito.mock(Position.class),
+            annotations,
+            modifiers,
+            extensionModifier,
+            "MyClass",
+            typeParameters,
+            extendsType,
+            of,
+            body
+        );
+
+        final List<QueenNode> children = classDeclarationNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(7)
+        );
+
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    modifiers.get(0),
+                    typeParameters.get(0),
+                    of.get(0),
+                    extendsType,
+                    extensionModifier,
+                    body
+                )
+            ),
+            Matchers.is(true)
+        );
     }
 
 }

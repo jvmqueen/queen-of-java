@@ -34,6 +34,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenLabeledStatementNode}.
@@ -127,6 +130,27 @@ public final class QueenLabeledStatementNodeTestCase {
         MatcherAssert.assertThat(
             labeledStmt.getStatement().asLabeledStmt().getLabel().asString(),
             Matchers.equalTo("childLabeled")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final LabeledStatementNode labeled = new QueenLabeledStatementNode(
+            position,
+            "childLabeled",
+            blockStatements
+        );
+
+        final List<QueenNode> children = labeled.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(1)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(List.of(blockStatements)),
+            Matchers.is(true)
         );
     }
 

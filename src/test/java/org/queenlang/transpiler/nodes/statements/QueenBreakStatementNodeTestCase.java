@@ -104,4 +104,12 @@ public final class QueenBreakStatementNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenBreakStatementNode(Mockito.mock(Position.class), "someLabel").children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
+
 }

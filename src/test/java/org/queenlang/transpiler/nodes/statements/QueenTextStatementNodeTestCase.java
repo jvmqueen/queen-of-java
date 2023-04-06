@@ -98,4 +98,15 @@ public final class QueenTextStatementNodeTestCase {
             Matchers.equalTo("return 0;")
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenTextStatementNode(
+                Mockito.mock(Position.class),
+                "return 0;"
+            ).children(),
+            Matchers.emptyIterable()
+        );
+    }
 }

@@ -36,6 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -176,5 +177,35 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
         );
         Mockito.verify(arg, Mockito.times(1)).toJavaExpression();
         Mockito.verify(scope, Mockito.times(1)).toJavaExpression();
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final List<TypeNode> typeArgs = new ArrayList<>();
+        typeArgs.add(Mockito.mock(TypeNode.class));
+        final List<ExpressionNode> args = new ArrayList<>();
+        args.add(Mockito.mock(ExpressionNode.class));
+
+        final ExplicitConstructorInvocationNode explicit = new QueenExplicitConstructorInvocationNode(
+            position,
+            true,
+            scope,
+            typeArgs,
+            args
+        );
+
+        final List<QueenNode> children = explicit.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(scope, typeArgs.get(0), args.get(0))
+            ),
+            Matchers.is(true)
+        );
     }
 }

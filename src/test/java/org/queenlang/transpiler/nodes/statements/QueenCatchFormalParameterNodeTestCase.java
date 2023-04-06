@@ -35,6 +35,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ModifierNode;
 import org.queenlang.transpiler.nodes.body.VariableDeclaratorId;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -192,6 +193,42 @@ public final class QueenCatchFormalParameterNodeTestCase {
         MatcherAssert.assertThat(
             javaCatchClause.getParameter(),
             Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<ModifierNode> modifiers = new ArrayList<>();
+        modifiers.add(Mockito.mock(ModifierNode.class));
+        final List<TypeNode> caught = new ArrayList<>();
+        caught.add(Mockito.mock(TypeNode.class));
+        final VariableDeclaratorId variableDeclaratorId = Mockito.mock(VariableDeclaratorId.class);
+        final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
+            position,
+            annotations,
+            modifiers,
+            caught,
+            variableDeclaratorId
+        );
+
+        final List<QueenNode> children = catchFormalParameterNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(4)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    modifiers.get(0),
+                    caught.get(0),
+                    variableDeclaratorId
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

@@ -34,6 +34,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +116,32 @@ public final class QueenSwitchEntryNodeTestCase {
         );
         Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(
             Mockito.any(BlockStmt.class)
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<SwitchLabelNode> labels = new ArrayList<>();
+        labels.add(Mockito.mock(SwitchLabelNode.class));
+        labels.add(Mockito.mock(SwitchLabelNode.class));
+        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final SwitchEntryNode switchEntryNode = new QueenSwitchEntryNode(
+            position,
+            labels,
+            blockStatements
+        );
+
+        final List<QueenNode> children = switchEntryNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(labels.get(0), labels.get(1), blockStatements)
+            ),
+            Matchers.is(true)
         );
     }
 }

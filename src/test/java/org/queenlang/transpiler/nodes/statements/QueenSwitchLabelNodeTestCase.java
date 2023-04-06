@@ -108,4 +108,24 @@ public final class QueenSwitchLabelNodeTestCase {
 
     }
 
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final SwitchLabelNode switchLabelNode = new QueenSwitchLabelNode(
+            position,
+            expressionNode,
+            false
+        );
+
+        MatcherAssert.assertThat(
+            switchLabelNode.children(),
+            Matchers.iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            switchLabelNode.children().get(0),
+            Matchers.is(expressionNode)
+        );
+    }
+
 }

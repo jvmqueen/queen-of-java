@@ -67,4 +67,12 @@ public final class QueenEmptyStatementNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenEmptyStatementNode(Mockito.mock(Position.class)).children(),
+            Matchers.emptyIterable()
+        );
+    }
+
 }

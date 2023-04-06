@@ -122,4 +122,33 @@ public final class QueenSwitchStatementNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final List<SwitchEntryNode> entries = new ArrayList<>();
+        entries.add(Mockito.mock(SwitchEntryNode.class));
+        entries.add(Mockito.mock(SwitchEntryNode.class));
+
+        final SwitchStatementNode switchStatement = new QueenSwitchStatementNode(
+            position,
+            expression,
+            entries
+        );
+
+        MatcherAssert.assertThat(
+            switchStatement.children().size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            switchStatement.children().containsAll(
+                List.of(
+                    entries.get(0),
+                    entries.get(1),
+                    expression
+                )
+            ),
+            Matchers.is(true)
+        );
+    }
 }

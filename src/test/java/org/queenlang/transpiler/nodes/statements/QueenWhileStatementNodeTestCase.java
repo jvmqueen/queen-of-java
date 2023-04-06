@@ -35,7 +35,10 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenWhileStatementNode}.
@@ -141,6 +144,31 @@ public final class QueenWhileStatementNodeTestCase {
         MatcherAssert.assertThat(
             labeled.getStatement().asWhileStmt(),
             Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+
+        final WhileStatementNode whileExpression = new QueenWhileStatementNode(
+            position,
+            expression,
+            blockStatements
+        );
+
+        final List<QueenNode> children = whileExpression.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(expression, blockStatements)
+            ),
+            Matchers.is(true)
         );
     }
 }

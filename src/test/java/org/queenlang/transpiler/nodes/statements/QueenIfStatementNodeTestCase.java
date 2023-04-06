@@ -36,7 +36,10 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenIfStatementNode}.
@@ -170,6 +173,33 @@ public final class QueenIfStatementNodeTestCase {
         );
         Mockito.verify(elseBlock, Mockito.times(1)).addToJavaNode(
             Mockito.any(BlockStmt.class)
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        Mockito.when(expressionNode.toJavaExpression()).thenReturn(new BooleanLiteralExpr(true));
+        final BlockStatements thenBlock = Mockito.mock(BlockStatements.class);
+        final BlockStatements elseBlock = Mockito.mock(BlockStatements.class);
+        final IfStatementNode ifStatementNode = new QueenIfStatementNode(
+            position,
+            expressionNode,
+            thenBlock,
+            elseBlock
+        );
+
+        final List<QueenNode> children = ifStatementNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(expressionNode, thenBlock, elseBlock)
+            ),
+            Matchers.is(true)
         );
     }
 }

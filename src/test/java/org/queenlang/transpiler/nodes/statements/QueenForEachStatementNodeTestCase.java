@@ -37,8 +37,11 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenForEachStatementNode}.
@@ -170,5 +173,36 @@ public final class QueenForEachStatementNodeTestCase {
         Mockito.verify(variable, Mockito.times(1)).toJavaExpression();
         Mockito.verify(iterable, Mockito.times(1)).toJavaExpression();
         Mockito.verify(block, Mockito.times(1)).addToJavaNode(Mockito.any(BlockStmt.class));
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final LocalVariableDeclarationNode variable = Mockito.mock(LocalVariableDeclarationNode.class);
+        final ExpressionNode iterable = Mockito.mock(ExpressionNode.class);
+        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final ForEachStatementNode forEach = new QueenForEachStatementNode(
+            position,
+            variable,
+            iterable,
+            block
+        );
+
+        final List<QueenNode> children = forEach.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    variable,
+                    iterable,
+                    block
+                )
+            ),
+            Matchers.is(true)
+        );
+
     }
 }

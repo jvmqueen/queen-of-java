@@ -34,6 +34,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
@@ -184,4 +185,38 @@ public final class QueenTryStatementNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<ExpressionNode> resources = new ArrayList<>();
+        resources.add(Mockito.mock(ExpressionNode.class));
+        final BlockStatements tryBlock = Mockito.mock(BlockStatements.class);
+        final List<CatchClauseNode> catchClauses = new ArrayList<>();
+        catchClauses.add(Mockito.mock(CatchClauseNode.class));
+        final BlockStatements finallyBlock = Mockito.mock(BlockStatements.class);
+        final TryStatementNode tryStatementNode = new QueenTryStatementNode(
+            position,
+            resources,
+            tryBlock,
+            catchClauses,
+            finallyBlock
+        );
+
+        final List<QueenNode> children = tryStatementNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(4)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    resources.get(0),
+                    tryBlock,
+                    catchClauses.get(0),
+                    finallyBlock
+                )
+            ),
+            Matchers.is(true)
+        );
+    }
 }

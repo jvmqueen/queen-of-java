@@ -105,4 +105,12 @@ public final class QueenContinueStatementNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenContinueStatementNode(Mockito.mock(Position.class), "someLabel").children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
+
 }

@@ -34,7 +34,10 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenSynchronizedStatementNode}.
@@ -113,6 +116,30 @@ public final class QueenSynchronizedStatementNodeTestCase {
         MatcherAssert.assertThat(
             blockStmt.getStatement(0).asSynchronizedStmt(),
             Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final SynchronizedStatementNode syncStatement = new QueenSynchronizedStatementNode(
+            position,
+            expressionNode,
+            block
+        );
+
+        final List<QueenNode> children = syncStatement.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(expressionNode, block)
+            ),
+            Matchers.is(true)
         );
     }
 

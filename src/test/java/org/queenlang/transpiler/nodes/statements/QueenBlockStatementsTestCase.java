@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,27 @@ public final class QueenBlockStatementsTestCase {
         block.addToJavaNode(node);
         statements.forEach(
             s -> Mockito.verify(s, Mockito.times(1)).addToJavaNode(node)
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<StatementNode> statements = new ArrayList<>();
+        statements.add(Mockito.mock(StatementNode.class));
+        statements.add(Mockito.mock(StatementNode.class));
+        final BlockStatements block = new QueenBlockStatements(position, statements);
+
+        final List<QueenNode> children = block.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(statements.get(0), statements.get(1))
+            ),
+            Matchers.is(true)
         );
     }
 

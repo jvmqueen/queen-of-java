@@ -36,6 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
@@ -241,6 +242,41 @@ public final class QueenForStatementNodeTestCase {
             u -> Mockito.verify(u, Mockito.times(1)).toJavaExpression()
         );
         Mockito.verify(block, Mockito.times(1)).addToJavaNode(Mockito.any(BlockStmt.class));
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<ExpressionNode> init = new ArrayList<>();
+        init.add(Mockito.mock(ExpressionNode.class));
+        final ExpressionNode comparison = Mockito.mock(ExpressionNode.class);
+        final List<ExpressionNode> update = new ArrayList<>();
+        update.add(Mockito.mock(ExpressionNode.class));
+        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final ForStatementNode forStatement = new QueenForStatementNode(
+            position,
+            init,
+            comparison,
+            update,
+            block
+        );
+
+        final List<QueenNode> children = forStatement.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(4)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    init.get(0),
+                    comparison,
+                    update.get(0),
+                    block
+                )
+            ),
+            Matchers.is(true)
+        );
     }
 
 }

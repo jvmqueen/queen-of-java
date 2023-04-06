@@ -35,6 +35,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenCatchClauseNode}.
@@ -112,6 +115,33 @@ public final class QueenCatchClauseNodeTestCase {
         MatcherAssert.assertThat(
             javaTryStmt.getCatchClauses().get(0),
             Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final CatchFormalParameterNode parameter = Mockito.mock(CatchFormalParameterNode.class);
+        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final CatchClauseNode catchClauseNode = new QueenCatchClauseNode(
+            position,
+            parameter,
+            block
+        );
+
+        final List<QueenNode> children = catchClauseNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    parameter,
+                    block
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

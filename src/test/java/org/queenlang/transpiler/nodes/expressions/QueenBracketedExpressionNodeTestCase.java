@@ -33,6 +33,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenBracketedExpressionNode}.
@@ -86,4 +89,27 @@ public final class QueenBracketedExpressionNodeTestCase {
             Matchers.equalTo("a")
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final BracketedExpressionNode bracketed = new QueenBracketedExpressionNode(
+            position,
+            expressionNode
+        );
+
+        final List<QueenNode> children = bracketed.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(1)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(expressionNode)
+            ),
+            Matchers.is(true)
+        );
+    }
+
 }

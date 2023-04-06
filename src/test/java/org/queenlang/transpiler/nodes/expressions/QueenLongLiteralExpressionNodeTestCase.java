@@ -79,4 +79,15 @@ public final class QueenLongLiteralExpressionNodeTestCase {
             Matchers.equalTo(123L)
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenLongLiteralExpressionNode(
+                Mockito.mock(Position.class),
+                "123l"
+            ).children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
 }

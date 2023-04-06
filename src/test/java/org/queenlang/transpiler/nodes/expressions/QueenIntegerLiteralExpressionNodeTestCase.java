@@ -79,4 +79,15 @@ public final class QueenIntegerLiteralExpressionNodeTestCase {
             Matchers.equalTo(1)
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenIntegerLiteralExpressionNode(
+                Mockito.mock(Position.class),
+                "1"
+            ).children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
 }

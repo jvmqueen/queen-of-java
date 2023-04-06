@@ -94,4 +94,16 @@ public final class QueenThisExpressionNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
+            Mockito.mock(Position.class),
+            new QueenNameNode(Mockito.mock(Position.class), "Student")
+        );
+        MatcherAssert.assertThat(
+            thisExpression.children(),
+            Matchers.iterableWithSize(1)
+        );
+    }
+
 }

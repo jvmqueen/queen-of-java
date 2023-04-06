@@ -94,4 +94,16 @@ public final class QueenSuperExpressionNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
+            Mockito.mock(Position.class),
+            new QueenNameNode(Mockito.mock(Position.class), "Student")
+        );
+        MatcherAssert.assertThat(
+            superExpression.children(),
+            Matchers.iterableWithSize(1)
+        );
+    }
+
 }

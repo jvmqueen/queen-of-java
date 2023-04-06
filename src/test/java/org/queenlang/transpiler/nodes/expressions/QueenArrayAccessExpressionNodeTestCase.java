@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,6 +189,36 @@ public final class QueenArrayAccessExpressionNodeTestCase {
         MatcherAssert.assertThat(
             expression.asArrayAccessExpr().getName().asArrayAccessExpr().getIndex().asNameExpr().getName().asString(),
             Matchers.equalTo("i")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final List<ArrayDimensionNode> dims = new ArrayList<>();
+        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(Mockito.mock(ArrayDimensionNode.class));
+
+        final ArrayAccessExpressionNode arrayAccessExpressionNode = new QueenArrayAccessExpressionNode(
+            Mockito.mock(Position.class),
+            expressionNode,
+            dims
+        );
+
+        final List<QueenNode> children = arrayAccessExpressionNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    expressionNode,
+                    dims.get(0),
+                    dims.get(1)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

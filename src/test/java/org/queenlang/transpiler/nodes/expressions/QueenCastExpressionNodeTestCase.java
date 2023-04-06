@@ -36,6 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -213,6 +214,38 @@ public final class QueenCastExpressionNodeTestCase {
         MatcherAssert.assertThat(
             castExpr.getExpression().asNameExpr().getName().asString(),
             Matchers.equalTo("student")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+
+        final List<ReferenceTypeNode> refTypes = new ArrayList<>();
+        refTypes.add(Mockito.mock(ReferenceTypeNode.class));
+        final TypeNode primitiveType = Mockito.mock(TypeNode.class);
+        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final CastExpressionNode cast = new QueenCastExpressionNode(
+            position,
+            primitiveType,
+            refTypes,
+            expression
+        );
+
+        final List<QueenNode> children = cast.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    primitiveType,
+                    expression,
+                    refTypes.get(0)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

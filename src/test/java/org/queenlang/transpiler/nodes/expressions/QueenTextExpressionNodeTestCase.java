@@ -66,4 +66,15 @@ public final class QueenTextExpressionNodeTestCase {
             Matchers.equalTo("a = 2 + 2")
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenTextExpressionNode(
+                Mockito.mock(Position.class),
+                "a = 2 + 2"
+            ).children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
 }

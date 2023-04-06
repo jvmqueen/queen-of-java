@@ -81,5 +81,15 @@ public final class QueenStringLiteralExpressionNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenStringLiteralExpressionNode(
+                Mockito.mock(Position.class),
+                "test"
+            ).children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
 
 }

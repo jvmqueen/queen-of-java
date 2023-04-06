@@ -9,6 +9,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ClassBodyNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -190,5 +191,43 @@ public final class QueenObjectCreationExpressionNodeTestCase {
         Mockito.verify(scope, Mockito.times(1)).toJavaExpression();
         Mockito.verify(type, Mockito.times(1)).toType();
 
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final ClassOrInterfaceTypeNode type = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final List<TypeNode> typeArgs = new ArrayList<>();
+        typeArgs.add(Mockito.mock(TypeNode.class));
+        final List<ExpressionNode> arguments = new ArrayList<>();
+        arguments.add(Mockito.mock(ExpressionNode.class));
+        final ClassBodyNode body = Mockito.mock(ClassBodyNode.class);
+        final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
+            position,
+            scope,
+            type,
+            typeArgs,
+            arguments,
+            body
+        );
+
+        final List<QueenNode> children = objectCreationExpr.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(5)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    scope,
+                    type,
+                    typeArgs.get(0),
+                    arguments.get(0),
+                    body
+                )
+            ),
+            Matchers.is(true)
+        );
     }
 }

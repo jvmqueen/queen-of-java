@@ -35,7 +35,10 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenInstanceOfExpressionNode}.
@@ -115,6 +118,33 @@ public final class QueenInstanceOfExpressionNodeTestCase {
         MatcherAssert.assertThat(
             javaExpr.asInstanceOfExpr().getTypeAsString(),
             Matchers.equalTo("Student")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ReferenceTypeNode refType = Mockito.mock(ReferenceTypeNode.class);
+        final InstanceOfExpressionNode instanceOfExpression = new QueenInstanceOfExpressionNode(
+            position,
+            expressionNode,
+            refType
+        );
+
+        final List<QueenNode> children = instanceOfExpression.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    expressionNode,
+                    refType
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

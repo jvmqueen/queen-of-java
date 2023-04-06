@@ -32,6 +32,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,34 @@ public final class QueenArrayDimensionNodeTestCase {
             dim.expression(),
             Matchers.is(expressionNode)
         );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final ArrayDimensionNode dim = new QueenArrayDimensionNode(
+            Mockito.mock(Position.class),
+            annotations,
+            expression
+        );
+
+        final List<QueenNode> children = dim.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    expression
+                )
+            ),
+            Matchers.is(true)
+        );
+
     }
 
 }

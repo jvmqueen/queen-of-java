@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
@@ -125,6 +126,36 @@ public final class QueenTypeImplementationExpressionNodeTestCase {
         MatcherAssert.assertThat(
             typeImplementation.toJavaExpression().toString(),
             Matchers.equalTo("SomeArray[][].class")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final TypeNode type = Mockito.mock(TypeNode.class);
+        final List<ArrayDimensionNode> dims = new ArrayList<>();
+        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        final TypeImplementationExpressionNode typeImplementation = new QueenTypeImplementationExpressionNode(
+            position,
+            type,
+            dims
+        );
+
+        final List<QueenNode> children = typeImplementation.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    type,
+                    dims.get(0),
+                    dims.get(1)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

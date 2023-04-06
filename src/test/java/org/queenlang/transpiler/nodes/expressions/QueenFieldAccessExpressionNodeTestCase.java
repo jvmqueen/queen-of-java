@@ -34,6 +34,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenFieldAccessExpressionNode}.
@@ -111,6 +114,34 @@ public final class QueenFieldAccessExpressionNodeTestCase {
         MatcherAssert.assertThat(
             javaExpression.toFieldAccessExpr().get().getName().asString(),
             Matchers.equalTo("x")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        Mockito.when(scope.toJavaExpression()).thenReturn(
+            new NameExpr("SomeClass")
+        );
+        final FieldAccessExpressionNode fieldAccess = new QueenFieldAccessExpressionNode(
+            position,
+            scope,
+            "x"
+        );
+
+        final List<QueenNode> children = fieldAccess.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(1)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    scope
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

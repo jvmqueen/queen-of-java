@@ -34,6 +34,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
@@ -197,6 +198,39 @@ public final class QueenMethodInvocationExpressionNodeTestCase {
         MatcherAssert.assertThat(
             methodCall.getArguments().size(),
             Matchers.equalTo(0)
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final List<TypeNode> typeArguments = new ArrayList<>();
+        typeArguments.add(Mockito.mock(TypeNode.class));
+        final List<ExpressionNode> arguments = new ArrayList<>();
+        arguments.add(Mockito.mock(ExpressionNode.class));
+        final MethodInvocationExpressionNode methodInvocation = new QueenMethodInvocationExpressionNode(
+            position,
+            scope,
+            typeArguments,
+            "doSomething",
+            arguments
+        );
+
+        final List<QueenNode> children = methodInvocation.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    scope,
+                    typeArguments.get(0),
+                    arguments.get(0)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 

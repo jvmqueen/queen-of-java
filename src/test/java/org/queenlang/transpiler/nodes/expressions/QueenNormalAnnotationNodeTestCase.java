@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ElementValuePairNode;
 
 import java.util.ArrayList;
@@ -166,5 +167,35 @@ public final class QueenNormalAnnotationNodeTestCase {
         );
         Mockito.verify(pairA, Mockito.times(1)).addToJavaNode(Mockito.any(NormalAnnotationExpr.class));
         Mockito.verify(pairB, Mockito.times(1)).addToJavaNode(Mockito.any(NormalAnnotationExpr.class));
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<ElementValuePairNode> elements = new ArrayList<>();
+        elements.add(Mockito.mock(ElementValuePairNode.class));
+        elements.add(Mockito.mock(ElementValuePairNode.class));
+        final QueenNameNode nameNode = new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation");
+        final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
+            position,
+            nameNode,
+            elements
+        );
+
+        final List<QueenNode> children = normalAnnotation.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    elements.get(0),
+                    elements.get(1),
+                    nameNode
+                )
+            ),
+            Matchers.is(true)
+        );
     }
 }

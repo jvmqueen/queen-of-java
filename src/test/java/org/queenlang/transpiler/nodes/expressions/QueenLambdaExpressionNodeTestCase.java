@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ParameterNode;
 import org.queenlang.transpiler.nodes.body.QueenParameterNode;
 import org.queenlang.transpiler.nodes.body.QueenVariableDeclaratorId;
@@ -341,6 +342,40 @@ public final class QueenLambdaExpressionNodeTestCase {
         MatcherAssert.assertThat(
             lambdaExpr.toString(),
             Matchers.equalTo("(a, b) -> {\n    return test;\n}")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<ParameterNode> parameters = new ArrayList<>();
+        parameters.add(Mockito.mock(ParameterNode.class));
+        parameters.add(Mockito.mock(ParameterNode.class));
+        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
+            position,
+            true,
+            parameters,
+            expression,
+            block
+        );
+
+        final List<QueenNode> children = lambda.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(4)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    parameters.get(0),
+                    parameters.get(1),
+                    block,
+                    expression
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

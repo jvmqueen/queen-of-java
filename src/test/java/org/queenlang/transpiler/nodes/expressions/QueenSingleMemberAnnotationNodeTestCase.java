@@ -36,6 +36,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenSingleMemberAnnotationNode}.
@@ -144,4 +147,20 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ExpressionNode element = Mockito.mock(ExpressionNode.class);
+        final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
+            position,
+            new QueenNameNode(Mockito.mock(Position.class), "Scope"),
+            element
+        );
+
+        final List<QueenNode> children = singleMemberAnnotation.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+    }
 }

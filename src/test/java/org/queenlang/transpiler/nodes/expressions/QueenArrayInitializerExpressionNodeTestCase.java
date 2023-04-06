@@ -35,6 +35,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +107,32 @@ public final class QueenArrayInitializerExpressionNodeTestCase {
         MatcherAssert.assertThat(
             expression.getValues().get(0).asNameExpr().getName().asString(),
             Matchers.equalTo("1")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final List<ExpressionNode> values = new ArrayList<>();
+        values.add(Mockito.mock(ExpressionNode.class));
+        values.add(Mockito.mock(ExpressionNode.class));
+        final ArrayInitializerExpressionNode arrayInit = new QueenArrayInitializerExpressionNode(
+            Mockito.mock(Position.class),
+            values
+        );
+
+        final List<QueenNode> children = arrayInit.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    values.get(0),
+                    values.get(1)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

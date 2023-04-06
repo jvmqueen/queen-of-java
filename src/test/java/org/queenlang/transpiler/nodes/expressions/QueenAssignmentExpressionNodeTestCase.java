@@ -34,6 +34,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
+
+import java.util.List;
 
 /**
  * Unit tests for {@link QueenAssignmentExpressionNode}.
@@ -139,6 +142,33 @@ public final class QueenAssignmentExpressionNodeTestCase {
         MatcherAssert.assertThat(
             assignExpr.getValue().asNameExpr().getName().asString(),
             Matchers.equalTo("0")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final ExpressionNode target = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode value = Mockito.mock(ExpressionNode.class);
+        final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
+            Mockito.mock(Position.class),
+            target,
+            "=",
+            value
+        );
+
+        final List<QueenNode> children = assignment.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    target,
+                    value
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

@@ -79,4 +79,15 @@ public final class QueenDoubleLiteralExpressionNodeTestCase {
             Matchers.equalTo(1.2)
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenDoubleLiteralExpressionNode(
+                Mockito.mock(Position.class),
+                "1.2"
+            ).children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
 }

@@ -91,4 +91,14 @@ public final class QueenNullLiteralExpressionNodeTestCase {
             Matchers.equalTo("null")
         );
     }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenNullLiteralExpressionNode(
+                Mockito.mock(Position.class)
+            ).children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
 }

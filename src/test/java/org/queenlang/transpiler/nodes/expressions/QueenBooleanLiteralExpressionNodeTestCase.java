@@ -93,4 +93,17 @@ public final class QueenBooleanLiteralExpressionNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final BooleanLiteralExpressionNode booleanLiteral = new QueenBooleanLiteralExpressionNode(
+            position,
+            true
+        );
+        MatcherAssert.assertThat(
+            booleanLiteral.children(),
+            Matchers.emptyIterable()
+        );
+    }
+
 }

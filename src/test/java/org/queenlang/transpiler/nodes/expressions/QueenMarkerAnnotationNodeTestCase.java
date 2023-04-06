@@ -104,4 +104,22 @@ public final class QueenMarkerAnnotationNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final MarkerAnnotationNode marker = new QueenMarkerAnnotationNode(
+            position,
+            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation")
+        );
+
+        MatcherAssert.assertThat(
+            marker.children(),
+            Matchers.iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            marker.children().get(0),
+            Matchers.instanceOf(QueenNameNode.class)
+        );
+    }
+
 }

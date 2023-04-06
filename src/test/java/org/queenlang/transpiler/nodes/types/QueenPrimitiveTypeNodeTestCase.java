@@ -36,6 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
@@ -170,4 +171,25 @@ public final class QueenPrimitiveTypeNodeTestCase {
         );
     }
 
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
+            position,
+            annotations,
+            "char"
+        );
+
+        final List<QueenNode> children = primitive.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(1)
+        );
+        MatcherAssert.assertThat(
+            children.get(0),
+            Matchers.is(annotations.get(0))
+        );
+    }
 }

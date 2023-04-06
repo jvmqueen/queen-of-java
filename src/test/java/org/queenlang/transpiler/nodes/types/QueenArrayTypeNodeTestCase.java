@@ -36,6 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 
 import java.util.ArrayList;
@@ -161,6 +162,32 @@ public final class QueenArrayTypeNodeTestCase {
         MatcherAssert.assertThat(
             parameter.getType().toString(),
             Matchers.equalTo("double[]")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final TypeNode type = Mockito.mock(TypeNode.class);
+        Mockito.when(type.toType()).thenReturn(PrimitiveType.doubleType());
+        final List<ArrayDimensionNode> dims = new ArrayList<>();
+        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
+            position,
+            type,
+            dims
+        );
+
+        final List<QueenNode> children = arrayTypeNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(2)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(type, dims.get(0))
+            ),
+            Matchers.is(true)
         );
     }
 }

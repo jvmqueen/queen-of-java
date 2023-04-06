@@ -38,6 +38,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
@@ -534,6 +535,41 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
             ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(
                 Mockito.any(ClassOrInterfaceType.class)
             )
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final List<TypeNode> typeArguments = new ArrayList<>();
+        typeArguments.add(Mockito.mock(TypeNode.class));
+        final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
+            position,
+            false,
+            scope,
+            annotations,
+            "SomeClass",
+            typeArguments,
+            false
+        );
+
+        final List<QueenNode> children = classOrInterfaceTypeNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    scope,
+                    annotations.get(0),
+                    typeArguments.get(0)
+                )
+            ),
+            Matchers.is(true)
         );
     }
 }

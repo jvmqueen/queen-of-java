@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
@@ -133,6 +134,37 @@ public final class QueenWildcardNodeTestCase {
         MatcherAssert.assertThat(
             clazz.toString(),
             Matchers.equalTo("MyClass<?>")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final Position position = Mockito.mock(Position.class);
+        final List<AnnotationNode> annotations = new ArrayList<>();
+        annotations.add(Mockito.mock(AnnotationNode.class));
+        final ReferenceTypeNode extendedType = Mockito.mock(ReferenceTypeNode.class);
+        final ReferenceTypeNode superType = Mockito.mock(ReferenceTypeNode.class);
+        final WildcardTypeNode wildcard = new QueenWildcardNode(
+            position,
+            annotations,
+            extendedType,
+            superType
+        );
+
+        final List<QueenNode> children = wildcard.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(3)
+        );
+        MatcherAssert.assertThat(
+            children.containsAll(
+                List.of(
+                    annotations.get(0),
+                    extendedType,
+                    superType
+                )
+            ),
+            Matchers.is(true)
         );
     }
 

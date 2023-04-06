@@ -34,6 +34,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
@@ -150,6 +151,22 @@ public final class QueenExceptionTypeNodeTestCase {
             ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(Mockito.any(
                 ClassOrInterfaceType.class
             ))
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final ClassOrInterfaceTypeNode typeNode = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final ExceptionTypeNode exceptionTypeNode = new QueenExceptionTypeNode(typeNode);
+
+        final List<QueenNode> children = exceptionTypeNode.children();
+        MatcherAssert.assertThat(
+            children.size(),
+            Matchers.is(1)
+        );
+        MatcherAssert.assertThat(
+            children.get(0),
+            Matchers.is(typeNode)
         );
     }
 

@@ -40,7 +40,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNameNode implements NameNode {
+public final class QueenNameNode implements NameNode, QueenReferenceNode {
 
     private final Position position;
     private final QueenNameNode qualifier;
@@ -98,5 +98,10 @@ public final class QueenNameNode implements NameNode {
     @Override
     public String name() {
         return this.toName().toString();
+    }
+
+    @Override
+    public QueenNode resolve() {
+        return null;
     }
 }

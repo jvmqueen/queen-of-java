@@ -36,6 +36,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public final class QueenVoidNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final VoidTypeNode voidTypeNode = new QueenVoidNode(
             position,
             new ArrayList<>()
@@ -63,9 +64,9 @@ public final class QueenVoidNodeTestCase {
 
     @Test
     public void returnsAnnotations() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final VoidTypeNode voidTypeNode = new QueenVoidNode(
             position,
             annotations
@@ -78,9 +79,9 @@ public final class QueenVoidNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final VoidTypeNode voidTypeNode = new QueenVoidNode(
             position,
             annotations
@@ -102,9 +103,9 @@ public final class QueenVoidNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final VoidTypeNode wildcard = new QueenVoidNode(
             position,
             annotations

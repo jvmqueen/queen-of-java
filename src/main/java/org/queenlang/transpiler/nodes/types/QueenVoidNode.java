@@ -36,6 +36,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Void AST node.
@@ -53,7 +54,9 @@ public final class QueenVoidNode implements VoidTypeNode {
 
     public QueenVoidNode(final Position position, final List<AnnotationNode> annotations) {
         this.position = position;
-        this.annotations = annotations;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
 

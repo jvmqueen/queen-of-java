@@ -36,6 +36,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +51,8 @@ public final class QueenExceptionTypeNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode encapsulated = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode encapsulated = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(encapsulated.position()).thenReturn(position);
         final ExceptionTypeNode exceptionTypeNode = new QueenExceptionTypeNode(
             encapsulated
@@ -65,8 +66,8 @@ public final class QueenExceptionTypeNodeTestCase {
 
     @Test
     public void returnsExceptionType() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode encapsulated = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode encapsulated = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(encapsulated.position()).thenReturn(position);
         final ExceptionTypeNode exceptionTypeNode = new QueenExceptionTypeNode(
             encapsulated
@@ -80,15 +81,15 @@ public final class QueenExceptionTypeNodeTestCase {
 
     @Test
     public void returnsJavaType() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(scope.toType()).thenReturn(new ClassOrInterfaceType("java.util"));
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
 
-        final ClassOrInterfaceTypeNode encapsulated = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final ClassOrInterfaceTypeNode encapsulated = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(encapsulated.position()).thenReturn(position);
         Mockito.when(encapsulated.simpleName()).thenReturn("Exception");
         Mockito.when(encapsulated.annotations()).thenReturn(annotations);
@@ -117,15 +118,15 @@ public final class QueenExceptionTypeNodeTestCase {
 
     @Test
     public void addsToThrownExceptionsJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(scope.toType()).thenReturn(new ClassOrInterfaceType("java.util"));
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
 
-        final ClassOrInterfaceTypeNode encapsulated = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final ClassOrInterfaceTypeNode encapsulated = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(encapsulated.position()).thenReturn(position);
         Mockito.when(encapsulated.simpleName()).thenReturn("Exception");
         Mockito.when(encapsulated.annotations()).thenReturn(annotations);
@@ -156,7 +157,7 @@ public final class QueenExceptionTypeNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final ClassOrInterfaceTypeNode typeNode = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final ClassOrInterfaceTypeNode typeNode = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final ExceptionTypeNode exceptionTypeNode = new QueenExceptionTypeNode(typeNode);
 
         final List<QueenNode> children = exceptionTypeNode.children();

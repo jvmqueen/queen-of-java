@@ -38,6 +38,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +53,10 @@ public final class QueenArrayTypeNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
             position,
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -66,8 +67,8 @@ public final class QueenArrayTypeNodeTestCase {
 
     @Test
     public void returnsType() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
             position,
             type,
@@ -81,10 +82,10 @@ public final class QueenArrayTypeNodeTestCase {
 
     @Test
     public void returnsDims() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
         final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
             position,
             type,
@@ -98,12 +99,12 @@ public final class QueenArrayTypeNodeTestCase {
 
     @Test
     public void addsToJavaVariableDeclaratorNode() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
         final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
             position,
             type,
@@ -121,13 +122,13 @@ public final class QueenArrayTypeNodeTestCase {
 
     @Test
     public void addsToJavaMethodDeclaratorNode() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(PrimitiveType.longType());
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
         final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
             position,
             type,
@@ -145,11 +146,11 @@ public final class QueenArrayTypeNodeTestCase {
 
     @Test
     public void addsToJavaParameterNode() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(PrimitiveType.doubleType());
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
         final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
             position,
             type,
@@ -167,11 +168,11 @@ public final class QueenArrayTypeNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(PrimitiveType.doubleType());
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
         final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
             position,
             type,

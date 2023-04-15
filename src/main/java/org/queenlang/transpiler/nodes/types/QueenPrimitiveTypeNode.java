@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen PrimitiveType AST Node.
@@ -68,7 +69,9 @@ public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
         final String name
     ) {
         this.position = position;
-        this.annotations = annotations;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.name = name;
     }
 

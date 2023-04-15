@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Wildcard Type node.
@@ -74,9 +75,11 @@ public final class QueenWildcardNode implements WildcardTypeNode {
         final ReferenceTypeNode superType
     ) {
         this.position = position;
-        this.annotations = annotations;
-        this.extendedType = extendedType;
-        this.superType = superType;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.extendedType = extendedType != null ? (ReferenceTypeNode) extendedType.withParent(this) : null;
+        this.superType = superType != null ? (ReferenceTypeNode) superType.withParent(this) : null;
     }
 
     @Override

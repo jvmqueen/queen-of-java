@@ -41,6 +41,7 @@ import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen class or interface reference type.
@@ -104,10 +105,14 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     ) {
         this.position = position;
         this.interfaceType = interfaceType;
-        this.scope = scope;
-        this.annotations = annotations;
+        this.scope = scope != null ? (ClassOrInterfaceTypeNode) scope.withParent(this) : null;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.name = name;
-        this.typeArguments = typeArguments;
+        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
+            ta -> (TypeNode) ta.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.hasDiamondOperator = hasDiamondOperator;
     }
 

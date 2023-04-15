@@ -49,7 +49,7 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
     public QueenExceptionTypeNode(
         final ClassOrInterfaceTypeNode exceptionType
     ) {
-        this.exceptionType = exceptionType;
+        this.exceptionType = exceptionType != null ? (ClassOrInterfaceTypeNode) exceptionType.withParent(this) : null;
     }
 
     @Override

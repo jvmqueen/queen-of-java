@@ -40,6 +40,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +55,11 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
-            Mockito.mock(ClassOrInterfaceTypeNode.class),
+            QueenMockito.mock(ClassOrInterfaceTypeNode.class),
             new ArrayList<>(),
             "MyClass",
             new ArrayList<>(),
@@ -72,11 +73,11 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void returnsIsInterface() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             true,
-            Mockito.mock(ClassOrInterfaceTypeNode.class),
+            QueenMockito.mock(ClassOrInterfaceTypeNode.class),
             new ArrayList<>(),
             "MyInterface",
             new ArrayList<>(),
@@ -90,8 +91,8 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void returnsScope() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             true,
@@ -109,10 +110,10 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void returnsAnnotations() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             true,
@@ -130,10 +131,10 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void returnsSimpleName() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -151,12 +152,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void returnsTypeArguments() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -174,12 +175,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void returnsHasDiamondOperator() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -197,12 +198,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsToVariableDeclaratorJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -235,12 +236,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsToMethodDeclaratorJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -273,12 +274,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsToParameterJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -311,12 +312,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsToNodeWithTypeArgumentsJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -349,12 +350,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsToUnionTypeJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -387,12 +388,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsImplementsToClassOrInterfaceDeclarationJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             true,
@@ -426,12 +427,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsExtendsToClassOrInterfaceDeclarationJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -464,12 +465,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsToWildcardSuperTypeJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -502,12 +503,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void addsToWildcardExtendedTypeJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,
@@ -540,12 +541,12 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             false,

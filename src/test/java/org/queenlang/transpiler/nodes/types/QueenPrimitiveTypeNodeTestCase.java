@@ -38,6 +38,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public final class QueenPrimitiveTypeNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
             position,
             new ArrayList<>(),
@@ -66,9 +67,9 @@ public final class QueenPrimitiveTypeNodeTestCase {
 
     @Test
     public void returnsAnnotations() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
             position,
             annotations,
@@ -82,9 +83,9 @@ public final class QueenPrimitiveTypeNodeTestCase {
 
     @Test
     public void returnsName() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
             position,
             annotations,
@@ -98,9 +99,9 @@ public final class QueenPrimitiveTypeNodeTestCase {
 
     @Test
     public void addsToVariableDeclaratorJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
             position,
             annotations,
@@ -123,9 +124,9 @@ public final class QueenPrimitiveTypeNodeTestCase {
 
     @Test
     public void addsToMethodDeclaratorJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
             position,
             annotations,
@@ -148,9 +149,9 @@ public final class QueenPrimitiveTypeNodeTestCase {
 
     @Test
     public void addsToParameterJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
             position,
             annotations,
@@ -173,9 +174,9 @@ public final class QueenPrimitiveTypeNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
             position,
             annotations,

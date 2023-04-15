@@ -35,6 +35,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +50,12 @@ public final class QueenWildcardNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final WildcardTypeNode wildcard = new QueenWildcardNode(
             position,
             new ArrayList<>(),
-            Mockito.mock(ReferenceTypeNode.class),
-            Mockito.mock(ReferenceTypeNode.class)
+            QueenMockito.mock(ReferenceTypeNode.class),
+            QueenMockito.mock(ReferenceTypeNode.class)
         );
         MatcherAssert.assertThat(
             wildcard.position(),
@@ -64,14 +65,14 @@ public final class QueenWildcardNodeTestCase {
 
     @Test
     public void returnsAnnotations() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final WildcardTypeNode wildcard = new QueenWildcardNode(
             position,
             annotations,
-            Mockito.mock(ReferenceTypeNode.class),
-            Mockito.mock(ReferenceTypeNode.class)
+            QueenMockito.mock(ReferenceTypeNode.class),
+            QueenMockito.mock(ReferenceTypeNode.class)
         );
         MatcherAssert.assertThat(
             wildcard.annotations(),
@@ -81,15 +82,15 @@ public final class QueenWildcardNodeTestCase {
 
     @Test
     public void returnsExtendedType() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ReferenceTypeNode extendedType = Mockito.mock(ReferenceTypeNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ReferenceTypeNode extendedType = QueenMockito.mock(ReferenceTypeNode.class);
         final WildcardTypeNode wildcard = new QueenWildcardNode(
             position,
             annotations,
             extendedType,
-            Mockito.mock(ReferenceTypeNode.class)
+            QueenMockito.mock(ReferenceTypeNode.class)
         );
         MatcherAssert.assertThat(
             wildcard.extendedType(),
@@ -99,11 +100,11 @@ public final class QueenWildcardNodeTestCase {
 
     @Test
     public void returnsSuperType() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ReferenceTypeNode extendedType = Mockito.mock(ReferenceTypeNode.class);
-        final ReferenceTypeNode superType = Mockito.mock(ReferenceTypeNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ReferenceTypeNode extendedType = QueenMockito.mock(ReferenceTypeNode.class);
+        final ReferenceTypeNode superType = QueenMockito.mock(ReferenceTypeNode.class);
         final WildcardTypeNode wildcard = new QueenWildcardNode(
             position,
             annotations,
@@ -118,15 +119,15 @@ public final class QueenWildcardNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ReferenceTypeNode extendedType = Mockito.mock(ReferenceTypeNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ReferenceTypeNode extendedType = QueenMockito.mock(ReferenceTypeNode.class);
         final WildcardTypeNode wildcard = new QueenWildcardNode(
             position,
             annotations,
             extendedType,
-            Mockito.mock(ReferenceTypeNode.class)
+            QueenMockito.mock(ReferenceTypeNode.class)
         );
 
         final ClassOrInterfaceType clazz = new ClassOrInterfaceType("MyClass");
@@ -139,11 +140,11 @@ public final class QueenWildcardNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ReferenceTypeNode extendedType = Mockito.mock(ReferenceTypeNode.class);
-        final ReferenceTypeNode superType = Mockito.mock(ReferenceTypeNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ReferenceTypeNode extendedType = QueenMockito.mock(ReferenceTypeNode.class);
+        final ReferenceTypeNode superType = QueenMockito.mock(ReferenceTypeNode.class);
         final WildcardTypeNode wildcard = new QueenWildcardNode(
             position,
             annotations,

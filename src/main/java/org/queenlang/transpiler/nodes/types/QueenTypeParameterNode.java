@@ -74,9 +74,13 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
         final List<ClassOrInterfaceTypeNode> typeBound
     ) {
         this.position = position;
-        this.annotations = annotations;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.name = name;
-        this.typeBound = typeBound;
+        this.typeBound = typeBound != null ? typeBound.stream().map(
+            tb -> (ClassOrInterfaceTypeNode) tb.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override

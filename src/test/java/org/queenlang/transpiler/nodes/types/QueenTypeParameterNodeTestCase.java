@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public final class QueenTypeParameterNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final TypeParameterNode typeParameterNode = new QueenTypeParameterNode(
             position,
             new ArrayList<>(),
@@ -66,9 +67,9 @@ public final class QueenTypeParameterNodeTestCase {
 
     @Test
     public void returnsAnnotations() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final TypeParameterNode typeParameterNode = new QueenTypeParameterNode(
             position,
             annotations,
@@ -83,9 +84,9 @@ public final class QueenTypeParameterNodeTestCase {
 
     @Test
     public void returnsName() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final TypeParameterNode typeParameterNode = new QueenTypeParameterNode(
             position,
             annotations,
@@ -100,11 +101,11 @@ public final class QueenTypeParameterNodeTestCase {
 
     @Test
     public void returnsTypeBound() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ClassOrInterfaceTypeNode> typeBound = new ArrayList<>();
-        typeBound.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
+        typeBound.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
         final TypeParameterNode typeParameterNode = new QueenTypeParameterNode(
             position,
             annotations,
@@ -119,11 +120,11 @@ public final class QueenTypeParameterNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ClassOrInterfaceTypeNode> typeBound = new ArrayList<>();
-        final ClassOrInterfaceTypeNode tb = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final ClassOrInterfaceTypeNode tb = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(tb.toType()).thenReturn(new ClassOrInterfaceType("Other"));
         typeBound.add(tb);
         final TypeParameterNode typeParameterNode = new QueenTypeParameterNode(
@@ -158,11 +159,11 @@ public final class QueenTypeParameterNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ClassOrInterfaceTypeNode> typeBound = new ArrayList<>();
-        final ClassOrInterfaceTypeNode tb = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final ClassOrInterfaceTypeNode tb = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(tb.toType()).thenReturn(new ClassOrInterfaceType("Other"));
         typeBound.add(tb);
         final TypeParameterNode typeParameterNode = new QueenTypeParameterNode(

@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen ArrayType AST Node.
@@ -69,8 +70,10 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
         final List<ArrayDimensionNode> dims
     ) {
         this.position = position;
-        this.type = type;
-        this.dims = dims;
+        this.type = type != null ? (TypeNode) type.withParent(this) : null;
+        this.dims = dims != null ? dims.stream().map(
+            d -> (ArrayDimensionNode) d.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override

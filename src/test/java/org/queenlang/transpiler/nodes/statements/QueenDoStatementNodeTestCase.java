@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -50,11 +51,11 @@ public final class QueenDoStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final DoStatementNode doStatementNode = new QueenDoStatementNode(
             position,
-            Mockito.mock(BlockStatements.class),
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(BlockStatements.class),
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             doStatementNode.position(),
@@ -64,12 +65,12 @@ public final class QueenDoStatementNodeTestCase {
 
     @Test
     public void returnsBlockStatements() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final DoStatementNode doStatementNode = new QueenDoStatementNode(
             position,
             blockStatements,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             doStatementNode.blockStatements(),
@@ -79,9 +80,9 @@ public final class QueenDoStatementNodeTestCase {
 
     @Test
     public void returnsCondition() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final DoStatementNode doStatementNode = new QueenDoStatementNode(
             position,
             blockStatements,
@@ -95,9 +96,9 @@ public final class QueenDoStatementNodeTestCase {
 
     @Test
     public void addsToBlockJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
 
         final DoStatementNode doStatementNode = new QueenDoStatementNode(
             position,
@@ -122,9 +123,9 @@ public final class QueenDoStatementNodeTestCase {
 
     @Test
     public void addsToLabeledJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
 
         final DoStatementNode doStatementNode = new QueenDoStatementNode(
             position,
@@ -149,9 +150,9 @@ public final class QueenDoStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
 
         final DoStatementNode doStatementNode = new QueenDoStatementNode(
             position,

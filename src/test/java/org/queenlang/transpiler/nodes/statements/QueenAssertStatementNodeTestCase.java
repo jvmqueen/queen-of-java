@@ -39,6 +39,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -52,11 +53,11 @@ public final class QueenAssertStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final AssertStatementNode assertStatement = new QueenAssertStatementNode(
             position,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             assertStatement.position(),
@@ -66,12 +67,12 @@ public final class QueenAssertStatementNodeTestCase {
 
     @Test
     public void returnsCheck() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode check = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode check = QueenMockito.mock(ExpressionNode.class);
         final AssertStatementNode assertStatement = new QueenAssertStatementNode(
             position,
             check,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             assertStatement.check(),
@@ -81,9 +82,9 @@ public final class QueenAssertStatementNodeTestCase {
 
     @Test
     public void returnsMessage() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode check = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode message = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode check = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode message = QueenMockito.mock(ExpressionNode.class);
         final AssertStatementNode assertStatement = new QueenAssertStatementNode(
             position,
             check,
@@ -97,8 +98,8 @@ public final class QueenAssertStatementNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode check = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode check = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(check.toJavaExpression()).thenReturn(
             new BinaryExpr(
                 new NameExpr("a"),
@@ -106,7 +107,7 @@ public final class QueenAssertStatementNodeTestCase {
                 BinaryExpr.Operator.EQUALS
             )
         );
-        final ExpressionNode message = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode message = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(message.toJavaExpression()).thenReturn(new StringLiteralExpr("a and b aren't equal!"));
 
         final AssertStatementNode assertStatement = new QueenAssertStatementNode(
@@ -126,9 +127,9 @@ public final class QueenAssertStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode check = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode message = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode check = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode message = QueenMockito.mock(ExpressionNode.class);
         final AssertStatementNode assertStatement = new QueenAssertStatementNode(
             position,
             check,

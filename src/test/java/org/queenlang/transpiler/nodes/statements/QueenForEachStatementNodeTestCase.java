@@ -40,6 +40,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -53,12 +54,12 @@ public final class QueenForEachStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ForEachStatementNode forEach = new QueenForEachStatementNode(
             position,
-            Mockito.mock(LocalVariableDeclarationNode.class),
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(LocalVariableDeclarationNode.class),
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             forEach.position(),
@@ -68,13 +69,13 @@ public final class QueenForEachStatementNodeTestCase {
 
     @Test
     public void returnsVariable() {
-        final Position position = Mockito.mock(Position.class);
-        final LocalVariableDeclarationNode variable = Mockito.mock(LocalVariableDeclarationNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final LocalVariableDeclarationNode variable = QueenMockito.mock(LocalVariableDeclarationNode.class);
         final ForEachStatementNode forEach = new QueenForEachStatementNode(
             position,
             variable,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             forEach.variable(),
@@ -84,14 +85,14 @@ public final class QueenForEachStatementNodeTestCase {
 
     @Test
     public void returnsIterable() {
-        final Position position = Mockito.mock(Position.class);
-        final LocalVariableDeclarationNode variable = Mockito.mock(LocalVariableDeclarationNode.class);
-        final ExpressionNode iterable = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final LocalVariableDeclarationNode variable = QueenMockito.mock(LocalVariableDeclarationNode.class);
+        final ExpressionNode iterable = QueenMockito.mock(ExpressionNode.class);
         final ForEachStatementNode forEach = new QueenForEachStatementNode(
             position,
             variable,
             iterable,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             forEach.iterable(),
@@ -101,10 +102,10 @@ public final class QueenForEachStatementNodeTestCase {
 
     @Test
     public void returnsBlock() {
-        final Position position = Mockito.mock(Position.class);
-        final LocalVariableDeclarationNode variable = Mockito.mock(LocalVariableDeclarationNode.class);
-        final ExpressionNode iterable = Mockito.mock(ExpressionNode.class);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final LocalVariableDeclarationNode variable = QueenMockito.mock(LocalVariableDeclarationNode.class);
+        final ExpressionNode iterable = QueenMockito.mock(ExpressionNode.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final ForEachStatementNode forEach = new QueenForEachStatementNode(
             position,
             variable,
@@ -119,14 +120,14 @@ public final class QueenForEachStatementNodeTestCase {
 
     @Test
     public void addsToBlockJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final LocalVariableDeclarationNode variable = Mockito.mock(LocalVariableDeclarationNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final LocalVariableDeclarationNode variable = QueenMockito.mock(LocalVariableDeclarationNode.class);
         Mockito.when(variable.toJavaExpression()).thenReturn(
             new VariableDeclarationExpr(new ClassOrInterfaceType("String"), "s")
         );
-        final ExpressionNode iterable = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode iterable = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(iterable.toJavaExpression()).thenReturn(new NameExpr("strings"));
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final ForEachStatementNode forEach = new QueenForEachStatementNode(
             position,
             variable,
@@ -148,14 +149,14 @@ public final class QueenForEachStatementNodeTestCase {
 
     @Test
     public void addsToLabeledJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final LocalVariableDeclarationNode variable = Mockito.mock(LocalVariableDeclarationNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final LocalVariableDeclarationNode variable = QueenMockito.mock(LocalVariableDeclarationNode.class);
         Mockito.when(variable.toJavaExpression()).thenReturn(
             new VariableDeclarationExpr(new ClassOrInterfaceType("String"), "s")
         );
-        final ExpressionNode iterable = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode iterable = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(iterable.toJavaExpression()).thenReturn(new NameExpr("strings"));
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final ForEachStatementNode forEach = new QueenForEachStatementNode(
             position,
             variable,
@@ -177,10 +178,10 @@ public final class QueenForEachStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final LocalVariableDeclarationNode variable = Mockito.mock(LocalVariableDeclarationNode.class);
-        final ExpressionNode iterable = Mockito.mock(ExpressionNode.class);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final LocalVariableDeclarationNode variable = QueenMockito.mock(LocalVariableDeclarationNode.class);
+        final ExpressionNode iterable = QueenMockito.mock(ExpressionNode.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final ForEachStatementNode forEach = new QueenForEachStatementNode(
             position,
             variable,

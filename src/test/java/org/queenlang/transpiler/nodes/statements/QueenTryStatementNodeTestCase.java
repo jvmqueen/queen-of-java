@@ -36,6 +36,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +51,13 @@ public final class QueenTryStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final TryStatementNode tryStatementNode = new QueenTryStatementNode(
             position,
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class),
+            QueenMockito.mock(BlockStatements.class),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             tryStatementNode.position(),
@@ -66,15 +67,15 @@ public final class QueenTryStatementNodeTestCase {
 
     @Test
     public void returnsResources() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> resources = new ArrayList<>();
-        resources.add(Mockito.mock(ExpressionNode.class));
+        resources.add(QueenMockito.mock(ExpressionNode.class));
         final TryStatementNode tryStatementNode = new QueenTryStatementNode(
             position,
             resources,
-            Mockito.mock(BlockStatements.class),
+            QueenMockito.mock(BlockStatements.class),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             tryStatementNode.resources(),
@@ -84,16 +85,16 @@ public final class QueenTryStatementNodeTestCase {
 
     @Test
     public void returnsTryBlock() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> resources = new ArrayList<>();
-        resources.add(Mockito.mock(ExpressionNode.class));
-        final BlockStatements tryBlock = Mockito.mock(BlockStatements.class);
+        resources.add(QueenMockito.mock(ExpressionNode.class));
+        final BlockStatements tryBlock = QueenMockito.mock(BlockStatements.class);
         final TryStatementNode tryStatementNode = new QueenTryStatementNode(
             position,
             resources,
             tryBlock,
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             tryStatementNode.tryBlockStatements(),
@@ -103,18 +104,18 @@ public final class QueenTryStatementNodeTestCase {
 
     @Test
     public void returnsCatchClauses() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> resources = new ArrayList<>();
-        resources.add(Mockito.mock(ExpressionNode.class));
-        final BlockStatements tryBlock = Mockito.mock(BlockStatements.class);
+        resources.add(QueenMockito.mock(ExpressionNode.class));
+        final BlockStatements tryBlock = QueenMockito.mock(BlockStatements.class);
         final List<CatchClauseNode> catchClauses = new ArrayList<>();
-        catchClauses.add(Mockito.mock(CatchClauseNode.class));
+        catchClauses.add(QueenMockito.mock(CatchClauseNode.class));
         final TryStatementNode tryStatementNode = new QueenTryStatementNode(
             position,
             resources,
             tryBlock,
             catchClauses,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             tryStatementNode.catchClauses(),
@@ -124,13 +125,13 @@ public final class QueenTryStatementNodeTestCase {
 
     @Test
     public void returnsFinallyBlock() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> resources = new ArrayList<>();
-        resources.add(Mockito.mock(ExpressionNode.class));
-        final BlockStatements tryBlock = Mockito.mock(BlockStatements.class);
+        resources.add(QueenMockito.mock(ExpressionNode.class));
+        final BlockStatements tryBlock = QueenMockito.mock(BlockStatements.class);
         final List<CatchClauseNode> catchClauses = new ArrayList<>();
-        catchClauses.add(Mockito.mock(CatchClauseNode.class));
-        final BlockStatements finallyBlock = Mockito.mock(BlockStatements.class);
+        catchClauses.add(QueenMockito.mock(CatchClauseNode.class));
+        final BlockStatements finallyBlock = QueenMockito.mock(BlockStatements.class);
         final TryStatementNode tryStatementNode = new QueenTryStatementNode(
             position,
             resources,
@@ -146,13 +147,13 @@ public final class QueenTryStatementNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> resources = new ArrayList<>();
-        resources.add(Mockito.mock(ExpressionNode.class));
-        final BlockStatements tryBlock = Mockito.mock(BlockStatements.class);
+        resources.add(QueenMockito.mock(ExpressionNode.class));
+        final BlockStatements tryBlock = QueenMockito.mock(BlockStatements.class);
         final List<CatchClauseNode> catchClauses = new ArrayList<>();
-        catchClauses.add(Mockito.mock(CatchClauseNode.class));
-        final BlockStatements finallyBlock = Mockito.mock(BlockStatements.class);
+        catchClauses.add(QueenMockito.mock(CatchClauseNode.class));
+        final BlockStatements finallyBlock = QueenMockito.mock(BlockStatements.class);
         final TryStatementNode tryStatementNode = new QueenTryStatementNode(
             position,
             resources,
@@ -187,13 +188,13 @@ public final class QueenTryStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> resources = new ArrayList<>();
-        resources.add(Mockito.mock(ExpressionNode.class));
-        final BlockStatements tryBlock = Mockito.mock(BlockStatements.class);
+        resources.add(QueenMockito.mock(ExpressionNode.class));
+        final BlockStatements tryBlock = QueenMockito.mock(BlockStatements.class);
         final List<CatchClauseNode> catchClauses = new ArrayList<>();
-        catchClauses.add(Mockito.mock(CatchClauseNode.class));
-        final BlockStatements finallyBlock = Mockito.mock(BlockStatements.class);
+        catchClauses.add(QueenMockito.mock(CatchClauseNode.class));
+        final BlockStatements finallyBlock = QueenMockito.mock(BlockStatements.class);
         final TryStatementNode tryStatementNode = new QueenTryStatementNode(
             position,
             resources,

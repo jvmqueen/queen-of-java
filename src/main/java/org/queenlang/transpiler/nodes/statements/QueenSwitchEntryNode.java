@@ -35,6 +35,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * An entry in a Switch Statement, AST Node.
@@ -54,8 +55,10 @@ public final class QueenSwitchEntryNode implements SwitchEntryNode {
         final BlockStatements blockStatements
     ) {
         this.position = position;
-        this.labels = labels;
-        this.blockStatements = blockStatements;
+        this.labels = labels != null ? labels.stream().map(
+            l -> (SwitchLabelNode) l.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
 

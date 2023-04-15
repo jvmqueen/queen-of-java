@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -48,11 +49,11 @@ public final class QueenLabeledStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final LabeledStatementNode labeled = new QueenLabeledStatementNode(
             position,
             "label",
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             labeled.position(),
@@ -62,11 +63,11 @@ public final class QueenLabeledStatementNodeTestCase {
 
     @Test
     public void returnsName() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final LabeledStatementNode labeled = new QueenLabeledStatementNode(
             position,
             "labeled",
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             labeled.name(),
@@ -76,8 +77,8 @@ public final class QueenLabeledStatementNodeTestCase {
 
     @Test
     public void returnsBlockStatements() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final LabeledStatementNode labeled = new QueenLabeledStatementNode(
             position,
             "labeled",
@@ -91,8 +92,8 @@ public final class QueenLabeledStatementNodeTestCase {
 
     @Test
     public void addsToBlockJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final LabeledStatementNode labeled = new QueenLabeledStatementNode(
             position,
             "labeled",
@@ -113,8 +114,8 @@ public final class QueenLabeledStatementNodeTestCase {
 
     @Test
     public void addsToLabeledJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final LabeledStatementNode labeled = new QueenLabeledStatementNode(
             position,
             "childLabeled",
@@ -135,8 +136,8 @@ public final class QueenLabeledStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final LabeledStatementNode labeled = new QueenLabeledStatementNode(
             position,
             "childLabeled",

@@ -37,6 +37,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Try Statement AST Node.
@@ -60,10 +61,12 @@ public final class QueenTryStatementNode implements TryStatementNode {
         final BlockStatements finallyBlockStatements
     ) {
         this.position = position;
-        this.resources = resources;
-        this.tryBlockStatements = tryBlockStatements;
-        this.catchClauses = catchClauses;
-        this.finallyBlockStatements = finallyBlockStatements;
+        this.resources = resources != null ? resources.stream().map(
+            r -> (ExpressionNode) r.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.tryBlockStatements = tryBlockStatements != null ? (BlockStatements) tryBlockStatements.withParent(this) : null;
+        this.catchClauses = catchClauses != null ? catchClauses.stream().map(cc -> (CatchClauseNode) cc.withParent(this)).collect(Collectors.toList()) : null;
+        this.finallyBlockStatements = finallyBlockStatements != null ? (BlockStatements) finallyBlockStatements.withParent(this) : null;
     }
 
     @Override

@@ -40,6 +40,7 @@ import org.queenlang.transpiler.nodes.body.ModifierNode;
 import org.queenlang.transpiler.nodes.body.VariableDeclaratorId;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +55,13 @@ public final class QueenCatchFormalParameterNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
             position,
             new ArrayList<>(),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(VariableDeclaratorId.class)
+            QueenMockito.mock(VariableDeclaratorId.class)
         );
         MatcherAssert.assertThat(
             catchFormalParameterNode.position(),
@@ -70,15 +71,15 @@ public final class QueenCatchFormalParameterNodeTestCase {
 
     @Test
     public void returnsAnnotations() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
             position,
             annotations,
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(VariableDeclaratorId.class)
+            QueenMockito.mock(VariableDeclaratorId.class)
         );
         MatcherAssert.assertThat(
             catchFormalParameterNode.annotations(),
@@ -88,17 +89,17 @@ public final class QueenCatchFormalParameterNodeTestCase {
 
     @Test
     public void returnsModifiers() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
             position,
             annotations,
             modifiers,
             new ArrayList<>(),
-            Mockito.mock(VariableDeclaratorId.class)
+            QueenMockito.mock(VariableDeclaratorId.class)
         );
         MatcherAssert.assertThat(
             catchFormalParameterNode.modifiers(),
@@ -108,19 +109,19 @@ public final class QueenCatchFormalParameterNodeTestCase {
 
     @Test
     public void returnsCatchExceptionTypes() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeNode> caught = new ArrayList<>();
-        caught.add(Mockito.mock(TypeNode.class));
+        caught.add(QueenMockito.mock(TypeNode.class));
         final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
             position,
             annotations,
             modifiers,
             caught,
-            Mockito.mock(VariableDeclaratorId.class)
+            QueenMockito.mock(VariableDeclaratorId.class)
         );
         MatcherAssert.assertThat(
             catchFormalParameterNode.catchExceptionTypes(),
@@ -130,14 +131,14 @@ public final class QueenCatchFormalParameterNodeTestCase {
 
     @Test
     public void returnsExceptionName() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeNode> caught = new ArrayList<>();
-        caught.add(Mockito.mock(TypeNode.class));
-        final VariableDeclaratorId variableDeclaratorId = Mockito.mock(VariableDeclaratorId.class);
+        caught.add(QueenMockito.mock(TypeNode.class));
+        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
         final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
             position,
             annotations,
@@ -153,14 +154,14 @@ public final class QueenCatchFormalParameterNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeNode> caught = new ArrayList<>();
-        caught.add(Mockito.mock(TypeNode.class));
-        final VariableDeclaratorId variableDeclaratorId = Mockito.mock(VariableDeclaratorId.class);
+        caught.add(QueenMockito.mock(TypeNode.class));
+        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
         final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
             position,
             annotations,
@@ -198,14 +199,14 @@ public final class QueenCatchFormalParameterNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeNode> caught = new ArrayList<>();
-        caught.add(Mockito.mock(TypeNode.class));
-        final VariableDeclaratorId variableDeclaratorId = Mockito.mock(VariableDeclaratorId.class);
+        caught.add(QueenMockito.mock(TypeNode.class));
+        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
         final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
             position,
             annotations,

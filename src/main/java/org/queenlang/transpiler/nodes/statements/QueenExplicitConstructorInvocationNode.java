@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Explicit Constructor Invocation AST Node.
@@ -63,9 +64,13 @@ public final class QueenExplicitConstructorInvocationNode implements ExplicitCon
     ) {
         this.position = position;
         this.isThis = isThis;
-        this.scope = scope;
-        this.typeArguments = typeArguments;
-        this.arguments = arguments;
+        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
+        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
+            ta -> (TypeNode) ta.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.arguments = arguments != null ? arguments.stream().map(
+            a -> (ExpressionNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override

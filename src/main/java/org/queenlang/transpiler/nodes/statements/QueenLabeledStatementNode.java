@@ -69,7 +69,7 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
     ) {
         this.position = position;
         this.name = name;
-        this.blockStatements = blockStatements;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override

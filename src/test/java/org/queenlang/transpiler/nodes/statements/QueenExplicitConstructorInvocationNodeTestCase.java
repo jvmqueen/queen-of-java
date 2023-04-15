@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +54,11 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ExplicitConstructorInvocationNode explicit = new QueenExplicitConstructorInvocationNode(
             position,
             true,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             new ArrayList<>(),
             new ArrayList<>()
         );
@@ -69,11 +70,11 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
 
     @Test
     public void returnsIsThis() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ExplicitConstructorInvocationNode explicit = new QueenExplicitConstructorInvocationNode(
             position,
             true,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             new ArrayList<>(),
             new ArrayList<>()
         );
@@ -85,8 +86,8 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
 
     @Test
     public void returnsScope() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final ExplicitConstructorInvocationNode explicit = new QueenExplicitConstructorInvocationNode(
             position,
             true,
@@ -102,10 +103,10 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
 
     @Test
     public void returnsTypeArguments() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
         final ExplicitConstructorInvocationNode explicit = new QueenExplicitConstructorInvocationNode(
             position,
             true,
@@ -121,12 +122,12 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
 
     @Test
     public void returnsArguments() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
         final List<ExpressionNode> args = new ArrayList<>();
-        args.add(Mockito.mock(ExpressionNode.class));
+        args.add(QueenMockito.mock(ExpressionNode.class));
 
         final ExplicitConstructorInvocationNode explicit = new QueenExplicitConstructorInvocationNode(
             position,
@@ -143,14 +144,14 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final List<TypeNode> typeArgs = new ArrayList<>();
-        final TypeNode typeArg = Mockito.mock(TypeNode.class);
+        final TypeNode typeArg = QueenMockito.mock(TypeNode.class);
         Mockito.when(typeArg.toType()).thenReturn(new ClassOrInterfaceType("String"));
         typeArgs.add(typeArg);
         final List<ExpressionNode> args = new ArrayList<>();
-        final ExpressionNode arg = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode arg = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(arg.toJavaExpression()).thenReturn(new NameExpr("a"));
         args.add(arg);
 
@@ -181,12 +182,12 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
         final List<ExpressionNode> args = new ArrayList<>();
-        args.add(Mockito.mock(ExpressionNode.class));
+        args.add(QueenMockito.mock(ExpressionNode.class));
 
         final ExplicitConstructorInvocationNode explicit = new QueenExplicitConstructorInvocationNode(
             position,

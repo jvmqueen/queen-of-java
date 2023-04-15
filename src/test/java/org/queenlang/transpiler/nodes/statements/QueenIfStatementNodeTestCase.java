@@ -38,6 +38,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -51,11 +52,11 @@ public final class QueenIfStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(
             position,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             ifStatementNode.position(),
@@ -65,12 +66,12 @@ public final class QueenIfStatementNodeTestCase {
 
     @Test
     public void returnsCondition() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(
             position,
             expressionNode,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             ifStatementNode.condition(),
@@ -80,9 +81,9 @@ public final class QueenIfStatementNodeTestCase {
 
     @Test
     public void returnsThenBlock() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
-        final BlockStatements thenBlock = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
+        final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(
             position,
             expressionNode,
@@ -96,10 +97,10 @@ public final class QueenIfStatementNodeTestCase {
 
     @Test
     public void returnsElseBlock() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
-        final BlockStatements thenBlock = Mockito.mock(BlockStatements.class);
-        final BlockStatements elseBlock = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
+        final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
+        final BlockStatements elseBlock = QueenMockito.mock(BlockStatements.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(
             position,
             expressionNode,
@@ -114,11 +115,11 @@ public final class QueenIfStatementNodeTestCase {
 
     @Test
     public void addsToBlockJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new BooleanLiteralExpr(true));
-        final BlockStatements thenBlock = Mockito.mock(BlockStatements.class);
-        final BlockStatements elseBlock = Mockito.mock(BlockStatements.class);
+        final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
+        final BlockStatements elseBlock = QueenMockito.mock(BlockStatements.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(
             position,
             expressionNode,
@@ -146,11 +147,11 @@ public final class QueenIfStatementNodeTestCase {
 
     @Test
     public void addsToLabeledStatementJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new BooleanLiteralExpr(true));
-        final BlockStatements thenBlock = Mockito.mock(BlockStatements.class);
-        final BlockStatements elseBlock = Mockito.mock(BlockStatements.class);
+        final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
+        final BlockStatements elseBlock = QueenMockito.mock(BlockStatements.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(
             position,
             expressionNode,
@@ -178,11 +179,11 @@ public final class QueenIfStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new BooleanLiteralExpr(true));
-        final BlockStatements thenBlock = Mockito.mock(BlockStatements.class);
-        final BlockStatements elseBlock = Mockito.mock(BlockStatements.class);
+        final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
+        final BlockStatements elseBlock = QueenMockito.mock(BlockStatements.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(
             position,
             expressionNode,

@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +50,11 @@ public final class QueenSwitchEntryNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final SwitchEntryNode switchEntryNode = new QueenSwitchEntryNode(
             position,
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             switchEntryNode.position(),
@@ -63,13 +64,13 @@ public final class QueenSwitchEntryNodeTestCase {
 
     @Test
     public void returnsLabels() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<SwitchLabelNode> labels = new ArrayList<>();
-        labels.add(Mockito.mock(SwitchLabelNode.class));
+        labels.add(QueenMockito.mock(SwitchLabelNode.class));
         final SwitchEntryNode switchEntryNode = new QueenSwitchEntryNode(
             position,
             labels,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             switchEntryNode.labels(),
@@ -79,10 +80,10 @@ public final class QueenSwitchEntryNodeTestCase {
 
     @Test
     public void returnsBlockStatements() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<SwitchLabelNode> labels = new ArrayList<>();
-        labels.add(Mockito.mock(SwitchLabelNode.class));
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        labels.add(QueenMockito.mock(SwitchLabelNode.class));
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final SwitchEntryNode switchEntryNode = new QueenSwitchEntryNode(
             position,
             labels,
@@ -96,10 +97,10 @@ public final class QueenSwitchEntryNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<SwitchLabelNode> labels = new ArrayList<>();
-        labels.add(Mockito.mock(SwitchLabelNode.class));
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        labels.add(QueenMockito.mock(SwitchLabelNode.class));
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final SwitchEntryNode switchEntryNode = new QueenSwitchEntryNode(
             position,
             labels,
@@ -121,11 +122,11 @@ public final class QueenSwitchEntryNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<SwitchLabelNode> labels = new ArrayList<>();
-        labels.add(Mockito.mock(SwitchLabelNode.class));
-        labels.add(Mockito.mock(SwitchLabelNode.class));
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        labels.add(QueenMockito.mock(SwitchLabelNode.class));
+        labels.add(QueenMockito.mock(SwitchLabelNode.class));
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final SwitchEntryNode switchEntryNode = new QueenSwitchEntryNode(
             position,
             labels,

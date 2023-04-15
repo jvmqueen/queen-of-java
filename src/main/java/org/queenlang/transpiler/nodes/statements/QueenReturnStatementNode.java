@@ -55,7 +55,7 @@ public final class QueenReturnStatementNode implements ReturnStatementNode {
 
     public QueenReturnStatementNode(final Position position, final ExpressionNode expression) {
         this.position = position;
-        this.expression = expression;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
     @Override

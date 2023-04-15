@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -49,11 +50,11 @@ public final class QueenCatchClauseNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final CatchClauseNode catchClauseNode = new QueenCatchClauseNode(
             position,
-            Mockito.mock(CatchFormalParameterNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(CatchFormalParameterNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             catchClauseNode.position(),
@@ -63,12 +64,12 @@ public final class QueenCatchClauseNodeTestCase {
 
     @Test
     public void returnsParameter() {
-        final Position position = Mockito.mock(Position.class);
-        final CatchFormalParameterNode parameter = Mockito.mock(CatchFormalParameterNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final CatchFormalParameterNode parameter = QueenMockito.mock(CatchFormalParameterNode.class);
         final CatchClauseNode catchClauseNode = new QueenCatchClauseNode(
             position,
             parameter,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             catchClauseNode.parameter(),
@@ -78,9 +79,9 @@ public final class QueenCatchClauseNodeTestCase {
 
     @Test
     public void returnsBlock() {
-        final Position position = Mockito.mock(Position.class);
-        final CatchFormalParameterNode parameter = Mockito.mock(CatchFormalParameterNode.class);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final CatchFormalParameterNode parameter = QueenMockito.mock(CatchFormalParameterNode.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final CatchClauseNode catchClauseNode = new QueenCatchClauseNode(
             position,
             parameter,
@@ -94,9 +95,9 @@ public final class QueenCatchClauseNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final CatchFormalParameterNode parameter = Mockito.mock(CatchFormalParameterNode.class);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final CatchFormalParameterNode parameter = QueenMockito.mock(CatchFormalParameterNode.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final CatchClauseNode catchClauseNode = new QueenCatchClauseNode(
             position,
             parameter,
@@ -120,9 +121,9 @@ public final class QueenCatchClauseNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final CatchFormalParameterNode parameter = Mockito.mock(CatchFormalParameterNode.class);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final CatchFormalParameterNode parameter = QueenMockito.mock(CatchFormalParameterNode.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final CatchClauseNode catchClauseNode = new QueenCatchClauseNode(
             position,
             parameter,

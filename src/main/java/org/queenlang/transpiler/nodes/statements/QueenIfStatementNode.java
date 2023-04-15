@@ -81,9 +81,9 @@ public final class QueenIfStatementNode implements IfStatementNode {
         final BlockStatements elseBlockStatements
     ) {
         this.position = position;
-        this.condition = condition;
-        this.thenBlockStatements = thenBlockStatements;
-        this.elseBlockStatements = elseBlockStatements;
+        this.condition = condition != null ? (ExpressionNode) condition.withParent(this) : null;
+        this.thenBlockStatements = thenBlockStatements != null ? (BlockStatements) thenBlockStatements.withParent(this) : null;
+        this.elseBlockStatements = elseBlockStatements != null ? (BlockStatements) elseBlockStatements.withParent(this) : null;
     }
 
     @Override

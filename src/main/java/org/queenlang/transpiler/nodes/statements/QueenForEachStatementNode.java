@@ -77,9 +77,9 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
         final BlockStatements blockStatements
     ) {
         this.position = position;
-        this.variable = variable;
-        this.iterable = iterable;
-        this.blockStatements = blockStatements;
+        this.variable = variable != null ? (LocalVariableDeclarationNode) variable.withParent(this) : null;
+        this.iterable = iterable != null ? (ExpressionNode) iterable.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override

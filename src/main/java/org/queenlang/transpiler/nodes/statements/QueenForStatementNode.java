@@ -41,6 +41,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen For Statement AST Node.
@@ -83,10 +84,14 @@ public final class QueenForStatementNode implements ForStatementNode {
         final BlockStatements blockStatements
     ) {
         this.position = position;
-        this.initialization = initialization;
-        this.comparison = comparison;
-        this.update = update;
-        this.blockStatements = blockStatements;
+        this.initialization = initialization != null ? initialization.stream().map(
+            init -> (ExpressionNode) init.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.comparison = comparison != null ? (ExpressionNode) comparison.withParent(this) : null;
+        this.update = update != null ? update.stream().map(
+            u -> (ExpressionNode) u.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override

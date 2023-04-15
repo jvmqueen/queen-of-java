@@ -69,8 +69,8 @@ public final class QueenWhileStatementNode implements WhileStatementNode {
         final BlockStatements blockStatements
     ) {
         this.position = position;
-        this.expression = expression;
-        this.blockStatements = blockStatements;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override

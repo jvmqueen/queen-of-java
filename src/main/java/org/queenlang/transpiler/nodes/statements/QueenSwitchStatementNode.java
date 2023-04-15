@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Switch Statement AST Node.
@@ -57,8 +58,10 @@ public final class QueenSwitchStatementNode implements SwitchStatementNode {
         final List<SwitchEntryNode> entries
     ) {
         this.position = position;
-        this.expression = expression;
-        this.entries = entries;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
+        this.entries = entries != null ? entries.stream().map(
+            e -> (SwitchEntryNode) e.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override

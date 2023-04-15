@@ -36,6 +36,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -49,11 +50,11 @@ public final class QueenSynchronizedStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final SynchronizedStatementNode syncStatement = new QueenSynchronizedStatementNode(
             position,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             syncStatement.position(),
@@ -63,12 +64,12 @@ public final class QueenSynchronizedStatementNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final SynchronizedStatementNode syncStatement = new QueenSynchronizedStatementNode(
             position,
             expressionNode,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             syncStatement.syncExpression(),
@@ -78,9 +79,9 @@ public final class QueenSynchronizedStatementNodeTestCase {
 
     @Test
     public void returnsBlock() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final SynchronizedStatementNode syncStatement = new QueenSynchronizedStatementNode(
             position,
             expressionNode,
@@ -94,9 +95,9 @@ public final class QueenSynchronizedStatementNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final SynchronizedStatementNode syncStatement = new QueenSynchronizedStatementNode(
             position,
             expressionNode,
@@ -121,9 +122,9 @@ public final class QueenSynchronizedStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final SynchronizedStatementNode syncStatement = new QueenSynchronizedStatementNode(
             position,
             expressionNode,

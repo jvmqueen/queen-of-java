@@ -36,6 +36,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -49,10 +50,10 @@ public final class QueenThrowStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ThrowStatementNode throwStatementNode = new QueenThrowStatementNode(
             position,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
 
         MatcherAssert.assertThat(
@@ -63,8 +64,8 @@ public final class QueenThrowStatementNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final ThrowStatementNode throwStatementNode = new QueenThrowStatementNode(
             position,
             expressionNode
@@ -78,8 +79,8 @@ public final class QueenThrowStatementNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final ThrowStatementNode throwStatementNode = new QueenThrowStatementNode(
             position,
             expressionNode
@@ -98,9 +99,9 @@ public final class QueenThrowStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final ThrowStatementNode throwStatementNode = new QueenThrowStatementNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             expressionNode
         );
 

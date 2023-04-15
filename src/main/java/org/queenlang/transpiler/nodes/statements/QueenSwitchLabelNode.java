@@ -50,7 +50,7 @@ public final class QueenSwitchLabelNode implements SwitchLabelNode {
 
     public QueenSwitchLabelNode(final Position position, final ExpressionNode expressionNode, final boolean isDefaultLabel) {
         this.position = position;
-        this.expressionNode = expressionNode;
+        this.expressionNode = expressionNode != null ? (ExpressionNode) expressionNode.withParent(this) : null;
         this.isDefaultLabel = isDefaultLabel;
     }
 

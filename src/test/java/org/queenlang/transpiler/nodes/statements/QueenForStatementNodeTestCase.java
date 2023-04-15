@@ -38,6 +38,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +53,13 @@ public final class QueenForStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ForStatementNode forStatement = new QueenForStatementNode(
             position,
             new ArrayList<>(),
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             forStatement.position(),
@@ -68,15 +69,15 @@ public final class QueenForStatementNodeTestCase {
 
     @Test
     public void returnsInitializations() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> init = new ArrayList<>();
-        init.add(Mockito.mock(ExpressionNode.class));
+        init.add(QueenMockito.mock(ExpressionNode.class));
         final ForStatementNode forStatement = new QueenForStatementNode(
             position,
             init,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             forStatement.initialization(),
@@ -86,16 +87,16 @@ public final class QueenForStatementNodeTestCase {
 
     @Test
     public void returnsComparison() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> init = new ArrayList<>();
-        init.add(Mockito.mock(ExpressionNode.class));
-        final ExpressionNode comparison = Mockito.mock(ExpressionNode.class);
+        init.add(QueenMockito.mock(ExpressionNode.class));
+        final ExpressionNode comparison = QueenMockito.mock(ExpressionNode.class);
         final ForStatementNode forStatement = new QueenForStatementNode(
             position,
             init,
             comparison,
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             forStatement.comparison(),
@@ -105,18 +106,18 @@ public final class QueenForStatementNodeTestCase {
 
     @Test
     public void returnsUpdate() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> init = new ArrayList<>();
-        init.add(Mockito.mock(ExpressionNode.class));
-        final ExpressionNode comparison = Mockito.mock(ExpressionNode.class);
+        init.add(QueenMockito.mock(ExpressionNode.class));
+        final ExpressionNode comparison = QueenMockito.mock(ExpressionNode.class);
         final List<ExpressionNode> update = new ArrayList<>();
-        update.add(Mockito.mock(ExpressionNode.class));
+        update.add(QueenMockito.mock(ExpressionNode.class));
         final ForStatementNode forStatement = new QueenForStatementNode(
             position,
             init,
             comparison,
             update,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             forStatement.update(),
@@ -126,13 +127,13 @@ public final class QueenForStatementNodeTestCase {
 
     @Test
     public void returnsBlock() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> init = new ArrayList<>();
-        init.add(Mockito.mock(ExpressionNode.class));
-        final ExpressionNode comparison = Mockito.mock(ExpressionNode.class);
+        init.add(QueenMockito.mock(ExpressionNode.class));
+        final ExpressionNode comparison = QueenMockito.mock(ExpressionNode.class);
         final List<ExpressionNode> update = new ArrayList<>();
-        update.add(Mockito.mock(ExpressionNode.class));
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        update.add(QueenMockito.mock(ExpressionNode.class));
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final ForStatementNode forStatement = new QueenForStatementNode(
             position,
             init,
@@ -148,14 +149,14 @@ public final class QueenForStatementNodeTestCase {
 
     @Test
     public void addsToBlockJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> init = new ArrayList<>();
-        final ExpressionNode init1 = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode init1 = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(init1.toJavaExpression()).thenReturn(
             new VariableDeclarationExpr(PrimitiveType.intType(), "i")
         );
         init.add(init1);
-        final ExpressionNode comparison = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode comparison = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(comparison.toJavaExpression()).thenReturn(
             new BinaryExpr(
                 new NameExpr("i"),
@@ -164,12 +165,12 @@ public final class QueenForStatementNodeTestCase {
             )
         );
         final List<ExpressionNode> update = new ArrayList<>();
-        final ExpressionNode update1 = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode update1 = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(update1.toJavaExpression()).thenReturn(
             new UnaryExpr(new StringLiteralExpr("i"), UnaryExpr.Operator.POSTFIX_INCREMENT)
         );
         update.add(update1);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final ForStatementNode forStatement = new QueenForStatementNode(
             position,
             init,
@@ -197,14 +198,14 @@ public final class QueenForStatementNodeTestCase {
 
     @Test
     public void addsToLabeledStatementJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> init = new ArrayList<>();
-        final ExpressionNode init1 = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode init1 = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(init1.toJavaExpression()).thenReturn(
             new VariableDeclarationExpr(PrimitiveType.intType(), "i")
         );
         init.add(init1);
-        final ExpressionNode comparison = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode comparison = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(comparison.toJavaExpression()).thenReturn(
             new BinaryExpr(
                 new NameExpr("i"),
@@ -213,12 +214,12 @@ public final class QueenForStatementNodeTestCase {
             )
         );
         final List<ExpressionNode> update = new ArrayList<>();
-        final ExpressionNode update1 = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode update1 = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(update1.toJavaExpression()).thenReturn(
             new UnaryExpr(new StringLiteralExpr("i"), UnaryExpr.Operator.POSTFIX_INCREMENT)
         );
         update.add(update1);
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final ForStatementNode forStatement = new QueenForStatementNode(
             position,
             init,
@@ -246,13 +247,13 @@ public final class QueenForStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ExpressionNode> init = new ArrayList<>();
-        init.add(Mockito.mock(ExpressionNode.class));
-        final ExpressionNode comparison = Mockito.mock(ExpressionNode.class);
+        init.add(QueenMockito.mock(ExpressionNode.class));
+        final ExpressionNode comparison = QueenMockito.mock(ExpressionNode.class);
         final List<ExpressionNode> update = new ArrayList<>();
-        update.add(Mockito.mock(ExpressionNode.class));
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
+        update.add(QueenMockito.mock(ExpressionNode.class));
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
         final ForStatementNode forStatement = new QueenForStatementNode(
             position,
             init,

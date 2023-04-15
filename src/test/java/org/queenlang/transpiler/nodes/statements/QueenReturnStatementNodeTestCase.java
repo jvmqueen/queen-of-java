@@ -36,6 +36,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public final class QueenReturnStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ReturnStatementNode returnStatement = new QueenReturnStatementNode(
             position
         );
@@ -61,8 +62,8 @@ public final class QueenReturnStatementNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final ReturnStatementNode returnStatement = new QueenReturnStatementNode(
             position,
             expression
@@ -75,7 +76,7 @@ public final class QueenReturnStatementNodeTestCase {
 
     @Test
     public void addsToJavaNodeNoExpression() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ReturnStatementNode returnStatement = new QueenReturnStatementNode(
             position
         );
@@ -89,8 +90,8 @@ public final class QueenReturnStatementNodeTestCase {
 
     @Test
     public void addsToJavaNodeWithExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final ReturnStatementNode returnStatement = new QueenReturnStatementNode(
             position,
             expression
@@ -102,8 +103,8 @@ public final class QueenReturnStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final ReturnStatementNode returnStatement = new QueenReturnStatementNode(
             position,
             expression

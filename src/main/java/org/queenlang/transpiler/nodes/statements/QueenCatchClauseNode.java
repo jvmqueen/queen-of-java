@@ -57,8 +57,8 @@ public final class QueenCatchClauseNode implements CatchClauseNode {
         final BlockStatements blockStatements
     ) {
         this.position = position;
-        this.parameter = parameter;
-        this.blockStatements = blockStatements;
+        this.parameter = parameter != null ? (CatchFormalParameterNode) parameter.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override

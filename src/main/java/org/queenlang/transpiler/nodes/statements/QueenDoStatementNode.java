@@ -66,8 +66,8 @@ public final class QueenDoStatementNode implements DoStatementNode {
         final ExpressionNode expression
     ) {
         this.position = position;
-        this.blockStatements = blockStatements;
-        this.expression = expression;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
     @Override

@@ -56,8 +56,8 @@ public final class QueenAssertStatementNode implements AssertStatementNode {
 
     public QueenAssertStatementNode(final Position position, final ExpressionNode check, final ExpressionNode message) {
         this.position = position;
-        this.check = check;
-        this.message = message;
+        this.check = check != null ? (ExpressionNode) check.withParent(this) : null;
+        this.message = message != null ? (ExpressionNode) message.withParent(this) : null;
     }
 
     @Override

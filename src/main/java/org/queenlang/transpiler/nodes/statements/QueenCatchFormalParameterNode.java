@@ -42,6 +42,7 @@ import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Formal parameter of a Queen CatchClause AST Node.
@@ -65,10 +66,16 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
         final VariableDeclaratorId exceptionName
     ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
-        this.catchExceptionTypes = catchExceptionTypes;
-        this.exceptionName = exceptionName;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.modifiers = modifiers != null ? modifiers.stream().map(
+            m -> (ModifierNode) m.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.catchExceptionTypes = catchExceptionTypes != null ? catchExceptionTypes.stream().map(
+            cet -> (TypeNode) cet.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.exceptionName = exceptionName != null ? (VariableDeclaratorId) exceptionName.withParent(this) : null;
     }
 
     @Override

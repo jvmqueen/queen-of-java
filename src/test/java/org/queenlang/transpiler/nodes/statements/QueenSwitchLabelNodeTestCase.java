@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 /**
  * Unit tests for {@link QueenSwitchLabelNode}.
@@ -46,10 +47,10 @@ public final class QueenSwitchLabelNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final SwitchLabelNode switchLabelNode = new QueenSwitchLabelNode(
             position,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             false
         );
         MatcherAssert.assertThat(
@@ -60,8 +61,8 @@ public final class QueenSwitchLabelNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final SwitchLabelNode switchLabelNode = new QueenSwitchLabelNode(
             position,
             expressionNode,
@@ -75,8 +76,8 @@ public final class QueenSwitchLabelNodeTestCase {
 
     @Test
     public void returnsIsDefault() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final SwitchLabelNode switchLabelNode = new QueenSwitchLabelNode(
             position,
             expressionNode,
@@ -90,8 +91,8 @@ public final class QueenSwitchLabelNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new IntegerLiteralExpr(3));
         final SwitchLabelNode switchLabelNode = new QueenSwitchLabelNode(
             position,
@@ -110,8 +111,8 @@ public final class QueenSwitchLabelNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final SwitchLabelNode switchLabelNode = new QueenSwitchLabelNode(
             position,
             expressionNode,

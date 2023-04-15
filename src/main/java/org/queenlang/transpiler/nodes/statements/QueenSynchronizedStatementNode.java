@@ -57,8 +57,8 @@ public final class QueenSynchronizedStatementNode implements SynchronizedStateme
         final BlockStatements blockStatements
     ) {
         this.position = position;
-        this.syncExpression = syncExpression;
-        this.blockStatements = blockStatements;
+        this.syncExpression = syncExpression != null ? (ExpressionNode) syncExpression.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override

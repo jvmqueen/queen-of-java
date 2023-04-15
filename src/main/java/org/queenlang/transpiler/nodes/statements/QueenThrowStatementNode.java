@@ -54,7 +54,7 @@ public final class QueenThrowStatementNode implements ThrowStatementNode {
         final ExpressionNode expression
     ) {
         this.position = position;
-        this.expression = expression;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
     @Override

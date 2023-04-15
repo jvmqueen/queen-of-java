@@ -19,6 +19,10 @@ public final implementation Hello of Greeting {
 
    public void to(String name) {
        System.out.println("Queen says hello to " + name);
+       int x = 0;
+       System.out.println("X is now: " + x);
+       x = 1;
+       System.out.println("X is noww: " + x);
    }
 
 }

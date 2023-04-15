@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -50,10 +51,10 @@ public final class QueenExpressionStatementNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ExpressionStatementNode expStatement = new QueenExpressionStatementNode(
             position,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             expStatement.position(),
@@ -63,8 +64,8 @@ public final class QueenExpressionStatementNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final ExpressionStatementNode expStatement = new QueenExpressionStatementNode(
             position,
             expression
@@ -77,8 +78,8 @@ public final class QueenExpressionStatementNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expression.toJavaExpression()).thenReturn(
             new UnaryExpr(new NameExpr("i"), UnaryExpr.Operator.POSTFIX_INCREMENT)
         );
@@ -98,8 +99,8 @@ public final class QueenExpressionStatementNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final ExpressionStatementNode expStatement = new QueenExpressionStatementNode(
             position,
             expression

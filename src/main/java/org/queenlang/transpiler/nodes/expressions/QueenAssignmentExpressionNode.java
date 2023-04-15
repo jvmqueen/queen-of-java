@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.Arrays;
@@ -44,6 +45,7 @@ import java.util.List;
 public final class QueenAssignmentExpressionNode implements AssignmentExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode target;
     private final String operator;
     private final ExpressionNode value;
@@ -54,10 +56,21 @@ public final class QueenAssignmentExpressionNode implements AssignmentExpression
         final String operator,
         final ExpressionNode value
     ) {
+        this(position, null, target, operator, value);
+    }
+
+    private QueenAssignmentExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode target,
+        final String operator,
+        final ExpressionNode value
+    ) {
         this.position = position;
-        this.target = target;
+        this.parent  = parent;
+        this.target = target != null ? (ExpressionNode) target.withParent(this) : null;
         this.operator = operator;
-        this.value = value;
+        this.value = value != null ? (ExpressionNode) value.withParent(this) : null;
     }
 
     @Override
@@ -104,5 +117,21 @@ public final class QueenAssignmentExpressionNode implements AssignmentExpression
     @Override
     public ExpressionNode value() {
         return this.value;
+    }
+
+    @Override
+    public QueenAssignmentExpressionNode withParent(final QueenNode parent) {
+        return new QueenAssignmentExpressionNode(
+            this.position,
+            parent,
+            this.target,
+            this.operator,
+            this.value
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

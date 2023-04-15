@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +52,10 @@ public final class QueenArrayAccessExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ArrayAccessExpressionNode arrAccess = new QueenArrayAccessExpressionNode(
             position,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -65,9 +66,9 @@ public final class QueenArrayAccessExpressionNodeTestCase {
 
     @Test
     public void returnsName() {
-        final ExpressionNode name = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode name = QueenMockito.mock(ExpressionNode.class);
         final ArrayAccessExpressionNode arrAccess = new QueenArrayAccessExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             name,
             new ArrayList<>()
         );
@@ -80,10 +81,10 @@ public final class QueenArrayAccessExpressionNodeTestCase {
     @Test
     public void returnsDims() {
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
         final ArrayAccessExpressionNode arrAccess = new QueenArrayAccessExpressionNode(
-            Mockito.mock(Position.class),
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(Position.class),
+            QueenMockito.mock(ExpressionNode.class),
             dims
         );
         MatcherAssert.assertThat(
@@ -95,21 +96,21 @@ public final class QueenArrayAccessExpressionNodeTestCase {
     @Test
     public void returnsJavaExpression() {
         final ExpressionNode name = new QueenNameNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "arrayName"
         );
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final ArrayDimensionNode dim1 = Mockito.mock(ArrayDimensionNode.class);
+        final ArrayDimensionNode dim1 = QueenMockito.mock(ArrayDimensionNode.class);
         Mockito.when(dim1.expression()).thenReturn(
             new QueenNameNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "i"
             )
         );
-        final ArrayDimensionNode dim2 = Mockito.mock(ArrayDimensionNode.class);
+        final ArrayDimensionNode dim2 = QueenMockito.mock(ArrayDimensionNode.class);
         Mockito.when(dim2.expression()).thenReturn(
             new QueenNameNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "j"
             )
         );
@@ -117,7 +118,7 @@ public final class QueenArrayAccessExpressionNodeTestCase {
         dims.add(dim2);
 
         final ArrayAccessExpressionNode arrayAccessExpressionNode = new QueenArrayAccessExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             name,
             dims
         );
@@ -141,21 +142,21 @@ public final class QueenArrayAccessExpressionNodeTestCase {
     @Test
     public void returnsJavaStatement() {
         final ExpressionNode name = new QueenNameNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "arrayName"
         );
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final ArrayDimensionNode dim1 = Mockito.mock(ArrayDimensionNode.class);
+        final ArrayDimensionNode dim1 = QueenMockito.mock(ArrayDimensionNode.class);
         Mockito.when(dim1.expression()).thenReturn(
             new QueenNameNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "i"
             )
         );
-        final ArrayDimensionNode dim2 = Mockito.mock(ArrayDimensionNode.class);
+        final ArrayDimensionNode dim2 = QueenMockito.mock(ArrayDimensionNode.class);
         Mockito.when(dim2.expression()).thenReturn(
             new QueenNameNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "j"
             )
         );
@@ -163,7 +164,7 @@ public final class QueenArrayAccessExpressionNodeTestCase {
         dims.add(dim2);
 
         final ArrayAccessExpressionNode arrayAccessExpressionNode = new QueenArrayAccessExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             name,
             dims
         );
@@ -194,13 +195,13 @@ public final class QueenArrayAccessExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
 
         final ArrayAccessExpressionNode arrayAccessExpressionNode = new QueenArrayAccessExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             expressionNode,
             dims
         );

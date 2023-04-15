@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -47,10 +48,10 @@ public final class QueenBracketedExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final BracketedExpressionNode bracketed = new QueenBracketedExpressionNode(
             position,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             bracketed.position(),
@@ -60,8 +61,8 @@ public final class QueenBracketedExpressionNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final BracketedExpressionNode bracketed = new QueenBracketedExpressionNode(
             position,
             expressionNode
@@ -74,8 +75,8 @@ public final class QueenBracketedExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(
             new NameExpr("a")
         );
@@ -92,8 +93,8 @@ public final class QueenBracketedExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final BracketedExpressionNode bracketed = new QueenBracketedExpressionNode(
             position,
             expressionNode

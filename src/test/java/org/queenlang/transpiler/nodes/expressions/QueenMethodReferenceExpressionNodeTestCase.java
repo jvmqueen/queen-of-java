@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +52,11 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
             position,
-            Mockito.mock(TypeNode.class),
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(TypeNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             new ArrayList<>(),
             "println"
         );
@@ -67,12 +68,12 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
 
     @Test
     public void returnsType() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
             position,
             type,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             new ArrayList<>(),
             "println"
         );
@@ -84,9 +85,9 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
 
     @Test
     public void returnsScope() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
             position,
             type,
@@ -102,11 +103,11 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
 
     @Test
     public void returnsTypeArgs() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
             position,
             type,
@@ -122,11 +123,11 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
 
     @Test
     public void returnsIdentifier() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
             position,
             type,
@@ -142,11 +143,11 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
 
     @Test
     public void returnsJavaTypeExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(new ClassOrInterfaceType("System"));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
             position,
             type,
@@ -167,11 +168,11 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
 
     @Test
     public void returnsJavaScopeExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(scope.toJavaExpression()).thenReturn(new NameExpr("Scope"));
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
             position,
             null,
@@ -192,11 +193,11 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(Mockito.mock(TypeNode.class));
+        typeArguments.add(QueenMockito.mock(TypeNode.class));
         final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
             position,
             type,

@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler.nodes;
 
+import com.github.javaparser.ast.expr.Name;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
@@ -38,10 +39,11 @@ import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
  * @version $Id$
  * @since 0.0.1
  */
-public interface NameNode extends ReferenceTypeNode, ExpressionNode {
+public interface NameNode extends ReferenceTypeNode, ExpressionNode, QueenReferenceNode {
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitNameNode(this);
     }
 
+    Name toName();
 }

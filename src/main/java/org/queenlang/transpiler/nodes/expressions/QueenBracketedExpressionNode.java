@@ -48,7 +48,7 @@ public final class QueenBracketedExpressionNode implements BracketedExpressionNo
 
     public QueenBracketedExpressionNode(final Position position, final ExpressionNode expression) {
         this.position = position;
-        this.expression = expression;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
     @Override

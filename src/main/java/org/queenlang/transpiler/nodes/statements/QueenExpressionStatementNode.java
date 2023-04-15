@@ -31,8 +31,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
+import org.queenlang.transpiler.nodes.expressions.QueenAssignmentExpressionNode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,14 +48,24 @@ import java.util.List;
 public final class QueenExpressionStatementNode implements ExpressionStatementNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode expression;
 
     public QueenExpressionStatementNode(
         final Position position,
         final ExpressionNode expression
     ) {
+        this(position, null, expression);
+    }
+
+    private QueenExpressionStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode expression
+    ) {
         this.position = position;
-        this.expression = expression;
+        this.parent = parent;
+        this.expression = (ExpressionNode) expression.withParent(this);
     }
 
     @Override
@@ -78,5 +90,19 @@ public final class QueenExpressionStatementNode implements ExpressionStatementNo
     @Override
     public ExpressionNode expression() {
         return this.expression;
+    }
+
+    @Override
+    public QueenExpressionStatementNode withParent(final QueenNode parent) {
+        return new QueenExpressionStatementNode(
+            this.position,
+            parent,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

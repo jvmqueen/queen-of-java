@@ -41,6 +41,7 @@ import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen object creation/class instantiation expression, AST Node.
@@ -69,11 +70,15 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
         final ClassBodyNode anonymousBody
     ) {
         this.position = position;
-        this.scope = scope;
-        this.type = type;
-        this.typeArguments = typeArguments;
-        this.arguments = arguments;
-        this.anonymousBody = anonymousBody;
+        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
+        this.type = (ClassOrInterfaceTypeNode) type.withParent(this);
+        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
+            ta -> (TypeNode) ta.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.arguments = arguments != null ? arguments.stream().map(
+            a -> (ExpressionNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.anonymousBody = anonymousBody != null ? (ClassBodyNode) anonymousBody.withParent(this) : null;
     }
     @Override
     public Expression toJavaExpression() {

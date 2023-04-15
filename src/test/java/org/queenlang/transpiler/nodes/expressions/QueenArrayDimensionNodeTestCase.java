@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public final class QueenArrayDimensionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ArrayDimensionNode dim = new QueenArrayDimensionNode(position);
         MatcherAssert.assertThat(
             dim.position(),
@@ -58,11 +59,11 @@ public final class QueenArrayDimensionNodeTestCase {
     @Test
     public void returnsAnnotations() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final ArrayDimensionNode dim = new QueenArrayDimensionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             dim.annotations(),
@@ -72,9 +73,9 @@ public final class QueenArrayDimensionNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final ArrayDimensionNode dim = new QueenArrayDimensionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             expressionNode
         );
@@ -87,10 +88,10 @@ public final class QueenArrayDimensionNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final ArrayDimensionNode dim = new QueenArrayDimensionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             expression
         );

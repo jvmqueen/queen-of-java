@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public final class QueenArrayInitializerExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ArrayInitializerExpressionNode arrayInit = new QueenArrayInitializerExpressionNode(
             position,
             new ArrayList<>()
@@ -64,9 +65,9 @@ public final class QueenArrayInitializerExpressionNodeTestCase {
     @Test
     public void returnsValues() {
         final List<ExpressionNode> values = new ArrayList<>();
-        values.add(Mockito.mock(ExpressionNode.class));
+        values.add(QueenMockito.mock(ExpressionNode.class));
         final ArrayInitializerExpressionNode arrayInit = new QueenArrayInitializerExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             values
         );
         MatcherAssert.assertThat(
@@ -78,11 +79,11 @@ public final class QueenArrayInitializerExpressionNodeTestCase {
     @Test
     public void returnsJavaExpression() {
         final List<ExpressionNode> values = new ArrayList<>();
-        final ExpressionNode value = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(value.toJavaExpression()).thenReturn(new NameExpr("1"));
         values.add(value);
         final ArrayInitializerExpressionNode arrayInit = new QueenArrayInitializerExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             values
         );
         final ArrayInitializerExpr expression = (ArrayInitializerExpr) arrayInit.toJavaExpression();
@@ -95,11 +96,11 @@ public final class QueenArrayInitializerExpressionNodeTestCase {
     @Test
     public void returnsJavaStatement() {
         final List<ExpressionNode> values = new ArrayList<>();
-        final ExpressionNode value = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(value.toJavaExpression()).thenReturn(new NameExpr("1"));
         values.add(value);
         final ArrayInitializerExpressionNode arrayInit = new QueenArrayInitializerExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             values
         );
         final ExpressionStmt stmt = (ExpressionStmt) arrayInit.toJavaStatement();
@@ -113,10 +114,10 @@ public final class QueenArrayInitializerExpressionNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<ExpressionNode> values = new ArrayList<>();
-        values.add(Mockito.mock(ExpressionNode.class));
-        values.add(Mockito.mock(ExpressionNode.class));
+        values.add(QueenMockito.mock(ExpressionNode.class));
+        values.add(QueenMockito.mock(ExpressionNode.class));
         final ArrayInitializerExpressionNode arrayInit = new QueenArrayInitializerExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             values
         );
 

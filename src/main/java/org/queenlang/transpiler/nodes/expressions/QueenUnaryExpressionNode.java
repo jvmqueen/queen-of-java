@@ -62,7 +62,7 @@ public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
         this.position = position;
         this.operator = operator;
         this.isPrefix = isPrefix;
-        this.expression = expression;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
     @Override

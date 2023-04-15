@@ -34,7 +34,7 @@ package org.queenlang.transpiler.nodes;
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenReferenceNode {
+public interface QueenReferenceNode extends QueenNode {
 
     /**
      * Resolve this reference, get the referred QueenNode.

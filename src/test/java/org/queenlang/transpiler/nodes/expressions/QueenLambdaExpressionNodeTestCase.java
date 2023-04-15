@@ -42,6 +42,7 @@ import org.queenlang.transpiler.nodes.body.QueenVariableDeclaratorId;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenBlockStatements;
 import org.queenlang.transpiler.nodes.statements.QueenReturnStatementNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,13 +58,13 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
             true,
             new ArrayList<>(),
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             lambda.position(),
@@ -73,13 +74,13 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsIsEnclosedParameters() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
             true,
             new ArrayList<>(),
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             lambda.enclosedParameters(),
@@ -89,15 +90,15 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsParameters() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
+        parameters.add(QueenMockito.mock(ParameterNode.class));
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
             true,
             parameters,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             lambda.parameters(),
@@ -107,16 +108,16 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsExpressionNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        parameters.add(QueenMockito.mock(ParameterNode.class));
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
             true,
             parameters,
             expressionNode,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             lambda.expression(),
@@ -126,11 +127,11 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsBlockStatements() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        parameters.add(QueenMockito.mock(ParameterNode.class));
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
             true,
@@ -146,9 +147,9 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsSimpleJavaLambdaNoParams() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new StringLiteralExpr("test"));
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
@@ -166,14 +167,14 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsSimpleJavaLambdaOneParamEnclosed() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
         final ParameterNode param = new QueenParameterNode(
-            Mockito.mock(Position.class),
-            new QueenVariableDeclaratorId(Mockito.mock(Position.class), "a")
+            QueenMockito.mock(Position.class),
+            new QueenVariableDeclaratorId(QueenMockito.mock(Position.class), "a")
         );
         parameters.add(param);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new StringLiteralExpr("test"));
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
@@ -191,14 +192,14 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsSimpleJavaLambdaOneParamNotEnclosed() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
         final ParameterNode param = new QueenParameterNode(
-            Mockito.mock(Position.class),
-            new QueenVariableDeclaratorId(Mockito.mock(Position.class), "a")
+            QueenMockito.mock(Position.class),
+            new QueenVariableDeclaratorId(QueenMockito.mock(Position.class), "a")
         );
         parameters.add(param);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new StringLiteralExpr("test"));
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
@@ -216,19 +217,19 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsSimpleJavaLambdaMoreParamsEnclosed() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
         final ParameterNode param1 = new QueenParameterNode(
-            Mockito.mock(Position.class),
-            new QueenVariableDeclaratorId(Mockito.mock(Position.class), "a")
+            QueenMockito.mock(Position.class),
+            new QueenVariableDeclaratorId(QueenMockito.mock(Position.class), "a")
         );
         final ParameterNode param2 = new QueenParameterNode(
-            Mockito.mock(Position.class),
-            new QueenVariableDeclaratorId(Mockito.mock(Position.class), "b")
+            QueenMockito.mock(Position.class),
+            new QueenVariableDeclaratorId(QueenMockito.mock(Position.class), "b")
         );
         parameters.add(param1);
         parameters.add(param2);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new StringLiteralExpr("test"));
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
@@ -246,19 +247,19 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsBlockJavaLambdaOneParamEnclosed() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
         final ParameterNode param = new QueenParameterNode(
-            Mockito.mock(Position.class),
-            new QueenVariableDeclaratorId(Mockito.mock(Position.class), "a")
+            QueenMockito.mock(Position.class),
+            new QueenVariableDeclaratorId(QueenMockito.mock(Position.class), "a")
         );
         parameters.add(param);
         final BlockStatements block = new QueenBlockStatements(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             Arrays.asList(
                 new QueenReturnStatementNode(
-                    Mockito.mock(Position.class),
-                    new QueenNameNode(Mockito.mock(Position.class), "test")
+                    QueenMockito.mock(Position.class),
+                    new QueenNameNode(QueenMockito.mock(Position.class), "test")
                 )
             )
         );
@@ -278,19 +279,19 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsBlockJavaLambdaOneParamNotEnclosed() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
         final ParameterNode param = new QueenParameterNode(
-            Mockito.mock(Position.class),
-            new QueenVariableDeclaratorId(Mockito.mock(Position.class), "a")
+            QueenMockito.mock(Position.class),
+            new QueenVariableDeclaratorId(QueenMockito.mock(Position.class), "a")
         );
         parameters.add(param);
         final BlockStatements block = new QueenBlockStatements(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             Arrays.asList(
                 new QueenReturnStatementNode(
-                    Mockito.mock(Position.class),
-                    new QueenNameNode(Mockito.mock(Position.class), "test")
+                    QueenMockito.mock(Position.class),
+                    new QueenNameNode(QueenMockito.mock(Position.class), "test")
                 )
             )
         );
@@ -310,24 +311,24 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsBlockJavaLambdaMoreParamsEnclosed() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
         final ParameterNode param1 = new QueenParameterNode(
-            Mockito.mock(Position.class),
-            new QueenVariableDeclaratorId(Mockito.mock(Position.class), "a")
+            QueenMockito.mock(Position.class),
+            new QueenVariableDeclaratorId(QueenMockito.mock(Position.class), "a")
         );
         final ParameterNode param2 = new QueenParameterNode(
-            Mockito.mock(Position.class),
-            new QueenVariableDeclaratorId(Mockito.mock(Position.class), "b")
+            QueenMockito.mock(Position.class),
+            new QueenVariableDeclaratorId(QueenMockito.mock(Position.class), "b")
         );
         parameters.add(param1);
         parameters.add(param2);
         final BlockStatements block = new QueenBlockStatements(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             Arrays.asList(
                 new QueenReturnStatementNode(
-                    Mockito.mock(Position.class),
-                    new QueenNameNode(Mockito.mock(Position.class), "test")
+                    QueenMockito.mock(Position.class),
+                    new QueenNameNode(QueenMockito.mock(Position.class), "test")
                 )
             )
         );
@@ -347,12 +348,12 @@ public final class QueenLambdaExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
-        parameters.add(Mockito.mock(ParameterNode.class));
-        final BlockStatements block = Mockito.mock(BlockStatements.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        parameters.add(QueenMockito.mock(ParameterNode.class));
+        parameters.add(QueenMockito.mock(ParameterNode.class));
+        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final LambdaExpressionNode lambda = new QueenLambdaExpressionNode(
             position,
             true,

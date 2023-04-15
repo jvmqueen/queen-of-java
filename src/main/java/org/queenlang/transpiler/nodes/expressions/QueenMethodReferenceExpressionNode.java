@@ -36,6 +36,7 @@ import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Method Reference Expression, AST Node.
@@ -59,9 +60,11 @@ public final class QueenMethodReferenceExpressionNode implements MethodReference
         final String identifier
     ) {
         this.position = position;
-        this.type = type;
-        this.scope = scope;
-        this.typeArguments = typeArguments;
+        this.type = type != null ? (TypeNode) type.withParent(this) : null;
+        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
+        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
+            ta -> (TypeNode) ta.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.identifier = identifier;
     }
 

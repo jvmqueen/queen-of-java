@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -48,10 +49,10 @@ public final class QueenFieldAccessExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final FieldAccessExpressionNode fieldAccess = new QueenFieldAccessExpressionNode(
             position,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             "x"
         );
         MatcherAssert.assertThat(
@@ -62,8 +63,8 @@ public final class QueenFieldAccessExpressionNodeTestCase {
 
     @Test
     public void returnsScope() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final FieldAccessExpressionNode fieldAccess = new QueenFieldAccessExpressionNode(
             position,
             scope,
@@ -77,8 +78,8 @@ public final class QueenFieldAccessExpressionNodeTestCase {
 
     @Test
     public void returnsName() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final FieldAccessExpressionNode fieldAccess = new QueenFieldAccessExpressionNode(
             position,
             scope,
@@ -92,8 +93,8 @@ public final class QueenFieldAccessExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(scope.toJavaExpression()).thenReturn(
             new NameExpr("SomeClass")
         );
@@ -119,8 +120,8 @@ public final class QueenFieldAccessExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(scope.toJavaExpression()).thenReturn(
             new NameExpr("SomeClass")
         );

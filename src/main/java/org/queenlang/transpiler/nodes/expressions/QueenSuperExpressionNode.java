@@ -54,7 +54,7 @@ public final class QueenSuperExpressionNode implements SuperExpressionNode {
 
     public QueenSuperExpressionNode(final Position position, final QueenNameNode typeName){
         this.position = position;
-        this.typeName = typeName;
+        this.typeName = typeName != null ? typeName.withParent(this) : null;
     }
 
     @Override

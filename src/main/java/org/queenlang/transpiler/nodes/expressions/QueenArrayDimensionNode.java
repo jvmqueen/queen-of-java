@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The [] array dimension in Queen, AST Node. May contain expression between
@@ -76,8 +77,10 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
         final ExpressionNode expression
     ) {
         this.position = position;
-        this.annotations = annotations;
-        this.expression = expression;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
     @Override

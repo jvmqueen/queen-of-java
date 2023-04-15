@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public final class QueenBlockStatementsTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final BlockStatements block = new QueenBlockStatements(position);
         MatcherAssert.assertThat(
             block.position(),
@@ -58,10 +59,10 @@ public final class QueenBlockStatementsTestCase {
 
     @Test
     public void returnsStatements() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<StatementNode> statements = new ArrayList<>();
-        statements.add(Mockito.mock(StatementNode.class));
-        statements.add(Mockito.mock(StatementNode.class));
+        statements.add(QueenMockito.mock(StatementNode.class));
+        statements.add(QueenMockito.mock(StatementNode.class));
         final BlockStatements block = new QueenBlockStatements(position, statements);
         MatcherAssert.assertThat(
             block.blockStatements(),
@@ -71,10 +72,10 @@ public final class QueenBlockStatementsTestCase {
 
     @Test
     public void canBeIterated() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<StatementNode> statements = new ArrayList<>();
-        statements.add(Mockito.mock(StatementNode.class));
-        statements.add(Mockito.mock(StatementNode.class));
+        statements.add(QueenMockito.mock(StatementNode.class));
+        statements.add(QueenMockito.mock(StatementNode.class));
         final BlockStatements block = new QueenBlockStatements(position, statements);
         MatcherAssert.assertThat(
             block,
@@ -84,13 +85,13 @@ public final class QueenBlockStatementsTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<StatementNode> statements = new ArrayList<>();
-        statements.add(Mockito.mock(StatementNode.class));
-        statements.add(Mockito.mock(StatementNode.class));
+        statements.add(QueenMockito.mock(StatementNode.class));
+        statements.add(QueenMockito.mock(StatementNode.class));
         final BlockStatements block = new QueenBlockStatements(position, statements);
 
-        final Node node = Mockito.mock(Node.class);
+        final Node node = QueenMockito.mock(Node.class);
         block.addToJavaNode(node);
         statements.forEach(
             s -> Mockito.verify(s, Mockito.times(1)).addToJavaNode(node)
@@ -99,10 +100,10 @@ public final class QueenBlockStatementsTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<StatementNode> statements = new ArrayList<>();
-        statements.add(Mockito.mock(StatementNode.class));
-        statements.add(Mockito.mock(StatementNode.class));
+        statements.add(QueenMockito.mock(StatementNode.class));
+        statements.add(QueenMockito.mock(StatementNode.class));
         final BlockStatements block = new QueenBlockStatements(position, statements);
 
         final List<QueenNode> children = block.children();

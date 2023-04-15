@@ -32,6 +32,7 @@ import com.github.javaparser.ast.expr.ThisExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +55,7 @@ public final class QueenThisExpressionNode implements ThisExpressionNode {
 
     public QueenThisExpressionNode(final Position position, final QueenNameNode typeName){
         this.position = position;
-        this.typeName = typeName;
+        this.typeName = typeName != null ? typeName.withParent(this) : null;
     }
 
     @Override

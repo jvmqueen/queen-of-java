@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -50,11 +51,11 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation"),
-            Mockito.mock(ExpressionNode.class)
+            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             singleMemberAnnotation.position(),
@@ -64,11 +65,11 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
 
     @Test
     public void returnsName() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation"),
-            Mockito.mock(ExpressionNode.class)
+            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             singleMemberAnnotation.name(),
@@ -78,11 +79,11 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
 
     @Test
     public void returnsElement() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode element = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode element = QueenMockito.mock(ExpressionNode.class);
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
             element
         );
         MatcherAssert.assertThat(
@@ -93,12 +94,12 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
 
     @Test
     public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode element = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode element = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(element.toJavaExpression()).thenReturn(new StringLiteralExpr("runtime"));
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "Scope"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "Scope"),
             element
         );
 
@@ -120,12 +121,12 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode element = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode element = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(element.toJavaExpression()).thenReturn(new StringLiteralExpr("runtime"));
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "Scope"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "Scope"),
             element
         );
 
@@ -149,11 +150,11 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode element = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode element = QueenMockito.mock(ExpressionNode.class);
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "Scope"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "Scope"),
             element
         );
 

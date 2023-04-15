@@ -27,10 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import org.queenlang.transpiler.nodes.Named;
-import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
-import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,11 +48,11 @@ public abstract class QueenAnnotationNode implements AnnotationNode {
     /**
      * Name of the annotation.
      */
-    private final QueenNameNode name;
+    private final NameNode name;
 
-    public QueenAnnotationNode(final Position position, final QueenNameNode name) {
+    public QueenAnnotationNode(final Position position, final NameNode name) {
         this.position = position;
-        this.name = name;
+        this.name = (NameNode) name.withParent(this);
     }
 
     @Override

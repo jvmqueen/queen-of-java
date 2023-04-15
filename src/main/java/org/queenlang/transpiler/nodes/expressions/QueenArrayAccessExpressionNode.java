@@ -34,6 +34,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Array Access Expression, AST Node.
@@ -55,8 +56,10 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
         final List<ArrayDimensionNode> dims
     ) {
         this.position = position;
-        this.name = name;
-        this.dims = dims;
+        this.name = (ExpressionNode) name.withParent(this);
+        this.dims = dims != null ? dims.stream().map(
+            d -> (ArrayDimensionNode) d.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override

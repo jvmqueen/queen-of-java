@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.statements.BlockStatements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Lambda Expression, AST Node.
@@ -62,9 +63,11 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
     ) {
         this.position = position;
         this.enclosedParameters = enclosedParameters;
-        this.parameters = parameters;
-        this.expression = expression;
-        this.blockStatements = blockStatements;
+        this.parameters = parameters != null ? parameters.stream().map(
+            p -> (ParameterNode) p.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override

@@ -35,6 +35,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen array initialized expression, AST Node.
@@ -52,7 +53,9 @@ public final class QueenArrayInitializerExpressionNode implements ArrayInitializ
         final List<ExpressionNode> values
     ) {
         this.position = position;
-        this.values = values;
+        this.values = values != null ? values.stream().map(
+            v -> (ExpressionNode) v.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override

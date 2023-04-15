@@ -40,9 +40,10 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenNameNode implements NameNode, QueenReferenceNode {
+public final class QueenNameNode implements NameNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final QueenNameNode qualifier;
     private final String identifier;
 
@@ -51,6 +52,11 @@ public final class QueenNameNode implements NameNode, QueenReferenceNode {
     }
 
     public QueenNameNode(final Position position, final QueenNameNode qualifier, final String identifier) {
+        this(position, null, qualifier, identifier);
+    }
+
+    private QueenNameNode(final Position position, final QueenNode parent, final QueenNameNode qualifier, final String identifier) {
+        this.parent = parent;
         this.position = position;
         this.qualifier = qualifier;
         this.identifier = identifier;
@@ -102,6 +108,24 @@ public final class QueenNameNode implements NameNode, QueenReferenceNode {
 
     @Override
     public QueenNode resolve() {
+        if(this.parent != null) {
+            this.parent.resolve(this);
+        }
         return null;
+    }
+
+    @Override
+    public QueenNameNode withParent(final QueenNode parent) {
+        return new QueenNameNode(
+            this.position,
+            parent,
+            this.qualifier,
+            this.identifier
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

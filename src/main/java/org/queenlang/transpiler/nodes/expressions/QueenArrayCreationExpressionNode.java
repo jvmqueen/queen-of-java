@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen array creation, AST Node.
@@ -59,9 +60,11 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
         final ExpressionNode arrayInitializer
     ) {
         this.position = position;
-        this.type = type;
-        this.dims = dims;
-        this.arrayInitializer = arrayInitializer;
+        this.type = type != null ? (TypeNode) type.withParent(this) : null;
+        this.dims = dims != null ? dims.stream().map(
+            d -> (ArrayDimensionNode) d.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.arrayInitializer = arrayInitializer != null ? (ExpressionNode) arrayInitializer.withParent(this) : null;
     }
 
     @Override

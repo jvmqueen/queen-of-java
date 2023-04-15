@@ -64,7 +64,7 @@ public final class QueenFieldAccessExpressionNode implements FieldAccessExpressi
         final String name
     ) {
         this.position = position;
-        this.scope = scope;
+        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
         this.name = name;
     }
 

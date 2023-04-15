@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -50,11 +51,11 @@ public final class QueenInstanceOfExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final InstanceOfExpressionNode instanceOfExpression = new QueenInstanceOfExpressionNode(
             position,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(ReferenceTypeNode.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ReferenceTypeNode.class)
         );
         MatcherAssert.assertThat(
             instanceOfExpression.position(),
@@ -64,12 +65,12 @@ public final class QueenInstanceOfExpressionNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         final InstanceOfExpressionNode instanceOfExpression = new QueenInstanceOfExpressionNode(
             position,
             expressionNode,
-            Mockito.mock(ReferenceTypeNode.class)
+            QueenMockito.mock(ReferenceTypeNode.class)
         );
         MatcherAssert.assertThat(
             instanceOfExpression.expression(),
@@ -79,9 +80,9 @@ public final class QueenInstanceOfExpressionNodeTestCase {
 
     @Test
     public void returnsReferenceType() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
-        final ReferenceTypeNode refType = Mockito.mock(ReferenceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
+        final ReferenceTypeNode refType = QueenMockito.mock(ReferenceTypeNode.class);
         final InstanceOfExpressionNode instanceOfExpression = new QueenInstanceOfExpressionNode(
             position,
             expressionNode,
@@ -95,10 +96,10 @@ public final class QueenInstanceOfExpressionNodeTestCase {
 
     @Test
     public void returnsJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expressionNode.toJavaExpression()).thenReturn(new NameExpr("s"));
-        final ReferenceTypeNode refType = Mockito.mock(ReferenceTypeNode.class);
+        final ReferenceTypeNode refType = QueenMockito.mock(ReferenceTypeNode.class);
         Mockito.when(refType.toType()).thenReturn(new ClassOrInterfaceType("Student"));
         final InstanceOfExpressionNode instanceOfExpression = new QueenInstanceOfExpressionNode(
             position,
@@ -123,9 +124,9 @@ public final class QueenInstanceOfExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expressionNode = Mockito.mock(ExpressionNode.class);
-        final ReferenceTypeNode refType = Mockito.mock(ReferenceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
+        final ReferenceTypeNode refType = QueenMockito.mock(ReferenceTypeNode.class);
         final InstanceOfExpressionNode instanceOfExpression = new QueenInstanceOfExpressionNode(
             position,
             expressionNode,

@@ -55,8 +55,8 @@ public final class QueenInstanceOfExpressionNode implements InstanceOfExpression
         final ReferenceTypeNode referenceType
     ) {
         this.position = position;
-        this.expression = expression;
-        this.referenceType = referenceType;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
+        this.referenceType = referenceType != null ? (ReferenceTypeNode) referenceType.withParent(this) : null;
     }
 
     @Override

@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +54,12 @@ public final class QueenCastExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final CastExpressionNode cast = new QueenCastExpressionNode(
             position,
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             cast.position(),
@@ -68,13 +69,13 @@ public final class QueenCastExpressionNodeTestCase {
 
     @Test
     public void returnsPrimitiveType() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode primitiveType = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode primitiveType = QueenMockito.mock(TypeNode.class);
         final CastExpressionNode cast = new QueenCastExpressionNode(
             position,
             primitiveType,
             new ArrayList<>(),
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             cast.primitiveType(),
@@ -84,15 +85,15 @@ public final class QueenCastExpressionNodeTestCase {
 
     @Test
     public void returnReferenceTypes() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode primitiveType = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode primitiveType = QueenMockito.mock(TypeNode.class);
         final List<ReferenceTypeNode> refTypes = new ArrayList<>();
-        refTypes.add(Mockito.mock(ReferenceTypeNode.class));
+        refTypes.add(QueenMockito.mock(ReferenceTypeNode.class));
         final CastExpressionNode cast = new QueenCastExpressionNode(
             position,
             primitiveType,
             refTypes,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             cast.referenceTypes(),
@@ -102,11 +103,11 @@ public final class QueenCastExpressionNodeTestCase {
 
     @Test
     public void returnExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode primitiveType = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode primitiveType = QueenMockito.mock(TypeNode.class);
         final List<ReferenceTypeNode> refTypes = new ArrayList<>();
-        refTypes.add(Mockito.mock(ReferenceTypeNode.class));
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        refTypes.add(QueenMockito.mock(ReferenceTypeNode.class));
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final CastExpressionNode cast = new QueenCastExpressionNode(
             position,
             primitiveType,
@@ -121,10 +122,10 @@ public final class QueenCastExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpressionPrimitiveType() {
-        final Position position = Mockito.mock(Position.class);
-        final TypeNode primitiveType = Mockito.mock(TypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final TypeNode primitiveType = QueenMockito.mock(TypeNode.class);
         Mockito.when(primitiveType.toType()).thenReturn(PrimitiveType.intType());
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expression.toJavaExpression()).thenReturn(
             new NameExpr("i")
         );
@@ -148,16 +149,16 @@ public final class QueenCastExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpressionRefTypes() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
 
         final List<ReferenceTypeNode> refTypes = new ArrayList<>();
-        final ReferenceTypeNode refType1 = Mockito.mock(ReferenceTypeNode.class);
+        final ReferenceTypeNode refType1 = QueenMockito.mock(ReferenceTypeNode.class);
         Mockito.when(refType1.toType()).thenReturn(new ClassOrInterfaceType("Student"));
-        final ReferenceTypeNode refType2 = Mockito.mock(ReferenceTypeNode.class);
+        final ReferenceTypeNode refType2 = QueenMockito.mock(ReferenceTypeNode.class);
         Mockito.when(refType2.toType()).thenReturn(new ClassOrInterfaceType("Pupil"));
         refTypes.add(refType1);
         refTypes.add(refType2);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expression.toJavaExpression()).thenReturn(
             new NameExpr("student")
         );
@@ -185,13 +186,13 @@ public final class QueenCastExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpressionSingleRefType() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
 
         final List<ReferenceTypeNode> refTypes = new ArrayList<>();
-        final ReferenceTypeNode refType1 = Mockito.mock(ReferenceTypeNode.class);
+        final ReferenceTypeNode refType1 = QueenMockito.mock(ReferenceTypeNode.class);
         Mockito.when(refType1.toType()).thenReturn(new ClassOrInterfaceType("Student"));
         refTypes.add(refType1);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expression.toJavaExpression()).thenReturn(
             new NameExpr("student")
         );
@@ -219,12 +220,12 @@ public final class QueenCastExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
 
         final List<ReferenceTypeNode> refTypes = new ArrayList<>();
-        refTypes.add(Mockito.mock(ReferenceTypeNode.class));
-        final TypeNode primitiveType = Mockito.mock(TypeNode.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        refTypes.add(QueenMockito.mock(ReferenceTypeNode.class));
+        final TypeNode primitiveType = QueenMockito.mock(TypeNode.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final CastExpressionNode cast = new QueenCastExpressionNode(
             position,
             primitiveType,

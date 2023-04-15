@@ -31,6 +31,7 @@ import com.github.javaparser.ast.Node;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.queenlang.transpiler.QueenASTVisitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,4 +67,30 @@ public interface QueenNode {
      * @param <T> Type of the result.
      */
     <T> T accept(QueenASTVisitor<? extends T> visitor);
+
+    /**
+     * An instance of this QueenNode with the parent.
+     * @param parent Parent node.
+     * @return QueenNode.
+     */
+    default QueenNode withParent(final QueenNode parent) {
+        return this;
+    }
+
+    default QueenNode parent() {
+        return null;
+    }
+
+    /**
+     * Resolve a reference, return the node(s) to which it refers.
+     * @param node Reference.
+     * @return Nodes to which the reference refers to.
+     */
+    default List<QueenNode> resolve(final QueenReferenceNode reference) {
+        final QueenNode parent = this.parent();
+        if(parent != null) {
+            return parent.resolve(reference);
+        }
+        return new ArrayList<>();
+    }
 }

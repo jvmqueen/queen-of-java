@@ -54,9 +54,9 @@ public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
         final ExpressionNode right
     ) {
         this.position = position;
-        this.left = left;
+        this.left = (ExpressionNode) left.withParent(this);
         this.operator = operator;
-        this.right = right;
+        this.right = (ExpressionNode) right.withParent(this);
     }
 
     @Override

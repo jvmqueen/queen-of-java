@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -37,6 +38,7 @@ import org.queenlang.transpiler.nodes.body.ElementValuePairNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen normal annotation.
@@ -53,11 +55,13 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
 
     public QueenNormalAnnotationNode(
         final Position position,
-        final QueenNameNode name,
+        final NameNode name,
         final List<ElementValuePairNode> elementValuePairs
     ) {
         super(position, name);
-        this.elementValuePairs = elementValuePairs;
+        this.elementValuePairs = elementValuePairs != null ? elementValuePairs.stream().map(
+            evp -> (ElementValuePairNode) evp.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override

@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -47,12 +48,12 @@ public final class QueenUnaryExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
             position,
             "++",
             false,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             unary.position(),
@@ -62,12 +63,12 @@ public final class QueenUnaryExpressionNodeTestCase {
 
     @Test
     public void returnsOperator() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
             position,
             "++",
             false,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             unary.operator(),
@@ -77,12 +78,12 @@ public final class QueenUnaryExpressionNodeTestCase {
 
     @Test
     public void returnsIsPrefix() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
             position,
             "++",
             true,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             unary.isPrefix(),
@@ -92,8 +93,8 @@ public final class QueenUnaryExpressionNodeTestCase {
 
     @Test
     public void returnsExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
             position,
             "++",
@@ -108,8 +109,8 @@ public final class QueenUnaryExpressionNodeTestCase {
 
     @Test
     public void returnsPrefixedJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expression.toJavaExpression()).thenReturn(new NameExpr("i"));
         final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
             position,
@@ -125,8 +126,8 @@ public final class QueenUnaryExpressionNodeTestCase {
 
     @Test
     public void returnsPostfixedJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(expression.toJavaExpression()).thenReturn(new NameExpr("i"));
         final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
             position,
@@ -142,8 +143,8 @@ public final class QueenUnaryExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode expression = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
         final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
             position,
             "++",

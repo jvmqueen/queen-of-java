@@ -28,12 +28,14 @@
 package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.AarTypeSolver;
+import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen BlockStatements AST Node.
@@ -42,8 +44,8 @@ import java.util.List;
  * @since 0.0.1
  */
 public final class QueenBlockStatements implements BlockStatements {
-
     private final Position position;
+    private QueenNode parent;
     private final List<StatementNode> blockStatements;
 
     public QueenBlockStatements(
@@ -56,9 +58,23 @@ public final class QueenBlockStatements implements BlockStatements {
         final Position position,
         final List<StatementNode> blockStatements
     ) {
-        this.position = position;
-        this.blockStatements = blockStatements;
+        this(position, null, blockStatements);
     }
+
+    private QueenBlockStatements(
+        final Position position,
+        final QueenNode parent,
+        final List<StatementNode> blockStatements
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.blockStatements = blockStatements.stream().map(
+            statement -> {
+                return (StatementNode) statement.withParent(this);
+            }
+        ).collect(Collectors.toList());
+    }
+
 
     @Override
     public List<StatementNode> blockStatements() {
@@ -84,5 +100,40 @@ public final class QueenBlockStatements implements BlockStatements {
             children.addAll(this.blockStatements);
         }
         return children;
+    }
+
+    @Override
+    public List<QueenNode> resolve(final QueenReferenceNode reference) {
+        final List<QueenNode> resolved = new ArrayList<>();
+        if(reference instanceof NameNode) {
+            for(final StatementNode stmt : this.blockStatements) {
+                if(stmt instanceof LocalVariableDeclarationNode) {
+                    final LocalVariableDeclarationNode localVariableDeclaration = (LocalVariableDeclarationNode) stmt;
+                    final String variableName = localVariableDeclaration.variables().get(0).variableDeclaratorId().name();
+                    if(variableName.equals(((NameNode) reference).name())) {
+                        System.out.println("RESOLVED " + variableName + " as LVD at position " + localVariableDeclaration.position());
+                        resolved.add(localVariableDeclaration);
+                    }
+                }
+            }
+        }
+        if(this.parent != null) {
+            resolved.addAll(this.parent.resolve(reference));
+        }
+        return resolved;
+    }
+
+    @Override
+    public QueenBlockStatements withParent(final QueenNode parent) {
+        return new QueenBlockStatements(
+            this.position,
+            parent,
+            this.blockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

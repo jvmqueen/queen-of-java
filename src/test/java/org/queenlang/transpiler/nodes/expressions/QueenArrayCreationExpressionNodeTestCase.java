@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +53,12 @@ public final class QueenArrayCreationExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
             position,
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
-            Mockito.mock(ArrayInitializerExpressionNode.class)
+            QueenMockito.mock(ArrayInitializerExpressionNode.class)
         );
         MatcherAssert.assertThat(
             arrCreation.position(),
@@ -67,12 +68,12 @@ public final class QueenArrayCreationExpressionNodeTestCase {
 
     @Test
     public void returnsType() {
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             type,
             new ArrayList<>(),
-            Mockito.mock(ArrayInitializerExpressionNode.class)
+            QueenMockito.mock(ArrayInitializerExpressionNode.class)
         );
         MatcherAssert.assertThat(
             arrCreation.type(),
@@ -83,12 +84,12 @@ public final class QueenArrayCreationExpressionNodeTestCase {
     @Test
     public void returnsDims() {
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
         final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
-            Mockito.mock(Position.class),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(Position.class),
+            QueenMockito.mock(TypeNode.class),
             dims,
-            Mockito.mock(ArrayInitializerExpressionNode.class)
+            QueenMockito.mock(ArrayInitializerExpressionNode.class)
         );
         MatcherAssert.assertThat(
             arrCreation.dims(),
@@ -98,10 +99,10 @@ public final class QueenArrayCreationExpressionNodeTestCase {
 
     @Test
     public void returnsInitializer() {
-        final ExpressionNode initializer = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode initializer = QueenMockito.mock(ExpressionNode.class);
         final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
-            Mockito.mock(Position.class),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(Position.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             initializer
         );
@@ -113,27 +114,27 @@ public final class QueenArrayCreationExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpression(){
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final ArrayDimensionNode dim1 = Mockito.mock(ArrayDimensionNode.class);
+        final ArrayDimensionNode dim1 = QueenMockito.mock(ArrayDimensionNode.class);
         Mockito.when(dim1.expression()).thenReturn(
             new QueenNameNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "5"
             )
         );
-        final ArrayDimensionNode dim2 = Mockito.mock(ArrayDimensionNode.class);
+        final ArrayDimensionNode dim2 = QueenMockito.mock(ArrayDimensionNode.class);
         Mockito.when(dim2.expression()).thenReturn(
             new QueenNameNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "10"
             )
         );
         dims.add(dim1);
         dims.add(dim2);
         final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             type,
             dims,
             null
@@ -157,19 +158,19 @@ public final class QueenArrayCreationExpressionNodeTestCase {
 
     @Test
     public void returnsJavaStatement(){
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final ArrayDimensionNode dim1 = Mockito.mock(ArrayDimensionNode.class);
+        final ArrayDimensionNode dim1 = QueenMockito.mock(ArrayDimensionNode.class);
         Mockito.when(dim1.expression()).thenReturn(
             new QueenNameNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "1"
             )
         );
         dims.add(dim1);
         final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             type,
             dims,
             null
@@ -190,13 +191,13 @@ public final class QueenArrayCreationExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        dims.add(Mockito.mock(ArrayDimensionNode.class));
-        final ExpressionNode init = Mockito.mock(ExpressionNode.class);
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
+        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
+        final ExpressionNode init = QueenMockito.mock(ExpressionNode.class);
         final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             type,
             dims,
             init

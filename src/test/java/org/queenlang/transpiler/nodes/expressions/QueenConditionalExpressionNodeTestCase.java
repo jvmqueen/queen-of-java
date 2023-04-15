@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -48,12 +49,12 @@ public final class QueenConditionalExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ConditionalExpressionNode conditional = new QueenConditionalExpressionNode(
             position,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             conditional.position(),
@@ -63,13 +64,13 @@ public final class QueenConditionalExpressionNodeTestCase {
 
     @Test
     public void returnsCondition() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode condition = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode condition = QueenMockito.mock(ExpressionNode.class);
         final ConditionalExpressionNode conditional = new QueenConditionalExpressionNode(
             position,
             condition,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             conditional.condition(),
@@ -79,14 +80,14 @@ public final class QueenConditionalExpressionNodeTestCase {
 
     @Test
     public void returnsThenExprs() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode condition = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode thenExpr = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode condition = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode thenExpr = QueenMockito.mock(ExpressionNode.class);
         final ConditionalExpressionNode conditional = new QueenConditionalExpressionNode(
             position,
             condition,
             thenExpr,
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             conditional.thenExpr(),
@@ -96,10 +97,10 @@ public final class QueenConditionalExpressionNodeTestCase {
 
     @Test
     public void returnsElseExprs() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode condition = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode thenExpr = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode elseExpr = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode condition = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode thenExpr = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode elseExpr = QueenMockito.mock(ExpressionNode.class);
         final ConditionalExpressionNode conditional = new QueenConditionalExpressionNode(
             position,
             condition,
@@ -114,16 +115,16 @@ public final class QueenConditionalExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode condition = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode condition = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(condition.toJavaExpression()).thenReturn(
             new NameExpr("a")
         );
-        final ExpressionNode thenExpr = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode thenExpr = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(thenExpr.toJavaExpression()).thenReturn(
             new NameExpr("b")
         );
-        final ExpressionNode elseExpr = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode elseExpr = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(elseExpr.toJavaExpression()).thenReturn(
             new NameExpr("c")
         );
@@ -154,10 +155,10 @@ public final class QueenConditionalExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode condition = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode thenExpr = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode elseExpr = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode condition = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode thenExpr = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode elseExpr = QueenMockito.mock(ExpressionNode.class);
         final ConditionalExpressionNode conditional = new QueenConditionalExpressionNode(
             position,
             condition,

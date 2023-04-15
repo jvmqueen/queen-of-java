@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -48,12 +49,12 @@ public final class QueenBinaryExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final BinaryExpressionNode binary = new QueenBinaryExpressionNode(
             position,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             "-",
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             binary.position(),
@@ -63,12 +64,12 @@ public final class QueenBinaryExpressionNodeTestCase {
 
     @Test
     public void returnsLeft() {
-        final ExpressionNode left = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode left = QueenMockito.mock(ExpressionNode.class);
         final BinaryExpressionNode binary = new QueenBinaryExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             left,
             "+",
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             binary.left(),
@@ -78,10 +79,10 @@ public final class QueenBinaryExpressionNodeTestCase {
 
     @Test
     public void returnsRight() {
-        final ExpressionNode right = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode right = QueenMockito.mock(ExpressionNode.class);
         final BinaryExpressionNode binary = new QueenBinaryExpressionNode(
-            Mockito.mock(Position.class),
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(Position.class),
+            QueenMockito.mock(ExpressionNode.class),
             "*",
             right
         );
@@ -93,12 +94,12 @@ public final class QueenBinaryExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpression() {
-        final ExpressionNode left = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode left = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(left.toJavaExpression()).thenReturn(new NameExpr("1"));
-        final ExpressionNode right = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode right = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(right.toJavaExpression()).thenReturn(new NameExpr("2"));
         final BinaryExpressionNode binary = new QueenBinaryExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             left,
             "+",
             right
@@ -120,12 +121,12 @@ public final class QueenBinaryExpressionNodeTestCase {
 
     @Test
     public void returnsJavaStatement() {
-        final ExpressionNode left = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode left = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(left.toJavaExpression()).thenReturn(new NameExpr("1"));
-        final ExpressionNode right = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode right = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(right.toJavaExpression()).thenReturn(new NameExpr("2"));
         final BinaryExpressionNode binary = new QueenBinaryExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             left,
             "+",
             right
@@ -147,10 +148,10 @@ public final class QueenBinaryExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final ExpressionNode left = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode right = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode left = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode right = QueenMockito.mock(ExpressionNode.class);
         final BinaryExpressionNode binary = new QueenBinaryExpressionNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             left,
             "+",
             right

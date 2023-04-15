@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen Casting, AST Node.
@@ -68,9 +69,11 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
         final ExpressionNode expression
     ) {
         this.position = position;
-        this.primitiveType = primitiveType;
-        this.referenceTypes = referenceTypes;
-        this.expression = expression;
+        this.primitiveType = primitiveType != null ? (TypeNode) primitiveType.withParent(this) : null;
+        this.referenceTypes = referenceTypes != null ? referenceTypes.stream().map(
+            r -> (ReferenceTypeNode) r.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
     @Override

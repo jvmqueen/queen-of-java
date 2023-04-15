@@ -55,9 +55,9 @@ public final class QueenConditionalExpressionNode implements ConditionalExpressi
         final ExpressionNode elseExpr
     ) {
         this.position = position;
-        this.condition = condition;
-        this.thenExpr = thenExpr;
-        this.elseExpr = elseExpr;
+        this.condition = condition != null ? (ExpressionNode) condition.withParent(this) : null;
+        this.thenExpr = thenExpr != null ? (ExpressionNode) thenExpr.withParent(this) : null;
+        this.elseExpr = elseExpr != null ? (ExpressionNode) elseExpr.withParent(this) : null;
     }
 
     @Override

@@ -34,10 +34,12 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ElementValuePairNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +54,10 @@ public final class QueenNormalAnnotationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -66,10 +68,10 @@ public final class QueenNormalAnnotationNodeTestCase {
 
     @Test
     public void returnsName() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -80,14 +82,14 @@ public final class QueenNormalAnnotationNodeTestCase {
 
     @Test
     public void returnsElements() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ElementValuePairNode> elements = new ArrayList<>();
-        elements.add(Mockito.mock(ElementValuePairNode.class));
-        elements.add(Mockito.mock(ElementValuePairNode.class));
+        elements.add(QueenMockito.mock(ElementValuePairNode.class));
+        elements.add(QueenMockito.mock(ElementValuePairNode.class));
 
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
             elements
         );
         MatcherAssert.assertThat(
@@ -98,18 +100,18 @@ public final class QueenNormalAnnotationNodeTestCase {
 
     @Test
     public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ElementValuePairNode> elements = new ArrayList<>();
 
-        final ElementValuePairNode pairA = Mockito.mock(ElementValuePairNode.class);
+        final ElementValuePairNode pairA = QueenMockito.mock(ElementValuePairNode.class);
         Mockito.when(pairA.identifier()).thenReturn("a");
-        final ExpressionNode valueA = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode valueA = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(valueA.toJavaExpression()).thenReturn(new StringLiteralExpr("testA"));
         Mockito.when(pairA.expression()).thenReturn(valueA);
 
-        final ElementValuePairNode pairB = Mockito.mock(ElementValuePairNode.class);
+        final ElementValuePairNode pairB = QueenMockito.mock(ElementValuePairNode.class);
         Mockito.when(pairB.identifier()).thenReturn("B");
-        final ExpressionNode valueB = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode valueB = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(valueB.toJavaExpression()).thenReturn(new StringLiteralExpr("testB"));
         Mockito.when(pairB.expression()).thenReturn(valueA);
 
@@ -118,7 +120,7 @@ public final class QueenNormalAnnotationNodeTestCase {
 
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
             elements
         );
 
@@ -133,18 +135,18 @@ public final class QueenNormalAnnotationNodeTestCase {
 
     @Test
     public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ElementValuePairNode> elements = new ArrayList<>();
 
-        final ElementValuePairNode pairA = Mockito.mock(ElementValuePairNode.class);
+        final ElementValuePairNode pairA = QueenMockito.mock(ElementValuePairNode.class);
         Mockito.when(pairA.identifier()).thenReturn("a");
-        final ExpressionNode valueA = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode valueA = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(valueA.toJavaExpression()).thenReturn(new StringLiteralExpr("testA"));
         Mockito.when(pairA.expression()).thenReturn(valueA);
 
-        final ElementValuePairNode pairB = Mockito.mock(ElementValuePairNode.class);
+        final ElementValuePairNode pairB = QueenMockito.mock(ElementValuePairNode.class);
         Mockito.when(pairB.identifier()).thenReturn("B");
-        final ExpressionNode valueB = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode valueB = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(valueB.toJavaExpression()).thenReturn(new StringLiteralExpr("testB"));
         Mockito.when(pairB.expression()).thenReturn(valueA);
 
@@ -153,7 +155,7 @@ public final class QueenNormalAnnotationNodeTestCase {
 
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
             elements
         );
 
@@ -171,11 +173,11 @@ public final class QueenNormalAnnotationNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final List<ElementValuePairNode> elements = new ArrayList<>();
-        elements.add(Mockito.mock(ElementValuePairNode.class));
-        elements.add(Mockito.mock(ElementValuePairNode.class));
-        final QueenNameNode nameNode = new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation");
+        elements.add(QueenMockito.mock(ElementValuePairNode.class));
+        elements.add(QueenMockito.mock(ElementValuePairNode.class));
+        final NameNode nameNode = QueenMockito.mock(NameNode.class);
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
             nameNode,

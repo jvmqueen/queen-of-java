@@ -13,6 +13,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ClassBodyNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +28,14 @@ public final class QueenObjectCreationExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
             position,
-            Mockito.mock(ExpressionNode.class),
-            Mockito.mock(ClassOrInterfaceTypeNode.class),
+            QueenMockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ClassOrInterfaceTypeNode.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ClassBodyNode.class)
+            QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
             objectCreationExpr.position(),
@@ -44,15 +45,15 @@ public final class QueenObjectCreationExpressionNodeTestCase {
 
     @Test
     public void returnsScope() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
             position,
             scope,
-            Mockito.mock(ClassOrInterfaceTypeNode.class),
+            QueenMockito.mock(ClassOrInterfaceTypeNode.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ClassBodyNode.class)
+            QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
             objectCreationExpr.scope(),
@@ -62,16 +63,16 @@ public final class QueenObjectCreationExpressionNodeTestCase {
 
     @Test
     public void returnsType() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
-        final ClassOrInterfaceTypeNode type = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
+        final ClassOrInterfaceTypeNode type = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
             position,
             scope,
             type,
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ClassBodyNode.class)
+            QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
             objectCreationExpr.type(),
@@ -81,18 +82,18 @@ public final class QueenObjectCreationExpressionNodeTestCase {
 
     @Test
     public void returnsTypeArguments() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
-        final ClassOrInterfaceTypeNode type = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
+        final ClassOrInterfaceTypeNode type = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
         final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
             position,
             scope,
             type,
             typeArgs,
             new ArrayList<>(),
-            Mockito.mock(ClassBodyNode.class)
+            QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
             objectCreationExpr.typeArguments(),
@@ -102,20 +103,20 @@ public final class QueenObjectCreationExpressionNodeTestCase {
 
     @Test
     public void returnsArguments() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
-        final ClassOrInterfaceTypeNode type = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
+        final ClassOrInterfaceTypeNode type = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
         final List<ExpressionNode> arguments = new ArrayList<>();
-        arguments.add(Mockito.mock(ExpressionNode.class));
+        arguments.add(QueenMockito.mock(ExpressionNode.class));
         final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
             position,
             scope,
             type,
             typeArgs,
             arguments,
-            Mockito.mock(ClassBodyNode.class)
+            QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
             objectCreationExpr.arguments(),
@@ -125,14 +126,14 @@ public final class QueenObjectCreationExpressionNodeTestCase {
 
     @Test
     public void returnsBody() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
-        final ClassOrInterfaceTypeNode type = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
+        final ClassOrInterfaceTypeNode type = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
         final List<ExpressionNode> arguments = new ArrayList<>();
-        arguments.add(Mockito.mock(ExpressionNode.class));
-        final ClassBodyNode body = Mockito.mock(ClassBodyNode.class);
+        arguments.add(QueenMockito.mock(ExpressionNode.class));
+        final ClassBodyNode body = QueenMockito.mock(ClassBodyNode.class);
         final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
             position,
             scope,
@@ -149,20 +150,20 @@ public final class QueenObjectCreationExpressionNodeTestCase {
 
     @Test
     public void returnsJavaNodeFull() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(scope.toJavaExpression()).thenReturn(new NameExpr("java.util"));
-        final ClassOrInterfaceTypeNode type = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final ClassOrInterfaceTypeNode type = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         Mockito.when(type.toType()).thenReturn(new ClassOrInterfaceType("Student"));
         final List<TypeNode> typeArgs = new ArrayList<>();
-        final TypeNode typeArg = Mockito.mock(TypeNode.class);
+        final TypeNode typeArg = QueenMockito.mock(TypeNode.class);
         Mockito.when(typeArg.toType()).thenReturn(new ClassOrInterfaceType("String"));
         typeArgs.add(typeArg);
         final List<ExpressionNode> arguments = new ArrayList<>();
-        final ExpressionNode arg = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode arg = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(arg.toJavaExpression()).thenReturn(new StringLiteralExpr("Mihai"));
         arguments.add(arg);
-        final ClassBodyNode body = Mockito.mock(ClassBodyNode.class);
+        final ClassBodyNode body = QueenMockito.mock(ClassBodyNode.class);
         Mockito.when(body.isEmpty()).thenReturn(false);
         final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
             position,
@@ -195,14 +196,14 @@ public final class QueenObjectCreationExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode scope = Mockito.mock(ExpressionNode.class);
-        final ClassOrInterfaceTypeNode type = Mockito.mock(ClassOrInterfaceTypeNode.class);
+        final Position position = QueenMockito.mock(Position.class);
+        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
+        final ClassOrInterfaceTypeNode type = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(Mockito.mock(TypeNode.class));
+        typeArgs.add(QueenMockito.mock(TypeNode.class));
         final List<ExpressionNode> arguments = new ArrayList<>();
-        arguments.add(Mockito.mock(ExpressionNode.class));
-        final ClassBodyNode body = Mockito.mock(ClassBodyNode.class);
+        arguments.add(QueenMockito.mock(ExpressionNode.class));
+        final ClassBodyNode body = QueenMockito.mock(ClassBodyNode.class);
         final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
             position,
             scope,

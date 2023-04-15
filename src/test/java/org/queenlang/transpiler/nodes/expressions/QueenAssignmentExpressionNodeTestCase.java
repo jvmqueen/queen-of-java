@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.List;
 
@@ -48,12 +49,12 @@ public final class QueenAssignmentExpressionNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
             position,
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             "=",
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             assignment.position(),
@@ -63,12 +64,12 @@ public final class QueenAssignmentExpressionNodeTestCase {
 
     @Test
     public void returnsTarget() {
-        final ExpressionNode target = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode target = QueenMockito.mock(ExpressionNode.class);
         final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
             Mockito.mock(Position.class),
             target,
             "=",
-            Mockito.mock(ExpressionNode.class)
+            QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
             assignment.target(),
@@ -78,10 +79,10 @@ public final class QueenAssignmentExpressionNodeTestCase {
 
     @Test
     public void returnsValue() {
-        final ExpressionNode value = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
         final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
             Mockito.mock(Position.class),
-            Mockito.mock(ExpressionNode.class),
+            QueenMockito.mock(ExpressionNode.class),
             "=",
             value
         );
@@ -93,9 +94,9 @@ public final class QueenAssignmentExpressionNodeTestCase {
 
     @Test
     public void returnsJavaExpression() {
-        final ExpressionNode target = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode target = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(target.toJavaExpression()).thenReturn(new NameExpr("i"));
-        final ExpressionNode value = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(value.toJavaExpression()).thenReturn(new NameExpr("0"));
         final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
             Mockito.mock(Position.class),
@@ -120,9 +121,9 @@ public final class QueenAssignmentExpressionNodeTestCase {
 
     @Test
     public void returnsJavaStatement() {
-        final ExpressionNode target = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode target = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(target.toJavaExpression()).thenReturn(new NameExpr("i"));
-        final ExpressionNode value = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
         Mockito.when(value.toJavaExpression()).thenReturn(new NameExpr("0"));
         final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
             Mockito.mock(Position.class),
@@ -147,8 +148,8 @@ public final class QueenAssignmentExpressionNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final ExpressionNode target = Mockito.mock(ExpressionNode.class);
-        final ExpressionNode value = Mockito.mock(ExpressionNode.class);
+        final ExpressionNode target = QueenMockito.mock(ExpressionNode.class);
+        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
         final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
             Mockito.mock(Position.class),
             target,

@@ -54,6 +54,11 @@ public final class QueenWildcardNode implements WildcardTypeNode {
     private final Position position;
 
     /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
      * Annotations on top of this wildcard.
      */
     private final List<AnnotationNode> annotations;
@@ -74,7 +79,18 @@ public final class QueenWildcardNode implements WildcardTypeNode {
         final ReferenceTypeNode extendedType,
         final ReferenceTypeNode superType
     ) {
+        this(position, null, annotations, extendedType, superType);
+    }
+
+    private QueenWildcardNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final ReferenceTypeNode extendedType,
+        final ReferenceTypeNode superType
+    ) {
         this.position = position;
+        this.parent = parent;
         this.annotations = annotations != null ? annotations.stream().map(
             a -> (AnnotationNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -112,6 +128,22 @@ public final class QueenWildcardNode implements WildcardTypeNode {
         children.add(this.extendedType);
         children.add(this.superType);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenWildcardNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.extendedType,
+            this.superType
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     /**

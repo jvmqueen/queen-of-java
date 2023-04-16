@@ -46,11 +46,23 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
 
     private final ClassOrInterfaceTypeNode exceptionType;
 
-    public QueenExceptionTypeNode(
+    /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    public QueenExceptionTypeNode(final ClassOrInterfaceTypeNode exceptionType) {
+        this(null, exceptionType);
+    }
+
+    private QueenExceptionTypeNode(
+        final QueenNode parent,
         final ClassOrInterfaceTypeNode exceptionType
     ) {
+        this.parent = parent;
         this.exceptionType = exceptionType != null ? (ClassOrInterfaceTypeNode) exceptionType.withParent(this) : null;
     }
+
 
     @Override
     public void addToJavaNode(final Node java) {
@@ -102,5 +114,18 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
         final List<QueenNode> children = new ArrayList<>();
         children.add(this.exceptionType);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenExceptionTypeNode(
+            parent,
+            this.exceptionType
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

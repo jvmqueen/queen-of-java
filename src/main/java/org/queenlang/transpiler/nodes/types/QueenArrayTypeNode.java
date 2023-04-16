@@ -55,6 +55,11 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
     private final Position position;
 
     /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
      * Type of the array (used for symbol resolution etc).
      */
     private final TypeNode type;
@@ -69,7 +74,17 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
         final TypeNode type,
         final List<ArrayDimensionNode> dims
     ) {
+        this(position, null, type, dims);
+    }
+
+    private QueenArrayTypeNode(
+        final Position position,
+        final QueenNode parent,
+        final TypeNode type,
+        final List<ArrayDimensionNode> dims
+    ) {
         this.position = position;
+        this.parent = parent;
         this.type = type != null ? (TypeNode) type.withParent(this) : null;
         this.dims = dims != null ? dims.stream().map(
             d -> (ArrayDimensionNode) d.withParent(this)
@@ -134,5 +149,20 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
             children.addAll(this.dims);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenArrayTypeNode(
+            this.position,
+            parent,
+            this.type,
+            this.dims
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

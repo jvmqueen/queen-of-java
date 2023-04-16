@@ -57,6 +57,11 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     private final Position position;
 
     /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
      * Is it an interface type or class type?
      */
     private final boolean interfaceType;
@@ -103,7 +108,21 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
         final List<TypeNode> typeArguments,
         final boolean hasDiamondOperator
     ) {
+        this(position, null, interfaceType, scope, annotations, name, typeArguments, hasDiamondOperator);
+    }
+
+    private QueenClassOrInterfaceTypeNode(
+        final Position position,
+        final QueenNode parent,
+        final boolean interfaceType,
+        final ClassOrInterfaceTypeNode scope,
+        final List<AnnotationNode> annotations,
+        final String name,
+        final List<TypeNode> typeArguments,
+        final boolean hasDiamondOperator
+    ) {
         this.position = position;
+        this.parent = parent;
         this.interfaceType = interfaceType;
         this.scope = scope != null ? (ClassOrInterfaceTypeNode) scope.withParent(this) : null;
         this.annotations = annotations != null ? annotations.stream().map(
@@ -226,5 +245,24 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
             children.addAll(this.typeArguments);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenClassOrInterfaceTypeNode(
+            this.position,
+            parent,
+            this.interfaceType,
+            this.scope,
+            this.annotations,
+            this.name,
+            this.typeArguments,
+            this.hasDiamondOperator
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

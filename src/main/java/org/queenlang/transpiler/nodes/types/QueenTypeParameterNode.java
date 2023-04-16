@@ -53,6 +53,11 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
     private final Position position;
 
     /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
      * Annotations on top of this type parameter.
      */
     private final List<AnnotationNode> annotations;
@@ -73,7 +78,18 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
         final String name,
         final List<ClassOrInterfaceTypeNode> typeBound
     ) {
+        this(position, null, annotations, name, typeBound);
+    }
+
+    private QueenTypeParameterNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final String name,
+        final List<ClassOrInterfaceTypeNode> typeBound
+    ) {
         this.position = position;
+        this.parent = parent;
         this.annotations = annotations != null ? annotations.stream().map(
             a -> (AnnotationNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -82,6 +98,7 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
             tb -> (ClassOrInterfaceTypeNode) tb.withParent(this)
         ).collect(Collectors.toList()) : null;
     }
+
 
     @Override
     public void addToJavaNode(final Node java) {
@@ -137,5 +154,21 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
             children.addAll(this.typeBound);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenTypeParameterNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.name,
+            this.typeBound
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
  */
 public final class QueenVoidNode implements VoidTypeNode {
     private final Position position;
+    private final QueenNode parent;
     private final List<AnnotationNode> annotations;
 
     public QueenVoidNode(final Position position) {
@@ -53,7 +54,12 @@ public final class QueenVoidNode implements VoidTypeNode {
     }
 
     public QueenVoidNode(final Position position, final List<AnnotationNode> annotations) {
+        this(position, null, annotations);
+    }
+
+    private QueenVoidNode(final Position position, final QueenNode parent, final List<AnnotationNode> annotations) {
         this.position = position;
+        this.parent = parent;
         this.annotations = annotations != null ? annotations.stream().map(
             a -> (AnnotationNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -98,5 +104,19 @@ public final class QueenVoidNode implements VoidTypeNode {
             children.addAll(this.annotations);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenVoidNode(
+            this.position,
+            parent,
+            this.annotations
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

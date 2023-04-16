@@ -37,6 +37,7 @@ import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen AnnotationDeclaration AST node.
@@ -50,6 +51,11 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
      * Position in the original source code.
      */
     private final Position position;
+
+    /**
+     * Parent of this node.
+     */
+    private final QueenNode parent;
 
     /**
      * Annotations on top of this annotation declaration.
@@ -86,11 +92,27 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
         final String name,
         final AnnotationTypeBodyNode body
     ) {
+        this(position, null, annotations, modifiers, name, body);
+    }
+
+    private QueenAnnotationTypeDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
+        final String name,
+        final AnnotationTypeBodyNode body
+    ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
+        this.parent = parent;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.modifiers = modifiers != null ? modifiers.stream().map(
+            m -> (ModifierNode) m.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.name = name;
-        this.body = body;
+        this.body = body != null ? (AnnotationTypeBodyNode) body.withParent(this) : null;
     }
 
     @Override
@@ -153,5 +175,22 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
         }
         children.add(this.body);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenAnnotationTypeDeclarationNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.modifiers,
+            this.name,
+            this.body
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

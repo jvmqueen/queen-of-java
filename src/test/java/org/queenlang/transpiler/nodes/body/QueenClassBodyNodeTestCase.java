@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public final class QueenClassBodyNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ClassBodyNode classBody = new QueenClassBodyNode(
             position,
             new ArrayList<>()
@@ -61,9 +62,9 @@ public final class QueenClassBodyNodeTestCase {
     @Test
     public void returnsClassBodyDeclarations() {
         final List<ClassBodyDeclarationNode> classBodyDeclarations = new ArrayList<>();
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
         final ClassBodyNode classBody = new QueenClassBodyNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             classBodyDeclarations
         );
         MatcherAssert.assertThat(
@@ -75,14 +76,14 @@ public final class QueenClassBodyNodeTestCase {
     @Test
     public void addsToJavaNode() {
         final List<ClassBodyDeclarationNode> classBodyDeclarations = new ArrayList<>();
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
         final ClassBodyNode classBody = new QueenClassBodyNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             classBodyDeclarations
         );
-        final Node node = Mockito.mock(Node.class);
+        final Node node = QueenMockito.mock(Node.class);
         classBody.addToJavaNode(node);
         classBodyDeclarations.forEach(
             cbd -> Mockito.verify(cbd, Mockito.times(1)).addToJavaNode(node)
@@ -92,11 +93,11 @@ public final class QueenClassBodyNodeTestCase {
     @Test
     public void isAnIterable() {
         final List<ClassBodyDeclarationNode> classBodyDeclarations = new ArrayList<>();
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
         final ClassBodyNode classBody = new QueenClassBodyNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             classBodyDeclarations
         );
         MatcherAssert.assertThat(
@@ -108,11 +109,11 @@ public final class QueenClassBodyNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<ClassBodyDeclarationNode> classBodyDeclarations = new ArrayList<>();
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
-        classBodyDeclarations.add(Mockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
+        classBodyDeclarations.add(QueenMockito.mock(ClassBodyDeclarationNode.class));
         final ClassBodyNode classBody = new QueenClassBodyNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             classBodyDeclarations
         );
         MatcherAssert.assertThat(

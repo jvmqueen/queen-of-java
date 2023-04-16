@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,10 +54,10 @@ public final class QueenParameterNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ParameterNode parameter = new QueenParameterNode(
             position,
-            Mockito.mock(VariableDeclaratorId.class)
+            QueenMockito.mock(VariableDeclaratorId.class)
         );
         MatcherAssert.assertThat(
             parameter.position(),
@@ -67,13 +68,13 @@ public final class QueenParameterNodeTestCase {
     @Test
     public void returnsAnnotations() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final ParameterNode parameter = new QueenParameterNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
-            Mockito.mock(VariableDeclaratorId.class)
+            QueenMockito.mock(TypeNode.class),
+            QueenMockito.mock(VariableDeclaratorId.class)
         );
         MatcherAssert.assertThat(
             parameter.annotations(),
@@ -84,13 +85,13 @@ public final class QueenParameterNodeTestCase {
     @Test
     public void returnsModifiers() {
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final ParameterNode parameter = new QueenParameterNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             modifiers,
-            Mockito.mock(TypeNode.class),
-            Mockito.mock(VariableDeclaratorId.class)
+            QueenMockito.mock(TypeNode.class),
+            QueenMockito.mock(VariableDeclaratorId.class)
         );
         MatcherAssert.assertThat(
             parameter.modifiers(),
@@ -100,13 +101,13 @@ public final class QueenParameterNodeTestCase {
 
     @Test
     public void returnsType() {
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final ParameterNode parameter = new QueenParameterNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             type,
-            Mockito.mock(VariableDeclaratorId.class)
+            QueenMockito.mock(VariableDeclaratorId.class)
         );
         MatcherAssert.assertThat(
             parameter.type(),
@@ -116,12 +117,12 @@ public final class QueenParameterNodeTestCase {
 
     @Test
     public void returnsVariableDeclaratorId() {
-        final VariableDeclaratorId variableDeclaratorId = Mockito.mock(VariableDeclaratorId.class);
+        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
         final ParameterNode parameter = new QueenParameterNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             variableDeclaratorId
         );
         MatcherAssert.assertThat(
@@ -133,13 +134,13 @@ public final class QueenParameterNodeTestCase {
     @Test
     public void returnsVarArgsAnnotations() {
         final List<AnnotationNode> varArgsAnnotations = new ArrayList<>();
-        varArgsAnnotations.add(Mockito.mock(AnnotationNode.class));
+        varArgsAnnotations.add(QueenMockito.mock(AnnotationNode.class));
         final ParameterNode parameter = new QueenParameterNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
-            Mockito.mock(VariableDeclaratorId.class),
+            QueenMockito.mock(TypeNode.class),
+            QueenMockito.mock(VariableDeclaratorId.class),
             varArgsAnnotations,
             true
         );
@@ -152,11 +153,11 @@ public final class QueenParameterNodeTestCase {
     @Test
     public void returnsIsVarArgs() {
         final ParameterNode parameter = new QueenParameterNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
-            Mockito.mock(VariableDeclaratorId.class),
+            QueenMockito.mock(TypeNode.class),
+            QueenMockito.mock(VariableDeclaratorId.class),
             new ArrayList<>(),
             true
         );
@@ -169,22 +170,22 @@ public final class QueenParameterNodeTestCase {
     @Test
     public void addsToParameterizedJavaNode() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
-        final VariableDeclaratorId variableDeclaratorId = Mockito.mock(VariableDeclaratorId.class);
+        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
         Mockito.when(variableDeclaratorId.name()).thenReturn("p");
         final List<AnnotationNode> varArgsAnnotations = new ArrayList<>();
-        final AnnotationNode varArgAnnotation = Mockito.mock(AnnotationNode.class);
+        final AnnotationNode varArgAnnotation = QueenMockito.mock(AnnotationNode.class);
         Mockito.when(varArgAnnotation.toJavaExpression()).thenReturn(
             new MarkerAnnotationExpr("VarArgAnnotation")
         );
         varArgsAnnotations.add(varArgAnnotation);
 
         final ParameterNode parameter = new QueenParameterNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             type,
@@ -217,22 +218,22 @@ public final class QueenParameterNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
-        final VariableDeclaratorId variableDeclaratorId = Mockito.mock(VariableDeclaratorId.class);
+        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
         Mockito.when(variableDeclaratorId.name()).thenReturn("p");
         final List<AnnotationNode> varArgsAnnotations = new ArrayList<>();
-        final AnnotationNode varArgAnnotation = Mockito.mock(AnnotationNode.class);
+        final AnnotationNode varArgAnnotation = QueenMockito.mock(AnnotationNode.class);
         Mockito.when(varArgAnnotation.toJavaExpression()).thenReturn(
             new MarkerAnnotationExpr("VarArgAnnotation")
         );
         varArgsAnnotations.add(varArgAnnotation);
 
         final ParameterNode parameter = new QueenParameterNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             type,

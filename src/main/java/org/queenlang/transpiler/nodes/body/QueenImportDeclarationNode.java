@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -51,6 +52,11 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     private final Position position;
 
     /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
      * Is it a static import or not?
      */
     private final boolean staticImport;
@@ -63,7 +69,7 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     /**
      * Import's type name.
      */
-    private final QueenNameNode importDeclarationName;
+    private final NameNode importDeclarationName;
     /**
      * Ctor.
      * @param position Position in the original source code.
@@ -72,16 +78,26 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
      */
     public QueenImportDeclarationNode(
         final Position position,
-        final QueenNameNode importDeclarationName,
+        final NameNode importDeclarationName,
+        final boolean staticImport,
+        final boolean asteriskImport
+    ) {
+        this(position, null, importDeclarationName, staticImport, asteriskImport);
+    }
+
+    private QueenImportDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final NameNode importDeclarationName,
         final boolean staticImport,
         final boolean asteriskImport
     ) {
         this.position = position;
+        this.parent = parent;
         this.staticImport = staticImport;
         this.asteriskImport = asteriskImport;
-        this.importDeclarationName = importDeclarationName;
+        this.importDeclarationName = importDeclarationName != null ? (NameNode) importDeclarationName.withParent(this) : null;
     }
-
     @Override
     public void addToJavaNode(final Node java) {
         final ImportDeclaration importDeclaration = new ImportDeclaration(
@@ -100,6 +116,22 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.importDeclarationName);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenImportDeclarationNode(
+            this.position,
+            parent,
+            this.importDeclarationName,
+            this.staticImport,
+            this.asteriskImport
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     /**
@@ -136,7 +168,7 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     }
 
     @Override
-    public QueenNameNode importDeclarationName() {
+    public NameNode importDeclarationName() {
         return this.importDeclarationName;
     }
 }

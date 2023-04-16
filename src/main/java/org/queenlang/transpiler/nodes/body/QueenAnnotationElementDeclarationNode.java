@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen AnnotationElement AST Node.
@@ -51,6 +52,11 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
      * Position in the original source code.
      */
     private final Position position;
+
+    /**
+     * Parent of this node.
+     */
+    private final QueenNode parent;
 
     /**
      * Annotations on top of this element.
@@ -86,12 +92,29 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
         final String name,
         final ExpressionNode defaultValue
     ) {
+        this(position, null, annotations, modifiers, type, name, defaultValue);
+    }
+
+    private QueenAnnotationElementDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
+        final TypeNode type,
+        final String name,
+        final ExpressionNode defaultValue
+    ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
-        this.type = type;
+        this.parent = parent;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.modifiers = modifiers != null ? modifiers.stream().map(
+            m -> (ModifierNode) m.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.type = type != null ? (TypeNode) type.withParent(this) : null;
         this.name = name;
-        this.defaultValue = defaultValue;
+        this.defaultValue = defaultValue != null ? (ExpressionNode) defaultValue.withParent(this) : null;
     }
 
     @Override
@@ -128,6 +151,24 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
         children.add(this.type);
         children.add(this.defaultValue);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenAnnotationElementDeclarationNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.modifiers,
+            this.type,
+            this.name,
+            this.defaultValue
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

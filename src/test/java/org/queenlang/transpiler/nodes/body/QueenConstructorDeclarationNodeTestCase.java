@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.statements.ExplicitConstructorInvocationNode;
 import org.queenlang.transpiler.nodes.types.ExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,17 +54,17 @@ public final class QueenConstructorDeclarationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
             position,
             new ArrayList<>(),
-            Mockito.mock(ModifierNode.class),
+            QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ExplicitConstructorInvocationNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExplicitConstructorInvocationNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.position(),
@@ -74,15 +75,15 @@ public final class QueenConstructorDeclarationNodeTestCase {
     @Test
     public void returnsName() {
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
-            Mockito.mock(ModifierNode.class),
+            QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ExplicitConstructorInvocationNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExplicitConstructorInvocationNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.name(),
@@ -93,17 +94,17 @@ public final class QueenConstructorDeclarationNodeTestCase {
     @Test
     public void returnsAnnotations() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
-            Mockito.mock(ModifierNode.class),
+            QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ExplicitConstructorInvocationNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExplicitConstructorInvocationNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.annotations(),
@@ -113,17 +114,17 @@ public final class QueenConstructorDeclarationNodeTestCase {
 
     @Test
     public void returnsModifier() {
-        final ModifierNode modifier = Mockito.mock(ModifierNode.class);
+        final ModifierNode modifier = QueenMockito.mock(ModifierNode.class);
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             modifier,
             new ArrayList<>(),
             "MyClass",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ExplicitConstructorInvocationNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExplicitConstructorInvocationNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.modifier(),
@@ -134,17 +135,17 @@ public final class QueenConstructorDeclarationNodeTestCase {
     @Test
     public void returnsTypeParameters() {
         final List<TypeParameterNode> typeParameters = new ArrayList<>();
-        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
-            Mockito.mock(ModifierNode.class),
+            QueenMockito.mock(ModifierNode.class),
             typeParameters,
             "MyClass",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ExplicitConstructorInvocationNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExplicitConstructorInvocationNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.typeParams(),
@@ -155,17 +156,17 @@ public final class QueenConstructorDeclarationNodeTestCase {
     @Test
     public void returnsParameters() {
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
+        parameters.add(QueenMockito.mock(ParameterNode.class));
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
-            Mockito.mock(ModifierNode.class),
+            QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
             parameters,
             new ArrayList<>(),
-            Mockito.mock(ExplicitConstructorInvocationNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExplicitConstructorInvocationNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.parameters(),
@@ -176,17 +177,17 @@ public final class QueenConstructorDeclarationNodeTestCase {
     @Test
     public void returnsThrowsList() {
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
-        throwsList.add(Mockito.mock(ExceptionTypeNode.class));
+        throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
-            Mockito.mock(ModifierNode.class),
+            QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
             new ArrayList<>(),
             throwsList,
-            Mockito.mock(ExplicitConstructorInvocationNode.class),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(ExplicitConstructorInvocationNode.class),
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.throwsList(),
@@ -196,17 +197,17 @@ public final class QueenConstructorDeclarationNodeTestCase {
 
     @Test
     public void returnsExplicitConstructorInvocationNode() {
-        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode = Mockito.mock(ExplicitConstructorInvocationNode.class);
+        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode = QueenMockito.mock(ExplicitConstructorInvocationNode.class);
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
-            Mockito.mock(ModifierNode.class),
+            QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
             new ArrayList<>(),
             new ArrayList<>(),
             explicitConstructorInvocationNode,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.explicitConstructorInvocationNode(),
@@ -216,16 +217,16 @@ public final class QueenConstructorDeclarationNodeTestCase {
 
     @Test
     public void returnsBlockStatements() {
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
-            Mockito.mock(ModifierNode.class),
+            QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(ExplicitConstructorInvocationNode.class),
+            QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             blockStatements
         );
         MatcherAssert.assertThat(
@@ -237,20 +238,20 @@ public final class QueenConstructorDeclarationNodeTestCase {
     @Test
     public void addsToConstructorJavaNode() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ModifierNode modifier = Mockito.mock(ModifierNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ModifierNode modifier = QueenMockito.mock(ModifierNode.class);
         final List<TypeParameterNode> typeParameters = new ArrayList<>();
-        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
+        parameters.add(QueenMockito.mock(ParameterNode.class));
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
-        throwsList.add(Mockito.mock(ExceptionTypeNode.class));
-        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode = Mockito.mock(ExplicitConstructorInvocationNode.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
+        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode = QueenMockito.mock(ExplicitConstructorInvocationNode.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final String name = "MyClass";
 
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifier,
             typeParameters,
@@ -288,20 +289,20 @@ public final class QueenConstructorDeclarationNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        final ModifierNode modifier = Mockito.mock(ModifierNode.class);
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        final ModifierNode modifier = QueenMockito.mock(ModifierNode.class);
         final List<TypeParameterNode> typeParameters = new ArrayList<>();
-        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
+        parameters.add(QueenMockito.mock(ParameterNode.class));
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
-        throwsList.add(Mockito.mock(ExceptionTypeNode.class));
-        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode = Mockito.mock(ExplicitConstructorInvocationNode.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
+        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode = QueenMockito.mock(ExplicitConstructorInvocationNode.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final String name = "MyClass";
 
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifier,
             typeParameters,

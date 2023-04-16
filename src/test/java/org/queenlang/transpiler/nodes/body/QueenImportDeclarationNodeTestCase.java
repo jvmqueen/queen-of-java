@@ -32,8 +32,10 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 /**
  * Unit tests for {@link QueenImportDeclarationNode}.
@@ -45,10 +47,10 @@ public final class QueenImportDeclarationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "com.example.List"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.List"),
             false,
             false
         );
@@ -60,10 +62,10 @@ public final class QueenImportDeclarationNodeTestCase {
 
     @Test
     public void returnsIsStaticImport() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "com.example.List"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.List"),
             true,
             false
         );
@@ -75,10 +77,10 @@ public final class QueenImportDeclarationNodeTestCase {
 
     @Test
     public void returnsIsAsteriskImport() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "com.example.List"),
+            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.List"),
             false,
             true
         );
@@ -90,8 +92,8 @@ public final class QueenImportDeclarationNodeTestCase {
 
     @Test
     public void returnsImportDeclarationName() {
-        final Position position = Mockito.mock(Position.class);
-        final QueenNameNode name = new QueenNameNode(Mockito.mock(Position.class), "com.example.List");
+        final Position position = QueenMockito.mock(Position.class);
+        final NameNode name = QueenMockito.mock(NameNode.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
             name,
@@ -106,13 +108,13 @@ public final class QueenImportDeclarationNodeTestCase {
 
     @Test
     public void addsChildrenToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final QueenNameNode name = new QueenNameNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new QueenNameNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 new QueenNameNode(
-                    Mockito.mock(Position.class),
+                    QueenMockito.mock(Position.class),
                     "com"
                 ),
                 "example"
@@ -136,19 +138,8 @@ public final class QueenImportDeclarationNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final Position position = Mockito.mock(Position.class);
-        final QueenNameNode name = new QueenNameNode(
-            Mockito.mock(Position.class),
-            new QueenNameNode(
-                Mockito.mock(Position.class),
-                new QueenNameNode(
-                    Mockito.mock(Position.class),
-                    "com"
-                ),
-                "example"
-            ),
-            "List"
-        );
+        final Position position = QueenMockito.mock(Position.class);
+        final NameNode name = QueenMockito.mock(NameNode.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
             name,

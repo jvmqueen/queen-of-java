@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +52,12 @@ import java.util.List;
 public final class QueenConstantDeclarationNodeTestCase {
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             position,
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -68,12 +69,12 @@ public final class QueenConstantDeclarationNodeTestCase {
     @Test
     public void returnsAnnotations() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -85,12 +86,12 @@ public final class QueenConstantDeclarationNodeTestCase {
     @Test
     public void returnsModifiers() {
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             modifiers,
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -101,9 +102,9 @@ public final class QueenConstantDeclarationNodeTestCase {
 
     @Test
     public void returnTypes() {
-        final TypeNode typeNode = Mockito.mock(TypeNode.class);
+        final TypeNode typeNode = QueenMockito.mock(TypeNode.class);
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             typeNode,
@@ -118,12 +119,12 @@ public final class QueenConstantDeclarationNodeTestCase {
     @Test
     public void returnsVariables() {
         final List<VariableDeclaratorNode> variables = new ArrayList<>();
-        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             variables
         );
         MatcherAssert.assertThat(
@@ -135,16 +136,16 @@ public final class QueenConstantDeclarationNodeTestCase {
     @Test
     public void addsToClassDeclarationJavaNode() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final List<VariableDeclaratorNode> variables = new ArrayList<>();
-        variables.add(Mockito.mock(VariableDeclaratorNode.class));
-        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
+        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
 
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             type,
@@ -190,16 +191,16 @@ public final class QueenConstantDeclarationNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final TypeNode type = Mockito.mock(TypeNode.class);
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        final TypeNode type = QueenMockito.mock(TypeNode.class);
         final List<VariableDeclaratorNode> variables = new ArrayList<>();
-        variables.add(Mockito.mock(VariableDeclaratorNode.class));
-        variables.add(Mockito.mock(VariableDeclaratorNode.class));
+        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
+        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
 
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             type,

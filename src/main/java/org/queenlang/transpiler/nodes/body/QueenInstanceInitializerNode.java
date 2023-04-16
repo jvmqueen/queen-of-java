@@ -50,6 +50,11 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
     private final Position position;
 
     /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
      * Statements in this initializer.
      */
     private final BlockStatements blockStatements;
@@ -71,8 +76,18 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
         final BlockStatements blockStatements,
         final boolean isStatic
     ) {
+        this(position, null, blockStatements, isStatic);
+    }
+
+    private QueenInstanceInitializerNode(
+        final Position position,
+        final QueenNode parent,
+        final BlockStatements blockStatements,
+        final boolean isStatic
+    ) {
         this.position = position;
-        this.blockStatements = blockStatements;
+        this.parent = parent;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
         this.isStatic = isStatic;
     }
 
@@ -96,6 +111,21 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.blockStatements);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenInstanceInitializerNode(
+            this.position,
+            parent,
+            this.blockStatements,
+            this.isStatic
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

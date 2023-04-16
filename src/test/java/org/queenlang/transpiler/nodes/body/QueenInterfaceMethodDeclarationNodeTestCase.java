@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.nodes.types.ExceptionTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,17 +54,17 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
             position,
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             methodDeclaration.position(),
@@ -74,17 +75,17 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
     @Test
     public void returnsAnnotations() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             methodDeclaration.annotations(),
@@ -95,17 +96,17 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
     @Test
     public void returnsModifiers() {
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             modifiers,
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             methodDeclaration.modifiers(),
@@ -115,9 +116,9 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
 
     @Test
     public void returnsReturnType() {
-        final TypeNode returnType = Mockito.mock(TypeNode.class);
+        final TypeNode returnType = QueenMockito.mock(TypeNode.class);
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             returnType,
@@ -125,7 +126,7 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             methodDeclaration.returnType(),
@@ -136,17 +137,17 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
     @Test
     public void returnsTypeParameters() {
         final List<TypeParameterNode> typeParameters = new ArrayList<>();
-        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             typeParameters,
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             methodDeclaration.typeParameters(),
@@ -157,15 +158,15 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
     @Test
     public void returnsName() {
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             methodDeclaration.name(),
@@ -176,17 +177,17 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
     @Test
     public void returnsParameters() {
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
+        parameters.add(QueenMockito.mock(ParameterNode.class));
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
             parameters,
             new ArrayList<>(),
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             methodDeclaration.parameters(),
@@ -197,17 +198,17 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
     @Test
     public void returnsThrowsList() {
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
-        throwsList.add(Mockito.mock(ExceptionTypeNode.class));
+        throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
             throwsList,
-            Mockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             methodDeclaration.throwsList(),
@@ -217,12 +218,12 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
 
     @Test
     public void returnsBlockStatements() {
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(TypeNode.class),
+            QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
             new ArrayList<>(),
@@ -238,21 +239,21 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
     @Test
     public void addsToClassDeclarationJavaNode() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeParameterNode> typeParameters = new ArrayList<>();
-        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
+        parameters.add(QueenMockito.mock(ParameterNode.class));
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
-        throwsList.add(Mockito.mock(ExceptionTypeNode.class));
-        final TypeNode returnType = Mockito.mock(TypeNode.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
+        final TypeNode returnType = QueenMockito.mock(TypeNode.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final String name = "myMethod";
 
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             returnType,
@@ -292,21 +293,21 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeParameterNode> typeParameters = new ArrayList<>();
-        typeParameters.add(Mockito.mock(TypeParameterNode.class));
+        typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(Mockito.mock(ParameterNode.class));
+        parameters.add(QueenMockito.mock(ParameterNode.class));
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
-        throwsList.add(Mockito.mock(ExceptionTypeNode.class));
-        final TypeNode returnType = Mockito.mock(TypeNode.class);
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
+        final TypeNode returnType = QueenMockito.mock(TypeNode.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final String name = "myMethod";
 
         final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             returnType,

@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -54,9 +55,14 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
     private final Position position;
 
     /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
      * The package's name.
      */
-    private final QueenNameNode packageName;
+    private final NameNode packageName;
 
     /**
      * Ctor.
@@ -65,10 +71,19 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
      */
     public QueenPackageDeclarationNode(
         final Position position,
-        final Supplier<QueenNameNode> packageName
+        final Supplier<NameNode> packageName
+    ) {
+        this(position, null, packageName.get());
+    }
+
+    private QueenPackageDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final NameNode packageName
     ) {
         this.position = position;
-        this.packageName = packageName.get();
+        this.parent = parent;
+        this.packageName = packageName != null ? (NameNode) packageName.withParent(this) : null;
     }
 
     @Override
@@ -91,7 +106,21 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
     }
 
     @Override
-    public QueenNameNode packageName() {
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenPackageDeclarationNode(
+            this.position,
+            parent,
+            this.packageName
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public NameNode packageName() {
         return this.packageName;
     }
 }

@@ -32,8 +32,10 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 /**
  * Unit tests for {@link QueenPackageDeclarationNode}.
@@ -45,10 +47,10 @@ public final class QueenPackageDeclarationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
             position,
-            () -> new QueenNameNode(Mockito.mock(Position.class), "com.example")
+            () -> new QueenNameNode(QueenMockito.mock(Position.class), "com.example")
         );
         MatcherAssert.assertThat(
             packageDeclarationNode.position(),
@@ -58,9 +60,9 @@ public final class QueenPackageDeclarationNodeTestCase {
 
     @Test
     public void returnsPackageName() {
-        final QueenNameNode packageName = new QueenNameNode(Mockito.mock(Position.class), "com.example");
+        final NameNode packageName = QueenMockito.mock(NameNode.class);
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             () -> packageName
         );
         MatcherAssert.assertThat(
@@ -73,8 +75,8 @@ public final class QueenPackageDeclarationNodeTestCase {
     public void addsChildrenToJavaNode() {
         final CompilationUnit cu = new CompilationUnit();
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            Mockito.mock(Position.class),
-            () -> new QueenNameNode(Mockito.mock(Position.class), "com.example.package")
+            QueenMockito.mock(Position.class),
+            () -> new QueenNameNode(QueenMockito.mock(Position.class), "com.example.package")
         );
         packageDeclarationNode.addToJavaNode(cu);
         MatcherAssert.assertThat(
@@ -86,8 +88,8 @@ public final class QueenPackageDeclarationNodeTestCase {
     @Test
     public void returnsChildren() {
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            Mockito.mock(Position.class),
-            () -> new QueenNameNode(Mockito.mock(Position.class), "com.example.package")
+            QueenMockito.mock(Position.class),
+            () -> new QueenNameNode(QueenMockito.mock(Position.class), "com.example.package")
         );
         MatcherAssert.assertThat(
             packageDeclarationNode.children(),

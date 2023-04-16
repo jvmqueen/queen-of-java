@@ -81,6 +81,10 @@ public interface QueenNode {
         return null;
     }
 
+//    QueenNode withParent(final QueenNode parent);
+//
+//    QueenNode parent();
+
     /**
      * Resolve a reference, return the node(s) to which it refers.
      * @param node Reference.

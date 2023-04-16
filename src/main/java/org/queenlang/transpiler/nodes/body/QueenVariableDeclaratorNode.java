@@ -45,6 +45,7 @@ import java.util.List;
 public final class QueenVariableDeclaratorNode implements VariableDeclaratorNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final VariableDeclaratorId variableDeclaratorId;
     private final ExpressionNode initializer;
 
@@ -53,9 +54,19 @@ public final class QueenVariableDeclaratorNode implements VariableDeclaratorNode
         final VariableDeclaratorId variableDeclaratorId,
         final ExpressionNode initializer
     ) {
+        this(position, null, variableDeclaratorId, initializer);
+    }
+
+    private QueenVariableDeclaratorNode(
+        final Position position,
+        final QueenNode parent,
+        final VariableDeclaratorId variableDeclaratorId,
+        final ExpressionNode initializer
+    ) {
         this.position = position;
-        this.variableDeclaratorId = variableDeclaratorId;
-        this.initializer = initializer;
+        this.parent = parent;
+        this.variableDeclaratorId = variableDeclaratorId != null ? (VariableDeclaratorId) variableDeclaratorId.withParent(this) : null;
+        this.initializer = initializer != null ? (ExpressionNode) initializer.withParent(this) : null;
     }
 
     @Override
@@ -75,6 +86,21 @@ public final class QueenVariableDeclaratorNode implements VariableDeclaratorNode
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.variableDeclaratorId, this.initializer);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenVariableDeclaratorNode(
+            this.position,
+            parent,
+            this.variableDeclaratorId,
+            this.initializer
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

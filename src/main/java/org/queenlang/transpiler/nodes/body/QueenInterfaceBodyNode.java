@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen interface body AST Node.
@@ -42,14 +43,26 @@ import java.util.List;
  */
 public final class QueenInterfaceBodyNode implements InterfaceBodyNode {
     private final Position position;
+    private final QueenNode parent;
     private final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations;
 
     public QueenInterfaceBodyNode(
         final Position position,
         final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations
     ) {
+        this(position, null, interfaceMemberDeclarations);
+    }
+
+    private QueenInterfaceBodyNode(
+        final Position position,
+        final QueenNode parent,
+        final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations
+    ) {
         this.position = position;
-        this.interfaceMemberDeclarations = interfaceMemberDeclarations;
+        this.parent = parent;
+        this.interfaceMemberDeclarations = interfaceMemberDeclarations != null ? interfaceMemberDeclarations.stream().map(
+            ibd -> (InterfaceMemberDeclarationNode) ibd.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override
@@ -75,5 +88,19 @@ public final class QueenInterfaceBodyNode implements InterfaceBodyNode {
             children.addAll(this.interfaceMemberDeclarations);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenInterfaceBodyNode(
+            this.position,
+            parent,
+            this.interfaceMemberDeclarations
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

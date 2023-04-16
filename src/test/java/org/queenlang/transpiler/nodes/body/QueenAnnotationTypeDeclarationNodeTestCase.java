@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,13 +53,13 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
             position,
             new ArrayList<>(),
             new ArrayList<>(),
             "MyAnnotation",
-            Mockito.mock(AnnotationTypeBodyNode.class)
+            QueenMockito.mock(AnnotationTypeBodyNode.class)
         );
         MatcherAssert.assertThat(
             annotationTypeDeclarationNode.position(),
@@ -69,13 +70,13 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
     @Test
     public void returnsAnnotations() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             new ArrayList<>(),
             "MyAnnotation",
-            Mockito.mock(AnnotationTypeBodyNode.class)
+            QueenMockito.mock(AnnotationTypeBodyNode.class)
         );
         MatcherAssert.assertThat(
             annotationTypeDeclarationNode.annotations(),
@@ -86,13 +87,13 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
     @Test
     public void returnsModifiers() {
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             modifiers,
             "MyAnnotation",
-            Mockito.mock(AnnotationTypeBodyNode.class)
+            QueenMockito.mock(AnnotationTypeBodyNode.class)
         );
         MatcherAssert.assertThat(
             annotationTypeDeclarationNode.modifiers(),
@@ -103,11 +104,11 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
     @Test
     public void returnsName() {
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             "MyAnnotation",
-            Mockito.mock(AnnotationTypeBodyNode.class)
+            QueenMockito.mock(AnnotationTypeBodyNode.class)
         );
         MatcherAssert.assertThat(
             annotationTypeDeclarationNode.name(),
@@ -117,9 +118,9 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
 
     @Test
     public void returnsBody() {
-        final AnnotationTypeBodyNode body = Mockito.mock(AnnotationTypeBodyNode.class);
+        final AnnotationTypeBodyNode body = QueenMockito.mock(AnnotationTypeBodyNode.class);
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             "MyAnnotation",
@@ -134,13 +135,13 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
     @Test
     public void addsToCompilationUnitJavaNode() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final AnnotationTypeBodyNode body = Mockito.mock(AnnotationTypeBodyNode.class);
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        final AnnotationTypeBodyNode body = QueenMockito.mock(AnnotationTypeBodyNode.class);
 
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             "MyAnnotation",
@@ -166,13 +167,13 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
     @Test
     public void addsToClassDeclarationJavaNode() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final AnnotationTypeBodyNode body = Mockito.mock(AnnotationTypeBodyNode.class);
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        final AnnotationTypeBodyNode body = QueenMockito.mock(AnnotationTypeBodyNode.class);
 
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             "MyAnnotation",
@@ -198,13 +199,13 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
     @Test
     public void addsToAnnotationDeclarationJavaNode() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final AnnotationTypeBodyNode body = Mockito.mock(AnnotationTypeBodyNode.class);
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        final AnnotationTypeBodyNode body = QueenMockito.mock(AnnotationTypeBodyNode.class);
 
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             "MyAnnotation",
@@ -230,13 +231,13 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        final AnnotationTypeBodyNode body = Mockito.mock(AnnotationTypeBodyNode.class);
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        final AnnotationTypeBodyNode body = QueenMockito.mock(AnnotationTypeBodyNode.class);
 
         final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             "MyAnnotation",

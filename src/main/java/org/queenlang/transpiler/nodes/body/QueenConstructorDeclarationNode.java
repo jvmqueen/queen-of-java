@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen ConstructorDeclaration AST Node.
@@ -49,6 +50,8 @@ import java.util.List;
 public final class QueenConstructorDeclarationNode implements ConstructorDeclarationNode {
 
     private final Position position;
+
+    private final QueenNode parent;
 
     private final List<AnnotationNode> annotations;
 
@@ -77,15 +80,50 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
         final ExplicitConstructorInvocationNode explicitConstructorInvocationNode,
         final BlockStatements blockStatements
     ) {
+        this(
+            position,
+            null,
+            annotations,
+            modifier,
+            typeParams,
+            name,
+            parameters,
+            throwsList,
+            explicitConstructorInvocationNode,
+            blockStatements
+        );
+    }
+
+    private QueenConstructorDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final ModifierNode modifier,
+        final List<TypeParameterNode> typeParams,
+        final String name,
+        final List<ParameterNode> parameters,
+        final List<ExceptionTypeNode> throwsList,
+        final ExplicitConstructorInvocationNode explicitConstructorInvocationNode,
+        final BlockStatements blockStatements
+    ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifier = modifier;
-        this.typeParams = typeParams;
+        this.parent = parent;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.modifier = modifier != null ? (ModifierNode) modifier.withParent(this) : null;
+        this.typeParams = typeParams != null ? typeParams.stream().map(
+            tp -> (TypeParameterNode) tp.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.name = name;
-        this.parameters = parameters;
-        this.throwsList = throwsList;
-        this.explicitConstructorInvocationNode = explicitConstructorInvocationNode;
-        this.blockStatements = blockStatements;
+        this.parameters = parameters != null ? parameters.stream().map(
+            p -> (ParameterNode) p.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.throwsList = throwsList != null ? throwsList.stream().map(
+            t -> (ExceptionTypeNode) t.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.explicitConstructorInvocationNode = explicitConstructorInvocationNode != null ? (ExplicitConstructorInvocationNode) explicitConstructorInvocationNode.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override
@@ -184,5 +222,26 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
         children.add(this.explicitConstructorInvocationNode);
         children.add(this.blockStatements);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenConstructorDeclarationNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.modifier,
+            this.typeParams,
+            this.name,
+            this.parameters,
+            this.throwsList,
+            this.explicitConstructorInvocationNode,
+            this.blockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

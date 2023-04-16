@@ -44,6 +44,7 @@ import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen MethodDeclaration AST Node.
@@ -57,6 +58,11 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
      * Position in the original source code.
      */
     private final Position position;
+
+    /**
+     * Parent node.
+     */
+    private final QueenNode parent;
 
     /**
      * Annotations on top of this method.
@@ -109,15 +115,52 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         final List<ExceptionTypeNode> throwsList,
         final BlockStatements blockStatements
     ) {
+        this(
+            position,
+            null,
+            annotations,
+            modifiers,
+            returnType,
+            typeParams,
+            name,
+            parameters,
+            throwsList,
+            blockStatements
+        );
+    }
+
+    private QueenMethodDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
+        final TypeNode returnType,
+        final List<TypeParameterNode> typeParams,
+        final String name,
+        final List<ParameterNode> parameters,
+        final List<ExceptionTypeNode> throwsList,
+        final BlockStatements blockStatements
+    ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
-        this.returnType = returnType;
-        this.typeParams = typeParams;
+        this.parent = parent;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.modifiers = modifiers != null ? modifiers.stream().map(
+            m -> (ModifierNode) m.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.returnType = returnType != null ? (TypeNode) returnType.withParent(this) : null;
+        this.typeParams = typeParams != null ? typeParams.stream().map(
+            tp -> (TypeParameterNode) tp.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.name = name;
-        this.parameters = parameters;
-        this.throwsList = throwsList;
-        this.blockStatements = blockStatements;
+        this.parameters = parameters != null ? parameters.stream().map(
+            p -> (ParameterNode) p.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.throwsList = throwsList != null ? throwsList.stream().map(
+            t -> (ExceptionTypeNode) t.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
 
     @Override
@@ -178,6 +221,27 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         children.add(this.returnType);
         children.add(this.blockStatements);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenMethodDeclarationNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.modifiers,
+            this.returnType,
+            this.typeParams,
+            this.name,
+            this.parameters,
+            this.throwsList,
+            this.blockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

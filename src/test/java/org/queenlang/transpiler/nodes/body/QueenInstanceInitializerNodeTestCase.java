@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
+import org.queenlang.transpiler.util.QueenMockito;
 
 /**
  * Unit tests for {@link QueenInstanceInitializerNode}.
@@ -46,10 +47,10 @@ public final class QueenInstanceInitializerNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
             position,
-            Mockito.mock(BlockStatements.class),
+            QueenMockito.mock(BlockStatements.class),
             false
         );
         MatcherAssert.assertThat(
@@ -60,9 +61,9 @@ public final class QueenInstanceInitializerNodeTestCase {
 
     @Test
     public void returnsBlockStatements() {
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             blockStatements,
             true
         );
@@ -75,8 +76,8 @@ public final class QueenInstanceInitializerNodeTestCase {
     @Test
     public void returnsIsStatic() {
         final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
-            Mockito.mock(Position.class),
-            Mockito.mock(BlockStatements.class),
+            QueenMockito.mock(Position.class),
+            QueenMockito.mock(BlockStatements.class),
             true
         );
         MatcherAssert.assertThat(
@@ -87,9 +88,9 @@ public final class QueenInstanceInitializerNodeTestCase {
 
     @Test
     public void addsInitializerToClassDeclarationJavaNode() {
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             blockStatements,
             false
         );
@@ -108,9 +109,9 @@ public final class QueenInstanceInitializerNodeTestCase {
 
     @Test
     public void addsStaticInitializerToClassDeclarationJavaNode() {
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             blockStatements,
             true
         );
@@ -129,9 +130,9 @@ public final class QueenInstanceInitializerNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final BlockStatements blockStatements = Mockito.mock(BlockStatements.class);
+        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
         final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             blockStatements,
             true
         );

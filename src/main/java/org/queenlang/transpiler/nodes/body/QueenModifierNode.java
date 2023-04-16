@@ -51,12 +51,22 @@ public final class QueenModifierNode implements ModifierNode {
     private final Position position;
 
     /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
      * Name of the modifier.
      */
     private final String modifier;
 
     public QueenModifierNode(final Position position, final String modifier) {
+        this(position, null, modifier);
+    }
+
+    private QueenModifierNode(final Position position, final QueenNode parent, final String modifier) {
         this.position = position;
+        this.parent = parent;
         this.modifier = modifier;
     }
 
@@ -82,6 +92,20 @@ public final class QueenModifierNode implements ModifierNode {
     @Override
     public List<QueenNode> children() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenModifierNode(
+            this.position,
+            parent,
+            this.modifier
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

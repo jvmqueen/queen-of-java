@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
             position,
             new ArrayList<>(),
@@ -61,7 +62,7 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
             "SomeInterface",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(InterfaceBodyNode.class)
+            QueenMockito.mock(InterfaceBodyNode.class)
         );
         MatcherAssert.assertThat(
             normalInterfaceDeclarationNode.position(),
@@ -72,13 +73,13 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void returnsName() {
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             "SomeInterface",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(InterfaceBodyNode.class)
+            QueenMockito.mock(InterfaceBodyNode.class)
         );
         MatcherAssert.assertThat(
             normalInterfaceDeclarationNode.name(),
@@ -89,18 +90,18 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void returnsAnnotations() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        annotations.add(Mockito.mock(AnnotationNode.class));
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
 
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             new ArrayList<>(),
             "SomeInterface",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(InterfaceBodyNode.class)
+            QueenMockito.mock(InterfaceBodyNode.class)
         );
         MatcherAssert.assertThat(
             normalInterfaceDeclarationNode.annotations(),
@@ -111,18 +112,18 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void returnsModifiers() {
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        modifiers.add(Mockito.mock(ModifierNode.class));
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
 
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             modifiers,
             "SomeInterface",
             new ArrayList<>(),
             new ArrayList<>(),
-            Mockito.mock(InterfaceBodyNode.class)
+            QueenMockito.mock(InterfaceBodyNode.class)
         );
         MatcherAssert.assertThat(
             normalInterfaceDeclarationNode.modifiers(),
@@ -133,18 +134,18 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void returnsTypeParams() {
         final List<TypeParameterNode> typeParameterNodes = new ArrayList<>();
-        typeParameterNodes.add(Mockito.mock(TypeParameterNode.class));
-        typeParameterNodes.add(Mockito.mock(TypeParameterNode.class));
-        typeParameterNodes.add(Mockito.mock(TypeParameterNode.class));
+        typeParameterNodes.add(QueenMockito.mock(TypeParameterNode.class));
+        typeParameterNodes.add(QueenMockito.mock(TypeParameterNode.class));
+        typeParameterNodes.add(QueenMockito.mock(TypeParameterNode.class));
 
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             "SomeInterface",
             typeParameterNodes,
             new ArrayList<>(),
-            Mockito.mock(InterfaceBodyNode.class)
+            QueenMockito.mock(InterfaceBodyNode.class)
         );
         MatcherAssert.assertThat(
             normalInterfaceDeclarationNode.typeParameters(),
@@ -155,18 +156,18 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void returnsExtendsTypes() {
         final List<ClassOrInterfaceTypeNode> classOrInterfaceTypeNodes = new ArrayList<>();
-        classOrInterfaceTypeNodes.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
-        classOrInterfaceTypeNodes.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
-        classOrInterfaceTypeNodes.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
+        classOrInterfaceTypeNodes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
+        classOrInterfaceTypeNodes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
+        classOrInterfaceTypeNodes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
 
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             "SomeInterface",
             new ArrayList<>(),
             classOrInterfaceTypeNodes,
-            Mockito.mock(InterfaceBodyNode.class)
+            QueenMockito.mock(InterfaceBodyNode.class)
         );
         MatcherAssert.assertThat(
             normalInterfaceDeclarationNode.extendsTypes(),
@@ -176,9 +177,9 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
 
     @Test
     public void returnsBody() {
-        final InterfaceBodyNode body = Mockito.mock(InterfaceBodyNode.class);
+        final InterfaceBodyNode body = QueenMockito.mock(InterfaceBodyNode.class);
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             "SomeInterface",
@@ -195,17 +196,17 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void addsToCompilationUnit() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeParameterNode> typeParams = new ArrayList<>();
-        typeParams.add(Mockito.mock(TypeParameterNode.class));
+        typeParams.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
-        extendsTypes.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
-        final InterfaceBodyNode body = Mockito.mock(InterfaceBodyNode.class);
+        extendsTypes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
+        final InterfaceBodyNode body = QueenMockito.mock(InterfaceBodyNode.class);
 
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             "SomeInterface",
@@ -243,17 +244,17 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void addsToClassOrInterfaceDeclaration() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeParameterNode> typeParams = new ArrayList<>();
-        typeParams.add(Mockito.mock(TypeParameterNode.class));
+        typeParams.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
-        extendsTypes.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
-        final InterfaceBodyNode body = Mockito.mock(InterfaceBodyNode.class);
+        extendsTypes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
+        final InterfaceBodyNode body = QueenMockito.mock(InterfaceBodyNode.class);
 
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             "SomeInterface",
@@ -291,17 +292,17 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void addsToAnnotationDeclaration() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeParameterNode> typeParams = new ArrayList<>();
-        typeParams.add(Mockito.mock(TypeParameterNode.class));
+        typeParams.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
-        extendsTypes.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
-        final InterfaceBodyNode body = Mockito.mock(InterfaceBodyNode.class);
+        extendsTypes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
+        final InterfaceBodyNode body = QueenMockito.mock(InterfaceBodyNode.class);
 
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             "SomeInterface",
@@ -339,17 +340,17 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(Mockito.mock(AnnotationNode.class));
+        annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(Mockito.mock(ModifierNode.class));
+        modifiers.add(QueenMockito.mock(ModifierNode.class));
         final List<TypeParameterNode> typeParams = new ArrayList<>();
-        typeParams.add(Mockito.mock(TypeParameterNode.class));
+        typeParams.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
-        extendsTypes.add(Mockito.mock(ClassOrInterfaceTypeNode.class));
-        final InterfaceBodyNode body = Mockito.mock(InterfaceBodyNode.class);
+        extendsTypes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
+        final InterfaceBodyNode body = QueenMockito.mock(InterfaceBodyNode.class);
 
         final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             "SomeInterface",

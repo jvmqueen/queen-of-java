@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen ClassBody AST node.
@@ -43,14 +44,26 @@ import java.util.List;
 public final class QueenClassBodyNode implements ClassBodyNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final List<ClassBodyDeclarationNode> classBodyDeclarations;
 
     public QueenClassBodyNode(
         final Position position,
         final List<ClassBodyDeclarationNode> classBodyDeclarations
     ) {
+        this(position, null, classBodyDeclarations);
+    }
+
+    private QueenClassBodyNode(
+        final Position position,
+        final QueenNode parent,
+        final List<ClassBodyDeclarationNode> classBodyDeclarations
+    ) {
         this.position = position;
-        this.classBodyDeclarations = classBodyDeclarations;
+        this.parent = parent;
+        this.classBodyDeclarations = classBodyDeclarations != null ? classBodyDeclarations.stream().map(
+            cbd -> (ClassBodyDeclarationNode) cbd.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override
@@ -77,5 +90,19 @@ public final class QueenClassBodyNode implements ClassBodyNode {
             children.addAll(this.classBodyDeclarations);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenClassBodyNode(
+            this.position,
+            parent,
+            this.classBodyDeclarations
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

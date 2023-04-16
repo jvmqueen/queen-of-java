@@ -39,6 +39,7 @@ import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen NormalInterfaceDeclaration AST node.
@@ -52,6 +53,11 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
      * Position in the original source code.
      */
     private final Position position;
+
+    /**
+     * Parent node.
+     */
+    private final QueenNode parent;
 
     /**
      * Annotations on top of this interface.
@@ -101,13 +107,44 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
         final List<ClassOrInterfaceTypeNode> extendsTypes,
         final InterfaceBodyNode body
     ) {
+        this(
+            position,
+            null,
+            annotations,
+            modifiers,
+            name,
+            typeParams,
+            extendsTypes,
+            body
+        );
+    }
+
+    private QueenNormalInterfaceDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
+        final String name,
+        final List<TypeParameterNode> typeParams,
+        final List<ClassOrInterfaceTypeNode> extendsTypes,
+        final InterfaceBodyNode body
+    ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
+        this.parent = parent;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.modifiers = modifiers != null ? modifiers.stream().map(
+            m -> (ModifierNode) m.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.name = name;
-        this.typeParams = typeParams;
-        this.extendsTypes = extendsTypes;
-        this.body = body;
+        this.typeParams = typeParams != null ? typeParams.stream().map(
+            tp -> (TypeParameterNode) tp.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.extendsTypes = extendsTypes != null ? extendsTypes.stream().map(
+            et -> (ClassOrInterfaceTypeNode) et.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.body = body != null ? (InterfaceBodyNode) body.withParent(this) : null;
     }
 
     @Override
@@ -197,5 +234,24 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
         }
         children.add(this.body);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenNormalInterfaceDeclarationNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.modifiers,
+            this.name,
+            this.typeParams,
+            this.extendsTypes,
+            this.body
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

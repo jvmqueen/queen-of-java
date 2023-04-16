@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public final class QueenInterfaceBodyNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final InterfaceBodyNode interfaceBody = new QueenInterfaceBodyNode(
             position,
             new ArrayList<>()
@@ -62,9 +63,9 @@ public final class QueenInterfaceBodyNodeTestCase {
     @Test
     public void returnsInterfaceMemberDeclarations() {
         final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations = new ArrayList<>();
-        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(QueenMockito.mock(InterfaceMemberDeclarationNode.class));
         final InterfaceBodyNode interfaceBody = new QueenInterfaceBodyNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             interfaceMemberDeclarations
         );
         MatcherAssert.assertThat(
@@ -76,15 +77,15 @@ public final class QueenInterfaceBodyNodeTestCase {
     @Test
     public void addsToJavaNode() {
         final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations = new ArrayList<>();
-        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
-        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
-        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(QueenMockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(QueenMockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(QueenMockito.mock(InterfaceMemberDeclarationNode.class));
 
         final InterfaceBodyNode interfaceBody = new QueenInterfaceBodyNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             interfaceMemberDeclarations
         );
-        final Node node = Mockito.mock(Node.class);
+        final Node node = QueenMockito.mock(Node.class);
         interfaceBody.addToJavaNode(node);
         interfaceMemberDeclarations.forEach(
             imd -> Mockito.verify(imd, Mockito.times(1)).addToJavaNode(node)
@@ -94,12 +95,12 @@ public final class QueenInterfaceBodyNodeTestCase {
     @Test
     public void returnsChildren() {
         final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations = new ArrayList<>();
-        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
-        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
-        interfaceMemberDeclarations.add(Mockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(QueenMockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(QueenMockito.mock(InterfaceMemberDeclarationNode.class));
+        interfaceMemberDeclarations.add(QueenMockito.mock(InterfaceMemberDeclarationNode.class));
 
         final InterfaceBodyNode interfaceBody = new QueenInterfaceBodyNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             interfaceMemberDeclarations
         );
 

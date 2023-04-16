@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen CompilationUnit (highest) AST node. This is the node you want to start
@@ -43,6 +44,7 @@ import java.util.List;
  */
 public final class QueenCompilationUnitNode implements CompilationUnitNode {
     private final Position position;
+    private final QueenNode parent;
     private final PackageDeclarationNode packageDeclaration;
     private final List<ImportDeclarationNode> importDeclarations;
     private final List<TypeDeclarationNode> typeDeclarations;
@@ -53,10 +55,25 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
         final List<ImportDeclarationNode> importDeclarations,
         final List<TypeDeclarationNode> typeDeclarations
     ) {
+        this(position, null, packageDeclaration, importDeclarations, typeDeclarations);
+    }
+
+    private QueenCompilationUnitNode(
+        final Position position,
+        final QueenNode parent,
+        final PackageDeclarationNode packageDeclaration,
+        final List<ImportDeclarationNode> importDeclarations,
+        final List<TypeDeclarationNode> typeDeclarations
+    ) {
         this.position = position;
-        this.packageDeclaration = packageDeclaration;
-        this.importDeclarations = importDeclarations;
-        this.typeDeclarations = typeDeclarations;
+        this.parent = parent;
+        this.packageDeclaration = packageDeclaration != null ? (PackageDeclarationNode) packageDeclaration.withParent(this) : null;
+        this.importDeclarations = importDeclarations != null ? importDeclarations.stream().map(
+            id -> (ImportDeclarationNode) id.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.typeDeclarations = typeDeclarations != null ? typeDeclarations.stream().map(
+            td -> (TypeDeclarationNode) td.withParent(this)
+        ).collect(Collectors.toList()) : null;
     }
 
     @Override
@@ -97,5 +114,21 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
             children.addAll(this.typeDeclarations);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenCompilationUnitNode(
+            this.position,
+            parent,
+            this.packageDeclaration,
+            this.importDeclarations,
+            this.typeDeclarations
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

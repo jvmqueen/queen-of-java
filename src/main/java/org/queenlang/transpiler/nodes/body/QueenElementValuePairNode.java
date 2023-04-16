@@ -46,13 +46,19 @@ import java.util.List;
 public final class QueenElementValuePairNode implements ElementValuePairNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final String identifier;
     private final ExpressionNode expression;
 
     public QueenElementValuePairNode(final Position position, final String identifier, final ExpressionNode expression) {
+        this(position, null, identifier, expression);
+    }
+
+    private QueenElementValuePairNode(final Position position, final QueenNode parent, final String identifier, final ExpressionNode expression) {
         this.position = position;
+        this.parent = parent;
         this.identifier = identifier;
-        this.expression = expression;
+        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
     @Override
@@ -69,6 +75,21 @@ public final class QueenElementValuePairNode implements ElementValuePairNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expression);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenElementValuePairNode(
+            this.position,
+            parent,
+            this.identifier,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

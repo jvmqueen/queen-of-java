@@ -33,6 +33,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.util.QueenMockito;
 
 /**
  * Unit tests for {@link QueenModifierNode}.
@@ -44,7 +45,7 @@ public final class QueenModifierNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final ModifierNode modifierNode = new QueenModifierNode(
             position,
             "public"
@@ -58,7 +59,7 @@ public final class QueenModifierNodeTestCase {
     @Test
     public void returnsModifier() {
         final ModifierNode modifierNode = new QueenModifierNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "public"
         );
         MatcherAssert.assertThat(
@@ -70,7 +71,7 @@ public final class QueenModifierNodeTestCase {
     @Test
     public void addsToJavaNodeIfNotMutable() {
         final ModifierNode modifierNode = new QueenModifierNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "private"
         );
         final Parameter parameter = new Parameter();
@@ -84,7 +85,7 @@ public final class QueenModifierNodeTestCase {
     @Test
     public void doesNotAddToJavaNodeIfMutable() {
         final ModifierNode modifierNode = new QueenModifierNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "mutable"
         );
         final Parameter parameter = new Parameter();
@@ -98,7 +99,7 @@ public final class QueenModifierNodeTestCase {
     @Test
     public void equalsTest() {
         final ModifierNode modifierNode = new QueenModifierNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "mutable"
         );
         MatcherAssert.assertThat(
@@ -106,7 +107,7 @@ public final class QueenModifierNodeTestCase {
             Matchers.not(
                 Matchers.equalTo(
                     new QueenModifierNode(
-                        Mockito.mock(Position.class),
+                        QueenMockito.mock(Position.class),
                         "private"
                     )
                 )
@@ -116,7 +117,7 @@ public final class QueenModifierNodeTestCase {
             modifierNode,
             Matchers.equalTo(
                 new QueenModifierNode(
-                    Mockito.mock(Position.class),
+                    QueenMockito.mock(Position.class),
                     "mutable"
                 )
             )
@@ -127,7 +128,7 @@ public final class QueenModifierNodeTestCase {
     public void returnsChildren() {
         MatcherAssert.assertThat(
             new QueenModifierNode(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "public"
             ).children(),
             Matchers.hasSize(0)

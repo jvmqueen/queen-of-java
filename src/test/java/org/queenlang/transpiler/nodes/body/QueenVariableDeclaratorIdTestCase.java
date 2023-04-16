@@ -35,6 +35,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.util.QueenMockito;
 
 /**
  * Unit tests for {@link QueenVariableDeclaratorId}.
@@ -46,7 +47,7 @@ public final class QueenVariableDeclaratorIdTestCase {
 
     @Test
     public void returnsPosition() {
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
             position,
             "variable"
@@ -60,7 +61,7 @@ public final class QueenVariableDeclaratorIdTestCase {
     @Test
     public void returnsName() {
         final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "a"
         );
         MatcherAssert.assertThat(
@@ -72,7 +73,7 @@ public final class QueenVariableDeclaratorIdTestCase {
     @Test
     public void addsToVariableDeclaratorJavaNode() {
         final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "i"
         );
         final VariableDeclarator variableDeclarator = new VariableDeclarator();
@@ -92,7 +93,7 @@ public final class QueenVariableDeclaratorIdTestCase {
     @Test
     public void addsToParameterJavaNode() {
         final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             "i"
         );
         final Parameter parameter = new Parameter();
@@ -113,7 +114,7 @@ public final class QueenVariableDeclaratorIdTestCase {
     public void returnsChildren() {
         MatcherAssert.assertThat(
             new QueenVariableDeclaratorId(
-                Mockito.mock(Position.class),
+                QueenMockito.mock(Position.class),
                 "i"
             ).children(),
             Matchers.hasSize(0)

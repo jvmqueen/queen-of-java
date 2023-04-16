@@ -42,6 +42,7 @@ import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen ClassDeclaration AST node.
@@ -55,6 +56,11 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
      * Position in the original source code.
      */
     private final Position position;
+
+    /**
+     * Parent of this node.
+     */
+    private final QueenNode parent;
 
     /**
      * Annotations on top of this class.
@@ -119,15 +125,52 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
         final List<ClassOrInterfaceTypeNode> of,
         final ClassBodyNode body
     ) {
+        this(position, null, annotations, accessModifiers, extensionModifier, name, typeParams, extendsType, of, body);
+    }
+
+    /**
+     * Ctor.
+     * @param position Position in the orifinal source code.
+     * @param parent Parent of this class declaration node.
+     * @param annotations Annotation nodes on top of this type.
+     * @param accessModifiers Access modifiers of this class.
+     * @param extensionModifier Extension modifier (abstract or final).
+     * @param name Name.
+     * @param extendsType Type extended.
+     * @param typeParams Class type params.
+     * @param of Types implemented.
+     * @param body The body.
+     */
+    private QueenClassDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> accessModifiers,
+        final ModifierNode extensionModifier,
+        final String name,
+        final List<TypeParameterNode> typeParams,
+        final ClassOrInterfaceTypeNode extendsType,
+        final List<ClassOrInterfaceTypeNode> of,
+        final ClassBodyNode body
+    ) {
         this.position = position;
-        this.annotations = annotations;
-        this.accessModifiers = accessModifiers;
-        this.extensionModifier = extensionModifier;
+        this.parent = parent;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.accessModifiers = accessModifiers != null ? accessModifiers.stream().map(
+            am -> (ModifierNode) am.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.extensionModifier = extensionModifier != null ? (ModifierNode) extensionModifier.withParent(this) : null;
         this.name = name;
-        this.typeParams = typeParams;
-        this.extendsType = extendsType;
-        this.of = of;
-        this.body = body;
+        this.typeParams = typeParams != null ? typeParams.stream().map(
+            tp -> (TypeParameterNode) tp.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.extendsType = extendsType != null ? (ClassOrInterfaceTypeNode) extendsType.withParent(this) : null;
+        this.of = of != null ? of.stream().map(
+            o -> (ClassOrInterfaceTypeNode) o.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.body = body != null ? (ClassBodyNode) body.withParent(this) : null;
     }
 
     @Override
@@ -233,5 +276,26 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
         }
         children.add(this.body);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenClassDeclarationNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.accessModifiers,
+            this.extensionModifier,
+            this.name,
+            this.typeParams,
+            this.extendsType,
+            this.of,
+            this.body
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

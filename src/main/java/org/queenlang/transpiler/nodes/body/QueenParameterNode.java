@@ -51,6 +51,7 @@ import java.util.stream.Collectors;
  */
 public final class QueenParameterNode implements ParameterNode {
     private final Position position;
+    private final QueenNode parent;
     private final List<AnnotationNode> annotations;
     private final List<ModifierNode> modifiers;
     private final VariableDeclaratorId variableDeclaratorId;
@@ -95,12 +96,41 @@ public final class QueenParameterNode implements ParameterNode {
         final List<AnnotationNode> varArgsAnnotations,
         final boolean varArgs
     ) {
+        this(
+            position,
+            null,
+            annotations,
+            modifiers,
+            type,
+            variableDeclaratorId,
+            varArgsAnnotations,
+            varArgs
+        );
+    }
+
+    private QueenParameterNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
+        final TypeNode type,
+        final VariableDeclaratorId variableDeclaratorId,
+        final List<AnnotationNode> varArgsAnnotations,
+        final boolean varArgs
+    ) {
         this.position = position;
-        this.annotations = annotations;
-        this.modifiers = modifiers;
-        this.type = type;
-        this.variableDeclaratorId = variableDeclaratorId;
-        this.varArgsAnnotations = varArgsAnnotations;
+        this.parent = parent;
+        this.annotations = annotations != null ? annotations.stream().map(
+            a -> (AnnotationNode) a.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.modifiers = modifiers != null ? modifiers.stream().map(
+            m -> (ModifierNode) m.withParent(this)
+        ).collect(Collectors.toList()) : null;
+        this.type = type != null ? (TypeNode) type.withParent(this) : null;
+        this.variableDeclaratorId = variableDeclaratorId != null ? (VariableDeclaratorId) variableDeclaratorId.withParent(this) : null;
+        this.varArgsAnnotations = varArgsAnnotations != null ? varArgsAnnotations.stream().map(
+            varA -> (AnnotationNode) varA.withParent(this)
+        ).collect(Collectors.toList()) : null;
         this.varArgs = varArgs;
     }
 
@@ -178,5 +208,24 @@ public final class QueenParameterNode implements ParameterNode {
             children.addAll(this.varArgsAnnotations);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenParameterNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.modifiers,
+            this.type,
+            this.variableDeclaratorId,
+            this.varArgsAnnotations,
+            this.varArgs
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

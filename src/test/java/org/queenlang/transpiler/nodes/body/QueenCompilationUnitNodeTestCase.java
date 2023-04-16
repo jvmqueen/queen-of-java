@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.util.QueenMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +49,16 @@ public final class QueenCompilationUnitNodeTestCase {
 
     @Test
     public void addsChildrenToJavaNode() {
-        final Node java = Mockito.mock(Node.class);
+        final Node java = QueenMockito.mock(Node.class);
 
-        final PackageDeclarationNode packageDeclaration = Mockito.mock(PackageDeclarationNode.class);
+        final PackageDeclarationNode packageDeclaration = QueenMockito.mock(PackageDeclarationNode.class);
         final List<ImportDeclarationNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(ImportDeclarationNode.class));
+        imports.add(QueenMockito.mock(ImportDeclarationNode.class));
         final List<TypeDeclarationNode> types = new ArrayList<>();
-        types.add(Mockito.mock(TypeDeclarationNode.class));
+        types.add(QueenMockito.mock(TypeDeclarationNode.class));
 
         final CompilationUnitNode compilationUnit = new QueenCompilationUnitNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             packageDeclaration,
             imports,
             types
@@ -84,13 +85,13 @@ public final class QueenCompilationUnitNodeTestCase {
 
     @Test
     public void returnsPosition() {
-        final PackageDeclarationNode packageDeclaration = Mockito.mock(PackageDeclarationNode.class);
+        final PackageDeclarationNode packageDeclaration = QueenMockito.mock(PackageDeclarationNode.class);
         final List<ImportDeclarationNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(ImportDeclarationNode.class));
+        imports.add(QueenMockito.mock(ImportDeclarationNode.class));
         final List<TypeDeclarationNode> types = new ArrayList<>();
-        types.add(Mockito.mock(TypeDeclarationNode.class));
+        types.add(QueenMockito.mock(TypeDeclarationNode.class));
 
-        final Position position = Mockito.mock(Position.class);
+        final Position position = QueenMockito.mock(Position.class);
         final CompilationUnitNode compilationUnit = new QueenCompilationUnitNode(
             position,
             packageDeclaration,
@@ -106,14 +107,14 @@ public final class QueenCompilationUnitNodeTestCase {
 
     @Test
     public void returnsPackageDeclaration() {
-        final PackageDeclarationNode packageDeclaration = Mockito.mock(PackageDeclarationNode.class);
+        final PackageDeclarationNode packageDeclaration = QueenMockito.mock(PackageDeclarationNode.class);
         final List<ImportDeclarationNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(ImportDeclarationNode.class));
+        imports.add(QueenMockito.mock(ImportDeclarationNode.class));
         final List<TypeDeclarationNode> types = new ArrayList<>();
-        types.add(Mockito.mock(TypeDeclarationNode.class));
+        types.add(QueenMockito.mock(TypeDeclarationNode.class));
 
         final CompilationUnitNode compilationUnit = new QueenCompilationUnitNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             packageDeclaration,
             imports,
             types
@@ -127,14 +128,14 @@ public final class QueenCompilationUnitNodeTestCase {
 
     @Test
     public void returnsImportDeclarations() {
-        final PackageDeclarationNode packageDeclaration = Mockito.mock(PackageDeclarationNode.class);
+        final PackageDeclarationNode packageDeclaration = QueenMockito.mock(PackageDeclarationNode.class);
         final List<ImportDeclarationNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(ImportDeclarationNode.class));
+        imports.add(QueenMockito.mock(ImportDeclarationNode.class));
         final List<TypeDeclarationNode> types = new ArrayList<>();
-        types.add(Mockito.mock(TypeDeclarationNode.class));
+        types.add(QueenMockito.mock(TypeDeclarationNode.class));
 
         final CompilationUnitNode compilationUnit = new QueenCompilationUnitNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             packageDeclaration,
             imports,
             types
@@ -148,14 +149,14 @@ public final class QueenCompilationUnitNodeTestCase {
 
     @Test
     public void returnsTypeDeclaration() {
-        final PackageDeclarationNode packageDeclaration = Mockito.mock(PackageDeclarationNode.class);
+        final PackageDeclarationNode packageDeclaration = QueenMockito.mock(PackageDeclarationNode.class);
         final List<ImportDeclarationNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(ImportDeclarationNode.class));
+        imports.add(QueenMockito.mock(ImportDeclarationNode.class));
         final List<TypeDeclarationNode> types = new ArrayList<>();
-        types.add(Mockito.mock(TypeDeclarationNode.class));
+        types.add(QueenMockito.mock(TypeDeclarationNode.class));
 
         final CompilationUnitNode compilationUnit = new QueenCompilationUnitNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             packageDeclaration,
             imports,
             types
@@ -169,14 +170,14 @@ public final class QueenCompilationUnitNodeTestCase {
 
     @Test
     public void returnsChildren() {
-        final PackageDeclarationNode packageDeclaration = Mockito.mock(PackageDeclarationNode.class);
+        final PackageDeclarationNode packageDeclaration = QueenMockito.mock(PackageDeclarationNode.class);
         final List<ImportDeclarationNode> imports = new ArrayList<>();
-        imports.add(Mockito.mock(ImportDeclarationNode.class));
+        imports.add(QueenMockito.mock(ImportDeclarationNode.class));
         final List<TypeDeclarationNode> types = new ArrayList<>();
-        types.add(Mockito.mock(TypeDeclarationNode.class));
+        types.add(QueenMockito.mock(TypeDeclarationNode.class));
 
         final CompilationUnitNode compilationUnit = new QueenCompilationUnitNode(
-            Mockito.mock(Position.class),
+            QueenMockito.mock(Position.class),
             packageDeclaration,
             imports,
             types

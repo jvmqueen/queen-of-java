@@ -50,10 +50,16 @@ import java.util.List;
 public final class QueenTextStatementNode implements StatementNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final String statement;
 
     public QueenTextStatementNode(final Position position, final String statement) {
+        this(position, null, statement);
+    }
+
+    private QueenTextStatementNode(final Position position, final QueenNode parent, final String statement) {
         this.position = position;
+        this.parent = parent;
         this.statement = statement;
     }
 
@@ -84,6 +90,20 @@ public final class QueenTextStatementNode implements StatementNode {
     @Override
     public List<QueenNode> children() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenTextStatementNode(
+            this.position,
+            parent,
+            this.statement
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

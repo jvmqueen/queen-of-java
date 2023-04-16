@@ -47,13 +47,24 @@ public final class QueenThrowStatementNode implements ThrowStatementNode {
 
     private final Position position;
 
+    private final QueenNode parent;
+
     private final ExpressionNode expression;
 
     public QueenThrowStatementNode(
         final Position position,
         final ExpressionNode expression
     ) {
+        this(position, null, expression);
+    }
+
+    private QueenThrowStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode expression
+    ) {
         this.position = position;
+        this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
@@ -72,6 +83,20 @@ public final class QueenThrowStatementNode implements ThrowStatementNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expression);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenThrowStatementNode(
+            this.position,
+            parent,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

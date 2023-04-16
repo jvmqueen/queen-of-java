@@ -52,6 +52,8 @@ public final class QueenWhileStatementNode implements WhileStatementNode {
      */
     private final Position position;
 
+    private final QueenNode parent;
+
     /**
      * Expression.
      */
@@ -68,7 +70,17 @@ public final class QueenWhileStatementNode implements WhileStatementNode {
         final ExpressionNode expression,
         final BlockStatements blockStatements
     ) {
+        this(position, null, expression, blockStatements);
+    }
+
+    private QueenWhileStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode expression,
+        final BlockStatements blockStatements
+    ) {
         this.position = position;
+        this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
@@ -104,6 +116,21 @@ public final class QueenWhileStatementNode implements WhileStatementNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expression, this.blockStatements);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenWhileStatementNode(
+            this.position,
+            parent,
+            this.expression,
+            this.blockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

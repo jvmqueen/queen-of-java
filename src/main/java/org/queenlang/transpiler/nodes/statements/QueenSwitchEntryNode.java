@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 public final class QueenSwitchEntryNode implements SwitchEntryNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final List<SwitchLabelNode> labels;
     private final BlockStatements blockStatements;
 
@@ -54,7 +55,17 @@ public final class QueenSwitchEntryNode implements SwitchEntryNode {
         final List<SwitchLabelNode> labels,
         final BlockStatements blockStatements
     ) {
+        this(position, null, labels, blockStatements);
+    }
+
+    private QueenSwitchEntryNode(
+        final Position position,
+        final QueenNode parent,
+        final List<SwitchLabelNode> labels,
+        final BlockStatements blockStatements
+    ) {
         this.position = position;
+        this.parent = parent;
         this.labels = labels != null ? labels.stream().map(
             l -> (SwitchLabelNode) l.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -90,6 +101,21 @@ public final class QueenSwitchEntryNode implements SwitchEntryNode {
         }
         children.add(this.blockStatements);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenSwitchEntryNode(
+            this.position,
+            parent,
+            this.labels,
+            this.blockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

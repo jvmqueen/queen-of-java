@@ -47,6 +47,8 @@ public final class QueenAssertStatementNode implements AssertStatementNode {
 
     private final Position position;
 
+    private final QueenNode parent;
+
     private final ExpressionNode check;
     private final ExpressionNode message;
 
@@ -55,7 +57,12 @@ public final class QueenAssertStatementNode implements AssertStatementNode {
     }
 
     public QueenAssertStatementNode(final Position position, final ExpressionNode check, final ExpressionNode message) {
+        this(position, null, check, message);
+    }
+
+    private QueenAssertStatementNode(final Position position, final QueenNode parent, final ExpressionNode check, final ExpressionNode message) {
         this.position = position;
+        this.parent = parent;
         this.check = check != null ? (ExpressionNode) check.withParent(this) : null;
         this.message = message != null ? (ExpressionNode) message.withParent(this) : null;
     }
@@ -78,6 +85,21 @@ public final class QueenAssertStatementNode implements AssertStatementNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.check, this.message);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenAssertStatementNode(
+            this.position,
+            parent,
+            this.check,
+            this.message
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

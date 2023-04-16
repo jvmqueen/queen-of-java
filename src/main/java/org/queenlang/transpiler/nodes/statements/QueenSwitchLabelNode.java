@@ -45,11 +45,17 @@ import java.util.List;
 public final class QueenSwitchLabelNode implements SwitchLabelNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode expressionNode;
     private final boolean isDefaultLabel;
 
     public QueenSwitchLabelNode(final Position position, final ExpressionNode expressionNode, final boolean isDefaultLabel) {
+        this(position, null, expressionNode, isDefaultLabel);
+    }
+
+    private QueenSwitchLabelNode(final Position position, final QueenNode parent, final ExpressionNode expressionNode, final boolean isDefaultLabel) {
         this.position = position;
+        this.parent = parent;
         this.expressionNode = expressionNode != null ? (ExpressionNode) expressionNode.withParent(this) : null;
         this.isDefaultLabel = isDefaultLabel;
     }
@@ -74,6 +80,21 @@ public final class QueenSwitchLabelNode implements SwitchLabelNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expressionNode);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenSwitchLabelNode(
+            this.position,
+            parent,
+            this.expressionNode,
+            this.isDefaultLabel
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

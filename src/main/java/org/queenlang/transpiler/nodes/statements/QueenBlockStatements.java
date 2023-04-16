@@ -69,9 +69,7 @@ public final class QueenBlockStatements implements BlockStatements {
         this.position = position;
         this.parent = parent;
         this.blockStatements = blockStatements.stream().map(
-            statement -> {
-                return (StatementNode) statement.withParent(this);
-            }
+            statement -> (StatementNode) statement.withParent(this)
         ).collect(Collectors.toList());
     }
 

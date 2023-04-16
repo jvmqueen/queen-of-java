@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
 public final class QueenTryStatementNode implements TryStatementNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final List<ExpressionNode> resources;
     private final BlockStatements tryBlockStatements;
     private final List<CatchClauseNode> catchClauses;
@@ -60,7 +61,26 @@ public final class QueenTryStatementNode implements TryStatementNode {
         final List<CatchClauseNode> catchClauses,
         final BlockStatements finallyBlockStatements
     ) {
+        this(
+            position,
+            null,
+            resources,
+            tryBlockStatements,
+            catchClauses,
+            finallyBlockStatements
+        );
+    }
+
+    private QueenTryStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final List<ExpressionNode> resources,
+        final BlockStatements tryBlockStatements,
+        final List<CatchClauseNode> catchClauses,
+        final BlockStatements finallyBlockStatements
+    ) {
         this.position = position;
+        this.parent = parent;
         this.resources = resources != null ? resources.stream().map(
             r -> (ExpressionNode) r.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -120,6 +140,23 @@ public final class QueenTryStatementNode implements TryStatementNode {
         }
         children.add(this.finallyBlockStatements);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenTryStatementNode(
+            this.position,
+            parent,
+            this.resources,
+            this.tryBlockStatements,
+            this.catchClauses,
+            this.finallyBlockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

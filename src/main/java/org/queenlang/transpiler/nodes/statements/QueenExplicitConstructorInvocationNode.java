@@ -50,6 +50,7 @@ import java.util.stream.Collectors;
 public final class QueenExplicitConstructorInvocationNode implements ExplicitConstructorInvocationNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final boolean isThis;
     private final ExpressionNode scope;
     private final List<TypeNode> typeArguments;
@@ -62,7 +63,26 @@ public final class QueenExplicitConstructorInvocationNode implements ExplicitCon
         final List<TypeNode> typeArguments,
         final List<ExpressionNode> arguments
     ) {
+        this(
+            position,
+            null,
+            isThis,
+            scope,
+            typeArguments,
+            arguments
+        );
+    }
+
+    private QueenExplicitConstructorInvocationNode(
+        final Position position,
+        final QueenNode parent,
+        final boolean isThis,
+        final ExpressionNode scope,
+        final List<TypeNode> typeArguments,
+        final List<ExpressionNode> arguments
+    ) {
         this.position = position;
+        this.parent = parent;
         this.isThis = isThis;
         this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
         this.typeArguments = typeArguments != null ? typeArguments.stream().map(
@@ -112,6 +132,23 @@ public final class QueenExplicitConstructorInvocationNode implements ExplicitCon
             children.addAll(this.arguments);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenExplicitConstructorInvocationNode(
+            this.position,
+            parent,
+            this.isThis,
+            this.scope,
+            this.typeArguments,
+            this.arguments
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

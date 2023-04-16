@@ -46,10 +46,17 @@ public final class QueenContinueStatementNode implements ContinueStatementNode {
 
     private final Position position;
 
+    private final QueenNode parent;
+
     private final String label;
 
     public QueenContinueStatementNode(final Position position, final String label) {
+        this(position, null, label);
+    }
+
+    private QueenContinueStatementNode(final Position position, final QueenNode parent, final String label) {
         this.position = position;
+        this.parent = parent;
         this.label = label;
     }
 
@@ -70,6 +77,20 @@ public final class QueenContinueStatementNode implements ContinueStatementNode {
     @Override
     public List<QueenNode> children() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenContinueStatementNode(
+            this.position,
+            parent,
+            this.label
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

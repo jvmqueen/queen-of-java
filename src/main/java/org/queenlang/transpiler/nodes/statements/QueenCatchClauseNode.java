@@ -48,6 +48,7 @@ import java.util.List;
 public final class QueenCatchClauseNode implements CatchClauseNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final CatchFormalParameterNode parameter;
     private final BlockStatements blockStatements;
 
@@ -56,7 +57,17 @@ public final class QueenCatchClauseNode implements CatchClauseNode {
         final CatchFormalParameterNode parameter,
         final BlockStatements blockStatements
     ) {
+        this(position, null, parameter, blockStatements);
+    }
+
+    private QueenCatchClauseNode(
+        final Position position,
+        final QueenNode parent,
+        final CatchFormalParameterNode parameter,
+        final BlockStatements blockStatements
+    ) {
         this.position = position;
+        this.parent = parent;
         this.parameter = parameter != null ? (CatchFormalParameterNode) parameter.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
@@ -89,6 +100,21 @@ public final class QueenCatchClauseNode implements CatchClauseNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.parameter, this.blockStatements);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenCatchClauseNode(
+            this.position,
+            parent,
+            this.parameter,
+            this.blockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

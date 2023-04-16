@@ -56,6 +56,8 @@ public final class QueenForStatementNode implements ForStatementNode {
      */
     private final Position position;
 
+    private final QueenNode parent;
+
     /**
      * Initialization expressions.
      */
@@ -83,7 +85,26 @@ public final class QueenForStatementNode implements ForStatementNode {
         final List<ExpressionNode> update,
         final BlockStatements blockStatements
     ) {
+        this(
+            position,
+            null,
+            initialization,
+            comparison,
+            update,
+            blockStatements
+        );
+    }
+
+    private QueenForStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final List<ExpressionNode> initialization,
+        final ExpressionNode comparison,
+        final List<ExpressionNode> update,
+        final BlockStatements blockStatements
+    ) {
         this.position = position;
+        this.parent = parent;
         this.initialization = initialization != null ? initialization.stream().map(
             init -> (ExpressionNode) init.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -157,6 +178,23 @@ public final class QueenForStatementNode implements ForStatementNode {
         }
         children.add(this.blockStatements);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenForStatementNode(
+            this.position,
+            parent,
+            this.initialization,
+            this.comparison,
+            this.update,
+            this.blockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

@@ -47,6 +47,8 @@ public final class QueenReturnStatementNode implements ReturnStatementNode {
 
     private Position position;
 
+    private QueenNode parent;
+
     private ExpressionNode expression;
 
     public QueenReturnStatementNode(final Position position) {
@@ -54,7 +56,12 @@ public final class QueenReturnStatementNode implements ReturnStatementNode {
     }
 
     public QueenReturnStatementNode(final Position position, final ExpressionNode expression) {
+        this(position, null, expression);
+    }
+
+    private QueenReturnStatementNode(final Position position, final QueenNode parent, final ExpressionNode expression) {
         this.position = position;
+        this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
 
@@ -75,6 +82,20 @@ public final class QueenReturnStatementNode implements ReturnStatementNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expression);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenReturnStatementNode(
+            this.position,
+            parent,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

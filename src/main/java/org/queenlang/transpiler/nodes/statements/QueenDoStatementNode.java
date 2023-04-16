@@ -49,6 +49,8 @@ public final class QueenDoStatementNode implements DoStatementNode {
      */
     private final Position position;
 
+    private final QueenNode parent;
+
     /**
      * Statements inside the Do.
      */
@@ -65,7 +67,17 @@ public final class QueenDoStatementNode implements DoStatementNode {
         final BlockStatements blockStatements,
         final ExpressionNode expression
     ) {
+        this(position, null, blockStatements, expression);
+    }
+
+    private QueenDoStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final BlockStatements blockStatements,
+        final ExpressionNode expression
+    ) {
         this.position = position;
+        this.parent = parent;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
     }
@@ -101,6 +113,21 @@ public final class QueenDoStatementNode implements DoStatementNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.blockStatements, this.expression);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenDoStatementNode(
+            this.position,
+            parent,
+            this.blockStatements,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

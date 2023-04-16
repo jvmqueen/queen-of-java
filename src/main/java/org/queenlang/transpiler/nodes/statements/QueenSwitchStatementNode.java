@@ -49,6 +49,7 @@ import java.util.stream.Collectors;
 public final class QueenSwitchStatementNode implements SwitchStatementNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode expression;
     private final List<SwitchEntryNode> entries;
 
@@ -57,12 +58,23 @@ public final class QueenSwitchStatementNode implements SwitchStatementNode {
         final ExpressionNode expression,
         final List<SwitchEntryNode> entries
     ) {
+        this(position, null, expression, entries);
+    }
+
+    private QueenSwitchStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode expression,
+        final List<SwitchEntryNode> entries
+    ) {
         this.position = position;
+        this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
         this.entries = entries != null ? entries.stream().map(
             e -> (SwitchEntryNode) e.withParent(this)
         ).collect(Collectors.toList()) : null;
     }
+
 
     @Override
     public void addToJavaNode(final Node java) {
@@ -99,6 +111,21 @@ public final class QueenSwitchStatementNode implements SwitchStatementNode {
             children.addAll(this.entries);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenSwitchStatementNode(
+            this.position,
+            parent,
+            this.expression,
+            this.entries
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

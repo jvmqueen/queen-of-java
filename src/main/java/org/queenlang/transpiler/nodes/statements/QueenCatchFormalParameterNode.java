@@ -53,6 +53,7 @@ import java.util.stream.Collectors;
 public final class QueenCatchFormalParameterNode implements CatchFormalParameterNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final List<AnnotationNode> annotations;
     private final List<ModifierNode> modifiers;
     private final List<TypeNode> catchExceptionTypes;
@@ -65,7 +66,26 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
         final List<TypeNode> catchExceptionTypes,
         final VariableDeclaratorId exceptionName
     ) {
+        this(
+            position,
+            null,
+            annotations,
+            modifiers,
+            catchExceptionTypes,
+            exceptionName
+        );
+    }
+
+    private QueenCatchFormalParameterNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
+        final List<TypeNode> catchExceptionTypes,
+        final VariableDeclaratorId exceptionName
+    ) {
         this.position = position;
+        this.parent = parent;
         this.annotations = annotations != null ? annotations.stream().map(
             a -> (AnnotationNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -77,6 +97,7 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
         ).collect(Collectors.toList()) : null;
         this.exceptionName = exceptionName != null ? (VariableDeclaratorId) exceptionName.withParent(this) : null;
     }
+
 
     @Override
     public void addToJavaNode(final Node java) {
@@ -115,6 +136,23 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
         }
         children.add(this.exceptionName);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenCatchFormalParameterNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.modifiers,
+            this.catchExceptionTypes,
+            this.exceptionName
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

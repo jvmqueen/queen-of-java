@@ -15,7 +15,6 @@ public final class Expressions implements ExpressionsTest {
         try (Closeable x = 0;
             Closeable y = 0) {
             System.out.println("Close em after try");
-        } finally {
         }
         int x = 1;
         int y = 0;

@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
  * Queen doube literal expression, AST Node.
@@ -39,11 +40,23 @@ import org.queenlang.transpiler.nodes.Position;
  */
 public final class QueenDoubleLiteralExpressionNode extends QueenLiteralStringValueExpressionNode implements DoubleLiteralExpressionNode {
     public QueenDoubleLiteralExpressionNode(final Position position, final String value) {
-        super(position, value);
+        this(position, null, value);
+    }
+    private QueenDoubleLiteralExpressionNode(final Position position, final QueenNode parent, final String value) {
+        super(position, parent, value);
     }
 
     @Override
     public Expression toJavaExpression() {
         return new DoubleLiteralExpr(this.value());
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenDoubleLiteralExpressionNode(
+            this.position(),
+            parent,
+            this.value()
+        );
     }
 }

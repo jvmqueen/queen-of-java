@@ -44,6 +44,7 @@ import java.util.List;
 public final class QueenConditionalExpressionNode implements ConditionalExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode condition;
     private final ExpressionNode thenExpr;
     private final ExpressionNode elseExpr;
@@ -54,7 +55,18 @@ public final class QueenConditionalExpressionNode implements ConditionalExpressi
         final ExpressionNode thenExpr,
         final ExpressionNode elseExpr
     ) {
+        this(position, null, condition, thenExpr, elseExpr);
+    }
+
+    private QueenConditionalExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode condition,
+        final ExpressionNode thenExpr,
+        final ExpressionNode elseExpr
+    ) {
         this.position = position;
+        this.parent = parent;
         this.condition = condition != null ? (ExpressionNode) condition.withParent(this) : null;
         this.thenExpr = thenExpr != null ? (ExpressionNode) thenExpr.withParent(this) : null;
         this.elseExpr = elseExpr != null ? (ExpressionNode) elseExpr.withParent(this) : null;
@@ -77,6 +89,22 @@ public final class QueenConditionalExpressionNode implements ConditionalExpressi
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.condition, this.thenExpr, this.elseExpr);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenConditionalExpressionNode(
+            this.position,
+            parent,
+            this.condition,
+            this.thenExpr,
+            this.elseExpr
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

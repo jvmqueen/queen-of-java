@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
 public final class QueenMethodInvocationExpressionNode implements MethodInvocationExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode scope;
 
     private final List<TypeNode> typeArguments;
@@ -62,7 +63,26 @@ public final class QueenMethodInvocationExpressionNode implements MethodInvocati
         final String name,
         final List<ExpressionNode> arguments
     ) {
+        this(
+            position,
+            null,
+            scope,
+            typeArguments,
+            name,
+            arguments
+        );
+    }
+
+    private QueenMethodInvocationExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode scope,
+        final List<TypeNode> typeArguments,
+        final String name,
+        final List<ExpressionNode> arguments
+    ) {
         this.position = position;
+        this.parent = parent;
         this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
         this.typeArguments = typeArguments != null ? typeArguments.stream().map(
             ta -> (TypeNode) ta.withParent(this)
@@ -111,6 +131,23 @@ public final class QueenMethodInvocationExpressionNode implements MethodInvocati
             children.addAll(this.arguments);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenMethodInvocationExpressionNode(
+            this.position,
+            parent,
+            this.scope,
+            this.typeArguments,
+            this.name,
+            this.arguments
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

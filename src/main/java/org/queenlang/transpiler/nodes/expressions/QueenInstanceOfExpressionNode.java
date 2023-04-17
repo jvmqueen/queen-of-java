@@ -46,6 +46,7 @@ import java.util.List;
 public final class QueenInstanceOfExpressionNode implements InstanceOfExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode expression;
     private final ReferenceTypeNode referenceType;
 
@@ -54,7 +55,17 @@ public final class QueenInstanceOfExpressionNode implements InstanceOfExpression
         final ExpressionNode expression,
         final ReferenceTypeNode referenceType
     ) {
+        this(position, null, expression, referenceType);
+    }
+
+    private QueenInstanceOfExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode expression,
+        final ReferenceTypeNode referenceType
+    ) {
         this.position = position;
+        this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
         this.referenceType = referenceType != null ? (ReferenceTypeNode) referenceType.withParent(this) : null;
     }
@@ -75,6 +86,21 @@ public final class QueenInstanceOfExpressionNode implements InstanceOfExpression
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expression, this.referenceType);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenInstanceOfExpressionNode(
+            this.position,
+            parent,
+            this.expression,
+            this.referenceType
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

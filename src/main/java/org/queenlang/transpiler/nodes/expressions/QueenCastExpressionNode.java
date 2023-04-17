@@ -50,6 +50,7 @@ import java.util.stream.Collectors;
 public final class QueenCastExpressionNode implements CastExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final TypeNode primitiveType;
     private final List<ReferenceTypeNode> referenceTypes;
     private final ExpressionNode expression;
@@ -68,7 +69,18 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
         final List<ReferenceTypeNode> referenceTypes,
         final ExpressionNode expression
     ) {
+        this(position, null, primitiveType, referenceTypes, expression);
+    }
+
+    private QueenCastExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final TypeNode primitiveType,
+        final List<ReferenceTypeNode> referenceTypes,
+        final ExpressionNode expression
+    ) {
         this.position = position;
+        this.parent = parent;
         this.primitiveType = primitiveType != null ? (TypeNode) primitiveType.withParent(this) : null;
         this.referenceTypes = referenceTypes != null ? referenceTypes.stream().map(
             r -> (ReferenceTypeNode) r.withParent(this)
@@ -112,6 +124,22 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
             children.addAll(this.referenceTypes);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenCastExpressionNode(
+            this.position,
+            parent,
+            this.primitiveType,
+            this.referenceTypes,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

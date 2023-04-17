@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
 public final class QueenArrayDimensionNode implements ArrayDimensionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final List<AnnotationNode> annotations;
     private final ExpressionNode expression;
 
@@ -76,7 +77,17 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
         final List<AnnotationNode> annotations,
         final ExpressionNode expression
     ) {
+        this(position, null, annotations, expression);
+    }
+
+    private QueenArrayDimensionNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final ExpressionNode expression
+    ) {
         this.position = position;
+        this.parent = parent;
         this.annotations = annotations != null ? annotations.stream().map(
             a -> (AnnotationNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -109,5 +120,20 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
             children.addAll(this.annotations);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenArrayDimensionNode(
+            this.position,
+            parent,
+            this.annotations,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

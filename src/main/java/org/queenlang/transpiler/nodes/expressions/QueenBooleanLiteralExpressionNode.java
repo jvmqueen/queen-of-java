@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
  * A literal boolean expression in Queen, AST Node.
@@ -40,11 +41,16 @@ import org.queenlang.transpiler.nodes.Position;
 public final class QueenBooleanLiteralExpressionNode implements BooleanLiteralExpressionNode {
 
     private final Position position;
-
+    private final QueenNode parent;
     private final boolean value;
 
     public QueenBooleanLiteralExpressionNode(final Position position, final boolean value) {
+        this(position, null, value);
+    }
+
+    private QueenBooleanLiteralExpressionNode(final Position position, final QueenNode parent, final boolean value) {
         this.position = position;
+        this.parent = parent;
         this.value = value;
     }
 
@@ -56,6 +62,20 @@ public final class QueenBooleanLiteralExpressionNode implements BooleanLiteralEx
     @Override
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenBooleanLiteralExpressionNode(
+            this.position,
+            parent,
+            this.value
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

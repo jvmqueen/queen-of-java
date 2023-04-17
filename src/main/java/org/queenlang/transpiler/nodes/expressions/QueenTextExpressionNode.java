@@ -45,10 +45,16 @@ import java.util.List;
 public final class QueenTextExpressionNode implements ExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final String expression;
 
     public QueenTextExpressionNode(final Position position, final String expression) {
+        this(position, null, expression);
+    }
+
+    private QueenTextExpressionNode(final Position position, final QueenNode parent, final String expression) {
         this.position = position;
+        this.parent = parent;
         this.expression = expression;
     }
 
@@ -68,5 +74,19 @@ public final class QueenTextExpressionNode implements ExpressionNode {
     @Override
     public List<QueenNode> children() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenTextExpressionNode(
+            this.position,
+            parent,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

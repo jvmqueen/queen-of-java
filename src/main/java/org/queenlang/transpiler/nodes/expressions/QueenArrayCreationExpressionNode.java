@@ -49,6 +49,7 @@ import java.util.stream.Collectors;
 public final class QueenArrayCreationExpressionNode implements ArrayCreationExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final TypeNode type;
     private final List<ArrayDimensionNode> dims;
     private final ExpressionNode arrayInitializer;
@@ -59,7 +60,18 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
         final List<ArrayDimensionNode> dims,
         final ExpressionNode arrayInitializer
     ) {
+        this(position, null, type, dims, arrayInitializer);
+    }
+
+    private QueenArrayCreationExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final TypeNode type,
+        final List<ArrayDimensionNode> dims,
+        final ExpressionNode arrayInitializer
+    ) {
         this.position = position;
+        this.parent = parent;
         this.type = type != null ? (TypeNode) type.withParent(this) : null;
         this.dims = dims != null ? dims.stream().map(
             d -> (ArrayDimensionNode) d.withParent(this)
@@ -107,6 +119,22 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
             children.addAll(this.dims);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenArrayCreationExpressionNode(
+            this.position,
+            parent,
+            this.type,
+            this.dims,
+            this.arrayInitializer
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

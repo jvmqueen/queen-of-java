@@ -29,8 +29,8 @@ package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.SuperExpr;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.Arrays;
@@ -46,15 +46,21 @@ import java.util.List;
 public final class QueenSuperExpressionNode implements SuperExpressionNode {
 
     private final Position position;
-    private final QueenNameNode typeName;
+    private final QueenNode parent;
+    private final NameNode typeName;
 
     public QueenSuperExpressionNode(final Position position){
         this(position, null);
     }
 
-    public QueenSuperExpressionNode(final Position position, final QueenNameNode typeName){
+    public QueenSuperExpressionNode(final Position position, final NameNode typeName){
+        this(position, null, typeName);
+    }
+
+    private QueenSuperExpressionNode(final Position position, final QueenNode parent, final NameNode typeName){
         this.position = position;
-        this.typeName = typeName != null ? typeName.withParent(this) : null;
+        this.parent = parent;
+        this.typeName = typeName != null ? (NameNode) typeName.withParent(this) : null;
     }
 
     @Override
@@ -77,7 +83,21 @@ public final class QueenSuperExpressionNode implements SuperExpressionNode {
     }
 
     @Override
-    public QueenNameNode typeName() {
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenSuperExpressionNode(
+            this.position,
+            parent,
+            this.typeName
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public NameNode typeName() {
         return typeName;
     }
 }

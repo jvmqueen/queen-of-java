@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -50,8 +51,12 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode i
      */
     private final ExpressionNode elementValue;
 
-    public QueenSingleMemberAnnotationNode(final Position position, final QueenNameNode name, final ExpressionNode elementValue) {
-        super(position, name);
+    public QueenSingleMemberAnnotationNode(final Position position, final NameNode name, final ExpressionNode elementValue) {
+        this(position, null, name, elementValue);
+    }
+
+    private QueenSingleMemberAnnotationNode(final Position position, final QueenNode parent, final NameNode name, final ExpressionNode elementValue) {
+        super(position, parent, name);
         this.elementValue = (ExpressionNode) elementValue.withParent(this);
     }
 
@@ -79,5 +84,15 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode i
         children.addAll(super.children());
         children.add(this.elementValue);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenSingleMemberAnnotationNode(
+            this.position(),
+            parent,
+            this.nameNode(),
+            this.elementValue
+        );
     }
 }

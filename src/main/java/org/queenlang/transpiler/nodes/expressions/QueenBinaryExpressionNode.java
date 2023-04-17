@@ -43,6 +43,7 @@ import java.util.List;
  */
 public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode left;
     private final String operator;
     private final ExpressionNode right;
@@ -53,10 +54,21 @@ public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
         final String operator,
         final ExpressionNode right
     ) {
+        this(position, null, left, operator, right);
+    }
+
+    private QueenBinaryExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode left,
+        final String operator,
+        final ExpressionNode right
+    ) {
         this.position = position;
-        this.left = (ExpressionNode) left.withParent(this);
+        this.parent = parent;
+        this.left = left != null ? (ExpressionNode) left.withParent(this) : null;
         this.operator = operator;
-        this.right = (ExpressionNode) right.withParent(this);
+        this.right = right != null ? (ExpressionNode) right.withParent(this) : null;
     }
 
     @Override
@@ -86,6 +98,22 @@ public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.left, this.right);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenBinaryExpressionNode(
+            this.position,
+            parent,
+            this.left,
+            this.operator,
+            this.right
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

@@ -73,17 +73,13 @@ public interface QueenNode {
      * @param parent Parent node.
      * @return QueenNode.
      */
-    default QueenNode withParent(final QueenNode parent) {
-        return this;
-    }
+    QueenNode withParent(final QueenNode parent);
 
-    default QueenNode parent() {
-        return null;
-    }
-
-//    QueenNode withParent(final QueenNode parent);
-//
-//    QueenNode parent();
+    /**
+     * Return the parent of this AST Node.
+     * @return Parent, or null if it's the root of the AST.
+     */
+    QueenNode parent();
 
     /**
      * Resolve a reference, return the node(s) to which it refers.

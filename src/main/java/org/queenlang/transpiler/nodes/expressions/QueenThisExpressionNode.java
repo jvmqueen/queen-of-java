@@ -29,10 +29,9 @@ package org.queenlang.transpiler.nodes.expressions;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ThisExpr;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,15 +46,21 @@ import java.util.List;
 public final class QueenThisExpressionNode implements ThisExpressionNode {
 
     private final Position position;
-    private final QueenNameNode typeName;
+    private final QueenNode parent;
+    private final NameNode typeName;
 
     public QueenThisExpressionNode(final Position position){
         this(position, null);
     }
 
-    public QueenThisExpressionNode(final Position position, final QueenNameNode typeName){
+    public QueenThisExpressionNode(final Position position, final NameNode typeName){
+        this(position, null, typeName);
+    }
+
+    private QueenThisExpressionNode(final Position position, final QueenNode parent, final NameNode typeName){
         this.position = position;
-        this.typeName = typeName != null ? typeName.withParent(this) : null;
+        this.parent = parent;
+        this.typeName = typeName != null ? (NameNode) typeName.withParent(this) : null;
     }
 
     @Override
@@ -78,7 +83,21 @@ public final class QueenThisExpressionNode implements ThisExpressionNode {
     }
 
     @Override
-    public QueenNameNode typeName() {
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenThisExpressionNode(
+            this.position,
+            parent,
+            this.typeName
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public NameNode typeName() {
         return this.typeName;
     }
 }

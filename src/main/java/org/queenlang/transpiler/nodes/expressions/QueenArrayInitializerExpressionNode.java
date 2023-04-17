@@ -46,13 +46,23 @@ import java.util.stream.Collectors;
 public final class QueenArrayInitializerExpressionNode implements ArrayInitializerExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final List<ExpressionNode> values;
 
     public QueenArrayInitializerExpressionNode(
         final Position position,
         final List<ExpressionNode> values
     ) {
+        this(position, null, values);
+    }
+
+    private QueenArrayInitializerExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final List<ExpressionNode> values
+    ) {
         this.position = position;
+        this.parent = parent;
         this.values = values != null ? values.stream().map(
             v -> (ExpressionNode) v.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -83,6 +93,20 @@ public final class QueenArrayInitializerExpressionNode implements ArrayInitializ
             children.addAll(this.values);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenArrayInitializerExpressionNode(
+            this.position,
+            parent,
+            this.values
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

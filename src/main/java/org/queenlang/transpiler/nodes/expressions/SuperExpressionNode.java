@@ -28,7 +28,7 @@
 package org.queenlang.transpiler.nodes.expressions;
 
 import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.NameNode;
 
 /**
  * Queen super expression, AST Node.
@@ -39,7 +39,7 @@ import org.queenlang.transpiler.nodes.QueenNameNode;
  */
 public interface SuperExpressionNode extends ExpressionNode {
 
-    QueenNameNode typeName();
+    NameNode typeName();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitSuperExpressionNode(this);

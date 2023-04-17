@@ -52,6 +52,7 @@ import java.util.stream.Collectors;
 public final class QueenObjectCreationExpressionNode implements ObjectCreationExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final ExpressionNode scope;
     private final ClassOrInterfaceTypeNode type;
 
@@ -69,7 +70,28 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
         final List<ExpressionNode> arguments,
         final ClassBodyNode anonymousBody
     ) {
+        this(
+            position,
+            null,
+            scope,
+            type,
+            typeArguments,
+            arguments,
+            anonymousBody
+        );
+    }
+
+    private QueenObjectCreationExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode scope,
+        final ClassOrInterfaceTypeNode type,
+        final List<TypeNode> typeArguments,
+        final List<ExpressionNode> arguments,
+        final ClassBodyNode anonymousBody
+    ) {
         this.position = position;
+        this.parent = parent;
         this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
         this.type = (ClassOrInterfaceTypeNode) type.withParent(this);
         this.typeArguments = typeArguments != null ? typeArguments.stream().map(
@@ -125,6 +147,24 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
         }
         children.add(this.anonymousBody);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenObjectCreationExpressionNode(
+            this.position,
+            parent,
+            this.scope,
+            this.type,
+            this.typeArguments,
+            this.arguments,
+            this.anonymousBody
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

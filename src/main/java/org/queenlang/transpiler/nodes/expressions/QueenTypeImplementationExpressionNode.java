@@ -32,6 +32,7 @@ import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.QueenArrayTypeNode;
+import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ import java.util.stream.Collectors;
 public final class QueenTypeImplementationExpressionNode implements TypeImplementationExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final TypeNode type;
     private final List<ArrayDimensionNode> dims;
 
@@ -56,7 +58,17 @@ public final class QueenTypeImplementationExpressionNode implements TypeImplemen
         final TypeNode type,
         final List<ArrayDimensionNode> dims
     ) {
+        this(position, null, type, dims);
+    }
+
+    private QueenTypeImplementationExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final TypeNode type,
+        final List<ArrayDimensionNode> dims
+    ) {
         this.position = position;
+        this.parent = parent;
         this.type = type != null ? (TypeNode) type.withParent(this) : null;
         this.dims = dims != null ? dims.stream().map(
             d -> (ArrayDimensionNode) d.withParent(this)
@@ -91,6 +103,21 @@ public final class QueenTypeImplementationExpressionNode implements TypeImplemen
             children.addAll(this.dims);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenTypeImplementationExpressionNode(
+            this.position,
+            parent,
+            this.type,
+            this.dims
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

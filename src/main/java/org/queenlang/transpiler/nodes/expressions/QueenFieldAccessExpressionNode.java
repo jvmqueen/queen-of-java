@@ -45,7 +45,7 @@ import java.util.List;
 public final class QueenFieldAccessExpressionNode implements FieldAccessExpressionNode {
 
     private final Position position;
-
+    private final QueenNode parent;
     private final ExpressionNode scope;
 
     private final String name;
@@ -63,7 +63,17 @@ public final class QueenFieldAccessExpressionNode implements FieldAccessExpressi
         final ExpressionNode scope,
         final String name
     ) {
+        this(position, null, scope, name);
+    }
+
+    private QueenFieldAccessExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode scope,
+        final String name
+    ) {
         this.position = position;
+        this.parent = parent;
         this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
         this.name = name;
     }
@@ -86,6 +96,21 @@ public final class QueenFieldAccessExpressionNode implements FieldAccessExpressi
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.scope);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenFieldAccessExpressionNode(
+            this.position,
+            parent,
+            this.scope,
+            this.name
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

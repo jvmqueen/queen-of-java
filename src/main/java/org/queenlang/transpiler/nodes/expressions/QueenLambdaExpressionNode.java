@@ -49,6 +49,7 @@ import java.util.stream.Collectors;
 public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final boolean enclosedParameters;
     private final List<ParameterNode> parameters;
     private final ExpressionNode expression;
@@ -61,7 +62,26 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
         final ExpressionNode expression,
         final BlockStatements blockStatements
     ) {
+        this(
+            position,
+            null,
+            enclosedParameters,
+            parameters,
+            expression,
+            blockStatements
+        );
+    }
+
+    private QueenLambdaExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final boolean enclosedParameters,
+        final List<ParameterNode> parameters,
+        final ExpressionNode expression,
+        final BlockStatements blockStatements
+    ) {
         this.position = position;
+        this.parent = parent;
         this.enclosedParameters = enclosedParameters;
         this.parameters = parameters != null ? parameters.stream().map(
             p -> (ParameterNode) p.withParent(this)
@@ -108,6 +128,23 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
         children.add(this.expression);
         children.add(this.blockStatements);
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenLambdaExpressionNode(
+            this.position,
+            parent,
+            this.enclosedParameters,
+            this.parameters,
+            this.expression,
+            this.blockStatements
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

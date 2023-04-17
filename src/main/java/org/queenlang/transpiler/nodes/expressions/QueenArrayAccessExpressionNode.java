@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
 
     private final ExpressionNode name;
 
@@ -55,7 +56,17 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
         final ExpressionNode name,
         final List<ArrayDimensionNode> dims
     ) {
+        this(position, null, name, dims);
+    }
+
+    private QueenArrayAccessExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode name,
+        final List<ArrayDimensionNode> dims
+    ) {
         this.position = position;
+        this.parent = parent;
         this.name = (ExpressionNode) name.withParent(this);
         this.dims = dims != null ? dims.stream().map(
             d -> (ArrayDimensionNode) d.withParent(this)
@@ -89,6 +100,21 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
             children.addAll(this.dims);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenArrayAccessExpressionNode(
+            this.position,
+            parent,
+            this.name,
+            this.dims
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

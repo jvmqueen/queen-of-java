@@ -47,6 +47,7 @@ import java.util.stream.Collectors;
 public final class QueenMethodReferenceExpressionNode implements MethodReferenceExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final TypeNode type;
     private final ExpressionNode scope;
     private final List<TypeNode> typeArguments;
@@ -59,7 +60,26 @@ public final class QueenMethodReferenceExpressionNode implements MethodReference
         final List<TypeNode> typeArguments,
         final String identifier
     ) {
+        this(
+            position,
+            null,
+            type,
+            scope,
+            typeArguments,
+            identifier
+        );
+    }
+
+    private QueenMethodReferenceExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final TypeNode type,
+        final ExpressionNode scope,
+        final List<TypeNode> typeArguments,
+        final String identifier
+    ) {
         this.position = position;
+        this.parent = parent;
         this.type = type != null ? (TypeNode) type.withParent(this) : null;
         this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
         this.typeArguments = typeArguments != null ? typeArguments.stream().map(
@@ -101,6 +121,23 @@ public final class QueenMethodReferenceExpressionNode implements MethodReference
             children.addAll(this.typeArguments);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenMethodReferenceExpressionNode(
+            this.position,
+            parent,
+            this.type,
+            this.scope,
+            this.typeArguments,
+            this.identifier
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.expressions;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
  * Queen string literal expression, AST Node.
@@ -39,11 +40,24 @@ import org.queenlang.transpiler.nodes.Position;
  */
 public final class QueenStringLiteralExpressionNode extends QueenLiteralStringValueExpressionNode implements StringLiteralExpressionNode{
     public QueenStringLiteralExpressionNode(final Position position, final String value) {
-        super(position, value);
+        this(position, null, value);
+    }
+
+    private QueenStringLiteralExpressionNode(final Position position, final QueenNode parent, final String value) {
+        super(position, parent, value);
     }
 
     @Override
     public Expression toJavaExpression() {
         return new StringLiteralExpr(this.value());
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenStringLiteralExpressionNode(
+            this.position(),
+            parent,
+            this.value()
+        );
     }
 }

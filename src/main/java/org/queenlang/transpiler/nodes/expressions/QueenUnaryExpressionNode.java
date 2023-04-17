@@ -49,6 +49,7 @@ import java.util.List;
 public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
 
     private final Position position;
+    private final QueenNode parent;
     private final String operator;
     private final boolean isPrefix;
     private final ExpressionNode expression;
@@ -59,7 +60,18 @@ public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
         final boolean isPrefix,
         final ExpressionNode expression
     ) {
+        this(position, null, operator, isPrefix, expression);
+    }
+
+    private QueenUnaryExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final String operator,
+        final boolean isPrefix,
+        final ExpressionNode expression
+    ) {
         this.position = position;
+        this.parent = parent;
         this.operator = operator;
         this.isPrefix = isPrefix;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
@@ -92,6 +104,22 @@ public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expression);
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenUnaryExpressionNode(
+            this.position,
+            parent,
+            this.operator,
+            this.isPrefix,
+            this.expression
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
     @Override

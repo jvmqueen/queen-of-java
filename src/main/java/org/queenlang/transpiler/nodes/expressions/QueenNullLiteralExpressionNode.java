@@ -43,9 +43,15 @@ import java.util.List;
  */
 public final class QueenNullLiteralExpressionNode implements NullLiteralExpressionNode {
     private final Position position;
+    private final QueenNode parent;
 
     public QueenNullLiteralExpressionNode(final Position position) {
+        this(position, null);
+    }
+
+    private QueenNullLiteralExpressionNode(final Position position, final QueenNode parent) {
         this.position = position;
+        this.parent = parent;
     }
 
     @Override
@@ -61,5 +67,18 @@ public final class QueenNullLiteralExpressionNode implements NullLiteralExpressi
     @Override
     public List<QueenNode> children() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenNullLiteralExpressionNode(
+            this.position,
+            parent
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

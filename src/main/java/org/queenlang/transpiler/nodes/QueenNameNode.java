@@ -128,7 +128,12 @@ public final class QueenNameNode implements NameNode {
                 definitions = null;
             }
         } else {
-            definitions = this.qualifier.resolve(this);
+            final List<QueenNode> qualifierDefinitions = this.qualifier.resolve();
+            if(qualifierDefinitions != null && qualifierDefinitions.size() > 0) {
+                return qualifierDefinitions.get(0).resolve(this);
+            } else {
+                return null;
+            }
         }
         return definitions;
     }

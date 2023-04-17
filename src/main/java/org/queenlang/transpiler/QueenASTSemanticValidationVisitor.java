@@ -531,6 +531,13 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
+    public List<SemanticProblem> visitNameNode(final NameNode node) {
+        System.out.println("RESOLVING USAGE OF " + node.name() + " from " + node.position());
+        node.resolve();
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<SemanticProblem> visitNodeWithModifiers(final NodeWithModifiers node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         final Set<String> unique = new HashSet<>();

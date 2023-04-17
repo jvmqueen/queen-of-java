@@ -109,6 +109,7 @@ public final class QueenBlockStatements implements BlockStatements {
                     final LocalVariableDeclarationNode localVariableDeclaration = (LocalVariableDeclarationNode) stmt;
                     final String variableName = localVariableDeclaration.variables().get(0).variableDeclaratorId().name();
                     if(variableName.equals(((NameNode) reference).name())) {
+                        System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + localVariableDeclaration.position());
                         resolved.add(localVariableDeclaration);
                     }
                 }

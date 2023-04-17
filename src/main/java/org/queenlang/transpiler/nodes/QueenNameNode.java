@@ -107,12 +107,30 @@ public final class QueenNameNode implements NameNode {
         return this.toName().toString();
     }
 
+    /**
+     * Resolve a reference by looking within this name node.
+     * TODO #80:60min Implement QueenNameNode.resolve(reference).
+     * @param reference Reference to be resolved.
+     * @return List of found definitions.
+     */
     @Override
-    public QueenNode resolve() {
-        if(this.parent != null) {
-            this.parent.resolve(this);
+    public List<QueenNode> resolve(final QueenReferenceNode reference) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<QueenNode> resolve() {
+        final List<QueenNode> definitions;
+        if(this.qualifier == null) {
+            if(this.parent != null) {
+                definitions = this.parent.resolve(this);
+            } else {
+                definitions = null;
+            }
+        } else {
+            definitions = this.qualifier.resolve(this);
         }
-        return null;
+        return definitions;
     }
 
     @Override

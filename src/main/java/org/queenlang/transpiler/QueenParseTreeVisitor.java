@@ -1763,8 +1763,10 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public BlockStatements visitStatementWithoutTrailingSubstatement(
         QueenParser.StatementWithoutTrailingSubstatementContext ctx
     ) {
+        System.out.println("VISITING STATEMENT: " + asString(ctx));
         final StatementNode statementWithoutTrailingSubstatement;
         if (ctx.block() != null && ctx.block().blockStatements() != null) {
+            System.out.println("VISITING STATEMENT BLOCK: " + asString(ctx));
             return visitBlockStatements(
                 ctx.block().blockStatements()
             );

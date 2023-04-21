@@ -99,10 +99,13 @@ public final class QueenBlockStatements implements BlockStatements {
         }
         return children;
     }
-
     @Override
-    public List<QueenNode> resolve(final QueenReferenceNode reference) {
-        final List<QueenNode> resolved = new ArrayList<>();
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+        if (resolutionContext.alreadyVisited(this)) {
+            return null;
+        }
+        resolutionContext.add(this);
+        QueenNode resolved = null;
         if(reference instanceof NameNode) {
             for(final StatementNode stmt : this.blockStatements) {
                 if(stmt instanceof LocalVariableDeclarationNode) {
@@ -110,13 +113,18 @@ public final class QueenBlockStatements implements BlockStatements {
                     final String variableName = localVariableDeclaration.variables().get(0).variableDeclaratorId().name();
                     if(variableName.equals(((NameNode) reference).name())) {
                         System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + localVariableDeclaration.position());
-                        resolved.add(localVariableDeclaration);
+                        resolved =  localVariableDeclaration;
                     }
+                } else if(stmt instanceof BlockStatements) {
+                    resolved = stmt.resolve(reference, resolutionContext);
+                }
+                if(resolved != null) {
+                    break;
                 }
             }
         }
-        if(this.parent != null) {
-            resolved.addAll(this.parent.resolve(reference));
+        if(resolved != null && this.parent != null) {
+            return this.parent.resolve(reference, resolutionContext);
         }
         return resolved;
     }

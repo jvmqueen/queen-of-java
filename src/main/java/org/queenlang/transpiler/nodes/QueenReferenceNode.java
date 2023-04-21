@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import java.util.List;
-
 /**
  * A Queen node which references another node, for example a variable name
  * which should reference a variable declaration.
@@ -42,5 +40,5 @@ public interface QueenReferenceNode extends QueenNode {
      * Resolve this reference(s), get the referred QueenNode.
      * @return List of QueenNode, null if none found.
      */
-    List<QueenNode> resolve();
+    QueenNode resolve();
 }

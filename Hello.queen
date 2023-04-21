@@ -8,6 +8,12 @@ public final implementation Hello of Greeting {
        System.out.println("X is now: " + x);
        x = 1;
        System.out.println("X is noww: " + x);
+       {
+          int x = 3;
+          {
+             int x = 5;
+          }
+       }
    }
 
 }

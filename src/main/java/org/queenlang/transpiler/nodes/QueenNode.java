@@ -84,13 +84,13 @@ public interface QueenNode {
     /**
      * Resolve a reference, return the node(s) to which it refers.
      * @param node Reference.
-     * @return Nodes to which the reference refers to.
+     * @return Node to which the reference refers to or null if none is found.
      */
-    default List<QueenNode> resolve(final QueenReferenceNode reference) {
+    default QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
         final QueenNode parent = this.parent();
         if(parent != null) {
-            return parent.resolve(reference);
+            return parent.resolve(reference, resolutionContext);
         }
-        return new ArrayList<>();
+        return null;
     }
 }

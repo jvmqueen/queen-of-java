@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import org.queenlang.transpiler.QueenResolutionContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -114,28 +115,28 @@ public final class QueenNameNode implements NameNode {
      * @return List of found definitions.
      */
     @Override
-    public List<QueenNode> resolve(final QueenReferenceNode reference) {
-        return new ArrayList<>();
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+        return null;
     }
 
     @Override
-    public List<QueenNode> resolve() {
-        final List<QueenNode> definitions;
+    public QueenNode resolve() {
+        final QueenNode definition;
         if(this.qualifier == null) {
             if(this.parent != null) {
-                definitions = this.parent.resolve(this);
+                definition = this.parent.resolve(this, new QueenResolutionContext());
             } else {
-                definitions = null;
+                definition = null;
             }
         } else {
-            final List<QueenNode> qualifierDefinitions = this.qualifier.resolve();
-            if(qualifierDefinitions != null && qualifierDefinitions.size() > 0) {
-                return qualifierDefinitions.get(0).resolve(this);
+            final QueenNode qualifierDefinition = this.qualifier.resolve();
+            if(qualifierDefinition != null) {
+                return qualifierDefinition.resolve(this, new QueenResolutionContext());
             } else {
                 return null;
             }
         }
-        return definitions;
+        return definition;
     }
 
     @Override

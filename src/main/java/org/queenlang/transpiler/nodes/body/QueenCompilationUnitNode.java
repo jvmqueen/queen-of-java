@@ -47,15 +47,15 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
     private final QueenNode parent;
     private final PackageDeclarationNode packageDeclaration;
     private final List<ImportDeclarationNode> importDeclarations;
-    private final List<TypeDeclarationNode> typeDeclarations;
+    private final TypeDeclarationNode typeDeclaration;
 
     public QueenCompilationUnitNode(
         final Position position,
         final PackageDeclarationNode packageDeclaration,
         final List<ImportDeclarationNode> importDeclarations,
-        final List<TypeDeclarationNode> typeDeclarations
+        final TypeDeclarationNode typeDeclaration
     ) {
-        this(position, null, packageDeclaration, importDeclarations, typeDeclarations);
+        this(position, null, packageDeclaration, importDeclarations, typeDeclaration);
     }
 
     private QueenCompilationUnitNode(
@@ -63,7 +63,7 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
         final QueenNode parent,
         final PackageDeclarationNode packageDeclaration,
         final List<ImportDeclarationNode> importDeclarations,
-        final List<TypeDeclarationNode> typeDeclarations
+        final TypeDeclarationNode typeDeclaration
     ) {
         this.position = position;
         this.parent = parent;
@@ -71,16 +71,14 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
         this.importDeclarations = importDeclarations != null ? importDeclarations.stream().map(
             id -> (ImportDeclarationNode) id.withParent(this)
         ).collect(Collectors.toList()) : null;
-        this.typeDeclarations = typeDeclarations != null ? typeDeclarations.stream().map(
-            td -> (TypeDeclarationNode) td.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.typeDeclaration = typeDeclaration != null ? (TypeDeclarationNode) typeDeclaration.withParent(this) : null;
     }
 
     @Override
     public void addToJavaNode(Node java) {
         this.packageDeclaration.addToJavaNode(java);
         this.importDeclarations.forEach(i -> i.addToJavaNode(java));
-        this.typeDeclarations.forEach(t -> t.addToJavaNode(java));
+        this.typeDeclaration.addToJavaNode(java);
     }
 
     @Override
@@ -95,7 +93,7 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
 
     @Override
     public TypeDeclarationNode typeDeclaration() {
-        return this.typeDeclarations.get(0);
+        return this.typeDeclaration;
     }
 
     @Override
@@ -110,8 +108,8 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
         if(this.importDeclarations != null) {
             children.addAll(this.importDeclarations);
         }
-        if(this.typeDeclarations != null) {
-            children.addAll(this.typeDeclarations);
+        if(this.typeDeclaration != null) {
+            children.add(this.typeDeclaration);
         }
         return children;
     }
@@ -123,7 +121,7 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
             parent,
             this.packageDeclaration,
             this.importDeclarations,
-            this.typeDeclarations
+            this.typeDeclaration
         );
     }
 

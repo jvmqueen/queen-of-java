@@ -70,7 +70,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             ctx.importDeclaration().stream().map(
                 this::visitImportDeclaration
             ).collect(Collectors.toList()),
-            Arrays.asList(this.visitTypeDeclaration(ctx.typeDeclaration()))
+            this.visitTypeDeclaration(ctx.typeDeclaration())
         );
     }
 

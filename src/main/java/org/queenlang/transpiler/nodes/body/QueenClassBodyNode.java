@@ -28,8 +28,8 @@
 package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
-import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import org.queenlang.transpiler.nodes.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,5 +104,34 @@ public final class QueenClassBodyNode implements ClassBodyNode {
     @Override
     public QueenNode parent() {
         return this.parent;
+    }
+
+    @Override
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+        if (resolutionContext.alreadyVisited(this)) {
+            return null;
+        }
+        resolutionContext.add(this);
+        QueenNode resolved = null;
+        if(reference instanceof NameNode) {
+            for(final ClassBodyDeclarationNode cbd : this.classBodyDeclarations) {
+                if(cbd instanceof FieldDeclarationNode) {
+                    final FieldDeclarationNode fd = ((FieldDeclarationNode) cbd);
+                    final VariableDeclaratorId vid = fd.variable().variableDeclaratorId();
+                    final String variableName = fd.variable().variableDeclaratorId().name();
+                    if(variableName.equals(((NameNode) reference).name())) {
+                        System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + vid.position());
+                        resolved = fd;
+                    }
+                }
+                if(resolved != null) {
+                    break;
+                }
+            }
+        }
+        if(resolved == null && this.parent != null) {
+            return this.parent.resolve(reference, resolutionContext);
+        }
+        return resolved;
     }
 }

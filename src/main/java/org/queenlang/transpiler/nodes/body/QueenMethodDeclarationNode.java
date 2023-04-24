@@ -40,6 +40,7 @@ import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
+import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.ArrayList;
@@ -277,5 +278,30 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     @Override
     public BlockStatements blockStatements() {
         return this.blockStatements;
+    }
+
+    @Override
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+        if (resolutionContext.alreadyVisited(this)) {
+            return null;
+        }
+        resolutionContext.add(this);
+        QueenNode resolved = null;
+        if(reference instanceof NameNode) {
+            for(final ParameterNode param : this.parameters) {
+                final String variableName = param.variableDeclaratorId().name();
+                if(variableName.equals(((NameNode) reference).name())) {
+                    System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + param.variableDeclaratorId().position());
+                    resolved =  param;
+                }
+                if(resolved != null) {
+                    break;
+                }
+            }
+        }
+        if(resolved == null && this.parent != null) {
+            return this.parent.resolve(reference, resolutionContext);
+        }
+        return resolved;
     }
 }

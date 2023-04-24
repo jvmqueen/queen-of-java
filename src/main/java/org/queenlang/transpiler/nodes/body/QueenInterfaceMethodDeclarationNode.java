@@ -266,4 +266,29 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
     public QueenNode parent() {
         return this.parent;
     }
+
+    @Override
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+        if (resolutionContext.alreadyVisited(this)) {
+            return null;
+        }
+        resolutionContext.add(this);
+        QueenNode resolved = null;
+        if(reference instanceof NameNode) {
+            for(final ParameterNode param : this.parameters) {
+                final String variableName = param.variableDeclaratorId().name();
+                if(variableName.equals(((NameNode) reference).name())) {
+                    System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + param.variableDeclaratorId().position());
+                    resolved =  param;
+                }
+                if(resolved != null) {
+                    break;
+                }
+            }
+        }
+        if(resolved == null && this.parent != null) {
+            return this.parent.resolve(reference, resolutionContext);
+        }
+        return resolved;
+    }
 }

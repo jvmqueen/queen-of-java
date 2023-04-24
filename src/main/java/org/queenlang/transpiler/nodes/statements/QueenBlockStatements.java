@@ -115,15 +115,13 @@ public final class QueenBlockStatements implements BlockStatements {
                         System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + localVariableDeclaration.position());
                         resolved =  localVariableDeclaration;
                     }
-                } else if(stmt instanceof BlockStatements) {
-                    resolved = stmt.resolve(reference, resolutionContext);
                 }
                 if(resolved != null) {
                     break;
                 }
             }
         }
-        if(resolved != null && this.parent != null) {
+        if(resolved == null && this.parent != null) {
             return this.parent.resolve(reference, resolutionContext);
         }
         return resolved;

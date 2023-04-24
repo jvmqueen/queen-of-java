@@ -1,6 +1,7 @@
 package com.example;
 
 public final implementation Hello of Greeting {
+   private String field;
 
    public void to(String name) {
        System.out.println("Queen says hello to " + Other.name);
@@ -8,12 +9,16 @@ public final implementation Hello of Greeting {
        System.out.println("X is now: " + x);
        x = 1;
        System.out.println("X is noww: " + x);
+       System.out.println("NAME IS NOW: " + name);
        {
           int x = 3;
+          System.out.println("NAME IS NOW: " + name);
           {
              int x = 5;
+             System.out.println("NAME IS NOW: " + name);
           }
        }
+       System.out.println("FIELD IS HERE: " + field);
    }
 
 }

@@ -466,7 +466,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             annotations,
             modifiers,
             this.visitUnannType(ctx.unannType()),
-            Arrays.asList(this.visitVariableDeclarator(ctx.variableDeclarator()))
+            this.visitVariableDeclarator(ctx.variableDeclarator())
         );
     }
 

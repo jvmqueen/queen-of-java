@@ -75,18 +75,18 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     private final TypeNode type;
 
     /**
-     * Variable names and initializer expressions.
+     * Variable name and initializer expression.
      */
-    private final List<VariableDeclaratorNode> variables;
+    private final VariableDeclaratorNode variable;
 
     public QueenFieldDeclarationNode(
         final Position position,
         final List<AnnotationNode> annotations,
         final List<ModifierNode> modifiers,
         final TypeNode type,
-        final List<VariableDeclaratorNode> variables
+        final VariableDeclaratorNode variable
     ) {
-        this(position, null, annotations, modifiers, type, variables);
+        this(position, null, annotations, modifiers, type, variable);
     }
 
     private QueenFieldDeclarationNode(
@@ -95,7 +95,7 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
         final List<AnnotationNode> annotations,
         final List<ModifierNode> modifiers,
         final TypeNode type,
-        final List<VariableDeclaratorNode> variables
+        final VariableDeclaratorNode variable
     ) {
         this.position = position;
         this.parent = parent;
@@ -106,31 +106,25 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
             m -> (ModifierNode) m.withParent(this)
         ).collect(Collectors.toList()) : null;;
         this.type = type != null ? (TypeNode) type.withParent(this) : null;
-        this.variables = variables != null ? variables.stream().map(
-            v -> (VariableDeclaratorNode) v.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.variable = variable != null ? (VariableDeclaratorNode) variable.withParent(this) : null;
     }
 
     @Override
     public void addToJavaNode(final Node java) {
-        this.variables.forEach(
-            v -> {
-                final VariableDeclarator vd = new VariableDeclarator();
-                this.type.addToJavaNode(vd);
-                v.addToJavaNode(vd);
+        final VariableDeclarator vd = new VariableDeclarator();
+        this.type.addToJavaNode(vd);
+        this.variable.addToJavaNode(vd);
 
-                final FieldDeclaration field = new FieldDeclaration();
-                field.addVariable(vd);
-                if(java instanceof ClassOrInterfaceDeclaration) {
-                    ((ClassOrInterfaceDeclaration) java).addMember(field);
-                } else {
-                    ((ObjectCreationExpr) java).addAnonymousClassBody(field);
-                }
+        final FieldDeclaration field = new FieldDeclaration();
+        field.addVariable(vd);
+        if(java instanceof ClassOrInterfaceDeclaration) {
+            ((ClassOrInterfaceDeclaration) java).addMember(field);
+        } else {
+            ((ObjectCreationExpr) java).addAnonymousClassBody(field);
+        }
 
-                this.annotations.forEach(a -> a.addToJavaNode(field));
-                this.modifiers.forEach(m -> m.addToJavaNode(field));
-            }
-        );
+        this.annotations.forEach(a -> a.addToJavaNode(field));
+        this.modifiers.forEach(m -> m.addToJavaNode(field));
     }
 
     @Override
@@ -159,8 +153,8 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     }
 
     @Override
-    public List<VariableDeclaratorNode> variables() {
-        return this.variables;
+    public VariableDeclaratorNode variable() {
+        return this.variable;
     }
 
     @Override
@@ -173,10 +167,7 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
             children.addAll(this.modifiers);
         }
         children.add(this.type);
-
-        if(this.variables != null) {
-            children.addAll(this.variables);
-        }
+        children.add(this.variable);
         return children;
     }
 
@@ -188,7 +179,7 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
             this.annotations,
             this.modifiers,
             this.type,
-            this.variables
+            this.variable
         );
     }
 

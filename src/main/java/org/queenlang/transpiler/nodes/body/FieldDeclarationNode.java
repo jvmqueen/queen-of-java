@@ -47,9 +47,9 @@ public interface FieldDeclarationNode extends ClassMemberDeclarationNode, NodeWi
     TypeNode type();
 
     /**
-     * Variable names and initializer expressions.
+     * Variable name and initializer expression.
      */
-    List<VariableDeclaratorNode> variables();
+    VariableDeclaratorNode variable();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitFieldDeclarationNode(this);

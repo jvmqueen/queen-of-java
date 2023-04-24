@@ -37,7 +37,6 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #65:60min Don't use a Map for variables, as they might be duplicated. Use a list of VariableDeclarator (new node).
  */
 public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations {
 
@@ -47,9 +46,9 @@ public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode,
     TypeNode type();
 
     /**
-     * Variable names and initializer expressions.
+     * Variable name and initializer expression.
      */
-    List<VariableDeclaratorNode> variables();
+    VariableDeclaratorNode variable();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitConstantDeclarationNode(this);

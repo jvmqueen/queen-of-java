@@ -58,7 +58,7 @@ public final class QueenConstantDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             QueenMockito.mock(TypeNode.class),
-            new ArrayList<>()
+            QueenMockito.mock(VariableDeclaratorNode.class)
         );
         MatcherAssert.assertThat(
             constantDeclarationNode.position(),
@@ -75,7 +75,7 @@ public final class QueenConstantDeclarationNodeTestCase {
             annotations,
             new ArrayList<>(),
             QueenMockito.mock(TypeNode.class),
-            new ArrayList<>()
+            QueenMockito.mock(VariableDeclaratorNode.class)
         );
         MatcherAssert.assertThat(
             constantDeclarationNode.annotations(),
@@ -92,7 +92,7 @@ public final class QueenConstantDeclarationNodeTestCase {
             new ArrayList<>(),
             modifiers,
             QueenMockito.mock(TypeNode.class),
-            new ArrayList<>()
+            QueenMockito.mock(VariableDeclaratorNode.class)
         );
         MatcherAssert.assertThat(
             constantDeclarationNode.modifiers(),
@@ -108,7 +108,7 @@ public final class QueenConstantDeclarationNodeTestCase {
             new ArrayList<>(),
             new ArrayList<>(),
             typeNode,
-            new ArrayList<>()
+            QueenMockito.mock(VariableDeclaratorNode.class)
         );
         MatcherAssert.assertThat(
             constantDeclarationNode.type(),
@@ -118,18 +118,17 @@ public final class QueenConstantDeclarationNodeTestCase {
 
     @Test
     public void returnsVariables() {
-        final List<VariableDeclaratorNode> variables = new ArrayList<>();
-        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
+        final VariableDeclaratorNode variable = QueenMockito.mock(VariableDeclaratorNode.class);
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             QueenMockito.mock(Position.class),
             new ArrayList<>(),
             new ArrayList<>(),
             QueenMockito.mock(TypeNode.class),
-            variables
+            variable
         );
         MatcherAssert.assertThat(
-            constantDeclarationNode.variables(),
-            Matchers.is(variables)
+            constantDeclarationNode.variable(),
+            Matchers.is(variable)
         );
     }
 
@@ -140,51 +139,41 @@ public final class QueenConstantDeclarationNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(QueenMockito.mock(ModifierNode.class));
         final TypeNode type = QueenMockito.mock(TypeNode.class);
-        final List<VariableDeclaratorNode> variables = new ArrayList<>();
-        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
-        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
+        final VariableDeclaratorNode variable = QueenMockito.mock(VariableDeclaratorNode.class);
 
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             type,
-            variables
+            variable
         );
 
         final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
         constantDeclarationNode.addToJavaNode(clazz);
         MatcherAssert.assertThat(
             clazz.getMembers().size(),
-            Matchers.equalTo(2)
+            Matchers.equalTo(1)
         );
         MatcherAssert.assertThat(
             clazz.getMember(0).asFieldDeclaration().getVariable(0).getInitializer(),
             Matchers.notNullValue()
         );
-        MatcherAssert.assertThat(
-            clazz.getMember(1).asFieldDeclaration().getVariable(0).getInitializer(),
-            Matchers.notNullValue()
-        );
-        Mockito.verify(type, Mockito.times(2)).addToJavaNode(
+        Mockito.verify(type, Mockito.times(1)).addToJavaNode(
             Mockito.any(VariableDeclarator.class)
         );
         annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(2)).addToJavaNode(
+            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
                 Mockito.any(FieldDeclaration.class)
             )
         );
         modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(2)).addToJavaNode(
+            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(
                 Mockito.any(FieldDeclaration.class)
             )
         );
-        variables.forEach(
-            variable -> {
-                Mockito.verify(variable, Mockito.times(1)).addToJavaNode(
-                    Mockito.any(VariableDeclarator.class)
-                );
-            }
+        Mockito.verify(variable, Mockito.times(1)).addToJavaNode(
+            Mockito.any(VariableDeclarator.class)
         );
     }
 
@@ -195,22 +184,20 @@ public final class QueenConstantDeclarationNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(QueenMockito.mock(ModifierNode.class));
         final TypeNode type = QueenMockito.mock(TypeNode.class);
-        final List<VariableDeclaratorNode> variables = new ArrayList<>();
-        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
-        variables.add(QueenMockito.mock(VariableDeclaratorNode.class));
+        final VariableDeclaratorNode variable = QueenMockito.mock(VariableDeclaratorNode.class);
 
         final ConstantDeclarationNode constantDeclarationNode = new QueenConstantDeclarationNode(
             QueenMockito.mock(Position.class),
             annotations,
             modifiers,
             type,
-            variables
+            variable
         );
 
         final List<QueenNode> children = constantDeclarationNode.children();
         MatcherAssert.assertThat(
             children.size(),
-            Matchers.is(5)
+            Matchers.is(4)
         );
         MatcherAssert.assertThat(
             children.containsAll(
@@ -218,8 +205,7 @@ public final class QueenConstantDeclarationNodeTestCase {
                     annotations.get(0),
                     modifiers.get(0),
                     type,
-                    variables.get(0),
-                    variables.get(1)
+                    variable
                 )
             ),
             Matchers.is(true)

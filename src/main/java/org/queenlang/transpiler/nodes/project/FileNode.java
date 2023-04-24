@@ -25,26 +25,37 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.body;
+package org.queenlang.transpiler.nodes.project;
 
+import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
-
-import java.util.List;
+import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
 
 /**
- * Queen CompilationUnit (highest) AST node. This is the node you want to start
- * with when traversing/visiting this tree.
+ * A Queen file, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface CompilationUnitNode extends QueenNode {
-    PackageDeclarationNode packageDeclaration();
-    List<ImportDeclarationNode> importDeclarations();
-    TypeDeclarationNode typeDeclaration();
+public interface FileNode extends QueenNode {
+
+    /**
+     * Compilation unit within this file.
+     * @return CompilationUnit.
+     */
+    CompilationUnitNode compilationUnit();
+
+    @Override
+    default Position position() {
+        return null;
+    }
+
+    @Override
+    default void addToJavaNode(final Node java) {}
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitCompilationUnit(this);
+        return visitor.visitFile(this);
     }
 }

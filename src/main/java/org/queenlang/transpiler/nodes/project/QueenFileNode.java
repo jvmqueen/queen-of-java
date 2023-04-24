@@ -25,26 +25,53 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.body;
+package org.queenlang.transpiler.nodes.project;
 
-import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
 
 import java.util.List;
 
 /**
- * Queen CompilationUnit (highest) AST node. This is the node you want to start
- * with when traversing/visiting this tree.
+ * A Queen file, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface CompilationUnitNode extends QueenNode {
-    PackageDeclarationNode packageDeclaration();
-    List<ImportDeclarationNode> importDeclarations();
-    TypeDeclarationNode typeDeclaration();
+public final class QueenFileNode implements FileNode{
 
-    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitCompilationUnit(this);
+    private final QueenNode parent;
+    private final CompilationUnitNode compilationUnit;
+
+    public QueenFileNode(final CompilationUnitNode compilationUnit) {
+        this(null, compilationUnit);
+    }
+
+    private QueenFileNode(final QueenNode parent, final CompilationUnitNode compilationUnit) {
+        this.parent = parent;
+        this.compilationUnit = compilationUnit != null ? (CompilationUnitNode) compilationUnit.withParent(this) : null;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return null;
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return new QueenFileNode(
+            parent,
+            this.compilationUnit
+        );
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public CompilationUnitNode compilationUnit() {
+        return this.compilationUnit;
     }
 }

@@ -31,6 +31,8 @@ import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
+import org.queenlang.transpiler.nodes.project.FileNode;
+import org.queenlang.transpiler.nodes.project.ProjectNode;
 import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.*;
 
@@ -42,6 +44,17 @@ import org.queenlang.transpiler.nodes.types.*;
  * @since 0.0.1
  */
 public interface QueenASTVisitor<T> {
+
+    default T visitProject(final ProjectNode node) {
+        if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
+        return this.visitChildren(node);
+    }
+
+    default T visitFile(final FileNode node) {
+        if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
+        return this.visitChildren(node);
+    }
+
     default T visitCompilationUnit(final CompilationUnitNode node) {
         if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
         return this.visitChildren(node);

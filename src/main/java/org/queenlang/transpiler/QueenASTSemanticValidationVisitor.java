@@ -66,6 +66,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             );
         }
         final List<ImportDeclarationNode> imports = node.importDeclarations();
+        imports.forEach(id -> id.resolve());
 //        for(int i=imports.size() - 1; i>=0; i--) {
 //            for(int j=0; j<imports.size(); j++) {
 //                if(i!= j && imports.get(i).isContainedBy(imports.get(j))) {

@@ -1,4 +1,4 @@
-package com.example;
+package org.queenlang.test;
 
 public interface Greeting {
    void to(String name);

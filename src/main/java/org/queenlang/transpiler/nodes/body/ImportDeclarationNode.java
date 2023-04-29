@@ -27,14 +27,10 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.ImportDeclaration;
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.NameNode;
-import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
-import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.*;
+
+import java.nio.file.Path;
 
 /**
  * Queen ImportDeclaration AST node.
@@ -42,7 +38,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ImportDeclarationNode extends QueenNode {
+public interface ImportDeclarationNode extends QueenReferenceNode {
     /**
      * Is it a static import or not?
      */
@@ -57,6 +53,12 @@ public interface ImportDeclarationNode extends QueenNode {
      * Import's type name.
      */
     NameNode importDeclarationName();
+
+    /**
+     * Turn it into a Path.
+     * @return Path.
+     */
+    Path asPath();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitImportDeclarationNode(this);

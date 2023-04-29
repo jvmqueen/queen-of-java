@@ -28,10 +28,13 @@
 package org.queenlang.transpiler.nodes.project;
 
 import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.Output;
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.QueenTranspilationException;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
-import java.util.*;
+
+import java.io.IOException;
 
 /**
  * A Queen project, AST Node.
@@ -42,7 +45,7 @@ import java.util.*;
 public interface ProjectNode extends QueenNode {
     @Override
     default Position position() {
-        return null;
+        return new Position.Missing();
     }
 
     @Override
@@ -51,4 +54,6 @@ public interface ProjectNode extends QueenNode {
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitProject(this);
     }
+
+    void transpileTo(final Output output) throws IOException, QueenTranspilationException;
 }

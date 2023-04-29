@@ -47,13 +47,22 @@ public interface FileNode extends QueenNode {
      */
     CompilationUnitNode compilationUnit();
 
-    @Override
-    default Position position() {
-        return null;
-    }
+    /**
+     * Return the file's name.
+     * @return File name.
+     */
+    String fileName();
+
+    /**
+     * Return the full name of the type declared in this file.
+     * @return String, never null.
+     */
+    String fullTypeName();
 
     @Override
-    default void addToJavaNode(final Node java) {}
+    default Position position() {
+        return new Position.Missing();
+    }
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitFile(this);

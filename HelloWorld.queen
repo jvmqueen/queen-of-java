@@ -1,5 +1,5 @@
-import com.example.Greeting;
-import com.example.Hello;
+import org.queenlang.test.Greeting;
+import org.queenlang.test.Hello;
 
 /**
  * Entry point of our Queen application.

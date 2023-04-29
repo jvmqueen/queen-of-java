@@ -25,39 +25,29 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes;
+package org.queenlang.transpiler.nodes.project;
+
+import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
- * Position of a node in a text file.
+ * A Queen package, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface Position {
-
-    /**
-     * Line number (1-based).
-     * @return Integer.
-     */
-    int line();
-
-    /**
-     * Column number (0-based).
-     * @return Integer.
-     */
-    int column();
-
-    class Missing implements Position {
-
-        @Override
-        public int line() {
-            return 0;
-        }
-
-        @Override
-        public int column() {
-            return 0;
-        }
+public interface PackageNode extends QueenNode {
+    @Override
+    default Position position() {
+        return new Position.Missing();
     }
 
+    @Override
+    default void addToJavaNode(final Node java) {}
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitPackage(this);
+    }
 }

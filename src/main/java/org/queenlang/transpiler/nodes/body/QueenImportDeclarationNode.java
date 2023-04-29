@@ -30,11 +30,15 @@ package org.queenlang.transpiler.nodes.body;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.QueenResolutionContext;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -170,5 +174,15 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     @Override
     public NameNode importDeclarationName() {
         return this.importDeclarationName;
+    }
+
+    @Override
+    public Path asPath() {
+        return Path.of(this.importDeclarationName.name().replaceAll("\\.", FileSystems.getDefault().getSeparator()) + ".queen");
+    }
+
+    @Override
+    public QueenNode resolve() {
+        return this.parent != null ? this.parent.resolve(this, new QueenResolutionContext()) : null;
     }
 }

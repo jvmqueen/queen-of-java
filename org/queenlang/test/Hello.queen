@@ -1,4 +1,4 @@
-package com.example;
+package org.queenlang.test;
 
 public final implementation Hello of Greeting {
    private String field;

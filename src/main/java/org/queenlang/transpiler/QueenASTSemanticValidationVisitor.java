@@ -31,6 +31,7 @@ import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
+import org.queenlang.transpiler.nodes.project.FileNode;
 import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.*;
 
@@ -45,26 +46,27 @@ import java.util.*;
  */
 public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<List<SemanticProblem>> {
 
-    /**
-     * Name of the Queen file.
-     */
-    private final String fileName;
-
-    public QueenASTSemanticValidationVisitor(final String fileName) {
-        this.fileName = fileName;
+    @Override
+    public List<SemanticProblem> visitFile(FileNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final String fileName = node.fileName();
+        final TypeDeclarationNode typeDeclaration = node.compilationUnit().typeDeclaration();
+        final String typeDeclarationName = typeDeclaration.name();
+        if(!typeDeclarationName.equals(fileName) && !(typeDeclarationName + ".queen").equals(fileName)) {
+            problems.add(
+                new QueenSemanticError(
+                    "Declared type (" + typeDeclarationName + ") does not match the file's name (" + fileName + "). ",
+                    typeDeclaration.position()
+                )
+            );
+        }
+        problems.addAll(this.visitCompilationUnit(node.compilationUnit()));
+        return problems;
     }
 
     @Override
     public List<SemanticProblem> visitCompilationUnit(CompilationUnitNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        if(!node.typeDeclaration().name().equals(this.fileName) && !(node.typeDeclaration().name() + ".queen").equals(this.fileName)) {
-            problems.add(
-                new QueenSemanticError(
-                    "Declared type (" + node.typeDeclaration().name() + ") does not match the file's name (" + this.fileName + "). ",
-                    node.typeDeclaration().position()
-                )
-            );
-        }
         final List<ImportDeclarationNode> imports = node.importDeclarations();
         imports.forEach(id -> id.resolve());
 //        for(int i=imports.size() - 1; i>=0; i--) {

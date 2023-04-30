@@ -108,8 +108,8 @@ public final class QueenProject implements ProjectNode {
     }
 
     public List<SemanticProblem> validateFileNode(final FileNode queenFile) {
-        final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor(queenFile.fileName());
-        final List<SemanticProblem> problems = validator.visitCompilationUnit(queenFile.compilationUnit());
+        final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor();
+        final List<SemanticProblem> problems = validator.visitFile(queenFile);
         return problems;
     }
 

@@ -96,7 +96,7 @@ public final class JavaQueenTranspiler implements QueenTranspiler {
         if(parsingErrorListener.errors().size() > 0) {
             throw new QueenTranspilationException(parsingErrorListener.errors());
         } else {
-            final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor(fileName);
+            final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor();
             final List<SemanticProblem> problems = validator.visitCompilationUnit(queenCompilationUnitNode);
             if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
                 throw new QueenTranspilationException(problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));

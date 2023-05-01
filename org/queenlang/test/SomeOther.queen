@@ -1,0 +1,5 @@
+package org.queenlang.test;
+
+public final implementation SomeOther {
+   public static int y;
+}

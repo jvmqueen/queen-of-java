@@ -29,7 +29,10 @@ package org.queenlang.transpiler.nodes.project;
 
 import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.QueenReferenceNode;
+import org.queenlang.transpiler.nodes.ResolutionContext;
 import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
+import org.queenlang.transpiler.nodes.body.ImportDeclarationNode;
 import org.queenlang.transpiler.nodes.body.PackageDeclarationNode;
 
 import java.util.Arrays;
@@ -100,5 +103,12 @@ public final class QueenFileNode implements FileNode{
         }
         fullTypeName += this.compilationUnit.typeDeclaration().name();
         return fullTypeName;
+    }
+
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+        if(reference instanceof ImportDeclarationNode) {
+            return this.parent.resolve(reference, resolutionContext);
+        }
+        return this.compilationUnit.resolve(reference, resolutionContext);
     }
 }

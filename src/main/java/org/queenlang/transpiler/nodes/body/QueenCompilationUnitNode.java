@@ -28,8 +28,7 @@
 package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
-import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,5 +127,32 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
     @Override
     public QueenNode parent() {
         return this.parent;
+    }
+
+    @Override
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+        if(reference instanceof NameNode) {
+            final NameNode nameNode = (NameNode) reference;
+            if(nameNode.qualifier() == null) {
+                for (final ImportDeclarationNode importDeclaration : this.importDeclarations) {
+                    if (importDeclaration.importDeclarationName().identifier().equals(nameNode.identifier())) {
+                        final QueenNode resolved = this.parent.resolve(importDeclaration, resolutionContext);
+                        if (resolved != null) {
+                            System.out.println("RESOLVED IMPORT FOR NAME " + nameNode.name());
+                            return resolved;
+                        }
+                    }
+                }
+            } else {
+                return this.typeDeclaration.resolve(reference, resolutionContext);
+            }
+        } else {
+            System.out.println("RESOLVING IN COMPILATION UNIT FOR: " + reference);
+        }
+        final QueenNode parent = this.parent();
+        if(parent != null) {
+            return parent.resolve(reference, resolutionContext);
+        }
+        return null;
     }
 }

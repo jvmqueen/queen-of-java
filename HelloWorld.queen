@@ -1,5 +1,7 @@
 import org.queenlang.test.Greeting;
 import org.queenlang.test.Hello;
+import org.queenlang.test.Other;
+import org.queenlang.system.System;
 
 /**
  * Entry point of our Queen application.
@@ -8,9 +10,10 @@ import org.queenlang.test.Hello;
  * @since 0.0.1
  */
 public final implementation HelloWorld {
-
+    static int out;
     public static void main(String[] args) {
         System.out.println("Queen says HELLO WORLD!");
+        int u = Other.x.y;
         Greeting greet = new Hello();
         greet.to("Mihai");
     }

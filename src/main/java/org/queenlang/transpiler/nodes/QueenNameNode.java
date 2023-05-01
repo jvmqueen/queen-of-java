@@ -60,7 +60,7 @@ public final class QueenNameNode implements NameNode {
     private QueenNameNode(final Position position, final QueenNode parent, final QueenNameNode qualifier, final String identifier) {
         this.parent = parent;
         this.position = position;
-        this.qualifier = qualifier;
+        this.qualifier = qualifier != null ? qualifier.withParent(this.parent()) : null;
         this.identifier = identifier;
     }
 
@@ -104,6 +104,11 @@ public final class QueenNameNode implements NameNode {
     }
 
     @Override
+    public NameNode qualifier() {
+        return this.qualifier;
+    }
+
+    @Override
     public String identifier() {
         return this.identifier;
     }
@@ -113,27 +118,18 @@ public final class QueenNameNode implements NameNode {
         return this.toName().toString();
     }
 
-    /**
-     * Resolve a reference by looking within this name node.
-     * TODO #80:60min Implement QueenNameNode.resolve(reference).
-     * @param reference Reference to be resolved.
-     * @return List of found definitions.
-     */
-    @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
-        return null;
-    }
-
     @Override
     public QueenNode resolve() {
         final QueenNode definition;
         if(this.qualifier == null) {
+            System.out.println("RESOLVING NAME: " + this.identifier);
             if(this.parent != null) {
                 definition = this.parent.resolve(this, new QueenResolutionContext());
             } else {
                 definition = null;
             }
         } else {
+            System.out.println("RESOLVING QUALIFIER OF NAME: " + this.identifier);
             final QueenNode qualifierDefinition = this.qualifier.resolve();
             if(qualifierDefinition != null) {
                 return qualifierDefinition.resolve(this, new QueenResolutionContext());

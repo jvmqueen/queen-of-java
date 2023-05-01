@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import org.queenlang.transpiler.nodes.*;
 
@@ -119,9 +120,17 @@ public final class QueenClassBodyNode implements ClassBodyNode {
                     final FieldDeclarationNode fd = ((FieldDeclarationNode) cbd);
                     final VariableDeclaratorId vid = fd.variable().variableDeclaratorId();
                     final String variableName = fd.variable().variableDeclaratorId().name();
-                    if(variableName.equals(((NameNode) reference).name())) {
+                    if(variableName.equals(((NameNode) reference).identifier())) {
                         System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + vid.position());
                         resolved = fd;
+                    }
+                }
+                if(cbd instanceof ClassDeclarationNode) {
+                    final ClassDeclarationNode cid = ((ClassDeclarationNode) cbd);
+                    final String className = cid.name();
+                    if(className.equals(((NameNode) reference).identifier())) {
+                        System.out.println("RESOLVED CLASS NAME: " + className + " at " + cid.position());
+                        resolved = cid;
                     }
                 }
                 if(resolved != null) {

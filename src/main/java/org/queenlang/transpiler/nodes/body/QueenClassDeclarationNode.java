@@ -37,6 +37,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
@@ -297,5 +298,21 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     @Override
     public QueenNode parent() {
         return this.parent;
+    }
+
+    @Override
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+        if (resolutionContext.alreadyVisited(this)) {
+            return null;
+        }
+        resolutionContext.add(this);
+        QueenNode resolved = null;
+        if(reference instanceof NameNode) {
+            resolved = this.body.resolve(reference, resolutionContext);
+        }
+        if(resolved == null && this.parent != null && this.parent instanceof CompilationUnitNode) {
+            return this.parent.resolve(reference, resolutionContext);
+        }
+        return resolved;
     }
 }

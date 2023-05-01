@@ -48,6 +48,12 @@ public interface NameNode extends ReferenceTypeNode, ExpressionNode, QueenRefere
     Name toName();
 
     /**
+     * Returns the qualifier. The "java.util" in "java.util.List".
+     * @return Name qualifier, may be null.
+     */
+    NameNode qualifier();
+
+    /**
      * Last part of the name. E.g. java.util.List, will return List.
      * @return String, never null.
      */

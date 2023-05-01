@@ -46,4 +46,10 @@ public interface NameNode extends ReferenceTypeNode, ExpressionNode, QueenRefere
     }
 
     Name toName();
+
+    /**
+     * Last part of the name. E.g. java.util.List, will return List.
+     * @return String, never null.
+     */
+    String identifier();
 }

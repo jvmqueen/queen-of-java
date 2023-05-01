@@ -41,6 +41,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Queen ImportDeclaration AST node.
@@ -145,21 +147,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
      * @param importDeclarationNode Givem import declaration.
      * @return True if this import declaration is contained by the other import declaration.
      */
-    public boolean isContainedBy(final QueenImportDeclarationNode importDeclarationNode) {
-//        if(this.equals(importDeclarationNode)) {
-//            return true;
-//        } else {
-//            if(importDeclarationNode.isAsteriskImport()) {
-//                final Pattern other = Pattern.compile("^" + importDeclarationNode.importDeclaration() + ".*$", Pattern.CASE_INSENSITIVE);
-//                final Matcher matcher = other.matcher(this.importDeclaration);
-//                if(matcher.find()) {
-//                    return this.importDeclaration.split("\\.").length == importDeclarationNode.importDeclaration().split("\\.").length + 1;
-//                }
-//            }
-//            return false;
-//        }
-        return false;
-    }
 
     @Override
     public boolean staticImport() {
@@ -179,6 +166,24 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     @Override
     public Path asPath() {
         return Path.of(this.importDeclarationName.name().replaceAll("\\.", FileSystems.getDefault().getSeparator()) + ".queen");
+    }
+
+    @Override
+    public boolean isContainedBy(final ImportDeclarationNode other) {
+        if(other.asteriskImport()) {
+            final String otherFullName = other.importDeclarationName().name();
+            final String thisFullName = this.importDeclarationName.name();
+            final Pattern otherp = Pattern.compile("^" + otherFullName + ".*$", Pattern.CASE_INSENSITIVE);
+            final Matcher matcher = otherp.matcher(thisFullName);
+            if(matcher.find()) {
+                return thisFullName.split("\\.").length == otherFullName.split("\\.").length + 1;
+            }
+        } else {
+            if(other.importDeclarationName().identifier().equalsIgnoreCase(this.importDeclarationName.identifier())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

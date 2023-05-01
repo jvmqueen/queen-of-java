@@ -60,6 +60,13 @@ public interface ImportDeclarationNode extends QueenReferenceNode {
      */
     Path asPath();
 
+    /**
+     * It this import declaration contained/covered by the other?
+     * @param other Other import declaration.
+     * @return True or false.
+     */
+    boolean isContainedBy(final ImportDeclarationNode other);
+
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitImportDeclarationNode(this);
     }

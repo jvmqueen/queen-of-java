@@ -36,6 +36,7 @@ import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * AST Visitor for semantic/contextual validation of Queen code.
@@ -68,19 +69,18 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitCompilationUnit(CompilationUnitNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         final List<ImportDeclarationNode> imports = node.importDeclarations();
-        imports.forEach(id -> id.resolve());
-//        for(int i=imports.size() - 1; i>=0; i--) {
-//            for(int j=0; j<imports.size(); j++) {
-//                if(i!= j && imports.get(i).isContainedBy(imports.get(j))) {
-//                    problems.add(
-//                        new QueenSemanticWarning(
-//                            "Type already imported. ",
-//                            imports.get(i).position()
-//                        )
-//                    );
-//                }
-//            }
-//        }
+        for(int i=imports.size() - 1; i>=0; i--) {
+            for(int j=0; j<imports.size(); j++) {
+                if(i!= j && imports.get(i).isContainedBy(imports.get(j))) {
+                    problems.add(
+                        new QueenSemanticError(
+                            "Type '" + imports.get(i).importDeclarationName().identifier() + "' already imported. ",
+                            imports.get(i).importDeclarationName().position()
+                        )
+                    );
+                }
+            }
+        }
         problems.addAll(
             this.visitTypeDeclarationNode(node.typeDeclaration())
         );

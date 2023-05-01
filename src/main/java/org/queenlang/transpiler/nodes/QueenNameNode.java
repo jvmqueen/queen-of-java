@@ -104,6 +104,11 @@ public final class QueenNameNode implements NameNode {
     }
 
     @Override
+    public String identifier() {
+        return this.identifier;
+    }
+
+    @Override
     public String name() {
         return this.toName().toString();
     }

@@ -133,13 +133,24 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
     public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
         if(reference instanceof NameNode) {
             final NameNode nameNode = (NameNode) reference;
+            final String typeName = nameNode.identifier();
             if(nameNode.qualifier() == null) {
                 for (final ImportDeclarationNode importDeclaration : this.importDeclarations) {
-                    if (importDeclaration.importDeclarationName().identifier().equals(nameNode.identifier())) {
-                        final QueenNode resolved = this.parent.resolve(importDeclaration, resolutionContext);
+                    if(importDeclaration.asteriskImport()) {
+                        final QueenNode resolved = this.parent.resolve(
+                            importDeclaration.replaceAsteriskWith(typeName),
+                            resolutionContext
+                        );
                         if (resolved != null) {
-                            System.out.println("RESOLVED IMPORT FOR NAME " + nameNode.name());
                             return resolved;
+                        }
+                    } else {
+                        final String importIdentifier = importDeclaration.importDeclarationName().identifier();
+                        if (importIdentifier.equals(typeName)) {
+                            final QueenNode resolved = this.parent.resolve(importDeclaration, resolutionContext);
+                            if (resolved != null) {
+                                return resolved;
+                            }
                         }
                     }
                 }
@@ -147,11 +158,11 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
                 return this.typeDeclaration.resolve(reference, resolutionContext);
             }
         } else {
-            System.out.println("RESOLVING IN COMPILATION UNIT FOR: " + reference);
-        }
-        final QueenNode parent = this.parent();
-        if(parent != null) {
-            return parent.resolve(reference, resolutionContext);
+            System.out.println("RESOLVING IN PARENT OF COMPILATION UNIT FOR: " + reference);
+            final QueenNode parent = this.parent();
+            if(parent != null) {
+                return parent.resolve(reference, resolutionContext);
+            }
         }
         return null;
     }

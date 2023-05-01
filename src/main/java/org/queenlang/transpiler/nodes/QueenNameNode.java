@@ -53,14 +53,14 @@ public final class QueenNameNode implements NameNode {
         this(position, null, identifier);
     }
 
-    public QueenNameNode(final Position position, final QueenNameNode qualifier, final String identifier) {
+    public QueenNameNode(final Position position, final NameNode qualifier, final String identifier) {
         this(position, null, qualifier, identifier);
     }
 
-    private QueenNameNode(final Position position, final QueenNode parent, final QueenNameNode qualifier, final String identifier) {
+    private QueenNameNode(final Position position, final QueenNode parent, final NameNode qualifier, final String identifier) {
         this.parent = parent;
         this.position = position;
-        this.qualifier = qualifier != null ? qualifier.withParent(this.parent()) : null;
+        this.qualifier = qualifier != null ? (QueenNameNode) qualifier.withParent(this.parent()) : null;
         this.identifier = identifier;
     }
 

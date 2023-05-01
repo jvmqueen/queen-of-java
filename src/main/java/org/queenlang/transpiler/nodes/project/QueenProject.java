@@ -133,10 +133,6 @@ public final class QueenProject implements ProjectNode {
 
     @Override
     public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
-        if (resolutionContext.alreadyVisited(this)) {
-            return null;
-        }
-        resolutionContext.add(this);
         QueenNode resolved = null;
         if(reference instanceof QueenImportDeclarationNode) {
             final ImportDeclarationNode importDeclaration = (QueenImportDeclarationNode) reference;

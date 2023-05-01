@@ -187,6 +187,17 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     }
 
     @Override
+    public ImportDeclarationNode replaceAsteriskWith(final String name) {
+        return new QueenImportDeclarationNode(
+            this.position,
+            this.parent,
+            new QueenNameNode(this.importDeclarationName.position(), this.importDeclarationName, name),
+            false,
+            false
+        );
+    }
+
+    @Override
     public QueenNode resolve() {
         return this.parent != null ? this.parent.resolve(this, new QueenResolutionContext()) : null;
     }

@@ -67,6 +67,13 @@ public interface ImportDeclarationNode extends QueenReferenceNode {
      */
     boolean isContainedBy(final ImportDeclarationNode other);
 
+    /**
+     * Replace the asterisk with a name.
+     * @param name Type name to replace the asterisk with.
+     * @return ImportDeclarationNode.
+     */
+    ImportDeclarationNode replaceAsteriskWith(final String name);
+
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitImportDeclarationNode(this);
     }

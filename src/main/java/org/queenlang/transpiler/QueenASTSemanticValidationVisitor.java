@@ -82,7 +82,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             }
         }
         for(final ImportDeclarationNode importDeclaration : imports) {
-            if(importDeclaration.resolve() == null) {
+            if(!importDeclaration.asteriskImport() && importDeclaration.resolve() == null) {
                 problems.add(
                     new QueenSemanticError(
                         "Type '" + importDeclaration.importDeclarationName().identifier() + "' could not be resolved. ",
@@ -543,8 +543,14 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitNameNode(final NameNode node) {
-        System.out.println("RESOLVING USAGE OF " + node.name() + " from " + node.position());
-        node.resolve();
+        if(node.resolve() == null) {
+            return Arrays.asList(
+                new QueenSemanticError(
+                    "Name " + node.name() + " could not be resolved.",
+                    node.position()
+                )
+            );
+        }
         return new ArrayList<>();
     }
 

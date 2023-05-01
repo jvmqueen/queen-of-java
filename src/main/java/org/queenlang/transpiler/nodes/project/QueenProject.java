@@ -145,14 +145,16 @@ public final class QueenProject implements ProjectNode {
             ).findFirst().orElse(null);
             if(resolved == null) {
                 final Path found = this.classpath.find(importDeclaration.asPath());
-                try {
-                    resolved = new QueenFileNode(
-                        found.getFileName().toString(),
-                        this.parser.parse(found)
-                    ).withParent(this);
-                    this.references.add((FileNode) resolved);
-                } catch (IOException | QueenTranspilationException e) {
-                    throw new IllegalStateException(e);
+                if(found != null) {
+                    try {
+                        resolved = new QueenFileNode(
+                            found.getFileName().toString(),
+                            this.parser.parse(found)
+                        ).withParent(this);
+                        this.references.add((FileNode) resolved);
+                    } catch (IOException | QueenTranspilationException e) {
+                        throw new IllegalStateException(e);
+                    }
                 }
             }
         }

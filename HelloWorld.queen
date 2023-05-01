@@ -1,5 +1,5 @@
 import org.queenlang.test.Greeting;
-import org.queenlang.test.Other;
+import org.queenlang.test.Hello;
 
 /**
  * Entry point of our Queen application.

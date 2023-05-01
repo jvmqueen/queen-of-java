@@ -81,6 +81,16 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 }
             }
         }
+        for(final ImportDeclarationNode importDeclaration : imports) {
+            if(importDeclaration.resolve() == null) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Type '" + importDeclaration.importDeclarationName().identifier() + "' could not be resolved. ",
+                        importDeclaration.importDeclarationName().position()
+                    )
+                );
+            }
+        }
         problems.addAll(
             this.visitTypeDeclarationNode(node.typeDeclaration())
         );

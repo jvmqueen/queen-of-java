@@ -31,7 +31,6 @@ import com.github.javaparser.ast.CompilationUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
@@ -51,7 +50,6 @@ public final class QueenImportDeclarationNodeTestCase {
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
             new QueenNameNode(QueenMockito.mock(Position.class), "com.example.List"),
-            false,
             false
         );
         MatcherAssert.assertThat(
@@ -61,27 +59,11 @@ public final class QueenImportDeclarationNodeTestCase {
     }
 
     @Test
-    public void returnsIsStaticImport() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
-            position,
-            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.List"),
-            true,
-            false
-        );
-        MatcherAssert.assertThat(
-            importDeclaration.staticImport(),
-            Matchers.is(true)
-        );
-    }
-
-    @Test
     public void returnsIsAsteriskImport() {
         final Position position = QueenMockito.mock(Position.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
             new QueenNameNode(QueenMockito.mock(Position.class), "com.example.List"),
-            false,
             true
         );
         MatcherAssert.assertThat(
@@ -97,7 +79,6 @@ public final class QueenImportDeclarationNodeTestCase {
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
             name,
-            false,
             true
         );
         MatcherAssert.assertThat(
@@ -124,7 +105,6 @@ public final class QueenImportDeclarationNodeTestCase {
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
             name,
-            false,
             false
         );
         final CompilationUnit cu = new CompilationUnit();
@@ -143,7 +123,6 @@ public final class QueenImportDeclarationNodeTestCase {
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
             name,
-            false,
             false
         );
         MatcherAssert.assertThat(

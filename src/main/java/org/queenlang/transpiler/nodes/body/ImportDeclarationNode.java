@@ -39,10 +39,6 @@ import java.nio.file.Path;
  * @since 0.0.1
  */
 public interface ImportDeclarationNode extends QueenReferenceNode {
-    /**
-     * Is it a static import or not?
-     */
-    boolean staticImport();
 
     /**
      * Is it an asterysk import or not?

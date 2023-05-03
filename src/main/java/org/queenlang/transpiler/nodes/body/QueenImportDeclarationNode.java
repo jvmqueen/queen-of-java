@@ -36,7 +36,6 @@ import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
-import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -63,11 +62,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     private final QueenNode parent;
 
     /**
-     * Is it a static import or not?
-     */
-    private final boolean staticImport;
-
-    /**
      * Is it an asterysk import or not?
      */
     private final boolean asteriskImport;
@@ -79,28 +73,24 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     /**
      * Ctor.
      * @param position Position in the original source code.
-     * @param staticImport Is it a static import or not?
      * @param asteriskImport Is it an asterysk import or not?
      */
     public QueenImportDeclarationNode(
         final Position position,
         final NameNode importDeclarationName,
-        final boolean staticImport,
         final boolean asteriskImport
     ) {
-        this(position, null, importDeclarationName, staticImport, asteriskImport);
+        this(position, null, importDeclarationName, asteriskImport);
     }
 
     private QueenImportDeclarationNode(
         final Position position,
         final QueenNode parent,
         final NameNode importDeclarationName,
-        final boolean staticImport,
         final boolean asteriskImport
     ) {
         this.position = position;
         this.parent = parent;
-        this.staticImport = staticImport;
         this.asteriskImport = asteriskImport;
         this.importDeclarationName = importDeclarationName != null ? (NameNode) importDeclarationName.withParent(this) : null;
     }
@@ -108,7 +98,7 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     public void addToJavaNode(final Node java) {
         final ImportDeclaration importDeclaration = new ImportDeclaration(
             this.importDeclarationName.toName(),
-            this.staticImport,
+            false,
             this.asteriskImport
         );
         ((CompilationUnit) java).addImport(importDeclaration);
@@ -130,7 +120,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
             this.position,
             parent,
             this.importDeclarationName,
-            this.staticImport,
             this.asteriskImport
         );
     }
@@ -138,19 +127,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     @Override
     public QueenNode parent() {
         return this.parent;
-    }
-
-    /**
-     * Returns true if this import declaration is already contained by the given
-     * import declaration. Example: this is java.util.List and the given import is
-     * java.util.*: this method will return true.
-     * @param importDeclarationNode Givem import declaration.
-     * @return True if this import declaration is contained by the other import declaration.
-     */
-
-    @Override
-    public boolean staticImport() {
-        return this.staticImport;
     }
 
     @Override
@@ -192,7 +168,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
             this.position,
             this.parent,
             new QueenNameNode(this.importDeclarationName.position(), this.importDeclarationName, name),
-            false,
             false
         );
     }

@@ -78,12 +78,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public ImportDeclarationNode visitImportDeclaration(QueenParser.ImportDeclarationContext ctx) {
         if(ctx.singleTypeImportDeclaration() != null) {
             return this.visitSingleTypeImportDeclaration(ctx.singleTypeImportDeclaration());
-        } else if(ctx.typeImportOnDemandDeclaration() != null) {
-            return this.visitTypeImportOnDemandDeclaration(ctx.typeImportOnDemandDeclaration());
-        } else if(ctx.singleStaticImportDeclaration() != null) {
-            return this.visitSingleStaticImportDeclaration(ctx.singleStaticImportDeclaration());
         } else {
-            return this.visitStaticImportOnDemandDeclaration(ctx.staticImportOnDemandDeclaration());
+            return this.visitTypeImportOnDemandDeclaration(ctx.typeImportOnDemandDeclaration());
         }
     }
 
@@ -92,7 +88,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         return new QueenImportDeclarationNode(
             getPosition(ctx),
             this.visitTypeName(ctx.typeName()),
-            false,
             false
         );
     }
@@ -102,31 +97,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         return new QueenImportDeclarationNode(
             getPosition(ctx),
             this.visitPackageOrTypeName(ctx.packageOrTypeName()),
-            false,
-            true
-        );
-    }
-
-    @Override
-    public ImportDeclarationNode visitSingleStaticImportDeclaration(QueenParser.SingleStaticImportDeclarationContext ctx) {
-        return new QueenImportDeclarationNode(
-            getPosition(ctx),
-            new QueenNameNode(
-                getPosition(ctx.typeName()),
-                this.visitTypeName(ctx.typeName()),
-                ctx.Identifier().getText()
-            ),
-            true,
-            false
-        );
-    }
-
-    @Override
-    public ImportDeclarationNode visitStaticImportOnDemandDeclaration(QueenParser.StaticImportOnDemandDeclarationContext ctx) {
-        return new QueenImportDeclarationNode(
-            getPosition(ctx),
-            this.visitTypeName(ctx.typeName()),
-            true,
             true
         );
     }

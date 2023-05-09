@@ -15,5 +15,6 @@ public final implementation HelloWorld {
         Greeting greet = new Hello();
         greet.to("Mihai");
         System.out.println(DefaultPack.constant);
+        java.util.List.defaultSize = 1;
     }
 }

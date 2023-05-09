@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.project;
 
 import com.github.javaparser.ast.Node;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
 import org.queenlang.transpiler.nodes.ResolutionContext;
@@ -98,7 +99,7 @@ public final class QueenFileNode implements FileNode{
     public String fullTypeName() {
         String fullTypeName = "";
         final PackageDeclarationNode packageDeclaration = this.compilationUnit.packageDeclaration();
-        if(packageDeclaration != null) {
+        if(packageDeclaration != null && packageDeclaration.packageName() != null) {
             fullTypeName += packageDeclaration.packageName().name() + ".";
         }
         fullTypeName += this.compilationUnit.typeDeclaration().name();
@@ -107,6 +108,8 @@ public final class QueenFileNode implements FileNode{
 
     public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
         if(reference instanceof ImportDeclarationNode) {
+            return this.parent.resolve(reference, resolutionContext);
+        } else if(reference instanceof NameNode && ((NameNode) reference).qualifier() == null) {
             return this.parent.resolve(reference, resolutionContext);
         }
         return this.compilationUnit.resolve(reference, resolutionContext);

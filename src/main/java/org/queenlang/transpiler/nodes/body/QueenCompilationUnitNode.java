@@ -162,6 +162,7 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
                 if (resolved != null) {
                     return resolved;
                 }
+                return this.parent.resolve(nameNode, resolutionContext);
             } else {
                 return this.typeDeclaration.resolve(reference, resolutionContext);
             }

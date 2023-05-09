@@ -157,7 +157,7 @@ public final class QueenProject implements ProjectNode {
         } else if(reference instanceof NameNode) {
             final NameNode nameNode = (NameNode) reference;
             if(nameNode.qualifier() == null) {
-                //find base package.
+                System.out.println("FINDING BASE PACKAGE: " + ((NameNode) reference).name());
             }
         }
         return resolved;

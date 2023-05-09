@@ -32,6 +32,7 @@ import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.printer.configuration.DefaultPrinterConfiguration;
 import org.queenlang.transpiler.*;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
 import org.queenlang.transpiler.nodes.ResolutionContext;
@@ -134,8 +135,8 @@ public final class QueenProject implements ProjectNode {
     @Override
     public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
         QueenNode resolved = null;
-        if(reference instanceof QueenImportDeclarationNode) {
-            final ImportDeclarationNode importDeclaration = (QueenImportDeclarationNode) reference;
+        if(reference instanceof ImportDeclarationNode) {
+            final ImportDeclarationNode importDeclaration = (ImportDeclarationNode) reference;
             resolved = this.references.stream().filter(
                 r -> r.fullTypeName().equals(importDeclaration.importDeclarationName().name())
             ).findFirst().orElse(null);
@@ -152,6 +153,11 @@ public final class QueenProject implements ProjectNode {
                         throw new IllegalStateException(e);
                     }
                 }
+            }
+        } else if(reference instanceof NameNode) {
+            final NameNode nameNode = (NameNode) reference;
+            if(nameNode.qualifier() == null) {
+                //find base package.
             }
         }
         return resolved;

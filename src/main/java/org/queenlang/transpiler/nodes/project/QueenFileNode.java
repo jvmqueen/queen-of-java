@@ -99,7 +99,7 @@ public final class QueenFileNode implements FileNode{
     public String fullTypeName() {
         String fullTypeName = "";
         final PackageDeclarationNode packageDeclaration = this.compilationUnit.packageDeclaration();
-        if(packageDeclaration != null && packageDeclaration.packageName() != null) {
+        if(packageDeclaration != null) {
             fullTypeName += packageDeclaration.packageName().name() + ".";
         }
         fullTypeName += this.compilationUnit.typeDeclaration().name();

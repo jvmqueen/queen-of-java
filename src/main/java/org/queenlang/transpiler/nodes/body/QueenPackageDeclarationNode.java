@@ -71,9 +71,9 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
      */
     public QueenPackageDeclarationNode(
         final Position position,
-        final Supplier<NameNode> packageName
+        final NameNode packageName
     ) {
-        this(position, null, packageName.get());
+        this(position, null, packageName);
     }
 
     private QueenPackageDeclarationNode(

@@ -75,7 +75,9 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
 
     @Override
     public void addToJavaNode(Node java) {
-        this.packageDeclaration.addToJavaNode(java);
+        if(this.packageDeclaration != null) {
+            this.packageDeclaration.addToJavaNode(java);
+        }
         this.importDeclarations.forEach(i -> i.addToJavaNode(java));
         this.typeDeclaration.addToJavaNode(java);
     }

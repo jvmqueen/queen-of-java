@@ -58,15 +58,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     public CompilationUnitNode visitCompilationUnit(QueenParser.CompilationUnitContext ctx) {
         return new QueenCompilationUnitNode(
             getPosition(ctx),
-            new QueenPackageDeclarationNode(
-                getPosition(ctx.packageDeclaration()),
-                () -> {
-                    if(ctx.packageDeclaration() != null) {
-                        return this.visitPackageName(ctx.packageDeclaration().packageName());
-                    }
-                    return null;
-                }
-            ),
+            ctx.packageDeclaration() != null ?
+                new QueenPackageDeclarationNode(
+                    getPosition(ctx.packageDeclaration()),
+                    this.visitPackageName(ctx.packageDeclaration().packageName())
+                ) : null,
             ctx.importDeclaration().stream().map(
                 this::visitImportDeclaration
             ).collect(Collectors.toList()),

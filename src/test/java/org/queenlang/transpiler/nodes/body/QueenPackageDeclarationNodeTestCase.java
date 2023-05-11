@@ -50,7 +50,7 @@ public final class QueenPackageDeclarationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
             position,
-            () -> new QueenNameNode(QueenMockito.mock(Position.class), "com.example")
+            new QueenNameNode(QueenMockito.mock(Position.class), "com.example")
         );
         MatcherAssert.assertThat(
             packageDeclarationNode.position(),
@@ -63,7 +63,7 @@ public final class QueenPackageDeclarationNodeTestCase {
         final NameNode packageName = QueenMockito.mock(NameNode.class);
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
             QueenMockito.mock(Position.class),
-            () -> packageName
+            packageName
         );
         MatcherAssert.assertThat(
             packageDeclarationNode.packageName(),
@@ -76,7 +76,7 @@ public final class QueenPackageDeclarationNodeTestCase {
         final CompilationUnit cu = new CompilationUnit();
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
             QueenMockito.mock(Position.class),
-            () -> new QueenNameNode(QueenMockito.mock(Position.class), "com.example.package")
+            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.package")
         );
         packageDeclarationNode.addToJavaNode(cu);
         MatcherAssert.assertThat(
@@ -89,7 +89,7 @@ public final class QueenPackageDeclarationNodeTestCase {
     public void returnsChildren() {
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
             QueenMockito.mock(Position.class),
-            () -> new QueenNameNode(QueenMockito.mock(Position.class), "com.example.package")
+            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.package")
         );
         MatcherAssert.assertThat(
             packageDeclarationNode.children(),

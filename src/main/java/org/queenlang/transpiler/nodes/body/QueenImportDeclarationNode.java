@@ -171,9 +171,4 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
             false
         );
     }
-
-    @Override
-    public QueenNode resolve() {
-        return this.parent != null ? this.parent.resolve(this, new QueenResolutionContext()) : null;
-    }
 }

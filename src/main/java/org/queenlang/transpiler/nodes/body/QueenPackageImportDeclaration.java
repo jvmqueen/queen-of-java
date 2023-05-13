@@ -89,11 +89,6 @@ public final class QueenPackageImportDeclaration implements ImportDeclarationNod
     }
 
     @Override
-    public QueenNode resolve() {
-        return this.parent != null ? this.parent.resolve(this, new QueenResolutionContext()) : null;
-    }
-
-    @Override
     public boolean asteriskImport() {
         return false;
     }

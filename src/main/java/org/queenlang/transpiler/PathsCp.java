@@ -27,6 +27,9 @@
  */
 package org.queenlang.transpiler;
 
+import org.queenlang.transpiler.nodes.NameNode;
+
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -52,6 +55,19 @@ public final class PathsCp implements Classpath {
             if(Files.exists(whole)) {
                 return whole;
             }
+        }
+        return null;
+    }
+
+    @Override
+    public Path find(final NameNode name) {
+        final Path dirPath = Path.of(name.name().replaceAll("\\.", FileSystems.getDefault().getSeparator()));
+        if(this.find(dirPath) != null) {
+            return dirPath;
+        }
+        final Path queenPath = Path.of(dirPath.toString() + ".queen");
+        if(this.find(queenPath) != null) {
+            return queenPath;
         }
         return null;
     }

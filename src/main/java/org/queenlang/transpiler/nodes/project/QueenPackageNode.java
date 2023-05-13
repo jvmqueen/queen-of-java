@@ -29,6 +29,8 @@ package org.queenlang.transpiler.nodes.project;
 
 import org.queenlang.transpiler.nodes.QueenNode;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,18 +40,34 @@ import java.util.List;
  * @since 0.0.1
  */
 public final class QueenPackageNode implements PackageNode {
-    @Override
-    public List<QueenNode> children() {
-        return null;
+
+    /**
+     * Parent project.
+     */
+    private final ProjectNode parent;
+
+    /**
+     * Path of this package on disk.
+     */
+    private final Path packagePath;
+
+    public QueenPackageNode(final ProjectNode parent, final Path packagePath) {
+        this.parent = parent;
+        this.packagePath = packagePath;
     }
 
     @Override
-    public QueenNode withParent(QueenNode parent) {
-        return null;
+    public List<QueenNode> children() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode withParent(final QueenNode parent) {
+        return this;
     }
 
     @Override
     public QueenNode parent() {
-        return null;
+        return this.parent;
     }
 }

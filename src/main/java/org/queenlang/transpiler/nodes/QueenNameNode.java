@@ -122,14 +122,12 @@ public final class QueenNameNode implements NameNode {
     public QueenNode resolve() {
         final QueenNode definition;
         if(this.qualifier == null) {
-            System.out.println("RESOLVING NAME: " + this.identifier);
             if(this.parent != null) {
                 definition = this.parent.resolve(this, new QueenResolutionContext());
             } else {
                 definition = null;
             }
         } else {
-            System.out.println("RESOLVING QUALIFIER OF NAME: " + this.identifier);
             final QueenNode qualifierDefinition = this.qualifier.resolve();
             if(qualifierDefinition != null) {
                 return qualifierDefinition.resolve(this, new QueenResolutionContext());

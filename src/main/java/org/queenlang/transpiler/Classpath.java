@@ -27,6 +27,8 @@
  */
 package org.queenlang.transpiler;
 
+import org.queenlang.transpiler.nodes.NameNode;
+
 import java.nio.file.Path;
 
 /**
@@ -43,5 +45,8 @@ public interface Classpath {
      * @return Path or null if the given class path is not found.
      */
     Path find(final Path clazz);
+
+    Path find(final NameNode name);
+
 
 }

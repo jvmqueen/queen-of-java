@@ -546,7 +546,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         if(node.resolve() == null) {
             return Arrays.asList(
                 new QueenSemanticError(
-                    "Name " + node.name() + " could not be resolved.",
+                    "Symbol " + node.name() + " could not be resolved.",
                     node.position()
                 )
             );

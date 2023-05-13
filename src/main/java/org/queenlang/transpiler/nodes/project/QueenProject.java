@@ -37,9 +37,9 @@ import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
 import org.queenlang.transpiler.nodes.ResolutionContext;
 import org.queenlang.transpiler.nodes.body.ImportDeclarationNode;
-import org.queenlang.transpiler.nodes.body.QueenImportDeclarationNode;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,23 +143,33 @@ public final class QueenProject implements ProjectNode {
             if(resolved == null) {
                 final Path found = this.classpath.find(importDeclaration.asPath());
                 if(found != null) {
-                    try {
-                        resolved = new QueenFileNode(
-                            found.getFileName().toString(),
-                            this.parser.parse(found)
-                        ).withParent(this);
-                        this.references.add((FileNode) resolved);
-                    } catch (IOException | QueenTranspilationException e) {
-                        throw new IllegalStateException(e);
-                    }
+                    resolved = this.parsePath(found);
                 }
             }
         } else if(reference instanceof NameNode) {
             final NameNode nameNode = (NameNode) reference;
-            if(nameNode.qualifier() == null) {
-                System.out.println("FINDING BASE PACKAGE: " + ((NameNode) reference).name());
+            final Path foundPackageOrClass = this.classpath.find(nameNode);
+            if(foundPackageOrClass != null) {
+                if(Files.isDirectory(foundPackageOrClass)) {
+                    resolved = new QueenPackageNode(this, foundPackageOrClass);
+                } else {
+                    resolved = this.parsePath(foundPackageOrClass);
+                }
             }
         }
         return resolved;
+    }
+
+    private FileNode parsePath(final Path path) {
+        try {
+            final FileNode parsed = new QueenFileNode(
+                path.getFileName().toString(),
+                this.parser.parse(path)
+            ).withParent(this);
+            this.references.add(parsed);
+            return parsed;
+        } catch (IOException | QueenTranspilationException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

@@ -28,12 +28,10 @@
 package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.symbolsolver.resolution.typesolvers.AarTypeSolver;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,7 +98,7 @@ public final class QueenBlockStatements implements BlockStatements {
         return children;
     }
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
         if (resolutionContext.alreadyVisited(this)) {
             return null;
         }
@@ -121,8 +119,8 @@ public final class QueenBlockStatements implements BlockStatements {
                 }
             }
         }
-        if(resolved == null && this.parent != null) {
-            return this.parent.resolve(reference, resolutionContext);
+        if(resolved == null && goUp) {
+            return this.parent.resolve(reference, resolutionContext, goUp);
         }
         return resolved;
     }

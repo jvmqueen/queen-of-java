@@ -106,12 +106,12 @@ public final class QueenFileNode implements FileNode{
         return fullTypeName;
     }
 
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
-        if(reference instanceof ImportDeclarationNode) {
-            return this.parent.resolve(reference, resolutionContext);
-        } else if(reference instanceof NameNode && ((NameNode) reference).qualifier() == null) {
-            return this.parent.resolve(reference, resolutionContext);
+    @Override
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
+        if(goUp) {
+            return this.parent.resolve(reference, resolutionContext, true);
+        } else {
+            return this.compilationUnit.resolve(reference, resolutionContext, false);
         }
-        return this.compilationUnit.resolve(reference, resolutionContext);
     }
 }

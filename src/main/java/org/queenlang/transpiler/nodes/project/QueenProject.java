@@ -141,7 +141,7 @@ public final class QueenProject implements ProjectNode {
     }
 
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
         QueenNode resolved = null;
         if(reference instanceof ImportDeclarationNode) {
             final ImportDeclarationNode importDeclaration = (ImportDeclarationNode) reference;

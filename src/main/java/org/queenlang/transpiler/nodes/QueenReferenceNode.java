@@ -43,6 +43,6 @@ public interface QueenReferenceNode extends QueenNode {
      * @return QueenNode, null if none found.
      */
     default QueenNode resolve() {
-        return this.parent() != null ? this.parent().resolve(this, new QueenResolutionContext()) : null;
+        return this.parent() != null ? this.parent().resolve(this, new QueenResolutionContext(), true) : null;
     }
 }

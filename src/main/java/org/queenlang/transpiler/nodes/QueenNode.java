@@ -28,10 +28,8 @@
 package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.Node;
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.queenlang.transpiler.QueenASTVisitor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,13 +81,15 @@ public interface QueenNode {
 
     /**
      * Resolve a reference, return the node(s) to which it refers.
+     *
      * @param node Reference.
+     * @param goUp
      * @return Node to which the reference refers to or null if none is found.
      */
-    default QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+    default QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
         final QueenNode parent = this.parent();
         if(parent != null) {
-            return parent.resolve(reference, resolutionContext);
+            return parent.resolve(reference, resolutionContext, goUp);
         }
         return null;
     }

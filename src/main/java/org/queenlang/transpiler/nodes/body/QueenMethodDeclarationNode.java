@@ -32,15 +32,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.nodeTypes.NodeWithType;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.type.ArrayType;
-import com.github.javaparser.ast.type.Type;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
-import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.ArrayList;
@@ -281,7 +276,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     }
 
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
         if (resolutionContext.alreadyVisited(this)) {
             return null;
         }
@@ -299,8 +294,8 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
                 }
             }
         }
-        if(resolved == null && this.parent != null) {
-            return this.parent.resolve(reference, resolutionContext);
+        if(resolved == null && goUp) {
+            return this.parent.resolve(reference, resolutionContext, goUp);
         }
         return resolved;
     }

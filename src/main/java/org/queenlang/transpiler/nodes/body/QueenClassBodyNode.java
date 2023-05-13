@@ -28,8 +28,6 @@
 package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
 import org.queenlang.transpiler.nodes.*;
 
 import java.util.ArrayList;
@@ -108,7 +106,7 @@ public final class QueenClassBodyNode implements ClassBodyNode {
     }
 
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext) {
+    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
         if (resolutionContext.alreadyVisited(this)) {
             return null;
         }
@@ -138,8 +136,8 @@ public final class QueenClassBodyNode implements ClassBodyNode {
                 }
             }
         }
-        if(resolved == null && this.parent != null) {
-            return this.parent.resolve(reference, resolutionContext);
+        if(resolved == null && goUp) {
+            return this.parent.resolve(reference, resolutionContext, goUp);
         }
         return resolved;
     }

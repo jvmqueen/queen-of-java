@@ -82,10 +82,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             }
         }
         for(final ImportDeclarationNode importDeclaration : imports) {
-            if(!importDeclaration.asteriskImport() && importDeclaration.resolve() == null) {
+            if(importDeclaration.resolve() == null) {
                 problems.add(
                     new QueenSemanticError(
-                        "Type '" + importDeclaration.importDeclarationName().identifier() + "' could not be resolved. ",
+                        "Symbol '" + importDeclaration.importDeclarationName().name() + "' could not be resolved. ",
                         importDeclaration.importDeclarationName().position()
                     )
                 );

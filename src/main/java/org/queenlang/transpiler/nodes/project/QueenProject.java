@@ -96,22 +96,30 @@ public final class QueenProject implements ProjectNode {
     @Override
     public void transpileTo(final Output output) throws IOException, QueenTranspilationException {
         for(final FileNode queenFile : this.input) {
-            final List<SemanticProblem> problems = this.validateFileNode(queenFile);
-            if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
-                throw new QueenTranspilationException(problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
+            validateAndWrite(queenFile, output);
+        }
+        for(int i=0; i < this.references.size(); i++) {
+            final FileNode ref = this.references.get(i);
+            final FileNode alreadyTranspiled = this.input.stream().filter(
+                in -> in.fullTypeName().equals(ref.fullTypeName())
+            ).findFirst().orElse(null);
+            if(alreadyTranspiled == null) {
+                validateAndWrite(ref, output);
             }
-            final CompilationUnit javaCompilationUnit  = new CompilationUnit();
-            queenFile.addToJavaNode(javaCompilationUnit);
-            final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
-            this.reparseJavaClass(javaClass);
-            output.write(javaCompilationUnit);
         }
     }
 
-    public List<SemanticProblem> validateFileNode(final FileNode queenFile) {
+    private static void validateAndWrite(final FileNode queenFile, final Output output) throws QueenTranspilationException, IOException {
         final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor();
         final List<SemanticProblem> problems = validator.visitFile(queenFile);
-        return problems;
+        if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
+            throw new QueenTranspilationException(problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
+        }
+        final CompilationUnit javaCompilationUnit  = new CompilationUnit();
+        queenFile.addToJavaNode(javaCompilationUnit);
+        final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
+        reparseJavaClass(javaClass);
+        output.write(javaCompilationUnit);
     }
 
     /**
@@ -119,7 +127,7 @@ public final class QueenProject implements ProjectNode {
      * @param javaClass Parsed Java class.
      * @throws QueenTranspilationException Containing any problems.
      */
-    private void reparseJavaClass(final String javaClass) {
+    private static void reparseJavaClass(final String javaClass) {
         final JavaParser parser = new JavaParser();
         final ParseResult<CompilationUnit> res = parser.parse(javaClass);
         res.getProblems().forEach(

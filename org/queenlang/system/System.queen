@@ -1,5 +1,0 @@
-package org.queenlang.system;
-
-public final implementation System {
-   public static InputStream out;
-}

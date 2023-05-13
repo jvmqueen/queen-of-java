@@ -1,9 +1,0 @@
-package org.queenlang.test;
-
-public interface Greeting {
-   void to(String name);
-
-   default void test(String variable) {
-       System.out.println("VARIABLE IS: " + variable);
-   }
-}

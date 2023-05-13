@@ -1,3 +1,0 @@
-public final implementation DefaultPack {
-    public static int constant = 1;
-}

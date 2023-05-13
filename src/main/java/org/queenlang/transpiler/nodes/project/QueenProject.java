@@ -100,10 +100,10 @@ public final class QueenProject implements ProjectNode {
         }
         for(int i=0; i < this.references.size(); i++) {
             final FileNode ref = this.references.get(i);
-            final FileNode alreadyTranspiled = this.input.stream().filter(
+            final boolean alreadyTranspiled = this.input.stream().filter(
                 in -> in.fullTypeName().equals(ref.fullTypeName())
-            ).findFirst().orElse(null);
-            if(alreadyTranspiled == null) {
+            ).findFirst().orElse(null) != null;
+            if(!alreadyTranspiled) {
                 validateAndWrite(ref, output);
             }
         }

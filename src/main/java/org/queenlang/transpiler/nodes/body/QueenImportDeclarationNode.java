@@ -174,13 +174,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
 
     @Override
     public QueenNode resolve() {
-        if(this.parent == null) {
-            return null;
-        }
-        if(this.asteriskImport) {
-            return this.importDeclarationName.resolve();
-        } else {
-            return this.parent.resolve(this, new QueenResolutionContext());
-        }
+        return this.importDeclarationName.resolve();
     }
 }

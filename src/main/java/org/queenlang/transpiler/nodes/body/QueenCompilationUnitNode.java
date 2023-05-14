@@ -133,40 +133,40 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
 
     @Override
     public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
-        QueenNode resolved;
-        if(reference instanceof NameNode) {
-            final NameNode nameNode = (NameNode) reference;
-            final String typeName = nameNode.identifier();
-            for (final ImportDeclarationNode importDeclaration : this.importDeclarations) {
-                if(importDeclaration.asteriskImport()) {
-                    resolved = this.parent.resolve(
-                        importDeclaration.replaceAsteriskWith(typeName),
-                        resolutionContext,
-                        goUp
-                    );
-                    if (resolved != null) {
-                        return resolved;
-                    }
-                } else {
-                    final String importIdentifier = importDeclaration.importDeclarationName().identifier();
-                    if (importIdentifier.equals(typeName)) {
-                        resolved = this.parent.resolve(importDeclaration, resolutionContext, goUp);
+        if(goUp) {
+            QueenNode resolved;
+            if(reference instanceof NameNode) {
+                final NameNode nameNode = (NameNode) reference;
+                final String typeName = nameNode.identifier();
+                for (final ImportDeclarationNode importDeclaration : this.importDeclarations) {
+                    if(importDeclaration.asteriskImport()) {
+                        resolved = this.parent.resolve(
+                            importDeclaration.replaceAsteriskWith(typeName),
+                            resolutionContext,
+                            goUp
+                        );
                         if (resolved != null) {
                             return resolved;
                         }
+                    } else {
+                        final String importIdentifier = importDeclaration.importDeclarationName().identifier();
+                        if (importIdentifier.equals(typeName)) {
+                            resolved = this.parent.resolve(importDeclaration, resolutionContext, goUp);
+                            if (resolved != null) {
+                                return resolved;
+                            }
+                        }
                     }
                 }
+                resolved = this.parent.resolve(
+                    new QueenPackageImportDeclaration(this.packageDeclaration, typeName),
+                    resolutionContext,
+                    true
+                );
+                if (resolved != null) {
+                    return resolved;
+                }
             }
-            resolved = this.parent.resolve(
-                new QueenPackageImportDeclaration(this.packageDeclaration, typeName),
-                resolutionContext,
-                true
-            );
-            if (resolved != null) {
-                return resolved;
-            }
-        }
-        if(goUp) {
             return this.parent.resolve(reference, resolutionContext, true);
         } else {
             return this.typeDeclaration.resolve(reference, resolutionContext, false);

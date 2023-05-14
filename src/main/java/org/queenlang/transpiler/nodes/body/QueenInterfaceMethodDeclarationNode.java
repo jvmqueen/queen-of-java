@@ -268,11 +268,7 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
     }
 
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
-        if (resolutionContext.alreadyVisited(this)) {
-            return null;
-        }
-        resolutionContext.add(this);
+    public QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
         QueenNode resolved = null;
         if(reference instanceof NameNode) {
             for(final ParameterNode param : this.parameters) {
@@ -287,7 +283,7 @@ public final class QueenInterfaceMethodDeclarationNode implements InterfaceMetho
             }
         }
         if(resolved == null && goUp) {
-            return this.parent.resolve(reference, resolutionContext, goUp);
+            return this.parent.resolve(reference, goUp);
         }
         return resolved;
     }

@@ -35,7 +35,6 @@ import org.queenlang.transpiler.*;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
-import org.queenlang.transpiler.nodes.ResolutionContext;
 import org.queenlang.transpiler.nodes.body.ImportDeclarationNode;
 
 import java.io.IOException;
@@ -141,7 +140,7 @@ public final class QueenProject implements ProjectNode {
     }
 
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
+    public QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
         QueenNode resolved = null;
         if(reference instanceof ImportDeclarationNode) {
             final ImportDeclarationNode importDeclaration = (ImportDeclarationNode) reference;

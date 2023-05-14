@@ -300,18 +300,11 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
-        if (resolutionContext.alreadyVisited(this)) {
-            return null;
+    public QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
+        if(goUp) {
+            return this.parent.resolve(reference, true);
+        } else {
+            return this.body.resolve(reference, false);
         }
-        resolutionContext.add(this);
-        QueenNode resolved = null;
-        if(reference instanceof NameNode) {
-            resolved = this.body.resolve(reference, resolutionContext, goUp);
-        }
-        if(resolved == null && goUp) {
-            return this.parent.resolve(reference, resolutionContext, goUp);
-        }
-        return resolved;
     }
 }

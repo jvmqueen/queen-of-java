@@ -28,12 +28,9 @@
 package org.queenlang.transpiler.nodes.project;
 
 import com.github.javaparser.ast.Node;
-import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
-import org.queenlang.transpiler.nodes.ResolutionContext;
 import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
-import org.queenlang.transpiler.nodes.body.ImportDeclarationNode;
 import org.queenlang.transpiler.nodes.body.PackageDeclarationNode;
 
 import java.util.Arrays;
@@ -107,11 +104,11 @@ public final class QueenFileNode implements FileNode{
     }
 
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
+    public QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
         if(goUp) {
-            return this.parent.resolve(reference, resolutionContext, true);
+            return this.parent.resolve(reference, true);
         } else {
-            return this.compilationUnit.resolve(reference, resolutionContext, false);
+            return this.compilationUnit.resolve(reference, false);
         }
     }
 }

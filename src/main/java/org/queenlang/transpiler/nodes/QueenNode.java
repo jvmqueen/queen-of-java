@@ -80,16 +80,16 @@ public interface QueenNode {
     QueenNode parent();
 
     /**
-     * Resolve a reference, return the node(s) to which it refers.
+     * Resolve a reference, return the node to which it refers.
      *
-     * @param node Reference.
-     * @param goUp
+     * @param reference Reference to resolve
+     * @param goUp      True if we should look upwards in the AST, false if we should look downwards.
      * @return Node to which the reference refers to or null if none is found.
      */
-    default QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
+    default QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
         final QueenNode parent = this.parent();
         if(parent != null) {
-            return parent.resolve(reference, resolutionContext, goUp);
+            return parent.resolve(reference, goUp);
         }
         return null;
     }

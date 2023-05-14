@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import org.queenlang.transpiler.QueenResolutionContext;
-
 /**
  * A Queen node which references another node, for example a variable name
  * which should reference a variable declaration.
@@ -43,6 +41,6 @@ public interface QueenReferenceNode extends QueenNode {
      * @return QueenNode, null if none found.
      */
     default QueenNode resolve() {
-        return this.parent() != null ? this.parent().resolve(this, new QueenResolutionContext(), true) : null;
+        return this.parent() != null ? this.parent().resolve(this, true) : null;
     }
 }

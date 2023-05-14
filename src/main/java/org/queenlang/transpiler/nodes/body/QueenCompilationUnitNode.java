@@ -132,7 +132,7 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
     }
 
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
+    public QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
         if(goUp) {
             QueenNode resolved;
             if(reference instanceof NameNode) {
@@ -142,7 +142,6 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
                     if(importDeclaration.asteriskImport()) {
                         resolved = this.parent.resolve(
                             importDeclaration.replaceAsteriskWith(typeName),
-                            resolutionContext,
                             goUp
                         );
                         if (resolved != null) {
@@ -151,7 +150,7 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
                     } else {
                         final String importIdentifier = importDeclaration.importDeclarationName().identifier();
                         if (importIdentifier.equals(typeName)) {
-                            resolved = this.parent.resolve(importDeclaration, resolutionContext, goUp);
+                            resolved = this.parent.resolve(importDeclaration, goUp);
                             if (resolved != null) {
                                 return resolved;
                             }
@@ -160,16 +159,15 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
                 }
                 resolved = this.parent.resolve(
                     new QueenPackageImportDeclaration(this.packageDeclaration, typeName),
-                    resolutionContext,
                     true
                 );
                 if (resolved != null) {
                     return resolved;
                 }
             }
-            return this.parent.resolve(reference, resolutionContext, true);
+            return this.parent.resolve(reference, true);
         } else {
-            return this.typeDeclaration.resolve(reference, resolutionContext, false);
+            return this.typeDeclaration.resolve(reference, false);
         }
     }
 }

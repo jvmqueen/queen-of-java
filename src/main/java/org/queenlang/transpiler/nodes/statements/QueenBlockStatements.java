@@ -98,11 +98,7 @@ public final class QueenBlockStatements implements BlockStatements {
         return children;
     }
     @Override
-    public QueenNode resolve(final QueenReferenceNode reference, final ResolutionContext resolutionContext, boolean goUp) {
-        if (resolutionContext.alreadyVisited(this)) {
-            return null;
-        }
-        resolutionContext.add(this);
+    public QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
         QueenNode resolved = null;
         if(reference instanceof NameNode) {
             for(final StatementNode stmt : this.blockStatements) {
@@ -120,7 +116,7 @@ public final class QueenBlockStatements implements BlockStatements {
             }
         }
         if(resolved == null && goUp) {
-            return this.parent.resolve(reference, resolutionContext, goUp);
+            return this.parent.resolve(reference, goUp);
         }
         return resolved;
     }

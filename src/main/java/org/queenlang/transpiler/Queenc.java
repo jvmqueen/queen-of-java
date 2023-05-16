@@ -67,6 +67,9 @@ public final class Queenc {
 
 
     public static void run(final Arguments arguments) throws IOException, QueenTranspilationException {
+        if(arguments.verbose()) {
+            System.out.println("RUNNING VERBOSE... set logger to DEBUG");
+        }
         if(!arguments.files().isEmpty()) {
             final QueenTranspiler transpiler = new QueenToJavaTranspiler(
                 new QueenASTParserANTLR(),
@@ -84,10 +87,6 @@ public final class Queenc {
         if(arguments.help()) {
             printHelp();
         }
-        if(arguments.verbose()) {
-            System.out.println("RUNNING VERBOSE... set logger to DEBUG");
-        }
-
     }
 
     public static void main(String[] args) throws QueenTranspilationException {
@@ -97,6 +96,17 @@ public final class Queenc {
             run(new CmdArguments(cmd));
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (QueenTranspilationException ex) {
+            System.err.println("Errors in file " + ex.file() + ": ");
+            ex.errors().forEach(System.err::println);
+        } catch (IllegalStateException ex) {
+            if(ex.getCause() instanceof QueenTranspilationException) {
+                final QueenTranspilationException queenTranspilationException = (QueenTranspilationException) ex.getCause();
+                System.err.println("Errors in file " + queenTranspilationException.file() + ": ");
+                queenTranspilationException.errors().forEach(System.err::println);
+            } else {
+                throw new RuntimeException(ex);
+            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

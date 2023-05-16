@@ -59,7 +59,7 @@ public final class QueenASTParserANTLR implements QueenASTParser {
 
         final QueenParser.CompilationUnitContext compilationUnitContext = parser.compilationUnit();
         if (parsingErrorListener.errors().size() > 0) {
-            throw new QueenTranspilationException(parsingErrorListener.errors());
+            throw new QueenTranspilationException(file.getFileName().toString(), parsingErrorListener.errors());
         }
 
         final QueenParseTreeVisitor visitor = new QueenParseTreeVisitor();

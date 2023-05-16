@@ -115,7 +115,6 @@ public final class QueenClassBodyNode implements ClassBodyNode {
                     final VariableDeclaratorId vid = fd.variable().variableDeclaratorId();
                     final String variableName = fd.variable().variableDeclaratorId().name();
                     if(variableName.equals(((NameNode) reference).identifier())) {
-                        System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + vid.position());
                         resolved = fd;
                     }
                 }
@@ -123,7 +122,6 @@ public final class QueenClassBodyNode implements ClassBodyNode {
                     final ClassDeclarationNode cid = ((ClassDeclarationNode) cbd);
                     final String className = cid.name();
                     if(className.equals(((NameNode) reference).identifier())) {
-                        System.out.println("RESOLVED CLASS NAME: " + className + " at " + cid.position());
                         resolved = cid;
                     }
                 }

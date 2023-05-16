@@ -72,20 +72,6 @@ public final class QueenToJavaTranspiler implements QueenTranspiler {
             this.classpath, this.parser, files
         );
         project.transpileTo(this.output);
-//        for(final Path file : files) {
-//            final CompilationUnitNode compilationUnitNode = this.parser.parse(file);
-//            final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor(file.getFileName().toString());
-//            final List<SemanticProblem> problems = validator.visitCompilationUnit(compilationUnitNode);
-//            if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
-//                throw new QueenTranspilationException(problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
-//            } else {
-//                final CompilationUnit javaCompilationUnit  = new CompilationUnit();
-//                compilationUnitNode.addToJavaNode(javaCompilationUnit);
-//                final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
-//                this.reparseJavaClass(javaClass);
-//                this.output.write(javaCompilationUnit);
-//            }
-//        }
     }
 
     @Override
@@ -93,22 +79,4 @@ public final class QueenToJavaTranspiler implements QueenTranspiler {
     public String transpile(InputStream clazz, String fileName) throws IOException, QueenTranspilationException {
         return null;
     }
-
-//    /**
-//     * Extra contextual validation, in case we missed something ourselves.
-//     * @param javaClass Parsed Java class.
-//     * @throws QueenTranspilationException Containing any problems.
-//     */
-//    private void reparseJavaClass(final String javaClass) {
-//        final JavaParser parser = new JavaParser();
-//        final ParseResult<CompilationUnit> res = parser.parse(javaClass);
-//        res.getProblems().forEach(
-//            p -> {
-//                System.out.println(p.toString());
-//                p.getLocation().ifPresent(
-//                    System.out::println
-//                );
-//            }
-//        );
-//    }
 }

@@ -282,7 +282,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
             for(final ParameterNode param : this.parameters) {
                 final String variableName = param.variableDeclaratorId().name();
                 if(variableName.equals(((NameNode) reference).name())) {
-                    System.out.println("RESOLVED VARIABLE NAME: " + variableName + " at " + param.variableDeclaratorId().position());
                     resolved =  param;
                 }
                 if(resolved != null) {

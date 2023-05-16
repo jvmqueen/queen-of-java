@@ -44,7 +44,7 @@ public final class QueenNameNode implements NameNode {
 
     private final Position position;
     private final QueenNode parent;
-    private final QueenNameNode qualifier;
+    private final NameNode qualifier;
     private final String identifier;
 
     public QueenNameNode(final Position position, final String identifier) {
@@ -58,7 +58,7 @@ public final class QueenNameNode implements NameNode {
     private QueenNameNode(final Position position, final QueenNode parent, final NameNode qualifier, final String identifier) {
         this.parent = parent;
         this.position = position;
-        this.qualifier = qualifier != null ? (QueenNameNode) qualifier.withParent(this.parent()) : null;
+        this.qualifier = qualifier != null ? (NameNode) qualifier.withParent(this.parent()) : null;
         this.identifier = identifier;
     }
 
@@ -76,7 +76,7 @@ public final class QueenNameNode implements NameNode {
     public ClassOrInterfaceType toType() {
         final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.identifier);
         if(this.qualifier != null) {
-            classOrInterfaceType.setScope(this.qualifier.toType());
+            classOrInterfaceType.setScope((ClassOrInterfaceType) this.qualifier.toType());
         }
         return classOrInterfaceType;
     }

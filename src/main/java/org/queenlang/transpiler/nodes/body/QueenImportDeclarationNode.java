@@ -30,7 +30,6 @@ package org.queenlang.transpiler.nodes.body;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
-import org.queenlang.transpiler.QueenResolutionContext;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
@@ -174,6 +173,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
 
     @Override
     public QueenNode resolve() {
-        return this.importDeclarationName.resolve();
+        return this.parent.resolve(this, true);
     }
 }

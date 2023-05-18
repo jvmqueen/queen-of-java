@@ -109,6 +109,11 @@ public final class QueenProject implements ProjectNode {
     }
 
     private static void validateAndWrite(final FileNode queenFile, final Output output) throws QueenTranspilationException, IOException {
+        final PrintQueenASTVisitor print = new PrintQueenASTVisitor();
+        String toPrint = print.visitFile(queenFile);
+        System.out.println("AST FOR " + queenFile.fullTypeName() + " HERE: " );
+        System.out.println(toPrint);
+        System.out.println("END AST");
         final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor();
         final List<SemanticProblem> problems = validator.visitFile(queenFile);
         if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
@@ -144,24 +149,31 @@ public final class QueenProject implements ProjectNode {
         QueenNode resolved = null;
         if(reference instanceof ImportDeclarationNode) {
             final ImportDeclarationNode importDeclaration = (ImportDeclarationNode) reference;
-            resolved = this.references.stream().filter(
-                r -> r.fullTypeName().equals(importDeclaration.importDeclarationName().name())
-            ).findFirst().orElse(null);
-            if(resolved == null) {
-                final Path found = this.classpath.find(importDeclaration.asPath());
-                if(found != null) {
-                    resolved = this.parsePath(found);
-                }
+            final NameNode importName = importDeclaration.importDeclarationName();
+            if(importDeclaration.asteriskImport()) {
+                return this.resolveName(importName, false);
             }
+            return this.resolveName(importName, true);
         } else if(reference instanceof NameNode) {
-            final NameNode nameNode = (NameNode) reference;
-            final Path foundPackageOrClass = this.classpath.find(nameNode);
-            if(foundPackageOrClass != null) {
-                if(Files.isDirectory(foundPackageOrClass)) {
-                    resolved = new QueenPackageNode(this, foundPackageOrClass);
-                } else {
-                    resolved = this.parsePath(foundPackageOrClass);
-                }
+            return this.resolveName((NameNode) reference, false);
+        }
+        return resolved;
+    }
+
+    private QueenNode resolveName(final NameNode reference, boolean lookingOnlyForClass) {
+        QueenNode resolved = this.references.stream().filter(
+            r -> r.fullTypeName().equals(reference.name())
+        ).findFirst().orElse(null);;
+        final Path foundPackageOrClass = this.classpath.find(reference);
+        if(foundPackageOrClass != null) {
+            boolean isDirectory = Files.isDirectory(foundPackageOrClass);
+            if(isDirectory && lookingOnlyForClass) {
+                return null;
+            }
+            if(isDirectory) {
+                resolved = new QueenPackageNode(this, foundPackageOrClass);
+            } else {
+                resolved = this.parsePath(foundPackageOrClass);
             }
         }
         return resolved;

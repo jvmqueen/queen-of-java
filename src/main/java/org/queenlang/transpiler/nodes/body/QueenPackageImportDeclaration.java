@@ -28,7 +28,6 @@
 package org.queenlang.transpiler.nodes.body;
 
 import com.github.javaparser.ast.Node;
-import org.queenlang.transpiler.QueenResolutionContext;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;

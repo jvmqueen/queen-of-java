@@ -170,9 +170,4 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
             false
         );
     }
-
-    @Override
-    public QueenNode resolve() {
-        return this.parent.resolve(this, true);
-    }
 }

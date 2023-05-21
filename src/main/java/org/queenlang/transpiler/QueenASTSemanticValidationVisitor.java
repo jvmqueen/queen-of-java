@@ -70,26 +70,18 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         final List<ImportDeclarationNode> imports = node.importDeclarations();
         for(int i=imports.size() - 1; i>=0; i--) {
+            final ImportDeclarationNode importDeclaration = imports.get(i);
             for(int j=0; j<imports.size(); j++) {
-                if(i!= j && imports.get(i).isContainedBy(imports.get(j))) {
+                if(i!= j && importDeclaration.isContainedBy(imports.get(j))) {
                     problems.add(
                         new QueenSemanticError(
-                            "Type '" + imports.get(i).importDeclarationName().identifier() + "' already imported. ",
-                            imports.get(i).importDeclarationName().position()
+                            "Type '" + importDeclaration.importDeclarationName().identifier() + "' already imported. ",
+                            importDeclaration.importDeclarationName().position()
                         )
                     );
                 }
             }
-        }
-        for(final ImportDeclarationNode importDeclaration : imports) {
-            if(importDeclaration.resolve() == null) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Symbol '" + importDeclaration.importDeclarationName().name() + "' could not be resolved. ",
-                        importDeclaration.importDeclarationName().position()
-                    )
-                );
-            }
+            problems.addAll(this.visitImportDeclarationNode(importDeclaration));
         }
         problems.addAll(
             this.visitTypeDeclarationNode(node.typeDeclaration())

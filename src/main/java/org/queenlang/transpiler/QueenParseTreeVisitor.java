@@ -945,14 +945,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public QueenNameNode visitMethodName(QueenParser.MethodNameContext ctx) {
-        return new QueenNameNode(
-            getPosition(ctx),
-            ctx.Identifier().getText()
-        );
-    }
-
-    @Override
     public QueenNameNode visitAmbiguousName(QueenParser.AmbiguousNameContext ctx) {
         if(ctx.ambiguousName() == null) {
             return new QueenNameNode(

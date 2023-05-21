@@ -154,7 +154,7 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
                 return thisFullName.split("\\.").length == otherFullName.split("\\.").length + 1;
             }
         } else {
-            if(other.importDeclarationName().identifier().equalsIgnoreCase(this.importDeclarationName.identifier())) {
+            if(!this.asteriskImport && other.importDeclarationName().identifier().equalsIgnoreCase(this.importDeclarationName.identifier())) {
                 return true;
             }
         }

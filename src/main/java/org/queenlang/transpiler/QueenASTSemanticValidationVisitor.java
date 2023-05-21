@@ -127,6 +127,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitClassDeclarationNode(ClassDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
 
         final List<ClassOrInterfaceTypeNode> interfaces = node.of();
@@ -391,6 +392,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitMethodDeclarationNode(MethodDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithModifiers(node));
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
@@ -566,7 +568,11 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitNodeWithAnnotations(final NodeWithAnnotations node) {
-        return new ArrayList<>();
+        final List<SemanticProblem> problems = new ArrayList<>();
+        node.annotations().forEach( a ->
+            problems.addAll(this.visitAnnotationNode(a))
+        );
+        return problems;
     }
 
     @Override

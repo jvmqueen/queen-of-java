@@ -73,9 +73,9 @@ public final class QueenASTParserTestCase {
             "EmptyInterfaceWithNoPackage.queen,EmptyInterfaceWithNoPackage.java"
         }
     )
-    public void testAstParserWithRandomClasses(final String queenInput, final String javaOuput) throws Exception {
+    public void testAstParserWithRandomClasses(final String queenInput, final String javaOutput) throws Exception {
         final String dirPath = "src/test/resources/queenToJava/random/";
-        final String expectedJavaClass = this.readTestResource(dirPath, javaOuput);
+        final String expectedJavaClass = this.readTestResource(dirPath, javaOutput);
         final QueenASTParser parser = new QueenASTParserANTLR();
 
         final CompilationUnitNode compilationUnitNode = parser.parse(Path.of(dirPath, queenInput));
@@ -91,6 +91,31 @@ public final class QueenASTParserTestCase {
         StaticJavaParser.parse(javaClass);
     }
 
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+            "ProjectsController.queen,ProjectsController.java",
+            "TestEnvFilter.queen,TestEnvFilter.java",
+            "JsonContract.queen,JsonContract.java",
+        }
+    )
+    public void testAstParserWithRealClassesSelfWeb(final String queenInput, final String javaOutput) throws Exception {
+        final String dirPath = "src/test/resources/queenToJava/real/self-web/";
+        final String expectedJavaClass = this.readTestResource(dirPath, javaOutput);
+        final QueenASTParser parser = new QueenASTParserANTLR();
+
+        final CompilationUnitNode compilationUnitNode = parser.parse(Path.of(dirPath, queenInput));
+
+        final CompilationUnit javaCompilationUnit  = new CompilationUnit();
+        compilationUnitNode.addToJavaNode(javaCompilationUnit);
+        final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
+
+        MatcherAssert.assertThat(
+            javaClass,
+            Matchers.equalTo(expectedJavaClass)
+        );
+        StaticJavaParser.parse(javaClass);
+    }
 
     /**
      * Read a test resource file's contents.

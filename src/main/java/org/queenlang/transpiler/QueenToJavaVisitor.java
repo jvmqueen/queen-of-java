@@ -27,13 +27,21 @@
  */
 package org.queenlang.transpiler;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.ImportDeclaration;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.PackageDeclaration;
-import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.*;
+import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.ReferenceType;
+import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.TypeParameter;
 import org.queenlang.transpiler.nodes.body.*;
+import org.queenlang.transpiler.nodes.expressions.*;
+import org.queenlang.transpiler.nodes.statements.BlockStatements;
+import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 /**
  * Turn a Queen AST into Java AST.
@@ -46,12 +54,255 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     @Override
     public CompilationUnit visitCompilationUnit(final CompilationUnitNode node) {
         final CompilationUnit cu = new CompilationUnit();
-        cu.setPackageDeclaration((PackageDeclaration) this.visitPackageDeclarationNode(node.packageDeclaration()));
+        if(node.packageDeclaration() != null) {
+            cu.setPackageDeclaration(this.visitPackageDeclarationNode(node.packageDeclaration()));
+        }
         node.importDeclarations().forEach(
-            i -> cu.addImport((ImportDeclaration) this.visitImportDeclarationNode(i))
+            i -> cu.addImport(this.visitImportDeclarationNode(i))
         );
-        cu.setType(0, (TypeDeclaration<?>) this.visitTypeDeclarationNode(node.typeDeclaration()));
+        cu.addType((TypeDeclaration<?>) this.visitTypeDeclarationNode(node.typeDeclaration()));
         return cu;
+    }
+
+    @Override
+    public ImportDeclaration visitImportDeclarationNode(final ImportDeclarationNode node) {
+        return new ImportDeclaration(node.importDeclarationName().name(), false, node.asteriskImport());
+    }
+
+    @Override
+    public PackageDeclaration visitPackageDeclarationNode(final PackageDeclarationNode node) {
+        return new PackageDeclaration(node.packageName().toName());
+    }
+
+    @Override
+    public Node visitTypeDeclarationNode(final TypeDeclarationNode node) {
+        if(node instanceof ClassDeclarationNode) {
+            return this.visitClassDeclarationNode((ClassDeclarationNode) node);
+        } else {
+            return this.visitInterfaceDeclarationNode((InterfaceDeclarationNode) node);
+        }
+    }
+
+    @Override
+    public ClassOrInterfaceDeclaration visitClassDeclarationNode(final ClassDeclarationNode node) {
+        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
+        clazz.setInterface(false);
+        clazz.setName(node.name());
+        node.annotations().forEach(
+            a -> clazz.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> clazz.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        clazz.addExtendedType((ClassOrInterfaceType) this.visitClassOrInterfaceTypeNode(node.extendsType()));
+        node.of().forEach(
+            o -> clazz.addImplementedType((ClassOrInterfaceType) this.visitClassOrInterfaceTypeNode(o))
+        );
+        node.typeParameters().forEach(
+            tp -> clazz.addTypeParameter((TypeParameter) this.visitTypeParameterNode(tp))
+        );
+        node.body().classBodyDeclarations().forEach(
+            cmd -> clazz.addMember((BodyDeclaration<?>) this.visitClassBodyDeclarationNode(cmd))
+        );
+        return clazz;
+    }
+
+    @Override
+    public Node visitInterfaceDeclarationNode(final InterfaceDeclarationNode node) {
+        if(node instanceof NormalInterfaceDeclarationNode) {
+            return this.visitNormalInterfaceDeclarationNode((NormalInterfaceDeclarationNode) node);
+        } else {
+            return this.visitAnnotationTypeDeclarationNode((AnnotationTypeDeclarationNode) node);
+        }
+    }
+
+    @Override
+    public ClassOrInterfaceDeclaration visitNormalInterfaceDeclarationNode(final NormalInterfaceDeclarationNode node) {
+        final ClassOrInterfaceDeclaration normalInterface = new ClassOrInterfaceDeclaration();
+        normalInterface.setInterface(true);
+        normalInterface.setName(node.name());
+        node.annotations().forEach(
+            a -> normalInterface.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> normalInterface.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        node.extendsTypes().forEach(
+            et -> normalInterface.addExtendedType((ClassOrInterfaceType) this.visitClassOrInterfaceTypeNode(et))
+        );
+        node.typeParameters().forEach(
+            tp -> normalInterface.addTypeParameter((TypeParameter) this.visitTypeParameterNode(tp))
+        );
+        node.body().interfaceMemberDeclarations().forEach(
+            imd -> normalInterface.addMember((BodyDeclaration<?>) this.visitInterfaceMemberDeclarationNode(imd))
+        );
+        return normalInterface;
+    }
+
+    @Override
+    public Node visitInterfaceMemberDeclarationNode(final InterfaceMemberDeclarationNode node) {
+        if(node instanceof TypeDeclarationNode) {
+            return this.visitTypeDeclarationNode((TypeDeclarationNode) node);
+        } else if(node instanceof ConstantDeclarationNode) {
+            return this.visitConstantDeclarationNode((ConstantDeclarationNode) node);
+        } else {
+            return this.visitInterfaceMethodDeclarationNode((InterfaceMethodDeclarationNode) node);
+        }
+    }
+
+    @Override
+    public Node visitClassBodyDeclarationNode(final ClassBodyDeclarationNode node) {
+        if(node instanceof TypeDeclarationNode) {
+            return this.visitTypeDeclarationNode((TypeDeclarationNode) node);
+        } else if(node instanceof FieldDeclarationNode) {
+            return this.visitFieldDeclarationNode((FieldDeclarationNode) node);
+        } else if (node instanceof InstanceInitializerNode) {
+            return this.visitInstanceInitializerNode((InstanceInitializerNode) node);
+        } else if(node instanceof ConstructorDeclarationNode) {
+            return this.visitConstructorDeclarationNode((ConstructorDeclarationNode) node);
+        } else {
+            return this.visitMethodDeclarationNode((MethodDeclarationNode) node);
+        }
+    }
+
+    @Override
+    public Node visitConstantDeclarationNode(final ConstantDeclarationNode node) {
+        final FieldDeclaration fd = new FieldDeclaration();
+        node.annotations().forEach(
+            a -> fd.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> fd.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        final VariableDeclarator vd = new VariableDeclarator();
+        vd.setType(this.visitTypeNode(node.type()));
+        vd.setName(node.variable().variableDeclaratorId().name());
+        vd.setInitializer(this.visitExpressionNode(node.variable().initializer()));
+        fd.addVariable(vd);
+        return fd;
+    }
+
+    @Override
+    public MethodDeclaration visitInterfaceMethodDeclarationNode(final InterfaceMethodDeclarationNode node) {
+        final MethodDeclaration md = new MethodDeclaration();
+        node.annotations().forEach(
+            a -> md.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> md.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        md.setType(this.visitTypeNode(node.returnType()));
+        md.setName(node.name());
+        node.parameters().forEach(
+            p -> md.addParameter((Parameter) this.visitParameterNode(p))
+        );
+        node.typeParameters().forEach(
+            tp -> md.addTypeParameter((TypeParameter) this.visitTypeParameterNode(tp))
+        );
+        node.throwsList().forEach(
+            t -> md.addThrownException((ReferenceType) this.visitReferenceTypeNode(t))
+        );
+        md.setBody(this.visitBlockStatements(node.blockStatements()));
+        return md;
+    }
+
+    @Override
+    public MethodDeclaration visitMethodDeclarationNode(final MethodDeclarationNode node) {
+        final MethodDeclaration md = new MethodDeclaration();
+        node.annotations().forEach(
+            a -> md.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> md.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        md.setType((Type) this.visitTypeNode(node.returnType()));
+        md.setName(node.name());
+        node.parameters().forEach(
+            p -> md.addParameter((Parameter) this.visitParameterNode(p))
+        );
+        node.typeParameters().forEach(
+            tp -> md.addTypeParameter((TypeParameter) this.visitTypeParameterNode(tp))
+        );
+        node.throwsList().forEach(
+            t -> md.addThrownException((ReferenceType) this.visitReferenceTypeNode(t))
+        );
+        md.setBody(this.visitBlockStatements(node.blockStatements()));
+        return md;
+    }
+
+    @Override
+    public Node visitFieldDeclarationNode(final FieldDeclarationNode node) {
+        final FieldDeclaration fd = new FieldDeclaration();
+        node.annotations().forEach(
+            a -> fd.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> fd.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        final VariableDeclarator vd = new VariableDeclarator();
+        vd.setType(this.visitTypeNode(node.type()));
+        vd.setName(node.variable().variableDeclaratorId().name());
+        vd.setInitializer(this.visitExpressionNode(node.variable().initializer()));
+        fd.addVariable(vd);
+        return fd;
+    }
+
+    @Override
+    public AnnotationDeclaration visitAnnotationTypeDeclarationNode(final AnnotationTypeDeclarationNode node) {
+        return null;
+    }
+
+    @Override
+    public Node visitAnnotationNode(final AnnotationNode node) {
+        if(node instanceof NormalAnnotationNode) {
+            return this.visitNormalAnnotationNode((NormalAnnotationNode) node);
+        } else if(node instanceof SingleMemberAnnotationNode) {
+            return this.visitSingleMemberAnnotationNode((SingleMemberAnnotationNode) node);
+        } else {
+            return this.visitMarkerAnnotationNode((MarkerAnnotationNode) node);
+        }
+    }
+
+    @Override
+    public NormalAnnotationExpr visitNormalAnnotationNode(final NormalAnnotationNode node) {
+        final NormalAnnotationExpr normalAnnotationExpr = new NormalAnnotationExpr();
+        normalAnnotationExpr.setName((Name) this.visitNameNode(node.nameNode()));
+        node.elementValuePairs().forEach(
+            evp -> normalAnnotationExpr.addPair(evp.identifier(), this.visitExpressionNode(evp.expression()))
+        );
+        return normalAnnotationExpr;
+    }
+
+    @Override
+    public SingleMemberAnnotationExpr visitSingleMemberAnnotationNode(final SingleMemberAnnotationNode node) {
+        final SingleMemberAnnotationExpr single = new SingleMemberAnnotationExpr();
+        single.setName((Name) this.visitNameNode(node.nameNode()));
+        single.setMemberValue(this.visitExpressionNode(node.elementValue()));
+        return single;
+    }
+
+    @Override
+    public MarkerAnnotationExpr visitMarkerAnnotationNode(final MarkerAnnotationNode node) {
+        return new MarkerAnnotationExpr((Name) this.visitNameNode(node.nameNode()));
+    }
+
+    @Override
+    public BlockStmt visitBlockStatements(final BlockStatements node) {
+        final BlockStmt blockStmt = new BlockStmt();
+        for(final StatementNode stmt : node) {
+            blockStmt.addStatement((Statement) this.visitStatementNode(stmt));
+        }
+        return blockStmt;
+    }
+
+    @Override
+    public Type visitTypeNode(final TypeNode node) {
+        return node.toType();
+    }
+
+    @Override
+    public Expression visitExpressionNode(final ExpressionNode node) {
+        return node.toJavaExpression();
     }
 
     @Override

@@ -124,6 +124,10 @@ public final class QueenProject implements ProjectNode {
         final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
         reparseJavaClass(javaClass);
         output.write(javaCompilationUnit);
+
+        QueenToJavaVisitor qtj = new QueenToJavaVisitor();
+        System.out.println("VISITED: ");
+        System.out.println(qtj.visitCompilationUnit(queenFile.compilationUnit()));
     }
 
     /**

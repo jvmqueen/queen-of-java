@@ -30,18 +30,20 @@ package org.queenlang.transpiler;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
+import org.checkerframework.checker.units.qual.A;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
-import org.queenlang.transpiler.nodes.statements.BlockStatements;
-import org.queenlang.transpiler.nodes.statements.StatementNode;
+import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+
+import java.util.stream.Collectors;
 
 /**
  * Turn a Queen AST into Java AST.
@@ -94,7 +96,9 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         node.modifiers().forEach(
             m -> clazz.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
         );
-        clazz.addExtendedType((ClassOrInterfaceType) this.visitClassOrInterfaceTypeNode(node.extendsType()));
+        if(node.extendsType() != null) {
+            clazz.addExtendedType((ClassOrInterfaceType) this.visitClassOrInterfaceTypeNode(node.extendsType()));
+        }
         node.of().forEach(
             o -> clazz.addImplementedType((ClassOrInterfaceType) this.visitClassOrInterfaceTypeNode(o))
         );
@@ -231,6 +235,24 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     }
 
     @Override
+    public Parameter visitParameterNode(final ParameterNode node) {
+        final Parameter parameter = new Parameter();
+        parameter.setType(this.visitTypeNode(node.type()));
+        parameter.setName(node.variableDeclaratorId().name());
+        node.annotations().forEach(
+            a -> parameter.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> parameter.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        parameter.setVarArgs(node.varArgs());
+        parameter.setVarArgsAnnotations(new NodeList<>(node.varArgsAnnotations().stream().map(
+            vaa -> (AnnotationExpr) this.visitAnnotationNode(vaa)
+        ).collect(Collectors.toList())));
+        return parameter;
+    }
+
+    @Override
     public Node visitFieldDeclarationNode(final FieldDeclarationNode node) {
         final FieldDeclaration fd = new FieldDeclaration();
         node.annotations().forEach(
@@ -249,7 +271,42 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
 
     @Override
     public AnnotationDeclaration visitAnnotationTypeDeclarationNode(final AnnotationTypeDeclarationNode node) {
-        return null;
+        final AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration();
+        annotationDeclaration.setName(node.name());
+        node.annotations().forEach(
+            a -> annotationDeclaration.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> annotationDeclaration.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        node.body().annotationMemberDeclarations().forEach(
+            amd -> annotationDeclaration.addMember((BodyDeclaration<?>) this.visitAnnotationTypeMemberDeclarationNode(amd))
+        );
+        return annotationDeclaration;
+    }
+
+    @Override
+    public Node visitAnnotationTypeMemberDeclarationNode(final AnnotationTypeMemberDeclarationNode node) {
+        if(node instanceof TypeDeclarationNode) {
+            return this.visitTypeDeclarationNode((TypeDeclarationNode) node);
+        } else {
+            return this.visitAnnotationElementDeclarationNode((AnnotationElementDeclarationNode) node);
+        }
+    }
+
+    @Override
+    public Node visitAnnotationElementDeclarationNode(final AnnotationElementDeclarationNode node) {
+        final AnnotationMemberDeclaration amd = new AnnotationMemberDeclaration();
+        amd.setName(node.name());
+        node.annotations().forEach(
+            a -> amd.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> amd.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        amd.setType(this.visitTypeNode(node.type()));
+        amd.setDefaultValue(this.visitExpressionNode(node.defaultValue()));
+        return amd;
     }
 
     @Override
@@ -295,6 +352,10 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         return blockStmt;
     }
 
+    public Name visitNameNode(final NameNode node) {
+        return node.toName();
+    }
+
     @Override
     public Type visitTypeNode(final TypeNode node) {
         return node.toType();
@@ -302,7 +363,115 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
 
     @Override
     public Expression visitExpressionNode(final ExpressionNode node) {
+        if(node == null) {
+            return null;
+        }
         return node.toJavaExpression();
+    }
+
+    @Override
+    public Node visitStatementNode(final StatementNode node) {
+        if(node instanceof ClassDeclarationNode) {
+            return this.visitClassDeclarationNode((ClassDeclarationNode) node);
+        } else if(node instanceof AssertStatementNode) {
+            return this.visitAssertStatementNode((AssertStatementNode) node);
+        } else if(node instanceof ContinueStatementNode) {
+            return this.visitContinueStatementNode((ContinueStatementNode) node);
+        } else if(node instanceof ReturnStatementNode) {
+            return this.visitReturnStatementNode((ReturnStatementNode) node);
+        } else if(node instanceof BreakStatementNode) {
+            return this.visitBreakStatementNode((BreakStatementNode) node);
+        } else if(node instanceof IfStatementNode) {
+            return this.visitIfStatementNode((IfStatementNode) node);
+        } else if(node instanceof WhileStatementNode) {
+            return this.visitWhileStatementNode((WhileStatementNode) node);
+        } else if(node instanceof DoStatementNode) {
+            return this.visitDoStatementNode((DoStatementNode) node);
+        } else if(node instanceof ForStatementNode) {
+            return this.visitForStatementNode((ForStatementNode) node);
+        } else if(node instanceof ForEachStatementNode) {
+            return this.visitForEachStatementNode((ForEachStatementNode) node);
+        } else if (node instanceof BlockStatements) {
+            return this.visitBlockStatements((BlockStatements) node);
+        } else if (node instanceof SynchronizedStatementNode) {
+            return this.visitSynchronizedStatementNode((SynchronizedStatementNode) node);
+        } else if (node instanceof ThrowStatementNode) {
+            return this.visitThrowStatementNode((ThrowStatementNode) node);
+        } else if (node instanceof TryStatementNode) {
+            return this.visitTryStatementNode((TryStatementNode) node);
+        } else if (node instanceof LocalVariableDeclarationNode) {
+            return this.visitLocalVariableDeclarationNode((LocalVariableDeclarationNode) node);
+        } else if (node instanceof LabeledStatementNode) {
+            return this.visitLabeledStatementNode((LabeledStatementNode) node);
+        } else if (node instanceof EmptyStatementNode) {
+            return this.visitEmptyStatementNode((EmptyStatementNode) node);
+        } else if (node instanceof ExpressionStatementNode) {
+            return this.visitExpressionStatementNode((ExpressionStatementNode) node);
+        } else if (node instanceof ExplicitConstructorInvocationNode) {
+            return this.visitExplicitConstructorInvocationNode((ExplicitConstructorInvocationNode) node);
+        }
+        return null;
+    }
+
+    @Override
+    public ExpressionStmt visitExpressionStatementNode(final ExpressionStatementNode node) {
+        return new ExpressionStmt(this.visitExpressionNode(node.expression()));
+    }
+
+    @Override
+    public EmptyStmt visitEmptyStatementNode(final EmptyStatementNode node) {
+        return new EmptyStmt();
+    }
+
+    @Override
+    public LabeledStmt visitLabeledStatementNode(final LabeledStatementNode node) {
+        return new LabeledStmt(node.name(), this.visitBlockStatements(node.blockStatements()));
+    }
+
+    @Override
+    public AssertStmt visitAssertStatementNode(final AssertStatementNode node) {
+        final AssertStmt assertStmt = new AssertStmt();
+        assertStmt.setCheck(this.visitExpressionNode(node.check()));
+        assertStmt.setMessage(this.visitExpressionNode(node.message()));
+        return assertStmt;
+    }
+
+    @Override
+    public ContinueStmt visitContinueStatementNode(final ContinueStatementNode node) {
+        final ContinueStmt continueStmt = new ContinueStmt();
+        continueStmt.setLabel(node.label());
+        return continueStmt;
+    }
+
+    @Override
+    public BreakStmt visitBreakStatementNode(final BreakStatementNode node) {
+        final BreakStmt breakStmt = new BreakStmt();
+        breakStmt.setLabel(new SimpleName(node.label()));
+        return breakStmt;
+    }
+
+    @Override
+    public ReturnStmt visitReturnStatementNode(final ReturnStatementNode node) {
+        final ReturnStmt returnStmt = new ReturnStmt();
+        returnStmt.setExpression(this.visitExpressionNode(node.expression()));
+        return returnStmt;
+    }
+
+    @Override
+    public SynchronizedStmt visitSynchronizedStatementNode(final SynchronizedStatementNode node) {
+        final SynchronizedStmt synchronizedStmt = new SynchronizedStmt();
+        synchronizedStmt.setExpression(this.visitExpressionNode(node.syncExpression()));
+        synchronizedStmt.setBody(this.visitBlockStatements(node.blockStatements()));
+        return synchronizedStmt;
+    }
+
+    @Override
+    public ExplicitConstructorInvocationStmt visitExplicitConstructorInvocationNode(final ExplicitConstructorInvocationNode node) {
+        final ExplicitConstructorInvocationStmt explicitConstructorInvocationStmt = new ExplicitConstructorInvocationStmt();
+        explicitConstructorInvocationStmt.setThis(node.isThis());
+        explicitConstructorInvocationStmt.setExpression(this.visitExpressionNode(node.scope()));
+        //...set args and type args + implement remaining statement visitors
+        return explicitConstructorInvocationStmt;
     }
 
     @Override

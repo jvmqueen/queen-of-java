@@ -31,18 +31,15 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.ReferenceType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.TypeParameter;
-import org.checkerframework.checker.units.qual.A;
+import com.github.javaparser.ast.type.*;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.TypeNode;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -400,7 +397,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         } else if (node instanceof TryStatementNode) {
             return this.visitTryStatementNode((TryStatementNode) node);
         } else if (node instanceof LocalVariableDeclarationNode) {
-            return this.visitLocalVariableDeclarationNode((LocalVariableDeclarationNode) node);
+            return new ExpressionStmt(this.visitLocalVariableDeclarationNode((LocalVariableDeclarationNode) node));
         } else if (node instanceof LabeledStatementNode) {
             return this.visitLabeledStatementNode((LabeledStatementNode) node);
         } else if (node instanceof EmptyStatementNode) {
@@ -409,6 +406,8 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
             return this.visitExpressionStatementNode((ExpressionStatementNode) node);
         } else if (node instanceof ExplicitConstructorInvocationNode) {
             return this.visitExplicitConstructorInvocationNode((ExplicitConstructorInvocationNode) node);
+        } else if(node instanceof SwitchStatementNode) {
+            return this.visitSwitchStatementNode((SwitchStatementNode) node);
         }
         return null;
     }
@@ -426,6 +425,143 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     @Override
     public LabeledStmt visitLabeledStatementNode(final LabeledStatementNode node) {
         return new LabeledStmt(node.name(), this.visitBlockStatements(node.blockStatements()));
+    }
+
+    @Override
+    public IfStmt visitIfStatementNode(final IfStatementNode node) {
+        final IfStmt ifStmt = new IfStmt();
+        ifStmt.setCondition(this.visitExpressionNode(node.condition()));
+        ifStmt.setThenStmt(this.visitBlockStatements(node.thenBlockStatements()));
+        ifStmt.setElseStmt(this.visitBlockStatements(node.elseBlockStatements()));
+        return ifStmt;
+    }
+
+    @Override
+    public ForStmt visitForStatementNode(final ForStatementNode node) {
+        final ForStmt forStmt = new ForStmt();
+        forStmt.setInitialization(
+            new NodeList<>(
+                node.initialization().stream().map(
+                    this::visitExpressionNode
+                ).collect(Collectors.toList())
+            )
+        );
+        forStmt.setCompare(this.visitExpressionNode(node.comparison()));
+        forStmt.setUpdate(
+            new NodeList<>(
+                node.update().stream().map(
+                    this::visitExpressionNode
+                ).collect(Collectors.toList())
+            )
+        );
+        forStmt.setBody(this.visitBlockStatements(node.blockStatements()));
+        return forStmt;
+    }
+
+    @Override
+    public ForEachStmt visitForEachStatementNode(final ForEachStatementNode node) {
+        final ForEachStmt forEachStmt = new ForEachStmt();
+        forEachStmt.setVariable(this.visitLocalVariableDeclarationNode(node.variable()));
+        forEachStmt.setIterable(this.visitExpressionNode(node.iterable()));
+        forEachStmt.setBody(this.visitBlockStatements(node.blockStatements()));
+        return forEachStmt;
+    }
+
+    @Override
+    public WhileStmt visitWhileStatementNode(final WhileStatementNode node) {
+        final WhileStmt whileStmt = new WhileStmt();
+        whileStmt.setCondition(this.visitExpressionNode(node.expression()));
+        whileStmt.setBody(this.visitBlockStatements(node.blockStatements()));
+        return whileStmt;
+    }
+
+    @Override
+    public DoStmt visitDoStatementNode(final DoStatementNode node) {
+        final DoStmt doStmt = new DoStmt();
+        doStmt.setBody(this.visitBlockStatements(node.blockStatements()));
+        doStmt.setCondition(this.visitExpressionNode(node.expression()));
+        return doStmt;
+    }
+
+    @Override
+    public ThrowStmt visitThrowStatementNode(final ThrowStatementNode node) {
+        final ThrowStmt throwStmt = new ThrowStmt();
+        throwStmt.setExpression(this.visitExpressionNode(node.expression()));
+        return throwStmt;
+    }
+
+    @Override
+    public TryStmt visitTryStatementNode(final TryStatementNode node) {
+        final TryStmt tryStmt = new TryStmt();
+        tryStmt.setResources(
+            new NodeList<>(
+                node.resources().stream().map(
+                    this::visitExpressionNode
+                ).collect(Collectors.toList())
+            )
+        );
+        tryStmt.setTryBlock(this.visitBlockStatements(node.tryBlockStatements()));
+        tryStmt.setCatchClauses(
+            new NodeList<>(
+                node.catchClauses().stream().map(
+                    this::visitCatchClauseNode
+                ).collect(Collectors.toList())
+            )
+        );
+        tryStmt.setFinallyBlock(this.visitBlockStatements(node.finallyBlockStatements()));
+        return tryStmt;
+    }
+
+    @Override
+    public CatchClause visitCatchClauseNode(final CatchClauseNode node) {
+        final CatchClause catchClause = new CatchClause();
+        catchClause.setParameter(this.visitCatchFormalParameterNode(node.parameter()));
+        catchClause.setBody(this.visitBlockStatements(node.blockStatements()));
+        return catchClause;
+    }
+
+    @Override
+    public Parameter visitCatchFormalParameterNode(final CatchFormalParameterNode node) {
+        final Parameter parameter = new Parameter();
+        node.annotations().forEach(
+            a -> parameter.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> parameter.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        final UnionType unionType = new UnionType();
+        unionType.setElements(
+            new NodeList<>(
+                node.catchExceptionTypes().stream().map(
+                    ct -> (ReferenceType) this.visitTypeNode(ct)
+                ).collect(Collectors.toList())
+            )
+        );
+        parameter.setType(unionType);
+        parameter.setName(node.exceptionName().name());
+        return parameter;
+    }
+    @Override
+    public VariableDeclarationExpr visitLocalVariableDeclarationNode(final LocalVariableDeclarationNode node) {
+        VariableDeclarationExpr vde = new VariableDeclarationExpr();
+        node.annotations().forEach(
+            a -> vde.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+        );
+        node.modifiers().forEach(
+            m -> vde.addModifier(Modifier.Keyword.valueOf(m.modifier().toUpperCase()))
+        );
+        final List<VariableDeclarator> variableDeclarators = new ArrayList<>();
+        node.variables().forEach(
+            v -> {
+                final VariableDeclarator vd = new VariableDeclarator();
+                vd.setType(this.visitTypeNode(node.type()));
+                vd.setName(v.variableDeclaratorId().name());
+                vd.setInitializer(this.visitExpressionNode(v.initializer()));
+                variableDeclarators.add(vd);
+            }
+        );
+        vde.setVariables(new NodeList<>(variableDeclarators));
+        return vde;
     }
 
     @Override
@@ -470,7 +606,20 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         final ExplicitConstructorInvocationStmt explicitConstructorInvocationStmt = new ExplicitConstructorInvocationStmt();
         explicitConstructorInvocationStmt.setThis(node.isThis());
         explicitConstructorInvocationStmt.setExpression(this.visitExpressionNode(node.scope()));
-        //...set args and type args + implement remaining statement visitors
+        explicitConstructorInvocationStmt.setArguments(
+            new NodeList<>(
+                node.arguments().stream().map(
+                    this::visitExpressionNode
+                ).collect(Collectors.toList())
+            )
+        );
+        explicitConstructorInvocationStmt.setTypeArguments(
+            new NodeList<>(
+                node.typeArguments().stream().map(
+                    this::visitTypeNode
+                ).collect(Collectors.toList())
+            )
+        );
         return explicitConstructorInvocationStmt;
     }
 

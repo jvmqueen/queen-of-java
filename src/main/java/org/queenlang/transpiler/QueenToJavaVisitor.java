@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 import org.queenlang.transpiler.nodes.types.TypeNode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -344,7 +345,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public BlockStmt visitBlockStatements(final BlockStatements node) {
         final BlockStmt blockStmt = new BlockStmt();
         for(final StatementNode stmt : node) {
-            blockStmt.addStatement((Statement) this.visitStatementNode(stmt));
+            blockStmt.addStatement(this.visitStatementNode(stmt));
         }
         return blockStmt;
     }
@@ -367,9 +368,9 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     }
 
     @Override
-    public Node visitStatementNode(final StatementNode node) {
+    public Statement visitStatementNode(final StatementNode node) {
         if(node instanceof ClassDeclarationNode) {
-            return this.visitClassDeclarationNode((ClassDeclarationNode) node);
+            return new LocalClassDeclarationStmt(this.visitClassDeclarationNode((ClassDeclarationNode) node));
         } else if(node instanceof AssertStatementNode) {
             return this.visitAssertStatementNode((AssertStatementNode) node);
         } else if(node instanceof ContinueStatementNode) {
@@ -541,6 +542,45 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         parameter.setName(node.exceptionName().name());
         return parameter;
     }
+
+    @Override
+    public SwitchStmt visitSwitchStatementNode(final SwitchStatementNode node) {
+        final SwitchStmt switchStmt = new SwitchStmt();
+        switchStmt.setSelector(this.visitExpressionNode(node.expression()));
+        switchStmt.setEntries(
+            new NodeList<>(
+                node.entries().stream().map(
+                    this::visitSwitchEntryNode
+                ).collect(Collectors.toList())
+            )
+        );
+        return switchStmt;
+    }
+
+    @Override
+    public SwitchEntry visitSwitchEntryNode(final SwitchEntryNode node) {
+        final SwitchEntry switchEntry = new SwitchEntry();
+        switchEntry.setLabels(
+            new NodeList<>(
+                node.labels().stream().map(
+                    this::visitSwitchLabelNode
+                ).collect(Collectors.toList())
+            )
+        );
+        switchEntry.setStatements(
+            this.visitBlockStatements(node.blockStatements()).getStatements()
+        );
+        return switchEntry;
+    }
+
+    @Override
+    public Expression visitSwitchLabelNode(final SwitchLabelNode node) {
+        if(!node.isDefaultLabel()) {
+            return this.visitExpressionNode(node.expressionNode());
+        }
+        return null;
+    }
+
     @Override
     public VariableDeclarationExpr visitLocalVariableDeclarationNode(final LocalVariableDeclarationNode node) {
         VariableDeclarationExpr vde = new VariableDeclarationExpr();

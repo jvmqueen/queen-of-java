@@ -36,7 +36,6 @@ import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
-import org.queenlang.transpiler.nodes.body.QueenLocalVariableDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 
 import java.util.Arrays;
@@ -70,13 +69,13 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     /**
      * Statements inside the for-each statement.
      */
-    private final BlockStatements blockStatements;
+    private final StatementNode blockStatements;
 
     public QueenForEachStatementNode(
         final Position position,
         final LocalVariableDeclarationNode variable,
         final ExpressionNode iterable,
-        final BlockStatements blockStatements
+        final StatementNode blockStatements
     ) {
         this(
             position,
@@ -92,13 +91,13 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
         final QueenNode parent,
         final LocalVariableDeclarationNode variable,
         final ExpressionNode iterable,
-        final BlockStatements blockStatements
+        final StatementNode blockStatements
     ) {
         this.position = position;
         this.parent = parent;
         this.variable = variable != null ? (LocalVariableDeclarationNode) variable.withParent(this) : null;
         this.iterable = iterable != null ? (ExpressionNode) iterable.withParent(this) : null;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
     }
 
 
@@ -165,7 +164,7 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     }
 
     @Override
-    public BlockStatements blockStatements() {
+    public StatementNode blockStatements() {
         return this.blockStatements;
     }
 }

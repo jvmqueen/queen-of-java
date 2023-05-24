@@ -61,17 +61,17 @@ public final class QueenIfStatementNode implements IfStatementNode {
     /**
      * Statements inside the if.
      */
-    private final BlockStatements thenBlockStatements;
+    private final StatementNode thenBlockStatements;
 
     /**
      * Statements inside the else.
      */
-    private final BlockStatements elseBlockStatements;
+    private final StatementNode elseBlockStatements;
 
     public QueenIfStatementNode(
         final Position position,
         final ExpressionNode condition,
-        final BlockStatements thenBlockStatements
+        final StatementNode thenBlockStatements
     ) {
         this(position, condition, thenBlockStatements, null);
     }
@@ -79,8 +79,8 @@ public final class QueenIfStatementNode implements IfStatementNode {
     public QueenIfStatementNode(
         final Position position,
         final ExpressionNode condition,
-        final BlockStatements thenBlockStatements,
-        final BlockStatements elseBlockStatements
+        final StatementNode thenBlockStatements,
+        final StatementNode elseBlockStatements
     ) {
         this(position, null, condition, thenBlockStatements, elseBlockStatements);
     }
@@ -89,14 +89,14 @@ public final class QueenIfStatementNode implements IfStatementNode {
         final Position position,
         final QueenNode parent,
         final ExpressionNode condition,
-        final BlockStatements thenBlockStatements,
-        final BlockStatements elseBlockStatements
+        final StatementNode thenBlockStatements,
+        final StatementNode elseBlockStatements
     ) {
         this.position = position;
         this.parent = parent;
         this.condition = condition != null ? (ExpressionNode) condition.withParent(this) : null;
-        this.thenBlockStatements = thenBlockStatements != null ? (BlockStatements) thenBlockStatements.withParent(this) : null;
-        this.elseBlockStatements = elseBlockStatements != null ? (BlockStatements) elseBlockStatements.withParent(this) : null;
+        this.thenBlockStatements = thenBlockStatements != null ? (StatementNode) thenBlockStatements.withParent(this) : null;
+        this.elseBlockStatements = elseBlockStatements != null ? (StatementNode) elseBlockStatements.withParent(this) : null;
     }
 
     @Override
@@ -160,12 +160,12 @@ public final class QueenIfStatementNode implements IfStatementNode {
     }
 
     @Override
-    public BlockStatements thenBlockStatements() {
+    public StatementNode thenBlockStatements() {
         return this.thenBlockStatements;
     }
 
     @Override
-    public BlockStatements elseBlockStatements() {
+    public StatementNode elseBlockStatements() {
         return this.elseBlockStatements;
     }
 }

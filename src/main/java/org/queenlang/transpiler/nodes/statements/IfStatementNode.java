@@ -46,12 +46,12 @@ public interface IfStatementNode extends StatementNode {
     /**
      * Statements inside the if.
      */
-    BlockStatements thenBlockStatements();
+    StatementNode thenBlockStatements();
 
     /**
      * Statements inside the else.
      */
-    BlockStatements elseBlockStatements();
+    StatementNode elseBlockStatements();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitIfStatementNode(this);

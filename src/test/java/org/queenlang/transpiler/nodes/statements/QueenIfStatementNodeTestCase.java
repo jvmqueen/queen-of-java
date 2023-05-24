@@ -83,7 +83,7 @@ public final class QueenIfStatementNodeTestCase {
     public void returnsThenBlock() {
         final Position position = QueenMockito.mock(Position.class);
         final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
-        final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
+        final StatementNode thenBlock = QueenMockito.mock(StatementNode.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(
             position,
             expressionNode,

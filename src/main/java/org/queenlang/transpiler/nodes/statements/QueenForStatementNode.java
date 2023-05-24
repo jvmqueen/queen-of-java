@@ -76,14 +76,14 @@ public final class QueenForStatementNode implements ForStatementNode {
     /**
      * Statements inside the for statement.
      */
-    private final BlockStatements blockStatements;
+    private final StatementNode blockStatements;
 
     public QueenForStatementNode(
         final Position position,
         final List<ExpressionNode> initialization,
         final ExpressionNode comparison,
         final List<ExpressionNode> update,
-        final BlockStatements blockStatements
+        final StatementNode blockStatements
     ) {
         this(
             position,
@@ -101,7 +101,7 @@ public final class QueenForStatementNode implements ForStatementNode {
         final List<ExpressionNode> initialization,
         final ExpressionNode comparison,
         final List<ExpressionNode> update,
-        final BlockStatements blockStatements
+        final StatementNode blockStatements
     ) {
         this.position = position;
         this.parent = parent;
@@ -112,7 +112,7 @@ public final class QueenForStatementNode implements ForStatementNode {
         this.update = update != null ? update.stream().map(
             u -> (ExpressionNode) u.withParent(this)
         ).collect(Collectors.toList()) : null;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
     }
 
     @Override
@@ -213,7 +213,7 @@ public final class QueenForStatementNode implements ForStatementNode {
     }
 
     @Override
-    public BlockStatements blockStatements() {
+    public StatementNode blockStatements() {
         return this.blockStatements;
     }
 }

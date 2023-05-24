@@ -57,7 +57,7 @@ public interface ForStatementNode extends StatementNode {
     /**
      * Statements inside the for statement.
      */
-    BlockStatements blockStatements();
+    StatementNode blockStatements();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitForStatementNode(this);

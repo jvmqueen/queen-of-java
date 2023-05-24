@@ -41,7 +41,7 @@ public interface LabeledStatementNode extends Named, StatementNode {
     /**
      * Statements inside this labeled statement.
      */
-    BlockStatements blockStatements();
+    StatementNode blockStatements();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitLabeledStatementNode(this);

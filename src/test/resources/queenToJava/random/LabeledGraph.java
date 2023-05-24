@@ -27,17 +27,13 @@ public final class LabeledGraph implements Graph {
                 search: {
                     if (k == i) {
                         for (z = 0; z < edges[k].length; ++z) {
-                            if (edges[k][z] == j) {
+                            if (edges[k][z] == j)
                                 break search;
-                            }
                         }
-                    } else {
-                        if (k == j) {
-                            for (z = 0; z < edges[k].length; ++z) {
-                                if (edges[k][z] == i) {
-                                    break search;
-                                }
-                            }
+                    } else if (k == j) {
+                        for (z = 0; z < edges[k].length; ++z) {
+                            if (edges[k][z] == i)
+                                break search;
                         }
                     }
                     newedges[k] = edges[k];

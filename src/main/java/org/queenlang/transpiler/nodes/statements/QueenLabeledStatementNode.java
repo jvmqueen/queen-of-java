@@ -62,12 +62,12 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
     /**
      * Statements inside this labeled statement.
      */
-    private final BlockStatements blockStatements;
+    private final StatementNode blockStatements;
 
     public QueenLabeledStatementNode(
         final Position position,
         final String name,
-        final BlockStatements blockStatements
+        final StatementNode blockStatements
     ) {
         this(position, null, name, blockStatements);
     }
@@ -76,12 +76,12 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
         final Position position,
         final QueenNode parent,
         final String name,
-        final BlockStatements blockStatements
+        final StatementNode blockStatements
     ) {
         this.position = position;
         this.parent = parent;
         this.name = name;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
     }
 
     @Override
@@ -139,7 +139,7 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
     }
 
     @Override
-    public BlockStatements blockStatements() {
+    public StatementNode blockStatements() {
         return this.blockStatements;
     }
 }

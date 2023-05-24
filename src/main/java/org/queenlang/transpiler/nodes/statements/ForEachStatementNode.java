@@ -53,7 +53,7 @@ public interface ForEachStatementNode extends StatementNode {
     /**
      * Statements inside the for-each statement.
      */
-    BlockStatements blockStatements();
+    StatementNode blockStatements();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitForEachStatementNode(this);

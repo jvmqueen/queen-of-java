@@ -41,7 +41,7 @@ public interface DoStatementNode extends StatementNode {
     /**
      * Statements inside the Do.
      */
-    BlockStatements blockStatements();
+    StatementNode blockStatements();
 
     /**
      * Expression condition.

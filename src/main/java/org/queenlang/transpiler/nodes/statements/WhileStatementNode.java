@@ -46,7 +46,7 @@ public interface WhileStatementNode extends StatementNode {
     /**
      * Statements inside the while.
      */
-    BlockStatements blockStatements();
+    StatementNode blockStatements();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitWhileStatementNode(this);

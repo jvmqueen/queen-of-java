@@ -20,16 +20,12 @@ public final class ControlStatementsExamples implements IControlStatementsExampl
             System.out.println("Inside for-loop!");
         }
         System.out.println("Got out of the first for loop!");
-        for (int a = 3, b = 5; a < 99; a++, b++) {
-            hello();
-        }
+        for (int a = 3, b = 5; a < 99; a++, b++) hello();
         for (a = 3, b = 5; a < 99; a++) {
             hello();
         }
-        for (a(), b(); true; ) {
-            hello();
-        }
-        for (; true; ) {
+        for (a(), b(); ; ) hello();
+        for (; ; ) {
             somethingElse();
         }
         return 1;
@@ -42,9 +38,7 @@ public final class ControlStatementsExamples implements IControlStatementsExampl
             System.out.println("Enhanced String iteration: " + s);
             System.out.println("Something else");
         }
-        for (Student s : new ArrayList<Student>()) {
-            System.out.println(s);
-        }
+        for (Student s : new ArrayList<Student>()) System.out.println(s);
         for (Post p : posts) {
             System.out.println("Reading comments of post " + p.name() + "... ");
             for (Comment c : p.comments()) {
@@ -112,7 +106,7 @@ public final class ControlStatementsExamples implements IControlStatementsExampl
         }
         while (true) {
         }
-        for (; true; ) {
+        for (; ; ) {
         }
         do {
         } while (true);

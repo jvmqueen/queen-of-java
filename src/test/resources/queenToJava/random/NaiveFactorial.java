@@ -27,9 +27,7 @@ public final class NaiveFactorial implements Factorial {
             while (false) {
                 System.out.println("bug maybe");
             }
-            while (true) {
-                System.out.println("Infinite...");
-            }
+            while (true) System.out.println("Infinite...");
         }
         return result;
     }

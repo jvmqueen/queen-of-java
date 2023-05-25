@@ -82,8 +82,6 @@ public final class QueenASTParserTestCase {
 
         final CompilationUnit javaCompilationUnit  = new QueenToJavaVisitor().visitCompilationUnit(compilationUnitNode);
 
-//        final CompilationUnit javaCompilationUnit  = new CompilationUnit();
-//        compilationUnitNode.addToJavaNode(javaCompilationUnit);
         final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
 
         MatcherAssert.assertThat(
@@ -108,8 +106,8 @@ public final class QueenASTParserTestCase {
 
         final CompilationUnitNode compilationUnitNode = parser.parse(Path.of(dirPath, queenInput));
 
-        final CompilationUnit javaCompilationUnit  = new CompilationUnit();
-        compilationUnitNode.addToJavaNode(javaCompilationUnit);
+        final CompilationUnit javaCompilationUnit  = new QueenToJavaVisitor().visitCompilationUnit(compilationUnitNode);
+
         final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
 
         MatcherAssert.assertThat(

@@ -36,10 +36,7 @@ import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.*;
-import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
-import org.queenlang.transpiler.nodes.types.TypeNode;
-import org.queenlang.transpiler.nodes.types.TypeParameterNode;
+import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +93,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         node.modifiers().forEach(
             m -> clazz.addModifier(this.visitModifierNode(m).getKeyword())
         );
+        clazz.addModifier(this.visitModifierNode(node.extensionModifier()).getKeyword());
         if(node.extendsType() != null) {
             clazz.addExtendedType(this.visitClassOrInterfaceTypeNode(node.extendsType()));
         }
@@ -205,7 +203,9 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         }
         if(node.blockStatements() != null) {
             final BlockStmt block = this.visitBlockStatements(node.blockStatements());
-            blockStmt.setStatements(block.getStatements());
+            block.getStatements().forEach(
+                s -> blockStmt.addStatement(s)
+            );
         }
         constructorDeclaration.setBody(blockStmt);
 //        if(node.explicitConstructorInvocationNode() != null) {
@@ -282,7 +282,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         node.modifiers().forEach(
             m -> md.addModifier(this.visitModifierNode(m).getKeyword())
         );
-        md.setType((Type) this.visitTypeNode(node.returnType()));
+        md.setType(this.visitTypeNode(node.returnType()));
         md.setName(node.name());
         node.parameters().forEach(
             p -> md.addParameter(this.visitParameterNode(p))
@@ -433,6 +433,11 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     @Override
     public Type visitTypeNode(final TypeNode node) {
         return node.toType();
+    }
+
+    @Override
+    public ReferenceType visitReferenceTypeNode(final ReferenceTypeNode node) {
+        return (ReferenceType) node.toType();
     }
 
     @Override

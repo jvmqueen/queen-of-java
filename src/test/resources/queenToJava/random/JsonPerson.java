@@ -64,11 +64,11 @@ public final class JsonPerson implements Person {
         if (this.json == null) {
             throw new Exception("NOT OK");
         }
-        if (this.json == null) {
+        if (this.json == null)
             for (int i = 0; i < 10; i++) {
                 System.out.println("No short if example for");
             }
-        } else {
+        else {
             System.out.println("All cool");
         }
     }
@@ -79,11 +79,11 @@ public final class JsonPerson implements Person {
         if (this.json == null) {
             throw new Exception("NOT OK");
         }
-        if (this.json == null) {
+        if (this.json == null)
             for (int i = 0; i < 10; i++) {
                 System.out.println("No short if example for");
             }
-        } else {
+        else {
             System.out.println("All cool");
         }
     }

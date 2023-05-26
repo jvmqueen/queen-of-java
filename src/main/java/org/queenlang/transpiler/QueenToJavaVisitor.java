@@ -419,8 +419,16 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         return blockStmt;
     }
 
+    @Override
     public Name visitNameNode(final NameNode node) {
-        return node.toName();
+        if(node.qualifier() == null) {
+            return new Name(node.identifier());
+        } else {
+            return new Name(
+                this.visitNameNode(node.qualifier()),
+                node.identifier()
+            );
+        }
     }
 
     @Override

@@ -38,6 +38,7 @@ import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,11 +108,6 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
             cmd -> clazz.addMember((BodyDeclaration<?>) this.visitClassBodyDeclarationNode(cmd))
         );
         return clazz;
-    }
-
-    @Override
-    public ClassOrInterfaceType visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node) {
-        return (ClassOrInterfaceType) node.toType();
     }
 
     @Override
@@ -208,9 +204,6 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
             );
         }
         constructorDeclaration.setBody(blockStmt);
-//        if(node.explicitConstructorInvocationNode() != null) {
-//            constructorDeclaration.set
-//        }
         return constructorDeclaration;
     }
 
@@ -249,7 +242,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
             tp -> md.addTypeParameter(this.visitTypeParameterNode(tp))
         );
         node.throwsList().forEach(
-            t -> md.addThrownException((ReferenceType) this.visitReferenceTypeNode(t))
+            t -> md.addThrownException(this.visitReferenceTypeNode(t))
         );
         md.setBody(this.visitBlockStatements(node.blockStatements()));
         return md;
@@ -381,7 +374,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     }
 
     @Override
-    public Node visitAnnotationNode(final AnnotationNode node) {
+    public AnnotationExpr visitAnnotationNode(final AnnotationNode node) {
         if(node instanceof NormalAnnotationNode) {
             return this.visitNormalAnnotationNode((NormalAnnotationNode) node);
         } else if(node instanceof SingleMemberAnnotationNode) {
@@ -432,12 +425,111 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
 
     @Override
     public Type visitTypeNode(final TypeNode node) {
-        return node.toType();
+        if(node instanceof PrimitiveTypeNode) {
+            return this.visitPrimitiveTypeNode((PrimitiveTypeNode) node);
+        } if(node instanceof ReferenceTypeNode) {
+            return this.visitReferenceTypeNode((ReferenceTypeNode) node);
+        } if(node instanceof VoidTypeNode) {
+            return this.visitVoidTypeNode((VoidTypeNode) node);
+        } if(node instanceof WildcardTypeNode) {
+            return this.visitWildcardTypeNode((WildcardTypeNode) node);
+        }
+        return null;
     }
 
     @Override
     public ReferenceType visitReferenceTypeNode(final ReferenceTypeNode node) {
-        return (ReferenceType) node.toType();
+        if(node instanceof ArrayTypeNode) {
+            return this.visitArrayTypeNode((ArrayTypeNode) node);
+        } else if(node instanceof ClassOrInterfaceTypeNode) {
+            return this.visitClassOrInterfaceTypeNode((ClassOrInterfaceTypeNode) node);
+        } else if(node instanceof ExceptionTypeNode) {
+            return this.visitExceptionTypeNode((ExceptionTypeNode) node);
+        } else if(node instanceof NameNode) {
+            return null; //handle this case
+        }
+        return null;
+    }
+
+    @Override
+    public ClassOrInterfaceType visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node) {
+        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType();
+        classOrInterfaceType.setName(node.simpleName());
+        node.annotations().forEach(
+            a -> classOrInterfaceType.addAnnotation(this.visitAnnotationNode(a))
+        );
+        if(node.scope() != null) {
+            classOrInterfaceType.setScope(this.visitClassOrInterfaceTypeNode(node.scope()));
+        }
+        if(node.hasDiamondOperator()) {
+            classOrInterfaceType.setDiamondOperator();
+        } else {
+            if(node.typeArguments() != null && !node.typeArguments().isEmpty()) {
+                classOrInterfaceType.setTypeArguments(
+                    new NodeList<>(
+                        node.typeArguments().stream().map(
+                            this::visitTypeNode
+                        ).collect(Collectors.toList())
+                    )
+                );
+            }
+        }
+        return classOrInterfaceType;
+    }
+
+    @Override
+    public ArrayType visitArrayTypeNode(final ArrayTypeNode node) {
+        ArrayType arrayType = new ArrayType(
+            this.visitTypeNode(node.type())
+        );
+        for(final AnnotationNode annotation : node.dims().get(node.dims().size() - 1).annotations()) {
+            arrayType.addAnnotation(this.visitAnnotationNode(annotation));
+        }
+        for(int i = node.dims().size() - 2; i>=0; i--) {
+            arrayType = new ArrayType(
+                arrayType
+            );
+            for(final AnnotationNode annotation : node.dims().get(i).annotations()) {
+                arrayType.addAnnotation(this.visitAnnotationNode(annotation));
+            }
+        }
+        return arrayType;
+    }
+
+    @Override
+    public ClassOrInterfaceType visitExceptionTypeNode(final ExceptionTypeNode node) {
+        return this.visitClassOrInterfaceTypeNode(node.exceptionType());
+    }
+
+    @Override
+    public PrimitiveType visitPrimitiveTypeNode(final PrimitiveTypeNode node) {
+        final PrimitiveType primitiveType = new PrimitiveType(
+            PrimitiveType.Primitive.valueOf(node.name().toUpperCase())
+        );
+        node.annotations().forEach(
+            a -> primitiveType.addAnnotation(this.visitAnnotationNode(a))
+        );
+        return primitiveType;
+    }
+
+    @Override
+    public VoidType visitVoidTypeNode(final VoidTypeNode node) {
+        final VoidType vt = new VoidType();
+        node.annotations().forEach(
+            a -> vt.addAnnotation(this.visitAnnotationNode(a))
+        );
+        return vt;
+    }
+
+    @Override
+    public WildcardType visitWildcardTypeNode(final WildcardTypeNode node) {
+        final WildcardType wt = new WildcardType();
+        node.annotations().forEach(
+            a -> wt.addAnnotation(this.visitAnnotationNode(a))
+        );
+        wt.setExtendedType(this.visitReferenceTypeNode(node.extendedType()));
+        wt.setSuperType(this.visitReferenceTypeNode(node.superType()));
+        return wt;
     }
 
     @Override

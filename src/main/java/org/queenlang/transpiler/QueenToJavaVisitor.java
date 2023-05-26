@@ -89,7 +89,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         clazz.setInterface(false);
         clazz.setName(node.name());
         node.annotations().forEach(
-            a -> clazz.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> clazz.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> clazz.addModifier(this.visitModifierNode(m).getKeyword())
@@ -125,7 +125,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         normalInterface.setInterface(true);
         normalInterface.setName(node.name());
         node.annotations().forEach(
-            a -> normalInterface.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> normalInterface.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> normalInterface.addModifier(this.visitModifierNode(m).getKeyword())
@@ -180,7 +180,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public ConstructorDeclaration visitConstructorDeclarationNode(final ConstructorDeclarationNode node) {
         final ConstructorDeclaration constructorDeclaration = new ConstructorDeclaration();
         node.annotations().forEach(
-            a -> constructorDeclaration.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> constructorDeclaration.addAnnotation(this.visitAnnotationNode(a))
         );
         constructorDeclaration.addModifier(this.visitModifierNode(node.modifier()).getKeyword());
         constructorDeclaration.setName(node.name());
@@ -211,7 +211,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public Node visitConstantDeclarationNode(final ConstantDeclarationNode node) {
         final FieldDeclaration fd = new FieldDeclaration();
         node.annotations().forEach(
-            a -> fd.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> fd.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> fd.addModifier(this.visitModifierNode(m).getKeyword())
@@ -228,7 +228,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public MethodDeclaration visitInterfaceMethodDeclarationNode(final InterfaceMethodDeclarationNode node) {
         final MethodDeclaration md = new MethodDeclaration();
         node.annotations().forEach(
-            a -> md.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> md.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> md.addModifier(this.visitModifierNode(m).getKeyword())
@@ -252,7 +252,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public TypeParameter visitTypeParameterNode(final TypeParameterNode node) {
         final TypeParameter tp = new TypeParameter();
         node.annotations().forEach(
-            a -> tp.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> tp.addAnnotation(this.visitAnnotationNode(a))
         );
         tp.setName(node.name());
         tp.setTypeBound(
@@ -270,7 +270,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public MethodDeclaration visitMethodDeclarationNode(final MethodDeclarationNode node) {
         final MethodDeclaration md = new MethodDeclaration();
         node.annotations().forEach(
-            a -> md.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> md.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> md.addModifier(this.visitModifierNode(m).getKeyword())
@@ -296,7 +296,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         parameter.setType(this.visitTypeNode(node.type()));
         parameter.setName(node.variableDeclaratorId().name());
         node.annotations().forEach(
-            a -> parameter.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> parameter.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> {
@@ -307,7 +307,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         );
         parameter.setVarArgs(node.varArgs());
         parameter.setVarArgsAnnotations(new NodeList<>(node.varArgsAnnotations().stream().map(
-            vaa -> (AnnotationExpr) this.visitAnnotationNode(vaa)
+            vaa -> this.visitAnnotationNode(vaa)
         ).collect(Collectors.toList())));
         return parameter;
     }
@@ -316,7 +316,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public Node visitFieldDeclarationNode(final FieldDeclarationNode node) {
         final FieldDeclaration fd = new FieldDeclaration();
         node.annotations().forEach(
-            a -> fd.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> fd.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> {
@@ -338,7 +338,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         final AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration();
         annotationDeclaration.setName(node.name());
         node.annotations().forEach(
-            a -> annotationDeclaration.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> annotationDeclaration.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> annotationDeclaration.addModifier(this.visitModifierNode(m).getKeyword())
@@ -363,7 +363,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         final AnnotationMemberDeclaration amd = new AnnotationMemberDeclaration();
         amd.setName(node.name());
         node.annotations().forEach(
-            a -> amd.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> amd.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> amd.addModifier(this.visitModifierNode(m).getKeyword())
@@ -387,7 +387,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     @Override
     public NormalAnnotationExpr visitNormalAnnotationNode(final NormalAnnotationNode node) {
         final NormalAnnotationExpr normalAnnotationExpr = new NormalAnnotationExpr();
-        normalAnnotationExpr.setName((Name) this.visitNameNode(node.nameNode()));
+        normalAnnotationExpr.setName(this.visitNameNode(node.nameNode()));
         node.elementValuePairs().forEach(
             evp -> normalAnnotationExpr.addPair(evp.identifier(), this.visitExpressionNode(evp.expression()))
         );
@@ -397,7 +397,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     @Override
     public SingleMemberAnnotationExpr visitSingleMemberAnnotationNode(final SingleMemberAnnotationNode node) {
         final SingleMemberAnnotationExpr single = new SingleMemberAnnotationExpr();
-        single.setName((Name) this.visitNameNode(node.nameNode()));
+        single.setName(this.visitNameNode(node.nameNode()));
         single.setMemberValue(this.visitExpressionNode(node.elementValue()));
         return single;
     }
@@ -445,8 +445,6 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
             return this.visitClassOrInterfaceTypeNode((ClassOrInterfaceTypeNode) node);
         } else if(node instanceof ExceptionTypeNode) {
             return this.visitExceptionTypeNode((ExceptionTypeNode) node);
-        } else if(node instanceof NameNode) {
-            return null; //handle this case
         }
         return null;
     }
@@ -698,7 +696,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public Parameter visitCatchFormalParameterNode(final CatchFormalParameterNode node) {
         final Parameter parameter = new Parameter();
         node.annotations().forEach(
-            a -> parameter.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> parameter.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> parameter.addModifier(this.visitModifierNode(m).getKeyword())
@@ -760,7 +758,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public VariableDeclarationExpr visitLocalVariableDeclarationNode(final LocalVariableDeclarationNode node) {
         VariableDeclarationExpr vde = new VariableDeclarationExpr();
         node.annotations().forEach(
-            a -> vde.addAnnotation((AnnotationExpr) this.visitAnnotationNode(a))
+            a -> vde.addAnnotation(this.visitAnnotationNode(a))
         );
         node.modifiers().forEach(
             m -> vde.addModifier(this.visitModifierNode(m).getKeyword())

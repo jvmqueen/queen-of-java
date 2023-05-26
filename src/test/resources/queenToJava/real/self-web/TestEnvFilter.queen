@@ -17,6 +17,7 @@ public final implementation TestEnvFilter of Filter {
     }
 
     public TestEnvFilter(Environment environment) {
+        System.out.println(Environment.implementation.getName());
         this.environment = environment;
     }
 

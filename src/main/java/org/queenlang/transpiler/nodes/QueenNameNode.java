@@ -29,6 +29,9 @@ package org.queenlang.transpiler.nodes;
 
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,8 +115,28 @@ public final class QueenNameNode implements NameNode {
     }
 
     @Override
-    public String name() {
-        return this.toName().toString();
+    public boolean interfaceType() {
+        return false;
+    }
+
+    @Override
+    public ClassOrInterfaceTypeNode scope() {
+        return this.qualifier;
+    }
+
+    @Override
+    public String simpleName() {
+        return this.identifier;
+    }
+
+    @Override
+    public List<TypeNode> typeArguments() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public boolean hasDiamondOperator() {
+        return false;
     }
 
     @Override
@@ -149,5 +172,10 @@ public final class QueenNameNode implements NameNode {
     @Override
     public QueenNode parent() {
         return this.parent;
+    }
+
+    @Override
+    public List<AnnotationNode> annotations() {
+        return new ArrayList<>();
     }
 }

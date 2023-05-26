@@ -20,6 +20,8 @@ public final class LabeledGraph implements Graph {
     public final Graph loseEdges(final int i, final int j) {
         int n = edges.length;
         int[][] unAnnNewEdges = new int[n][];
+        System.out.println(unAnnNewEdges[0][0]);
+        System.out.println(getArray()[0][0]);
         int @NotNull [] @Ala [] newedges = new int[n][];
         for (int k = 0; k < n; ++k) {
             edgelist: {

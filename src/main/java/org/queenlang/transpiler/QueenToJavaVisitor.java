@@ -71,7 +71,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
 
     @Override
     public PackageDeclaration visitPackageDeclarationNode(final PackageDeclarationNode node) {
-        return new PackageDeclaration(node.packageName().toName());
+        return new PackageDeclaration(this.visitNameNode(node.packageName()));
     }
 
     @Override
@@ -543,7 +543,190 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         if(node == null) {
             return null;
         }
-        return node.toJavaExpression();
+        if(node instanceof AnnotationNode) {
+            return this.visitAnnotationNode((AnnotationNode) node);
+        } else if(node instanceof ArrayAccessExpressionNode) {
+            return (Expression) this.visitArrayAccessExpressionNode((ArrayAccessExpressionNode) node);
+        } else if(node instanceof ArrayCreationExpressionNode) {
+            return (Expression) this.visitArrayCreationExpressionNode((ArrayCreationExpressionNode) node);
+        } else if(node instanceof ArrayInitializerExpressionNode) {
+            return (Expression) this.visitArrayInitializerExpressionNode((ArrayInitializerExpressionNode) node);
+        } else if(node instanceof AssignmentExpressionNode) {
+            return (Expression) this.visitAssignmentExpressionNode((AssignmentExpressionNode) node);
+        } else if(node instanceof BinaryExpressionNode) {
+            return this.visitBinaryExpressionNode((BinaryExpressionNode) node);
+        } else if(node instanceof BooleanLiteralExpressionNode) {
+            return this.visitBooleanLiteralExpressionNode((BooleanLiteralExpressionNode) node);
+        } else if(node instanceof BracketedExpressionNode) {
+            return (Expression) this.visitBracketedExpressionNode((BracketedExpressionNode) node);
+        } else if(node instanceof CastExpressionNode) {
+            return (Expression) this.visitCastExpressionNode((CastExpressionNode) node);
+        } else if(node instanceof CharLiteralExpressionNode) {
+            return this.visitCharLiteralExpressionNode((CharLiteralExpressionNode) node);
+        } else if(node instanceof ConditionalExpressionNode) {
+            return (Expression) this.visitConditionalExpressionNode((ConditionalExpressionNode) node);
+        } else if(node instanceof DoubleLiteralExpressionNode) {
+            return this.visitDoubleLiteralExpressionNode((DoubleLiteralExpressionNode) node);
+        } else if(node instanceof FieldAccessExpressionNode) {
+            return (Expression) this.visitFieldAccessExpressionNode((FieldAccessExpressionNode) node);
+        } else if(node instanceof InstanceOfExpressionNode) {
+            return (Expression) this.visitInstanceOfExpressionNode((InstanceOfExpressionNode) node);
+        } else if(node instanceof IntegerLiteralExpressionNode) {
+            return this.visitIntegerLiteralExpressionNode((IntegerLiteralExpressionNode) node);
+        } else if(node instanceof LambdaExpressionNode) {
+            return (Expression) this.visitLambdaExpressionNode((LambdaExpressionNode) node);
+        } else if(node instanceof LocalVariableDeclarationNode) {
+            return this.visitLocalVariableDeclarationNode((LocalVariableDeclarationNode) node);
+        } else if(node instanceof LongLiteralExpressionNode) {
+            return this.visitLongLiteralExpressionNode((LongLiteralExpressionNode) node);
+        } else if(node instanceof MethodInvocationExpressionNode) {
+            return (Expression) this.visitMethodInvocationExpressionNode((MethodInvocationExpressionNode) node);
+        } else if(node instanceof MethodReferenceExpressionNode) {
+            return this.visitMethodReferenceExpressionNode((MethodReferenceExpressionNode) node);
+        } else if(node instanceof NameNode) {
+            final NameNode name = (NameNode) node;
+            if(name.qualifier() == null) {
+                return new NameExpr(name.identifier());
+            } else {
+                return new FieldAccessExpr(
+                    this.visitExpressionNode(name.qualifier()),
+                    name.identifier()
+                );
+            }
+        } else if(node instanceof NullLiteralExpressionNode) {
+            return this.visitNullLiteralExpressionNode((NullLiteralExpressionNode) node);
+        } else if(node instanceof ObjectCreationExpressionNode) {
+            return (Expression) this.visitObjectCreationExpressionNode((ObjectCreationExpressionNode) node);
+        } else if(node instanceof StringLiteralExpressionNode) {
+            return this.visitStringLiteralExpressionNode((StringLiteralExpressionNode) node);
+        } else if(node instanceof ThisExpressionNode) {
+            return this.visitThisExpressionNode((ThisExpressionNode) node);
+        } else if(node instanceof SuperExpressionNode) {
+            return this.visitSuperExpressionNode((SuperExpressionNode) node);
+        } else if(node instanceof TypeImplementationExpressionNode) {
+            return this.visitTypeImplementationExpressionNode((TypeImplementationExpressionNode) node);
+        } else if(node instanceof UnaryExpressionNode) {
+            return this.visitUnaryExpressionNode((UnaryExpressionNode) node);
+        }
+        return null;
+    }
+
+    @Override
+    public BinaryExpr visitBinaryExpressionNode(final BinaryExpressionNode node) {
+        return new BinaryExpr(
+            this.visitExpressionNode(node.left()),
+            this.visitExpressionNode(node.right()),
+            BinaryExpr.Operator.valueOf(node.operator().toUpperCase())
+        );
+    }
+
+    @Override
+    public ThisExpr visitThisExpressionNode(final ThisExpressionNode node) {
+        return new ThisExpr(
+            this.visitNameNode(node.typeName())
+        );
+    }
+
+    @Override
+    public SuperExpr visitSuperExpressionNode(final SuperExpressionNode node) {
+        return new SuperExpr(
+            this.visitNameNode(node.typeName())
+        );
+    }
+
+    @Override
+    public MethodReferenceExpr visitMethodReferenceExpressionNode(final MethodReferenceExpressionNode node) {
+        final MethodReferenceExpr methodReferenceExpr = new MethodReferenceExpr();
+        if(node.type() != null) {
+            methodReferenceExpr.setScope(
+                new TypeExpr(this.visitTypeNode(node.type()))
+            );
+        } else {
+            methodReferenceExpr.setScope(
+                this.visitExpressionNode(node.scope())
+            );
+        }
+        if(node.typeArguments() != null && node.typeArguments().size() > 0) {
+            methodReferenceExpr.setTypeArguments(
+                new NodeList<>(
+                    node.typeArguments().stream().map(
+                        this::visitTypeNode
+                    ).collect(Collectors.toList())
+                )
+            );
+        }
+        return methodReferenceExpr;
+    }
+
+    @Override
+    public ClassExpr visitTypeImplementationExpressionNode(final TypeImplementationExpressionNode node) {
+        if(node.dims() != null && !node.dims().isEmpty()) {
+            return new ClassExpr(
+                this.visitTypeNode(
+                    new QueenArrayTypeNode(
+                        node.position(),
+                        node.type(),
+                        node.dims()
+                    )
+                )
+            );
+        } else {
+            return new ClassExpr(this.visitTypeNode(node.type()));
+        }
+    }
+
+    @Override
+    public NullLiteralExpr visitNullLiteralExpressionNode(final NullLiteralExpressionNode node) {
+        return new NullLiteralExpr();
+    }
+
+    @Override
+    public StringLiteralExpr visitStringLiteralExpressionNode(final StringLiteralExpressionNode node) {
+        return new StringLiteralExpr(node.value());
+    }
+
+    @Override
+    public CharLiteralExpr visitCharLiteralExpressionNode(final CharLiteralExpressionNode node) {
+        return new CharLiteralExpr(node.value());
+    }
+
+    @Override
+    public BooleanLiteralExpr visitBooleanLiteralExpressionNode(final BooleanLiteralExpressionNode node) {
+        return new BooleanLiteralExpr(node.value());
+    }
+
+    @Override
+    public IntegerLiteralExpr visitIntegerLiteralExpressionNode(final IntegerLiteralExpressionNode node) {
+        return new IntegerLiteralExpr(node.value());
+    }
+
+    @Override
+    public DoubleLiteralExpr visitDoubleLiteralExpressionNode(final DoubleLiteralExpressionNode node) {
+        return new DoubleLiteralExpr(node.value());
+    }
+
+    @Override
+    public LongLiteralExpr visitLongLiteralExpressionNode(final LongLiteralExpressionNode node) {
+        return new LongLiteralExpr(node.value());
+    }
+
+    @Override
+    public UnaryExpr visitUnaryExpressionNode(final UnaryExpressionNode node) {
+        UnaryExpr.Operator operator = null;
+        for(int i=0; i< UnaryExpr.Operator.values().length; i++) {
+            final UnaryExpr.Operator candidate = UnaryExpr.Operator.values()[i];
+            if(candidate.asString().equalsIgnoreCase(node.operator()) && candidate.isPrefix() == node.isPrefix()) {
+                operator = UnaryExpr.Operator.values()[i];
+                break;
+            }
+        }
+        if(operator == null) {
+            throw new IllegalStateException("Unknown unary operator: " + node.operator() + ". (is prefix: " + node.isPrefix() + ").");
+        }
+        return new UnaryExpr(
+            this.visitExpressionNode(node.expression()),
+            operator
+        );
     }
 
     @Override

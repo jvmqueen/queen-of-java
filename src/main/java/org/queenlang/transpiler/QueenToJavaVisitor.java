@@ -441,11 +441,11 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public Type visitTypeNode(final TypeNode node) {
         if(node instanceof PrimitiveTypeNode) {
             return this.visitPrimitiveTypeNode((PrimitiveTypeNode) node);
-        } if(node instanceof ReferenceTypeNode) {
+        } else if(node instanceof ReferenceTypeNode) {
             return this.visitReferenceTypeNode((ReferenceTypeNode) node);
-        } if(node instanceof VoidTypeNode) {
+        } else if(node instanceof VoidTypeNode) {
             return this.visitVoidTypeNode((VoidTypeNode) node);
-        } if(node instanceof WildcardTypeNode) {
+        } else if(node instanceof WildcardTypeNode) {
             return this.visitWildcardTypeNode((WildcardTypeNode) node);
         }
         return null;

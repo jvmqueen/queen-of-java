@@ -38,7 +38,6 @@ import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -200,7 +199,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         if(node.blockStatements() != null) {
             final BlockStmt block = this.visitBlockStatements(node.blockStatements());
             block.getStatements().forEach(
-                s -> blockStmt.addStatement(s)
+                blockStmt::addStatement
             );
         }
         constructorDeclaration.setBody(blockStmt);
@@ -284,7 +283,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
             tp -> md.addTypeParameter(this.visitTypeParameterNode(tp))
         );
         node.throwsList().forEach(
-            t -> md.addThrownException((ReferenceType) this.visitReferenceTypeNode(t))
+            t -> md.addThrownException(this.visitReferenceTypeNode(t))
         );
         md.setBody(this.visitBlockStatements(node.blockStatements()));
         return md;
@@ -293,7 +292,11 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     @Override
     public Parameter visitParameterNode(final ParameterNode node) {
         final Parameter parameter = new Parameter();
-        parameter.setType(this.visitTypeNode(node.type()));
+        if(node.type() != null) {
+            parameter.setType(this.visitTypeNode(node.type()));
+        } else {
+            parameter.setType(new UnknownType());
+        }
         parameter.setName(node.variableDeclaratorId().name());
         node.annotations().forEach(
             a -> parameter.addAnnotation(this.visitAnnotationNode(a))
@@ -307,7 +310,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         );
         parameter.setVarArgs(node.varArgs());
         parameter.setVarArgsAnnotations(new NodeList<>(node.varArgsAnnotations().stream().map(
-            vaa -> this.visitAnnotationNode(vaa)
+            this::visitAnnotationNode
         ).collect(Collectors.toList())));
         return parameter;
     }
@@ -421,6 +424,9 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
 
     @Override
     public Name visitNameNode(final NameNode node) {
+        if(node == null) {
+            return null;
+        }
         if(node.qualifier() == null) {
             return new Name(node.identifier());
         } else {
@@ -546,41 +552,41 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         if(node instanceof AnnotationNode) {
             return this.visitAnnotationNode((AnnotationNode) node);
         } else if(node instanceof ArrayAccessExpressionNode) {
-            return (Expression) this.visitArrayAccessExpressionNode((ArrayAccessExpressionNode) node);
+            return this.visitArrayAccessExpressionNode((ArrayAccessExpressionNode) node);
         } else if(node instanceof ArrayCreationExpressionNode) {
-            return (Expression) this.visitArrayCreationExpressionNode((ArrayCreationExpressionNode) node);
+            return this.visitArrayCreationExpressionNode((ArrayCreationExpressionNode) node);
         } else if(node instanceof ArrayInitializerExpressionNode) {
-            return (Expression) this.visitArrayInitializerExpressionNode((ArrayInitializerExpressionNode) node);
+            return this.visitArrayInitializerExpressionNode((ArrayInitializerExpressionNode) node);
         } else if(node instanceof AssignmentExpressionNode) {
-            return (Expression) this.visitAssignmentExpressionNode((AssignmentExpressionNode) node);
+            return this.visitAssignmentExpressionNode((AssignmentExpressionNode) node);
         } else if(node instanceof BinaryExpressionNode) {
             return this.visitBinaryExpressionNode((BinaryExpressionNode) node);
         } else if(node instanceof BooleanLiteralExpressionNode) {
             return this.visitBooleanLiteralExpressionNode((BooleanLiteralExpressionNode) node);
         } else if(node instanceof BracketedExpressionNode) {
-            return (Expression) this.visitBracketedExpressionNode((BracketedExpressionNode) node);
+            return this.visitBracketedExpressionNode((BracketedExpressionNode) node);
         } else if(node instanceof CastExpressionNode) {
-            return (Expression) this.visitCastExpressionNode((CastExpressionNode) node);
+            return this.visitCastExpressionNode((CastExpressionNode) node);
         } else if(node instanceof CharLiteralExpressionNode) {
             return this.visitCharLiteralExpressionNode((CharLiteralExpressionNode) node);
         } else if(node instanceof ConditionalExpressionNode) {
-            return (Expression) this.visitConditionalExpressionNode((ConditionalExpressionNode) node);
+            return this.visitConditionalExpressionNode((ConditionalExpressionNode) node);
         } else if(node instanceof DoubleLiteralExpressionNode) {
             return this.visitDoubleLiteralExpressionNode((DoubleLiteralExpressionNode) node);
         } else if(node instanceof FieldAccessExpressionNode) {
-            return (Expression) this.visitFieldAccessExpressionNode((FieldAccessExpressionNode) node);
+            return this.visitFieldAccessExpressionNode((FieldAccessExpressionNode) node);
         } else if(node instanceof InstanceOfExpressionNode) {
-            return (Expression) this.visitInstanceOfExpressionNode((InstanceOfExpressionNode) node);
+            return this.visitInstanceOfExpressionNode((InstanceOfExpressionNode) node);
         } else if(node instanceof IntegerLiteralExpressionNode) {
             return this.visitIntegerLiteralExpressionNode((IntegerLiteralExpressionNode) node);
         } else if(node instanceof LambdaExpressionNode) {
-            return (Expression) this.visitLambdaExpressionNode((LambdaExpressionNode) node);
+            return this.visitLambdaExpressionNode((LambdaExpressionNode) node);
         } else if(node instanceof LocalVariableDeclarationNode) {
             return this.visitLocalVariableDeclarationNode((LocalVariableDeclarationNode) node);
         } else if(node instanceof LongLiteralExpressionNode) {
             return this.visitLongLiteralExpressionNode((LongLiteralExpressionNode) node);
         } else if(node instanceof MethodInvocationExpressionNode) {
-            return (Expression) this.visitMethodInvocationExpressionNode((MethodInvocationExpressionNode) node);
+            return this.visitMethodInvocationExpressionNode((MethodInvocationExpressionNode) node);
         } else if(node instanceof MethodReferenceExpressionNode) {
             return this.visitMethodReferenceExpressionNode((MethodReferenceExpressionNode) node);
         } else if(node instanceof NameNode) {
@@ -596,7 +602,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         } else if(node instanceof NullLiteralExpressionNode) {
             return this.visitNullLiteralExpressionNode((NullLiteralExpressionNode) node);
         } else if(node instanceof ObjectCreationExpressionNode) {
-            return (Expression) this.visitObjectCreationExpressionNode((ObjectCreationExpressionNode) node);
+            return this.visitObjectCreationExpressionNode((ObjectCreationExpressionNode) node);
         } else if(node instanceof StringLiteralExpressionNode) {
             return this.visitStringLiteralExpressionNode((StringLiteralExpressionNode) node);
         } else if(node instanceof ThisExpressionNode) {
@@ -613,10 +619,20 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
 
     @Override
     public BinaryExpr visitBinaryExpressionNode(final BinaryExpressionNode node) {
+        BinaryExpr.Operator operator = null;
+        for(int i=0; i< BinaryExpr.Operator.values().length; i++) {
+            if(BinaryExpr.Operator.values()[i].asString().equalsIgnoreCase(node.operator())) {
+                operator = BinaryExpr.Operator.values()[i];
+                break;
+            }
+        }
+        if(operator == null) {
+            throw new IllegalStateException("Unknown operator: " + node.operator());
+        }
         return new BinaryExpr(
             this.visitExpressionNode(node.left()),
             this.visitExpressionNode(node.right()),
-            BinaryExpr.Operator.valueOf(node.operator().toUpperCase())
+            operator
         );
     }
 
@@ -656,6 +672,224 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
             );
         }
         return methodReferenceExpr;
+    }
+
+    @Override
+    public ArrayAccessExpr visitArrayAccessExpressionNode(final ArrayAccessExpressionNode node) {
+        ArrayAccessExpr arrayAccessExpr = new ArrayAccessExpr();
+        arrayAccessExpr.setName(this.visitExpressionNode(node.name()));
+        arrayAccessExpr.setIndex(this.visitExpressionNode(node.dims().get(0).expression()));
+        for(int i = 1; i<node.dims().size(); i++) {
+            arrayAccessExpr = new ArrayAccessExpr(
+                arrayAccessExpr,
+                this.visitExpressionNode(node.dims().get(i).expression())
+            );
+        }
+        return arrayAccessExpr;
+    }
+
+    @Override
+    public ArrayInitializerExpr visitArrayInitializerExpressionNode(final ArrayInitializerExpressionNode node) {
+        final ArrayInitializerExpr arrayInitializerExpr = new ArrayInitializerExpr();
+        if(node.values() != null) {
+            arrayInitializerExpr.setValues(new NodeList<>(
+                node.values().stream().map(
+                    this::visitExpressionNode
+                ).collect(Collectors.toList())
+            ));
+        }
+        return arrayInitializerExpr;
+    }
+
+    @Override
+    public ArrayCreationExpr visitArrayCreationExpressionNode(final ArrayCreationExpressionNode node) {
+        final List<ArrayCreationLevel> javaDims = new ArrayList<>();
+        node.dims().forEach(
+            d -> {
+                final ArrayCreationLevel javaDim = new ArrayCreationLevel();
+                if(d.expression() != null) {
+                    javaDim.setDimension(this.visitExpressionNode(d.expression()));
+                }
+                d.annotations().forEach(
+                    a -> javaDim.addAnnotation(this.visitAnnotationNode(a))
+                );
+                javaDims.add(javaDim);
+            }
+        );
+        return new ArrayCreationExpr(
+            this.visitTypeNode(node.type()),
+            new NodeList<>(javaDims),
+            node.arrayInitializer() != null
+                ? this.visitArrayInitializerExpressionNode((ArrayInitializerExpressionNode) node.arrayInitializer())
+                : null
+
+        );
+    }
+
+    @Override
+    public MethodCallExpr visitMethodInvocationExpressionNode(final MethodInvocationExpressionNode node) {
+        final MethodCallExpr methodCallExpr = new MethodCallExpr();
+        methodCallExpr.setName(node.name());
+        if(node.scope() != null) {
+            methodCallExpr.setScope(this.visitExpressionNode(node.scope()));
+        }
+        if(node.typeArguments() != null && node.typeArguments().size() > 0) {
+            methodCallExpr.setTypeArguments(
+                new NodeList<>(
+                    node.typeArguments().stream().map(
+                        this::visitTypeNode
+                    ).collect(Collectors.toList())
+                )
+            );
+        }
+        if(node.arguments() != null) {
+            methodCallExpr.setArguments(
+                new NodeList<>(
+                    node.arguments().stream().map(
+                        this::visitExpressionNode
+                    ).collect(Collectors.toList())
+                )
+            );
+        }
+        return methodCallExpr;
+    }
+
+    @Override
+    public LambdaExpr visitLambdaExpressionNode(final LambdaExpressionNode node) {
+        final LambdaExpr lambdaExpr = new LambdaExpr();
+        lambdaExpr.setEnclosingParameters(node.enclosedParameters());
+        if(node.parameters() != null && !node.parameters().isEmpty()) {
+            node.parameters().forEach(
+                p -> lambdaExpr.addParameter(this.visitParameterNode(p))
+            );
+            if(node.parameters().size() > 1) {
+                lambdaExpr.setEnclosingParameters(true);
+            }
+        } else {
+            lambdaExpr.setEnclosingParameters(true);
+        }
+        if(node.blockStatements() != null) {
+            lambdaExpr.setBody(this.visitBlockStatements(node.blockStatements()));
+        } else {
+            lambdaExpr.setBody(new ExpressionStmt(this.visitExpressionNode(node.expression())));
+        }
+        return lambdaExpr;
+    }
+
+    @Override
+    public InstanceOfExpr visitInstanceOfExpressionNode(final InstanceOfExpressionNode node) {
+        final InstanceOfExpr instanceOfExpr = new InstanceOfExpr();
+        instanceOfExpr.setExpression(this.visitExpressionNode(node.expression()));
+        instanceOfExpr.setType(this.visitReferenceTypeNode(node.referenceType()));
+        return instanceOfExpr;
+    }
+
+    @Override
+    public ConditionalExpr visitConditionalExpressionNode(final ConditionalExpressionNode node) {
+        return new ConditionalExpr(
+            this.visitExpressionNode(node.condition()),
+            this.visitExpressionNode(node.thenExpr()),
+            this.visitExpressionNode(node.elseExpr())
+        );
+    }
+
+    @Override
+    public CastExpr visitCastExpressionNode(final CastExpressionNode node) {
+        if(node.primitiveType() != null) {
+            return new CastExpr(
+                this.visitTypeNode(node.primitiveType()),
+                this.visitExpressionNode(node.expression())
+            );
+        } else {
+            final List<ReferenceType> javaTypes = new ArrayList<>();
+            node.referenceTypes().forEach(
+                rt -> javaTypes.add(this.visitReferenceTypeNode(rt))
+            );
+            final IntersectionType type = new IntersectionType(
+                new NodeList<>(javaTypes)
+            );
+            return new CastExpr(
+                type,
+                this.visitExpressionNode(node.expression())
+            );
+        }
+    }
+
+    @Override
+    public EnclosedExpr visitBracketedExpressionNode(final BracketedExpressionNode node) {
+        return new EnclosedExpr(this.visitExpressionNode(node.expression()));
+    }
+
+    @Override
+    public FieldAccessExpr visitFieldAccessExpressionNode(final FieldAccessExpressionNode node) {
+        final FieldAccessExpr fieldAccessExpr = new FieldAccessExpr();
+        if(node.scope() != null) {
+            fieldAccessExpr.setScope(this.visitExpressionNode(node.scope()));
+        }
+        fieldAccessExpr.setName(node.name());
+        return fieldAccessExpr;
+    }
+
+    @Override
+    public AssignExpr visitAssignmentExpressionNode(final AssignmentExpressionNode node) {
+        AssignExpr.Operator operator = null;
+        for(int i=0; i< AssignExpr.Operator.values().length; i++) {
+            if(AssignExpr.Operator.values()[i].asString().equalsIgnoreCase(node.operator())) {
+                operator = AssignExpr.Operator.values()[i];
+                break;
+            }
+        }
+        if(operator == null) {
+            throw new IllegalStateException("Unknown assignment operator: " + node.operator());
+        }
+
+        return new AssignExpr(
+            this.visitExpressionNode(node.target()),
+            this.visitExpressionNode(node.value()),
+            operator
+        );
+    }
+
+    @Override
+    public ObjectCreationExpr visitObjectCreationExpressionNode(final ObjectCreationExpressionNode node) {
+        final ObjectCreationExpr objectCreationExpr = new ObjectCreationExpr();
+        if(node.scope() != null) {
+            objectCreationExpr.setScope(this.visitExpressionNode(node.scope()));
+        }
+        objectCreationExpr.setType(this.visitClassOrInterfaceTypeNode(node.type()));
+        if(node.typeArguments() != null && node.typeArguments().size() > 0) {
+            objectCreationExpr.setTypeArguments(
+                new NodeList<>(
+                    node.typeArguments().stream().map(
+                        this::visitTypeNode
+                    ).collect(Collectors.toList())
+                )
+            );
+        }
+        if(node.arguments() != null) {
+            objectCreationExpr.setArguments(
+                new NodeList<>(
+                    node.arguments().stream().map(
+                        this::visitExpressionNode
+                    ).collect(Collectors.toList())
+                )
+            );
+        }
+        if(node.anonymousBody() != null) {
+            final ClassBodyNode body = node.anonymousBody();
+            if(!body.isEmpty()) {
+                objectCreationExpr.setAnonymousClassBody(
+                    new NodeList<>(
+                        body.classBodyDeclarations().stream().map(
+                            cbd -> (BodyDeclaration<?>) this.visitClassBodyDeclarationNode(cbd)
+                        ).collect(Collectors.toList())
+                    )
+                );
+            } else {
+                objectCreationExpr.setAnonymousClassBody(new NodeList<>());
+            }
+        }
+        return objectCreationExpr;
     }
 
     @Override

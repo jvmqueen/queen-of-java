@@ -390,6 +390,7 @@ public interface QueenASTVisitor<T> {
         return this.visitChildren(node);
     }
     default T visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node) {
+        System.out.println("VISITING CLASS OR INTERFACE TYPE: " + node.name() + " at " + node.position());
         // if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
         return this.visitChildren(node);
     }
@@ -446,6 +447,8 @@ public interface QueenASTVisitor<T> {
     T visitNodeWithParameters(final NodeWithParameters node);
 
     T visitNodeWithTypeParameters(final NodeWithTypeParameters node);
+
+    T visitNodeWithTypeArguments(final NodeWithTypeArguments node);
 
     T visitNodeWithThrows(final NodeWithThrows node);
 

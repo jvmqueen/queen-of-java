@@ -28,11 +28,8 @@
 package org.queenlang.transpiler;
 
 import org.queenlang.transpiler.nodes.NameNode;
-import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
-import org.queenlang.transpiler.nodes.expressions.*;
 import org.queenlang.transpiler.nodes.project.FileNode;
-import org.queenlang.transpiler.nodes.statements.*;
 import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.*;
@@ -142,6 +139,10 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     )
                 );
             }
+            problems.addAll(this.visitClassOrInterfaceTypeNode(implementedInterface));
+        }
+        if(node.extendsType() != null) {
+            problems.addAll(this.visitClassOrInterfaceTypeNode(node.extendsType()));
         }
         final ClassBodyNode body = node.body();
         boolean defaultCtorPresent = false;
@@ -256,6 +257,53 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         }
         problems.addAll(this.visitTypeNode(node.type()));
         problems.addAll(this.visitVariableDeclaratorNode(node.variable()));
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitTypeNode(final TypeNode node) {
+        if(node instanceof PrimitiveTypeNode) {
+            return this.visitPrimitiveTypeNode((PrimitiveTypeNode) node);
+        } if(node instanceof ReferenceTypeNode) {
+            return this.visitReferenceTypeNode((ReferenceTypeNode) node);
+        } if(node instanceof VoidTypeNode) {
+            return this.visitVoidTypeNode((VoidTypeNode) node);
+        } if(node instanceof WildcardTypeNode) {
+            return this.visitWildcardTypeNode((WildcardTypeNode) node);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<SemanticProblem> visitReferenceTypeNode(final ReferenceTypeNode node) {
+        if(node instanceof ArrayTypeNode) {
+            return this.visitArrayTypeNode((ArrayTypeNode) node);
+        } else if(node instanceof ClassOrInterfaceTypeNode) {
+            return this.visitClassOrInterfaceTypeNode((ClassOrInterfaceTypeNode) node);
+        } else if(node instanceof ExceptionTypeNode) {
+            return this.visitExceptionTypeNode((ExceptionTypeNode) node);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<SemanticProblem>  visitArrayTypeNode(final ArrayTypeNode node) {
+        return this.visitTypeNode(node.type());
+    }
+
+    @Override
+    public List<SemanticProblem> visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithAnnotations(node));
+        problems.addAll(this.visitNodeWithTypeArguments(node));
+        if(node.resolve() == null) {
+            problems.add(
+                new QueenSemanticError(
+                    "Symbol " + node.name() + " could not be resolved.",
+                    node.position()
+                )
+            );
+        }
         return problems;
     }
 
@@ -428,6 +476,8 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitParameterNode(ParameterNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithModifiers(node));
+        problems.addAll(this.visitNodeWithAnnotations(node));
+        problems.addAll(this.visitTypeNode(node.type()));
         return problems;
     }
 
@@ -510,6 +560,27 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             );
         }
         //@todo #49:60min Validate boundTypes of each type parameter.
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitNodeWithTypeArguments(final NodeWithTypeArguments node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        node.typeArguments().forEach( ta ->
+            problems.addAll(this.visitTypeNode(ta))
+        );
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitTypeParameterNode(final TypeParameterNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithAnnotations(node));
+        if(node.typeBound() != null) {
+            for(final ClassOrInterfaceTypeNode tb : node.typeBound()) {
+                problems.addAll(this.visitClassOrInterfaceTypeNode(tb));
+            }
+        }
         return problems;
     }
 

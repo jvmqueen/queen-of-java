@@ -25,56 +25,24 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.types;
+package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.body.NodeWithAnnotations;
-import org.queenlang.transpiler.nodes.body.NodeWithTypeArguments;
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
+import org.queenlang.transpiler.nodes.types.TypeNode;
+
 import java.util.List;
 
 /**
- * Queen class or interface reference type.
+ * Queen AST Node which has type arguments.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode, NodeWithAnnotations, NodeWithTypeArguments {
+public interface NodeWithTypeArguments {
 
     /**
-     * Is it an interface type or class type?
+     * Type arguments.
+     * @return List of type arguments.
      */
-    boolean interfaceType();
+    List<TypeNode> typeArguments();
 
-    /**
-     * Scope of this reference type (what comes before the dot). E.g.
-     * java.util.List (util is the scope of List).
-     */
-    ClassOrInterfaceTypeNode scope();
-
-    /**
-     * Simple name of this reference type, without scope
-     */
-    String simpleName();
-
-    /**
-     * Full name of this reference type, with package/scope, for example: java.util.List.
-     * @return Full name.
-     */
-    default String name() {
-        final String fullName;
-        if(this.scope() != null) {
-            fullName = this.scope().name() + "." + this.simpleName();
-        } else {
-            fullName = this.simpleName();
-        }
-        return fullName;
-    }
-
-    boolean hasDiamondOperator();
-
-    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitClassOrInterfaceTypeNode(this);
-    }
 }

@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.expressions;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.body.NodeWithTypeArguments;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import java.util.List;
 
@@ -37,11 +38,10 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface MethodInvocationExpressionNode extends ExpressionNode {
+public interface MethodInvocationExpressionNode extends ExpressionNode, NodeWithTypeArguments {
 
     ExpressionNode scope();
 
-    List<TypeNode> typeArguments();
     String name();
 
     List<ExpressionNode> arguments();

@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes.expressions;
 
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.ClassBodyNode;
+import org.queenlang.transpiler.nodes.body.NodeWithTypeArguments;
 import org.queenlang.transpiler.nodes.body.QueenClassBodyNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
@@ -42,12 +43,10 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ObjectCreationExpressionNode extends ExpressionNode {
+public interface ObjectCreationExpressionNode extends ExpressionNode, NodeWithTypeArguments {
 
     ExpressionNode scope();
     ClassOrInterfaceTypeNode type();
-
-    List<TypeNode> typeArguments();
 
     List<ExpressionNode> arguments();
 

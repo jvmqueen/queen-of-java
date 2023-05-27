@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.statements;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.body.NodeWithTypeArguments;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
@@ -39,10 +40,9 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ExplicitConstructorInvocationNode extends StatementNode {
+public interface ExplicitConstructorInvocationNode extends StatementNode, NodeWithTypeArguments {
     boolean isThis();
     ExpressionNode scope();
-    List<TypeNode> typeArguments();
     List<ExpressionNode> arguments();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {

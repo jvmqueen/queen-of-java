@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.expressions;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.body.NodeWithTypeArguments;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.List;
@@ -38,11 +39,10 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface MethodReferenceExpressionNode extends ExpressionNode {
+public interface MethodReferenceExpressionNode extends ExpressionNode, NodeWithTypeArguments {
 
     TypeNode type();
     ExpressionNode scope();
-    List<TypeNode> typeArguments();
     String identifier();
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {

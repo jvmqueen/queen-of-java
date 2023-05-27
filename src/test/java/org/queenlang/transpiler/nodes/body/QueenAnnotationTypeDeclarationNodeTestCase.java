@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -130,102 +126,6 @@ public final class QueenAnnotationTypeDeclarationNodeTestCase {
             annotationTypeDeclarationNode.body(),
             Matchers.is(body)
         );
-    }
-
-    @Test
-    public void addsToCompilationUnitJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final AnnotationTypeBodyNode body = QueenMockito.mock(AnnotationTypeBodyNode.class);
-
-        final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            "MyAnnotation",
-            body
-        );
-
-        final CompilationUnit cu = new CompilationUnit();
-        annotationTypeDeclarationNode.addToJavaNode(cu);
-
-        MatcherAssert.assertThat(
-            cu.getType(0).asAnnotationDeclaration().getName().asString(),
-            Matchers.equalTo("MyAnnotation")
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
-    }
-
-    @Test
-    public void addsToClassDeclarationJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final AnnotationTypeBodyNode body = QueenMockito.mock(AnnotationTypeBodyNode.class);
-
-        final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            "MyAnnotation",
-            body
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        annotationTypeDeclarationNode.addToJavaNode(clazz);
-
-        MatcherAssert.assertThat(
-            clazz.getMember(0).asAnnotationDeclaration().getName().asString(),
-            Matchers.equalTo("MyAnnotation")
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
-    }
-
-    @Test
-    public void addsToAnnotationDeclarationJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final AnnotationTypeBodyNode body = QueenMockito.mock(AnnotationTypeBodyNode.class);
-
-        final AnnotationTypeDeclarationNode annotationTypeDeclarationNode = new QueenAnnotationTypeDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            "MyAnnotation",
-            body
-        );
-
-        final AnnotationDeclaration ad = new AnnotationDeclaration();
-        annotationTypeDeclarationNode.addToJavaNode(ad);
-
-        MatcherAssert.assertThat(
-            ad.getMember(0).asAnnotationDeclaration().getName().asString(),
-            Matchers.equalTo("MyAnnotation")
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
     }
 
     @Test

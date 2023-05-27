@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.CharLiteralExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -65,19 +64,6 @@ public final class QueenCharLiteralExpressionNodeTestCase {
         MatcherAssert.assertThat(
             charLiteral.value(),
             Matchers.equalTo("c")
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final CharLiteralExpressionNode charLiteral = new QueenCharLiteralExpressionNode(
-            position,
-            "c"
-        );
-        MatcherAssert.assertThat(
-            ((CharLiteralExpr) charLiteral.toJavaExpression()).asChar(),
-            Matchers.equalTo('c')
         );
     }
 

@@ -27,15 +27,10 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.ArrayCreationExpr;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.type.PrimitiveType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -109,83 +104,6 @@ public final class QueenArrayCreationExpressionNodeTestCase {
         MatcherAssert.assertThat(
             arrCreation.arrayInitializer(),
             Matchers.is(initializer)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression(){
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final ArrayDimensionNode dim1 = QueenMockito.mock(ArrayDimensionNode.class);
-        Mockito.when(dim1.expression()).thenReturn(
-            new QueenNameNode(
-                QueenMockito.mock(Position.class),
-                "5"
-            )
-        );
-        final ArrayDimensionNode dim2 = QueenMockito.mock(ArrayDimensionNode.class);
-        Mockito.when(dim2.expression()).thenReturn(
-            new QueenNameNode(
-                QueenMockito.mock(Position.class),
-                "10"
-            )
-        );
-        dims.add(dim1);
-        dims.add(dim2);
-        final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
-            QueenMockito.mock(Position.class),
-            type,
-            dims,
-            null
-        );
-        final ArrayCreationExpr expression = (ArrayCreationExpr) arrCreation.toJavaExpression();
-        System.out.println(expression);
-
-        MatcherAssert.assertThat(
-            expression.getElementType().asPrimitiveType(),
-            Matchers.equalTo(PrimitiveType.intType())
-        );
-        MatcherAssert.assertThat(
-            expression.getLevels().get(0).getDimension().get().asNameExpr().getName().asString(),
-            Matchers.equalTo("5")
-        );
-        MatcherAssert.assertThat(
-            expression.getLevels().get(1).getDimension().get().asNameExpr().getName().asString(),
-            Matchers.equalTo("10")
-        );
-    }
-
-    @Test
-    public void returnsJavaStatement(){
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final ArrayDimensionNode dim1 = QueenMockito.mock(ArrayDimensionNode.class);
-        Mockito.when(dim1.expression()).thenReturn(
-            new QueenNameNode(
-                QueenMockito.mock(Position.class),
-                "1"
-            )
-        );
-        dims.add(dim1);
-        final ArrayCreationExpressionNode arrCreation = new QueenArrayCreationExpressionNode(
-            QueenMockito.mock(Position.class),
-            type,
-            dims,
-            null
-        );
-        final ExpressionStmt stmt = (ExpressionStmt) arrCreation.toJavaStatement();
-        final ArrayCreationExpr expression = (ArrayCreationExpr) stmt.getExpression();
-        System.out.println(expression);
-
-        MatcherAssert.assertThat(
-            expression.getElementType().asPrimitiveType(),
-            Matchers.equalTo(PrimitiveType.intType())
-        );
-        MatcherAssert.assertThat(
-            expression.getLevels().get(0).getDimension().get().asNameExpr().getName().asString(),
-            Matchers.equalTo("1")
         );
     }
 

@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.type.UnionType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ModifierNode;
@@ -149,51 +145,6 @@ public final class QueenCatchFormalParameterNodeTestCase {
         MatcherAssert.assertThat(
             catchFormalParameterNode.exceptionName(),
             Matchers.is(variableDeclaratorId)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final List<TypeNode> caught = new ArrayList<>();
-        caught.add(QueenMockito.mock(TypeNode.class));
-        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
-        final CatchFormalParameterNode catchFormalParameterNode = new QueenCatchFormalParameterNode(
-            position,
-            annotations,
-            modifiers,
-            caught,
-            variableDeclaratorId
-        );
-
-        final CatchClause javaCatchClause = new CatchClause();
-        catchFormalParameterNode.addToJavaNode(javaCatchClause);
-
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(Parameter.class)
-            )
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(
-                Mockito.any(Parameter.class)
-            )
-        );
-        Mockito.verify(variableDeclaratorId, Mockito.times(1)).addToJavaNode(
-            Mockito.any(Parameter.class)
-        );
-        caught.forEach(
-            c -> Mockito.verify(c, Mockito.times(1)).addToJavaNode(
-                Mockito.any(UnionType.class)
-            )
-        );
-        MatcherAssert.assertThat(
-            javaCatchClause.getParameter(),
-            Matchers.notNullValue()
         );
     }
 

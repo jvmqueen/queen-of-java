@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.type.VoidType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -74,30 +71,6 @@ public final class QueenVoidNodeTestCase {
         MatcherAssert.assertThat(
             voidTypeNode.annotations(),
             Matchers.is(annotations)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final VoidTypeNode voidTypeNode = new QueenVoidNode(
-            position,
-            annotations
-        );
-
-        final MethodDeclaration method = new MethodDeclaration();
-        voidTypeNode.addToJavaNode(method);
-
-        MatcherAssert.assertThat(
-            method.getType().asVoidType(),
-            Matchers.notNullValue()
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(VoidType.class)
-            )
         );
     }
 

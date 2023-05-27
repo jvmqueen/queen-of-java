@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.NameExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -70,24 +68,6 @@ public final class QueenBracketedExpressionNodeTestCase {
         MatcherAssert.assertThat(
             bracketed.expression(),
             Matchers.is(expressionNode)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expressionNode.toJavaExpression()).thenReturn(
-            new NameExpr("a")
-        );
-        final BracketedExpressionNode bracketed = new QueenBracketedExpressionNode(
-            position,
-            expressionNode
-        );
-
-        MatcherAssert.assertThat(
-            bracketed.toJavaExpression().asEnclosedExpr().getInner().asNameExpr().getName().asString(),
-            Matchers.equalTo("a")
         );
     }
 

@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.body.Parameter;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.util.QueenMockito;
 
@@ -65,34 +63,6 @@ public final class QueenModifierNodeTestCase {
         MatcherAssert.assertThat(
             modifierNode.modifier(),
             Matchers.equalTo("public")
-        );
-    }
-
-    @Test
-    public void addsToJavaNodeIfNotMutable() {
-        final ModifierNode modifierNode = new QueenModifierNode(
-            QueenMockito.mock(Position.class),
-            "private"
-        );
-        final Parameter parameter = new Parameter();
-        modifierNode.addToJavaNode(parameter);
-        MatcherAssert.assertThat(
-            parameter.getModifiers().get(0).getKeyword().asString(),
-            Matchers.equalTo("private")
-        );
-    }
-
-    @Test
-    public void doesNotAddToJavaNodeIfMutable() {
-        final ModifierNode modifierNode = new QueenModifierNode(
-            QueenMockito.mock(Position.class),
-            "mutable"
-        );
-        final Parameter parameter = new Parameter();
-        modifierNode.addToJavaNode(parameter);
-        MatcherAssert.assertThat(
-            parameter.getModifiers().size(),
-            Matchers.equalTo(0)
         );
     }
 

@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -191,150 +187,6 @@ public final class QueenNormalInterfaceDeclarationNodeTestCase {
             normalInterfaceDeclarationNode.body(),
             Matchers.is(body)
         );
-    }
-
-    @Test
-    public void addsToCompilationUnit() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final List<TypeParameterNode> typeParams = new ArrayList<>();
-        typeParams.add(QueenMockito.mock(TypeParameterNode.class));
-        final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
-        extendsTypes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
-        final InterfaceBodyNode body = QueenMockito.mock(InterfaceBodyNode.class);
-
-        final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            "SomeInterface",
-            typeParams,
-            extendsTypes,
-            body
-        );
-
-        final CompilationUnit cu = new CompilationUnit();
-        normalInterfaceDeclarationNode.addToJavaNode(cu);
-
-        MatcherAssert.assertThat(
-            cu.getTypes().get(0).getName().asString(),
-            Matchers.equalTo("SomeInterface")
-        );
-        MatcherAssert.assertThat(
-            cu.getTypes().get(0).asClassOrInterfaceDeclaration().isInterface(),
-            Matchers.is(true)
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        typeParams.forEach(
-            tp -> Mockito.verify(tp, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        extendsTypes.forEach(
-            et -> Mockito.verify(et, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
-    }
-
-    @Test
-    public void addsToClassOrInterfaceDeclaration() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final List<TypeParameterNode> typeParams = new ArrayList<>();
-        typeParams.add(QueenMockito.mock(TypeParameterNode.class));
-        final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
-        extendsTypes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
-        final InterfaceBodyNode body = QueenMockito.mock(InterfaceBodyNode.class);
-
-        final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            "SomeInterface",
-            typeParams,
-            extendsTypes,
-            body
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        normalInterfaceDeclarationNode.addToJavaNode(clazz);
-
-        MatcherAssert.assertThat(
-            clazz.getMember(0).asClassOrInterfaceDeclaration().getName().asString(),
-            Matchers.equalTo("SomeInterface")
-        );
-        MatcherAssert.assertThat(
-            clazz.getMember(0).asClassOrInterfaceDeclaration().isInterface(),
-            Matchers.is(true)
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        typeParams.forEach(
-            tp -> Mockito.verify(tp, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        extendsTypes.forEach(
-            et -> Mockito.verify(et, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
-    }
-
-    @Test
-    public void addsToAnnotationDeclaration() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final List<TypeParameterNode> typeParams = new ArrayList<>();
-        typeParams.add(QueenMockito.mock(TypeParameterNode.class));
-        final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
-        extendsTypes.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
-        final InterfaceBodyNode body = QueenMockito.mock(InterfaceBodyNode.class);
-
-        final NormalInterfaceDeclarationNode normalInterfaceDeclarationNode = new QueenNormalInterfaceDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            "SomeInterface",
-            typeParams,
-            extendsTypes,
-            body
-        );
-
-        final AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration();
-        normalInterfaceDeclarationNode.addToJavaNode(annotationDeclaration);
-
-        MatcherAssert.assertThat(
-            annotationDeclaration.getMember(0).asClassOrInterfaceDeclaration().getName().asString(),
-            Matchers.equalTo("SomeInterface")
-        );
-        MatcherAssert.assertThat(
-            annotationDeclaration.getMember(0).asClassOrInterfaceDeclaration().isInterface(),
-            Matchers.is(true)
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        typeParams.forEach(
-            tp -> Mockito.verify(tp, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        extendsTypes.forEach(
-            et -> Mockito.verify(et, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        Mockito.verify(body, Mockito.times(1)).addToJavaNode(Mockito.any());
     }
 
     @Test

@@ -27,15 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
-import com.github.javaparser.ast.stmt.AssertStmt;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -93,35 +87,6 @@ public final class QueenAssertStatementNodeTestCase {
         MatcherAssert.assertThat(
             assertStatement.message(),
             Matchers.is(message)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode check = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(check.toJavaExpression()).thenReturn(
-            new BinaryExpr(
-                new NameExpr("a"),
-                new NameExpr("b"),
-                BinaryExpr.Operator.EQUALS
-            )
-        );
-        final ExpressionNode message = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(message.toJavaExpression()).thenReturn(new StringLiteralExpr("a and b aren't equal!"));
-
-        final AssertStatementNode assertStatement = new QueenAssertStatementNode(
-            position,
-            check,
-            message
-        );
-
-        final BlockStmt blockStmt = new BlockStmt();
-        assertStatement.addToJavaNode(blockStmt);
-        final AssertStmt assertJavaStatement = (AssertStmt) blockStmt.getStatements().get(0);
-        MatcherAssert.assertThat(
-            assertJavaStatement.toString(),
-            Matchers.equalTo("assert a == b : \"a and b aren't equal!\";")
         );
     }
 

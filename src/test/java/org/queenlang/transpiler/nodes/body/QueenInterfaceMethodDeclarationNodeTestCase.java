@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -234,60 +232,6 @@ public final class QueenInterfaceMethodDeclarationNodeTestCase {
             methodDeclaration.blockStatements(),
             Matchers.is(blockStatements)
         );
-    }
-
-    @Test
-    public void addsToClassDeclarationJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final List<TypeParameterNode> typeParameters = new ArrayList<>();
-        typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
-        final List<ParameterNode> parameters = new ArrayList<>();
-        parameters.add(QueenMockito.mock(ParameterNode.class));
-        final List<ExceptionTypeNode> throwsList = new ArrayList<>();
-        throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
-        final TypeNode returnType = QueenMockito.mock(TypeNode.class);
-        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
-        final String name = "myMethod";
-
-        final InterfaceMethodDeclarationNode methodDeclaration = new QueenInterfaceMethodDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            returnType,
-            typeParameters,
-            name,
-            parameters,
-            throwsList,
-            blockStatements
-        );
-        final ClassOrInterfaceDeclaration classOrInterfaceDeclaration = new ClassOrInterfaceDeclaration();
-        methodDeclaration.addToJavaNode(classOrInterfaceDeclaration);
-
-        MatcherAssert.assertThat(
-            classOrInterfaceDeclaration.getMember(0).asMethodDeclaration().getName().asString(),
-            Matchers.equalTo("myMethod")
-        );
-
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        typeParameters.forEach(
-            tp -> Mockito.verify(tp, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        parameters.forEach(
-            p -> Mockito.verify(p, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        throwsList.forEach(
-            t -> Mockito.verify(t, Mockito.times(1)).addToJavaNode(Mockito.any())
-        );
-        Mockito.verify(returnType, Mockito.times(1)).addToJavaNode(Mockito.any());
-        Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(Mockito.any());
     }
 
     @Test

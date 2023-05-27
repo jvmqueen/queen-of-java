@@ -69,32 +69,6 @@ public final class QueenThisExpressionNodeTestCase {
     }
 
     @Test
-    public void returnsJavaNodeNoTypeName() {
-        final Position position = Mockito.mock(Position.class);
-        final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
-            position,
-            null
-        );
-        MatcherAssert.assertThat(
-            thisExpression.toJavaExpression().toString(),
-            Matchers.equalTo("this")
-        );
-    }
-
-    @Test
-    public void returnsJavaNodeWithTypeName() {
-        final Position position = Mockito.mock(Position.class);
-        final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
-            position,
-            new QueenNameNode(Mockito.mock(Position.class), "Student")
-        );
-        MatcherAssert.assertThat(
-            thisExpression.toJavaExpression().toString(),
-            Matchers.equalTo("Student.this")
-        );
-    }
-
-    @Test
     public void returnsChildren() {
         final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
             Mockito.mock(Position.class),

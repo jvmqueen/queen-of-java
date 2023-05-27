@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.NameExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -89,60 +86,6 @@ public final class QueenBinaryExpressionNodeTestCase {
         MatcherAssert.assertThat(
             binary.right(),
             Matchers.is(right)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final ExpressionNode left = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(left.toJavaExpression()).thenReturn(new NameExpr("1"));
-        final ExpressionNode right = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(right.toJavaExpression()).thenReturn(new NameExpr("2"));
-        final BinaryExpressionNode binary = new QueenBinaryExpressionNode(
-            QueenMockito.mock(Position.class),
-            left,
-            "+",
-            right
-        );
-        final BinaryExpr binaryExpr = (BinaryExpr) binary.toJavaExpression();
-        MatcherAssert.assertThat(
-            binaryExpr.getLeft().asNameExpr().getName().asString(),
-            Matchers.equalTo("1")
-        );
-        MatcherAssert.assertThat(
-            binaryExpr.getOperator(),
-            Matchers.is(BinaryExpr.Operator.PLUS)
-        );
-        MatcherAssert.assertThat(
-            binaryExpr.getRight().asNameExpr().getName().asString(),
-            Matchers.equalTo("2")
-        );
-    }
-
-    @Test
-    public void returnsJavaStatement() {
-        final ExpressionNode left = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(left.toJavaExpression()).thenReturn(new NameExpr("1"));
-        final ExpressionNode right = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(right.toJavaExpression()).thenReturn(new NameExpr("2"));
-        final BinaryExpressionNode binary = new QueenBinaryExpressionNode(
-            QueenMockito.mock(Position.class),
-            left,
-            "+",
-            right
-        );
-        final BinaryExpr binaryExpr = (BinaryExpr) binary.toJavaStatement().asExpressionStmt().getExpression();
-        MatcherAssert.assertThat(
-            binaryExpr.getLeft().asNameExpr().getName().asString(),
-            Matchers.equalTo("1")
-        );
-        MatcherAssert.assertThat(
-            binaryExpr.getOperator(),
-            Matchers.is(BinaryExpr.Operator.PLUS)
-        );
-        MatcherAssert.assertThat(
-            binaryExpr.getRight().asNameExpr().getName().asString(),
-            Matchers.equalTo("2")
         );
     }
 

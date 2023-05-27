@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -73,41 +69,6 @@ public final class QueenArrayInitializerExpressionNodeTestCase {
         MatcherAssert.assertThat(
             arrayInit.values(),
             Matchers.is(values)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final List<ExpressionNode> values = new ArrayList<>();
-        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(value.toJavaExpression()).thenReturn(new NameExpr("1"));
-        values.add(value);
-        final ArrayInitializerExpressionNode arrayInit = new QueenArrayInitializerExpressionNode(
-            QueenMockito.mock(Position.class),
-            values
-        );
-        final ArrayInitializerExpr expression = (ArrayInitializerExpr) arrayInit.toJavaExpression();
-        MatcherAssert.assertThat(
-            expression.getValues().get(0).asNameExpr().getName().asString(),
-            Matchers.equalTo("1")
-        );
-    }
-
-    @Test
-    public void returnsJavaStatement() {
-        final List<ExpressionNode> values = new ArrayList<>();
-        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(value.toJavaExpression()).thenReturn(new NameExpr("1"));
-        values.add(value);
-        final ArrayInitializerExpressionNode arrayInit = new QueenArrayInitializerExpressionNode(
-            QueenMockito.mock(Position.class),
-            values
-        );
-        final ExpressionStmt stmt = (ExpressionStmt) arrayInit.toJavaStatement();
-        final ArrayInitializerExpr expression = (ArrayInitializerExpr) stmt.getExpression();
-        MatcherAssert.assertThat(
-            expression.getValues().get(0).asNameExpr().getName().asString(),
-            Matchers.equalTo("1")
         );
     }
 

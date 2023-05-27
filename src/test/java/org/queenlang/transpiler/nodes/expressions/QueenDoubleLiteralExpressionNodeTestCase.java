@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -66,20 +65,6 @@ public final class QueenDoubleLiteralExpressionNodeTestCase {
             Matchers.equalTo("1.2")
         );
     }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final DoubleLiteralExpressionNode literal = new QueenDoubleLiteralExpressionNode(
-            position,
-            "1.2"
-        );
-        MatcherAssert.assertThat(
-            ((DoubleLiteralExpr) literal.toJavaExpression()).asDouble(),
-            Matchers.equalTo(1.2)
-        );
-    }
-
     @Test
     public void returnsChildren() {
         MatcherAssert.assertThat(

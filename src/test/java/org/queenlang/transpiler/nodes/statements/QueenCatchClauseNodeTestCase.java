@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.stmt.TryStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -90,32 +86,6 @@ public final class QueenCatchClauseNodeTestCase {
         MatcherAssert.assertThat(
             catchClauseNode.blockStatements(),
             Matchers.is(block)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final CatchFormalParameterNode parameter = QueenMockito.mock(CatchFormalParameterNode.class);
-        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
-        final CatchClauseNode catchClauseNode = new QueenCatchClauseNode(
-            position,
-            parameter,
-            block
-        );
-
-        final TryStmt javaTryStmt = new TryStmt();
-        catchClauseNode.addToJavaNode(javaTryStmt);
-
-        Mockito.verify(parameter, Mockito.times(1)).addToJavaNode(
-            Mockito.any(CatchClause.class)
-        );
-        Mockito.verify(block, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        MatcherAssert.assertThat(
-            javaTryStmt.getCatchClauses().get(0),
-            Matchers.notNullValue()
         );
     }
 

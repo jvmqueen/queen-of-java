@@ -68,32 +68,6 @@ public final class QueenBooleanLiteralExpressionNodeTestCase {
     }
 
     @Test
-    public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final BooleanLiteralExpressionNode booleanLiteral = new QueenBooleanLiteralExpressionNode(
-            position,
-            false
-        );
-        MatcherAssert.assertThat(
-            booleanLiteral.toJavaExpression().asBooleanLiteralExpr().getValue(),
-            Matchers.is(false)
-        );
-    }
-
-    @Test
-    public void returnsJavaStatement() {
-        final Position position = Mockito.mock(Position.class);
-        final BooleanLiteralExpressionNode booleanLiteral = new QueenBooleanLiteralExpressionNode(
-            position,
-            true
-        );
-        MatcherAssert.assertThat(
-            booleanLiteral.toJavaStatement().asExpressionStmt().getExpression().asBooleanLiteralExpr().getValue(),
-            Matchers.is(true)
-        );
-    }
-
-    @Test
     public void returnsChildren() {
         final Position position = Mockito.mock(Position.class);
         final BooleanLiteralExpressionNode booleanLiteral = new QueenBooleanLiteralExpressionNode(

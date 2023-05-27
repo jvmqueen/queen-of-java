@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -83,48 +80,6 @@ public final class QueenInstanceInitializerNodeTestCase {
         MatcherAssert.assertThat(
             instanceInitializer.isStatic(),
             Matchers.is(true)
-        );
-    }
-
-    @Test
-    public void addsInitializerToClassDeclarationJavaNode() {
-        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
-        final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
-            QueenMockito.mock(Position.class),
-            blockStatements,
-            false
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        instanceInitializer.addToJavaNode(clazz);
-
-        MatcherAssert.assertThat(
-            clazz.getMember(0).asInitializerDeclaration().isStatic(),
-            Matchers.is(false)
-        );
-        Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-    }
-
-    @Test
-    public void addsStaticInitializerToClassDeclarationJavaNode() {
-        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
-        final InstanceInitializerNode instanceInitializer = new QueenInstanceInitializerNode(
-            QueenMockito.mock(Position.class),
-            blockStatements,
-            true
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        instanceInitializer.addToJavaNode(clazz);
-
-        MatcherAssert.assertThat(
-            clazz.getMember(0).asInitializerDeclaration().isStatic(),
-            Matchers.is(true)
-        );
-        Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
         );
     }
 

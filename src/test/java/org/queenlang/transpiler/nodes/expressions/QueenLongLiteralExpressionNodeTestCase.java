@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.LongLiteralExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -64,19 +63,6 @@ public final class QueenLongLiteralExpressionNodeTestCase {
         MatcherAssert.assertThat(
             literal.value(),
             Matchers.equalTo("123l")
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final LongLiteralExpressionNode literal = new QueenLongLiteralExpressionNode(
-            position,
-            "123l"
-        );
-        MatcherAssert.assertThat(
-            ((LongLiteralExpr) literal.toJavaExpression()).asLong(),
-            Matchers.equalTo(123L)
         );
     }
 

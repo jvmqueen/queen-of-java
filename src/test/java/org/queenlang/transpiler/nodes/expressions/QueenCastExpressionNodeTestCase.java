@@ -27,14 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.CastExpr;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.PrimitiveType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
@@ -117,104 +112,6 @@ public final class QueenCastExpressionNodeTestCase {
         MatcherAssert.assertThat(
             cast.expression(),
             Matchers.is(expression)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpressionPrimitiveType() {
-        final Position position = QueenMockito.mock(Position.class);
-        final TypeNode primitiveType = QueenMockito.mock(TypeNode.class);
-        Mockito.when(primitiveType.toType()).thenReturn(PrimitiveType.intType());
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expression.toJavaExpression()).thenReturn(
-            new NameExpr("i")
-        );
-        final CastExpressionNode cast = new QueenCastExpressionNode(
-            position,
-            primitiveType,
-            null,
-            expression
-        );
-        final CastExpr castExpr = (CastExpr) cast.toJavaExpression();
-        System.out.println(castExpr);
-        MatcherAssert.assertThat(
-            castExpr.getType().asPrimitiveType().getType().asString(),
-            Matchers.is(PrimitiveType.intType().asString())
-        );
-        MatcherAssert.assertThat(
-            castExpr.getExpression().asNameExpr().getName().asString(),
-            Matchers.equalTo("i")
-        );
-    }
-
-    @Test
-    public void returnsJavaExpressionRefTypes() {
-        final Position position = QueenMockito.mock(Position.class);
-
-        final List<ReferenceTypeNode> refTypes = new ArrayList<>();
-        final ReferenceTypeNode refType1 = QueenMockito.mock(ReferenceTypeNode.class);
-        Mockito.when(refType1.toType()).thenReturn(new ClassOrInterfaceType("Student"));
-        final ReferenceTypeNode refType2 = QueenMockito.mock(ReferenceTypeNode.class);
-        Mockito.when(refType2.toType()).thenReturn(new ClassOrInterfaceType("Pupil"));
-        refTypes.add(refType1);
-        refTypes.add(refType2);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expression.toJavaExpression()).thenReturn(
-            new NameExpr("student")
-        );
-        final CastExpressionNode cast = new QueenCastExpressionNode(
-            position,
-            null,
-            refTypes,
-            expression
-        );
-        final CastExpr castExpr = (CastExpr) cast.toJavaExpression();
-        System.out.println(castExpr);
-        MatcherAssert.assertThat(
-            castExpr.getType().asIntersectionType().getElements().get(0).asClassOrInterfaceType().getName().asString(),
-            Matchers.equalTo("Student")
-        );
-        MatcherAssert.assertThat(
-            castExpr.getType().asIntersectionType().getElements().get(1).asClassOrInterfaceType().getName().asString(),
-            Matchers.equalTo("Pupil")
-        );
-        MatcherAssert.assertThat(
-            castExpr.getExpression().asNameExpr().getName().asString(),
-            Matchers.equalTo("student")
-        );
-    }
-
-    @Test
-    public void returnsJavaExpressionSingleRefType() {
-        final Position position = QueenMockito.mock(Position.class);
-
-        final List<ReferenceTypeNode> refTypes = new ArrayList<>();
-        final ReferenceTypeNode refType1 = QueenMockito.mock(ReferenceTypeNode.class);
-        Mockito.when(refType1.toType()).thenReturn(new ClassOrInterfaceType("Student"));
-        refTypes.add(refType1);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expression.toJavaExpression()).thenReturn(
-            new NameExpr("student")
-        );
-        final CastExpressionNode cast = new QueenCastExpressionNode(
-            position,
-            null,
-            refTypes,
-            expression
-        );
-        final CastExpr castExpr = (CastExpr) cast.toJavaExpression();
-        System.out.println(castExpr);
-        MatcherAssert.assertThat(
-            castExpr.getType().asIntersectionType().getElements().get(0).asClassOrInterfaceType().getName().asString(),
-            Matchers.equalTo("Student")
-        );
-        MatcherAssert.assertThat(
-            castExpr.getType().asIntersectionType().getElements().size(),
-            Matchers.equalTo(1)
-        );
-        MatcherAssert.assertThat(
-            castExpr.getExpression().asNameExpr().getName().asString(),
-            Matchers.equalTo("student")
         );
     }
 

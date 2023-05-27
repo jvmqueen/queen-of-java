@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -66,41 +65,6 @@ public final class QueenMarkerAnnotationNodeTestCase {
         MatcherAssert.assertThat(
             marker.name(),
             Matchers.equalTo("MyAnnotation")
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final MarkerAnnotationNode marker = new QueenMarkerAnnotationNode(
-            position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation")
-        );
-        MatcherAssert.assertThat(
-            marker.toJavaExpression().toString(),
-            Matchers.equalTo("@MyAnnotation")
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final MarkerAnnotationNode marker = new QueenMarkerAnnotationNode(
-            position,
-            new QueenNameNode(Mockito.mock(Position.class), "MyAnnotation")
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        clazz.setName("MyClass");
-        marker.addToJavaNode(clazz);
-
-        MatcherAssert.assertThat(
-            clazz.getAnnotation(0).asMarkerAnnotationExpr().getName().asString(),
-            Matchers.equalTo("MyAnnotation")
-        );
-        MatcherAssert.assertThat(
-            clazz.toString(),
-            Matchers.equalTo("@MyAnnotation\nclass MyClass {\n}")
         );
     }
 

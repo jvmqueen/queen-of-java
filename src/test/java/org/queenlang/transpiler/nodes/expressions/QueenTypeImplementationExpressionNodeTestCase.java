@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -91,42 +89,6 @@ public final class QueenTypeImplementationExpressionNodeTestCase {
         MatcherAssert.assertThat(
             typeImplementation.dims(),
             Matchers.is(dims)
-        );
-    }
-
-    @Test
-    public void returnsJavaNodeNoDims() {
-        final Position position = QueenMockito.mock(Position.class);
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(new ClassOrInterfaceType("Student"));
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final TypeImplementationExpressionNode typeImplementation = new QueenTypeImplementationExpressionNode(
-            position,
-            type,
-            dims
-        );
-        MatcherAssert.assertThat(
-            typeImplementation.toJavaExpression().toString(),
-            Matchers.equalTo("Student.class")
-        );
-    }
-
-    @Test
-    public void returnsJavaNodeWithDims() {
-        final Position position = QueenMockito.mock(Position.class);
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(new ClassOrInterfaceType("SomeArray"));
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
-        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
-        final TypeImplementationExpressionNode typeImplementation = new QueenTypeImplementationExpressionNode(
-            position,
-            type,
-            dims
-        );
-        MatcherAssert.assertThat(
-            typeImplementation.toJavaExpression().toString(),
-            Matchers.equalTo("SomeArray[][].class")
         );
     }
 

@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -84,35 +83,6 @@ public final class QueenImportDeclarationNodeTestCase {
         MatcherAssert.assertThat(
             importDeclaration.importDeclarationName(),
             Matchers.is(name)
-        );
-    }
-
-    @Test
-    public void addsChildrenToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final QueenNameNode name = new QueenNameNode(
-            QueenMockito.mock(Position.class),
-            new QueenNameNode(
-                QueenMockito.mock(Position.class),
-                new QueenNameNode(
-                    QueenMockito.mock(Position.class),
-                    "com"
-                ),
-                "example"
-            ),
-            "List"
-        );
-        final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
-            position,
-            name,
-            false
-        );
-        final CompilationUnit cu = new CompilationUnit();
-        importDeclaration.addToJavaNode(cu);
-
-        MatcherAssert.assertThat(
-            cu.getImport(0).getName().toString(),
-            Matchers.equalTo("com.example.List")
         );
     }
 

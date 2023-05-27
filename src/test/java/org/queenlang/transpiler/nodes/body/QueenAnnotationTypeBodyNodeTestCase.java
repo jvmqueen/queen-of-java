@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.util.QueenMockito;
 
@@ -70,24 +68,6 @@ public final class QueenAnnotationTypeBodyNodeTestCase {
         MatcherAssert.assertThat(
             annotationTypeBodyNode.annotationMemberDeclarations(),
             Matchers.is(annotationMemberDeclarations)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations = new ArrayList<>();
-        annotationMemberDeclarations.add(QueenMockito.mock(AnnotationTypeMemberDeclarationNode.class));
-        annotationMemberDeclarations.add(QueenMockito.mock(AnnotationTypeMemberDeclarationNode.class));
-        annotationMemberDeclarations.add(QueenMockito.mock(AnnotationTypeMemberDeclarationNode.class));
-
-        final AnnotationTypeBodyNode annotationTypeBodyNode = new QueenAnnotationTypeBodyNode(
-            QueenMockito.mock(Position.class),
-            annotationMemberDeclarations
-        );
-        final Node node = QueenMockito.mock(Node.class);
-        annotationTypeBodyNode.addToJavaNode(node);
-        annotationMemberDeclarations.forEach(
-            amd -> Mockito.verify(amd, Mockito.times(1)).addToJavaNode(node)
         );
     }
 

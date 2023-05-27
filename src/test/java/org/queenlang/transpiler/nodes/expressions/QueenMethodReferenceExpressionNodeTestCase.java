@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.MethodReferenceExpr;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -137,56 +133,6 @@ public final class QueenMethodReferenceExpressionNodeTestCase {
         );
         MatcherAssert.assertThat(
             methodRef.identifier(),
-            Matchers.equalTo("println")
-        );
-    }
-
-    @Test
-    public void returnsJavaTypeExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(new ClassOrInterfaceType("System"));
-        final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(QueenMockito.mock(TypeNode.class));
-        final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
-            position,
-            type,
-            null,
-            typeArguments,
-            "println"
-        );
-        final MethodReferenceExpr javaMethodRef = (MethodReferenceExpr) methodRef.toJavaExpression();
-        Mockito.verify(type, Mockito.times(1)).toType();
-        typeArguments.forEach(ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(
-            Mockito.any(MethodReferenceExpr.class)
-        ));
-        MatcherAssert.assertThat(
-            javaMethodRef.getIdentifier(),
-            Matchers.equalTo("println")
-        );
-    }
-
-    @Test
-    public void returnsJavaScopeExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(scope.toJavaExpression()).thenReturn(new NameExpr("Scope"));
-        final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(QueenMockito.mock(TypeNode.class));
-        final MethodReferenceExpressionNode methodRef = new QueenMethodReferenceExpressionNode(
-            position,
-            null,
-            scope,
-            typeArguments,
-            "println"
-        );
-        final MethodReferenceExpr javaMethodRef = (MethodReferenceExpr) methodRef.toJavaExpression();
-        Mockito.verify(scope, Mockito.times(1)).toJavaExpression();
-        typeArguments.forEach(ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(
-            Mockito.any(MethodReferenceExpr.class)
-        ));
-        MatcherAssert.assertThat(
-            javaMethodRef.getIdentifier(),
             Matchers.equalTo("println")
         );
     }

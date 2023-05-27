@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
@@ -68,20 +66,6 @@ public final class QueenPackageDeclarationNodeTestCase {
         MatcherAssert.assertThat(
             packageDeclarationNode.packageName(),
             Matchers.is(packageName)
-        );
-    }
-
-    @Test
-    public void addsChildrenToJavaNode() {
-        final CompilationUnit cu = new CompilationUnit();
-        final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
-            QueenMockito.mock(Position.class),
-            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.package")
-        );
-        packageDeclarationNode.addToJavaNode(cu);
-        MatcherAssert.assertThat(
-            cu.getPackageDeclaration().get().getName().toString(),
-            Matchers.equalTo("com.example.package")
         );
     }
 

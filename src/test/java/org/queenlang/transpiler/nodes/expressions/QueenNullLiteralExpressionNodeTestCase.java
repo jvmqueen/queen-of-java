@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.NullLiteralExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -50,45 +48,6 @@ public final class QueenNullLiteralExpressionNodeTestCase {
         MatcherAssert.assertThat(
             nullLiteral.position(),
             Matchers.is(position)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final NullLiteralExpressionNode nullLiteral = new QueenNullLiteralExpressionNode(position);
-        MatcherAssert.assertThat(
-            nullLiteral.toJavaExpression(),
-            Matchers.instanceOf(NullLiteralExpr.class)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final NullLiteralExpressionNode nullLiteral = new QueenNullLiteralExpressionNode(position);
-        final VariableDeclarator declarator = new VariableDeclarator();
-        declarator.setType("Student");
-        declarator.setName("s");
-
-        MatcherAssert.assertThat(
-            declarator.getInitializer().isPresent(),
-            Matchers.is(false)
-        );
-
-        nullLiteral.addToJavaNode(declarator);
-
-        MatcherAssert.assertThat(
-            declarator.getTypeAsString(),
-            Matchers.equalTo("Student")
-        );
-        MatcherAssert.assertThat(
-            declarator.getNameAsString(),
-            Matchers.equalTo("s")
-        );
-        MatcherAssert.assertThat(
-            declarator.getInitializer().get().asNullLiteralExpr().toString(),
-            Matchers.equalTo("null")
         );
     }
 

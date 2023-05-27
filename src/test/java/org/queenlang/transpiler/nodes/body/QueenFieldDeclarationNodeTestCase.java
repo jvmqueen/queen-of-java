@@ -27,14 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -130,96 +125,6 @@ public final class QueenFieldDeclarationNodeTestCase {
         MatcherAssert.assertThat(
             fieldDeclaration.variable(),
             Matchers.is(variable)
-        );
-    }
-
-    @Test
-    public void addsToClassDeclarationJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        final VariableDeclaratorNode variable = QueenMockito.mock(VariableDeclaratorNode.class);
-
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            type,
-            variable
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        fieldDeclaration.addToJavaNode(clazz);
-        MatcherAssert.assertThat(
-            clazz.getMembers().size(),
-            Matchers.equalTo(1)
-        );
-        MatcherAssert.assertThat(
-            clazz.getMember(0).asFieldDeclaration().getVariable(0).getInitializer(),
-            Matchers.notNullValue()
-        );
-        Mockito.verify(type, Mockito.times(1)).addToJavaNode(
-            Mockito.any(VariableDeclarator.class)
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(FieldDeclaration.class)
-            )
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(
-                Mockito.any(FieldDeclaration.class)
-            )
-        );
-        Mockito.verify(variable, Mockito.times(1)).addToJavaNode(
-            Mockito.any(VariableDeclarator.class)
-        );
-    }
-
-    @Test
-    public void addsToObjectCreationJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        final VariableDeclaratorNode variable = QueenMockito.mock(VariableDeclaratorNode.class);
-
-        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            type,
-            variable
-        );
-
-        final ObjectCreationExpr objectCreationExpr = new ObjectCreationExpr();
-        fieldDeclaration.addToJavaNode(objectCreationExpr);
-        MatcherAssert.assertThat(
-            objectCreationExpr.getAnonymousClassBody().get().size(),
-            Matchers.equalTo(1)
-        );
-        MatcherAssert.assertThat(
-            objectCreationExpr.getAnonymousClassBody().get().get(0).asFieldDeclaration().getVariable(0).getInitializer(),
-            Matchers.notNullValue()
-        );
-        Mockito.verify(type, Mockito.times(1)).addToJavaNode(
-            Mockito.any(VariableDeclarator.class)
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(FieldDeclaration.class)
-            )
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(
-                Mockito.any(FieldDeclaration.class)
-            )
-        );
-        Mockito.verify(variable, Mockito.times(1)).addToJavaNode(
-            Mockito.any(VariableDeclarator.class)
         );
     }
 

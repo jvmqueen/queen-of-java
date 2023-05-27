@@ -27,9 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.TypeParameter;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -115,45 +113,6 @@ public final class QueenTypeParameterNodeTestCase {
         MatcherAssert.assertThat(
             typeParameterNode.typeBound(),
             Matchers.is(typeBound)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ClassOrInterfaceTypeNode> typeBound = new ArrayList<>();
-        final ClassOrInterfaceTypeNode tb = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
-        Mockito.when(tb.toType()).thenReturn(new ClassOrInterfaceType("Other"));
-        typeBound.add(tb);
-        final TypeParameterNode typeParameterNode = new QueenTypeParameterNode(
-            position,
-            annotations,
-            "T",
-            typeBound
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        clazz.setName("MyClass");
-        typeParameterNode.addToJavaNode(clazz);
-
-        MatcherAssert.assertThat(
-            clazz.toString(),
-            Matchers.equalTo("class MyClass<T extends Other> {\n}")
-        );
-        MatcherAssert.assertThat(
-            clazz.getTypeParameter(0).getName().asString(),
-            Matchers.equalTo("T")
-        );
-        MatcherAssert.assertThat(
-            clazz.getTypeParameter(0).getTypeBound().get(0).getName().asString(),
-            Matchers.equalTo("Other")
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(TypeParameter.class)
-            )
         );
     }
 

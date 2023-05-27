@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SynchronizedStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -90,33 +87,6 @@ public final class QueenSynchronizedStatementNodeTestCase {
         MatcherAssert.assertThat(
             syncStatement.blockStatements(),
             Matchers.is(block)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
-        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
-        final SynchronizedStatementNode syncStatement = new QueenSynchronizedStatementNode(
-            position,
-            expressionNode,
-            block
-        );
-
-        final BlockStmt blockStmt = new BlockStmt();
-        syncStatement.addToJavaNode(blockStmt);
-
-        Mockito.verify(expressionNode, Mockito.times(1)).addToJavaNode(
-            Mockito.any(SynchronizedStmt.class)
-        );
-        Mockito.verify(block, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asSynchronizedStmt(),
-            Matchers.notNullValue()
         );
     }
 

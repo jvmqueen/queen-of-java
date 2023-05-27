@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -80,21 +78,6 @@ public final class QueenBlockStatementsTestCase {
         MatcherAssert.assertThat(
             block,
             Matchers.iterableWithSize(2)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<StatementNode> statements = new ArrayList<>();
-        statements.add(QueenMockito.mock(StatementNode.class));
-        statements.add(QueenMockito.mock(StatementNode.class));
-        final BlockStatements block = new QueenBlockStatements(position, statements);
-
-        final Node node = QueenMockito.mock(Node.class);
-        block.addToJavaNode(node);
-        statements.forEach(
-            s -> Mockito.verify(s, Mockito.times(1)).addToJavaNode(node)
         );
     }
 

@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -61,46 +60,6 @@ public final class QueenBreakStatementNodeTestCase {
         MatcherAssert.assertThat(
             breakStatement.label(),
             Matchers.equalTo("label")
-        );
-    }
-
-    @Test
-    public void addsToJavaNodeNoLabel() {
-        final Position position = Mockito.mock(Position.class);
-        final BreakStatementNode breakStatement = new QueenBreakStatementNode(position, null);
-
-        final BlockStmt blockStmt = new BlockStmt();
-
-        breakStatement.addToJavaNode(blockStmt);
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asBreakStmt().getLabel().isPresent(),
-            Matchers.is(false)
-        );
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asBreakStmt().toString(),
-            Matchers.equalTo("break;")
-        );
-    }
-
-    @Test
-    public void addsToJavaNodeWithLabel() {
-        final Position position = Mockito.mock(Position.class);
-        final BreakStatementNode breakStatement = new QueenBreakStatementNode(position, "someLabel");
-
-        final BlockStmt blockStmt = new BlockStmt();
-
-        breakStatement.addToJavaNode(blockStmt);
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asBreakStmt().getLabel().isPresent(),
-            Matchers.is(true)
-        );
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asBreakStmt().toString(),
-            Matchers.equalTo("break someLabel;")
         );
     }
 

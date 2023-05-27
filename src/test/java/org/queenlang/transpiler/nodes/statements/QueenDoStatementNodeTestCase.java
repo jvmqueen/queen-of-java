@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.DoStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -91,60 +87,6 @@ public final class QueenDoStatementNodeTestCase {
         MatcherAssert.assertThat(
             doStatementNode.expression(),
             Matchers.is(expression)
-        );
-    }
-
-    @Test
-    public void addsToBlockJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-
-        final DoStatementNode doStatementNode = new QueenDoStatementNode(
-            position,
-            blockStatements,
-            expression
-        );
-
-        final BlockStmt blockStmt = new BlockStmt();
-        doStatementNode.addToJavaNode(blockStmt);
-
-        Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        Mockito.verify(expression, Mockito.times(1)).addToJavaNode(
-            Mockito.any(DoStmt.class)
-        );
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asDoStmt(),
-            Matchers.notNullValue()
-        );
-    }
-
-    @Test
-    public void addsToLabeledJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-
-        final DoStatementNode doStatementNode = new QueenDoStatementNode(
-            position,
-            blockStatements,
-            expression
-        );
-
-        final LabeledStmt labeled = new LabeledStmt();
-        doStatementNode.addToJavaNode(labeled);
-
-        Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        Mockito.verify(expression, Mockito.times(1)).addToJavaNode(
-            Mockito.any(DoStmt.class)
-        );
-        MatcherAssert.assertThat(
-            labeled.getStatement().asDoStmt(),
-            Matchers.notNullValue()
         );
     }
 

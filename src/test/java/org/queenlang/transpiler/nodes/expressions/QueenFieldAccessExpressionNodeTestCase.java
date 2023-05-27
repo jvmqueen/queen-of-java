@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -87,33 +86,6 @@ public final class QueenFieldAccessExpressionNodeTestCase {
         );
         MatcherAssert.assertThat(
             fieldAccess.name(),
-            Matchers.equalTo("x")
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(scope.toJavaExpression()).thenReturn(
-            new NameExpr("SomeClass")
-        );
-        final FieldAccessExpressionNode fieldAccess = new QueenFieldAccessExpressionNode(
-            position,
-            scope,
-            "x"
-        );
-        final Expression javaExpression = fieldAccess.toJavaExpression();
-        MatcherAssert.assertThat(
-            javaExpression.toString(),
-            Matchers.equalTo("SomeClass.x")
-        );
-        MatcherAssert.assertThat(
-            javaExpression.toFieldAccessExpr().get().getScope().asNameExpr().getName().toString(),
-            Matchers.equalTo("SomeClass")
-        );
-        MatcherAssert.assertThat(
-            javaExpression.toFieldAccessExpr().get().getName().asString(),
             Matchers.equalTo("x")
         );
     }

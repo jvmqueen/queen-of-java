@@ -55,19 +55,6 @@ public final class QueenTextExpressionNodeTestCase {
     }
 
     @Test
-    public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final ExpressionNode textExpression = new QueenTextExpressionNode(
-            position,
-            "a = 2 + 2"
-        );
-        MatcherAssert.assertThat(
-            textExpression.toJavaExpression().asAssignExpr().toString(),
-            Matchers.equalTo("a = 2 + 2")
-        );
-    }
-
-    @Test
     public void returnsChildren() {
         MatcherAssert.assertThat(
             new QueenTextExpressionNode(

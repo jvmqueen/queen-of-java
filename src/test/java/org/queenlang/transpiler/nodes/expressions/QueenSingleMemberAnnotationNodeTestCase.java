@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -89,62 +85,6 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
         MatcherAssert.assertThat(
             singleMemberAnnotation.elementValue(),
             Matchers.is(element)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode element = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(element.toJavaExpression()).thenReturn(new StringLiteralExpr("runtime"));
-        final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
-            position,
-            new QueenNameNode(QueenMockito.mock(Position.class), "Scope"),
-            element
-        );
-
-        final SingleMemberAnnotationExpr javaAnnotation = (SingleMemberAnnotationExpr) singleMemberAnnotation.toJavaExpression();
-
-        MatcherAssert.assertThat(
-            javaAnnotation.toString(),
-            Matchers.equalTo("@Scope(\"runtime\")")
-        );
-        MatcherAssert.assertThat(
-            javaAnnotation.getName().asString(),
-            Matchers.equalTo("Scope")
-        );
-        MatcherAssert.assertThat(
-            javaAnnotation.getMemberValue().asStringLiteralExpr().asString(),
-            Matchers.equalTo("runtime")
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode element = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(element.toJavaExpression()).thenReturn(new StringLiteralExpr("runtime"));
-        final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
-            position,
-            new QueenNameNode(QueenMockito.mock(Position.class), "Scope"),
-            element
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        clazz.setName("MyClass");
-        singleMemberAnnotation.addToJavaNode(clazz);
-
-        MatcherAssert.assertThat(
-            clazz.toString(),
-            Matchers.equalTo("@Scope(\"runtime\")\nclass MyClass {\n}")
-        );
-        MatcherAssert.assertThat(
-            clazz.getAnnotation(0).asSingleMemberAnnotationExpr().getName().asString(),
-            Matchers.equalTo("Scope")
-        );
-        MatcherAssert.assertThat(
-            clazz.getAnnotation(0).asSingleMemberAnnotationExpr().getMemberValue().asStringLiteralExpr().asString(),
-            Matchers.equalTo("runtime")
         );
     }
 

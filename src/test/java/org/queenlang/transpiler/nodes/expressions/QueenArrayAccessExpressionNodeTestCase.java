@@ -27,15 +27,10 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.Statement;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
 
@@ -90,106 +85,6 @@ public final class QueenArrayAccessExpressionNodeTestCase {
         MatcherAssert.assertThat(
             arrAccess.dims(),
             Matchers.is(dims)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final ExpressionNode name = new QueenNameNode(
-            QueenMockito.mock(Position.class),
-            "arrayName"
-        );
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final ArrayDimensionNode dim1 = QueenMockito.mock(ArrayDimensionNode.class);
-        Mockito.when(dim1.expression()).thenReturn(
-            new QueenNameNode(
-                QueenMockito.mock(Position.class),
-                "i"
-            )
-        );
-        final ArrayDimensionNode dim2 = QueenMockito.mock(ArrayDimensionNode.class);
-        Mockito.when(dim2.expression()).thenReturn(
-            new QueenNameNode(
-                QueenMockito.mock(Position.class),
-                "j"
-            )
-        );
-        dims.add(dim1);
-        dims.add(dim2);
-
-        final ArrayAccessExpressionNode arrayAccessExpressionNode = new QueenArrayAccessExpressionNode(
-            QueenMockito.mock(Position.class),
-            name,
-            dims
-        );
-
-        final Expression expression = arrayAccessExpressionNode.toJavaExpression();
-        MatcherAssert.assertThat(
-            expression.asArrayAccessExpr().getName()
-                .asArrayAccessExpr().getName().asNameExpr().getName().asString(),
-            Matchers.equalTo("arrayName")
-        );
-        MatcherAssert.assertThat(
-            expression.asArrayAccessExpr().getIndex().asNameExpr().getName().asString(),
-            Matchers.equalTo("j")
-        );
-        MatcherAssert.assertThat(
-            expression.asArrayAccessExpr().getName().asArrayAccessExpr().getIndex().asNameExpr().getName().asString(),
-            Matchers.equalTo("i")
-        );
-    }
-
-    @Test
-    public void returnsJavaStatement() {
-        final ExpressionNode name = new QueenNameNode(
-            QueenMockito.mock(Position.class),
-            "arrayName"
-        );
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        final ArrayDimensionNode dim1 = QueenMockito.mock(ArrayDimensionNode.class);
-        Mockito.when(dim1.expression()).thenReturn(
-            new QueenNameNode(
-                QueenMockito.mock(Position.class),
-                "i"
-            )
-        );
-        final ArrayDimensionNode dim2 = QueenMockito.mock(ArrayDimensionNode.class);
-        Mockito.when(dim2.expression()).thenReturn(
-            new QueenNameNode(
-                QueenMockito.mock(Position.class),
-                "j"
-            )
-        );
-        dims.add(dim1);
-        dims.add(dim2);
-
-        final ArrayAccessExpressionNode arrayAccessExpressionNode = new QueenArrayAccessExpressionNode(
-            QueenMockito.mock(Position.class),
-            name,
-            dims
-        );
-
-        final Statement stmt = arrayAccessExpressionNode.toJavaStatement();
-        MatcherAssert.assertThat(
-            stmt,
-            Matchers.allOf(
-                Matchers.notNullValue(),
-                Matchers.instanceOf(ExpressionStmt.class)
-            )
-        );
-        final Expression expression = stmt.asExpressionStmt().getExpression();
-        MatcherAssert.assertThat(
-            expression.asArrayAccessExpr().getName()
-                .asArrayAccessExpr().getName().asNameExpr().getName().asString(),
-            Matchers.equalTo("arrayName")
-        );
-        MatcherAssert.assertThat(
-            expression.asArrayAccessExpr().getIndex().asNameExpr().getName().asString(),
-            Matchers.equalTo("j")
-        );
-        MatcherAssert.assertThat(
-            expression.asArrayAccessExpr().getName().asArrayAccessExpr().getIndex().asNameExpr().getName().asString(),
-            Matchers.equalTo("i")
         );
     }
 

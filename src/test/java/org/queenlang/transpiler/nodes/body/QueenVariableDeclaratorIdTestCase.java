@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.type.PrimitiveType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.util.QueenMockito;
 
@@ -67,46 +63,6 @@ public final class QueenVariableDeclaratorIdTestCase {
         MatcherAssert.assertThat(
             variableDeclaratorId.name(),
             Matchers.equalTo("a")
-        );
-    }
-
-    @Test
-    public void addsToVariableDeclaratorJavaNode() {
-        final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            QueenMockito.mock(Position.class),
-            "i"
-        );
-        final VariableDeclarator variableDeclarator = new VariableDeclarator();
-        variableDeclarator.setType(PrimitiveType.intType());
-        variableDeclaratorId.addToJavaNode(variableDeclarator);
-
-        MatcherAssert.assertThat(
-            variableDeclarator.getName().asString(),
-            Matchers.equalTo("i")
-        );
-        MatcherAssert.assertThat(
-            variableDeclarator.getTypeAsString(),
-            Matchers.equalTo("int")
-        );
-    }
-
-    @Test
-    public void addsToParameterJavaNode() {
-        final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
-            QueenMockito.mock(Position.class),
-            "i"
-        );
-        final Parameter parameter = new Parameter();
-        parameter.setType(PrimitiveType.intType());
-        variableDeclaratorId.addToJavaNode(parameter);
-
-        MatcherAssert.assertThat(
-            parameter.getName().asString(),
-            Matchers.equalTo("i")
-        );
-        MatcherAssert.assertThat(
-            parameter.getTypeAsString(),
-            Matchers.equalTo("int")
         );
     }
 

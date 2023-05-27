@@ -27,14 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -140,44 +135,6 @@ public final class QueenExplicitConstructorInvocationNodeTestCase {
             explicit.arguments(),
             Matchers.is(args)
         );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
-        final List<TypeNode> typeArgs = new ArrayList<>();
-        final TypeNode typeArg = QueenMockito.mock(TypeNode.class);
-        Mockito.when(typeArg.toType()).thenReturn(new ClassOrInterfaceType("String"));
-        typeArgs.add(typeArg);
-        final List<ExpressionNode> args = new ArrayList<>();
-        final ExpressionNode arg = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(arg.toJavaExpression()).thenReturn(new NameExpr("a"));
-        args.add(arg);
-
-        final ExplicitConstructorInvocationNode explicit = new QueenExplicitConstructorInvocationNode(
-            position,
-            true,
-            scope,
-            typeArgs,
-            args
-        );
-        final BlockStmt blockStmt = new BlockStmt();
-        explicit.addToJavaNode(blockStmt);
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asExplicitConstructorInvocationStmt(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asExplicitConstructorInvocationStmt().isThis(),
-            Matchers.is(true)
-        );
-        Mockito.verify(typeArg, Mockito.times(1)).addToJavaNode(
-            Mockito.any(ExplicitConstructorInvocationStmt.class)
-        );
-        Mockito.verify(arg, Mockito.times(1)).toJavaExpression();
-        Mockito.verify(scope, Mockito.times(1)).toJavaExpression();
     }
 
     @Test

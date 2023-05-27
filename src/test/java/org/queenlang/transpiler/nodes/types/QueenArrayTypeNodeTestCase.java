@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.PrimitiveType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -94,75 +91,6 @@ public final class QueenArrayTypeNodeTestCase {
         MatcherAssert.assertThat(
             arrayTypeNode.dims(),
             Matchers.is(dims)
-        );
-    }
-
-    @Test
-    public void addsToJavaVariableDeclaratorNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
-        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
-        final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
-            position,
-            type,
-            dims
-        );
-
-        final VariableDeclarator variableDeclarator = new VariableDeclarator();
-        arrayTypeNode.addToJavaNode(variableDeclarator);
-
-        MatcherAssert.assertThat(
-            variableDeclarator.getType().toString(),
-            Matchers.equalTo("int[][]")
-        );
-    }
-
-    @Test
-    public void addsToJavaMethodDeclaratorNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.longType());
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
-        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
-        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
-        final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
-            position,
-            type,
-            dims
-        );
-
-        final MethodDeclaration methodDeclaration = new MethodDeclaration();
-        arrayTypeNode.addToJavaNode(methodDeclaration);
-
-        MatcherAssert.assertThat(
-            methodDeclaration.getType().toString(),
-            Matchers.equalTo("long[][][]")
-        );
-    }
-
-    @Test
-    public void addsToJavaParameterNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.doubleType());
-        final List<ArrayDimensionNode> dims = new ArrayList<>();
-        dims.add(QueenMockito.mock(ArrayDimensionNode.class));
-        final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(
-            position,
-            type,
-            dims
-        );
-
-        final Parameter parameter = new Parameter();
-        arrayTypeNode.addToJavaNode(parameter);
-
-        MatcherAssert.assertThat(
-            parameter.getType().toString(),
-            Matchers.equalTo("double[]")
         );
     }
 

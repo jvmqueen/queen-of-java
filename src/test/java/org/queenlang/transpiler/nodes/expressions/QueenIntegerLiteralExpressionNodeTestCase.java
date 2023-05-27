@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -64,19 +63,6 @@ public final class QueenIntegerLiteralExpressionNodeTestCase {
         MatcherAssert.assertThat(
             literal.value(),
             Matchers.equalTo("1")
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = Mockito.mock(Position.class);
-        final IntegerLiteralExpressionNode literal = new QueenIntegerLiteralExpressionNode(
-            position,
-            "1"
-        );
-        MatcherAssert.assertThat(
-            ((IntegerLiteralExpr) literal.toJavaExpression()).asInt(),
-            Matchers.equalTo(1)
         );
     }
 

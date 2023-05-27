@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -87,50 +84,6 @@ public final class QueenLabeledStatementNodeTestCase {
         MatcherAssert.assertThat(
             labeled.blockStatements(),
             Matchers.is(blockStatements)
-        );
-    }
-
-    @Test
-    public void addsToBlockJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
-        final LabeledStatementNode labeled = new QueenLabeledStatementNode(
-            position,
-            "labeled",
-            blockStatements
-        );
-
-        final BlockStmt block = new BlockStmt();
-        labeled.addToJavaNode(block);
-
-        Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        MatcherAssert.assertThat(
-            block.getStatement(0).asLabeledStmt().getLabel().asString(),
-            Matchers.equalTo("labeled")
-        );
-    }
-
-    @Test
-    public void addsToLabeledJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
-        final LabeledStatementNode labeled = new QueenLabeledStatementNode(
-            position,
-            "childLabeled",
-            blockStatements
-        );
-
-        final LabeledStmt labeledStmt = new LabeledStmt();
-        labeled.addToJavaNode(labeledStmt);
-
-        Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        MatcherAssert.assertThat(
-            labeledStmt.getStatement().asLabeledStmt().getLabel().asString(),
-            Matchers.equalTo("childLabeled")
         );
     }
 

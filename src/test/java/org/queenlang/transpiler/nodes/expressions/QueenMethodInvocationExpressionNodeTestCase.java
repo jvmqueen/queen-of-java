@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.NameExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -138,67 +135,6 @@ public final class QueenMethodInvocationExpressionNodeTestCase {
         MatcherAssert.assertThat(
             methodInvocation.arguments(),
             Matchers.is(arguments)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpressionWithArgs() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
-        final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(QueenMockito.mock(TypeNode.class));
-        final List<ExpressionNode> arguments = new ArrayList<>();
-        final ExpressionNode arg = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(arg.toJavaExpression()).thenReturn(new NameExpr("a"));
-        arguments.add(arg);
-        final MethodInvocationExpressionNode methodInvocation = new QueenMethodInvocationExpressionNode(
-            position,
-            scope,
-            typeArguments,
-            "doSomething",
-            arguments
-        );
-        final MethodCallExpr methodCall = (MethodCallExpr) methodInvocation.toJavaExpression();
-        Mockito.verify(scope, Mockito.times(1)).toJavaExpression();
-        typeArguments.forEach(ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(
-            Mockito.any(MethodCallExpr.class)
-        ));
-        MatcherAssert.assertThat(
-            methodCall.getName().asString(),
-            Matchers.equalTo("doSomething")
-        );
-        MatcherAssert.assertThat(
-            methodCall.getArguments().get(0).asNameExpr().toString(),
-            Matchers.equalTo("a")
-        );
-    }
-
-    @Test
-    public void returnsJavaExpressionWithoutArgs() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
-        final List<TypeNode> typeArguments = new ArrayList<>();
-        typeArguments.add(QueenMockito.mock(TypeNode.class));
-        final List<ExpressionNode> arguments = new ArrayList<>();
-        final MethodInvocationExpressionNode methodInvocation = new QueenMethodInvocationExpressionNode(
-            position,
-            scope,
-            typeArguments,
-            "doSomething",
-            arguments
-        );
-        final MethodCallExpr methodCall = (MethodCallExpr) methodInvocation.toJavaExpression();
-        Mockito.verify(scope, Mockito.times(1)).toJavaExpression();
-        typeArguments.forEach(ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(
-            Mockito.any(MethodCallExpr.class)
-        ));
-        MatcherAssert.assertThat(
-            methodCall.getName().asString(),
-            Matchers.equalTo("doSomething")
-        );
-        MatcherAssert.assertThat(
-            methodCall.getArguments().size(),
-            Matchers.equalTo(0)
         );
     }
 

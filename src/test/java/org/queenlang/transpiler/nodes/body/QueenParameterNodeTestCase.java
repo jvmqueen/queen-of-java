@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.type.PrimitiveType;
 import org.hamcrest.MatcherAssert;
@@ -164,54 +162,6 @@ public final class QueenParameterNodeTestCase {
         MatcherAssert.assertThat(
             parameter.varArgs(),
             Matchers.is(true)
-        );
-    }
-
-    @Test
-    public void addsToParameterizedJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
-        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
-        Mockito.when(variableDeclaratorId.name()).thenReturn("p");
-        final List<AnnotationNode> varArgsAnnotations = new ArrayList<>();
-        final AnnotationNode varArgAnnotation = QueenMockito.mock(AnnotationNode.class);
-        Mockito.when(varArgAnnotation.toJavaExpression()).thenReturn(
-            new MarkerAnnotationExpr("VarArgAnnotation")
-        );
-        varArgsAnnotations.add(varArgAnnotation);
-
-        final ParameterNode parameter = new QueenParameterNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            type,
-            variableDeclaratorId,
-            varArgsAnnotations,
-            true
-        );
-        final MethodDeclaration methodDeclaration = new MethodDeclaration();
-        parameter.addToJavaNode(methodDeclaration);
-        MatcherAssert.assertThat(
-            methodDeclaration.getParameter(0).isVarArgs(),
-            Matchers.is(true)
-        );
-        MatcherAssert.assertThat(
-            methodDeclaration.getParameter(0).getVarArgsAnnotations().get(0).getName().asString(),
-            Matchers.equalTo("VarArgAnnotation")
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(Parameter.class)
-            )
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(
-                Mockito.any(Parameter.class)
-            )
         );
     }
 

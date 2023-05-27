@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.TryStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -142,47 +139,6 @@ public final class QueenTryStatementNodeTestCase {
         MatcherAssert.assertThat(
             tryStatementNode.finallyBlockStatements(),
             Matchers.is(finallyBlock)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<ExpressionNode> resources = new ArrayList<>();
-        resources.add(QueenMockito.mock(ExpressionNode.class));
-        final BlockStatements tryBlock = QueenMockito.mock(BlockStatements.class);
-        final List<CatchClauseNode> catchClauses = new ArrayList<>();
-        catchClauses.add(QueenMockito.mock(CatchClauseNode.class));
-        final BlockStatements finallyBlock = QueenMockito.mock(BlockStatements.class);
-        final TryStatementNode tryStatementNode = new QueenTryStatementNode(
-            position,
-            resources,
-            tryBlock,
-            catchClauses,
-            finallyBlock
-        );
-
-        final BlockStmt javaBlock = new BlockStmt();
-        tryStatementNode.addToJavaNode(javaBlock);
-        resources.forEach(
-            r -> Mockito.verify(r, Mockito.times(1)).addToJavaNode(
-                Mockito.any(TryStmt.class)
-            )
-        );
-        Mockito.verify(tryBlock, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        catchClauses.forEach(
-            c -> Mockito.verify(c, Mockito.times(1)).addToJavaNode(
-                Mockito.any(TryStmt.class)
-            )
-        );
-        Mockito.verify(finallyBlock, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        MatcherAssert.assertThat(
-            javaBlock.getStatement(0).asTryStmt(),
-            Matchers.notNullValue()
         );
     }
 

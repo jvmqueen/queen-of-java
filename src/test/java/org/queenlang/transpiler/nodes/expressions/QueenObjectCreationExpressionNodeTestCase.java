@@ -1,13 +1,8 @@
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ClassBodyNode;
@@ -146,52 +141,6 @@ public final class QueenObjectCreationExpressionNodeTestCase {
             objectCreationExpr.anonymousBody(),
             Matchers.is(body)
         );
-    }
-
-    @Test
-    public void returnsJavaNodeFull() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(scope.toJavaExpression()).thenReturn(new NameExpr("java.util"));
-        final ClassOrInterfaceTypeNode type = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
-        Mockito.when(type.toType()).thenReturn(new ClassOrInterfaceType("Student"));
-        final List<TypeNode> typeArgs = new ArrayList<>();
-        final TypeNode typeArg = QueenMockito.mock(TypeNode.class);
-        Mockito.when(typeArg.toType()).thenReturn(new ClassOrInterfaceType("String"));
-        typeArgs.add(typeArg);
-        final List<ExpressionNode> arguments = new ArrayList<>();
-        final ExpressionNode arg = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(arg.toJavaExpression()).thenReturn(new StringLiteralExpr("Mihai"));
-        arguments.add(arg);
-        final ClassBodyNode body = QueenMockito.mock(ClassBodyNode.class);
-        Mockito.when(body.isEmpty()).thenReturn(false);
-        final ObjectCreationExpressionNode objectCreationExpr = new QueenObjectCreationExpressionNode(
-            position,
-            scope,
-            type,
-            typeArgs,
-            arguments,
-            body
-        );
-        final ObjectCreationExpr javaObjectCreation = (ObjectCreationExpr) objectCreationExpr.toJavaExpression();
-        MatcherAssert.assertThat(
-            javaObjectCreation,
-            Matchers.notNullValue()
-        );
-        typeArgs.forEach(
-            ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(
-                Mockito.any(ObjectCreationExpr.class)
-            )
-        );
-        arguments.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).toJavaExpression()
-        );
-        Mockito.verify(body, Mockito.times(1)).addToJavaNode(
-            Mockito.any(ObjectCreationExpr.class)
-        );
-        Mockito.verify(scope, Mockito.times(1)).toJavaExpression();
-        Mockito.verify(type, Mockito.times(1)).toType();
-
     }
 
     @Test

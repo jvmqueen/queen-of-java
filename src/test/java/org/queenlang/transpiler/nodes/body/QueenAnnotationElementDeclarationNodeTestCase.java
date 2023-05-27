@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import com.github.javaparser.ast.type.PrimitiveType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -160,47 +158,6 @@ public final class QueenAnnotationElementDeclarationNodeTestCase {
         MatcherAssert.assertThat(
             annotationElement.defaultValue(),
             Matchers.is(expressionNode)
-        );
-    }
-
-    @Test
-    public void addsToAnnotationDeclarationJavaNode() {
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final List<ModifierNode> modifiers = new ArrayList<>();
-        modifiers.add(QueenMockito.mock(ModifierNode.class));
-        final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
-
-        final ExpressionNode defaultValue = QueenMockito.mock(ExpressionNode.class);
-
-        final AnnotationElementDeclarationNode annotationElementDeclarationNode = new QueenAnnotationElementDeclarationNode(
-            QueenMockito.mock(Position.class),
-            annotations,
-            modifiers,
-            type,
-            "someName",
-            defaultValue
-        );
-
-        final AnnotationDeclaration ad = new AnnotationDeclaration();
-        annotationElementDeclarationNode.addToJavaNode(ad);
-
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(AnnotationMemberDeclaration.class)
-            )
-        );
-        modifiers.forEach(
-            m -> Mockito.verify(m, Mockito.times(1)).addToJavaNode(
-                Mockito.any(AnnotationMemberDeclaration.class)
-            )
-        );
-        Mockito.verify(type, Mockito.times(1)).toType();
-        Mockito.verify(defaultValue, Mockito.times(1)).toJavaExpression();
-        MatcherAssert.assertThat(
-            ad.getMember(0).asAnnotationMemberDeclaration().getName().asString(),
-            Matchers.equalTo("someName")
         );
     }
 

@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
@@ -91,34 +87,6 @@ public final class QueenInstanceOfExpressionNodeTestCase {
         MatcherAssert.assertThat(
             instanceOfExpression.referenceType(),
             Matchers.is(refType)
-        );
-    }
-
-    @Test
-    public void returnsJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expressionNode.toJavaExpression()).thenReturn(new NameExpr("s"));
-        final ReferenceTypeNode refType = QueenMockito.mock(ReferenceTypeNode.class);
-        Mockito.when(refType.toType()).thenReturn(new ClassOrInterfaceType("Student"));
-        final InstanceOfExpressionNode instanceOfExpression = new QueenInstanceOfExpressionNode(
-            position,
-            expressionNode,
-            refType
-        );
-
-        final Expression javaExpr = instanceOfExpression.toJavaExpression();
-        MatcherAssert.assertThat(
-            javaExpr.toString(),
-            Matchers.equalTo("s instanceof Student")
-        );
-        MatcherAssert.assertThat(
-            javaExpr.asInstanceOfExpr().getExpression().asNameExpr().getName().asString(),
-            Matchers.equalTo("s")
-        );
-        MatcherAssert.assertThat(
-            javaExpr.asInstanceOfExpr().getTypeAsString(),
-            Matchers.equalTo("Student")
         );
     }
 

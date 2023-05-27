@@ -69,32 +69,6 @@ public final class QueenSuperExpressionNodeTestCase {
     }
 
     @Test
-    public void returnsJavaNodeNoTypeName() {
-        final Position position = Mockito.mock(Position.class);
-        final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
-            position,
-            null
-        );
-        MatcherAssert.assertThat(
-            superExpression.toJavaExpression().toString(),
-            Matchers.equalTo("super")
-        );
-    }
-
-    @Test
-    public void returnsJavaNodeWithTypeName() {
-        final Position position = Mockito.mock(Position.class);
-        final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
-            position,
-            new QueenNameNode(Mockito.mock(Position.class), "Student")
-        );
-        MatcherAssert.assertThat(
-            superExpression.toJavaExpression().toString(),
-            Matchers.equalTo("Student.super")
-        );
-    }
-
-    @Test
     public void returnsChildren() {
         final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
             Mockito.mock(Position.class),

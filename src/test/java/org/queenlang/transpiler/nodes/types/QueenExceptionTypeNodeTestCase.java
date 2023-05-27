@@ -27,18 +27,14 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.util.QueenMockito;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,82 +72,6 @@ public final class QueenExceptionTypeNodeTestCase {
         MatcherAssert.assertThat(
             exceptionTypeNode.exceptionType(),
             Matchers.is(encapsulated)
-        );
-    }
-
-    @Test
-    public void returnsJavaType() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
-        Mockito.when(scope.toType()).thenReturn(new ClassOrInterfaceType("java.util"));
-        final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(QueenMockito.mock(TypeNode.class));
-
-        final ClassOrInterfaceTypeNode encapsulated = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
-        Mockito.when(encapsulated.position()).thenReturn(position);
-        Mockito.when(encapsulated.simpleName()).thenReturn("Exception");
-        Mockito.when(encapsulated.annotations()).thenReturn(annotations);
-        Mockito.when(encapsulated.scope()).thenReturn(scope);
-        Mockito.when(encapsulated.typeArguments()).thenReturn(typeArgs);
-
-        final ExceptionTypeNode exceptionTypeNode = new QueenExceptionTypeNode(encapsulated);
-
-        MatcherAssert.assertThat(
-            exceptionTypeNode.toType().asClassOrInterfaceType().getName().asString(),
-            Matchers.equalTo("Exception")
-        );
-        Mockito.verify(encapsulated, Mockito.times(1)).simpleName();
-        Mockito.verify(scope, Mockito.times(1)).toType();
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any(
-                ClassOrInterfaceType.class
-            ))
-        );
-        typeArgs.forEach(
-            ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(Mockito.any(
-                ClassOrInterfaceType.class
-            ))
-        );
-    }
-
-    @Test
-    public void addsToThrownExceptionsJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
-        Mockito.when(scope.toType()).thenReturn(new ClassOrInterfaceType("java.util"));
-        final List<TypeNode> typeArgs = new ArrayList<>();
-        typeArgs.add(QueenMockito.mock(TypeNode.class));
-
-        final ClassOrInterfaceTypeNode encapsulated = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
-        Mockito.when(encapsulated.position()).thenReturn(position);
-        Mockito.when(encapsulated.simpleName()).thenReturn("Exception");
-        Mockito.when(encapsulated.annotations()).thenReturn(annotations);
-        Mockito.when(encapsulated.scope()).thenReturn(scope);
-        Mockito.when(encapsulated.typeArguments()).thenReturn(typeArgs);
-
-        final ExceptionTypeNode exceptionTypeNode = new QueenExceptionTypeNode(encapsulated);
-        final MethodDeclaration methodDeclaration = new MethodDeclaration();
-        exceptionTypeNode.addToJavaNode(methodDeclaration);
-
-        MatcherAssert.assertThat(
-            methodDeclaration.getThrownException(0).asClassOrInterfaceType().getName().asString(),
-            Matchers.equalTo("Exception")
-        );
-        Mockito.verify(encapsulated, Mockito.times(1)).simpleName();
-        Mockito.verify(scope, Mockito.times(1)).toType();
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(Mockito.any(
-                ClassOrInterfaceType.class
-            ))
-        );
-        typeArgs.forEach(
-            ta -> Mockito.verify(ta, Mockito.times(1)).addToJavaNode(Mockito.any(
-                ClassOrInterfaceType.class
-            ))
         );
     }
 

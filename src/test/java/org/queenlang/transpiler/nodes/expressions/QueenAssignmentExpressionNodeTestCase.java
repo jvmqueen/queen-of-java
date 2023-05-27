@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.NameExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -89,60 +87,6 @@ public final class QueenAssignmentExpressionNodeTestCase {
         MatcherAssert.assertThat(
             assignment.value(),
             Matchers.is(value)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final ExpressionNode target = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(target.toJavaExpression()).thenReturn(new NameExpr("i"));
-        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(value.toJavaExpression()).thenReturn(new NameExpr("0"));
-        final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
-            Mockito.mock(Position.class),
-            target,
-            "=",
-            value
-        );
-        final AssignExpr assignExpr = (AssignExpr) assignment.toJavaExpression();
-        MatcherAssert.assertThat(
-            assignExpr.getTarget().asNameExpr().getName().asString(),
-            Matchers.equalTo("i")
-        );
-        MatcherAssert.assertThat(
-            assignExpr.getOperator(),
-            Matchers.is(AssignExpr.Operator.ASSIGN)
-        );
-        MatcherAssert.assertThat(
-            assignExpr.getValue().asNameExpr().getName().asString(),
-            Matchers.equalTo("0")
-        );
-    }
-
-    @Test
-    public void returnsJavaStatement() {
-        final ExpressionNode target = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(target.toJavaExpression()).thenReturn(new NameExpr("i"));
-        final ExpressionNode value = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(value.toJavaExpression()).thenReturn(new NameExpr("0"));
-        final AssignmentExpressionNode assignment = new QueenAssignmentExpressionNode(
-            Mockito.mock(Position.class),
-            target,
-            "=",
-            value
-        );
-        final AssignExpr assignExpr = (AssignExpr) assignment.toJavaStatement().asExpressionStmt().getExpression();
-        MatcherAssert.assertThat(
-            assignExpr.getTarget().asNameExpr().getName().asString(),
-            Matchers.equalTo("i")
-        );
-        MatcherAssert.assertThat(
-            assignExpr.getOperator(),
-            Matchers.is(AssignExpr.Operator.ASSIGN)
-        );
-        MatcherAssert.assertThat(
-            assignExpr.getValue().asNameExpr().getName().asString(),
-            Matchers.equalTo("0")
         );
     }
 

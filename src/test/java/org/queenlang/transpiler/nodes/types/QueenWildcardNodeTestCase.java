@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -114,27 +112,6 @@ public final class QueenWildcardNodeTestCase {
         MatcherAssert.assertThat(
             wildcard.superType(),
             Matchers.is(superType)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final ReferenceTypeNode extendedType = QueenMockito.mock(ReferenceTypeNode.class);
-        final WildcardTypeNode wildcard = new QueenWildcardNode(
-            position,
-            annotations,
-            extendedType,
-            QueenMockito.mock(ReferenceTypeNode.class)
-        );
-
-        final ClassOrInterfaceType clazz = new ClassOrInterfaceType("MyClass");
-        wildcard.addToJavaNode(clazz);
-        MatcherAssert.assertThat(
-            clazz.toString(),
-            Matchers.equalTo("MyClass<?>")
         );
     }
 

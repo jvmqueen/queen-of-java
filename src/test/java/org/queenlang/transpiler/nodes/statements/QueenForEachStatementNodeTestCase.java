@@ -27,15 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
@@ -116,64 +110,6 @@ public final class QueenForEachStatementNodeTestCase {
             forEach.blockStatements(),
             Matchers.is(block)
         );
-    }
-
-    @Test
-    public void addsToBlockJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final LocalVariableDeclarationNode variable = QueenMockito.mock(LocalVariableDeclarationNode.class);
-        Mockito.when(variable.toJavaExpression()).thenReturn(
-            new VariableDeclarationExpr(new ClassOrInterfaceType("String"), "s")
-        );
-        final ExpressionNode iterable = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(iterable.toJavaExpression()).thenReturn(new NameExpr("strings"));
-        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
-        final ForEachStatementNode forEach = new QueenForEachStatementNode(
-            position,
-            variable,
-            iterable,
-            block
-        );
-
-        final BlockStmt javaBlock = new BlockStmt();
-        forEach.addToJavaNode(javaBlock);
-
-        MatcherAssert.assertThat(
-            javaBlock.getStatement(0).asForEachStmt(),
-            Matchers.notNullValue()
-        );
-        Mockito.verify(variable, Mockito.times(1)).toJavaExpression();
-        Mockito.verify(iterable, Mockito.times(1)).toJavaExpression();
-        Mockito.verify(block, Mockito.times(1)).addToJavaNode(Mockito.any(BlockStmt.class));
-    }
-
-    @Test
-    public void addsToLabeledJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final LocalVariableDeclarationNode variable = QueenMockito.mock(LocalVariableDeclarationNode.class);
-        Mockito.when(variable.toJavaExpression()).thenReturn(
-            new VariableDeclarationExpr(new ClassOrInterfaceType("String"), "s")
-        );
-        final ExpressionNode iterable = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(iterable.toJavaExpression()).thenReturn(new NameExpr("strings"));
-        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
-        final ForEachStatementNode forEach = new QueenForEachStatementNode(
-            position,
-            variable,
-            iterable,
-            block
-        );
-
-        final LabeledStmt javaLabeledStatement = new LabeledStmt();
-        forEach.addToJavaNode(javaLabeledStatement);
-
-        MatcherAssert.assertThat(
-            javaLabeledStatement.getStatement().asForEachStmt(),
-            Matchers.notNullValue()
-        );
-        Mockito.verify(variable, Mockito.times(1)).toJavaExpression();
-        Mockito.verify(iterable, Mockito.times(1)).toJavaExpression();
-        Mockito.verify(block, Mockito.times(1)).addToJavaNode(Mockito.any(BlockStmt.class));
     }
 
     @Test

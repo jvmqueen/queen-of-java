@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ContinueStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -62,46 +60,6 @@ public final class QueenContinueStatementNodeTestCase {
         MatcherAssert.assertThat(
             continueStatement.label(),
             Matchers.equalTo("label")
-        );
-    }
-
-    @Test
-    public void addsToJavaNodeNoLabel() {
-        final Position position = Mockito.mock(Position.class);
-        final ContinueStatementNode continueStatement = new QueenContinueStatementNode(position, null);
-
-        final BlockStmt blockStmt = new BlockStmt();
-
-        continueStatement.addToJavaNode(blockStmt);
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asContinueStmt().getLabel().isPresent(),
-            Matchers.is(false)
-        );
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asContinueStmt().toString(),
-            Matchers.equalTo("continue;")
-        );
-    }
-
-    @Test
-    public void addsToJavaNodeWithLabel() {
-        final Position position = Mockito.mock(Position.class);
-        final ContinueStatementNode continueStatement = new QueenContinueStatementNode(position, "someLabel");
-
-        final BlockStmt blockStmt = new BlockStmt();
-
-        continueStatement.addToJavaNode(blockStmt);
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asContinueStmt().getLabel().isPresent(),
-            Matchers.is(true)
-        );
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asContinueStmt().toString(),
-            Matchers.equalTo("continue someLabel;")
         );
     }
 

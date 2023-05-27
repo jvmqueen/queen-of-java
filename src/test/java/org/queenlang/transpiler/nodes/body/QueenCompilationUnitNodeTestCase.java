@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -46,39 +44,6 @@ import java.util.List;
  * @since 0.0.1
  */
 public final class QueenCompilationUnitNodeTestCase {
-
-    @Test
-    public void addsChildrenToJavaNode() {
-        final Node java = QueenMockito.mock(Node.class);
-
-        final PackageDeclarationNode packageDeclaration = QueenMockito.mock(PackageDeclarationNode.class);
-        final List<ImportDeclarationNode> imports = new ArrayList<>();
-        imports.add(QueenMockito.mock(ImportDeclarationNode.class));
-        final TypeDeclarationNode type = QueenMockito.mock(TypeDeclarationNode.class);
-
-        final CompilationUnitNode compilationUnit = new QueenCompilationUnitNode(
-            QueenMockito.mock(Position.class),
-            packageDeclaration,
-            imports,
-            type
-        );
-        compilationUnit.addToJavaNode(java);
-
-        Mockito.verify(
-            packageDeclaration,
-            Mockito.times(1)
-        ).addToJavaNode(java);
-        imports.forEach(
-            node -> Mockito.verify(
-                node,
-                Mockito.times(1)
-            ).addToJavaNode(java)
-        );
-        Mockito.verify(
-            type,
-            Mockito.times(1)
-        ).addToJavaNode(java);
-    }
 
     @Test
     public void returnsPosition() {

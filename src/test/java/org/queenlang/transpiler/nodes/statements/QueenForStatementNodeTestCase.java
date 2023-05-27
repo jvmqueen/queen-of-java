@@ -27,14 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.type.PrimitiveType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -145,104 +140,6 @@ public final class QueenForStatementNodeTestCase {
             forStatement.blockStatements(),
             Matchers.is(block)
         );
-    }
-
-    @Test
-    public void addsToBlockJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<ExpressionNode> init = new ArrayList<>();
-        final ExpressionNode init1 = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(init1.toJavaExpression()).thenReturn(
-            new VariableDeclarationExpr(PrimitiveType.intType(), "i")
-        );
-        init.add(init1);
-        final ExpressionNode comparison = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(comparison.toJavaExpression()).thenReturn(
-            new BinaryExpr(
-                new NameExpr("i"),
-                new IntegerLiteralExpr(10),
-                BinaryExpr.Operator.GREATER
-            )
-        );
-        final List<ExpressionNode> update = new ArrayList<>();
-        final ExpressionNode update1 = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(update1.toJavaExpression()).thenReturn(
-            new UnaryExpr(new StringLiteralExpr("i"), UnaryExpr.Operator.POSTFIX_INCREMENT)
-        );
-        update.add(update1);
-        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
-        final ForStatementNode forStatement = new QueenForStatementNode(
-            position,
-            init,
-            comparison,
-            update,
-            block
-        );
-
-        final BlockStmt blockStmt = new BlockStmt();
-        forStatement.addToJavaNode(blockStmt);
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asForStmt(),
-            Matchers.notNullValue()
-        );
-        init.forEach(
-            i -> Mockito.verify(i, Mockito.times(1)).toJavaExpression()
-        );
-        Mockito.verify(comparison, Mockito.times(1)).toJavaExpression();
-        update.forEach(
-            u -> Mockito.verify(u, Mockito.times(1)).toJavaExpression()
-        );
-        Mockito.verify(block, Mockito.times(1)).addToJavaNode(Mockito.any(BlockStmt.class));
-    }
-
-    @Test
-    public void addsToLabeledStatementJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<ExpressionNode> init = new ArrayList<>();
-        final ExpressionNode init1 = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(init1.toJavaExpression()).thenReturn(
-            new VariableDeclarationExpr(PrimitiveType.intType(), "i")
-        );
-        init.add(init1);
-        final ExpressionNode comparison = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(comparison.toJavaExpression()).thenReturn(
-            new BinaryExpr(
-                new NameExpr("i"),
-                new IntegerLiteralExpr(10),
-                BinaryExpr.Operator.GREATER
-            )
-        );
-        final List<ExpressionNode> update = new ArrayList<>();
-        final ExpressionNode update1 = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(update1.toJavaExpression()).thenReturn(
-            new UnaryExpr(new StringLiteralExpr("i"), UnaryExpr.Operator.POSTFIX_INCREMENT)
-        );
-        update.add(update1);
-        final BlockStatements block = QueenMockito.mock(BlockStatements.class);
-        final ForStatementNode forStatement = new QueenForStatementNode(
-            position,
-            init,
-            comparison,
-            update,
-            block
-        );
-
-        final LabeledStmt labeledStmt = new LabeledStmt();
-        forStatement.addToJavaNode(labeledStmt);
-
-        MatcherAssert.assertThat(
-            labeledStmt.getStatement().asForStmt(),
-            Matchers.notNullValue()
-        );
-        init.forEach(
-            i -> Mockito.verify(i, Mockito.times(1)).toJavaExpression()
-        );
-        Mockito.verify(comparison, Mockito.times(1)).toJavaExpression();
-        update.forEach(
-            u -> Mockito.verify(u, Mockito.times(1)).toJavaExpression()
-        );
-        Mockito.verify(block, Mockito.times(1)).addToJavaNode(Mockito.any(BlockStmt.class));
     }
 
     @Test

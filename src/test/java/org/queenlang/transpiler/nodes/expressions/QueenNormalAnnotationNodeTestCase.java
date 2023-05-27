@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.expr.NormalAnnotationExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
@@ -96,79 +92,6 @@ public final class QueenNormalAnnotationNodeTestCase {
             normalAnnotation.elementValuePairs(),
             Matchers.is(elements)
         );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<ElementValuePairNode> elements = new ArrayList<>();
-
-        final ElementValuePairNode pairA = QueenMockito.mock(ElementValuePairNode.class);
-        Mockito.when(pairA.identifier()).thenReturn("a");
-        final ExpressionNode valueA = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(valueA.toJavaExpression()).thenReturn(new StringLiteralExpr("testA"));
-        Mockito.when(pairA.expression()).thenReturn(valueA);
-
-        final ElementValuePairNode pairB = QueenMockito.mock(ElementValuePairNode.class);
-        Mockito.when(pairB.identifier()).thenReturn("B");
-        final ExpressionNode valueB = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(valueB.toJavaExpression()).thenReturn(new StringLiteralExpr("testB"));
-        Mockito.when(pairB.expression()).thenReturn(valueA);
-
-        elements.add(pairA);
-        elements.add(pairB);
-
-        final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
-            position,
-            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
-            elements
-        );
-
-        final NormalAnnotationExpr javaAnnotation = (NormalAnnotationExpr) normalAnnotation.toJavaExpression();
-        MatcherAssert.assertThat(
-            javaAnnotation.getName().asString(),
-            Matchers.equalTo("MyAnnotation")
-        );
-        Mockito.verify(pairA, Mockito.times(1)).addToJavaNode(Mockito.any(NormalAnnotationExpr.class));
-        Mockito.verify(pairB, Mockito.times(1)).addToJavaNode(Mockito.any(NormalAnnotationExpr.class));
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<ElementValuePairNode> elements = new ArrayList<>();
-
-        final ElementValuePairNode pairA = QueenMockito.mock(ElementValuePairNode.class);
-        Mockito.when(pairA.identifier()).thenReturn("a");
-        final ExpressionNode valueA = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(valueA.toJavaExpression()).thenReturn(new StringLiteralExpr("testA"));
-        Mockito.when(pairA.expression()).thenReturn(valueA);
-
-        final ElementValuePairNode pairB = QueenMockito.mock(ElementValuePairNode.class);
-        Mockito.when(pairB.identifier()).thenReturn("B");
-        final ExpressionNode valueB = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(valueB.toJavaExpression()).thenReturn(new StringLiteralExpr("testB"));
-        Mockito.when(pairB.expression()).thenReturn(valueA);
-
-        elements.add(pairA);
-        elements.add(pairB);
-
-        final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
-            position,
-            new QueenNameNode(QueenMockito.mock(Position.class), "MyAnnotation"),
-            elements
-        );
-
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        clazz.setName("MyClass");
-        normalAnnotation.addToJavaNode(clazz);
-
-        MatcherAssert.assertThat(
-            clazz.getAnnotation(0).asNormalAnnotationExpr().getName().asString(),
-            Matchers.equalTo("MyAnnotation")
-        );
-        Mockito.verify(pairA, Mockito.times(1)).addToJavaNode(Mockito.any(NormalAnnotationExpr.class));
-        Mockito.verify(pairB, Mockito.times(1)).addToJavaNode(Mockito.any(NormalAnnotationExpr.class));
     }
 
     @Test

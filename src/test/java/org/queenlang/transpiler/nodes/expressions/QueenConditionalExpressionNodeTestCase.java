@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.ConditionalExpr;
-import com.github.javaparser.ast.expr.NameExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -110,46 +107,6 @@ public final class QueenConditionalExpressionNodeTestCase {
         MatcherAssert.assertThat(
             conditional.elseExpr(),
             Matchers.is(elseExpr)
-        );
-    }
-
-    @Test
-    public void returnsJavaExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode condition = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(condition.toJavaExpression()).thenReturn(
-            new NameExpr("a")
-        );
-        final ExpressionNode thenExpr = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(thenExpr.toJavaExpression()).thenReturn(
-            new NameExpr("b")
-        );
-        final ExpressionNode elseExpr = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(elseExpr.toJavaExpression()).thenReturn(
-            new NameExpr("c")
-        );
-        final ConditionalExpressionNode conditional = new QueenConditionalExpressionNode(
-            position,
-            condition,
-            thenExpr,
-            elseExpr
-        );
-        final ConditionalExpr conditionalExpr = (ConditionalExpr) conditional.toJavaExpression();
-        MatcherAssert.assertThat(
-            conditionalExpr.getCondition().asNameExpr().getName().asString(),
-            Matchers.equalTo("a")
-        );
-        MatcherAssert.assertThat(
-            conditionalExpr.getThenExpr().asNameExpr().getName().asString(),
-            Matchers.equalTo("b")
-        );
-        MatcherAssert.assertThat(
-            conditionalExpr.getElseExpr().asNameExpr().getName().asString(),
-            Matchers.equalTo("c")
-        );
-        MatcherAssert.assertThat(
-            conditionalExpr.toString(),
-            Matchers.equalTo("a ? b : c")
         );
     }
 

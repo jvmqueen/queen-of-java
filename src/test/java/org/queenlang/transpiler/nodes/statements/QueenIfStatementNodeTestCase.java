@@ -28,9 +28,6 @@
 package org.queenlang.transpiler.nodes.statements;
 
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.IfStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -110,70 +107,6 @@ public final class QueenIfStatementNodeTestCase {
         MatcherAssert.assertThat(
             ifStatementNode.elseBlockStatements(),
             Matchers.is(elseBlock)
-        );
-    }
-
-    @Test
-    public void addsToBlockJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expressionNode.toJavaExpression()).thenReturn(new BooleanLiteralExpr(true));
-        final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
-        final BlockStatements elseBlock = QueenMockito.mock(BlockStatements.class);
-        final IfStatementNode ifStatementNode = new QueenIfStatementNode(
-            position,
-            expressionNode,
-            thenBlock,
-            elseBlock
-        );
-
-        final BlockStmt javaBlock = new BlockStmt();
-        ifStatementNode.addToJavaNode(javaBlock);
-
-        MatcherAssert.assertThat(
-            javaBlock.getStatement(0).asIfStmt(),
-            Matchers.notNullValue()
-        );
-        Mockito.verify(expressionNode, Mockito.times(1)).addToJavaNode(
-            Mockito.any(IfStmt.class)
-        );
-        Mockito.verify(thenBlock, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        Mockito.verify(elseBlock, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-    }
-
-    @Test
-    public void addsToLabeledStatementJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expressionNode.toJavaExpression()).thenReturn(new BooleanLiteralExpr(true));
-        final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
-        final BlockStatements elseBlock = QueenMockito.mock(BlockStatements.class);
-        final IfStatementNode ifStatementNode = new QueenIfStatementNode(
-            position,
-            expressionNode,
-            thenBlock,
-            elseBlock
-        );
-
-        final LabeledStmt labeledStmt = new LabeledStmt();
-        ifStatementNode.addToJavaNode(labeledStmt);
-
-        MatcherAssert.assertThat(
-            labeledStmt.getStatement().asIfStmt(),
-            Matchers.notNullValue()
-        );
-        Mockito.verify(expressionNode, Mockito.times(1)).addToJavaNode(
-            Mockito.any(IfStmt.class)
-        );
-        Mockito.verify(thenBlock, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
-        );
-        Mockito.verify(elseBlock, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
         );
     }
 

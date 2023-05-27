@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -50,20 +49,6 @@ public final class QueenEmptyStatementNodeTestCase {
         MatcherAssert.assertThat(
             emptyStatement.position(),
             Matchers.is(position)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = Mockito.mock(Position.class);
-        final EmptyStatementNode emptyStatement = new QueenEmptyStatementNode(position);
-
-        final BlockStmt blockStmt = new BlockStmt();
-        emptyStatement.addToJavaNode(blockStmt);
-
-        MatcherAssert.assertThat(
-            blockStmt.getStatement(0).asEmptyStmt().toString(),
-            Matchers.equalTo(";")
         );
     }
 

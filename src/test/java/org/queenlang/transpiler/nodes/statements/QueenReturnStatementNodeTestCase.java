@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ReturnStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -72,33 +69,6 @@ public final class QueenReturnStatementNodeTestCase {
             returnStatement.expression(),
             Matchers.is(expression)
         );
-    }
-
-    @Test
-    public void addsToJavaNodeNoExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ReturnStatementNode returnStatement = new QueenReturnStatementNode(
-            position
-        );
-        final BlockStmt block = new BlockStmt();
-        returnStatement.addToJavaNode(block);
-        MatcherAssert.assertThat(
-            block.getStatement(0).asReturnStmt().toString(),
-            Matchers.equalTo("return;")
-        );
-    }
-
-    @Test
-    public void addsToJavaNodeWithExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-        final ReturnStatementNode returnStatement = new QueenReturnStatementNode(
-            position,
-            expression
-        );
-        final BlockStmt block = new BlockStmt();
-        returnStatement.addToJavaNode(block);
-        Mockito.verify(expression, Mockito.times(1)).addToJavaNode(Mockito.any(ReturnStmt.class));
     }
 
     @Test

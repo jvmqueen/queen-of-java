@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -65,36 +63,6 @@ public final class QueenTextStatementNodeTestCase {
         );
         MatcherAssert.assertThat(
             textStatement.toString(),
-            Matchers.equalTo("return 0;")
-        );
-    }
-
-    @Test
-    public void addsToBlockJavaNode(){
-        final Position position = Mockito.mock(Position.class);
-        final QueenTextStatementNode textStatement = new QueenTextStatementNode(
-            position,
-            "return 0;"
-        );
-        final BlockStmt block = new BlockStmt();
-        textStatement.addToJavaNode(block);
-        MatcherAssert.assertThat(
-            block.getStatement(0).asReturnStmt().toString(),
-            Matchers.equalTo("return 0;")
-        );
-    }
-
-    @Test
-    public void addsToLabeledJavaNode(){
-        final Position position = Mockito.mock(Position.class);
-        final QueenTextStatementNode textStatement = new QueenTextStatementNode(
-            position,
-            "return 0;"
-        );
-        final LabeledStmt labeled = new LabeledStmt();
-        textStatement.addToJavaNode(labeled);
-        MatcherAssert.assertThat(
-            labeled.getStatement().asReturnStmt().toString(),
             Matchers.equalTo("return 0;")
         );
     }

@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.UnaryExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -73,27 +69,6 @@ public final class QueenExpressionStatementNodeTestCase {
         MatcherAssert.assertThat(
             expStatement.expression(),
             Matchers.is(expression)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expression.toJavaExpression()).thenReturn(
-            new UnaryExpr(new NameExpr("i"), UnaryExpr.Operator.POSTFIX_INCREMENT)
-        );
-        final ExpressionStatementNode expStatement = new QueenExpressionStatementNode(
-            position,
-            expression
-        );
-
-        final BlockStmt block = new BlockStmt();
-        expStatement.addToJavaNode(block);
-
-        MatcherAssert.assertThat(
-            block.getStatement(0).asExpressionStmt().getExpression().toString(),
-            Matchers.equalTo("i++")
         );
     }
 

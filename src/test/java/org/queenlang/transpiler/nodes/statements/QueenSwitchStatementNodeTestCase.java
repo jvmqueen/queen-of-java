@@ -27,13 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SwitchEntry;
-import com.github.javaparser.ast.stmt.SwitchStmt;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -92,34 +88,6 @@ public final class QueenSwitchStatementNodeTestCase {
         MatcherAssert.assertThat(
             switchStatement.entries(),
             Matchers.is(entries)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-        final List<SwitchEntryNode> entries = new ArrayList<>();
-        entries.add(QueenMockito.mock(SwitchEntryNode.class));
-        final SwitchStatementNode switchStatement = new QueenSwitchStatementNode(
-            position,
-            expression,
-            entries
-        );
-
-        final BlockStmt block = new BlockStmt();
-        switchStatement.addToJavaNode(block);
-        Mockito.verify(expression, Mockito.times(1)).addToJavaNode(
-            Mockito.any(SwitchStmt.class)
-        );
-        entries.forEach(
-            e -> Mockito.verify(e, Mockito.times(1)).addToJavaNode(
-                Mockito.any(SwitchEntry.class)
-            )
-        );
-        MatcherAssert.assertThat(
-            block.getStatement(0).asSwitchStmt(),
-            Matchers.notNullValue()
         );
     }
 

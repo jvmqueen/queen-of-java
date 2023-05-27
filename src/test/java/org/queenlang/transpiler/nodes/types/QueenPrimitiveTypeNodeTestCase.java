@@ -27,14 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.type.PrimitiveType;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -94,81 +89,6 @@ public final class QueenPrimitiveTypeNodeTestCase {
         MatcherAssert.assertThat(
             primitive.name(),
             Matchers.equalTo("int")
-        );
-    }
-
-    @Test
-    public void addsToVariableDeclaratorJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
-            position,
-            annotations,
-            "int"
-        );
-
-        final VariableDeclarator vd = new VariableDeclarator();
-        primitive.addToJavaNode(vd);
-
-        MatcherAssert.assertThat(
-            vd.getType().asPrimitiveType().getType().asString(),
-            Matchers.equalTo("int")
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(PrimitiveType.class)
-            )
-        );
-    }
-
-    @Test
-    public void addsToMethodDeclaratorJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
-            position,
-            annotations,
-            "long"
-        );
-
-        final MethodDeclaration md = new MethodDeclaration();
-        primitive.addToJavaNode(md);
-
-        MatcherAssert.assertThat(
-            md.getType().asPrimitiveType().getType().asString(),
-            Matchers.equalTo("long")
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(PrimitiveType.class)
-            )
-        );
-    }
-
-    @Test
-    public void addsToParameterJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<AnnotationNode> annotations = new ArrayList<>();
-        annotations.add(QueenMockito.mock(AnnotationNode.class));
-        final PrimitiveTypeNode primitive = new QueenPrimitiveTypeNode(
-            position,
-            annotations,
-            "char"
-        );
-
-        final Parameter parameter = new Parameter();
-        primitive.addToJavaNode(parameter);
-
-        MatcherAssert.assertThat(
-            parameter.getType().asPrimitiveType().getType().asString(),
-            Matchers.equalTo("char")
-        );
-        annotations.forEach(
-            a -> Mockito.verify(a, Mockito.times(1)).addToJavaNode(
-                Mockito.any(PrimitiveType.class)
-            )
         );
     }
 

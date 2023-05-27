@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SwitchEntry;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -92,31 +89,6 @@ public final class QueenSwitchEntryNodeTestCase {
         MatcherAssert.assertThat(
             switchEntryNode.blockStatements(),
             Matchers.is(blockStatements)
-        );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final List<SwitchLabelNode> labels = new ArrayList<>();
-        labels.add(QueenMockito.mock(SwitchLabelNode.class));
-        final BlockStatements blockStatements = QueenMockito.mock(BlockStatements.class);
-        final SwitchEntryNode switchEntryNode = new QueenSwitchEntryNode(
-            position,
-            labels,
-            blockStatements
-        );
-
-        final SwitchEntry javaSwitchEntry = new SwitchEntry();
-        switchEntryNode.addToJavaNode(javaSwitchEntry);
-
-        labels.forEach(
-            l -> Mockito.verify(l, Mockito.times(1)).addToJavaNode(
-                javaSwitchEntry
-            )
-        );
-        Mockito.verify(blockStatements, Mockito.times(1)).addToJavaNode(
-            Mockito.any(BlockStmt.class)
         );
     }
 

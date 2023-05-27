@@ -27,12 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.stmt.SwitchEntry;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -87,26 +84,6 @@ public final class QueenSwitchLabelNodeTestCase {
             switchLabelNode.isDefaultLabel(),
             Matchers.is(true)
         );
-    }
-
-    @Test
-    public void addsToJavaNode() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expressionNode.toJavaExpression()).thenReturn(new IntegerLiteralExpr(3));
-        final SwitchLabelNode switchLabelNode = new QueenSwitchLabelNode(
-            position,
-            expressionNode,
-            false
-        );
-        final SwitchEntry switchEntry = new SwitchEntry();
-        switchLabelNode.addToJavaNode(switchEntry);
-
-        MatcherAssert.assertThat(
-            switchEntry.toString(),
-            Matchers.equalTo("case 3:\n")
-        );
-
     }
 
     @Test

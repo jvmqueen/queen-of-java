@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.NameExpr;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
@@ -104,40 +102,6 @@ public final class QueenUnaryExpressionNodeTestCase {
         MatcherAssert.assertThat(
             unary.expression(),
             Matchers.is(expression)
-        );
-    }
-
-    @Test
-    public void returnsPrefixedJavaExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expression.toJavaExpression()).thenReturn(new NameExpr("i"));
-        final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
-            position,
-            "++",
-            true,
-            expression
-        );
-        MatcherAssert.assertThat(
-            unary.toJavaExpression().toString(),
-            Matchers.equalTo("++i")
-        );
-    }
-
-    @Test
-    public void returnsPostfixedJavaExpression() {
-        final Position position = QueenMockito.mock(Position.class);
-        final ExpressionNode expression = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expression.toJavaExpression()).thenReturn(new NameExpr("i"));
-        final UnaryExpressionNode unary = new QueenUnaryExpressionNode(
-            position,
-            "++",
-            false,
-            expression
-        );
-        MatcherAssert.assertThat(
-            unary.toJavaExpression().toString(),
-            Matchers.equalTo("i++")
         );
     }
 

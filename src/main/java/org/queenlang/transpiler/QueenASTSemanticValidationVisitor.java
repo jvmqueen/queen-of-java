@@ -294,8 +294,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        problems.addAll(this.visitNodeWithAnnotations(node));
-        problems.addAll(this.visitNodeWithTypeArguments(node));
         if(node.resolve() == null) {
             problems.add(
                 new QueenSemanticError(
@@ -304,6 +302,8 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 )
             );
         }
+        problems.addAll(this.visitNodeWithAnnotations(node));
+        problems.addAll(this.visitNodeWithTypeArguments(node));
         return problems;
     }
 

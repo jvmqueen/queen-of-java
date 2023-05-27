@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.BreakStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -58,15 +54,6 @@ public final class QueenBreakStatementNode implements BreakStatementNode {
         this.position = position;
         this.parent = parent;
         this.label = label;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        BreakStmt breakStmt = new BreakStmt();
-        if(this.label != null) {
-            breakStmt.setLabel(new SimpleName(this.label));
-        }
-        ((BlockStmt) java).addStatement(breakStmt);
     }
 
     @Override

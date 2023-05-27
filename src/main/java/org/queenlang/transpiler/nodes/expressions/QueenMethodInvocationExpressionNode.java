@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.SimpleName;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -91,28 +87,6 @@ public final class QueenMethodInvocationExpressionNode implements MethodInvocati
         this.arguments = arguments != null ? arguments.stream().map(
             a -> (ExpressionNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        final MethodCallExpr methodCallExpr = new MethodCallExpr();
-        methodCallExpr.setName(new SimpleName(name));
-        if(this.scope != null) {
-            methodCallExpr.setScope(this.scope.toJavaExpression());
-        }
-        if(this.typeArguments != null) {
-            this.typeArguments.forEach(
-                ta -> ta.addToJavaNode(methodCallExpr)
-            );
-        }
-        final List<Expression> args = new ArrayList<>();
-        if(this.arguments != null) {
-            this.arguments.forEach(
-                a -> args.add(a.toJavaExpression())
-            );
-        }
-        methodCallExpr.setArguments(new NodeList<>(args));
-        return methodCallExpr;
     }
 
     @Override

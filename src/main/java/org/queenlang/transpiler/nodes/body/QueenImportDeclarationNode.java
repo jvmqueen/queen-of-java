@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.ImportDeclaration;
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
@@ -92,15 +89,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
         this.parent = parent;
         this.asteriskImport = asteriskImport;
         this.importDeclarationName = importDeclarationName != null ? (NameNode) importDeclarationName.withParent(this) : null;
-    }
-    @Override
-    public void addToJavaNode(final Node java) {
-        final ImportDeclaration importDeclaration = new ImportDeclaration(
-            this.importDeclarationName.toName(),
-            false,
-            this.asteriskImport
-        );
-        ((CompilationUnit) java).addImport(importDeclaration);
     }
 
     @Override

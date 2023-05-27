@@ -27,10 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.Arrays;
@@ -72,28 +69,6 @@ public final class QueenAssignmentExpressionNode implements AssignmentExpression
         this.operator = operator;
         this.value = value != null ? (ExpressionNode) value.withParent(this) : null;
     }
-
-    @Override
-    public Expression toJavaExpression() {
-        AssignExpr.Operator operator = null;
-        for(int i=0; i< AssignExpr.Operator.values().length; i++) {
-            if(AssignExpr.Operator.values()[i].asString().equalsIgnoreCase(this.operator)) {
-                operator = AssignExpr.Operator.values()[i];
-                break;
-            }
-        }
-        if(operator == null) {
-            throw new IllegalStateException("Unknown assignment operator: " + this.operator);
-        }
-
-
-        return new AssignExpr(
-            this.target.toJavaExpression(),
-            this.value.toJavaExpression(),
-            operator
-        );
-    }
-
     @Override
     public Position position() {
         return this.position;

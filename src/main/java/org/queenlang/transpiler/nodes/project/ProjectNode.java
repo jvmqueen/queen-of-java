@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.project;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.Output;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.QueenTranspilationException;
@@ -47,9 +46,6 @@ public interface ProjectNode extends QueenNode {
     default Position position() {
         return new Position.Missing();
     }
-
-    @Override
-    default void addToJavaNode(final Node java) {}
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitProject(this);

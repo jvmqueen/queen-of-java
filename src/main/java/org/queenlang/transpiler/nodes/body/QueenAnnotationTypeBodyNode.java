@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -56,13 +55,6 @@ public final class QueenAnnotationTypeBodyNode implements AnnotationTypeBodyNode
         this.annotationMemberDeclarations = annotationMemberDeclarations != null ? annotationMemberDeclarations.stream().map(
             amd -> (AnnotationTypeMemberDeclarationNode) amd.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        this.annotationMemberDeclarations.forEach(
-            amd -> amd.addToJavaNode(java)
-        );
     }
 
     @Override

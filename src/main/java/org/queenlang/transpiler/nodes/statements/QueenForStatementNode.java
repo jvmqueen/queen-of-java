@@ -27,14 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ForStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -113,52 +105,6 @@ public final class QueenForStatementNode implements ForStatementNode {
             u -> (ExpressionNode) u.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(this.toJavaStatement());
-        }
-    }
-
-    /**
-     * Turn into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final ForStmt forStatement = new ForStmt();
-
-        if(this.initialization != null) {
-            List<Expression> init = new ArrayList<>();
-            this.initialization.forEach(i -> init.add(i.toJavaExpression()));
-            forStatement.setInitialization(
-                new NodeList<>(init)
-            );
-        }
-
-        if(this.comparison != null) {
-            forStatement.setCompare(this.comparison.toJavaExpression());
-        } else {
-            forStatement.setCompare(new BooleanLiteralExpr(true));
-        }
-
-        if(this.update != null) {
-            List<Expression> upd = new ArrayList<>();
-            this.update.forEach(u -> upd.add(u.toJavaExpression()));
-            forStatement.setUpdate(
-                new NodeList<>(upd)
-            );
-        }
-
-        if(this.blockStatements != null) {
-            final BlockStmt block = new BlockStmt();
-            this.blockStatements.addToJavaNode(block);
-            forStatement.setBody(block);
-        }
-        return forStatement;
     }
 
     @Override

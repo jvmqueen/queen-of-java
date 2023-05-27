@@ -168,7 +168,6 @@ public final class QueenAnnotationElementDeclarationNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(QueenMockito.mock(ModifierNode.class));
         final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
 
         final ExpressionNode defaultValue = QueenMockito.mock(ExpressionNode.class);
 

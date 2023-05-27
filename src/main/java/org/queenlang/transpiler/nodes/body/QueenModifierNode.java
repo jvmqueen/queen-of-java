@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -73,15 +70,6 @@ public final class QueenModifierNode implements ModifierNode {
     @Override
     public String modifier() {
         return this.modifier.toLowerCase();
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(!this.modifier.equalsIgnoreCase("mutable")) {
-            ((NodeWithModifiers) java).addModifier(
-                Modifier.Keyword.valueOf(this.modifier.toUpperCase())
-            );
-        }
     }
 
     @Override

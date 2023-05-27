@@ -27,12 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
@@ -157,33 +151,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
             t -> (ExceptionTypeNode) t.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final MethodDeclaration method = new MethodDeclaration();
-        method.setName(this.name);
-        method.removeModifier(Modifier.Keyword.PUBLIC);
-        this.returnType.addToJavaNode(method);
-        this.annotations.forEach(a -> a.addToJavaNode(method));
-        this.modifiers.forEach(m -> m.addToJavaNode(method));
-        this.typeParams.forEach(tp -> tp.addToJavaNode(method));
-        this.parameters.forEach(
-            p -> p.addToJavaNode(method)
-        );
-        this.throwsList.forEach(t -> t.addToJavaNode(method));
-        if(this.blockStatements != null) {
-            final BlockStmt blockStmt = new BlockStmt();
-            this.blockStatements.addToJavaNode(blockStmt);
-            method.setBody(blockStmt);
-        } else {
-            method.removeBody();
-        }
-        if(java instanceof ClassOrInterfaceDeclaration) {
-            ((ClassOrInterfaceDeclaration) java).addMember(method);
-        } else {
-            ((ObjectCreationExpr) java).addAnonymousClassBody(method);
-        }
     }
 
     @Override

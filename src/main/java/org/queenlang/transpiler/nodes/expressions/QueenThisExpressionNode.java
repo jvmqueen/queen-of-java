@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.ThisExpr;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -61,15 +59,6 @@ public final class QueenThisExpressionNode implements ThisExpressionNode {
         this.position = position;
         this.parent = parent;
         this.typeName = typeName != null ? (NameNode) typeName.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        if(this.typeName == null) {
-            return new ThisExpr();
-        } else {
-            return new ThisExpr(this.typeName.toName());
-        }
     }
 
     @Override

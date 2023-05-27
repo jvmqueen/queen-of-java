@@ -26,12 +26,7 @@
  * SUCH DAMAGE.
  */
 package org.queenlang.transpiler.nodes.body;
-
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
@@ -148,17 +143,6 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof CompilationUnit) {
-            ((CompilationUnit) java).addType(this.toJavaInterface());
-        } else if(java instanceof ClassOrInterfaceDeclaration) {
-            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaInterface());
-        } else if(java instanceof AnnotationDeclaration) {
-            ((AnnotationDeclaration) java).addMember(this.toJavaInterface());
-        }
-    }
-
-    @Override
     public String name() {
         return this.name;
     }
@@ -166,30 +150,6 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     @Override
     public Position position() {
         return this.position;
-    }
-
-    /**
-     * Turn it into a JavaParser interface declaration.
-     * @return ClassOrInterfaceDeclaration.
-     */
-    private ClassOrInterfaceDeclaration toJavaInterface() {
-        ClassOrInterfaceDeclaration inter = new ClassOrInterfaceDeclaration();
-        inter.setInterface(true);
-        inter.setName(this.name);
-        inter.removeModifier(Modifier.Keyword.PUBLIC);
-        this.typeParams.forEach(tp -> tp.addToJavaNode(inter));
-        if(this.extendsTypes != null && this.extendsTypes.size() > 0) {
-            this.extendsTypes.forEach(et -> et.addToJavaNode(inter));
-        }
-        this.annotations.forEach(
-            a -> a.addToJavaNode(inter)
-        );
-        this.modifiers.forEach(
-            m -> m.addToJavaNode(inter)
-        );
-        this.body.addToJavaNode(inter);
-
-        return inter;
     }
 
     @Override

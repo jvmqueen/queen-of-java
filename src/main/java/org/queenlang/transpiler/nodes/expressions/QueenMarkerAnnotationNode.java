@@ -27,15 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
-import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
-
-import java.util.List;
 
 /**
  * Queen marker annotation (no parameters).
@@ -54,22 +48,12 @@ public final class QueenMarkerAnnotationNode extends QueenAnnotationNode impleme
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        ((NodeWithAnnotations) java).addAnnotation(this.toJavaExpression());
-    }
-
-    @Override
     public QueenNode withParent(final QueenNode parent) {
         return new QueenMarkerAnnotationNode(
             this.position(),
             parent,
             this.nameNode()
         );
-    }
-
-    @Override
-    public MarkerAnnotationExpr toJavaExpression() {
-        return new MarkerAnnotationExpr(this.name());
     }
 
 }

@@ -27,10 +27,7 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.EnclosedExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.Position;
 
 /**
  * Queen expression between brackets (e.g. (2 + 2)), AST Node.

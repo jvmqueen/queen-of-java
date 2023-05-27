@@ -27,11 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.ArrayCreationLevel;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.ArrayCreationExpr;
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -77,32 +72,6 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
             d -> (ArrayDimensionNode) d.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.arrayInitializer = arrayInitializer != null ? (ExpressionNode) arrayInitializer.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        final List<ArrayCreationLevel> javaDims = new ArrayList<>();
-        this.dims.forEach(
-            d -> {
-                final ArrayCreationLevel javaDim = new ArrayCreationLevel();
-                if(d.expression() != null) {
-                    javaDim.setDimension(d.expression().toJavaExpression());
-                }
-                d.annotations().forEach(
-                    a -> a.addToJavaNode(javaDim)
-                );
-                javaDims.add(javaDim);
-            }
-        );
-        final ArrayCreationExpr arrayCreation = new ArrayCreationExpr(
-            this.type.toType(),
-            new NodeList<>(javaDims),
-            this.arrayInitializer != null
-                ? (ArrayInitializerExpr) this.arrayInitializer.toJavaExpression()
-                : null
-
-        );
-        return arrayCreation;
     }
 
     @Override

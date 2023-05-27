@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
@@ -59,9 +58,6 @@ public final class QueenPackageImportDeclaration implements ImportDeclarationNod
         this.packageDeclaration = packageDeclaration;
         this.typeName = typeName;
     }
-
-    @Override
-    public void addToJavaNode(final Node java) {}
 
     @Override
     public Position position() {

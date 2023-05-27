@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.InstanceOfExpr;
-import com.github.javaparser.ast.type.ReferenceType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
@@ -68,14 +65,6 @@ public final class QueenInstanceOfExpressionNode implements InstanceOfExpression
         this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
         this.referenceType = referenceType != null ? (ReferenceTypeNode) referenceType.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        final InstanceOfExpr instanceOfExpr = new InstanceOfExpr();
-        instanceOfExpr.setExpression(this.expression.toJavaExpression());
-        instanceOfExpr.setType((ReferenceType) this.referenceType.toType());
-        return instanceOfExpr;
     }
 
     @Override

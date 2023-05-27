@@ -27,11 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.CastExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.type.IntersectionType;
-import com.github.javaparser.ast.type.ReferenceType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
@@ -86,28 +81,6 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
             r -> (ReferenceTypeNode) r.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        if(this.primitiveType != null) {
-            return new CastExpr(
-                this.primitiveType.toType(),
-                this.expression.toJavaExpression()
-            );
-        } else {
-            final List<ReferenceType> javaTypes = new ArrayList<>();
-            this.referenceTypes.forEach(
-                rt -> javaTypes.add((ReferenceType) rt.toType())
-            );
-            final IntersectionType type = new IntersectionType(
-                new NodeList<>(javaTypes)
-            );
-            return new CastExpr(
-                type,
-                this.expression.toJavaExpression()
-            );
-        }
     }
 
     @Override

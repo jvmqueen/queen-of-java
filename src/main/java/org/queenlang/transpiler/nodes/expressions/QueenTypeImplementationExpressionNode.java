@@ -27,12 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.ClassExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.types.QueenArrayTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenTypeParameterNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
@@ -73,21 +69,6 @@ public final class QueenTypeImplementationExpressionNode implements TypeImplemen
         this.dims = dims != null ? dims.stream().map(
             d -> (ArrayDimensionNode) d.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        if(this.dims != null && !this.dims.isEmpty()) {
-            return new ClassExpr(
-                new QueenArrayTypeNode(
-                    this.position,
-                    this.type,
-                    this.dims
-                ).toType()
-            );
-        } else {
-            return new ClassExpr(this.type.toType());
-        }
     }
 
     @Override

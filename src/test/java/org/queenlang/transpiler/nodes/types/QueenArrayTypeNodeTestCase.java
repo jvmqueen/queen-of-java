@@ -98,7 +98,6 @@ public final class QueenArrayTypeNodeTestCase {
     public void returnsChildren() {
         final Position position = QueenMockito.mock(Position.class);
         final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.doubleType());
         final List<ArrayDimensionNode> dims = new ArrayList<>();
         dims.add(QueenMockito.mock(ArrayDimensionNode.class));
         final ArrayTypeNode arrayTypeNode = new QueenArrayTypeNode(

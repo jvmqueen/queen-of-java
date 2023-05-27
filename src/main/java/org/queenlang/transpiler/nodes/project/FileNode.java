@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.project;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;

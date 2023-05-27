@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -66,19 +63,6 @@ public final class QueenArrayInitializerExpressionNode implements ArrayInitializ
         this.values = values != null ? values.stream().map(
             v -> (ExpressionNode) v.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        final ArrayInitializerExpr arrayInitializerExpr = new ArrayInitializerExpr();
-        if(this.values != null) {
-            final List<Expression> javaExp = new ArrayList<>();
-            this.values.forEach(
-                v -> javaExp.add(v.toJavaExpression())
-            );
-            arrayInitializerExpr.setValues(new NodeList<>(javaExp));
-        }
-        return arrayInitializerExpr;
     }
 
     @Override

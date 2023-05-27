@@ -27,12 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ForEachStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
@@ -98,33 +92,6 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
         this.variable = variable != null ? (LocalVariableDeclarationNode) variable.withParent(this) : null;
         this.iterable = iterable != null ? (ExpressionNode) iterable.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
-    }
-
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(this.toJavaStatement());
-        }
-    }
-
-    /**
-     * Turn into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final ForEachStmt forEachStmt = new ForEachStmt();
-        forEachStmt.setVariable((VariableDeclarationExpr) this.variable.toJavaExpression());
-        forEachStmt.setIterable(this.iterable.toJavaExpression());
-
-        if(this.blockStatements != null) {
-            final BlockStmt block = new BlockStmt();
-            this.blockStatements.addToJavaNode(block);
-            forEachStmt.setBody(block);
-        }
-        return forEachStmt;
     }
 
     @Override

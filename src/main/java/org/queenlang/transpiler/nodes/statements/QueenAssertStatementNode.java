@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.AssertStmt;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -65,16 +62,6 @@ public final class QueenAssertStatementNode implements AssertStatementNode {
         this.parent = parent;
         this.check = check != null ? (ExpressionNode) check.withParent(this) : null;
         this.message = message != null ? (ExpressionNode) message.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final AssertStmt assertStmt = new AssertStmt();
-        assertStmt.setCheck(this.check.toJavaExpression());
-        if(this.message != null) {
-            assertStmt.setMessage(this.message.toJavaExpression());
-        }
-        ((BlockStmt) java).addStatement(assertStmt);
     }
 
     @Override

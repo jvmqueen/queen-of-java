@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -59,12 +57,6 @@ public final class QueenElementValuePairNode implements ElementValuePairNode {
         this.parent = parent;
         this.identifier = identifier;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final NormalAnnotationExpr annotation = (NormalAnnotationExpr) java;
-        annotation.addPair(this.identifier, this.expression.toJavaExpression());
     }
 
     @Override

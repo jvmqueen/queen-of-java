@@ -68,7 +68,7 @@ public abstract class QueenAnnotationNode implements AnnotationNode {
 
     @Override
     public String name() {
-        return this.name.toName().asString();
+        return this.name.name();
     }
 
     @Override

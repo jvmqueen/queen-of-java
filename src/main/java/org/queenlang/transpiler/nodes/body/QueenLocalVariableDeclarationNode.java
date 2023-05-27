@@ -27,13 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -114,43 +107,8 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     }
 
     @Override
-    public void addToJavaNode(Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof TryStmt) {
-            final TryStmt tryStmt = ((TryStmt) java);
-            final List<Expression> existing = ((TryStmt) java).getResources();
-            final List<Expression> added = new ArrayList<>();
-            if(existing != null && existing.size() > 0) {
-                added.addAll(existing);
-            }
-            added.add(this.toJavaExpression());
-            tryStmt.setResources(new NodeList<>(added));
-        }
-    }
-
-    @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        VariableDeclarationExpr vde = new VariableDeclarationExpr();
-        this.annotations.forEach(a -> a.addToJavaNode(vde));
-        this.modifiers.forEach(m -> m.addToJavaNode(vde));
-        final List<VariableDeclarator> variableDeclarators = new ArrayList<>();
-        this.variables.forEach(
-            v -> {
-                final VariableDeclarator vd = new VariableDeclarator();
-                this.type.addToJavaNode(vd);
-                v.addToJavaNode(vd);
-                variableDeclarators.add(vd);
-            }
-        );
-
-        vde.setVariables(new NodeList<>(variableDeclarators));
-        return vde;
     }
 
     @Override

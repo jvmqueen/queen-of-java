@@ -27,11 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -91,29 +86,6 @@ public final class QueenExplicitConstructorInvocationNode implements ExplicitCon
         this.arguments = arguments != null ? arguments.stream().map(
             a -> (ExpressionNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final ExplicitConstructorInvocationStmt explicitConstructorInvocation = new ExplicitConstructorInvocationStmt();
-        explicitConstructorInvocation.setThis(this.isThis);
-        if(this.scope != null) {
-            explicitConstructorInvocation.setExpression(this.scope.toJavaExpression());
-        }
-        if(this.typeArguments != null) {
-            this.typeArguments.forEach(ta -> ta.addToJavaNode(explicitConstructorInvocation));
-        }
-        final List<Expression> args = new ArrayList<>();
-        if(this.arguments != null) {
-            this.arguments.forEach(
-                a -> args.add(a.toJavaExpression())
-            );
-        }
-        explicitConstructorInvocation.setArguments(new NodeList<>(args));
-
-        ((BlockStmt) java).addStatement(
-            explicitConstructorInvocation
-        );
     }
 
     @Override

@@ -27,11 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.TypeParameter;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -99,14 +94,6 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
         ).collect(Collectors.toList()) : null;
     }
 
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ((NodeWithTypeParameters) java).addTypeParameter(
-            this.toTypeParameter()
-        );
-    }
-
     @Override
     public Position position() {
         return this.position;
@@ -115,23 +102,6 @@ public final class QueenTypeParameterNode implements TypeParameterNode {
     @Override
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Turn it into a JavaParser TypeParameter.
-     * @return TypeParameter.
-     */
-    private TypeParameter toTypeParameter() {
-        final TypeParameter tp = new TypeParameter(this.name);
-        this.annotations.forEach(a -> a.addToJavaNode(tp));
-        tp.setTypeBound(
-            new NodeList(
-                this.typeBound.stream().map(
-                    tb -> (ClassOrInterfaceType) tb.toType()
-                ).collect(Collectors.toList())
-            )
-        );
-        return tp;
     }
 
     @Override

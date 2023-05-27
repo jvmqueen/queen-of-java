@@ -27,14 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
@@ -171,45 +163,6 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
             o -> (ClassOrInterfaceTypeNode) o.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.body = body != null ? (ClassBodyNode) body.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof CompilationUnit) {
-            ((CompilationUnit) java).addType(this.toJavaClass());
-        } else if(java instanceof ClassOrInterfaceDeclaration) {
-            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaClass());
-        } else if(java instanceof AnnotationDeclaration) {
-            ((AnnotationDeclaration) java).addMember(this.toJavaClass());
-        } else if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(
-                new LocalClassDeclarationStmt(this.toJavaClass())
-            );
-        } else if(java instanceof ObjectCreationExpr) {
-            ((ObjectCreationExpr) java).addAnonymousClassBody(this.toJavaClass());
-        }
-    }
-
-    /**
-     * Turn it into a JavaParser class declaration.
-     * @return ClassOrInterfaceDeclaration.
-     */
-    private ClassOrInterfaceDeclaration toJavaClass() {
-        final ClassOrInterfaceDeclaration clazz = new ClassOrInterfaceDeclaration();
-        clazz.setName(this.name);
-        clazz.removeModifier(Modifier.Keyword.PUBLIC);
-        this.typeParams.forEach(tp -> tp.addToJavaNode(clazz));
-        if(this.extendsType != null) {
-            this.extendsType.addToJavaNode(clazz);
-        }
-        if(this.of != null && this.of.size() > 0) {
-            this.of.forEach(o -> o.addToJavaNode(clazz));
-        }
-        this.annotations.forEach(a -> a.addToJavaNode(clazz));
-        this.accessModifiers.forEach(am -> am.addToJavaNode(clazz));
-        this.extensionModifier.addToJavaNode(clazz);
-        this.body.addToJavaNode(clazz);
-        return clazz;
     }
 
     @Override

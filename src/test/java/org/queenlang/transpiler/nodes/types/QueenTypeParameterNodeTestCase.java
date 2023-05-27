@@ -123,7 +123,6 @@ public final class QueenTypeParameterNodeTestCase {
         annotations.add(QueenMockito.mock(AnnotationNode.class));
         final List<ClassOrInterfaceTypeNode> typeBound = new ArrayList<>();
         final ClassOrInterfaceTypeNode tb = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
-        Mockito.when(tb.toType()).thenReturn(new ClassOrInterfaceType("Other"));
         typeBound.add(tb);
         final TypeParameterNode typeParameterNode = new QueenTypeParameterNode(
             position,

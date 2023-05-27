@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ReturnStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -63,15 +60,6 @@ public final class QueenReturnStatementNode implements ReturnStatementNode {
         this.position = position;
         this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ReturnStmt returnStmt = new ReturnStmt();
-        if(this.expression != null) {
-            this.expression.addToJavaNode(returnStmt);
-        }
-        ((BlockStmt) java).addStatement(returnStmt);
     }
 
     @Override

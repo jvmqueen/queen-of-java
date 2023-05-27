@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
@@ -89,18 +87,6 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
         this.parent = parent;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
         this.isStatic = isStatic;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        if(this.blockStatements != null) {
-            if(this.isStatic) {
-                this.blockStatements.addToJavaNode(clazz.addStaticInitializer());
-            } else {
-                this.blockStatements.addToJavaNode(clazz.addInitializer());
-            }
-        }
     }
 
     @Override

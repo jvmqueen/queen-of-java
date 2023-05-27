@@ -27,17 +27,10 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.type.UnionType;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.body.ModifierNode;
-import org.queenlang.transpiler.nodes.body.QueenModifierNode;
-import org.queenlang.transpiler.nodes.body.QueenVariableDeclaratorId;
 import org.queenlang.transpiler.nodes.body.VariableDeclaratorId;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
@@ -96,25 +89,6 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
             cet -> (TypeNode) cet.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.exceptionName = exceptionName != null ? (VariableDeclaratorId) exceptionName.withParent(this) : null;
-    }
-
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final Parameter parameter = new Parameter();
-        this.annotations.forEach( a -> a.addToJavaNode(parameter));
-        this.modifiers.forEach(m -> m.addToJavaNode(parameter));
-
-        final UnionType type = new UnionType();
-        this.catchExceptionTypes.forEach(
-            et -> et.addToJavaNode(type)
-        );
-        parameter.setType(type);
-
-        this.exceptionName.addToJavaNode(parameter);
-
-        final CatchClause catchClause = ((CatchClause) java);
-        catchClause.setParameter(parameter);
     }
 
     @Override

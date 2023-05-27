@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
-import com.github.javaparser.ast.expr.SimpleName;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -76,16 +73,6 @@ public final class QueenFieldAccessExpressionNode implements FieldAccessExpressi
         this.parent = parent;
         this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
         this.name = name;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        final FieldAccessExpr fieldAccessExpr = new FieldAccessExpr();
-        if(this.scope != null) {
-            fieldAccessExpr.setScope(this.scope.toJavaExpression());
-        }
-        fieldAccessExpr.setName(new SimpleName(this.name));
-        return fieldAccessExpr;
     }
 
     @Override

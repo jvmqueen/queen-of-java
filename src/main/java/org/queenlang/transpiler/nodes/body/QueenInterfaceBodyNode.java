@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -63,13 +62,6 @@ public final class QueenInterfaceBodyNode implements InterfaceBodyNode {
         this.interfaceMemberDeclarations = interfaceMemberDeclarations != null ? interfaceMemberDeclarations.stream().map(
             ibd -> (InterfaceMemberDeclarationNode) ibd.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        this.interfaceMemberDeclarations.forEach(
-            imd -> imd.addToJavaNode(java)
-        );
     }
 
     @Override

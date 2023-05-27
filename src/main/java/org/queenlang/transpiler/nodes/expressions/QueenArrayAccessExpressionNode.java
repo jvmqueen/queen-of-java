@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.ArrayAccessExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -71,20 +69,6 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
         this.dims = dims != null ? dims.stream().map(
             d -> (ArrayDimensionNode) d.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        ArrayAccessExpr arrayAccessExpr = new ArrayAccessExpr();
-        arrayAccessExpr.setName(this.name.toJavaExpression());
-        arrayAccessExpr.setIndex(this.dims.get(0).expression().toJavaExpression());
-        for(int i = 1; i<this.dims.size(); i++) {
-            arrayAccessExpr = new ArrayAccessExpr(
-                arrayAccessExpr,
-                this.dims.get(i).expression().toJavaExpression()
-            );
-        }
-        return arrayAccessExpr;
     }
 
     @Override

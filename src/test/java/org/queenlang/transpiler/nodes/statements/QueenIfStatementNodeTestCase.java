@@ -114,7 +114,6 @@ public final class QueenIfStatementNodeTestCase {
     public void returnsChildren() {
         final Position position = QueenMockito.mock(Position.class);
         final ExpressionNode expressionNode = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(expressionNode.toJavaExpression()).thenReturn(new BooleanLiteralExpr(true));
         final BlockStatements thenBlock = QueenMockito.mock(BlockStatements.class);
         final BlockStatements elseBlock = QueenMockito.mock(BlockStatements.class);
         final IfStatementNode ifStatementNode = new QueenIfStatementNode(

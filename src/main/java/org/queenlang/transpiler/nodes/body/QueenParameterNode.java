@@ -27,12 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
-import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -132,30 +126,6 @@ public final class QueenParameterNode implements ParameterNode {
             varA -> (AnnotationNode) varA.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.varArgs = varArgs;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final Parameter parameter = new Parameter();
-        this.annotations.forEach( a -> a.addToJavaNode(parameter));
-        this.modifiers.forEach(m -> m.addToJavaNode(parameter));
-        if(this.type != null) {
-            this.type.addToJavaNode(parameter);
-        } else {
-            parameter.setType(new UnknownType());
-        }
-        this.variableDeclaratorId.addToJavaNode(parameter);
-        parameter.setVarArgs(this.varArgs);
-        if(this.varArgsAnnotations != null) {
-            parameter.setVarArgsAnnotations(
-                new NodeList<>(
-                    this.varArgsAnnotations.stream().map(
-                        varga -> (AnnotationExpr) varga.toJavaExpression()
-                    ).collect(Collectors.toList())
-                )
-            );
-        }
-        ((NodeWithParameters) java).addParameter(parameter);
     }
 
     @Override

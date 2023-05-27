@@ -119,8 +119,7 @@ public final class QueenProject implements ProjectNode {
         if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
             throw new QueenTranspilationException(queenFile.fullTypeName(), problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
         }
-        final CompilationUnit javaCompilationUnit  = new CompilationUnit();
-        queenFile.addToJavaNode(javaCompilationUnit);
+        final CompilationUnit javaCompilationUnit  = new QueenToJavaVisitor().visitCompilationUnit(queenFile.compilationUnit());
         final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
         reparseJavaClass(javaClass);
         output.write(javaCompilationUnit);

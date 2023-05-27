@@ -27,15 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,26 +64,6 @@ public final class QueenCatchClauseNode implements CatchClauseNode {
         this.parent = parent;
         this.parameter = parameter != null ? (CatchFormalParameterNode) parameter.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final CatchClause catchClause = new CatchClause();
-        this.parameter.addToJavaNode(catchClause);
-        final BlockStmt blockStmt = new BlockStmt();
-        if(this.blockStatements != null) {
-            this.blockStatements.addToJavaNode(blockStmt);
-        }
-        catchClause.setBody(blockStmt);
-
-        final TryStmt tryStmt = ((TryStmt) java);
-        final List<CatchClause> existing = ((TryStmt) java).getCatchClauses();
-        final List<CatchClause> added = new ArrayList<>();
-        if(existing != null && existing.size() > 0) {
-            added.addAll(existing);
-        }
-        added.add(catchClause);
-        tryStmt.setCatchClauses(new NodeList<>(added));
     }
 
     @Override

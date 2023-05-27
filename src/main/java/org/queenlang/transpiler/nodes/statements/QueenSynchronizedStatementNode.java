@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SynchronizedStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -71,18 +68,6 @@ public final class QueenSynchronizedStatementNode implements SynchronizedStateme
         this.parent = parent;
         this.syncExpression = syncExpression != null ? (ExpressionNode) syncExpression.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final SynchronizedStmt synchronizedStmt = new SynchronizedStmt();
-        this.syncExpression.addToJavaNode(synchronizedStmt);
-        if(this.blockStatements != null) {
-            final BlockStmt syncBockStmt = new BlockStmt();
-            this.blockStatements.addToJavaNode(syncBockStmt);
-            synchronizedStmt.setBody(syncBockStmt);
-        }
-        ((BlockStmt) java).addStatement(synchronizedStmt);
     }
 
     @Override

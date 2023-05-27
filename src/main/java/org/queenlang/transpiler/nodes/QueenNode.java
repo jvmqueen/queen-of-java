@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.QueenASTVisitor;
 
 import java.util.List;
@@ -39,11 +38,6 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface QueenNode {
-
-    /**
-     * Add it to JavaParser's java node.
-     */
-    void addToJavaNode(final Node java);
 
     /**
      * Position of this QueenNode in the original source code.

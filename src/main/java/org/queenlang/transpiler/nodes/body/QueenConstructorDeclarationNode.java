@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.*;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
@@ -124,33 +121,6 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
         ).collect(Collectors.toList()) : null;
         this.explicitConstructorInvocationNode = explicitConstructorInvocationNode != null ? (ExplicitConstructorInvocationNode) explicitConstructorInvocationNode.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final ConstructorDeclaration constructor = ((ClassOrInterfaceDeclaration) java)
-            .addConstructor();
-        this.annotations.forEach(a -> a.addToJavaNode(constructor));
-        if(this.modifier != null) {
-            this.modifier.addToJavaNode(constructor);
-        }
-        this.parameters.forEach(
-            p -> p.addToJavaNode(constructor)
-        );
-        this.typeParams.forEach(
-            tp -> tp.addToJavaNode(constructor)
-        );
-        this.throwsList.forEach(
-            t -> t.addToJavaNode(constructor)
-        );
-        final BlockStmt blockStmt = new BlockStmt();
-        if(this.explicitConstructorInvocationNode != null) {
-            this.explicitConstructorInvocationNode.addToJavaNode(blockStmt);
-        }
-        if(this.blockStatements != null) {
-            this.blockStatements.addToJavaNode(blockStmt);
-        }
-        constructor.setBody(blockStmt);
     }
 
     @Override

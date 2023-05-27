@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -56,14 +54,6 @@ public final class QueenTextExpressionNode implements ExpressionNode {
         this.position = position;
         this.parent = parent;
         this.expression = expression;
-    }
-
-    /**
-     * Turn it into a JavaParser Expression.
-     * @return Expression, never null.
-     */
-    public Expression toJavaExpression() {
-        return StaticJavaParser.parseExpression(this.expression);
     }
 
     @Override

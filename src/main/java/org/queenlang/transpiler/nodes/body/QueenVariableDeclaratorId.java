@@ -1,16 +1,7 @@
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.nodeTypes.NodeWithType;
-import com.github.javaparser.ast.type.ArrayType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.UnknownType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,17 +28,6 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
         this.position = position;
         this.parent = parent;
         this.name = name;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof VariableDeclarator) {
-            final VariableDeclarator vd = (VariableDeclarator) java;
-            vd.setName(this.name);
-        } else if(java instanceof Parameter) {
-            final Parameter parameter = (Parameter) java;
-            parameter.setName(this.name);
-        }
     }
 
     @Override

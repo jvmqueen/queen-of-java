@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ThrowStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -66,13 +63,6 @@ public final class QueenThrowStatementNode implements ThrowStatementNode {
         this.position = position;
         this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ThrowStmt throwStmt = new ThrowStmt();
-        this.expression.addToJavaNode(throwStmt);
-        ((BlockStmt) java).addStatement(throwStmt);
     }
 
     @Override

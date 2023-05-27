@@ -27,12 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import org.queenlang.transpiler.nodes.Named;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -82,30 +76,6 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
         this.parent = parent;
         this.name = name;
         this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(this.toJavaStatement());
-        }
-    }
-
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final LabeledStmt labeledStmt = new LabeledStmt();
-        labeledStmt.setLabel(new SimpleName(this.name));
-        if(this.blockStatements != null) {
-            final BlockStmt block = new BlockStmt();
-            this.blockStatements.addToJavaNode(block);
-            labeledStmt.setStatement(block);
-        }
-        return labeledStmt;
     }
 
     @Override

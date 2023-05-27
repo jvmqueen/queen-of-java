@@ -63,7 +63,7 @@ public final class QueenSuperExpressionNodeTestCase {
             new QueenNameNode(Mockito.mock(Position.class), "Student")
         );
         MatcherAssert.assertThat(
-            superExpression.typeName().toName().asString(),
+            superExpression.typeName().name(),
             Matchers.equalTo("Student")
         );
     }

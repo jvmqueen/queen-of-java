@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.LongLiteralExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -45,11 +43,6 @@ public final class QueenLongLiteralExpressionNode extends QueenLiteralStringValu
 
     private QueenLongLiteralExpressionNode(final Position position, final QueenNode parent, final String value) {
         super(position, parent, value);
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        return new LongLiteralExpr(this.value());
     }
 
     @Override

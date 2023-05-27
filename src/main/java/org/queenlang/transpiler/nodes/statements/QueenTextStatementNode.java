@@ -27,13 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -64,25 +57,6 @@ public final class QueenTextStatementNode implements StatementNode {
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        Statement stmt = null;
-        try {
-            stmt = StaticJavaParser.parseStatement(this.statement);
-        } catch (ParseProblemException pbd) {
-            stmt = new ExpressionStmt(
-                StaticJavaParser.parseExpression(this.statement)
-            );
-        }
-        if(stmt != null) {
-            if(java instanceof BlockStmt) {
-                ((BlockStmt) java).addStatement(stmt);
-            } else if(java instanceof LabeledStmt) {
-                ((LabeledStmt) java).setStatement(stmt);
-            }
-        }
-    }
-
-    @Override
     public Position position() {
         return this.position;
     }
@@ -108,7 +82,6 @@ public final class QueenTextStatementNode implements StatementNode {
 
     @Override
     public String toString() {
-        final Statement stmt = StaticJavaParser.parseStatement(this.statement);
-        return stmt.toString();
+        return this.statement;
     }
 }

@@ -27,11 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.nodeTypes.NodeWithCondition;
-import com.github.javaparser.ast.stmt.*;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -42,28 +37,6 @@ import org.queenlang.transpiler.nodes.QueenNode;
  * @since 0.0.1
  */
 public interface ExpressionNode extends QueenNode {
-
-    default void addToJavaNode(final Node java) {
-        if(java instanceof VariableDeclarator) {
-            final VariableDeclarator variableDeclarator = (VariableDeclarator) java;
-            variableDeclarator.setInitializer(this.toJavaExpression());
-        } else if (java instanceof NodeWithCondition) {
-            ((NodeWithCondition) java).setCondition(this.toJavaExpression());
-        } else if(java instanceof ThrowStmt) {
-            ((ThrowStmt) java).setExpression(this.toJavaExpression());
-        } else if(java instanceof ReturnStmt) {
-            ((ReturnStmt) java).setExpression(this.toJavaExpression());
-        } else if(java instanceof SynchronizedStmt) {
-            ((SynchronizedStmt) java).setExpression(this.toJavaExpression());
-        } else if(java instanceof SwitchStmt) {
-            ((SwitchStmt) java).setSelector(this.toJavaExpression());
-        }
-    }
-    default Statement toJavaStatement() {
-        return new ExpressionStmt(this.toJavaExpression());
-    }
-    Expression toJavaExpression();
-
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitExpressionNode(this);
     }

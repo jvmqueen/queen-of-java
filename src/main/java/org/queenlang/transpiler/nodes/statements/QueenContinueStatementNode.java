@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ContinueStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -58,15 +55,6 @@ public final class QueenContinueStatementNode implements ContinueStatementNode {
         this.position = position;
         this.parent = parent;
         this.label = label;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ContinueStmt continueStmt = new ContinueStmt();
-        if(this.label != null) {
-            continueStmt.setLabel(this.label);
-        }
-        ((BlockStmt) java).addStatement(continueStmt);
     }
 
     @Override

@@ -27,11 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.SwitchEntry;
-import com.github.javaparser.ast.stmt.SwitchStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -73,29 +68,6 @@ public final class QueenSwitchStatementNode implements SwitchStatementNode {
         this.entries = entries != null ? entries.stream().map(
             e -> (SwitchEntryNode) e.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final SwitchStmt switchStmt = new SwitchStmt();
-        if(this.expression != null) {
-            this.expression.addToJavaNode(switchStmt);
-        }
-        if(this.entries != null) {
-            final List<SwitchEntry> entries = new ArrayList<>();
-            this.entries.forEach(
-                e -> {
-                    final SwitchEntry entry = new SwitchEntry();
-                    e.addToJavaNode(entry);
-                    entries.add(entry);
-                }
-
-            );
-            switchStmt.setEntries(new NodeList<>(entries));
-        }
-        ((BlockStmt) java).addStatement(switchStmt);
-
     }
 
     @Override

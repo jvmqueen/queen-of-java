@@ -27,11 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.WhileStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -83,29 +78,6 @@ public final class QueenWhileStatementNode implements WhileStatementNode {
         this.parent = parent;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(this.toJavaStatement());
-        }
-    }
-
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final WhileStmt whileStmt = new WhileStmt();
-        this.expression.addToJavaNode(whileStmt);
-        final BlockStmt blockStmt = whileStmt.createBlockStatementAsBody();
-        if(this.blockStatements != null) {
-            this.blockStatements.addToJavaNode(blockStmt);
-        }
-        return whileStmt;
     }
 
     @Override

@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.SwitchEntry;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -58,18 +56,6 @@ public final class QueenSwitchLabelNode implements SwitchLabelNode {
         this.parent = parent;
         this.expressionNode = expressionNode != null ? (ExpressionNode) expressionNode.withParent(this) : null;
         this.isDefaultLabel = isDefaultLabel;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof SwitchEntry) {
-            final SwitchEntry entry = (SwitchEntry) java;
-            if(!this.isDefaultLabel && this.expressionNode != null) {
-                entry.getLabels().add(
-                    this.expressionNode.toJavaExpression()
-                );
-            }
-        }
     }
 
     @Override

@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.EmptyStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -55,13 +52,6 @@ public final class QueenEmptyStatementNode implements EmptyStatementNode {
     private QueenEmptyStatementNode(final Position position, final QueenNode parent) {
         this.position = position;
         this.parent = parent;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ((BlockStmt) java).addStatement(
-            new EmptyStmt()
-        );
     }
 
     @Override

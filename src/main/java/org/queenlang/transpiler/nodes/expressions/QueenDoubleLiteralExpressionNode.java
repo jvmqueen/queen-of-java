@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.DoubleLiteralExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -44,11 +42,6 @@ public final class QueenDoubleLiteralExpressionNode extends QueenLiteralStringVa
     }
     private QueenDoubleLiteralExpressionNode(final Position position, final QueenNode parent, final String value) {
         super(position, parent, value);
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        return new DoubleLiteralExpr(this.value());
     }
 
     @Override

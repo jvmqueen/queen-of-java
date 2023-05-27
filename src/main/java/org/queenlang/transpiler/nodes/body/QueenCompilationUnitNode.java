@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.*;
 
 import java.util.ArrayList;
@@ -71,15 +70,6 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
             id -> (ImportDeclarationNode) id.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.typeDeclaration = typeDeclaration != null ? (TypeDeclarationNode) typeDeclaration.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(Node java) {
-        if(this.packageDeclaration != null) {
-            this.packageDeclaration.addToJavaNode(java);
-        }
-        this.importDeclarations.forEach(i -> i.addToJavaNode(java));
-        this.typeDeclaration.addToJavaNode(java);
     }
 
     @Override

@@ -27,16 +27,10 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ClassBodyNode;
-import org.queenlang.transpiler.nodes.body.QueenClassBodyNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
 
 import java.util.ArrayList;
@@ -101,32 +95,6 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
             a -> (ExpressionNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.anonymousBody = anonymousBody != null ? (ClassBodyNode) anonymousBody.withParent(this) : null;
-    }
-    @Override
-    public Expression toJavaExpression() {
-        final ObjectCreationExpr objectCreationExpr = new ObjectCreationExpr();
-        if(this.scope != null) {
-            objectCreationExpr.setScope(this.scope.toJavaExpression());
-        }
-        objectCreationExpr.setType((ClassOrInterfaceType) this.type.toType());
-        if(this.typeArguments != null) {
-            this.typeArguments.forEach(ta -> ta.addToJavaNode(objectCreationExpr));
-        }
-        final List<Expression> args = new ArrayList<>();
-        if(this.arguments != null) {
-            this.arguments.forEach(
-                a -> args.add(a.toJavaExpression())
-            );
-        }
-        objectCreationExpr.setArguments(new NodeList<>(args));
-        if(this.anonymousBody != null) {
-            if(!this.anonymousBody.isEmpty()) {
-                this.anonymousBody.addToJavaNode(objectCreationExpr);
-            } else {
-                objectCreationExpr.setAnonymousClassBody(new NodeList<>());
-            }
-        }
-        return objectCreationExpr;
     }
 
     @Override

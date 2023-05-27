@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.VariableDeclarator;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -67,15 +65,6 @@ public final class QueenVariableDeclaratorNode implements VariableDeclaratorNode
         this.parent = parent;
         this.variableDeclaratorId = variableDeclaratorId != null ? (VariableDeclaratorId) variableDeclaratorId.withParent(this) : null;
         this.initializer = initializer != null ? (ExpressionNode) initializer.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final VariableDeclarator vd = (VariableDeclarator) java;
-        this.variableDeclaratorId.addToJavaNode(vd);
-        if(this.initializer != null) {
-            this.initializer.addToJavaNode(vd);
-        }
     }
 
     @Override

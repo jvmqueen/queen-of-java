@@ -27,16 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.PackageDeclaration;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.NameNode;
-import org.queenlang.transpiler.nodes.Position;
-import org.queenlang.transpiler.nodes.QueenNameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
-
-import java.util.function.Supplier;
 
 /**
  * Queen PackageDeclaration AST node.

@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -52,11 +50,6 @@ public final class QueenBooleanLiteralExpressionNode implements BooleanLiteralEx
         this.position = position;
         this.parent = parent;
         this.value = value;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        return new BooleanLiteralExpr(this.value);
     }
 
     @Override

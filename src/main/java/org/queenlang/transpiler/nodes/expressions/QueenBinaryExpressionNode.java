@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -69,25 +67,6 @@ public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
         this.left = left != null ? (ExpressionNode) left.withParent(this) : null;
         this.operator = operator;
         this.right = right != null ? (ExpressionNode) right.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        BinaryExpr.Operator operator = null;
-        for(int i=0; i< BinaryExpr.Operator.values().length; i++) {
-            if(BinaryExpr.Operator.values()[i].asString().equalsIgnoreCase(this.operator)) {
-                operator = BinaryExpr.Operator.values()[i];
-                break;
-            }
-        }
-        if(operator == null) {
-            throw new IllegalStateException("Unknown operator: " + this.operator);
-        }
-        return new BinaryExpr(
-            this.left.toJavaExpression(),
-            this.right.toJavaExpression(),
-            operator
-        );
     }
 
     @Override

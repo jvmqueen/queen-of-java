@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -103,9 +102,6 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
     public ExpressionNode expression() {
         return this.expression;
     }
-
-    @Override
-    public void addToJavaNode(final Node java) {}
 
     @Override
     public Position position() {

@@ -27,11 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.IfStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
-import com.github.javaparser.ast.stmt.Statement;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -97,35 +92,6 @@ public final class QueenIfStatementNode implements IfStatementNode {
         this.condition = condition != null ? (ExpressionNode) condition.withParent(this) : null;
         this.thenBlockStatements = thenBlockStatements != null ? (StatementNode) thenBlockStatements.withParent(this) : null;
         this.elseBlockStatements = elseBlockStatements != null ? (StatementNode) elseBlockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(this.toJavaStatement());
-        }
-    }
-
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final IfStmt ifStatement = new IfStmt();
-        this.condition.addToJavaNode(ifStatement);
-        final BlockStmt thenBlockStmt = new BlockStmt();
-        if(this.thenBlockStatements != null) {
-            this.thenBlockStatements.addToJavaNode(thenBlockStmt);
-        }
-        ifStatement.setThenStmt(thenBlockStmt);
-        if(this.elseBlockStatements != null) {
-            final BlockStmt elseBlockStmt = new BlockStmt();
-            this.elseBlockStatements.addToJavaNode(elseBlockStmt);
-            ifStatement.setElseStmt(elseBlockStmt);
-        }
-        return ifStatement;
     }
 
     @Override

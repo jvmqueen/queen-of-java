@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.SuperExpr;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -57,19 +55,10 @@ public final class QueenSuperExpressionNode implements SuperExpressionNode {
         this(position, null, typeName);
     }
 
-    private QueenSuperExpressionNode(final Position position, final QueenNode parent, final NameNode typeName){
+    private QueenSuperExpressionNode(final Position position, final QueenNode parent, final NameNode typeName) {
         this.position = position;
         this.parent = parent;
         this.typeName = typeName != null ? (NameNode) typeName.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        if(this.typeName == null) {
-            return new SuperExpr();
-        } else {
-            return new SuperExpr(this.typeName.toName());
-        }
     }
 
     @Override

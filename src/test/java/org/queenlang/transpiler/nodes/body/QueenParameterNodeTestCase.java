@@ -172,14 +172,10 @@ public final class QueenParameterNodeTestCase {
         final List<ModifierNode> modifiers = new ArrayList<>();
         modifiers.add(QueenMockito.mock(ModifierNode.class));
         final TypeNode type = QueenMockito.mock(TypeNode.class);
-        Mockito.when(type.toType()).thenReturn(PrimitiveType.intType());
         final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
         Mockito.when(variableDeclaratorId.name()).thenReturn("p");
         final List<AnnotationNode> varArgsAnnotations = new ArrayList<>();
         final AnnotationNode varArgAnnotation = QueenMockito.mock(AnnotationNode.class);
-        Mockito.when(varArgAnnotation.toJavaExpression()).thenReturn(
-            new MarkerAnnotationExpr("VarArgAnnotation")
-        );
         varArgsAnnotations.add(varArgAnnotation);
 
         final ParameterNode parameter = new QueenParameterNode(

@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -106,21 +102,6 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
         ).collect(Collectors.toList()) : null;
         this.type = type != null ? (TypeNode) type.withParent(this) : null;
         this.variable = variable != null ? (VariableDeclaratorNode) variable.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        ClassOrInterfaceDeclaration clazz = (ClassOrInterfaceDeclaration) java;
-        final VariableDeclarator vd = new VariableDeclarator();
-        this.type.addToJavaNode(vd);
-        this.variable.addToJavaNode(vd);
-
-        final FieldDeclaration field = new FieldDeclaration();
-        field.addVariable(vd);
-        clazz.addMember(field);
-
-        this.annotations.forEach(a -> a.addToJavaNode(field));
-        this.modifiers.forEach(m -> m.addToJavaNode(field));
     }
 
     @Override

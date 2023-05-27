@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.project;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
 import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
@@ -56,11 +55,6 @@ public final class QueenFileNode implements FileNode{
         this.parent = parent;
         this.fileName = fileName;
         this.compilationUnit = compilationUnit != null ? (CompilationUnitNode) compilationUnit.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        this.compilationUnit.addToJavaNode(java);
     }
 
     @Override

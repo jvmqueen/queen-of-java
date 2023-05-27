@@ -27,15 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.WildcardType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,22 +93,6 @@ public final class QueenWildcardNode implements WildcardTypeNode {
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof NodeWithTypeArguments) {
-            final List<Type> existing = new ArrayList<>();
-            ((NodeWithTypeArguments<?>) java)
-                .getTypeArguments()
-                .ifPresent(
-                    tas -> existing.addAll(tas)
-                );
-            existing.add(this.toWildcardType());
-
-            ((NodeWithTypeArguments<?>) java)
-                .setTypeArguments(new NodeList<>(existing));
-        }
-    }
-
-    @Override
     public Position position() {
         return this.position;
     }
@@ -146,36 +124,6 @@ public final class QueenWildcardNode implements WildcardTypeNode {
         return this.parent;
     }
 
-    /**
-     * Turn it into a JavaParser WildcardType.
-     * @return WildcardType.
-     */
-    private WildcardType toWildcardType() {
-        final WildcardType wildcardType = (WildcardType) this.toType();
-        if(this.annotations != null) {
-            this.annotations.forEach(a -> a.addToJavaNode(wildcardType));
-        }
-        if(this.extendedType != null) {
-            this.extendedType.addToJavaNode(wildcardType);
-        } else if(this.superType != null) {
-            this.superType.addToJavaNode(wildcardType);
-        }
-        return wildcardType;
-    }
-
-    @Override
-    public Type toType() {
-        final WildcardType wildcardType;
-        if(this.extendedType != null) {
-            wildcardType = new WildcardExtendsBound();
-        } else if (this.superType != null) {
-            wildcardType = new WildcardSuperBound();
-        } else {
-            wildcardType = new WildcardType();
-        }
-        return wildcardType;
-    }
-
     @Override
     public List<AnnotationNode> annotations() {
         return this.annotations;
@@ -194,13 +142,5 @@ public final class QueenWildcardNode implements WildcardTypeNode {
     @Override
     public String name() {
         return "?";
-    }
-
-    static class WildcardSuperBound extends WildcardType {
-
-    }
-
-    static class WildcardExtendsBound extends WildcardType {
-
     }
 }

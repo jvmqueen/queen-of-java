@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.body.LocalVariableDeclarationNode;
 
@@ -75,13 +74,6 @@ public final class QueenBlockStatements implements BlockStatements {
     @Override
     public List<StatementNode> blockStatements() {
         return this.blockStatements;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        this.blockStatements.forEach(
-            bs -> bs.addToJavaNode(java)
-        );
     }
 
     @Override

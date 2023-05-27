@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.ConditionalExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -70,15 +68,6 @@ public final class QueenConditionalExpressionNode implements ConditionalExpressi
         this.condition = condition != null ? (ExpressionNode) condition.withParent(this) : null;
         this.thenExpr = thenExpr != null ? (ExpressionNode) thenExpr.withParent(this) : null;
         this.elseExpr = elseExpr != null ? (ExpressionNode) elseExpr.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        return new ConditionalExpr(
-            this.condition.toJavaExpression(),
-            this.thenExpr.toJavaExpression(),
-            this.elseExpr.toJavaExpression()
-        );
     }
 
     @Override

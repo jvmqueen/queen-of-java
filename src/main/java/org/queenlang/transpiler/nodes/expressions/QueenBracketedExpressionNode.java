@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.EnclosedExpr;
-import com.github.javaparser.ast.expr.Expression;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -55,11 +53,6 @@ public final class QueenBracketedExpressionNode implements BracketedExpressionNo
         this.position = position;
         this.parent = parent();
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        return new EnclosedExpr(this.expression.toJavaExpression());
     }
 
     @Override

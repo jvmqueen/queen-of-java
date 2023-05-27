@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -76,35 +74,6 @@ public final class QueenNameNode implements NameNode {
     }
 
     @Override
-    public ClassOrInterfaceType toType() {
-        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.identifier);
-        if(this.qualifier != null) {
-            classOrInterfaceType.setScope((ClassOrInterfaceType) this.qualifier.toType());
-        }
-        return classOrInterfaceType;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        if(this.qualifier == null) {
-            return new NameExpr(this.identifier);
-        } else {
-            return new FieldAccessExpr(
-                this.qualifier.toJavaExpression(),
-                this.identifier
-            );
-        }
-    }
-
-    public Name toName() {
-        final Name name = new Name(this.identifier);
-        if(this.qualifier != null) {
-            name.setQualifier(this.qualifier.toName());
-        }
-        return name;
-    }
-
-    @Override
     public NameNode qualifier() {
         return this.qualifier;
     }
@@ -127,6 +96,17 @@ public final class QueenNameNode implements NameNode {
     @Override
     public String simpleName() {
         return this.identifier;
+    }
+
+    @Override
+    public String name() {
+        final String fullName;
+        if(this.scope() != null) {
+            fullName = this.scope().name() + "." + this.simpleName();
+        } else {
+            fullName = this.simpleName();
+        }
+        return fullName;
     }
 
     @Override

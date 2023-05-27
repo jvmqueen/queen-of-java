@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.TryStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -87,40 +83,6 @@ public final class QueenTryStatementNode implements TryStatementNode {
         this.tryBlockStatements = tryBlockStatements != null ? (BlockStatements) tryBlockStatements.withParent(this) : null;
         this.catchClauses = catchClauses != null ? catchClauses.stream().map(cc -> (CatchClauseNode) cc.withParent(this)).collect(Collectors.toList()) : null;
         this.finallyBlockStatements = finallyBlockStatements != null ? (BlockStatements) finallyBlockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-
-        ((BlockStmt) java).addStatement(this.toJavaStatement());
-    }
-
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final TryStmt tryStmt = new TryStmt();
-        if(this.resources != null) {
-            this.resources.forEach(r -> r.addToJavaNode(tryStmt));
-        }
-
-        if(this.tryBlockStatements != null) {
-            final BlockStmt tryBlockStmt = new BlockStmt();
-            this.tryBlockStatements.addToJavaNode(tryBlockStmt);
-            tryStmt.setTryBlock(tryBlockStmt);
-        }
-
-        if(this.catchClauses != null) {
-            this.catchClauses.forEach(c -> c.addToJavaNode(tryStmt));
-        }
-
-        if(this.finallyBlockStatements != null) {
-            final BlockStmt finallyBlockStmt = new BlockStmt();
-            this.finallyBlockStatements.addToJavaNode(finallyBlockStmt);
-            tryStmt.setFinallyBlock(finallyBlockStmt);
-        }
-        return tryStmt;
     }
 
     @Override

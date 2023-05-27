@@ -27,15 +27,9 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.type.PrimitiveType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,30 +85,8 @@ public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof VariableDeclarator) {
-            ((VariableDeclarator) java).setType(this.toType());
-        } else if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(this.toType());
-        } else if(java instanceof Parameter) {
-            ((Parameter) java).setType(this.toType());
-        }
-    }
-
-    @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public PrimitiveType toType() {
-        final PrimitiveType primitiveType = new PrimitiveType(
-            PrimitiveType.Primitive.valueOf(this.name.toUpperCase())
-        );
-        if(this.annotations != null) {
-            this.annotations.forEach(a -> a.addToJavaNode(primitiveType));
-        }
-        return primitiveType;
     }
 
     @Override

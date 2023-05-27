@@ -27,14 +27,8 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.type.ArrayType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 
 import java.util.ArrayList;
@@ -92,38 +86,8 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof VariableDeclarator) {
-            ((VariableDeclarator) java).setType(this.toType());
-        } else if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(toType());
-        } else if(java instanceof Parameter) {
-            ((Parameter) java).setType(toType());
-        }
-    }
-
-    @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public ArrayType toType() {
-        ArrayType arrayType = new ArrayType(
-            this.type.toType()
-        );
-        for(final AnnotationNode annotation : this.dims.get(this.dims.size() - 1).annotations()) {
-            annotation.addToJavaNode(arrayType);
-        }
-        for(int i = this.dims.size() - 2; i>=0; i--) {
-            arrayType = new ArrayType(
-                arrayType
-            );
-            for(final AnnotationNode annotation : this.dims.get(i).annotations()) {
-                annotation.addToJavaNode(arrayType);
-            }
-        }
-        return arrayType;
     }
 
     @Override

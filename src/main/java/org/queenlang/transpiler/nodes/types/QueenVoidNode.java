@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.VoidType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -65,26 +61,9 @@ public final class QueenVoidNode implements VoidTypeNode {
         ).collect(Collectors.toList()) : null;
     }
 
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(this.toType());
-        }
-    }
-
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public Type toType() {
-        final VoidType voidType = new VoidType();
-        this.annotations.forEach(
-            a -> a.addToJavaNode(voidType)
-        );
-        return voidType;
     }
 
     @Override

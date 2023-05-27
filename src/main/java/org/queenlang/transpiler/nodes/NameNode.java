@@ -27,11 +27,9 @@
  */
 package org.queenlang.transpiler.nodes;
 
-import com.github.javaparser.ast.expr.Name;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
-import org.queenlang.transpiler.nodes.types.ReferenceTypeNode;
 
 /**
  * A name of something. Could be a package declaration, a type name, a method name etc.
@@ -45,8 +43,6 @@ public interface NameNode extends ClassOrInterfaceTypeNode, ExpressionNode, Quee
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitNameNode(this);
     }
-
-    Name toName();
 
     /**
      * Returns the qualifier. The "java.util" in "java.util.List".

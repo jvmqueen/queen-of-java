@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.statements;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.stmt.*;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
@@ -80,29 +78,6 @@ public final class QueenDoStatementNode implements DoStatementNode {
         this.parent = parent;
         this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
-    }
-
-    @Override
-    public void addToJavaNode(Node java) {
-        if(java instanceof BlockStmt) {
-            ((BlockStmt) java).addStatement(this.toJavaStatement());
-        } else if(java instanceof LabeledStmt) {
-            ((LabeledStmt) java).setStatement(this.toJavaStatement());
-        }
-    }
-
-    /**
-     * Turn it into a JavaParser Statement.
-     * @return Statement, never null.
-     */
-    private Statement toJavaStatement() {
-        final DoStmt doWhileStmt = new DoStmt();
-        this.expression.addToJavaNode(doWhileStmt);
-        final BlockStmt blockStmt = doWhileStmt.createBlockStatementAsBody();
-        if(this.blockStatements != null) {
-            this.blockStatements.addToJavaNode(blockStmt);
-        }
-        return doWhileStmt;
     }
 
     @Override

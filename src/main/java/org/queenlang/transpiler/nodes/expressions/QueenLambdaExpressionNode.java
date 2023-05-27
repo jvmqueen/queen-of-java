@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.ParameterNode;
@@ -88,30 +84,6 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
         ).collect(Collectors.toList()) : null;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        final LambdaExpr lambdaExpr = new LambdaExpr();
-        lambdaExpr.setEnclosingParameters(this.enclosedParameters);
-        if(this.parameters != null && !this.parameters.isEmpty()) {
-            this.parameters.forEach(
-                p -> p.addToJavaNode(lambdaExpr)
-            );
-            if(parameters.size() > 1) {
-                lambdaExpr.setEnclosingParameters(true);
-            }
-        } else {
-            lambdaExpr.setEnclosingParameters(true);
-        }
-        if(this.blockStatements != null) {
-            final BlockStmt blockStmt = new BlockStmt();
-            this.blockStatements.addToJavaNode(blockStmt);
-            lambdaExpr.setBody(blockStmt);
-        } else {
-            lambdaExpr.setBody(new ExpressionStmt(this.expression.toJavaExpression()));
-        }
-        return lambdaExpr;
     }
 
     @Override

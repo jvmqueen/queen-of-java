@@ -27,14 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
-import com.github.javaparser.ast.type.*;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -136,48 +128,6 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof VariableDeclarator) {
-            ((VariableDeclarator) java).setType(this.toType());
-        } else if(java instanceof MethodDeclaration) {
-            ((MethodDeclaration) java).setType(this.toType());
-        } else if(java instanceof Parameter) {
-            ((Parameter) java).setType(this.toType());
-        } else if(java instanceof ClassOrInterfaceDeclaration) {
-            final ClassOrInterfaceDeclaration clazz = ((ClassOrInterfaceDeclaration) java);
-            if(this.interfaceType && !clazz.isInterface()) {
-                clazz.addImplementedType(this.toType());
-            } else {
-                clazz.addExtendedType(this.toType());
-            }
-        } else if(java instanceof NodeWithTypeArguments) {
-            final List<Type> existing = new ArrayList<>();
-            ((NodeWithTypeArguments<?>) java)
-                .getTypeArguments()
-                .ifPresent(
-                    tas -> existing.addAll(tas)
-                );
-            existing.add(this.toType());
-
-            ((NodeWithTypeArguments<?>) java)
-                .setTypeArguments(new NodeList<>(existing));
-        } else if(java instanceof QueenWildcardNode.WildcardSuperBound) {
-            ((WildcardType) java).setSuperType(this.toType());
-        } else if(java instanceof QueenWildcardNode.WildcardExtendsBound) {
-            ((WildcardType) java).setExtendedType(this.toType());
-        } else if(java instanceof UnionType) {
-            final UnionType unionType = (UnionType) java;
-            final List<ReferenceType> existing = unionType.getElements();
-            final List<ReferenceType> added = new ArrayList<>();
-            if(existing != null && existing.size() > 0) {
-                added.addAll(existing);
-            }
-            added.add(this.toType());
-            unionType.setElements(new NodeList<>(added));
-        }
-    }
-
-    @Override
     public Position position() {
         return this.position;
     }
@@ -210,28 +160,6 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     @Override
     public String simpleName() {
         return this.name;
-    }
-
-
-    @Override
-    public ClassOrInterfaceType toType() {
-        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.name);
-        if(this.scope != null) {
-            classOrInterfaceType.setScope((ClassOrInterfaceType) this.scope.toType());
-        }
-        if(this.annotations != null) {
-            this.annotations.forEach(a -> a.addToJavaNode(classOrInterfaceType));
-        }
-        if(this.hasDiamondOperator) {
-            classOrInterfaceType.setTypeArguments(new NodeList<>());
-        } else {
-            if(this.typeArguments != null) {
-                this.typeArguments.forEach(
-                    ta -> ta.addToJavaNode(classOrInterfaceType)
-                );
-            }
-        }
-        return classOrInterfaceType;
     }
 
     @Override

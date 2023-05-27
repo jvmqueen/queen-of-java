@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -116,24 +113,6 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
         this.name = name;
         this.defaultValue = defaultValue != null ? (ExpressionNode) defaultValue.withParent(this) : null;
     }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        final AnnotationMemberDeclaration annotationMemberDeclaration = new AnnotationMemberDeclaration();
-        this.annotations.forEach(
-            a -> a.addToJavaNode(annotationMemberDeclaration)
-        );
-        this.modifiers.forEach(
-            m -> m.addToJavaNode(annotationMemberDeclaration)
-        );
-        annotationMemberDeclaration.setType(this.type.toType());
-        annotationMemberDeclaration.setName(this.name);
-        if(this.defaultValue != null) {
-            annotationMemberDeclaration.setDefaultValue(this.defaultValue.toJavaExpression());
-        }
-        ((AnnotationDeclaration) java).addMember(annotationMemberDeclaration);
-    }
-
     @Override
     public Position position() {
         return this.position;

@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NullLiteralExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -52,11 +50,6 @@ public final class QueenNullLiteralExpressionNode implements NullLiteralExpressi
     private QueenNullLiteralExpressionNode(final Position position, final QueenNode parent) {
         this.position = position;
         this.parent = parent;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        return new NullLiteralExpr();
     }
 
     @Override

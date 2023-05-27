@@ -27,10 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -116,17 +112,6 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     }
 
     @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof CompilationUnit) {
-            ((CompilationUnit) java).addType(this.toJavaAnnotation());
-        } else if(java instanceof ClassOrInterfaceDeclaration) {
-            ((ClassOrInterfaceDeclaration) java).addMember(this.toJavaAnnotation());
-        } else if(java instanceof AnnotationDeclaration) {
-            ((AnnotationDeclaration) java).addMember(this.toJavaAnnotation());
-        }
-    }
-
-    @Override
     public String name() {
         return this.name;
     }
@@ -149,19 +134,6 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     @Override
     public AnnotationTypeBodyNode body() {
         return this.body;
-    }
-
-    /**
-     * Turn it into a JavaParser annotation declaration.
-     * @return AnnotationDeclaration.
-     */
-    private AnnotationDeclaration toJavaAnnotation() {
-        final AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration();
-        annotationDeclaration.setName(this.name);
-        this.annotations.forEach(a -> a.addToJavaNode(annotationDeclaration));
-        this.modifiers.forEach(m -> m.addToJavaNode(annotationDeclaration));
-        this.body.addToJavaNode(annotationDeclaration);
-        return annotationDeclaration;
     }
 
     @Override

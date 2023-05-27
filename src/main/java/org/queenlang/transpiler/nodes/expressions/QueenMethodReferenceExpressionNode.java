@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodReferenceExpr;
-import com.github.javaparser.ast.expr.TypeExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.types.TypeNode;
@@ -86,25 +83,6 @@ public final class QueenMethodReferenceExpressionNode implements MethodReference
             ta -> (TypeNode) ta.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.identifier = identifier;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        final MethodReferenceExpr methodReferenceExpr = new MethodReferenceExpr();
-        if(this.type != null) {
-            methodReferenceExpr.setScope(
-                new TypeExpr(this.type.toType())
-            );
-        } else {
-            methodReferenceExpr.setScope(
-                this.scope.toJavaExpression()
-            );
-        }
-        if(this.typeArguments != null) {
-            this.typeArguments.forEach(ta -> ta.addToJavaNode(methodReferenceExpr));
-        }
-        methodReferenceExpr.setIdentifier(this.identifier);
-        return methodReferenceExpr;
     }
 
     @Override

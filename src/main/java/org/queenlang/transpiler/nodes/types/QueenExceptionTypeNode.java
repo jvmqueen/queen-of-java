@@ -27,9 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.types;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -63,40 +60,9 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
         this.exceptionType = exceptionType != null ? (ClassOrInterfaceTypeNode) exceptionType.withParent(this) : null;
     }
 
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        if(java instanceof NodeWithThrownExceptions) {
-            ((NodeWithThrownExceptions) java).addThrownException(this.toType());
-        }
-    }
-
     @Override
     public Position position() {
         return this.exceptionType.position();
-    }
-
-    /**
-     * Turn it into a JavaParser ClassOrInterfaceType.
-     * @return ClassOrInterfaceType.
-     */
-    @Override
-    public ClassOrInterfaceType toType() {
-        final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType(this.exceptionType.simpleName());
-        if(this.exceptionType.scope() != null) {
-            classOrInterfaceType.setScope(
-                (ClassOrInterfaceType) this.exceptionType.scope().toType()
-            );
-        }
-        if(this.exceptionType.annotations() != null) {
-            this.exceptionType.annotations().forEach(a -> a.addToJavaNode(classOrInterfaceType));
-        }
-        if(this.exceptionType.typeArguments() != null) {
-            this.exceptionType.typeArguments().forEach(
-                ta -> ta.addToJavaNode(classOrInterfaceType)
-            );
-        }
-        return classOrInterfaceType;
     }
 
     @Override

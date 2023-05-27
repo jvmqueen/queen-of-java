@@ -94,9 +94,6 @@ public final class QueenFieldAccessExpressionNodeTestCase {
     public void returnsChildren() {
         final Position position = QueenMockito.mock(Position.class);
         final ExpressionNode scope = QueenMockito.mock(ExpressionNode.class);
-        Mockito.when(scope.toJavaExpression()).thenReturn(
-            new NameExpr("SomeClass")
-        );
         final FieldAccessExpressionNode fieldAccess = new QueenFieldAccessExpressionNode(
             position,
             scope,

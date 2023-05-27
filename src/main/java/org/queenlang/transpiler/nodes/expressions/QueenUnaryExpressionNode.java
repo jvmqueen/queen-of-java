@@ -27,8 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.expressions;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.UnaryExpr;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 
@@ -75,25 +73,6 @@ public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
         this.operator = operator;
         this.isPrefix = isPrefix;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
-    }
-
-    @Override
-    public Expression toJavaExpression() {
-        UnaryExpr.Operator operator = null;
-        for(int i=0; i< UnaryExpr.Operator.values().length; i++) {
-            final UnaryExpr.Operator candidate = UnaryExpr.Operator.values()[i];
-            if(candidate.asString().equalsIgnoreCase(this.operator) && candidate.isPrefix() == this.isPrefix) {
-                operator = UnaryExpr.Operator.values()[i];
-                break;
-            }
-        }
-        if(operator == null) {
-            throw new IllegalStateException("Unknown unary operator: " + this.operator + ". (is prefix: " + this.isPrefix + ").");
-        }
-        return new UnaryExpr(
-            this.expression.toJavaExpression(),
-            operator
-        );
     }
 
     @Override

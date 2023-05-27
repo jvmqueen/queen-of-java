@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import com.github.javaparser.ast.Node;
 import org.queenlang.transpiler.nodes.*;
 
 import java.util.ArrayList;
@@ -63,13 +62,6 @@ public final class QueenClassBodyNode implements ClassBodyNode {
         this.classBodyDeclarations = classBodyDeclarations != null ? classBodyDeclarations.stream().map(
             cbd -> (ClassBodyDeclarationNode) cbd.withParent(this)
         ).collect(Collectors.toList()) : null;
-    }
-
-    @Override
-    public void addToJavaNode(final Node java) {
-        this.classBodyDeclarations.forEach(
-            cbd -> cbd.addToJavaNode(java)
-        );
     }
 
     @Override

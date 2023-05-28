@@ -731,7 +731,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.literal() != null) {
             return this.visitLiteral(ctx.literal());
         } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
-            final QueenNameNode typeName = this.visitTypeName(ctx.typeName());
             final List<ArrayDimensionNode> dims = new ArrayList<>();
             if(ctx.unannDim() != null) {
                 ctx.unannDim().forEach(
@@ -740,9 +739,19 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     )
                 );
             }
+            final TypeNode typeNode;
+            if(this.isTypeNamePrimitive(ctx.typeName())) {
+                typeNode = new QueenPrimitiveTypeNode(
+                    getPosition(ctx.typeName()),
+                    new ArrayList<>(),
+                    ctx.typeName().Identifier().getText()
+                );
+            } else {
+                typeNode = this.visitTypeName(ctx.typeName());
+            }
             return new QueenTypeImplementationExpressionNode(
                 getPosition(ctx.typeName()),
-                typeName,
+                typeNode,
                 dims
             );
         } else if(ctx.VOID() != null && ctx.IMPLEMENTATION() != null) {
@@ -812,7 +821,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.literal() != null) {
             return this.visitLiteral(ctx.literal());
         } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
-            final QueenNameNode typeName = this.visitTypeName(ctx.typeName());
             final List<ArrayDimensionNode> dims = new ArrayList<>();
             if(ctx.unannDim() != null) {
                 ctx.unannDim().forEach(
@@ -821,9 +829,19 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     )
                 );
             }
+            final TypeNode typeNode;
+            if(this.isTypeNamePrimitive(ctx.typeName())) {
+                typeNode = new QueenPrimitiveTypeNode(
+                    getPosition(ctx.typeName()),
+                    new ArrayList<>(),
+                    ctx.typeName().Identifier().getText()
+                );
+            } else {
+                typeNode = this.visitTypeName(ctx.typeName());
+            }
             return new QueenTypeImplementationExpressionNode(
                 getPosition(ctx.typeName()),
-                typeName,
+                typeNode,
                 dims
             );
         } else if(ctx.unannPrimitiveType() != null && ctx.IMPLEMENTATION() != null) {
@@ -2396,7 +2414,6 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.literal() != null) {
             return this.visitLiteral(ctx.literal());
         } else if(ctx.typeName() != null && ctx.IMPLEMENTATION() != null) {
-            final QueenNameNode typeName = this.visitTypeName(ctx.typeName());
             final List<ArrayDimensionNode> dims = new ArrayList<>();
             if(ctx.unannDim() != null) {
                 ctx.unannDim().forEach(
@@ -2405,9 +2422,19 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     )
                 );
             }
+            final TypeNode typeNode;
+            if(this.isTypeNamePrimitive(ctx.typeName())) {
+                typeNode = new QueenPrimitiveTypeNode(
+                    getPosition(ctx.typeName()),
+                    new ArrayList<>(),
+                    ctx.typeName().Identifier().getText()
+                );
+            } else {
+                typeNode = this.visitTypeName(ctx.typeName());
+            }
             return new QueenTypeImplementationExpressionNode(
                 getPosition(ctx.typeName()),
-                typeName,
+                typeNode,
                 dims
             );
         } else if(ctx.unannPrimitiveType() != null && ctx.IMPLEMENTATION() != null) {
@@ -3532,5 +3559,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 return this.line() + ":" + this.column();
             }
         };
+    }
+
+    private boolean isTypeNamePrimitive(final QueenParser.TypeNameContext ctx) {
+        final String identifier = ctx.Identifier().getText();
+        return identifier.equals("int") || identifier.equals("boolean") || identifier.equals("char") || identifier.equals("byte")
+            || identifier.equals("short") || identifier.equals("double") || identifier.equals("float") || identifier.equals("long");
     }
 }

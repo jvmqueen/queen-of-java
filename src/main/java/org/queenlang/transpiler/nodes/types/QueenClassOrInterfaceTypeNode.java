@@ -83,6 +83,21 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
 
     public QueenClassOrInterfaceTypeNode(
         final Position position,
+        final String name
+    ) {
+        this(position, null, name);
+    }
+
+    public QueenClassOrInterfaceTypeNode(
+        final Position position,
+        final ClassOrInterfaceTypeNode scope,
+        final String name
+    ) {
+        this(position, false, scope, new ArrayList<>(), name, new ArrayList<>(), false);
+    }
+
+    public QueenClassOrInterfaceTypeNode(
+        final Position position,
         final boolean interfaceType,
         final List<AnnotationNode> annotations,
         final String name,

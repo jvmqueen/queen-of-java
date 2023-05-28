@@ -747,7 +747,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     ctx.typeName().Identifier().getText()
                 );
             } else {
-                typeNode = this.visitTypeName(ctx.typeName());
+                typeNode = this.nameNodeToClassOrInterfaceType(this.visitTypeName(ctx.typeName()));
             }
             return new QueenTypeImplementationExpressionNode(
                 getPosition(ctx.typeName()),
@@ -837,7 +837,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     ctx.typeName().Identifier().getText()
                 );
             } else {
-                typeNode = this.visitTypeName(ctx.typeName());
+                typeNode = this.nameNodeToClassOrInterfaceType(this.visitTypeName(ctx.typeName()));
             }
             return new QueenTypeImplementationExpressionNode(
                 getPosition(ctx.typeName()),
@@ -2430,7 +2430,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                     ctx.typeName().Identifier().getText()
                 );
             } else {
-                typeNode = this.visitTypeName(ctx.typeName());
+                typeNode = this.nameNodeToClassOrInterfaceType(this.visitTypeName(ctx.typeName()));
             }
             return new QueenTypeImplementationExpressionNode(
                 getPosition(ctx.typeName()),
@@ -3565,5 +3565,21 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         final String identifier = ctx.Identifier().getText();
         return identifier.equals("int") || identifier.equals("boolean") || identifier.equals("char") || identifier.equals("byte")
             || identifier.equals("short") || identifier.equals("double") || identifier.equals("float") || identifier.equals("long");
+    }
+
+    private ClassOrInterfaceTypeNode nameNodeToClassOrInterfaceType(final NameNode node) {
+        if(node.qualifier() == null) {
+            return new QueenClassOrInterfaceTypeNode(
+                node.position(),
+                node.identifier()
+            );
+        } else {
+            final ClassOrInterfaceTypeNode scope = this.nameNodeToClassOrInterfaceType(node.qualifier());
+            return new QueenClassOrInterfaceTypeNode(
+                node.position(),
+                scope,
+                node.identifier()
+            );
+        }
     }
 }

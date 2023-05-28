@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.types;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.NameNode;
 
 /**
  * Queen ExceptionType AST Node.
@@ -38,6 +39,20 @@ import org.queenlang.transpiler.QueenASTVisitor;
 public interface ExceptionTypeNode extends ReferenceTypeNode {
 
     ClassOrInterfaceTypeNode exceptionType();
+    /**
+     * Scope of this reference type (what comes before the dot). E.g.
+     * java.util.List (util is the scope of List).
+     */
+    default NameNode qualifier() {
+        return this.exceptionType().qualifier();
+    }
+
+    /**
+     * Simple name of this reference type, without scope
+     */
+    default String identifier() {
+        return this.exceptionType().identifier();
+    }
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitExceptionTypeNode(this);

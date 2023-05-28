@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.types;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 import org.queenlang.transpiler.nodes.expressions.QueenArrayDimensionNode;
 
@@ -50,6 +51,29 @@ public interface ArrayTypeNode extends ReferenceTypeNode {
      * Array type dimensions (pairs of square brackets).
      */
     List<ArrayDimensionNode> dims();
+
+    /**
+     * Scope of this reference type (what comes before the dot). E.g.
+     * java.util.List (util is the scope of List).
+     */
+    default NameNode qualifier() {
+        final TypeNode type = this.type();
+        if(type instanceof ReferenceTypeNode) {
+            return ((ReferenceTypeNode) type).qualifier();
+        }
+        return null;
+    }
+
+    /**
+     * Simple name of this reference type, without scope
+     */
+    default String identifier() {
+        final TypeNode type = this.type();
+        if(type instanceof ReferenceTypeNode) {
+            return ((ReferenceTypeNode) type).identifier();
+        }
+        return this.name();
+    }
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitArrayTypeNode(this);

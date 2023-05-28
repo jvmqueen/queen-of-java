@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes.types;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
 
 /**
@@ -36,7 +37,7 @@ import org.queenlang.transpiler.nodes.QueenReferenceNode;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ReferenceTypeNode extends TypeNode, QueenReferenceNode {
+public interface ReferenceTypeNode extends NameNode, TypeNode, QueenReferenceNode {
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitReferenceTypeNode(this);

@@ -83,21 +83,21 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
     }
 
     @Test
-    public void returnsScope() {
+    public void returnsQualifier() {
         final Position position = QueenMockito.mock(Position.class);
-        final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
+        final ClassOrInterfaceTypeNode qualifier = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final ClassOrInterfaceTypeNode classOrInterfaceTypeNode = new QueenClassOrInterfaceTypeNode(
             position,
             true,
-            scope,
+            qualifier,
             new ArrayList<>(),
             "MyInterface",
             new ArrayList<>(),
             false
         );
         MatcherAssert.assertThat(
-            classOrInterfaceTypeNode.scope(),
-            Matchers.is(scope)
+            classOrInterfaceTypeNode.qualifier(),
+            Matchers.is(qualifier)
         );
     }
 
@@ -123,7 +123,7 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
     }
 
     @Test
-    public void returnsSimpleName() {
+    public void returnsIdentifier() {
         final Position position = QueenMockito.mock(Position.class);
         final ClassOrInterfaceTypeNode scope = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final List<AnnotationNode> annotations = new ArrayList<>();
@@ -138,7 +138,7 @@ public final class QueenClassOrInterfaceTypeNodeTestCase {
             false
         );
         MatcherAssert.assertThat(
-            classOrInterfaceTypeNode.simpleName(),
+            classOrInterfaceTypeNode.identifier(),
             Matchers.equalTo("SomeClass")
         );
     }

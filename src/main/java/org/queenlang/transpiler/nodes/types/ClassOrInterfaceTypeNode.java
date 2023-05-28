@@ -51,12 +51,12 @@ public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode, NodeWithAnn
      * Scope of this reference type (what comes before the dot). E.g.
      * java.util.List (util is the scope of List).
      */
-    ClassOrInterfaceTypeNode scope();
+    ClassOrInterfaceTypeNode qualifier();
 
     /**
      * Simple name of this reference type, without scope
      */
-    String simpleName();
+    String identifier();
 
     /**
      * Full name of this reference type, with package/scope, for example: java.util.List.
@@ -64,10 +64,10 @@ public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode, NodeWithAnn
      */
     default String name() {
         final String fullName;
-        if(this.scope() != null) {
-            fullName = this.scope().name() + "." + this.simpleName();
+        if(this.qualifier() != null) {
+            fullName = this.qualifier().name() + "." + this.identifier();
         } else {
-            fullName = this.simpleName();
+            fullName = this.identifier();
         }
         return fullName;
     }

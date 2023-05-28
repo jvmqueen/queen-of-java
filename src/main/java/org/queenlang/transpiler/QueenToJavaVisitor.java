@@ -466,12 +466,12 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     @Override
     public ClassOrInterfaceType visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node) {
         final ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType();
-        classOrInterfaceType.setName(node.simpleName());
+        classOrInterfaceType.setName(node.identifier());
         node.annotations().forEach(
             a -> classOrInterfaceType.addAnnotation(this.visitAnnotationNode(a))
         );
-        if(node.scope() != null) {
-            classOrInterfaceType.setScope(this.visitClassOrInterfaceTypeNode(node.scope()));
+        if(node.qualifier() != null) {
+            classOrInterfaceType.setScope(this.visitClassOrInterfaceTypeNode(node.qualifier()));
         }
         if(node.hasDiamondOperator()) {
             classOrInterfaceType.setDiamondOperator();

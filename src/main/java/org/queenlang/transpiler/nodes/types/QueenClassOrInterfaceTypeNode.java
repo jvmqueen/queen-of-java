@@ -62,7 +62,7 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
      * Scope of this reference type (what comes before the dot). E.g.
      * java.util.List (util is the scope of List).
      */
-    private final ClassOrInterfaceTypeNode scope;
+    private final ClassOrInterfaceTypeNode qualifier;
 
     /**
      * Annotations on top of this reference type.
@@ -72,7 +72,7 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     /**
      * Name of this reference type.
      */
-    private final String name;
+    private final String identifier;
 
     /**
      * Type arguments of this reference type.
@@ -83,59 +83,59 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
 
     public QueenClassOrInterfaceTypeNode(
         final Position position,
-        final String name
+        final String identifier
     ) {
-        this(position, null, name);
+        this(position, null, identifier);
     }
 
     public QueenClassOrInterfaceTypeNode(
         final Position position,
-        final ClassOrInterfaceTypeNode scope,
-        final String name
+        final ClassOrInterfaceTypeNode qualifier,
+        final String identifier
     ) {
-        this(position, false, scope, new ArrayList<>(), name, new ArrayList<>(), false);
+        this(position, false, qualifier, new ArrayList<>(), identifier, new ArrayList<>(), false);
     }
 
     public QueenClassOrInterfaceTypeNode(
         final Position position,
         final boolean interfaceType,
         final List<AnnotationNode> annotations,
-        final String name,
+        final String identifier,
         final List<TypeNode> typeArguments
     ) {
-        this(position, interfaceType, null, annotations, name, typeArguments, false);
+        this(position, interfaceType, null, annotations, identifier, typeArguments, false);
     }
 
     public QueenClassOrInterfaceTypeNode(
         final Position position,
         final boolean interfaceType,
-        final ClassOrInterfaceTypeNode scope,
+        final ClassOrInterfaceTypeNode qualifier,
         final List<AnnotationNode> annotations,
-        final String name,
+        final String identifier,
         final List<TypeNode> typeArguments,
         final boolean hasDiamondOperator
     ) {
-        this(position, null, interfaceType, scope, annotations, name, typeArguments, hasDiamondOperator);
+        this(position, null, interfaceType, qualifier, annotations, identifier, typeArguments, hasDiamondOperator);
     }
 
     private QueenClassOrInterfaceTypeNode(
         final Position position,
         final QueenNode parent,
         final boolean interfaceType,
-        final ClassOrInterfaceTypeNode scope,
+        final ClassOrInterfaceTypeNode qualifier,
         final List<AnnotationNode> annotations,
-        final String name,
+        final String identifier,
         final List<TypeNode> typeArguments,
         final boolean hasDiamondOperator
     ) {
         this.position = position;
         this.parent = parent;
         this.interfaceType = interfaceType;
-        this.scope = scope != null ? (ClassOrInterfaceTypeNode) scope.withParent(this) : null;
+        this.qualifier = qualifier != null ? (ClassOrInterfaceTypeNode) qualifier.withParent(this) : null;
         this.annotations = annotations != null ? annotations.stream().map(
             a -> (AnnotationNode) a.withParent(this)
         ).collect(Collectors.toList()) : null;
-        this.name = name;
+        this.identifier = identifier;
         this.typeArguments = typeArguments != null ? typeArguments.stream().map(
             ta -> (TypeNode) ta.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -168,19 +168,19 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     }
 
     @Override
-    public ClassOrInterfaceTypeNode scope() {
-        return this.scope;
+    public ClassOrInterfaceTypeNode qualifier() {
+        return this.qualifier;
     }
 
     @Override
-    public String simpleName() {
-        return this.name;
+    public String identifier() {
+        return this.identifier;
     }
 
     @Override
     public List<QueenNode> children() {
         final List<QueenNode> children = new ArrayList<>();
-        children.add(this.scope);
+        children.add(this.qualifier);
         if(this.annotations != null) {
             children.addAll(this.annotations);
         }
@@ -196,9 +196,9 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
             this.position,
             parent,
             this.interfaceType,
-            this.scope,
+            this.qualifier,
             this.annotations,
-            this.name,
+            this.identifier,
             this.typeArguments,
             this.hasDiamondOperator
         );

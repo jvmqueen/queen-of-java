@@ -38,7 +38,7 @@ import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
  * @version $Id$
  * @since 0.0.1
  */
-public interface NameNode extends ClassOrInterfaceTypeNode, ExpressionNode, QueenReferenceNode {
+public interface NameNode extends ExpressionNode, Named, QueenReferenceNode {
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitNameNode(this);

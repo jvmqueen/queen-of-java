@@ -30,9 +30,6 @@ package org.queenlang.transpiler.nodes.types;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.NodeWithAnnotations;
 import org.queenlang.transpiler.nodes.body.NodeWithTypeArguments;
-import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
-import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
-import java.util.List;
 
 /**
  * Queen class or interface reference type.

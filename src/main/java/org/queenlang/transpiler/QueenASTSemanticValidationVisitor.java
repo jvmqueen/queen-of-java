@@ -442,6 +442,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithModifiers(node));
+        problems.addAll(this.visitTypeNode(node.returnType()));
         problems.addAll(this.visitNodeWithParameters(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
         problems.addAll(this.visitNodeWithThrows(node));

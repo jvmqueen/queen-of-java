@@ -127,7 +127,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
 
-        final List<ClassOrInterfaceTypeNode> interfaces = node.of();
+        final List<ClassOrInterfaceTypeNode> interfaces = node.of().interfaceTypes();
         final Set<String> unique = new HashSet<>();
         for(final ClassOrInterfaceTypeNode implementedInterface : interfaces) {
             final String fullName = implementedInterface.name();

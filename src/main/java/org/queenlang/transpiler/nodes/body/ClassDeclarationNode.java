@@ -56,7 +56,7 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
     /**
      * Interfaces this type implements.
      */
-    List<ClassOrInterfaceTypeNode> of();
+    InterfaceTypeList of();
 
     /**
      * The body.

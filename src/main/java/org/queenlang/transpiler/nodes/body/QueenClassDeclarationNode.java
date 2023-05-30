@@ -87,7 +87,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     /**
      * Interfaces this type implements.
      */
-    private final List<ClassOrInterfaceTypeNode> of;
+    private final InterfaceTypeList of;
 
     /**
      * The body.
@@ -114,7 +114,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
         final String name,
         final List<TypeParameterNode> typeParams,
         final ClassOrInterfaceTypeNode extendsType,
-        final List<ClassOrInterfaceTypeNode> of,
+        final InterfaceTypeList of,
         final ClassBodyNode body
     ) {
         this(position, null, annotations, accessModifiers, extensionModifier, name, typeParams, extendsType, of, body);
@@ -142,7 +142,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
         final String name,
         final List<TypeParameterNode> typeParams,
         final ClassOrInterfaceTypeNode extendsType,
-        final List<ClassOrInterfaceTypeNode> of,
+        final InterfaceTypeList of,
         final ClassBodyNode body
     ) {
         this.position = position;
@@ -159,9 +159,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
             tp -> (TypeParameterNode) tp.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.extendsType = extendsType != null ? (ClassOrInterfaceTypeNode) extendsType.withParent(this) : null;
-        this.of = of != null ? of.stream().map(
-            o -> (ClassOrInterfaceTypeNode) o.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.of = of != null ? (InterfaceTypeList) of.withParent(this) : null;
         this.body = body != null ? (ClassBodyNode) body.withParent(this) : null;
     }
 
@@ -201,7 +199,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     }
 
     @Override
-    public List<ClassOrInterfaceTypeNode> of() {
+    public InterfaceTypeList of() {
         return this.of;
     }
 
@@ -225,7 +223,7 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
         }
         children.add(this.extendsType);
         if(this.of != null) {
-            children.addAll(this.of);
+            children.add(of);
         }
         children.add(this.body);
         return children;

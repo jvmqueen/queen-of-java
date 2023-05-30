@@ -97,9 +97,11 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         if(node.extendsType() != null) {
             clazz.addExtendedType(this.visitClassOrInterfaceTypeNode(node.extendsType()));
         }
-        node.of().forEach(
-            o -> clazz.addImplementedType(this.visitClassOrInterfaceTypeNode(o))
-        );
+        if(node.of() != null) {
+            node.of().forEach(
+                o -> clazz.addImplementedType(this.visitClassOrInterfaceTypeNode(o))
+            );
+        }
         node.typeParameters().forEach(
             tp -> clazz.addTypeParameter(this.visitTypeParameterNode(tp))
         );

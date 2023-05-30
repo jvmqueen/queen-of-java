@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -59,7 +60,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             new ArrayList<>(),
             QueenMockito.mock(ClassOrInterfaceTypeNode.class),
-            new ArrayList<>(),
+            QueenMockito.mock(InterfaceTypeList.class),
             QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
@@ -78,7 +79,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             new ArrayList<>(),
             QueenMockito.mock(ClassOrInterfaceTypeNode.class),
-            new ArrayList<>(),
+            QueenMockito.mock(InterfaceTypeList.class),
             QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
@@ -99,7 +100,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             new ArrayList<>(),
             QueenMockito.mock(ClassOrInterfaceTypeNode.class),
-            new ArrayList<>(),
+            QueenMockito.mock(InterfaceTypeList.class),
             QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
@@ -120,7 +121,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             new ArrayList<>(),
             QueenMockito.mock(ClassOrInterfaceTypeNode.class),
-            new ArrayList<>(),
+            QueenMockito.mock(InterfaceTypeList.class),
             QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
@@ -140,7 +141,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             new ArrayList<>(),
             QueenMockito.mock(ClassOrInterfaceTypeNode.class),
-            new ArrayList<>(),
+            QueenMockito.mock(InterfaceTypeList.class),
             QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
@@ -161,7 +162,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             typeParameters,
             QueenMockito.mock(ClassOrInterfaceTypeNode.class),
-            new ArrayList<>(),
+            QueenMockito.mock(InterfaceTypeList.class),
             QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
@@ -181,7 +182,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             new ArrayList<>(),
             extendsType,
-            new ArrayList<>(),
+            QueenMockito.mock(InterfaceTypeList.class),
             QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
@@ -192,8 +193,7 @@ public final class QueenClassDeclarationNodeTestCase {
 
     @Test
     public void returnsOf() {
-        final List<ClassOrInterfaceTypeNode> of = new ArrayList<>();
-        of.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
+        final InterfaceTypeList interfaceTypeList = QueenMockito.mock(InterfaceTypeList.class);
         final ClassDeclarationNode classDeclarationNode = new QueenClassDeclarationNode(
             QueenMockito.mock(Position.class),
             new ArrayList<>(),
@@ -202,12 +202,12 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             new ArrayList<>(),
             QueenMockito.mock(ClassOrInterfaceTypeNode.class),
-            of,
+            interfaceTypeList,
             QueenMockito.mock(ClassBodyNode.class)
         );
         MatcherAssert.assertThat(
             classDeclarationNode.of(),
-            Matchers.is(of)
+            Matchers.is(interfaceTypeList)
         );
     }
 
@@ -222,7 +222,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             new ArrayList<>(),
             QueenMockito.mock(ClassOrInterfaceTypeNode.class),
-            new ArrayList<>(),
+            QueenMockito.mock(InterfaceTypeList.class),
             body
         );
         MatcherAssert.assertThat(
@@ -241,6 +241,8 @@ public final class QueenClassDeclarationNodeTestCase {
         typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ClassOrInterfaceTypeNode> of = new ArrayList<>();
         of.add(QueenMockito.mock(ClassOrInterfaceTypeNode.class));
+        final InterfaceTypeList interfaceTypeList = QueenMockito.mock(InterfaceTypeList.class);
+        Mockito.when(interfaceTypeList.interfaceTypes()).thenReturn(of);
         final ClassOrInterfaceTypeNode extendsType = QueenMockito.mock(ClassOrInterfaceTypeNode.class);
         final ModifierNode extensionModifier = QueenMockito.mock(ModifierNode.class);
         final ClassBodyNode body = QueenMockito.mock(ClassBodyNode.class);
@@ -253,7 +255,7 @@ public final class QueenClassDeclarationNodeTestCase {
             "MyClass",
             typeParameters,
             extendsType,
-            of,
+            interfaceTypeList,
             body
         );
 
@@ -269,7 +271,7 @@ public final class QueenClassDeclarationNodeTestCase {
                     annotations.get(0),
                     modifiers.get(0),
                     typeParameters.get(0),
-                    of.get(0),
+                    interfaceTypeList,
                     extendsType,
                     extensionModifier,
                     body

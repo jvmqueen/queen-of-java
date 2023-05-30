@@ -119,11 +119,15 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 tp -> typeParameters.add(this.visitTypeParameter(tp))
             );
         }
-        final List<ClassOrInterfaceTypeNode> ofTypes = new ArrayList<>();
+        final InterfaceTypeList interfaceTypeList;
         if(ctx.superinterfaces() != null && ctx.superinterfaces().interfaceTypeList() != null) {
+            final List<ClassOrInterfaceTypeNode> ofTypes = new ArrayList<>();
             ctx.superinterfaces().interfaceTypeList().interfaceType().forEach(
                 inter -> ofTypes.add(this.visitInterfaceType(inter))
             );
+            interfaceTypeList = new QueenInterfaceTypeList(getPosition(ctx.superinterfaces()), ofTypes);
+        } else {
+            interfaceTypeList = null;
         }
         ClassOrInterfaceTypeNode extendsType = null;
         if(ctx.superclass() != null) {
@@ -143,7 +147,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             name,
             typeParameters,
             extendsType,
-            ofTypes,
+            interfaceTypeList,
             new QueenClassBodyNode(
                 getPosition(ctx),
                 ctx.classBody().classBodyDeclaration().stream().map(

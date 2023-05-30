@@ -31,6 +31,7 @@ import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
+import org.queenlang.transpiler.nodes.body.NormalInterfaceDeclarationNode;
 
 /**
  * A Queen file, AST Node.
@@ -65,5 +66,13 @@ public interface FileNode extends QueenNode {
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitFile(this);
+    }
+
+    /**
+     * Turn this FileNode (containing CompilationUnit) into a NormalInterfaceDeclarationNode.
+     * @return NormalInterfaceDeclarationNode or null if this node is not a normal interface declaration.
+     */
+    default NormalInterfaceDeclarationNode asNormalInterfaceDeclaration() {
+        return this.compilationUnit().asNormalInterfaceDeclaration();
     }
 }

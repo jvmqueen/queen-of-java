@@ -47,4 +47,15 @@ public interface CompilationUnitNode extends QueenNode {
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitCompilationUnit(this);
     }
+
+    /**
+     * Turn this CompilationUnit (containing TypeDeclaration) into a NormalInterfaceDeclarationNode.
+     * @return NormalInterfaceDeclarationNode or null if this node is not a normal interface declaration.
+     */
+    default NormalInterfaceDeclarationNode asNormalInterfaceDeclaration() {
+        if(this.typeDeclaration() != null) {
+            return this.typeDeclaration().asNormalInterfaceDeclaration();
+        }
+        return null;
+    }
 }

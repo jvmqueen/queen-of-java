@@ -29,7 +29,6 @@ package org.queenlang.transpiler.nodes;
 
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.expressions.ExpressionNode;
-import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 
 /**
  * A name of something. Could be a package declaration, a type name, a method name etc.
@@ -55,4 +54,24 @@ public interface NameNode extends ExpressionNode, Named, QueenReferenceNode {
      * @return String, never null.
      */
     String identifier();
+
+    @Override
+    default QueenNode resolve() {
+        final QueenNode definition;
+        if(this.qualifier() == null) {
+            if(this.parent() != null) {
+                definition = this.parent().resolve(this, true);
+            } else {
+                definition = null;
+            }
+        } else {
+            final QueenNode qualifierDefinition = this.qualifier().resolve();
+            if(qualifierDefinition != null) {
+                return qualifierDefinition.resolve(this, false);
+            } else {
+                return null;
+            }
+        }
+        return definition;
+    }
 }

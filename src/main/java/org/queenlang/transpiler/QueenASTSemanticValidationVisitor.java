@@ -28,6 +28,7 @@
 package org.queenlang.transpiler;
 
 import org.queenlang.transpiler.nodes.NameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.project.FileNode;
 import org.queenlang.transpiler.nodes.types.*;
@@ -126,20 +127,8 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithTypeParameters(node));
-
-        final List<ClassOrInterfaceTypeNode> interfaces = node.of().interfaceTypes();
-        final Set<String> unique = new HashSet<>();
-        for(final ClassOrInterfaceTypeNode implementedInterface : interfaces) {
-            final String fullName = implementedInterface.name();
-            if(!unique.add(fullName)) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Interface '" + fullName + "' already present in of list.",
-                        implementedInterface.position()
-                    )
-                );
-            }
-            problems.addAll(this.visitClassOrInterfaceTypeNode(implementedInterface));
+        if(node.of() != null) {
+            problems.addAll(this.visitInterfaceTypeList(node.of()));
         }
         if(node.extendsType() != null) {
             problems.addAll(this.visitClassOrInterfaceTypeNode(node.extendsType()));
@@ -172,6 +161,26 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             }
         }
         problems.addAll(this.visitClassBodyNode(node.body()));
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitInterfaceTypeList(final InterfaceTypeList node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<ClassOrInterfaceTypeNode> interfaces = node.interfaceTypes();
+        final Set<String> unique = new HashSet<>();
+        for(final ClassOrInterfaceTypeNode implementedInterface : interfaces) {
+            final String fullName = implementedInterface.name();
+            if(!unique.add(fullName)) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Interface '" + fullName + "' already present in of list.",
+                        implementedInterface.position()
+                    )
+                );
+            }
+            problems.addAll(this.visitClassOrInterfaceTypeNode(implementedInterface));
+        }
         return problems;
     }
 

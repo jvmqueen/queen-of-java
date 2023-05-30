@@ -91,26 +91,6 @@ public final class QueenNameNode implements NameNode {
     }
 
     @Override
-    public QueenNode resolve() {
-        final QueenNode definition;
-        if(this.qualifier == null) {
-            if(this.parent != null) {
-                definition = this.parent.resolve(this, true);
-            } else {
-                definition = null;
-            }
-        } else {
-            final QueenNode qualifierDefinition = this.qualifier.resolve();
-            if(qualifierDefinition != null) {
-                return qualifierDefinition.resolve(this, false);
-            } else {
-                return null;
-            }
-        }
-        return definition;
-    }
-
-    @Override
     public QueenNameNode withParent(final QueenNode parent) {
         return new QueenNameNode(
             this.position,

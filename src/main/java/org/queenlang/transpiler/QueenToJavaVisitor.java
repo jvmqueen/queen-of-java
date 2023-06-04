@@ -131,9 +131,11 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         node.modifiers().forEach(
             m -> normalInterface.addModifier(this.visitModifierNode(m).getKeyword())
         );
-        node.extendsTypes().forEach(
-            et -> normalInterface.addExtendedType(this.visitClassOrInterfaceTypeNode(et))
-        );
+        if(node.extendsTypes() != null) {
+            node.extendsTypes().forEach(
+                et -> normalInterface.addExtendedType(this.visitClassOrInterfaceTypeNode(et))
+            );
+        }
         node.typeParameters().forEach(
             tp -> normalInterface.addTypeParameter(this.visitTypeParameterNode(tp))
         );

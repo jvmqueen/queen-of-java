@@ -77,7 +77,7 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     /**
      * Types which are extended (an interface can extend more interfaces).
      */
-    private final List<ClassOrInterfaceTypeNode> extendsTypes;
+    private final InterfaceTypeList extendsTypes;
 
     /**
      * The body.
@@ -99,7 +99,7 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
         final List<ModifierNode> modifiers,
         final String name,
         final List<TypeParameterNode> typeParams,
-        final List<ClassOrInterfaceTypeNode> extendsTypes,
+        final InterfaceTypeList extendsTypes,
         final InterfaceBodyNode body
     ) {
         this(
@@ -121,7 +121,7 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
         final List<ModifierNode> modifiers,
         final String name,
         final List<TypeParameterNode> typeParams,
-        final List<ClassOrInterfaceTypeNode> extendsTypes,
+        final InterfaceTypeList extendsTypes,
         final InterfaceBodyNode body
     ) {
         this.position = position;
@@ -136,9 +136,7 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
         this.typeParams = typeParams != null ? typeParams.stream().map(
             tp -> (TypeParameterNode) tp.withParent(this)
         ).collect(Collectors.toList()) : null;
-        this.extendsTypes = extendsTypes != null ? extendsTypes.stream().map(
-            et -> (ClassOrInterfaceTypeNode) et.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.extendsTypes = extendsTypes != null ? (InterfaceTypeList) extendsTypes.withParent(this) : null;
         this.body = body != null ? (InterfaceBodyNode) body.withParent(this) : null;
     }
 
@@ -163,7 +161,7 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     }
 
     @Override
-    public List<ClassOrInterfaceTypeNode> extendsTypes() {
+    public InterfaceTypeList extendsTypes() {
         return this.extendsTypes;
     }
 
@@ -190,7 +188,7 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
             children.addAll(this.typeParams);
         }
         if(this.extendsTypes != null) {
-            children.addAll(this.extendsTypes);
+            children.add(this.extendsTypes);
         }
         children.add(this.body);
         return children;

@@ -178,16 +178,16 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
-        final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
         final String name = ctx.Identifier().getText();
-        final QueenParser.ExtendsInterfacesContext extendsInterfacesContext = ctx
-            .extendsInterfaces();
-        if(extendsInterfacesContext != null) {
-            extendsInterfacesContext.interfaceTypeList().interfaceType().forEach(
-                interfaceType -> extendsTypes.add(
-                    this.visitInterfaceType(interfaceType)
-                )
+        final InterfaceTypeList interfaceTypeList;
+        if(ctx.extendsInterfaces() != null && ctx.extendsInterfaces().interfaceTypeList() != null) {
+            final List<ClassOrInterfaceTypeNode> extendsTypes = new ArrayList<>();
+            ctx.extendsInterfaces().interfaceTypeList().interfaceType().forEach(
+                inter -> extendsTypes.add(this.visitInterfaceType(inter))
             );
+            interfaceTypeList = new QueenInterfaceTypeList(getPosition(ctx.extendsInterfaces()), extendsTypes);
+        } else {
+            interfaceTypeList = null;
         }
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
@@ -201,7 +201,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             modifiers,
             name,
             typeParams,
-            extendsTypes,
+            interfaceTypeList,
             this.visitInterfaceBody(ctx.interfaceBody())
         );
     }

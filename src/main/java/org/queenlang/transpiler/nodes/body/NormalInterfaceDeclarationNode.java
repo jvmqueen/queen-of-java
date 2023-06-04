@@ -47,7 +47,7 @@ public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode
     /**
      * Types which are extended (an interface can extend more interfaces).
      */
-    List<ClassOrInterfaceTypeNode> extendsTypes();
+    InterfaceTypeList extendsTypes();
 
     /**
      * The body.

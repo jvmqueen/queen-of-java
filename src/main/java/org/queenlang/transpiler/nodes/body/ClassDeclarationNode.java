@@ -63,6 +63,14 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
      */
     ClassBodyNode body();
 
+    /**
+     * Is this class declaration abstract or not?
+     * @return True if abstract, false otherwise.
+     */
+    default boolean isAbstract() {
+        return "abstract".equals(this.extensionModifier().modifier());
+    }
+
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitClassDeclarationNode(this);
     }

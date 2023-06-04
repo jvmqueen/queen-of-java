@@ -58,4 +58,15 @@ public interface CompilationUnitNode extends QueenNode {
         }
         return null;
     }
+
+    /**
+     * Turn this CompilationUnit (containing TypeDeclaration) into a ClassDeclarationNode.
+     * @return ClassDeclarationNode or null if this node is not a class declaration declaration.
+     */
+    default ClassDeclarationNode asClassDeclarationNode() {
+        if(this.typeDeclaration() != null) {
+            return this.typeDeclaration().asClassDeclarationNode();
+        }
+        return null;
+    }
 }

@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.project;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.body.ClassDeclarationNode;
 import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
 import org.queenlang.transpiler.nodes.body.NormalInterfaceDeclarationNode;
 
@@ -74,5 +75,13 @@ public interface FileNode extends QueenNode {
      */
     default NormalInterfaceDeclarationNode asNormalInterfaceDeclaration() {
         return this.compilationUnit().asNormalInterfaceDeclaration();
+    }
+
+    /**
+     * Turn this FileNode (containing CompilationUnit) into a ClassDeclarationNode.
+     * @return ClassDeclarationNode or null if this node is not a normal interface declaration.
+     */
+    default ClassDeclarationNode asClassDeclarationNode() {
+        return this.compilationUnit().asClassDeclarationNode();
     }
 }

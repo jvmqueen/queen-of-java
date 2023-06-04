@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.body.ClassDeclarationNode;
 import org.queenlang.transpiler.nodes.body.NormalInterfaceDeclarationNode;
 
 import java.util.List;
@@ -96,6 +97,17 @@ public interface QueenNode {
     default NormalInterfaceDeclarationNode asNormalInterfaceDeclaration() {
         if(this instanceof NormalInterfaceDeclarationNode) {
             return (NormalInterfaceDeclarationNode) this;
+        }
+        return null;
+    }
+
+    /**
+     * Turn this QueenNode into a ClassDeclarationNode.
+     * @return ClassDeclarationNode or null if this node is not a class declaration.
+     */
+    default ClassDeclarationNode asClassDeclarationNode() {
+        if(this instanceof ClassDeclarationNode) {
+            return (ClassDeclarationNode) this;
         }
         return null;
     }

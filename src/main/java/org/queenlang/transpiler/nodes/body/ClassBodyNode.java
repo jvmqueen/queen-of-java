@@ -62,6 +62,10 @@ public interface ClassBodyNode extends QueenNode, NodeWithFieldDeclarations, Nod
             .collect(Collectors.toList());
     }
 
+    default String className() {
+        return ((ClassDeclarationNode) this.parent()).name();
+    }
+
     default boolean isEmpty() {
         return this.classBodyDeclarations() == null || this.classBodyDeclarations().isEmpty();
     }

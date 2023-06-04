@@ -38,6 +38,12 @@ import java.util.List;
 public interface NodeWithConstructors {
 
     /**
+     * Return the name of the class containing the constructors.
+     * @return String, never null.
+     */
+    String className();
+
+    /**
      * Constructors.
      * @return List of constructors.
      */

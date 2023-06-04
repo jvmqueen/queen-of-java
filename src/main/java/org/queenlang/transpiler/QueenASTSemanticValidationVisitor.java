@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler;
 
+import org.checkerframework.checker.units.qual.A;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
@@ -158,20 +159,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 }
             }
 
-        }
-        final ClassBodyNode body = node.body();
-        for(final ClassBodyDeclarationNode declaration : body) {
-            if(declaration instanceof ConstructorDeclarationNode) {
-                final ConstructorDeclarationNode ctor = (ConstructorDeclarationNode) declaration;
-                if(!node.name().equals(ctor.name())) {
-                    problems.add(
-                        new QueenSemanticError(
-                            "Constructor name '" + ctor.name() + "' does not match the implementation name.",
-                            ctor.position()
-                        )
-                    );
-                }
-            }
         }
         problems.addAll(this.visitClassBodyNode(node.body()));
         return problems;
@@ -637,7 +624,19 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
     @Override
     public List<SemanticProblem> visitNodeWithConstructors(final NodeWithConstructors node) {
-        return new ArrayList<>();//check for duplicate constructors
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<ConstructorDeclarationNode> constructors = node.constructors();
+        for(final ConstructorDeclarationNode ctor : constructors) {
+            if(!ctor.name().equals(node.className())) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Constructor name '" + ctor.name() + "' does not match the implementation's name ('" + node.className() + "').",
+                        ctor.position()
+                    )
+                );
+            }
+        }
+        return problems;//check for duplicate constructors
     }
 
     @Override

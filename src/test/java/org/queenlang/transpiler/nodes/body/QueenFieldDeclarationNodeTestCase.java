@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -125,6 +126,27 @@ public final class QueenFieldDeclarationNodeTestCase {
         MatcherAssert.assertThat(
             fieldDeclaration.variable(),
             Matchers.is(variable)
+        );
+    }
+
+    @Test
+    public void returnsName() {
+        final VariableDeclaratorNode variable = QueenMockito.mock(VariableDeclaratorNode.class);
+        final VariableDeclaratorId variableDeclaratorId = QueenMockito.mock(VariableDeclaratorId.class);
+        Mockito.when(variableDeclaratorId.name()).thenReturn("v");
+        Mockito.when(variable.variableDeclaratorId()).thenReturn(variableDeclaratorId);
+
+        final FieldDeclarationNode fieldDeclaration = new QueenFieldDeclarationNode(
+            QueenMockito.mock(Position.class),
+            new ArrayList<>(),
+            new ArrayList<>(),
+            QueenMockito.mock(TypeNode.class),
+            variable
+        );
+
+        MatcherAssert.assertThat(
+            fieldDeclaration.name(),
+            Matchers.equalTo("v")
         );
     }
 

@@ -106,7 +106,7 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
 
     @Override
     public String name() {
-        return "todo...";
+        return this.variable.variableDeclaratorId().name();
     }
 
     @Override

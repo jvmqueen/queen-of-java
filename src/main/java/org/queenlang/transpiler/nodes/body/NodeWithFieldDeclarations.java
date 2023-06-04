@@ -27,41 +27,19 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.QueenNode;
-
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Queen ClassBody AST node.
+ * A node with field declarations.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface ClassBodyNode extends QueenNode, NodeWithFieldDeclarations, Iterable<ClassBodyDeclarationNode> {
+public interface NodeWithFieldDeclarations {
 
-    List<ClassBodyDeclarationNode> classBodyDeclarations();
-
-    @Override
-    default List<FieldDeclarationNode> fieldDeclarations() {
-        return this.classBodyDeclarations()
-            .stream()
-            .filter(cbd -> cbd instanceof FieldDeclarationNode)
-            .map(cbd -> (FieldDeclarationNode) cbd)
-            .collect(Collectors.toList());
-    }
-
-    default boolean isEmpty() {
-        return this.classBodyDeclarations() == null || this.classBodyDeclarations().isEmpty();
-    }
-
-    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitClassBodyNode(this);
-    }
-
-    default Iterator<ClassBodyDeclarationNode> iterator() {
-        return this.classBodyDeclarations().iterator();
-    }
+    /**
+     * Field declarations.
+     * @return List of field declarations.
+     */
+    List<FieldDeclarationNode> fieldDeclarations();
 }

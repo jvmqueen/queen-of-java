@@ -191,6 +191,16 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
+    public List<SemanticProblem> visitClassBodyNode(final ClassBodyNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithFieldDeclarations(node));
+        node.classBodyDeclarations().forEach(
+            cbd -> problems.addAll(this.visitClassBodyDeclarationNode(cbd))
+        );
+        return problems;
+    }
+
+    @Override
     public List<SemanticProblem> visitInterfaceTypeList(final InterfaceTypeList node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         final List<ClassOrInterfaceTypeNode> interfaces = node.interfaceTypes();
@@ -615,6 +625,25 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         node.typeArguments().forEach( ta ->
             problems.addAll(this.visitTypeNode(ta))
         );
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitNodeWithFieldDeclarations(final NodeWithFieldDeclarations node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<FieldDeclarationNode> fields = node.fieldDeclarations();
+        final Set<String> unique = new HashSet<>();
+        for(final FieldDeclarationNode field : fields) {
+            final String name = field.name();
+            if(!unique.add(name)) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Field '" + name + "' already declared.",
+                        field.position()
+                    )
+                );
+            }
+        }
         return problems;
     }
 

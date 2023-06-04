@@ -453,6 +453,8 @@ public interface QueenASTVisitor<T> {
     T visitNodeWithTypeParameters(final NodeWithTypeParameters node);
 
     T visitNodeWithTypeArguments(final NodeWithTypeArguments node);
+    T visitNodeWithFieldDeclarations(final NodeWithFieldDeclarations node);
+
 
     T visitNodeWithThrows(final NodeWithThrows node);
 

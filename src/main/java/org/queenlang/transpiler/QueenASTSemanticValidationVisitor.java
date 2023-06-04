@@ -170,16 +170,22 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<ClassOrInterfaceTypeNode> interfaces = node.interfaceTypes();
         final Set<String> unique = new HashSet<>();
         for(final ClassOrInterfaceTypeNode implementedInterface : interfaces) {
-            final String fullName = implementedInterface.name();
-            if(!unique.add(fullName)) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Interface '" + fullName + "' already present in of list.",
-                        implementedInterface.position()
-                    )
-                );
-            }
             problems.addAll(this.visitClassOrInterfaceTypeNode(implementedInterface));
+            final QueenNode resolved = implementedInterface.resolve();
+            if(resolved != null) {
+                final NormalInterfaceDeclarationNode interfaceDeclarationNode = resolved.asNormalInterfaceDeclaration();
+                if(interfaceDeclarationNode != null) {
+                    final String fullName = interfaceDeclarationNode.fullTypeName();
+                    if(!unique.add(fullName)) {
+                        problems.add(
+                            new QueenSemanticError(
+                                "Type '" + fullName + "' already present in the list of implemented interfaces.",
+                                implementedInterface.position()
+                            )
+                        );
+                    }
+                }
+            }
         }
         return problems;
     }
@@ -303,13 +309,24 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitClassOrInterfaceTypeNode(final ClassOrInterfaceTypeNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
-        if(node.resolve() == null) {
+        final QueenNode resolved = node.resolve();
+        if(resolved == null) {
             problems.add(
                 new QueenSemanticError(
                     "Symbol " + node.name() + " could not be resolved.",
                     node.position()
                 )
             );
+        } else {
+            final NormalInterfaceDeclarationNode asInterface = resolved.asNormalInterfaceDeclaration();
+            if(asInterface == null && node.interfaceType()) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Symbol " + node.name() + " should resolve to an interface. Instead, it resolves to an implementation.",
+                        node.position()
+                    )
+                );
+            }
         }
         problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithTypeArguments(node));

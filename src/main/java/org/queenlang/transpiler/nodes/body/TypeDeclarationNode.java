@@ -41,6 +41,25 @@ import java.util.List;
  */
 public interface TypeDeclarationNode extends Named, NodeWithModifiers, NodeWithAnnotations, QueenNode {
 
+    /**
+     * Return the full name of this type declaration.
+     * @todo #70:60min Handle case when parent is type or method declaration.
+     * @return String, never null.
+     */
+    default String fullTypeName() {
+        final QueenNode parent = this.parent();
+        if (parent == null) {
+            return this.name();
+        }
+        if (parent instanceof CompilationUnitNode) {
+            final CompilationUnitNode cu = (CompilationUnitNode) parent;
+            if (cu.packageDeclaration() != null) {
+                return cu.packageDeclaration().packageName().name() + "." + this.name();
+            }
+        }
+        return this.name();
+    }
+
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitTypeDeclarationNode(this);
     }

@@ -160,7 +160,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
         }
         final ClassBodyNode body = node.body();
-        boolean defaultCtorPresent = false;
         for(final ClassBodyDeclarationNode declaration : body) {
             if(declaration instanceof ConstructorDeclarationNode) {
                 final ConstructorDeclarationNode ctor = (ConstructorDeclarationNode) declaration;
@@ -171,18 +170,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                             ctor.position()
                         )
                     );
-                } else {
-                    if(ctor.parameters() == null || ctor.parameters().isEmpty()) {
-                        if(defaultCtorPresent) {
-                            problems.add(
-                                new QueenSemanticError(
-                                    "Default Constructor '" + ctor.name() + "' is duplicated.",
-                                    ctor.position()
-                                )
-                            );
-                        }
-                        defaultCtorPresent = true;
-                    }
                 }
             }
         }
@@ -194,6 +181,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitClassBodyNode(final ClassBodyNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithFieldDeclarations(node));
+        problems.addAll(this.visitNodeWithConstructors(node));
         node.classBodyDeclarations().forEach(
             cbd -> problems.addAll(this.visitClassBodyDeclarationNode(cbd))
         );
@@ -645,6 +633,11 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             }
         }
         return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitNodeWithConstructors(final NodeWithConstructors node) {
+        return new ArrayList<>();//check for duplicate constructors
     }
 
     @Override

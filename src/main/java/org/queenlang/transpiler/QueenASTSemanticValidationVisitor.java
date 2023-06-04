@@ -30,6 +30,10 @@ package org.queenlang.transpiler;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.MarkerAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.NormalAnnotationNode;
+import org.queenlang.transpiler.nodes.expressions.SingleMemberAnnotationNode;
 import org.queenlang.transpiler.nodes.project.FileNode;
 import org.queenlang.transpiler.nodes.types.*;
 
@@ -337,7 +341,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         if(resolved == null) {
             problems.add(
                 new QueenSemanticError(
-                    "Symbol " + node.name() + " could not be resolved.",
+                    "Symbol '" + node.name() + "' could not be resolved.",
                     node.position()
                 )
             );
@@ -686,6 +690,47 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             problems.addAll(this.visitAnnotationNode(a))
         );
         return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitAnnotationNode(final AnnotationNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final QueenNode resolved = node.nameNode().resolve();
+        if(resolved == null || resolved.asAnnotationTypeDeclarationNode() == null) {
+            problems.add(
+                new QueenSemanticError(
+                    "Symbol '@" + node.name() + "' could not be resolved or it is not an annotation.",
+                    node.position()
+                )
+            );
+        }
+        if(node instanceof SingleMemberAnnotationNode) {
+            problems.addAll(this.visitSingleMemberAnnotationNode((SingleMemberAnnotationNode) node));
+        } else if (node instanceof NormalAnnotationNode) {
+            problems.addAll(this.visitNormalAnnotationNode((NormalAnnotationNode) node));
+        } else {
+            problems.addAll(this.visitMarkerAnnotationNode((MarkerAnnotationNode) node));
+        }
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitMarkerAnnotationNode(final MarkerAnnotationNode node) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<SemanticProblem> visitNormalAnnotationNode(final NormalAnnotationNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        node.elementValuePairs().forEach( evp ->
+            problems.addAll(this.visitElementValuePairNode(evp))
+        );
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitSingleMemberAnnotationNode(final SingleMemberAnnotationNode node) {
+        return this.visitExpressionNode(node.elementValue());
     }
 
     @Override

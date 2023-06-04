@@ -90,7 +90,7 @@ public interface FileNode extends QueenNode {
      * Turn this FileNode (containing CompilationUnit) into an AnnotationTypeDeclarationNode.
      * @return ClassDeclarationNode or null if this node is not an annotation declaration.
      */
-    default AnnotationTypeDeclarationNode g() {
+    default AnnotationTypeDeclarationNode asAnnotationTypeDeclarationNode() {
         return this.compilationUnit().asAnnotationTypeDeclarationNode();
     }
 }

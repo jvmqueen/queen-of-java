@@ -28,6 +28,7 @@
 package org.queenlang.transpiler.nodes;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.body.AnnotationTypeDeclarationNode;
 import org.queenlang.transpiler.nodes.body.ClassDeclarationNode;
 import org.queenlang.transpiler.nodes.body.NormalInterfaceDeclarationNode;
 
@@ -108,6 +109,17 @@ public interface QueenNode {
     default ClassDeclarationNode asClassDeclarationNode() {
         if(this instanceof ClassDeclarationNode) {
             return (ClassDeclarationNode) this;
+        }
+        return null;
+    }
+
+    /**
+     * Turn this QueenNode into a AnnotationTypeDeclarationNode.
+     * @return AnnotationTypeDeclarationNode or null if this node is not an annotation declaration.
+     */
+    default AnnotationTypeDeclarationNode asAnnotationTypeDeclarationNode() {
+        if(this instanceof AnnotationTypeDeclarationNode) {
+            return (AnnotationTypeDeclarationNode) this;
         }
         return null;
     }

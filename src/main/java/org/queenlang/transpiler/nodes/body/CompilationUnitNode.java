@@ -69,4 +69,15 @@ public interface CompilationUnitNode extends QueenNode {
         }
         return null;
     }
+
+    /**
+     * Turn this CompilationUnit (containing TypeDeclaration) into a AnnotationTypeDeclarationNode.
+     * @return AnnotationTypeDeclarationNode or null if this node is not an annotation declaration.
+     */
+    default AnnotationTypeDeclarationNode asAnnotationTypeDeclarationNode() {
+        if(this.typeDeclaration() != null) {
+            return this.typeDeclaration().asAnnotationTypeDeclarationNode();
+        }
+        return null;
+    }
 }

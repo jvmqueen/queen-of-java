@@ -226,7 +226,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         if(publicModifier != null) {
             problems.add(
                 new QueenSemanticWarning(
-                    "Mofifier 'public' is redundant.",
+                    "Modifier 'public' is redundant.",
                     publicModifier.position()
                 )
             );
@@ -234,7 +234,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         if(staticModifier != null) {
             problems.add(
                 new QueenSemanticWarning(
-                    "Mofifier 'static' is redundant.",
+                    "Modifier 'static' is redundant.",
                     staticModifier.position()
                 )
             );
@@ -500,6 +500,15 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             problems.addAll(this.visitInterfaceTypeList(node.extendsTypes()));
         }
 
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitInterfaceBodyNode(final InterfaceBodyNode node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        node.interfaceMemberDeclarations().forEach(
+            imd -> problems.addAll(this.visitInterfaceMemberDeclarationNode(imd))
+        );
         return problems;
     }
 

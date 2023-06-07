@@ -27,31 +27,19 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.QueenNode;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Queen interface body AST Node.
+ * A node with constant field declarations.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface InterfaceBodyNode extends QueenNode, NodeWithConstantDeclarations {
-    List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations();
+public interface NodeWithConstantDeclarations {
 
-    @Override
-    default List<ConstantDeclarationNode> constantDeclarations() {
-        return this.interfaceMemberDeclarations()
-            .stream()
-            .filter(cbd -> cbd instanceof ConstantDeclarationNode)
-            .map(imd -> (ConstantDeclarationNode) imd)
-            .collect(Collectors.toList());
-    }
-
-    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitInterfaceBodyNode(this);
-    }
+    /**
+     * Constant declarations.
+     * @return List of constant declarations.
+     */
+    List<ConstantDeclarationNode> constantDeclarations();
 }

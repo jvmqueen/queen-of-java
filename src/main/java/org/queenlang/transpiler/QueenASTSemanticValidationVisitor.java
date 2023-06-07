@@ -506,6 +506,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitInterfaceBodyNode(final InterfaceBodyNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        problems.addAll(this.visitNodeWithConstantDeclarations(node));
         node.interfaceMemberDeclarations().forEach(
             imd -> problems.addAll(this.visitInterfaceMemberDeclarationNode(imd))
         );
@@ -661,6 +662,25 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                         }
                     }
                 }
+            }
+        }
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitNodeWithConstantDeclarations(final NodeWithConstantDeclarations node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<ConstantDeclarationNode> constants = node.constantDeclarations();
+        final Set<String> unique = new HashSet<>();
+        for(final ConstantDeclarationNode constant : constants) {
+            final String name = constant.name();
+            if(!unique.add(name)) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Constant '" + name + "' already declared.",
+                        constant.position()
+                    )
+                );
             }
         }
         return problems;

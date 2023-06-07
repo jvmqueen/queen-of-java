@@ -106,7 +106,7 @@ public final class QueenConstantDeclarationNode implements ConstantDeclarationNo
 
     @Override
     public String name() {
-        return String.join("todo...");
+        return this.variable.variableDeclaratorId().name();
     }
 
     @Override

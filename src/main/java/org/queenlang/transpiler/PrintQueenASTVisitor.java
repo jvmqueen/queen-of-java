@@ -77,6 +77,11 @@ public final class PrintQueenASTVisitor implements QueenASTVisitor<String> {
     }
 
     @Override
+    public String visitNodeWithConstantDeclarations(NodeWithConstantDeclarations node) {
+        return "";
+    }
+
+    @Override
     public String visitNodeWithMethodDeclarations(NodeWithMethodDeclarations node) {
         return "";
     }

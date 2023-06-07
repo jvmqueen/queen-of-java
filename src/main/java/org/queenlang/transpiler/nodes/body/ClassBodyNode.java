@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  * @version $Id$
  * @since 0.0.1
  */
-public interface ClassBodyNode extends QueenNode, NodeWithFieldDeclarations, NodeWithConstructors, Iterable<ClassBodyDeclarationNode> {
+public interface ClassBodyNode extends QueenNode, NodeWithFieldDeclarations, NodeWithConstructors, NodeWithMethodDeclarations, Iterable<ClassBodyDeclarationNode> {
 
     List<ClassBodyDeclarationNode> classBodyDeclarations();
 
@@ -59,6 +59,15 @@ public interface ClassBodyNode extends QueenNode, NodeWithFieldDeclarations, Nod
             .stream()
             .filter(cbd -> cbd instanceof ConstructorDeclarationNode)
             .map(cbd -> (ConstructorDeclarationNode) cbd)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    default List<MethodDeclarationNode> methods() {
+        return this.classBodyDeclarations()
+            .stream()
+            .filter(cbd -> cbd instanceof MethodDeclarationNode)
+            .map(cbd -> (MethodDeclarationNode) cbd)
             .collect(Collectors.toList());
     }
 

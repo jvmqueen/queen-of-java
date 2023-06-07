@@ -1293,6 +1293,11 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     }
 
     @Override
+    public Node visitNodeWithMethodDeclarations(NodeWithMethodDeclarations node) {
+        return null;
+    }
+
+    @Override
     public Node visitNodeWithThrows(NodeWithThrows node) {
         return null;
     }

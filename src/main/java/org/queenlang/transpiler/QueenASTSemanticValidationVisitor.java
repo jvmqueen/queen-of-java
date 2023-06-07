@@ -27,7 +27,6 @@
  */
 package org.queenlang.transpiler;
 
-import org.checkerframework.checker.units.qual.A;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
@@ -169,6 +168,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithFieldDeclarations(node));
         problems.addAll(this.visitNodeWithConstructors(node));
+        problems.addAll(this.visitNodeWithMethodDeclarations(node));
         node.classBodyDeclarations().forEach(
             cbd -> problems.addAll(this.visitClassBodyDeclarationNode(cbd))
         );
@@ -658,6 +658,31 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
+    public List<SemanticProblem> visitNodeWithMethodDeclarations(final NodeWithMethodDeclarations node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<MethodDeclarationNode> methods = node.methods();
+        for(int i=0; i<methods.size();i++) {
+            for(int j=0; j<methods.size(); j++) {
+                if(i!=j) {
+                    final MethodDeclarationNode methodI = methods.get(i);
+                    final MethodDeclarationNode methodJ = methods.get(j);
+                    if(methodI.name().equals(methodJ.name())) {
+                        if(this.sameParameters(methodI, methodJ)) {
+                            problems.add(
+                                new QueenSemanticError(
+                                    "Method '" + methodJ.name() + "' already declared.",
+                                    methodJ.position()
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        return problems;
+    }
+
+    @Override
     public List<SemanticProblem> visitTypeParameterNode(final TypeParameterNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithAnnotations(node));
@@ -820,8 +845,13 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             return false;
         } else {
             for(int i=0; i<first.size(); i++) {
-                final TypeNode paramTypeFirst = first.get(i).type();
-                final TypeNode paramTypeSecond = second.get(i).type();
+                final ParameterNode firstParam = first.get(i);
+                final ParameterNode secondParam = second.get(i);
+                if(firstParam.varArgs() != secondParam.varArgs()) {
+                    return false;
+                }
+                final TypeNode paramTypeFirst = firstParam.type();
+                final TypeNode paramTypeSecond = secondParam.type();
                 if(paramTypeFirst instanceof PrimitiveTypeNode && paramTypeSecond instanceof PrimitiveTypeNode) {
                     final String nameFirst = paramTypeFirst.name();
                     final String nameSecond = paramTypeSecond.name();
@@ -837,6 +867,8 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                         if(!nameFirst.equals(nameSecond)) {
                             return false;
                         }
+                    } else {
+                        return false;
                     }
                 } else {
                     return false;

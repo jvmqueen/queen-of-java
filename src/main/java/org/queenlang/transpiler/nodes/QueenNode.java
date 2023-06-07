@@ -31,6 +31,7 @@ import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.body.AnnotationTypeDeclarationNode;
 import org.queenlang.transpiler.nodes.body.ClassDeclarationNode;
 import org.queenlang.transpiler.nodes.body.NormalInterfaceDeclarationNode;
+import org.queenlang.transpiler.nodes.body.TypeDeclarationNode;
 
 import java.util.List;
 
@@ -123,4 +124,17 @@ public interface QueenNode {
         }
         return null;
     }
+
+    /**
+     * Turn this QueenNode into a TypeDeclarationNode.
+     * @return TypeDeclarationNode or null if this node is not a type declaration.
+     */
+    default TypeDeclarationNode asTypeDeclarationNode() {
+        final ClassDeclarationNode clazz = this.asClassDeclarationNode();
+        if(clazz == null) {
+            return this.asNormalInterfaceDeclaration();
+        }
+        return clazz;
+    }
+
 }

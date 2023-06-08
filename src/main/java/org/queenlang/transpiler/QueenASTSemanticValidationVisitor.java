@@ -242,7 +242,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         problems.addAll(this.visitTypeNode(node.type()));
         if(node.variable().initializer() == null) {
             problems.add(
-                new QueenSemanticWarning(
+                new QueenSemanticError(
                     "Constant '" + node.variable().variableDeclaratorId().name() + "' may not have been initialized.",
                     node.position()
                 )

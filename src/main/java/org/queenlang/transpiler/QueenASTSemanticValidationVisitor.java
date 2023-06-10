@@ -477,7 +477,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 problems.add(
                     new QueenSemanticError(
                         "Method '" + node.name() +  "' is not abstract, it needs to have a body.",
-                        abstractModifier.position()
+                        node.position()
                     )
                 );
             }

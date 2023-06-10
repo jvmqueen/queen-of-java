@@ -27,6 +27,7 @@
  */
 package org.queenlang.transpiler;
 
+import com.github.javaparser.ast.stmt.BlockStmt;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
@@ -35,6 +36,8 @@ import org.queenlang.transpiler.nodes.expressions.MarkerAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.NormalAnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.SingleMemberAnnotationNode;
 import org.queenlang.transpiler.nodes.project.FileNode;
+import org.queenlang.transpiler.nodes.statements.BlockStatements;
+import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.*;
@@ -457,7 +460,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 problems.add(
                     new QueenSemanticError(
                         "Method '" + node.name() +  "' is abstract, it cannot have a body.",
-                        abstractModifier.position()
+                        node.position()
                     )
                 );
             }
@@ -482,6 +485,18 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         problems.addAll(this.visitTypeNode(node.returnType()));
         problems.addAll(this.visitBlockStatements(node.blockStatements()));
 
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitBlockStatements(final BlockStatements node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        if(node == null) {
+            return problems;
+        }
+        for(final StatementNode stmt : node) {
+            problems.addAll(this.visitStatementNode(stmt));
+        }
         return problems;
     }
 

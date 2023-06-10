@@ -515,6 +515,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitInterfaceBodyNode(final InterfaceBodyNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithConstantDeclarations(node));
+        problems.addAll(this.visitNodeWithInterfaceMethodDeclarations(node));
         node.interfaceMemberDeclarations().forEach(
             imd -> problems.addAll(this.visitInterfaceMemberDeclarationNode(imd))
         );
@@ -703,6 +704,31 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 if(i!=j) {
                     final MethodDeclarationNode methodI = methods.get(i);
                     final MethodDeclarationNode methodJ = methods.get(j);
+                    if(methodI.name().equals(methodJ.name())) {
+                        if(this.sameParameters(methodI, methodJ)) {
+                            problems.add(
+                                new QueenSemanticError(
+                                    "Method '" + methodJ.name() + "' already declared.",
+                                    methodJ.position()
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        return problems;
+    }
+
+    @Override
+    public List<SemanticProblem> visitNodeWithInterfaceMethodDeclarations(final NodeWithInterfaceMethodDeclarations node) {
+        final List<SemanticProblem> problems = new ArrayList<>();
+        final List<InterfaceMethodDeclarationNode> methods = node.methods();
+        for(int i=0; i<methods.size();i++) {
+            for(int j=0; j<methods.size(); j++) {
+                if(i!=j) {
+                    final InterfaceMethodDeclarationNode methodI = methods.get(i);
+                    final InterfaceMethodDeclarationNode methodJ = methods.get(j);
                     if(methodI.name().equals(methodJ.name())) {
                         if(this.sameParameters(methodI, methodJ)) {
                             problems.add(

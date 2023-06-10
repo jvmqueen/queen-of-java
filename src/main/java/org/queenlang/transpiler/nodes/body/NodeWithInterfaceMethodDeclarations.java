@@ -27,40 +27,20 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.QueenNode;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Queen interface body AST Node.
+ * Queen AST Node with interface method declarations.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface InterfaceBodyNode extends QueenNode, NodeWithConstantDeclarations, NodeWithInterfaceMethodDeclarations {
-    List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations();
+public interface NodeWithInterfaceMethodDeclarations {
 
-    @Override
-    default List<ConstantDeclarationNode> constantDeclarations() {
-        return this.interfaceMemberDeclarations()
-            .stream()
-            .filter(imd -> imd instanceof ConstantDeclarationNode)
-            .map(imd -> (ConstantDeclarationNode) imd)
-            .collect(Collectors.toList());
-    }
+    /**
+     * Methods.
+     * @return List of interface method declarations.
+     */
+    List<InterfaceMethodDeclarationNode> methods();
 
-    @Override
-    default List<InterfaceMethodDeclarationNode> methods() {
-        return this.interfaceMemberDeclarations()
-            .stream()
-            .filter(imd -> imd instanceof InterfaceMethodDeclarationNode)
-            .map(imd -> (InterfaceMethodDeclarationNode) imd)
-            .collect(Collectors.toList());
-    }
-
-    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitInterfaceBodyNode(this);
-    }
 }

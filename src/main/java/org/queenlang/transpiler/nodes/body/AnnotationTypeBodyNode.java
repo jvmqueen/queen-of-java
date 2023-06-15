@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.queenlang.transpiler.QueenASTVisitor;
 import org.queenlang.transpiler.nodes.QueenNode;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen annotation type declaration body AST node.
@@ -37,8 +38,17 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface AnnotationTypeBodyNode extends QueenNode {
+public interface AnnotationTypeBodyNode extends QueenNode, NodeWithTypeDeclarations {
     List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations();
+
+    @Override
+    default List<TypeDeclarationNode> typeDeclarations() {
+        return this.annotationMemberDeclarations()
+            .stream()
+            .filter(amd -> amd instanceof TypeDeclarationNode)
+            .map(amd -> (TypeDeclarationNode) amd)
+            .collect(Collectors.toList());
+    }
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitAnnotationTypeBodyNode(this);

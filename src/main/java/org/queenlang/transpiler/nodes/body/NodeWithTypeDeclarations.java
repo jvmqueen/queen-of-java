@@ -27,49 +27,19 @@
  */
 package org.queenlang.transpiler.nodes.body;
 
-import org.queenlang.transpiler.QueenASTVisitor;
-import org.queenlang.transpiler.nodes.QueenNode;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Queen interface body AST Node.
+ * A node with type declarations.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface InterfaceBodyNode extends QueenNode, NodeWithConstantDeclarations, NodeWithInterfaceMethodDeclarations, NodeWithTypeDeclarations {
-    List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations();
+public interface NodeWithTypeDeclarations {
 
-    @Override
-    default List<ConstantDeclarationNode> constantDeclarations() {
-        return this.interfaceMemberDeclarations()
-            .stream()
-            .filter(imd -> imd instanceof ConstantDeclarationNode)
-            .map(imd -> (ConstantDeclarationNode) imd)
-            .collect(Collectors.toList());
-    }
-
-    @Override
-    default List<InterfaceMethodDeclarationNode> methods() {
-        return this.interfaceMemberDeclarations()
-            .stream()
-            .filter(imd -> imd instanceof InterfaceMethodDeclarationNode)
-            .map(imd -> (InterfaceMethodDeclarationNode) imd)
-            .collect(Collectors.toList());
-    }
-
-    @Override
-    default List<TypeDeclarationNode> typeDeclarations() {
-        return this.interfaceMemberDeclarations()
-            .stream()
-            .filter(imd -> imd instanceof TypeDeclarationNode)
-            .map(imd -> (TypeDeclarationNode) imd)
-            .collect(Collectors.toList());
-    }
-
-    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
-        return visitor.visitInterfaceBodyNode(this);
-    }
+    /**
+     * Type declarations.
+     * @return List of type declarations.
+     */
+    List<TypeDeclarationNode> typeDeclarations();
 }

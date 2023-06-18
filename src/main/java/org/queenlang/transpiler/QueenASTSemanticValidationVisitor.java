@@ -41,6 +41,7 @@ import org.queenlang.transpiler.nodes.types.*;
 
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * AST Visitor for semantic/contextual validation of Queen code.
@@ -97,6 +98,11 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitAnnotationElementDeclarationNode(AnnotationElementDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithModifiers(node));
+        problems.addAll(this.visitNodeWithAnnotations(node));
+        problems.addAll(this.visitTypeNode(node.type()));
+        if(node.defaultValue() != null) {
+            problems.addAll(this.visitExpressionNode(node.defaultValue()));
+        }
         return problems;
     }
 
@@ -109,6 +115,24 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitAnnotationTypeBodyNode(final AnnotationTypeBodyNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithTypeDeclarations(node));
+
+        final List<AnnotationElementDeclarationNode> elements = node.annotationMemberDeclarations().stream().filter(
+            amd -> amd instanceof AnnotationElementDeclarationNode
+        ).map(
+            amd -> (AnnotationElementDeclarationNode) amd
+        ).collect(Collectors.toList());
+        final Set<String> unique = new HashSet<>();
+        for(final AnnotationElementDeclarationNode element : elements) {
+            final String name = element.name();
+            if(!unique.add(name)) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Annotation element '" + name + "' already declared.",
+                        element.position()
+                    )
+                );
+            }
+        }
 
         node.annotationMemberDeclarations().forEach(
             amd -> problems.addAll(this.visitAnnotationTypeMemberDeclarationNode(amd))

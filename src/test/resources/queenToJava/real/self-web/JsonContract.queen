@@ -7,13 +7,14 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public final implementation JsonContract extends AbstractJsonObject {
+public implementation JsonContract extends AbstractJsonObject {
+    private final String charset = "UTF-8";
 
-    public JsonContract(Contract contract) {
+    public JsonContract(final Contract contract) {
         this(contract, Boolean.FALSE);
     }
 
-    public JsonContract(Contract contract, boolean withWalletType) {
+    public JsonContract(final Contract contract, final boolean withWalletType) {
         super(
             () -> {
                 if(withWalletType) {

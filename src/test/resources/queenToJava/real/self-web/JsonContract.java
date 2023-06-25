@@ -8,6 +8,8 @@ import java.util.Locale;
 
 public final class JsonContract extends AbstractJsonObject {
 
+    private final String charset = "UTF-8";
+
     public JsonContract(final Contract contract) {
         this(contract, Boolean.FALSE);
     }

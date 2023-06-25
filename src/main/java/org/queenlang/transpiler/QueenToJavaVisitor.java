@@ -152,7 +152,7 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         } else if(node instanceof ConstantDeclarationNode) {
             return this.visitConstantDeclarationNode((ConstantDeclarationNode) node);
         } else {
-            return this.visitInterfaceMethodDeclarationNode((InterfaceMethodDeclarationNode) node);
+            return this.visitMethodDeclarationNode((MethodDeclarationNode) node);
         }
     }
 
@@ -225,30 +225,6 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
         vd.setInitializer(this.visitExpressionNode(node.variable().initializer()));
         fd.addVariable(vd);
         return fd;
-    }
-
-    @Override
-    public MethodDeclaration visitInterfaceMethodDeclarationNode(final InterfaceMethodDeclarationNode node) {
-        final MethodDeclaration md = new MethodDeclaration();
-        node.annotations().forEach(
-            a -> md.addAnnotation(this.visitAnnotationNode(a))
-        );
-        node.modifiers().forEach(
-            m -> md.addModifier(this.visitModifierNode(m).getKeyword())
-        );
-        md.setType(this.visitTypeNode(node.returnType()));
-        md.setName(node.name());
-        node.parameters().forEach(
-            p -> md.addParameter(this.visitParameterNode(p))
-        );
-        node.typeParameters().forEach(
-            tp -> md.addTypeParameter(this.visitTypeParameterNode(tp))
-        );
-        node.throwsList().forEach(
-            t -> md.addThrownException(this.visitReferenceTypeNode(t))
-        );
-        md.setBody(this.visitBlockStatements(node.blockStatements()));
-        return md;
     }
 
     @Override
@@ -1304,11 +1280,6 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
 
     @Override
     public Node visitNodeWithMethodDeclarations(NodeWithMethodDeclarations node) {
-        return null;
-    }
-
-    @Override
-    public Node visitNodeWithInterfaceMethodDeclarations(NodeWithInterfaceMethodDeclarations node) {
         return null;
     }
 

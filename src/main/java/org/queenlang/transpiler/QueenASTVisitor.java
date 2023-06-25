@@ -129,10 +129,7 @@ public interface QueenASTVisitor<T> {
         // if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
         return this.visitChildren(node);
     }
-    default T visitInterfaceMethodDeclarationNode(final InterfaceMethodDeclarationNode node) {
-        // if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
-        return this.visitChildren(node);
-    }
+
     default T visitLocalVariableDeclarationNode(final LocalVariableDeclarationNode node) {
         // if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
         return this.visitChildren(node);
@@ -461,9 +458,6 @@ public interface QueenASTVisitor<T> {
     T visitNodeWithConstantDeclarations(final NodeWithConstantDeclarations node);
 
     T visitNodeWithMethodDeclarations(final NodeWithMethodDeclarations node);
-
-    T visitNodeWithInterfaceMethodDeclarations(final NodeWithInterfaceMethodDeclarations node);
-
 
     T visitNodeWithThrows(final NodeWithThrows node);
 

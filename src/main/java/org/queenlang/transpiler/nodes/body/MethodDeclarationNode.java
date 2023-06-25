@@ -41,7 +41,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.0.1
  */
-public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows {
+public interface MethodDeclarationNode extends ClassMemberDeclarationNode, InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations, NodeWithParameters, NodeWithTypeParameters, NodeWithThrows {
 
     /**
      * Return type.
@@ -52,6 +52,12 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeW
      * Method body.
      */
     BlockStatements blockStatements();
+
+    /**
+     * It this method declared in an interface or a class?
+     * @return True if interface, false otherwise.
+     */
+    boolean interfaceDeclaration();
 
     /**
      * It this method public?
@@ -77,6 +83,33 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, NodeW
             }
         }
         return false;
+    }
+
+    /**
+     * It this method abstract?
+     * @return True or false.
+     */
+    default boolean isAbstract() {
+        for(final ModifierNode modifier : this.modifiers()) {
+            if("abstract".equals(modifier.modifier())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Does this method declaration have the specified modifier?
+     * @param modifier String modifier.
+     * @return ModifierNode if found, null otherwise.
+     */
+    default ModifierNode modifier(final String modifier) {
+        for(final ModifierNode m : this.modifiers()) {
+            if(modifier.equals(m.modifier())) {
+                return m;
+            }
+        }
+        return null;
     }
 
     /**

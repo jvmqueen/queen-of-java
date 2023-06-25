@@ -444,83 +444,13 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         final List<SemanticProblem> problems = new ArrayList<>();
         if(node instanceof ConstantDeclarationNode) {
             problems.addAll(this.visitConstantDeclarationNode((ConstantDeclarationNode) node));
-        } else if(node instanceof InterfaceMethodDeclarationNode) {
-            problems.addAll(this.visitInterfaceMethodDeclarationNode((InterfaceMethodDeclarationNode) node));
+        } else if(node instanceof MethodDeclarationNode) {
+            problems.addAll(this.visitMethodDeclarationNode((MethodDeclarationNode) node));
         } else if(node instanceof ClassDeclarationNode) {
             problems.addAll(this.visitClassDeclarationNode((ClassDeclarationNode) node));
         } else if(node instanceof InterfaceDeclarationNode) {
             problems.addAll(this.visitInterfaceDeclarationNode((InterfaceDeclarationNode) node));
         }
-        return problems;
-    }
-
-    @Override
-    public List<SemanticProblem> visitInterfaceMethodDeclarationNode(InterfaceMethodDeclarationNode node) {
-        final List<SemanticProblem> problems = new ArrayList<>();
-        problems.addAll(this.visitNodeWithModifiers(node));
-        problems.addAll(this.visitNodeWithParameters(node));
-        problems.addAll(this.visitNodeWithTypeParameters(node));
-        problems.addAll(this.visitNodeWithThrows(node));
-
-        final boolean isAbstractMethod = node.isAbstract();
-        final ModifierNode publicModifier = node.modifier("public");
-        final ModifierNode abstractModifier = node.modifier("abstract");
-
-        if(publicModifier != null) {
-            problems.add(
-                new QueenSemanticWarning(
-                    "Modifier 'public' is redundant.",
-                    publicModifier.position()
-                )
-            );
-        }
-        if(isAbstractMethod) {
-            if(abstractModifier != null) {
-                problems.add(
-                    new QueenSemanticWarning(
-                        "Modifier 'abstract' is redundant.",
-                        abstractModifier.position()
-                    )
-                );
-            }
-            final ModifierNode strictfpModifier = node.modifier("strictfp");
-            if(strictfpModifier != null) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Modifier 'strictfp' cannot be placed on abstract methods.",
-                        strictfpModifier.position()
-                    )
-                );
-            }
-            if(node.blockStatements() != null) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Method '" + node.name() +  "' is abstract, it cannot have a body.",
-                        node.position()
-                    )
-                );
-            }
-        } else {
-            if(abstractModifier != null) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Modifier 'abstract' on non-abstract method.",
-                        abstractModifier.position()
-                    )
-                );
-            }
-            if(node.blockStatements() == null) {
-                problems.add(
-                    new QueenSemanticError(
-                        "Method '" + node.name() +  "' is not abstract, it needs to have a body.",
-                        node.position()
-                    )
-                );
-            }
-        }
-        problems.addAll(this.visitTypeNode(node.returnType()));
-        problems.addAll(this.visitBlockStatements(node.blockStatements()));
-
         return problems;
     }
 
@@ -537,7 +467,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     }
 
     @Override
-    public List<SemanticProblem> visitMethodDeclarationNode(MethodDeclarationNode node) {
+    public List<SemanticProblem> visitMethodDeclarationNode(final MethodDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         if(node.isStatic() && "void".equals(node.returnType().name()) && !node.isMainMethod()) {
             problems.add(
@@ -546,6 +476,64 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     node.position()
                 )
             );
+        }
+        if(node.interfaceDeclaration()) {
+            final boolean isAbstractMethod = node.isAbstract();
+            final ModifierNode publicModifier = node.modifier("public");
+            final ModifierNode abstractModifier = node.modifier("abstract");
+
+            if(publicModifier != null) {
+                problems.add(
+                    new QueenSemanticWarning(
+                        "Modifier 'public' is redundant.",
+                        publicModifier.position()
+                    )
+                );
+            }
+            if(isAbstractMethod) {
+                if(abstractModifier != null) {
+                    problems.add(
+                        new QueenSemanticWarning(
+                            "Modifier 'abstract' is redundant.",
+                            abstractModifier.position()
+                        )
+                    );
+                }
+                final ModifierNode strictfpModifier = node.modifier("strictfp");
+                if(strictfpModifier != null) {
+                    problems.add(
+                        new QueenSemanticError(
+                            "Modifier 'strictfp' cannot be placed on abstract methods.",
+                            strictfpModifier.position()
+                        )
+                    );
+                }
+                if(node.blockStatements() != null) {
+                    problems.add(
+                        new QueenSemanticError(
+                            "Method '" + node.name() +  "' is abstract, it cannot have a body.",
+                            node.position()
+                        )
+                    );
+                }
+            } else {
+                if(abstractModifier != null) {
+                    problems.add(
+                        new QueenSemanticError(
+                            "Modifier 'abstract' on non-abstract method.",
+                            abstractModifier.position()
+                        )
+                    );
+                }
+                if(node.blockStatements() == null) {
+                    problems.add(
+                        new QueenSemanticError(
+                            "Method '" + node.name() +  "' is not abstract, it needs to have a body.",
+                            node.position()
+                        )
+                    );
+                }
+            }
         }
         problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithModifiers(node));
@@ -574,7 +562,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitInterfaceBodyNode(final InterfaceBodyNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
         problems.addAll(this.visitNodeWithConstantDeclarations(node));
-        problems.addAll(this.visitNodeWithInterfaceMethodDeclarations(node));
+        problems.addAll(this.visitNodeWithMethodDeclarations(node));
         problems.addAll(this.visitNodeWithTypeDeclarations(node));
 
         node.interfaceMemberDeclarations().forEach(
@@ -784,31 +772,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 if(i!=j) {
                     final MethodDeclarationNode methodI = methods.get(i);
                     final MethodDeclarationNode methodJ = methods.get(j);
-                    if(methodI.name().equals(methodJ.name())) {
-                        if(this.sameParameters(methodI, methodJ)) {
-                            problems.add(
-                                new QueenSemanticError(
-                                    "Method '" + methodJ.name() + "' already declared.",
-                                    methodJ.position()
-                                )
-                            );
-                        }
-                    }
-                }
-            }
-        }
-        return problems;
-    }
-
-    @Override
-    public List<SemanticProblem> visitNodeWithInterfaceMethodDeclarations(final NodeWithInterfaceMethodDeclarations node) {
-        final List<SemanticProblem> problems = new ArrayList<>();
-        final List<InterfaceMethodDeclarationNode> methods = node.methods();
-        for(int i=0; i<methods.size();i++) {
-            for(int j=0; j<methods.size(); j++) {
-                if(i!=j) {
-                    final InterfaceMethodDeclarationNode methodI = methods.get(i);
-                    final InterfaceMethodDeclarationNode methodJ = methods.get(j);
                     if(methodI.name().equals(methodJ.name())) {
                         if(this.sameParameters(methodI, methodJ)) {
                             problems.add(

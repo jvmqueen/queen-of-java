@@ -62,7 +62,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            QueenMockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class),
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.position(),
@@ -83,7 +84,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            QueenMockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class),
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.annotations(),
@@ -104,7 +106,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            QueenMockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class),
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.modifiers(),
@@ -124,7 +127,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            QueenMockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class),
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.returnType(),
@@ -145,7 +149,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            QueenMockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class),
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.typeParameters(),
@@ -164,7 +169,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            QueenMockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class),
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.name(),
@@ -185,7 +191,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             parameters,
             new ArrayList<>(),
-            QueenMockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class),
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.parameters(),
@@ -206,11 +213,34 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             throwsList,
-            QueenMockito.mock(BlockStatements.class)
+            QueenMockito.mock(BlockStatements.class),
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.throwsList(),
             Matchers.is(throwsList)
+        );
+    }
+
+    @Test
+    public void returnsInterfaceDeclaration() {
+        final List<ExceptionTypeNode> throwsList = new ArrayList<>();
+        throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
+        final MethodDeclarationNode methodDeclaration = new QueenMethodDeclarationNode(
+            QueenMockito.mock(Position.class),
+            new ArrayList<>(),
+            new ArrayList<>(),
+            QueenMockito.mock(TypeNode.class),
+            new ArrayList<>(),
+            "myMethod",
+            new ArrayList<>(),
+            throwsList,
+            QueenMockito.mock(BlockStatements.class),
+            true
+        );
+        MatcherAssert.assertThat(
+            methodDeclaration.interfaceDeclaration(),
+            Matchers.is(true)
         );
     }
 
@@ -226,7 +256,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             "myMethod",
             new ArrayList<>(),
             new ArrayList<>(),
-            blockStatements
+            blockStatements,
+            false
         );
         MatcherAssert.assertThat(
             methodDeclaration.blockStatements(),
@@ -259,7 +290,8 @@ public final class QueenMethodDeclarationNodeTestCase {
             name,
             parameters,
             throwsList,
-            blockStatements
+            blockStatements,
+            false
         );
 
         final List<QueenNode> children = methodDeclaration.children();

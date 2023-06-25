@@ -600,7 +600,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             methodDeclarator.Identifier().getText(),
             parameters,
             throwsList,
-            queenBlockStatements
+            queenBlockStatements,
+            false
         );
     }
 
@@ -613,7 +614,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
     }
 
     @Override
-    public InterfaceMethodDeclarationNode visitInterfaceMethodDeclaration(QueenParser.InterfaceMethodDeclarationContext ctx) {
+    public MethodDeclarationNode visitInterfaceMethodDeclaration(QueenParser.InterfaceMethodDeclarationContext ctx) {
         final List<AnnotationNode> annotations = new ArrayList<>();
         ctx.annotation().forEach(
             a -> annotations.add(this.visitAnnotation(a))
@@ -659,7 +660,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             );
         }
 
-        return new QueenInterfaceMethodDeclarationNode(
+        return new QueenMethodDeclarationNode(
             getPosition(ctx),
             annotations,
             modifiers,
@@ -668,7 +669,8 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             methodDeclarator.Identifier().getText(),
             parameters,
             throwsList,
-            queenBlockStatements
+            queenBlockStatements,
+            true
         );
     }
 

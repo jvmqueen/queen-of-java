@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  * @version $Id$
  * @since 0.0.1
  */
-public interface InterfaceBodyNode extends QueenNode, NodeWithConstantDeclarations, NodeWithInterfaceMethodDeclarations, NodeWithTypeDeclarations {
+public interface InterfaceBodyNode extends QueenNode, NodeWithConstantDeclarations, NodeWithMethodDeclarations, NodeWithTypeDeclarations {
     List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations();
 
     @Override
@@ -52,11 +52,11 @@ public interface InterfaceBodyNode extends QueenNode, NodeWithConstantDeclaratio
     }
 
     @Override
-    default List<InterfaceMethodDeclarationNode> methods() {
+    default List<MethodDeclarationNode> methods() {
         return this.interfaceMemberDeclarations()
             .stream()
-            .filter(imd -> imd instanceof InterfaceMethodDeclarationNode)
-            .map(imd -> (InterfaceMethodDeclarationNode) imd)
+            .filter(imd -> imd instanceof MethodDeclarationNode)
+            .map(imd -> (MethodDeclarationNode) imd)
             .collect(Collectors.toList());
     }
 

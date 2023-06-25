@@ -94,6 +94,8 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
      */
     private final BlockStatements blockStatements;
 
+    private final boolean interfaceDeclaration;
+
     public QueenMethodDeclarationNode(
         final Position position,
         final List<AnnotationNode> annotations,
@@ -103,7 +105,8 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         final String name,
         final List<ParameterNode> parameters,
         final List<ExceptionTypeNode> throwsList,
-        final BlockStatements blockStatements
+        final BlockStatements blockStatements,
+        final boolean interfaceDeclaration
     ) {
         this(
             position,
@@ -115,7 +118,8 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
             name,
             parameters,
             throwsList,
-            blockStatements
+            blockStatements,
+            interfaceDeclaration
         );
     }
 
@@ -129,7 +133,8 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         final String name,
         final List<ParameterNode> parameters,
         final List<ExceptionTypeNode> throwsList,
-        final BlockStatements blockStatements
+        final BlockStatements blockStatements,
+        final boolean interfaceDeclaration
     ) {
         this.position = position;
         this.parent = parent;
@@ -151,6 +156,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
             t -> (ExceptionTypeNode) t.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.interfaceDeclaration = interfaceDeclaration;
     }
 
     @Override
@@ -198,7 +204,8 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
             this.name,
             this.parameters,
             this.throwsList,
-            this.blockStatements
+            this.blockStatements,
+            this.interfaceDeclaration
         );
     }
 
@@ -240,6 +247,11 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     @Override
     public BlockStatements blockStatements() {
         return this.blockStatements;
+    }
+
+    @Override
+    public boolean interfaceDeclaration() {
+        return this.interfaceDeclaration;
     }
 
     @Override

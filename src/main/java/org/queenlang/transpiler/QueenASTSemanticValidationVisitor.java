@@ -539,6 +539,14 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     @Override
     public List<SemanticProblem> visitMethodDeclarationNode(MethodDeclarationNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
+        if(node.isStatic() && "void".equals(node.returnType().name()) && !node.isMainMethod()) {
+            problems.add(
+                new QueenSemanticError(
+                    "Static method '" + node.name() + "' is void.",
+                    node.position()
+                )
+            );
+        }
         problems.addAll(this.visitNodeWithAnnotations(node));
         problems.addAll(this.visitNodeWithModifiers(node));
         problems.addAll(this.visitTypeNode(node.returnType()));

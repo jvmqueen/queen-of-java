@@ -245,6 +245,9 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
 
     @Override
     public ModifierNode visitClassAbstractOrFinal(QueenParser.ClassAbstractOrFinalContext ctx) {
+        if(ctx == null) {
+            return new QueenModifierNode(getPosition(ctx), "final");
+        }
         return new QueenModifierNode(getPosition(ctx), asString(ctx));
     }
 

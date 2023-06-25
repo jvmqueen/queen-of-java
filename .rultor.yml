@@ -10,7 +10,7 @@ env:
   JAVA_HOME: /usr/lib/jvm/java-11-openjdk
 merge:
   script: |-
-    mvn clean install
+    mvn clean install --settings /home/r/settings.xml
 deploy:
   script: |-
     echo 'Nothing to deploy'

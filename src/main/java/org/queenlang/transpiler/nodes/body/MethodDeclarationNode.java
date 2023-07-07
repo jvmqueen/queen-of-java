@@ -99,6 +99,19 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, Inter
     }
 
     /**
+     * It this method default?
+     * @return True or false.
+     */
+    default boolean isDefaultMethod() {
+        for(final ModifierNode modifier : this.modifiers()) {
+            if("default".equals(modifier.modifier())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Does this method declaration have the specified modifier?
      * @param modifier String modifier.
      * @return ModifierNode if found, null otherwise.

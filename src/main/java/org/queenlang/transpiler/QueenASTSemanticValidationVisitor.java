@@ -187,7 +187,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     if(!asClass.isAbstract()) {
                         problems.add(
                             new QueenSemanticError(
-                                "Implementation " + node.extendsType().name() + " is final, it cannot be extended.",
+                                "Implementation '" + node.extendsType().name() + "' is final, it cannot be extended.",
                                 node.position()
                             )
                         );
@@ -478,7 +478,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
             );
         }
         if(node.interfaceDeclaration()) {
-            final boolean isAbstractMethod = node.isAbstract();
+            final boolean isDefaultMethod = node.isDefaultMethod();
             final ModifierNode publicModifier = node.modifier("public");
             final ModifierNode abstractModifier = node.modifier("abstract");
 
@@ -490,7 +490,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     )
                 );
             }
-            if(isAbstractMethod) {
+            if(!isDefaultMethod) {
                 if(abstractModifier != null) {
                     problems.add(
                         new QueenSemanticWarning(

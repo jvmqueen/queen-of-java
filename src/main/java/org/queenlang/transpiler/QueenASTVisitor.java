@@ -298,6 +298,11 @@ public interface QueenASTVisitor<T> {
         // if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
         return this.visitChildren(node);
     }
+    default T visitParameterList(final ParameterList node) {
+        // if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
+        return this.visitChildren(node);
+    }
+
     default T visitBlockStatements(final BlockStatements node) {
         // if(node != null) {System.out.println("VISITING: " + node.getClass() + " at " + node.position());}
         return this.visitChildren(node);

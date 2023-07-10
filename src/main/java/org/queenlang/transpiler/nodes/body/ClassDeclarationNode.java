@@ -28,12 +28,15 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.statements.StatementNode;
 import org.queenlang.transpiler.nodes.types.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen ClassDeclaration AST node.
@@ -62,6 +65,29 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
      * The body.
      */
     ClassBodyNode body();
+
+    default List<MethodDeclarationNode> inheritedMethods() {
+        final List<MethodDeclarationNode> inherited = new ArrayList<>();
+        if(this.extendsType() != null) {
+            final QueenNode resolvedExtendsType = this.extendsType().resolve();
+            if(resolvedExtendsType != null && resolvedExtendsType.asClassDeclarationNode() != null) {
+                final ClassDeclarationNode extendsClass = resolvedExtendsType.asClassDeclarationNode();
+                inherited.addAll(extendsClass.body().methods());
+                inherited.addAll(extendsClass.inheritedMethods());
+            }
+        }
+        if(this.of() != null) {
+            for(final ClassOrInterfaceTypeNode ofType : this.of()) {
+                final QueenNode resolvedOfType = ofType.resolve();
+                if (resolvedOfType != null && resolvedOfType.asNormalInterfaceDeclaration() != null) {
+                    final NormalInterfaceDeclarationNode ofInterface = resolvedOfType.asNormalInterfaceDeclaration();
+                    inherited.addAll(ofInterface.body().methods());
+                    inherited.addAll(ofInterface.inheritedMethods());
+                }
+            }
+        }
+        return inherited;
+    }
 
     /**
      * Is this class declaration abstract or not?

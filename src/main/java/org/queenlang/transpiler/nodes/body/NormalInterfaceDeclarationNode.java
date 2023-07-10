@@ -28,13 +28,16 @@
 package org.queenlang.transpiler.nodes.body;
 
 import org.queenlang.transpiler.QueenASTVisitor;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.expressions.QueenAnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.QueenClassOrInterfaceTypeNode;
 import org.queenlang.transpiler.nodes.types.NodeWithTypeParameters;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Queen NormalInterfaceDeclaration AST node.
@@ -53,6 +56,21 @@ public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode
      * The body.
      */
     InterfaceBodyNode body();
+
+    default List<MethodDeclarationNode> inheritedMethods() {
+        final List<MethodDeclarationNode> inherited = new ArrayList<>();
+        if(this.extendsTypes() != null) {
+            for(final ClassOrInterfaceTypeNode extendsType : this.extendsTypes()) {
+                final QueenNode resolvedExtendsType = extendsType.resolve();
+                if (resolvedExtendsType != null && resolvedExtendsType.asNormalInterfaceDeclaration() != null) {
+                    final NormalInterfaceDeclarationNode extendedInterface = resolvedExtendsType.asNormalInterfaceDeclaration();
+                    inherited.addAll(extendedInterface.body().methods());
+                    inherited.addAll(extendedInterface.inheritedMethods());
+                }
+            }
+        }
+        return inherited;
+    }
 
     default <T> T accept(QueenASTVisitor<? extends T> visitor) {
         return visitor.visitInterfaceDeclarationNode(this);

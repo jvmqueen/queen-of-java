@@ -32,6 +32,7 @@ import org.queenlang.transpiler.nodes.QueenNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Queen ExceptionType AST Node.
@@ -93,5 +94,22 @@ public final class QueenExceptionTypeNode implements ExceptionTypeNode {
     @Override
     public QueenNode parent() {
         return this.parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final QueenExceptionTypeNode that = (QueenExceptionTypeNode) o;
+        return this.exceptionType.equals(that.exceptionType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.exceptionType);
     }
 }

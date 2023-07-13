@@ -33,6 +33,7 @@ import org.queenlang.transpiler.nodes.expressions.ArrayDimensionNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -128,5 +129,25 @@ public final class QueenArrayTypeNode implements ArrayTypeNode {
     @Override
     public QueenNode parent() {
         return this.parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        QueenArrayTypeNode that = (QueenArrayTypeNode) o;
+        if (this.dims.size() != that.dims.size()) {
+            return false;
+        }
+        return this.type.equals(that.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.type);
     }
 }

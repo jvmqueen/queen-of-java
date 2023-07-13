@@ -29,10 +29,12 @@ package org.queenlang.transpiler.nodes.types;
 
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.body.TypeDeclarationNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -207,5 +209,37 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
     @Override
     public QueenNode parent() {
         return this.parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)  {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())  {
+            return false;
+        }
+        final QueenClassOrInterfaceTypeNode that = (QueenClassOrInterfaceTypeNode) o;
+        if (!this.name().equals(that.name())) {
+            final QueenNode resolvedThis = this.resolve();
+            final QueenNode resolvedThat = that.resolve();
+            if(resolvedThis == null || resolvedThat == null) {
+                return false;
+            } else {
+                final TypeDeclarationNode thisType = resolvedThis.asTypeDeclarationNode();
+                final TypeDeclarationNode thatType = resolvedThat.asTypeDeclarationNode();
+                if(thisType == null || thatType == null) {
+                    return false;
+                } else {
+                    return thisType.fullTypeName().equals(thatType.fullTypeName());
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name());
     }
 }

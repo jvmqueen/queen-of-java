@@ -9,7 +9,7 @@ Queen-to-Java Transpiler (Queen made out of Java).
 
 ## Why a transpiler?
 
-Given that Queen is so similar in syntax with Java, a transpiler made the most sense for an MVP. Future versions will most likely be directly
+Given that Queen is so similar in syntax to Java, a transpiler made the most sense for an MVP. Future versions will most likely be directly
 compiled into JVM bytecode.
 
 ## How to use it?

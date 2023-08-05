@@ -65,11 +65,13 @@ The first command transpiles the Queen file into a Java file, while the second c
 
 ## Semantic Validation and Symbol Resolution
 
-``queenc`` translates your Queen code into Java. The code will always be syntactically correct. It will also resolve the imports declared in a file, perform semantic validation and symbol resolution, so any transpilation should ultimately result in Java code which is both syntactically and semantically correct. The syntax of Queen starts from Java 8, therefore the generated Java code will always be at least Java 8.
+``queenc`` translates your Queen code into Java. The generated Java code will always be syntactically correct. It will also resolve the imports declared in a file, perform semantic validation and symbol resolution, so any transpilation should ultimately result in Java code which is both syntactically and semantically correct. The syntax of Queen starts from Java 8, therefore the generated Java code will always be at least Java 8.
 
 However, keep in mind that this process is not yet fully implemented (we're still working on it). While the generated Java code will always be syntactically correct, it might happen that the Java compiler still outputs some semantic or symbol resolution errors. This complicated validation process is also one of the reasons for choosing to use transpilation in the MVP rather than direct compilation.
 
 ## Contribute
+
+To develop ``queen-of-java`` you will need at least Java 11 and Maven installed. We recommend IntelliJ IDEA as IDE.
 
 If you found a bug or would simply like to suggest a feature request, just open an Issue here on Github. Always open an Issue before opening any Pull Request. Changes should always be discussed before they are implemented. Always make sure the ``maven`` build passes before opening a PR:
 

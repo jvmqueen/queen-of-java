@@ -145,7 +145,6 @@ public final class QueenProject implements ProjectNode {
 
     @Override
     public QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
-        QueenNode resolved = null;
         if(reference instanceof ImportDeclarationNode) {
             final ImportDeclarationNode importDeclaration = (ImportDeclarationNode) reference;
             final NameNode importName = importDeclaration.importDeclarationName();
@@ -156,13 +155,16 @@ public final class QueenProject implements ProjectNode {
         } else if(reference instanceof NameNode) {
             return this.resolveName((NameNode) reference, false);
         }
-        return resolved;
+        return null;
     }
 
     private QueenNode resolveName(final NameNode reference, boolean lookingOnlyForClass) {
         QueenNode resolved = this.references.stream().filter(
             r -> r.fullTypeName().equals(reference.name())
-        ).findFirst().orElse(null);;
+        ).findFirst().orElse(null);
+        if(resolved != null) {
+            return resolved;
+        }
         final Path foundPackageOrClass = this.classpath.find(reference);
         if(foundPackageOrClass != null) {
             boolean isDirectory = Files.isDirectory(foundPackageOrClass);

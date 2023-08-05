@@ -65,9 +65,17 @@ public final class PathsCp implements Classpath {
         if(this.find(dirPath) != null) {
             return dirPath;
         }
-        final Path queenPath = Path.of(dirPath.toString() + ".queen");
+        final Path queenPath = Path.of(dirPath + ".queen");
         if(this.find(queenPath) != null) {
             return queenPath;
+        }
+        final Path javaPath = Path.of(dirPath + ".java");
+        if(this.find(javaPath) != null) {
+            return javaPath;
+        }
+        final Path clazzPath = Path.of(dirPath + ".class");
+        if(this.find(clazzPath) != null) {
+            return clazzPath;
         }
         return null;
     }

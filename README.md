@@ -69,6 +69,15 @@ The first command transpiles the Queen file into a Java file, while the second c
 
 However, keep in mind that this process is not yet fully implemented (we're still working on it). While the generated Java code will always be syntactically correct, it might happen that the Java compiler still outputs some semantic or symbol resolution errors. This complicated validation process is also one of the reasons for choosing to use transpilation in the MVP rather than direct compilation - we want to have the Java compiler as a second safety net until we are sure that the semantic validation is 100% correctly implemented.
 
+## JDK
+
+Queen does not yet have it's own utility library or development kit.
+Therefore, we still relly on the JDK for things such as ``System``, ``String`` and other utilities from Java SE. 
+
+You can safely use classes from the ``java.lang`` package without having to explicitely import them.
+Any other class from the JDK will also work fine - however, if it's not in the ``java.lang`` package, it will have to be imported, for example classes from the
+``java.util`` package.
+
 ## Contribute
 
 To develop ``queen-of-java`` you will need at least Java 11 and Maven installed. We recommend IntelliJ IDEA as IDE.

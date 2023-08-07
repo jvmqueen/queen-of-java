@@ -71,7 +71,7 @@ However, keep in mind that this process is not yet fully implemented (we're stil
 
 ## JDK
 
-Queen does not yet have it's own utility library or development kit.
+Queen does not have its own utility library or development kit yet.
 Therefore, we still relly on the JDK for things such as ``System``, ``String`` and other utilities from Java SE. 
 
 You can safely use classes from the ``java.lang`` package without having to explicitely import them.

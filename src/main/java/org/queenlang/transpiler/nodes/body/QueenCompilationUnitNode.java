@@ -154,6 +154,13 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
                 if (resolved != null) {
                     return resolved;
                 }
+                resolved = this.parent.resolve(
+                    new QueenJavaLangImportDeclaration(typeName),
+                    true
+                );
+                if (resolved != null) {
+                    return resolved;
+                }
             }
             return this.parent.resolve(reference, true);
         } else {

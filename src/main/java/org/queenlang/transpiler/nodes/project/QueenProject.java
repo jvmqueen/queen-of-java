@@ -35,6 +35,7 @@ import org.queenlang.transpiler.*;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
+import org.queenlang.transpiler.nodes.body.ClassCompilationUnitNode;
 import org.queenlang.transpiler.nodes.body.ImportDeclarationNode;
 
 import java.io.IOException;
@@ -175,6 +176,13 @@ public final class QueenProject implements ProjectNode {
                 resolved = new QueenPackageNode(this, foundPackageOrClass);
             } else {
                 resolved = this.parsePath(foundPackageOrClass);
+            }
+        } else {
+            try {
+                final Class clazz = Class.forName(reference.name());
+                resolved = new ClassCompilationUnitNode(this, clazz);
+                System.out.println("LOADED FROM JVM: " + clazz.getName());
+            } catch (ClassNotFoundException e) {
             }
         }
         return resolved;

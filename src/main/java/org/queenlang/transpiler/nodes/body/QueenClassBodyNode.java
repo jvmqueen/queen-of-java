@@ -104,7 +104,6 @@ public final class QueenClassBodyNode implements ClassBodyNode {
             for(final ClassBodyDeclarationNode cbd : this.classBodyDeclarations) {
                 if(cbd instanceof FieldDeclarationNode) {
                     final FieldDeclarationNode fd = ((FieldDeclarationNode) cbd);
-                    final VariableDeclaratorId vid = fd.variable().variableDeclaratorId();
                     final String variableName = fd.variable().variableDeclaratorId().name();
                     if(variableName.equals(((NameNode) reference).identifier())) {
                         resolved = fd;

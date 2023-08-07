@@ -1,4 +1,4 @@
-# queen-of-java
+# Queen Programming Language
 <img alt="queenlang-logo" src="http://www.amihaiemil.com/images/queenlang.png" width="100" height="90"/>
 
 [![Managed By Self XDSD](https://self-xdsd.com/b/mbself.svg)](https://self-xdsd.com/p/jvmqueen/queen-of-java?provider=github) 

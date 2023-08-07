@@ -72,7 +72,7 @@ However, keep in mind that this process is not yet fully implemented (we're stil
 ## JDK
 
 Queen does not have its own utility library or development kit yet.
-Therefore, we still relly on the JDK for things such as ``System``, ``String`` and other utilities from Java SE. 
+Therefore, we still rely on the JDK for things such as ``System``, ``String`` and other utilities from Java SE. 
 
 You can safely use classes from the ``java.lang`` package without having to explicitely import them.
 Any other class from the JDK will also work fine - however, if it's not in the ``java.lang`` package, it will have to be imported, for example classes from the

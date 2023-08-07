@@ -57,7 +57,7 @@ public final implementation EntryPoint {
 And execute it like this:
 
 ```bash
-$ java -jar queenc.jar -f EntryPoint.queen && java EntryPoint.java
+$ java -jar queenc.jar -f EntryPoint.queen && java ./org/queenlang/helloworld/EntryPoint.java
 $ Queen says Hello World!
 ```
 

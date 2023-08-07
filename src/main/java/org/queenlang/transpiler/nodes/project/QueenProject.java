@@ -181,7 +181,6 @@ public final class QueenProject implements ProjectNode {
             try {
                 final Class clazz = Class.forName(reference.name());
                 resolved = new ClassCompilationUnitNode(this, clazz);
-                System.out.println("LOADED FROM JVM: " + clazz.getName());
             } catch (ClassNotFoundException e) {
             }
         }

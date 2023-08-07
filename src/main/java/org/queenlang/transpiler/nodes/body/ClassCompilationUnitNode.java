@@ -99,7 +99,7 @@ public final class ClassCompilationUnitNode implements CompilationUnitNode {
         if(reference instanceof NameNode) {
             for(final Field field : this.clazz.getFields()) {
                 if(field.getName().equals(((NameNode) reference).identifier())) {
-                    System.out.println("FOUND FIELD: " + field.getName() + " in CLAZZ: " + clazz.getName());
+                    return new ClassFieldDeclarationNode(this, field);
                 }
             }
         }

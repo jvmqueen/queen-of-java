@@ -5,7 +5,7 @@
 [![DevOps By Rultor.com](http://www.rultor.com/b/jvmqueen/queen-of-java)](http://www.rultor.com/p/jvmqueen/queen-of-java)
 [![We recommend IntelliJ IDEA](http://amihaiemil.github.io/images/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
 
-Queen-to-Java Transpiler (Queen made out of Java).
+Queen-to-Java Transpiler (Queen made out of Java), version ``not-yet-released``.
 
 ## Why a transpiler?
 
@@ -14,7 +14,7 @@ compiled into JVM bytecode.
 
 ## How to use it?
 
-Download the latest version of ``queenc`` from [here](#) (not released yet).
+Download the latest version of ``queenc`` from [here](https://github.com/jvmqueen/queen-of-java/packages) (download the latest from ``Assets``).
 ``queenc`` itself is written in Java 11, therefore you need to have at least Java 11 installed, in order to use it.
 
 To print ``help``:

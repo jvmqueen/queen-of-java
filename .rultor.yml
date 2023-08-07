@@ -17,5 +17,6 @@ deploy:
     exit -1
 release:
   script: |-
-    echo 'Nothing to release yet'
-    exit -1
+    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+    chmod +x ./rrv.sh
+    ./rrv.sh

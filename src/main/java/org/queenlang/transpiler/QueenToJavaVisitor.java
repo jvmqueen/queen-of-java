@@ -738,11 +738,11 @@ public final class QueenToJavaVisitor implements QueenASTVisitor<Node> {
     public LambdaExpr visitLambdaExpressionNode(final LambdaExpressionNode node) {
         final LambdaExpr lambdaExpr = new LambdaExpr();
         lambdaExpr.setEnclosingParameters(node.enclosedParameters());
-        if(node.parameters() != null && !node.parameters().isEmpty()) {
+        if(node.parameters() != null && !node.parameters().parameters().isEmpty()) {
             node.parameters().forEach(
                 p -> lambdaExpr.addParameter(this.visitParameterNode(p))
             );
-            if(node.parameters().size() > 1) {
+            if(node.parameters().parameters().size() > 1) {
                 lambdaExpr.setEnclosingParameters(true);
             }
         } else {

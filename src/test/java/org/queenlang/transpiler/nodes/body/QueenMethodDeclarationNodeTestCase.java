@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -60,7 +61,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(BlockStatements.class),
             false
@@ -82,7 +83,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(BlockStatements.class),
             false
@@ -104,7 +105,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(BlockStatements.class),
             false
@@ -125,7 +126,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             returnType,
             new ArrayList<>(),
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(BlockStatements.class),
             false
@@ -147,7 +148,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             typeParameters,
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(BlockStatements.class),
             false
@@ -167,7 +168,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(BlockStatements.class),
             false
@@ -182,6 +183,8 @@ public final class QueenMethodDeclarationNodeTestCase {
     public void returnsParameters() {
         final List<ParameterNode> parameters = new ArrayList<>();
         parameters.add(QueenMockito.mock(ParameterNode.class));
+        final ParameterList parameterList = QueenMockito.mock(ParameterList.class);
+        Mockito.when(parameterList.parameters()).thenReturn(parameters);
         final MethodDeclarationNode methodDeclaration = new QueenMethodDeclarationNode(
             QueenMockito.mock(Position.class),
             new ArrayList<>(),
@@ -189,14 +192,14 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
-            parameters,
+            parameterList,
             new ArrayList<>(),
             QueenMockito.mock(BlockStatements.class),
             false
         );
         MatcherAssert.assertThat(
             methodDeclaration.parameters(),
-            Matchers.is(parameters)
+            Matchers.is(parameterList)
         );
     }
 
@@ -211,7 +214,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             throwsList,
             QueenMockito.mock(BlockStatements.class),
             false
@@ -233,7 +236,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             throwsList,
             QueenMockito.mock(BlockStatements.class),
             true
@@ -254,7 +257,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             QueenMockito.mock(TypeNode.class),
             new ArrayList<>(),
             "myMethod",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             blockStatements,
             false
@@ -275,6 +278,8 @@ public final class QueenMethodDeclarationNodeTestCase {
         typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ParameterNode> parameters = new ArrayList<>();
         parameters.add(QueenMockito.mock(ParameterNode.class));
+        final ParameterList parameterList = QueenMockito.mock(ParameterList.class);
+        Mockito.when(parameterList.parameters()).thenReturn(parameters);
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
         throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
         final TypeNode returnType = QueenMockito.mock(TypeNode.class);
@@ -288,7 +293,7 @@ public final class QueenMethodDeclarationNodeTestCase {
             returnType,
             typeParameters,
             name,
-            parameters,
+            parameterList,
             throwsList,
             blockStatements,
             false
@@ -306,7 +311,7 @@ public final class QueenMethodDeclarationNodeTestCase {
                     modifiers.get(0),
                     returnType,
                     throwsList.get(0),
-                    parameters.get(0),
+                    parameterList,
                     blockStatements,
                     typeParameters.get(0)
                 )

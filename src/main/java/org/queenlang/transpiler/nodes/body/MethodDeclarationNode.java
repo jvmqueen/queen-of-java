@@ -134,7 +134,7 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, Inter
         final boolean isStatic = this.isStatic();
         final boolean isVoid = this.returnType().isVoid();
         final boolean hasSingleStringArrayParam;
-        final List<ParameterNode> params = this.parameters();
+        final List<ParameterNode> params = this.parameters().parameters();
         if(params != null && params.size() == 1) {
             final ParameterNode param = params.get(0);
             final boolean isArray = param.type() instanceof ArrayTypeNode;

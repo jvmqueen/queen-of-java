@@ -82,7 +82,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     /**
      * Method parameters.
      */
-    private final List<ParameterNode> parameters;
+    private final ParameterList parameters;
 
     /**
      * Thrown exceptions.
@@ -103,7 +103,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         final TypeNode returnType,
         final List<TypeParameterNode> typeParams,
         final String name,
-        final List<ParameterNode> parameters,
+        final ParameterList parameters,
         final List<ExceptionTypeNode> throwsList,
         final BlockStatements blockStatements,
         final boolean interfaceDeclaration
@@ -131,7 +131,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         final TypeNode returnType,
         final List<TypeParameterNode> typeParams,
         final String name,
-        final List<ParameterNode> parameters,
+        final ParameterList parameters,
         final List<ExceptionTypeNode> throwsList,
         final BlockStatements blockStatements,
         final boolean interfaceDeclaration
@@ -149,9 +149,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
             tp -> (TypeParameterNode) tp.withParent(this)
         ).collect(Collectors.toList()) : null;
         this.name = name;
-        this.parameters = parameters != null ? parameters.stream().map(
-            p -> (ParameterNode) p.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.parameters = parameters != null ? (ParameterList) parameters.withParent(this) : null;
         this.throwsList = throwsList != null ? throwsList.stream().map(
             t -> (ExceptionTypeNode) t.withParent(this)
         ).collect(Collectors.toList()) : null;
@@ -182,7 +180,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
             children.addAll(this.typeParams);
         }
         if(this.parameters != null) {
-            children.addAll(this.parameters);
+            children.add(this.parameters);
         }
         if(this.throwsList != null) {
             children.addAll(this.throwsList);
@@ -235,7 +233,7 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     }
 
     @Override
-    public List<ParameterNode> parameters() {
+    public ParameterList parameters() {
         return this.parameters;
     }
 

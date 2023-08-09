@@ -619,7 +619,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
     public List<SemanticProblem> visitNodeWithParameters(final NodeWithParameters node) {
         final List<SemanticProblem> problems = new ArrayList<>();
 
-        final List<ParameterNode> parameters = node.parameters();
+        final List<ParameterNode> parameters = node.parameters().parameters();
         final Set<String> unique = new HashSet<>();
         for(final ParameterNode parameter : parameters) {
             final String name = parameter.variableDeclaratorId().name();
@@ -945,8 +945,8 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
      * @return True if lists are identical, false otherwise.
      */
     private boolean sameParameters(final NodeWithParameters nodeOne, final NodeWithParameters nodeTwo) {
-        final List<ParameterNode> first = nodeOne.parameters();
-        final List<ParameterNode> second = nodeTwo.parameters();
+        final List<ParameterNode> first = nodeOne.parameters().parameters();
+        final List<ParameterNode> second = nodeTwo.parameters().parameters();
         if(first == null || second == null || first.size() != second.size()) {
             return false;
         } else {

@@ -29,6 +29,7 @@ package org.queenlang.transpiler.nodes.expressions;
 
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
+import org.queenlang.transpiler.nodes.body.ParameterList;
 import org.queenlang.transpiler.nodes.body.ParameterNode;
 import org.queenlang.transpiler.nodes.statements.BlockStatements;
 
@@ -47,14 +48,14 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
     private final Position position;
     private final QueenNode parent;
     private final boolean enclosedParameters;
-    private final List<ParameterNode> parameters;
+    private final ParameterList parameters;
     private final ExpressionNode expression;
     private final BlockStatements blockStatements;
 
     public QueenLambdaExpressionNode(
         final Position position,
         final boolean enclosedParameters,
-        final List<ParameterNode> parameters,
+        final ParameterList parameters,
         final ExpressionNode expression,
         final BlockStatements blockStatements
     ) {
@@ -72,16 +73,14 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
         final Position position,
         final QueenNode parent,
         final boolean enclosedParameters,
-        final List<ParameterNode> parameters,
+        final ParameterList parameters,
         final ExpressionNode expression,
         final BlockStatements blockStatements
     ) {
         this.position = position;
         this.parent = parent;
         this.enclosedParameters = enclosedParameters;
-        this.parameters = parameters != null ? parameters.stream().map(
-            p -> (ParameterNode) p.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.parameters = parameters != null ? (ParameterList) parameters.withParent(this) : null;
         this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
         this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
     }
@@ -95,7 +94,7 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
     public List<QueenNode> children() {
         final List<QueenNode> children = new ArrayList<>();
         if(this.parameters != null) {
-            children.addAll(this.parameters);
+            children.add(this.parameters);
         }
         children.add(this.expression);
         children.add(this.blockStatements);
@@ -125,7 +124,7 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
     }
 
     @Override
-    public List<ParameterNode> parameters() {
+    public ParameterList parameters() {
         return this.parameters;
     }
 

@@ -539,7 +539,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             this.visitConstructorModifier(ctx.constructorModifier()),
             typeParams,
             ctx.constructorDeclarator().simpleTypeName().Identifier().getText(),
-            parameters,
+            new QueenParameterList(getPosition(ctx.constructorDeclarator().formalParameterList()), parameters),
             throwsList,
             explicitConstructorInvocationNode,
             queenBlockStatements
@@ -598,7 +598,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             this.visitResult(annotationsOnResult, ctx.methodHeader().result()),
             typeParams,
             methodDeclarator.Identifier().getText(),
-            parameters,
+            new QueenParameterList(getPosition(methodDeclarator.formalParameterList()), parameters),
             throwsList,
             queenBlockStatements,
             false
@@ -667,7 +667,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             this.visitResult(annotationsOnResult, ctx.methodHeader().result()),
             typeParams,
             methodDeclarator.Identifier().getText(),
-            parameters,
+            new QueenParameterList(getPosition(methodDeclarator.formalParameterList()), parameters),
             throwsList,
             queenBlockStatements,
             true
@@ -2946,7 +2946,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         return new QueenLambdaExpressionNode(
             position,
             enclosedParameters,
-            parameters,
+            new QueenParameterList(getPosition(ctx.lambdaParameters()), parameters),
             expression,
             queenBlockStatements
         );

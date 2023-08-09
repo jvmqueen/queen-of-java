@@ -30,6 +30,7 @@ package org.queenlang.transpiler.nodes.body;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
@@ -59,7 +60,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             QueenMockito.mock(BlockStatements.class)
@@ -78,7 +79,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             QueenMockito.mock(BlockStatements.class)
@@ -99,7 +100,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             QueenMockito.mock(BlockStatements.class)
@@ -119,7 +120,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             modifier,
             new ArrayList<>(),
             "MyClass",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             QueenMockito.mock(BlockStatements.class)
@@ -140,7 +141,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             QueenMockito.mock(ModifierNode.class),
             typeParameters,
             "MyClass",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             QueenMockito.mock(BlockStatements.class)
@@ -155,20 +156,22 @@ public final class QueenConstructorDeclarationNodeTestCase {
     public void returnsParameters() {
         final List<ParameterNode> parameters = new ArrayList<>();
         parameters.add(QueenMockito.mock(ParameterNode.class));
+        final ParameterList parameterList = QueenMockito.mock(ParameterList.class);
+        Mockito.when(parameterList.parameters()).thenReturn(parameters);
         final ConstructorDeclarationNode constructorDeclarationNode = new QueenConstructorDeclarationNode(
             QueenMockito.mock(Position.class),
             new ArrayList<>(),
             QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
-            parameters,
+            parameterList,
             new ArrayList<>(),
             QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             QueenMockito.mock(BlockStatements.class)
         );
         MatcherAssert.assertThat(
             constructorDeclarationNode.parameters(),
-            Matchers.is(parameters)
+            Matchers.is(parameterList)
         );
     }
 
@@ -182,7 +185,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             throwsList,
             QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             QueenMockito.mock(BlockStatements.class)
@@ -202,7 +205,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             explicitConstructorInvocationNode,
             QueenMockito.mock(BlockStatements.class)
@@ -222,7 +225,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             QueenMockito.mock(ModifierNode.class),
             new ArrayList<>(),
             "MyClass",
-            new ArrayList<>(),
+            QueenMockito.mock(ParameterList.class),
             new ArrayList<>(),
             QueenMockito.mock(ExplicitConstructorInvocationNode.class),
             blockStatements
@@ -242,6 +245,8 @@ public final class QueenConstructorDeclarationNodeTestCase {
         typeParameters.add(QueenMockito.mock(TypeParameterNode.class));
         final List<ParameterNode> parameters = new ArrayList<>();
         parameters.add(QueenMockito.mock(ParameterNode.class));
+        final ParameterList parameterList = QueenMockito.mock(ParameterList.class);
+        Mockito.when(parameterList.parameters()).thenReturn(parameters);
         final List<ExceptionTypeNode> throwsList = new ArrayList<>();
         throwsList.add(QueenMockito.mock(ExceptionTypeNode.class));
         final ExplicitConstructorInvocationNode explicitConstructorInvocationNode = QueenMockito.mock(ExplicitConstructorInvocationNode.class);
@@ -254,7 +259,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
             modifier,
             typeParameters,
             name,
-            parameters,
+            parameterList,
             throwsList,
             explicitConstructorInvocationNode,
             blockStatements
@@ -271,7 +276,7 @@ public final class QueenConstructorDeclarationNodeTestCase {
                     annotations.get(0),
                     modifier,
                     typeParameters.get(0),
-                    parameters.get(0),
+                    parameterList,
                     throwsList.get(0),
                     explicitConstructorInvocationNode,
                     blockStatements

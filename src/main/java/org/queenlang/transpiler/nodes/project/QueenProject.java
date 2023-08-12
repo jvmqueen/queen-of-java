@@ -31,6 +31,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.printer.configuration.DefaultPrinterConfiguration;
+import javassist.ClassPath;
 import org.queenlang.transpiler.*;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.QueenNode;
@@ -39,9 +40,11 @@ import org.queenlang.transpiler.nodes.body.ClassCompilationUnitNode;
 import org.queenlang.transpiler.nodes.body.ImportDeclarationNode;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -182,6 +185,12 @@ public final class QueenProject implements ProjectNode {
                 final Class clazz = Class.forName(reference.name());
                 resolved = new ClassCompilationUnitNode(this, clazz);
             } catch (ClassNotFoundException e) {
+                for(Package pack : Package.getPackages()) {
+                    if(pack.getName().equals(reference.name()) || pack.getName().startsWith(reference.name())) {
+                        resolved = new QueenPackageNode(this, Path.of(String.join(FileSystems.getDefault().getSeparator(), pack.getName().split("\\."))));
+                        break;
+                    }
+                }
             }
         }
         return resolved;

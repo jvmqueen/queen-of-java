@@ -48,9 +48,6 @@ public interface TypeDeclarationNode extends Named, NodeWithModifiers, NodeWithA
      */
     default String fullTypeName() {
         final QueenNode parent = this.parent();
-        if (parent == null) {
-            return this.name();
-        }
         if (parent instanceof CompilationUnitNode) {
             final CompilationUnitNode cu = (CompilationUnitNode) parent;
             if (cu.packageDeclaration() != null) {

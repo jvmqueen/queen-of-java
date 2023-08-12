@@ -729,7 +729,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     final ConstructorDeclarationNode ctorI = constructors.get(i);
                     final ConstructorDeclarationNode ctorJ = constructors.get(j);
                     if(ctorI.name().equals(ctorJ.name())) {
-                        if(this.sameParameters(ctorI, ctorJ)) {
+                        if(ctorI.parameters().equals(ctorJ.parameters())) {
                             problems.add(
                                 new QueenSemanticError(
                                     "Constructor '" + ctorJ.name() + "' already declared.",
@@ -773,7 +773,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     final MethodDeclarationNode methodI = methods.get(i);
                     final MethodDeclarationNode methodJ = methods.get(j);
                     if(methodI.name().equals(methodJ.name())) {
-                        if(this.sameParameters(methodI, methodJ)) {
+                        if(methodI.parameters().equals(methodJ.parameters())) {
                             problems.add(
                                 new QueenSemanticError(
                                     "Method '" + methodJ.name() + "' already declared.",
@@ -919,68 +919,4 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
         return all;
     }
 
-    /**
-     * Checks if the lists of ParameterNodes are identical, looking at type and order. Names of the parameters are not
-     * relevant.
-     * <pre>
-     *     (String s, int i)
-     * </pre>
-     * is identical to
-     * <pre>
-     *     (java.util.String a, int x)
-     * </pre>
-     * but
-     * <pre>
-     *     (int i, String s)
-     * </pre>
-     * is not identical to
-     * <pre>
-     * (String s, int i)
-     * </pre>
-     * Symbol resolution is also performed. In the example above, String and java.util.String are referencing the same class,
-     * one with simple name (and import statement), the other with fully qualified name.
-     *
-     * @param nodeOne Node with parameters. Can be a method or a constructor declaration etc.
-     * @param nodeTwo Node with parameters. Can be a method or a constructor declaration etc.
-     * @return True if lists are identical, false otherwise.
-     */
-    private boolean sameParameters(final NodeWithParameters nodeOne, final NodeWithParameters nodeTwo) {
-        final List<ParameterNode> first = nodeOne.parameters().parameters();
-        final List<ParameterNode> second = nodeTwo.parameters().parameters();
-        if(first == null || second == null || first.size() != second.size()) {
-            return false;
-        } else {
-            for(int i=0; i<first.size(); i++) {
-                final ParameterNode firstParam = first.get(i);
-                final ParameterNode secondParam = second.get(i);
-                if(firstParam.varArgs() != secondParam.varArgs()) {
-                    return false;
-                }
-                final TypeNode paramTypeFirst = firstParam.type();
-                final TypeNode paramTypeSecond = secondParam.type();
-                if(paramTypeFirst instanceof PrimitiveTypeNode && paramTypeSecond instanceof PrimitiveTypeNode) {
-                    final String nameFirst = paramTypeFirst.name();
-                    final String nameSecond = paramTypeSecond.name();
-                    if(!nameFirst.equals(nameSecond)) {
-                        return false;
-                    }
-                } else if(paramTypeFirst instanceof ReferenceTypeNode && paramTypeSecond instanceof ReferenceTypeNode) {
-                    final QueenNode firstTypeResolved = ((ReferenceTypeNode) paramTypeFirst).resolve();
-                    final QueenNode secondTypeResolved = ((ReferenceTypeNode) paramTypeSecond).resolve();
-                    if(firstTypeResolved != null && secondTypeResolved != null) {
-                        final String nameFirst = firstTypeResolved.asTypeDeclarationNode().fullTypeName();
-                        final String nameSecond = secondTypeResolved.asTypeDeclarationNode().fullTypeName();
-                        if(!nameFirst.equals(nameSecond)) {
-                            return false;
-                        }
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 }

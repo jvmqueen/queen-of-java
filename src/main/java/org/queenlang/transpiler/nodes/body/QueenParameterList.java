@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #100:60min After all TypeNodes have equals and hashcode, use this class for ConstructorDeclaration and MethodDeclaration.
  */
 public final class QueenParameterList implements ParameterList {
 

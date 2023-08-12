@@ -61,37 +61,37 @@ public final class ClassCompilationUnitNode implements CompilationUnitNode {
 
     @Override
     public Position position() {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public List<QueenNode> children() {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public QueenNode withParent(QueenNode parent) {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public QueenNode parent() {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public PackageDeclarationNode packageDeclaration() {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public List<ImportDeclarationNode> importDeclarations() {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public TypeDeclarationNode typeDeclaration() {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override

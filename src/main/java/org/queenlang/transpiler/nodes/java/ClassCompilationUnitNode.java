@@ -25,12 +25,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler.nodes.body;
+package org.queenlang.transpiler.nodes.java;
 
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.QueenReferenceNode;
+import org.queenlang.transpiler.nodes.body.*;
 import org.queenlang.transpiler.nodes.project.ProjectNode;
 
 import java.lang.reflect.Field;

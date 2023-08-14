@@ -27,34 +27,40 @@
  */
 package org.queenlang.transpiler.nodes.java;
 
-import org.queenlang.transpiler.nodes.*;
+import org.queenlang.transpiler.nodes.Position;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.nodes.body.*;
-import org.queenlang.transpiler.nodes.project.ProjectNode;
+import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
+import org.queenlang.transpiler.nodes.types.TypeParameterNode;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A compilation unit based on a Java Class object.
+ * An AnnotationTypeDeclarationNode based on a Java Class object.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public final class ClassCompilationUnitNode implements CompilationUnitNode {
+public final class ClassAnnotationTypeDeclarationNode implements AnnotationTypeDeclarationNode {
+
     /**
-     * Parent project.
+     * Parent node.
      */
-    private final ProjectNode parent;
+    private final CompilationUnitNode parent;
 
     /**
      * Java class.
      */
     private final Class clazz;
 
-
-    public ClassCompilationUnitNode(final ProjectNode parent, final Class clazz) {
+    public ClassAnnotationTypeDeclarationNode(final CompilationUnitNode parent, final Class clazz) {
         this.parent = parent;
         this.clazz = clazz;
+    }
+    @Override
+    public String name() {
+        return this.clazz.getSimpleName();
     }
 
     @Override
@@ -64,7 +70,7 @@ public final class ClassCompilationUnitNode implements CompilationUnitNode {
 
     @Override
     public List<QueenNode> children() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new ArrayList<>();
     }
 
     @Override
@@ -74,45 +80,21 @@ public final class ClassCompilationUnitNode implements CompilationUnitNode {
 
     @Override
     public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public AnnotationTypeBodyNode body() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
-    public PackageDeclarationNode packageDeclaration() {
-        return (PackageDeclarationNode) new QueenPackageDeclarationNode(
-            new Position.Missing(),
-            new QueenNameNode(
-                new Position.Missing(),
-                this.clazz.getPackageName()
-            )
-        ).withParent(this);
+    public List<AnnotationNode> annotations() {
+        return new ArrayList<>();
     }
 
     @Override
-    public List<ImportDeclarationNode> importDeclarations() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    @Override
-    public TypeDeclarationNode typeDeclaration() {
-        if(this.clazz.isInterface()) {
-            return new ClassNormalInterfaceDeclarationNode(this, this.clazz);
-        } else if(this.clazz.isAnnotation()) {
-            return new ClassAnnotationTypeDeclarationNode(this, this.clazz);
-        } else {
-            return new ClassClassDeclarationNode(this, this.clazz);
-        }
-    }
-
-    @Override
-    public QueenNode resolve(final QueenReferenceNode reference, boolean goUp) {
-        if(reference instanceof NameNode) {
-            for(final Field field : this.clazz.getFields()) {
-                if(field.getName().equals(((NameNode) reference).identifier())) {
-                    return new ClassFieldDeclarationNode(this, field);
-                }
-            }
-        }
-        return null;
+    public List<ModifierNode> modifiers() {
+        return new ArrayList<>();
     }
 }

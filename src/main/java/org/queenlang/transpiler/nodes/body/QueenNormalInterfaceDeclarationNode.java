@@ -26,7 +26,7 @@
  * SUCH DAMAGE.
  */
 package org.queenlang.transpiler.nodes.body;
-;
+
 import org.queenlang.transpiler.nodes.*;
 import org.queenlang.transpiler.nodes.expressions.AnnotationNode;
 import org.queenlang.transpiler.nodes.types.ClassOrInterfaceTypeNode;

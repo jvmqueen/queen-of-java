@@ -86,6 +86,19 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, Inter
     }
 
     /**
+     * It this method private?
+     * @return True or false.
+     */
+    default boolean isPrivate() {
+        for(final ModifierNode modifier : this.modifiers()) {
+            if("private".equals(modifier.modifier())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * It this method abstract?
      * @return True or false.
      */

@@ -72,7 +72,9 @@ public interface ClassDeclarationNode extends TypeDeclarationNode, StatementNode
             final QueenNode resolvedExtendsType = this.extendsType().resolve();
             if(resolvedExtendsType != null && resolvedExtendsType.asClassDeclarationNode() != null) {
                 final ClassDeclarationNode extendsClass = resolvedExtendsType.asClassDeclarationNode();
-                inherited.addAll(extendsClass.body().methods());
+                inherited.addAll(extendsClass.body().methods().stream().filter(
+                    m -> !m.isStatic() && !m.isPrivate()
+                ).collect(Collectors.toList()));
                 inherited.addAll(extendsClass.inheritedMethods());
             }
         }

@@ -108,6 +108,9 @@ public interface MethodDeclarationNode extends ClassMemberDeclarationNode, Inter
                 return true;
             }
         }
+        if(this.interfaceDeclaration() && !this.isDefaultMethod()) {
+            return true;
+        }
         return false;
     }
 

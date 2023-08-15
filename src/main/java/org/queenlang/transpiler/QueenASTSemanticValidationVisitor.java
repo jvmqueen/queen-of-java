@@ -197,6 +197,36 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
         }
         problems.addAll(this.visitClassBodyNode(node.body()));
+        if(!node.isAbstract()) {
+            final List<MethodDeclarationNode> allInheritedMethods = node.inheritedMethods();
+            final List<MethodDeclarationNode> allInheritedAbstractMethods = allInheritedMethods.stream().filter(
+                MethodDeclarationNode::isAbstract
+            ).collect(Collectors.toList());
+            final List<MethodDeclarationNode> allInheritedConcreteMethods = allInheritedMethods.stream().filter(
+                m -> !m.isAbstract()
+            ).collect(Collectors.toList());
+            final List<MethodDeclarationNode> declared = node.body().methods().stream().filter(
+                m -> !m.isPrivate() && !m.isStatic()
+            ).collect(Collectors.toList());
+
+            for(final MethodDeclarationNode abstractMethod : allInheritedAbstractMethods) {
+                boolean inheritedDeclaration = allInheritedConcreteMethods.stream().anyMatch(
+                    m -> m.name().equals(abstractMethod.name()) && m.parameters().equals(abstractMethod.parameters())
+                );
+                boolean localDeclaration = declared.stream().anyMatch(
+                    m -> m.name().equals(abstractMethod.name()) && m.parameters().equals(abstractMethod.parameters())
+                );
+                if(!inheritedDeclaration && !localDeclaration) {
+                    problems.add(
+                        new QueenSemanticError(
+                            "Implementation '" + node.name() + "' needs to implement abstract method '" + abstractMethod.name() + "'.",
+                            node.position()
+                        )
+                    );
+                }
+            }
+        }
+
         return problems;
     }
 

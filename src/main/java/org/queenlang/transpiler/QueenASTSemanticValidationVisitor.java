@@ -536,8 +536,35 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                 )
             );
         }
+        if(node.isAbstract()) {
+            if(node.blockStatements() != null) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Method '" + node.name() +  "' is abstract, it cannot have a body.",
+                        node.position()
+                    )
+                );
+            }
+            final ModifierNode strictfpModifier = node.modifier("strictfp");
+            if(strictfpModifier != null) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Modifier 'strictfp' cannot be placed on abstract methods.",
+                        strictfpModifier.position()
+                    )
+                );
+            }
+        } else {
+            if(node.blockStatements() == null) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Method '" + node.name() +  "' is not abstract, it needs to have a body.",
+                        node.position()
+                    )
+                );
+            }
+        }
         if(node.interfaceDeclaration()) {
-            final boolean isDefaultMethod = node.isDefaultMethod();
             final ModifierNode publicModifier = node.modifier("public");
             final ModifierNode abstractModifier = node.modifier("abstract");
 
@@ -549,29 +576,12 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     )
                 );
             }
-            if(!isDefaultMethod) {
+            if(!node.isDefaultMethod()) {
                 if(abstractModifier != null) {
                     problems.add(
                         new QueenSemanticWarning(
                             "Modifier 'abstract' is redundant.",
                             abstractModifier.position()
-                        )
-                    );
-                }
-                final ModifierNode strictfpModifier = node.modifier("strictfp");
-                if(strictfpModifier != null) {
-                    problems.add(
-                        new QueenSemanticError(
-                            "Modifier 'strictfp' cannot be placed on abstract methods.",
-                            strictfpModifier.position()
-                        )
-                    );
-                }
-                if(node.blockStatements() != null) {
-                    problems.add(
-                        new QueenSemanticError(
-                            "Method '" + node.name() +  "' is abstract, it cannot have a body.",
-                            node.position()
                         )
                     );
                 }
@@ -581,14 +591,6 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                         new QueenSemanticError(
                             "Modifier 'abstract' on non-abstract method.",
                             abstractModifier.position()
-                        )
-                    );
-                }
-                if(node.blockStatements() == null) {
-                    problems.add(
-                        new QueenSemanticError(
-                            "Method '" + node.name() +  "' is not abstract, it needs to have a body.",
-                            node.position()
                         )
                     );
                 }

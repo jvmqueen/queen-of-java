@@ -111,14 +111,9 @@ public final class QueenProject implements ProjectNode {
     }
 
     private static void validateAndWrite(final FileNode queenFile, final Output output) throws QueenTranspilationException, IOException {
-//        final PrintQueenASTVisitor print = new PrintQueenASTVisitor();
-//        String toPrint = print.visitFile(queenFile);
-//        System.out.println("AST FOR " + queenFile.fullTypeName() + " HERE: " );
-//        System.out.println(toPrint);
-//        System.out.println("END AST");
         final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor();
         final List<SemanticProblem> problems = validator.visitFile(queenFile);
-        if(problems.size() > 0) {//&& problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
+        gif(problems.size() > 0 && problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
             throw new QueenTranspilationException(queenFile.fullTypeName(), problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
         }
         final CompilationUnit javaCompilationUnit  = new QueenToJavaVisitor().visitCompilationUnit(queenFile.compilationUnit());

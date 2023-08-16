@@ -197,23 +197,27 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
 
         }
         problems.addAll(this.visitClassBodyNode(node.body()));
-        if(!node.isAbstract()) {
-            final List<MethodDeclarationNode> allInheritedMethods = node.inheritedMethods();
-            final List<MethodDeclarationNode> allInheritedAbstractMethods = allInheritedMethods.stream().filter(
-                MethodDeclarationNode::isAbstract
-            ).collect(Collectors.toList());
-            final List<MethodDeclarationNode> allInheritedConcreteMethods = allInheritedMethods.stream().filter(
-                m -> !m.isAbstract()
-            ).collect(Collectors.toList());
-            final List<MethodDeclarationNode> declared = node.body().methods().stream().filter(
-                m -> !m.isPrivate() && !m.isStatic()
-            ).collect(Collectors.toList());
 
+        final List<MethodDeclarationNode> allInheritedMethods = node.inheritedMethods();
+        final List<MethodDeclarationNode> allInheritedAbstractMethods = allInheritedMethods.stream().filter(
+            MethodDeclarationNode::isAbstract
+        ).collect(Collectors.toList());
+        final List<MethodDeclarationNode> allInheritedConcreteMethods = allInheritedMethods.stream().filter(
+            m -> !m.isAbstract()
+        ).collect(Collectors.toList());
+        final List<MethodDeclarationNode> declaredInstanceMethods = node.body().methods().stream().filter(
+            m -> !m.isPrivate() && !m.isStatic() && !m.isAbstract()
+        ).collect(Collectors.toList());
+        final List<MethodDeclarationNode> declaredAbstractMethods = node.body().methods().stream().filter(
+            m -> !m.isPrivate() && !m.isStatic() && m.isAbstract()
+        ).collect(Collectors.toList());
+
+        if(!node.isAbstract()) {
             for(final MethodDeclarationNode abstractMethod : allInheritedAbstractMethods) {
                 boolean inheritedDeclaration = allInheritedConcreteMethods.stream().anyMatch(
                     m -> m.name().equals(abstractMethod.name()) && m.parameters().equals(abstractMethod.parameters())
                 );
-                boolean localDeclaration = declared.stream().anyMatch(
+                boolean localDeclaration = declaredInstanceMethods.stream().anyMatch(
                     m -> m.name().equals(abstractMethod.name()) && m.parameters().equals(abstractMethod.parameters())
                 );
                 if(!inheritedDeclaration && !localDeclaration) {
@@ -224,6 +228,31 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                         )
                     );
                 }
+            }
+            if(declaredAbstractMethods.size() > 0) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Implementation '" + node.name() + "' has abstract methods. It needs to be abstract as well, but it is final.",
+                        node.position()
+                    )
+                );
+            }
+        }
+
+        for(final MethodDeclarationNode instanceMethod : declaredInstanceMethods) {
+            boolean implementsSuperAbstractMethod = allInheritedAbstractMethods.stream().anyMatch(
+                m -> m.name().equals(instanceMethod.name()) && m.parameters().equals(instanceMethod.parameters())
+            );
+            boolean overridesDefaultMethod = allInheritedConcreteMethods.stream().anyMatch(
+                m -> m.name().equals(instanceMethod.name()) && m.parameters().equals(instanceMethod.parameters()) && m.isDefaultMethod()
+            );
+            if(!implementsSuperAbstractMethod && !overridesDefaultMethod) {
+                problems.add(
+                    new QueenSemanticError(
+                        "Instance method '" + instanceMethod.name() + "' needs to be declared in an interface or abstract super implementation.",
+                        node.position()
+                    )
+                );
             }
         }
 

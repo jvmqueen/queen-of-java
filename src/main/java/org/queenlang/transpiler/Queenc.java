@@ -61,8 +61,8 @@ public final class Queenc {
         Option version = new Option("v", "version", false, "Print the version of queenc.");
         options.addOption(version);
 
-        Option verbose = new Option("verbose", false, "Print verbose logs.");
-        options.addOption(verbose);
+//        Option verbose = new Option("verbose", false, "Print verbose logs.");
+//        options.addOption(verbose);
     }
 
 

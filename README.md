@@ -28,7 +28,6 @@ usage: queenc
  -h,--help               Print help message.
  -o,--output <arg>       Output path. Defaults to current dir.
  -v,--version            Print the version of queenc.
- -verbose                Print verbose logs.
 ```
 
 Don't forget, you can write an alias for ``java -jar queenc.jar`` to shorten it to something like ``queenc -h``.

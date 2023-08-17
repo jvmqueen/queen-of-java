@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.queenlang</groupId>
 	<artifactId>queen-of-java</artifactId>
-	<version>0.0.1-SNAPSHOT</version><!--rrv-sed-flag-->
+	<version>0.0.2-SNAPSHOT</version><!--rrv-sed-flag-->
 	<packaging>jar</packaging>
 	<name>Queen Of Java</name>
 	<dependencies>

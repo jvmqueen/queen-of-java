@@ -14,8 +14,8 @@ compiled into JVM bytecode.
 
 ## How to use it?
 
-Download the latest version of ``queenc`` from [here](https://github.com/jvmqueen/queen-of-java/packages) (download the latest from ``Assets``).
-``queenc`` itself is written in Java 11, therefore you need to have at least Java 11 installed, in order to use it.
+Download the latest version of ``queen-of-java-x.y.z.jar`` from [here](https://github.com/jvmqueen/queen-of-java/packages) (download the latest from ``Assets``).
+Rename it to ``queenc.jar``, just for easier usage. ``queenc`` itself is written in Java 11, therefore you need to have at least Java 11 installed, in order to use it.
 
 To print ``help``:
 
@@ -56,7 +56,7 @@ public final implementation EntryPoint {
 And execute it like this:
 
 ```bash
-$ java -jar queenc.jar -f EntryPoint.queen && java ./org/queenlang/helloworld/EntryPoint.java
+$ java -jar queen-of-java-0.0.1.jar -f EntryPoint.queen && java ./org/queenlang/helloworld/EntryPoint.java
 $ Queen says Hello World!
 ```
 

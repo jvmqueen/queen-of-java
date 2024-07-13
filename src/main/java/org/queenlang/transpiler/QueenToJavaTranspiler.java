@@ -27,19 +27,12 @@
  */
 package org.queenlang.transpiler;
 
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseResult;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.printer.configuration.DefaultPrinterConfiguration;
-import org.queenlang.transpiler.nodes.body.CompilationUnitNode;
 import org.queenlang.transpiler.nodes.project.ProjectNode;
 import org.queenlang.transpiler.nodes.project.QueenProject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Queen to Java transpiler.
@@ -72,11 +65,5 @@ public final class QueenToJavaTranspiler implements QueenTranspiler {
             this.classpath, this.parser, files
         );
         project.transpileTo(this.output);
-    }
-
-    @Override
-    @Deprecated
-    public String transpile(InputStream clazz, String fileName) throws IOException, QueenTranspilationException {
-        return null;
     }
 }

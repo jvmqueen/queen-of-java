@@ -52,6 +52,12 @@ import java.util.stream.Collectors;
  */
 public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<List<SemanticProblem>> {
 
+    private final QueenNode project;
+
+    public QueenASTSemanticValidationVisitor(QueenNode project) {
+        this.project = project;
+    }
+
     @Override
     public List<SemanticProblem> visitFile(FileNode node) {
         final List<SemanticProblem> problems = new ArrayList<>();
@@ -86,7 +92,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     );
                 }
             }
-            problems.addAll(this.visitImportDeclarationNode(importDeclaration));
+            problems.addAll(this.visitImportDeclarationNode((ImportDeclarationNode) importDeclaration.withParent(this.project)));
         }
         problems.addAll(
             this.visitTypeDeclarationNode(node.typeDeclaration())

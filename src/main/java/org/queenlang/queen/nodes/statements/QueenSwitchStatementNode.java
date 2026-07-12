@@ -25,20 +25,75 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.expressions.ExpressionNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen Switch Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenSwitchStatementNode implements SwitchStatementNode {
+
+    private final Position position;
+    private final QueenNode parent;
+    private final ExpressionNode expression;
+    private final List<SwitchEntryNode> entries;
+
+    public QueenSwitchStatementNode(
+        final Position position,
+        final ExpressionNode expression,
+        final List<SwitchEntryNode> entries
+    ) {
+        this(position, null, expression, entries);
+    }
+
+    private QueenSwitchStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode expression,
+        final List<SwitchEntryNode> entries
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.expression = expression;
+        this.entries = entries;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.expression);
+        if(this.entries != null) {
+            children.addAll(this.entries);
+        }
+        return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
+    }
+
+    @Override
+    public List<SwitchEntryNode> entries() {
+        return this.entries;
+    }
 }

@@ -25,20 +25,22 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen AST Node with method declarations.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface NodeWithMethodDeclarations {
+
+    /**
+     * Methods.
+     * @return List of method declarations.
+     */
+    List<MethodDeclarationNode> methods();
+
 }

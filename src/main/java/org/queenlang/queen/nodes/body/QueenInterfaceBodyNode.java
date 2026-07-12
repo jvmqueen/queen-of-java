@@ -25,20 +25,62 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen interface body AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenInterfaceBodyNode implements InterfaceBodyNode {
+    private final Position position;
+    private final QueenNode parent;
+    private final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations;
+
+    public QueenInterfaceBodyNode(
+        final Position position,
+        final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations
+    ) {
+        this(position, null, interfaceMemberDeclarations);
+    }
+
+    private QueenInterfaceBodyNode(
+        final Position position,
+        final QueenNode parent,
+        final List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.interfaceMemberDeclarations = interfaceMemberDeclarations;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations() {
+        return this.interfaceMemberDeclarations;
+    }
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.interfaceMemberDeclarations != null) {
+            children.addAll(this.interfaceMemberDeclarations);
+        }
+        return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
 }

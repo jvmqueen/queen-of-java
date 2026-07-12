@@ -25,20 +25,31 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.body.ClassBodyNode;
+import org.queenlang.queen.nodes.body.NodeWithTypeArguments;
+import org.queenlang.queen.nodes.types.ClassOrInterfaceTypeNode;
 
-import java.io.*;
-import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen object creation/class instantiation expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface ObjectCreationExpressionNode extends ExpressionNode, NodeWithTypeArguments {
+
+    ExpressionNode scope();
+    ClassOrInterfaceTypeNode type();
+
+    List<ExpressionNode> arguments();
+
+    ClassBodyNode anonymousBody();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitObjectCreationExpressionNode(this);
+    }
 }

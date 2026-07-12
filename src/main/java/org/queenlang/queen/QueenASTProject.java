@@ -25,20 +25,28 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.body.CompilationUnitNode;
 
-import java.io.*;
-import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * A QueenProject based on a list of Queen AST Compilation Unit (files).
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenASTProject implements QueenProject {
+
+    private final List<CompilationUnitNode> files;
+
+    public QueenASTProject(final List<CompilationUnitNode> files) {
+        this.files = files;
+    }
+
+    @Override
+    public List<CompilationUnitNode> files() {
+        return null;
+    }
 }

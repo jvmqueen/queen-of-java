@@ -25,20 +25,61 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.expressions.ExpressionNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * A Queen label in a switch case, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenSwitchLabelNode implements SwitchLabelNode {
+
+    private final Position position;
+    private final QueenNode parent;
+    private final ExpressionNode expressionNode;
+    private final boolean isDefaultLabel;
+
+    public QueenSwitchLabelNode(final Position position, final ExpressionNode expressionNode, final boolean isDefaultLabel) {
+        this(position, null, expressionNode, isDefaultLabel);
+    }
+
+    private QueenSwitchLabelNode(final Position position, final QueenNode parent, final ExpressionNode expressionNode, final boolean isDefaultLabel) {
+        this.position = position;
+        this.parent = parent;
+        this.expressionNode = expressionNode;
+        this.isDefaultLabel = isDefaultLabel;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.expressionNode);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public ExpressionNode expressionNode() {
+        return this.expressionNode;
+    }
+
+    @Override
+    public boolean isDefaultLabel() {
+        return this.isDefaultLabel;
+    }
 }

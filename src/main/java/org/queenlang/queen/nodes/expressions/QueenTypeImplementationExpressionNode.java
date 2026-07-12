@@ -25,48 +25,76 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.classpath.Classpath;
-import org.queenlang.queen.QueenASTParser;
-import org.queenlang.queen.QueenTranspilationException;
-import org.queenlang.queen.nodes.project.ProjectNode;
-import org.queenlang.queen.nodes.project.QueenProject;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.types.TypeNode;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen to Java transpiler.
+ * Defines an expression that accesses the class of a type.
+ * Object.implementation, int.implementation, void.implementation etc.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #64:60min Navigate the whole CU trees to find and transpile the imported and
- *  referenced Queen classes from within each CU.
- * @todo #64:60min Implement semantic validation visiting of each CU.g
  */
-public final class QueenToJavaTranspiler implements QueenTranspiler {
+public final class QueenTypeImplementationExpressionNode implements TypeImplementationExpressionNode {
 
-    private final QueenASTParser parser;
-    private final Classpath      classpath;
-    private final Output         output;
+    private final Position position;
+    private final QueenNode parent;
+    private final TypeNode type;
+    private final List<ArrayDimensionNode> dims;
 
-    public QueenToJavaTranspiler(
-        final QueenASTParser parser,
-        final Classpath classpath,
-        final Output output
+    public QueenTypeImplementationExpressionNode(
+        final Position position,
+        final TypeNode type,
+        final List<ArrayDimensionNode> dims
     ) {
-        this.parser = parser;
-        this.classpath = classpath;
-        this.output = output;
+        this(position, null, type, dims);
+    }
+
+    private QueenTypeImplementationExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final TypeNode type,
+        final List<ArrayDimensionNode> dims
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.type = type;
+        this.dims = dims;
     }
 
     @Override
-    public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
-        final ProjectNode project = new QueenProject(
-            this.classpath, this.parser, files
-        );
-        project.transpileTo(this.output);
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.type);
+        if(this.dims != null) {
+            children.addAll(this.dims);
+        }
+        return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public TypeNode type() {
+        return this.type;
+    }
+
+    @Override
+    public List<ArrayDimensionNode> dims() {
+        return this.dims;
     }
 }

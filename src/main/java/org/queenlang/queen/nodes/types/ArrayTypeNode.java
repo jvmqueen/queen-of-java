@@ -25,20 +25,56 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.types;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.names.NameNode;
+import org.queenlang.queen.nodes.expressions.ArrayDimensionNode;
 
-import java.io.*;
-import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen ArrayType AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface ArrayTypeNode extends ReferenceTypeNode {
+
+    /**
+     * Type of the array (used for symbol resolution etc).
+     */
+    TypeNode type();
+
+    /**
+     * Array type dimensions (pairs of square brackets).
+     */
+    List<ArrayDimensionNode> dims();
+
+    /**
+     * Scope of this reference type (what comes before the dot). E.g.
+     * java.util.List (util is the scope of List).
+     */
+    default NameNode qualifier() {
+        final TypeNode type = this.type();
+        if(type instanceof ReferenceTypeNode) {
+            return ((ReferenceTypeNode) type).qualifier();
+        }
+        return null;
+    }
+
+    /**
+     * Simple name of this reference type, without scope
+     */
+    default String identifier() {
+        final TypeNode type = this.type();
+        if(type instanceof ReferenceTypeNode) {
+            return ((ReferenceTypeNode) type).identifier();
+        }
+        return this.name();
+    }
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitArrayTypeNode(this);
+    }
 }

@@ -25,20 +25,62 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.expressions.ExpressionNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * An element-value paid node consisting of the Identifier and
+ * initializing expression, Queen AST Node. User in annotations.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenElementValuePairNode implements ElementValuePairNode {
+
+    private final Position position;
+    private final QueenNode parent;
+    private final String identifier;
+    private final ExpressionNode expression;
+
+    public QueenElementValuePairNode(final Position position, final String identifier, final ExpressionNode expression) {
+        this(position, null, identifier, expression);
+    }
+
+    private QueenElementValuePairNode(final Position position, final QueenNode parent, final String identifier, final ExpressionNode expression) {
+        this.position = position;
+        this.parent = parent;
+        this.identifier = identifier;
+        this.expression = expression;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.expression);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public String identifier() {
+        return this.identifier;
+    }
+
+    @Override
+    public ExpressionNode expression() {
+        return this.expression;
+    }
 }

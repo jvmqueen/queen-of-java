@@ -25,20 +25,69 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen CatchClause AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenCatchClauseNode implements CatchClauseNode {
+
+    private final Position position;
+    private final QueenNode parent;
+    private final CatchFormalParameterNode parameter;
+    private final BlockStatements blockStatements;
+
+    public QueenCatchClauseNode(
+        final Position position,
+        final CatchFormalParameterNode parameter,
+        final BlockStatements blockStatements
+    ) {
+        this(position, null, parameter, blockStatements);
+    }
+
+    private QueenCatchClauseNode(
+        final Position position,
+        final QueenNode parent,
+        final CatchFormalParameterNode parameter,
+        final BlockStatements blockStatements
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.parameter = parameter;
+        this.blockStatements = blockStatements;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.parameter, this.blockStatements);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public CatchFormalParameterNode parameter() {
+        return this.parameter;
+    }
+
+    @Override
+    public BlockStatements blockStatements() {
+        return this.blockStatements;
+    }
 }

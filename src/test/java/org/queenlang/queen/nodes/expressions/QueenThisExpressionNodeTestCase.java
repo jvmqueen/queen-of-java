@@ -25,48 +25,60 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.classpath.Classpath;
-import org.queenlang.queen.QueenASTParser;
-import org.queenlang.queen.QueenTranspilationException;
-import org.queenlang.queen.nodes.project.ProjectNode;
-import org.queenlang.queen.nodes.project.QueenProject;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.queenlang.queen.nodes.names.NameNode;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.names.QueenNameNode;
 
 /**
- * Queen to Java transpiler.
+ * Unit tests for {@link QueenThisExpressionNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #64:60min Navigate the whole CU trees to find and transpile the imported and
- *  referenced Queen classes from within each CU.
- * @todo #64:60min Implement semantic validation visiting of each CU.g
  */
-public final class QueenToJavaTranspiler implements QueenTranspiler {
+public final class QueenThisExpressionNodeTestCase {
 
-    private final QueenASTParser parser;
-    private final Classpath      classpath;
-    private final Output         output;
-
-    public QueenToJavaTranspiler(
-        final QueenASTParser parser,
-        final Classpath classpath,
-        final Output output
-    ) {
-        this.parser = parser;
-        this.classpath = classpath;
-        this.output = output;
-    }
-
-    @Override
-    public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
-        final ProjectNode project = new QueenProject(
-            this.classpath, this.parser, files
+    @Test
+    public void returnsPosition() {
+        final Position position = Mockito.mock(Position.class);
+        final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
+            position,
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), "Student")
         );
-        project.transpileTo(this.output);
+        MatcherAssert.assertThat(
+            thisExpression.position(),
+            Matchers.is(position)
+        );
     }
+
+    @Test
+    public void returnsTypeName() {
+        final Position position = Mockito.mock(Position.class);
+        final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
+            position,
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), "Student")
+        );
+        MatcherAssert.assertThat(
+            thisExpression.typeName().name(),
+            Matchers.equalTo("Student")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
+            Mockito.mock(Position.class),
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), "Student")
+        );
+        MatcherAssert.assertThat(
+            thisExpression.children(),
+            Matchers.iterableWithSize(1)
+        );
+    }
+
 }

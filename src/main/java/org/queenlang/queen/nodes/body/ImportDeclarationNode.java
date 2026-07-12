@@ -25,20 +25,53 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.names.NameNode;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.*;
 
-import java.io.*;
 import java.nio.file.Path;
-import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen ImportDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface ImportDeclarationNode extends QueenReferenceNode {
+
+    /**
+     * Is it an asterysk import or not?
+     */
+    boolean asteriskImport();
+
+    /**
+     * Import's type name.
+     */
+    NameNode importDeclarationName();
+
+    /**
+     * Turn it into a Path.
+     * @return Path.
+     */
+    Path asPath();
+
+    /**
+     * It this import declaration contained/covered by the other?
+     * @param other Other import declaration.
+     * @return True or false.
+     */
+    boolean isContainedBy(final ImportDeclarationNode other);
+
+    /**
+     * Replace the asterisk with a name.
+     * @param name Type name to replace the asterisk with.
+     * @return ImportDeclarationNode.
+     */
+    ImportDeclarationNode replaceAsteriskWith(final String name);
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitImportDeclarationNode(this);
+    }
 }

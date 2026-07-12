@@ -25,20 +25,73 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.expressions.ExpressionNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen Synchronized Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenSynchronizedStatementNode implements SynchronizedStatementNode {
+
+    private final Position position;
+
+    private final QueenNode parent;
+
+    private final ExpressionNode syncExpression;
+
+    private final BlockStatements blockStatements;
+
+    public QueenSynchronizedStatementNode(
+        final Position position,
+        final ExpressionNode syncExpression,
+        final BlockStatements blockStatements
+    ) {
+        this(position, null, syncExpression, blockStatements);
+    }
+
+    private QueenSynchronizedStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode syncExpression,
+        final BlockStatements blockStatements
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.syncExpression = syncExpression;
+        this.blockStatements = blockStatements;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.syncExpression, this.blockStatements);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public ExpressionNode syncExpression() {
+        return this.syncExpression;
+    }
+
+    @Override
+    public BlockStatements blockStatements() {
+        return this.blockStatements;
+    }
 }

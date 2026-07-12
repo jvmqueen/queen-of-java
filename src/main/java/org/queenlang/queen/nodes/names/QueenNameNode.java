@@ -25,20 +25,72 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.names;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * A name of something. Could be a package declaration, a type name, a method name etc.
+ * In some cases, it can have a context/qualifier prefix like java.util.List.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenNameNode implements NameNode {
+
+    private final Position  position;
+    private final QueenNode parent;
+    private final NameNode  qualifier;
+    private final String identifier;
+
+    public QueenNameNode(final Position position, final QueenNode parent, final String identifier) {
+        this(position, parent, null, identifier);
+    }
+
+    public QueenNameNode(final Position position, final QueenNode parent, final NameNode qualifier, final String identifier) {
+        this.parent = parent;
+        this.position = position;
+        this.qualifier = qualifier;
+        this.identifier = identifier;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public NameNode qualifier() {
+        return this.qualifier;
+    }
+
+    @Override
+    public String identifier() {
+        return this.identifier;
+    }
+
+    @Override
+    public String name() {
+        final String fullName;
+        if(this.qualifier() != null) {
+            fullName = this.qualifier().name() + "." + this.identifier();
+        } else {
+            fullName = this.identifier();
+        }
+        return fullName;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
 }

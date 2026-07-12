@@ -28,6 +28,10 @@
 package org.queenlang.transpiler;
 
 import org.apache.commons.cli.*;
+import org.queenlang.cli.Arguments;
+import org.queenlang.cli.CmdArguments;
+import org.queenlang.queen.QueenASTParserANTLR;
+import org.queenlang.queen.QueenTranspilationException;
 
 import java.io.*;
 
@@ -40,7 +44,7 @@ import java.io.*;
 public final class Queenc {
     private static final String NAME_AND_VERSION = "Queenc version: %s";
 
-    private static final Config config = new Config();
+    private static final Config  config  = new Config();
     private static final Options options = new Options();
 
     static {

@@ -25,20 +25,50 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.queenlang.queen.nodes.Position;
 
 /**
- * Queen transpiler.
+ * Unit tests for {@link QueenContinueStatementNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenContinueStatementNodeTestCase {
+
+    @Test
+    public void returnsPosition() {
+        final Position position = Mockito.mock(Position.class);
+        final ContinueStatementNode continueStatement = new QueenContinueStatementNode(position, "label");
+
+        MatcherAssert.assertThat(
+            continueStatement.position(),
+            Matchers.is(position)
+        );
+    }
+
+    @Test
+    public void returnsLabel() {
+        final Position position = Mockito.mock(Position.class);
+        final ContinueStatementNode continueStatement = new QueenContinueStatementNode(position, "label");
+
+        MatcherAssert.assertThat(
+            continueStatement.label(),
+            Matchers.equalTo("label")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenContinueStatementNode(Mockito.mock(Position.class), "someLabel").children(),
+            Matchers.iterableWithSize(0)
+        );
+    }
+
 }

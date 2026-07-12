@@ -25,20 +25,44 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.types.TypeNode;
 
 /**
- * Queen transpiler.
+ * Queen ConstantDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface ConstantDeclarationNode extends InterfaceMemberDeclarationNode, NodeWithModifiers, NodeWithAnnotations {
+
+    /**
+     * Type of the constant declaration.
+     */
+    TypeNode type();
+
+    /**
+     * Variable name and initializer expression.
+     */
+    VariableDeclaratorNode variable();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitConstantDeclarationNode(this);
+    }
+
+    /**
+     * Does this constant declaration have the specified modifier?
+     * @param modifier String modifier.
+     * @return ModifierNode if found, null otherwise.
+     */
+    default ModifierNode modifier(final String modifier) {
+        for(final ModifierNode m : this.modifiers()) {
+            if(modifier.equals(m.modifier())) {
+                return m;
+            }
+        }
+        return null;
+    }
 }

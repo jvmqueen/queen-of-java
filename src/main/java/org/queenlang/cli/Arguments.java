@@ -25,20 +25,35 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.cli;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.classpath.Classpath;
 
-import java.io.*;
 import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Command-line arguments given to queenc.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface Arguments {
+
+    boolean verbose();
+
+    boolean version();
+
+    boolean help();
+
+    List<Path> files();
+
+    Classpath classpath();
+
+    Path output();
+
+    default boolean hasUtilityArgs() {
+        return this.version() || this.help();
+    }
+
 }

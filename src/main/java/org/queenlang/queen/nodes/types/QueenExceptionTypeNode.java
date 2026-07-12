@@ -25,48 +25,83 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.types;
 
-import org.queenlang.classpath.Classpath;
-import org.queenlang.queen.QueenASTParser;
-import org.queenlang.queen.QueenTranspilationException;
-import org.queenlang.queen.nodes.project.ProjectNode;
-import org.queenlang.queen.nodes.project.QueenProject;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Queen to Java transpiler.
+ * Queen ExceptionType AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #64:60min Navigate the whole CU trees to find and transpile the imported and
- *  referenced Queen classes from within each CU.
- * @todo #64:60min Implement semantic validation visiting of each CU.g
  */
-public final class QueenToJavaTranspiler implements QueenTranspiler {
+public final class QueenExceptionTypeNode implements ExceptionTypeNode {
 
-    private final QueenASTParser parser;
-    private final Classpath      classpath;
-    private final Output         output;
+    private final ClassOrInterfaceTypeNode exceptionType;
 
-    public QueenToJavaTranspiler(
-        final QueenASTParser parser,
-        final Classpath classpath,
-        final Output output
+    /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    public QueenExceptionTypeNode(final ClassOrInterfaceTypeNode exceptionType) {
+        this(null, exceptionType);
+    }
+
+    private QueenExceptionTypeNode(
+        final QueenNode parent,
+        final ClassOrInterfaceTypeNode exceptionType
     ) {
-        this.parser = parser;
-        this.classpath = classpath;
-        this.output = output;
+        this.parent = parent;
+        this.exceptionType = exceptionType;
     }
 
     @Override
-    public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
-        final ProjectNode project = new QueenProject(
-            this.classpath, this.parser, files
-        );
-        project.transpileTo(this.output);
+    public Position position() {
+        return this.exceptionType.position();
+    }
+
+    @Override
+    public ClassOrInterfaceTypeNode exceptionType() {
+        return this.exceptionType;
+    }
+
+    @Override
+    public String name() {
+        return this.exceptionType.name();
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.exceptionType);
+        return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final QueenExceptionTypeNode that = (QueenExceptionTypeNode) o;
+        return this.exceptionType.equals(that.exceptionType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.exceptionType);
     }
 }

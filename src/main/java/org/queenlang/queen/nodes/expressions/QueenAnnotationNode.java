@@ -25,20 +25,65 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.*;
+import org.queenlang.queen.nodes.names.NameNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Queen annotation declared on top of a class, field or method.
+ * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public abstract class QueenAnnotationNode implements AnnotationNode {
+
+    /**
+     * Position of the annotation in the source code.
+     */
+    private final Position position;
+
+    /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
+     * Name of the annotation.
+     */
+    private final NameNode name;
+
+    public QueenAnnotationNode(final Position position, final QueenNode parent, final NameNode name) {
+        this.position = position;
+        this.parent = parent;
+        this.name = name;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public String name() {
+        return this.name.name();
+    }
+
+    @Override
+    public NameNode nameNode() {
+        return this.name;
+    }
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.name);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
 }

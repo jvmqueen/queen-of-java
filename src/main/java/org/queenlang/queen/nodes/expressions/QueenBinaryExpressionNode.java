@@ -25,20 +25,77 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen Binary Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.0.1
+ * @since 0.0.01
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
+    private final Position position;
+    private final QueenNode parent;
+    private final ExpressionNode left;
+    private final String operator;
+    private final ExpressionNode right;
+
+    public QueenBinaryExpressionNode(
+        final Position position,
+        final ExpressionNode left,
+        final String operator,
+        final ExpressionNode right
+    ) {
+        this(position, null, left, operator, right);
+    }
+
+    private QueenBinaryExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode left,
+        final String operator,
+        final ExpressionNode right
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.left = left;
+        this.operator = operator;
+        this.right = right;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.left, this.right);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public ExpressionNode left() {
+        return this.left;
+    }
+
+    @Override
+    public String operator() {
+        return this.operator;
+    }
+
+    @Override
+    public ExpressionNode right() {
+        return this.right;
+    }
 }

@@ -25,20 +25,37 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.queenlang.queen.nodes.Position;
 
 /**
- * Queen transpiler.
+ * Queen Warning SementicProblem implementation.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenSemanticWarning extends SemanticProblem {
+
+    private final String message;
+    private final Position position;
+
+    public QueenSemanticWarning(
+        final String message,
+        final Position position
+    ) {
+        super("Warning");
+        this.message = message;
+        this.position = position;
+    }
+
+    @Override
+    public String message() {
+        return this.message;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
 }

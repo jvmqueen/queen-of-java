@@ -25,20 +25,74 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * An entry in a Switch Statement, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenSwitchEntryNode implements SwitchEntryNode {
+
+    private final Position position;
+    private final QueenNode parent;
+    private final List<SwitchLabelNode> labels;
+    private final BlockStatements blockStatements;
+
+    public QueenSwitchEntryNode(
+        final Position position,
+        final List<SwitchLabelNode> labels,
+        final BlockStatements blockStatements
+    ) {
+        this(position, null, labels, blockStatements);
+    }
+
+    private QueenSwitchEntryNode(
+        final Position position,
+        final QueenNode parent,
+        final List<SwitchLabelNode> labels,
+        final BlockStatements blockStatements
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.labels = labels;
+        this.blockStatements = blockStatements;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.labels != null) {
+            children.addAll(this.labels);
+        }
+        children.add(this.blockStatements);
+        return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public List<SwitchLabelNode> labels() {
+        return this.labels;
+    }
+
+    @Override
+    public BlockStatements blockStatements() {
+        return this.blockStatements;
+    }
 }

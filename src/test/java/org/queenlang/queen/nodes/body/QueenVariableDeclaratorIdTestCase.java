@@ -25,20 +25,56 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.util.QueenMockito;
 
 /**
- * Queen transpiler.
+ * Unit tests for {@link QueenVariableDeclaratorId}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenVariableDeclaratorIdTestCase {
+
+    @Test
+    public void returnsPosition() {
+        final Position position = QueenMockito.mock(Position.class);
+        final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
+            position,
+            "variable"
+        );
+        MatcherAssert.assertThat(
+            variableDeclaratorId.position(),
+            Matchers.is(position)
+        );
+    }
+
+    @Test
+    public void returnsName() {
+        final VariableDeclaratorId variableDeclaratorId = new QueenVariableDeclaratorId(
+            QueenMockito.mock(Position.class),
+            "a"
+        );
+        MatcherAssert.assertThat(
+            variableDeclaratorId.name(),
+            Matchers.equalTo("a")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenVariableDeclaratorId(
+                QueenMockito.mock(Position.class),
+                "i"
+            ).children(),
+            Matchers.hasSize(0)
+        );
+    }
+
 }

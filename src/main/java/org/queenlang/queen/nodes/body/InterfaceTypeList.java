@@ -25,20 +25,42 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.types.ClassOrInterfaceTypeNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * A list of interface types (of-list for class declarations or extends-list for interface declarations).
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface InterfaceTypeList extends QueenNode, Iterable<ClassOrInterfaceTypeNode> {
+    List<ClassOrInterfaceTypeNode> interfaceTypes();
+
+    @Override
+    default Iterator<ClassOrInterfaceTypeNode> iterator() {
+        return this.interfaceTypes().iterator();
+    }
+
+    @Override
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitInterfaceTypeList(this);
+    }
+
+    @Override
+    default List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.interfaceTypes() != null) {
+            children.addAll(this.interfaceTypes());
+        }
+        return children;
+    }
+
 }

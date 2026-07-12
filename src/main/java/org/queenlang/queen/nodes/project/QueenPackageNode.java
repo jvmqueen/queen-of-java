@@ -25,20 +25,44 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.project;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * A Queen package, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenPackageNode implements PackageNode {
+
+    /**
+     * Parent project.
+     */
+    private final ProjectNode parent;
+
+    /**
+     * Path of this package on disk.
+     */
+    private final Path packagePath;
+
+    public QueenPackageNode(final ProjectNode parent, final Path packagePath) {
+        this.parent = parent;
+        this.packagePath = packagePath;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
 }

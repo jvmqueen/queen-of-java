@@ -25,20 +25,82 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Queen transpiler.
+ * Queen modifier node used in interfaces, classes, methods, fields etc.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenModifierNode implements ModifierNode {
+
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
+     * Name of the modifier.
+     */
+    private final String modifier;
+
+    public QueenModifierNode(final Position position, final String modifier) {
+        this(position, null, modifier);
+    }
+
+    private QueenModifierNode(final Position position, final QueenNode parent, final String modifier) {
+        this.position = position;
+        this.parent = parent;
+        this.modifier = modifier;
+    }
+
+    @Override
+    public String modifier() {
+        return this.modifier.toLowerCase();
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        QueenModifierNode that = (QueenModifierNode) o;
+        return modifier.equals(that.modifier);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(modifier);
+    }
 }

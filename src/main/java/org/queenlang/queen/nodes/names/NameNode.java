@@ -25,20 +25,55 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.names;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.QueenReferenceNode;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.expressions.ExpressionNode;
 
 /**
- * Queen transpiler.
+ * A name of something. Could be a package declaration, a type name, a method name etc.
+ * In some cases, it can have a context/qualifier prefix like java.util.List.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface NameNode extends ExpressionNode, Named, QueenReferenceNode {
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitNameNode(this);
+    }
+
+    /**
+     * Returns the qualifier. The "java.util" in "java.util.List".
+     * @return Name qualifier, may be null.
+     */
+    NameNode qualifier();
+
+    /**
+     * Last part of the name. E.g. java.util.List, will return List.
+     * @return String, never null.
+     */
+    String identifier();
+
+    @Override
+    default QueenNode resolve() {
+        final QueenNode definition;
+        if(this.qualifier() == null) {
+            if(this.parent() != null) {
+                definition = this.parent().resolve(this, true);
+            } else {
+                definition = null;
+            }
+        } else {
+            final QueenNode qualifierDefinition = this.qualifier().resolve();
+            if(qualifierDefinition != null) {
+                return qualifierDefinition.resolve(this, false);
+            } else {
+                return null;
+            }
+        }
+        return definition;
+    }
 }

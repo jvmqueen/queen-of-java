@@ -1,0 +1,193 @@
+/**
+ * Copyright (c) 2022-2023, Extremely Distributed Technologies S.R.L. Romania
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this
+ *  list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.
+ * Neither the name of the copyright holder nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+package org.queenlang.queen.nodes.body;
+
+import org.queenlang.queen.nodes.*;
+import org.queenlang.queen.nodes.expressions.AnnotationNode;
+import org.queenlang.queen.nodes.types.TypeParameterNode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Queen NormalInterfaceDeclaration AST node.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 0.0.1
+ */
+public final class QueenNormalInterfaceDeclarationNode implements NormalInterfaceDeclarationNode {
+
+    /**
+     * Position in the original source code.
+     */
+    private final Position position;
+
+    /**
+     * Parent node.
+     */
+    private final QueenNode parent;
+
+    /**
+     * Annotations on top of this interface.
+     */
+    private final List<AnnotationNode> annotations;
+
+    /**
+     * Modifiers of this interface.
+     */
+    private final List<ModifierNode> modifiers;
+
+    /**
+     * Name of this type.
+     */
+    private final String name;
+
+    /**
+     * Interface type params.
+     */
+    private final List<TypeParameterNode> typeParams;
+
+    /**
+     * Types which are extended (an interface can extend more interfaces).
+     */
+    private final InterfaceTypeList extendsTypes;
+
+    /**
+     * The body.
+     */
+    private final InterfaceBodyNode body;
+
+    /**
+     * Ctor.
+     * @param annotations Annotation nodes on top of this type.
+     * @param modifiers Modifiers on this interface.
+     * @param name Name.
+     * @param typeParams Type params.
+     * @param extendsTypes Types extended.
+     * @param body The body.
+     */
+    public QueenNormalInterfaceDeclarationNode(
+        final Position position,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
+        final String name,
+        final List<TypeParameterNode> typeParams,
+        final InterfaceTypeList extendsTypes,
+        final InterfaceBodyNode body
+    ) {
+        this(
+            position,
+            null,
+            annotations,
+            modifiers,
+            name,
+            typeParams,
+            extendsTypes,
+            body
+        );
+    }
+
+    private QueenNormalInterfaceDeclarationNode(
+        final Position position,
+        final QueenNode parent,
+        final List<AnnotationNode> annotations,
+        final List<ModifierNode> modifiers,
+        final String name,
+        final List<TypeParameterNode> typeParams,
+        final InterfaceTypeList extendsTypes,
+        final InterfaceBodyNode body
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.annotations = annotations;
+        this.modifiers = modifiers;
+        this.name = name;
+        this.typeParams = typeParams;
+        this.extendsTypes = extendsTypes;
+        this.body = body;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<AnnotationNode> annotations() {
+        return this.annotations;
+    }
+
+    @Override
+    public List<ModifierNode> modifiers() {
+        return this.modifiers;
+    }
+
+    @Override
+    public InterfaceTypeList extendsTypes() {
+        return this.extendsTypes;
+    }
+
+    @Override
+    public InterfaceBodyNode body() {
+        return this.body;
+    }
+
+    @Override
+    public List<TypeParameterNode> typeParameters() {
+        return this.typeParams;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotations != null) {
+            children.addAll(this.annotations);
+        }
+        if(this.modifiers != null) {
+            children.addAll(this.modifiers);
+        }
+        if(this.typeParams != null) {
+            children.addAll(this.typeParams);
+        }
+        if(this.extendsTypes != null) {
+            children.add(this.extendsTypes);
+        }
+        children.add(this.body);
+        return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+}

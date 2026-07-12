@@ -25,48 +25,78 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.classpath.Classpath;
-import org.queenlang.queen.QueenASTParser;
-import org.queenlang.queen.QueenTranspilationException;
-import org.queenlang.queen.nodes.project.ProjectNode;
-import org.queenlang.queen.nodes.project.QueenProject;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen to Java transpiler.
+ * Queen ternary conditional expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #64:60min Navigate the whole CU trees to find and transpile the imported and
- *  referenced Queen classes from within each CU.
- * @todo #64:60min Implement semantic validation visiting of each CU.g
  */
-public final class QueenToJavaTranspiler implements QueenTranspiler {
+public final class QueenConditionalExpressionNode implements ConditionalExpressionNode {
 
-    private final QueenASTParser parser;
-    private final Classpath      classpath;
-    private final Output         output;
+    private final Position position;
+    private final QueenNode parent;
+    private final ExpressionNode condition;
+    private final ExpressionNode thenExpr;
+    private final ExpressionNode elseExpr;
 
-    public QueenToJavaTranspiler(
-        final QueenASTParser parser,
-        final Classpath classpath,
-        final Output output
+    public QueenConditionalExpressionNode(
+        final Position position,
+        final ExpressionNode condition,
+        final ExpressionNode thenExpr,
+        final ExpressionNode elseExpr
     ) {
-        this.parser = parser;
-        this.classpath = classpath;
-        this.output = output;
+        this(position, null, condition, thenExpr, elseExpr);
+    }
+
+    private QueenConditionalExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode condition,
+        final ExpressionNode thenExpr,
+        final ExpressionNode elseExpr
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.condition = condition;
+        this.thenExpr = thenExpr;
+        this.elseExpr = elseExpr;
     }
 
     @Override
-    public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
-        final ProjectNode project = new QueenProject(
-            this.classpath, this.parser, files
-        );
-        project.transpileTo(this.output);
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.condition, this.thenExpr, this.elseExpr);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public ExpressionNode condition() {
+        return this.condition;
+    }
+
+    @Override
+    public ExpressionNode thenExpr() {
+        return this.thenExpr;
+    }
+
+    @Override
+    public ExpressionNode elseExpr() {
+        return this.elseExpr;
     }
 }

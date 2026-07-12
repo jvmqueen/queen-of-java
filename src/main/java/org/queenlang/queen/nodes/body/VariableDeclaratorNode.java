@@ -25,20 +25,37 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.expressions.ExpressionNode;
 
 /**
- * Queen transpiler.
+ * A variable declarator node consisting of the VariableDeclaratorId (name) and
+ * initializing expression, Queen AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface VariableDeclaratorNode extends QueenNode {
+
+    /**
+     * VariableDeclaratorId (name of the variable).
+     * @return VariableDeclaratorId, never null.
+     */
+    VariableDeclaratorId variableDeclaratorId();
+
+    /**
+     * Variable initializing expression. May be null.
+     * @return ExpressionNode, may be null.
+     */
+    ExpressionNode initializer();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitVariableDeclaratorNode(this);
+    }
+
+
+
 }

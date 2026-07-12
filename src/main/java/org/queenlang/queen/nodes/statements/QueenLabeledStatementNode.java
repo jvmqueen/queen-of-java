@@ -25,20 +25,81 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen For Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenLabeledStatementNode implements LabeledStatementNode {
+
+    /**
+     * Position of this for statement in the original source code.
+     */
+    private final Position position;
+
+    private final QueenNode parent;
+
+    /**
+     * Name/label of the statement.
+     */
+    private final String name;
+
+    /**
+     * Statements inside this labeled statement.
+     */
+    private final StatementNode blockStatements;
+
+    public QueenLabeledStatementNode(
+        final Position position,
+        final String name,
+        final StatementNode blockStatements
+    ) {
+        this(position, null, name, blockStatements);
+    }
+
+    private QueenLabeledStatementNode(
+        final Position position,
+        final QueenNode parent,
+        final String name,
+        final StatementNode blockStatements
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.name = name;
+        this.blockStatements = blockStatements;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.blockStatements);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    @Override
+    public StatementNode blockStatements() {
+        return this.blockStatements;
+    }
 }

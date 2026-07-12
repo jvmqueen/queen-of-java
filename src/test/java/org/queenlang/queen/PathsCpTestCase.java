@@ -25,20 +25,61 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.queenlang.classpath.Classpath;
+import org.queenlang.classpath.PathsCp;
 
-import java.io.*;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Arrays;
 
 /**
- * Queen transpiler.
+ * Unit tests for {@link PathsCp}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class PathsCpTestCase {
+
+    /**
+     * An existing file is found in the classpath.
+     */
+    @Test
+    public void findsQueenFileInClassPath() {
+        final Classpath cp = new PathsCp(
+            Arrays.asList(
+                Path.of("."),
+                Path.of("src/test/resources"),
+                Path.of("src/test/resources/test_classpath")
+            )
+        );
+        final Path found = cp.find(Path.of("com/example/Greeting.queen"));
+        MatcherAssert.assertThat(
+            found,
+            Matchers.equalTo(Path.of("src/test/resources/test_classpath/com/example/Greeting.queen"))
+        );
+    }
+
+    /**
+     * Returns null if the queen file is not found in the existing classpath.
+     */
+    @Test
+    public void returnsNullIfQueenFileNotFoundInClassPath() {
+        final Classpath cp = new PathsCp(
+            Arrays.asList(
+                Path.of("."),
+                Path.of("src/test/resources"),
+                Path.of("src/test/resources/test_classpath")
+            )
+        );
+        final Path found = cp.find(Path.of("missing/example/Greeting.queen"));
+        MatcherAssert.assertThat(
+            found,
+            Matchers.nullValue()
+        );
+    }
+
 }

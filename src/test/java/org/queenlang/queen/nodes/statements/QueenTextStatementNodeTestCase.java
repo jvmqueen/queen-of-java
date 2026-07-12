@@ -25,20 +25,56 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.queenlang.queen.nodes.Position;
 
 /**
- * Queen transpiler.
+ * Unit tests for {@link QueenTextStatementNode}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenTextStatementNodeTestCase {
+
+    @Test
+    public void returnsPosition(){
+        final Position position = Mockito.mock(Position.class);
+        final QueenTextStatementNode textStatement = new QueenTextStatementNode(
+            position,
+            "return 0;"
+        );
+        MatcherAssert.assertThat(
+            textStatement.position(),
+            Matchers.is(position)
+        );
+    }
+
+    @Test
+    public void returnsString(){
+        final Position position = Mockito.mock(Position.class);
+        final QueenTextStatementNode textStatement = new QueenTextStatementNode(
+            position,
+            "return 0;"
+        );
+        MatcherAssert.assertThat(
+            textStatement.toString(),
+            Matchers.equalTo("return 0;")
+        );
+    }
+
+    @Test
+    public void returnsChildren() {
+        MatcherAssert.assertThat(
+            new QueenTextStatementNode(
+                Mockito.mock(Position.class),
+                "return 0;"
+            ).children(),
+            Matchers.emptyIterable()
+        );
+    }
 }

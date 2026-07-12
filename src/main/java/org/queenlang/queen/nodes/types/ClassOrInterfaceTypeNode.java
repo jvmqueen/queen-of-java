@@ -25,20 +25,53 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.types;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.body.NodeWithAnnotations;
+import org.queenlang.queen.nodes.body.NodeWithTypeArguments;
 
 /**
- * Queen transpiler.
+ * Queen class or interface reference type.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface ClassOrInterfaceTypeNode extends ReferenceTypeNode, NodeWithAnnotations, NodeWithTypeArguments {
+
+    /**
+     * Is it an interface type or class type?
+     */
+    boolean interfaceType();
+
+    /**
+     * Scope of this reference type (what comes before the dot). E.g.
+     * java.util.List (util is the scope of List).
+     */
+    ClassOrInterfaceTypeNode qualifier();
+
+    /**
+     * Simple name of this reference type, without scope
+     */
+    String identifier();
+
+    /**
+     * Full name of this reference type, with package/scope, for example: java.util.List.
+     * @return Full name.
+     */
+    default String name() {
+        final String fullName;
+        if(this.qualifier() != null) {
+            fullName = this.qualifier().name() + "." + this.identifier();
+        } else {
+            fullName = this.identifier();
+        }
+        return fullName;
+    }
+
+    boolean hasDiamondOperator();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitClassOrInterfaceTypeNode(this);
+    }
 }

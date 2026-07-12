@@ -25,20 +25,48 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.names.NameNode;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Queen single-member annotation.
+ * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode implements SingleMemberAnnotationNode {
+
+    /**
+     * Value of the annotation.
+     */
+    private final ExpressionNode elementValue;
+
+    public QueenSingleMemberAnnotationNode(final Position position, final NameNode name, final ExpressionNode elementValue) {
+        this(position, null, name, elementValue);
+    }
+
+    private QueenSingleMemberAnnotationNode(final Position position, final QueenNode parent, final NameNode name, final ExpressionNode elementValue) {
+        super(position, parent, name);
+        this.elementValue = elementValue;
+    }
+
+    @Override
+    public ExpressionNode elementValue() {
+        return this.elementValue;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.addAll(super.children());
+        children.add(this.elementValue);
+        return children;
+    }
+
 }

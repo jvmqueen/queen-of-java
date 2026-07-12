@@ -25,48 +25,79 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.classpath.Classpath;
-import org.queenlang.queen.QueenASTParser;
-import org.queenlang.queen.QueenTranspilationException;
-import org.queenlang.queen.nodes.project.ProjectNode;
-import org.queenlang.queen.nodes.project.QueenProject;
+import org.queenlang.queen.nodes.names.NameNode;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.names.QueenNameNode;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen to Java transpiler.
+ * An ImportDeclaration based on a PackageDeclaration.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
- * @todo #64:60min Navigate the whole CU trees to find and transpile the imported and
- *  referenced Queen classes from within each CU.
- * @todo #64:60min Implement semantic validation visiting of each CU.g
  */
-public final class QueenToJavaTranspiler implements QueenTranspiler {
+public final class QueenJavaLangImportDeclaration implements ImportDeclarationNode {
 
-    private final QueenASTParser parser;
-    private final Classpath      classpath;
-    private final Output         output;
+    private final QueenNode parent;
+    private final String typeName;
 
-    public QueenToJavaTranspiler(
-        final QueenASTParser parser,
-        final Classpath classpath,
-        final Output output
-    ) {
-        this.parser = parser;
-        this.classpath = classpath;
-        this.output = output;
+    public QueenJavaLangImportDeclaration(final String typeName) {
+        this(null, typeName);
+    }
+
+    private QueenJavaLangImportDeclaration(final QueenNode parent, final String typeName) {
+        this.parent = parent;
+        this.typeName = typeName;
     }
 
     @Override
-    public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
-        final ProjectNode project = new QueenProject(
-            this.classpath, this.parser, files
+    public Position position() {
+        return new Position.Missing();
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public boolean asteriskImport() {
+        return false;
+    }
+
+    @Override
+    public NameNode importDeclarationName() {
+        return new QueenNameNode(
+            new Position.Missing(),
+            new QueenNameNode(new Position.Missing(), null, "java.lang"),
+            this.typeName
         );
-        project.transpileTo(this.output);
+    }
+
+    @Override
+    public Path asPath() {
+        return Path.of(this.importDeclarationName().name().replaceAll("\\.", FileSystems.getDefault().getSeparator()) + ".queen");
+    }
+
+    @Override
+    public boolean isContainedBy(final ImportDeclarationNode other) {
+        return false;
+    }
+
+    @Override
+    public ImportDeclarationNode replaceAsteriskWith(final String name) {
+        return null;
     }
 }

@@ -25,20 +25,76 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen Array Access Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressionNode {
+
+    private final Position position;
+    private final QueenNode parent;
+
+    private final ExpressionNode name;
+
+    private final List<ArrayDimensionNode> dims;
+
+    public QueenArrayAccessExpressionNode(
+        final Position position,
+        final ExpressionNode name,
+        final List<ArrayDimensionNode> dims
+    ) {
+        this(position, null, name, dims);
+    }
+
+    private QueenArrayAccessExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode name,
+        final List<ArrayDimensionNode> dims
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.name = name;
+        this.dims = dims;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        children.add(this.name);
+        if(this.dims != null) {
+            children.addAll(this.dims);
+        }
+        return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public ExpressionNode name() {
+        return this.name;
+    }
+
+    @Override
+    public List<ArrayDimensionNode> dims() {
+        return this.dims;
+    }
 }

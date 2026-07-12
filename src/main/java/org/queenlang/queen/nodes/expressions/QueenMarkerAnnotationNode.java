@@ -25,20 +25,26 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.queenlang.queen.nodes.names.NameNode;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
 /**
- * Queen transpiler.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Queen marker annotation (no parameters).
+ * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenMarkerAnnotationNode extends QueenAnnotationNode implements MarkerAnnotationNode {
+
+    public QueenMarkerAnnotationNode(final Position position, final NameNode name) {
+        this(position, null, name);
+    }
+
+    private QueenMarkerAnnotationNode(final Position position, final QueenNode parent, final NameNode name) {
+        super(position, parent, name);
+    }
+
 }

@@ -25,20 +25,50 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.QueenNode;
+import org.queenlang.queen.nodes.types.ClassOrInterfaceTypeNode;
+import org.queenlang.queen.nodes.types.NodeWithTypeParameters;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen NormalInterfaceDeclaration AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface NormalInterfaceDeclarationNode extends InterfaceDeclarationNode, NodeWithTypeParameters {
+
+    /**
+     * Types which are extended (an interface can extend more interfaces).
+     */
+    InterfaceTypeList extendsTypes();
+
+    /**
+     * The body.
+     */
+    InterfaceBodyNode body();
+
+    default List<MethodDeclarationNode> inheritedMethods() {
+        final List<MethodDeclarationNode> inherited = new ArrayList<>();
+        if(this.extendsTypes() != null) {
+            for(final ClassOrInterfaceTypeNode extendsType : this.extendsTypes()) {
+                final QueenNode resolvedExtendsType = extendsType.resolve();
+                if (resolvedExtendsType != null && resolvedExtendsType.asNormalInterfaceDeclaration() != null) {
+                    final NormalInterfaceDeclarationNode extendedInterface = resolvedExtendsType.asNormalInterfaceDeclaration();
+                    inherited.addAll(extendedInterface.body().methods());
+                    inherited.addAll(extendedInterface.inheritedMethods());
+                }
+            }
+        }
+        return inherited;
+    }
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitInterfaceDeclarationNode(this);
+    }
 }

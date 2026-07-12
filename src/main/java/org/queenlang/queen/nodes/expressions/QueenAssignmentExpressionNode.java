@@ -25,20 +25,77 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen Assignment Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenAssignmentExpressionNode implements AssignmentExpressionNode {
+
+    private final Position position;
+    private final QueenNode parent;
+    private final ExpressionNode target;
+    private final String operator;
+    private final ExpressionNode value;
+
+    public QueenAssignmentExpressionNode(
+        final Position position,
+        final ExpressionNode target,
+        final String operator,
+        final ExpressionNode value
+    ) {
+        this(position, null, target, operator, value);
+    }
+
+    private QueenAssignmentExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode target,
+        final String operator,
+        final ExpressionNode value
+    ) {
+        this.position = position;
+        this.parent  = parent;
+        this.target = target;
+        this.operator = operator;
+        this.value = value;
+    }
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.target, this.value);
+    }
+
+    @Override
+    public ExpressionNode target() {
+        return this.target;
+    }
+
+    @Override
+    public String operator() {
+        return this.operator;
+    }
+
+    @Override
+    public ExpressionNode value() {
+        return this.value;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
 }

@@ -25,20 +25,24 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.queenlang.queen.visitors.QueenASTVisitor;
 
 /**
- * Queen transpiler.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Queen single-member annotation.
+ * @author Mihai Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface SingleMemberAnnotationNode extends AnnotationNode {
+
+    /**
+     * Value of the annotation.
+     */
+    ExpressionNode elementValue();
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitSingleMemberAnnotationNode(this);
+    }
 }

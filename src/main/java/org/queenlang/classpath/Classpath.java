@@ -25,20 +25,28 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.classpath;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.names.NameNode;
 
-import java.io.*;
 import java.nio.file.Path;
-import java.util.List;
 
 /**
- * Queen transpiler.
+ * Classpath used by queenc to search for user-defined classes.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface Classpath {
+
+    /**
+     * Search and return the full path to a user-defined class.
+     * @param clazz Path to class.
+     * @return Path or null if the given class path is not found.
+     */
+    Path find(final Path clazz);
+
+    Path find(final NameNode name);
+
+
 }

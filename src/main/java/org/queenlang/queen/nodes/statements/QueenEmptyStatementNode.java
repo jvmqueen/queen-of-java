@@ -25,20 +25,47 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.statements;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen Empty Statement AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenEmptyStatementNode implements EmptyStatementNode {
+
+    private final Position position;
+
+    private final QueenNode parent;
+
+    public QueenEmptyStatementNode(final Position position) {
+        this(position, null);
+    }
+
+    private QueenEmptyStatementNode(final Position position, final QueenNode parent) {
+        this.position = position;
+        this.parent = parent;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
 }

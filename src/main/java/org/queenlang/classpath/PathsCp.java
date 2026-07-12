@@ -25,20 +25,58 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.classpath;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.names.NameNode;
 
-import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Classpath used by queenc to search for user-defined classes.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class PathsCp implements Classpath {
+
+    private final List<Path> classpaths;
+
+    public PathsCp(final List<Path> classpaths) {
+        this.classpaths = classpaths;
+    }
+
+    @Override
+    public Path find(final Path clazz) {
+        for(final Path path : this.classpaths) {
+            final Path whole = Path.of(path.toString(), clazz.toString());
+            if(Files.exists(whole)) {
+                return whole;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Path find(final NameNode name) {
+        final Path dirPath = Path.of(name.name().replaceAll("\\.", FileSystems.getDefault().getSeparator()));
+        if(this.find(dirPath) != null) {
+            return dirPath;
+        }
+        final Path queenPath = Path.of(dirPath + ".queen");
+        if(this.find(queenPath) != null) {
+            return queenPath;
+        }
+        final Path javaPath = Path.of(dirPath + ".java");
+        if(this.find(javaPath) != null) {
+            return javaPath;
+        }
+        final Path clazzPath = Path.of(dirPath + ".class");
+        if(this.find(clazzPath) != null) {
+            return clazzPath;
+        }
+        return null;
+    }
 }

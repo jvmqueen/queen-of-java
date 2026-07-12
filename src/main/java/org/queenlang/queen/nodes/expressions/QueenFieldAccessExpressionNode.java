@@ -25,20 +25,78 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen Field Access Expression, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenFieldAccessExpressionNode implements FieldAccessExpressionNode {
+
+    private final Position position;
+    private final QueenNode parent;
+    private final ExpressionNode scope;
+
+    private final String name;
+
+    public QueenFieldAccessExpressionNode(
+        final Position position,
+        final String name
+    ) {
+        this(position, null, name);
+    }
+
+
+    public QueenFieldAccessExpressionNode(
+        final Position position,
+        final ExpressionNode scope,
+        final String name
+    ) {
+        this(position, null, scope, name);
+    }
+
+    private QueenFieldAccessExpressionNode(
+        final Position position,
+        final QueenNode parent,
+        final ExpressionNode scope,
+        final String name
+    ) {
+        this.position = position;
+        this.parent = parent;
+        this.scope = scope;
+        this.name = name;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        return Arrays.asList(this.scope);
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public ExpressionNode scope() {
+        return this.scope;
+    }
+
+    @Override
+    public String name() {
+        return this.name;
+    }
 }

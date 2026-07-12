@@ -25,20 +25,56 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Queen transpiler.
+ * Queen annotation type declaration body AST node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenAnnotationTypeBodyNode implements AnnotationTypeBodyNode {
+    private final Position position;
+    private final QueenNode parent;
+    private final List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations;
+
+    public QueenAnnotationTypeBodyNode(final Position position, final List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations) {
+        this(position, null, annotationMemberDeclarations);
+    }
+
+    private QueenAnnotationTypeBodyNode(final Position position, final QueenNode parent, final List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations) {
+        this.position = position;
+        this.parent = parent;
+        this.annotationMemberDeclarations = annotationMemberDeclarations;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public List<QueenNode> children() {
+        final List<QueenNode> children = new ArrayList<>();
+        if(this.annotationMemberDeclarations != null ) {
+            children.addAll(this.annotationMemberDeclarations);
+        }
+        return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations() {
+        return this.annotationMemberDeclarations;
+    }
 }

@@ -25,20 +25,45 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.expressions;
 
-import org.queenlang.queen.QueenTranspilationException;
-
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
+import org.queenlang.queen.nodes.Position;
+import org.queenlang.queen.nodes.QueenNode;
 
 /**
- * Queen transpiler.
+ * A literal boolean expression in Queen, AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public final class QueenBooleanLiteralExpressionNode implements BooleanLiteralExpressionNode {
+
+    private final Position position;
+    private final QueenNode parent;
+    private final boolean value;
+
+    public QueenBooleanLiteralExpressionNode(final Position position, final boolean value) {
+        this(position, null, value);
+    }
+
+    private QueenBooleanLiteralExpressionNode(final Position position, final QueenNode parent, final boolean value) {
+        this.position = position;
+        this.parent = parent;
+        this.value = value;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public boolean value() {
+        return this.value;
+    }
 }

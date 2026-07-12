@@ -25,20 +25,51 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.queen.nodes.body;
 
-import org.queenlang.queen.QueenTranspilationException;
+import org.queenlang.queen.visitors.QueenASTVisitor;
+import org.queenlang.queen.nodes.QueenNode;
 
-import java.io.*;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Queen transpiler.
+ * Queen interface body AST Node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface QueenTranspiler {
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+public interface InterfaceBodyNode extends QueenNode, NodeWithConstantDeclarations, NodeWithMethodDeclarations, NodeWithTypeDeclarations {
+    List<InterfaceMemberDeclarationNode> interfaceMemberDeclarations();
+
+    @Override
+    default List<ConstantDeclarationNode> constantDeclarations() {
+        return this.interfaceMemberDeclarations()
+            .stream()
+            .filter(imd -> imd instanceof ConstantDeclarationNode)
+            .map(imd -> (ConstantDeclarationNode) imd)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    default List<MethodDeclarationNode> methods() {
+        return this.interfaceMemberDeclarations()
+            .stream()
+            .filter(imd -> imd instanceof MethodDeclarationNode)
+            .map(imd -> (MethodDeclarationNode) imd)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    default List<TypeDeclarationNode> typeDeclarations() {
+        return this.interfaceMemberDeclarations()
+            .stream()
+            .filter(imd -> imd instanceof TypeDeclarationNode)
+            .map(imd -> (TypeDeclarationNode) imd)
+            .collect(Collectors.toList());
+    }
+
+    default <T> T accept(QueenASTVisitor<? extends T> visitor) {
+        return visitor.visitInterfaceBodyNode(this);
+    }
 }

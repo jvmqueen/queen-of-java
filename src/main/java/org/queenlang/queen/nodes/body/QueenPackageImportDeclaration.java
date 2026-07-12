@@ -83,9 +83,9 @@ public final class QueenPackageImportDeclaration implements ImportDeclarationNod
     @Override
     public NameNode importDeclarationName() {
         if(this.packageDeclaration != null) {
-            return new QueenNameNode(new Position.Missing(), this.packageDeclaration.packageName(), this.typeName);
+            return new QueenNameNode(new Position.Missing(), null, this.packageDeclaration.packageName(), this.typeName);
         }
-        return new QueenNameNode(new Position.Missing(), null,  this.typeName);
+        return new QueenNameNode(new Position.Missing(), null, null,  this.typeName);
     }
 
     @Override

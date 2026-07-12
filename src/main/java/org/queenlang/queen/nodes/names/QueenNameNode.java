@@ -45,12 +45,9 @@ public final class QueenNameNode implements NameNode {
 
     private final Position  position;
     private final QueenNode parent;
+
     private final NameNode  qualifier;
     private final String identifier;
-
-    public QueenNameNode(final Position position, final QueenNode parent, final String identifier) {
-        this(position, parent, null, identifier);
-    }
 
     public QueenNameNode(final Position position, final QueenNode parent, final NameNode qualifier, final String identifier) {
         this.parent = parent;

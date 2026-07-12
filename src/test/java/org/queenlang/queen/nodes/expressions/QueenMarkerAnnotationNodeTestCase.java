@@ -49,7 +49,7 @@ public final class QueenMarkerAnnotationNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final MarkerAnnotationNode marker = new QueenMarkerAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "MyAnnotation")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), null,"MyAnnotation")
         );
         MatcherAssert.assertThat(
             marker.position(),
@@ -62,7 +62,7 @@ public final class QueenMarkerAnnotationNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final MarkerAnnotationNode marker = new QueenMarkerAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "MyAnnotation")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), null, "MyAnnotation")
         );
         MatcherAssert.assertThat(
             marker.name(),
@@ -75,7 +75,7 @@ public final class QueenMarkerAnnotationNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final MarkerAnnotationNode marker = new QueenMarkerAnnotationNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "MyAnnotation")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), null, "MyAnnotation")
         );
 
         MatcherAssert.assertThat(

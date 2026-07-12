@@ -52,7 +52,7 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), null, "MyAnnotation"),
             QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
@@ -66,7 +66,7 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), null,"MyAnnotation"),
             QueenMockito.mock(ExpressionNode.class)
         );
         MatcherAssert.assertThat(
@@ -81,7 +81,7 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
         final ExpressionNode element = QueenMockito.mock(ExpressionNode.class);
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), null, "MyAnnotation"),
             element
         );
         MatcherAssert.assertThat(
@@ -96,7 +96,7 @@ public final class QueenSingleMemberAnnotationNodeTestCase {
         final ExpressionNode element = QueenMockito.mock(ExpressionNode.class);
         final SingleMemberAnnotationNode singleMemberAnnotation = new QueenSingleMemberAnnotationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "Scope"),
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), null, "Scope"),
             element
         );
 

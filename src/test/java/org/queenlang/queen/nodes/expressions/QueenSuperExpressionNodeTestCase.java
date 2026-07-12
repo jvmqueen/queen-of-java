@@ -49,7 +49,7 @@ public final class QueenSuperExpressionNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), null,"Student")
         );
         MatcherAssert.assertThat(
             superExpression.position(),
@@ -62,7 +62,7 @@ public final class QueenSuperExpressionNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), null,"Student")
         );
         MatcherAssert.assertThat(
             superExpression.typeName().name(),
@@ -74,7 +74,7 @@ public final class QueenSuperExpressionNodeTestCase {
     public void returnsChildren() {
         final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
             Mockito.mock(Position.class),
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), null, "Student")
         );
         MatcherAssert.assertThat(
             superExpression.children(),

@@ -51,7 +51,7 @@ public final class QueenPackageDeclarationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "com.example")
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), null,"com.example")
         );
         MatcherAssert.assertThat(
             packageDeclarationNode.position(),
@@ -76,11 +76,11 @@ public final class QueenPackageDeclarationNodeTestCase {
     public void returnsChildren() {
         final PackageDeclarationNode packageDeclarationNode = new QueenPackageDeclarationNode(
             QueenMockito.mock(Position.class),
-            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "com.example.package")
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), null,"com.example.package")
         );
         MatcherAssert.assertThat(
             packageDeclarationNode.children(),
-            Matchers.hasSize(1)
+            Matchers.hasSize(0)
         );
     }
 

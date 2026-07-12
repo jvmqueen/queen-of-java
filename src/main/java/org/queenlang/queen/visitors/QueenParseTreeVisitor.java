@@ -912,12 +912,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return new QueenNameNode(
                 getPosition(ctx),
                 null,
+                null,
                 ctx.Identifier().getText()
             );
         } else {
             final QueenNameNode packageOrTypeName = this.visitPackageOrTypeName(ctx.packageOrTypeName());
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 packageOrTypeName,
                 ctx.Identifier().getText()
             );
@@ -930,12 +932,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return new QueenNameNode(
                 getPosition(ctx),
                 null,
+                null,
                 ctx.Identifier().getText()
             );
         } else {
             final QueenNameNode packageOrTypeName = this.visitPackageOrTypeName(ctx.packageOrTypeName());
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 packageOrTypeName,
                 ctx.Identifier().getText()
             );
@@ -948,12 +952,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return new QueenNameNode(
                 getPosition(ctx),
                 null,
+                null,
                 ctx.Identifier().getText()
             );
         } else {
             final QueenNameNode packageName = this.visitPackageName(ctx.packageName());
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 packageName,
                 ctx.Identifier().getText()
             );
@@ -966,12 +972,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return new QueenNameNode(
                 getPosition(ctx),
                 null,
+                null,
                 ctx.Identifier().getText()
             );
         } else {
             final QueenNameNode ambiguousName = this.visitAmbiguousName(ctx.ambiguousName());
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 ambiguousName,
                 ctx.Identifier().getText()
             );
@@ -984,12 +992,14 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
             return new QueenNameNode(
                 getPosition(ctx),
                 null,
+                null,
                 ctx.Identifier().getText()
             );
         } else {
             final QueenNameNode ambiguousName = this.visitAmbiguousName(ctx.ambiguousName());
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 ambiguousName,
                 ctx.Identifier().getText()
             );

@@ -54,7 +54,7 @@ public final class QueenNormalAnnotationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), null,"MyAnnotation"),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -68,7 +68,7 @@ public final class QueenNormalAnnotationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), null, "MyAnnotation"),
             new ArrayList<>()
         );
         MatcherAssert.assertThat(
@@ -86,7 +86,7 @@ public final class QueenNormalAnnotationNodeTestCase {
 
         final NormalAnnotationNode normalAnnotation = new QueenNormalAnnotationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), "MyAnnotation"),
+            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), null, "MyAnnotation"),
             elements
         );
         MatcherAssert.assertThat(

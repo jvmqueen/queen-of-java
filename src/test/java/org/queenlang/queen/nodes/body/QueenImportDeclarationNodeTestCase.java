@@ -51,7 +51,7 @@ public final class QueenImportDeclarationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "com.example.List"),
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), null,"com.example.List"),
             false
         );
         MatcherAssert.assertThat(
@@ -65,7 +65,7 @@ public final class QueenImportDeclarationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "com.example.List"),
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), null, "com.example.List"),
             true
         );
         MatcherAssert.assertThat(

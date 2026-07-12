@@ -145,7 +145,7 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
         return new QueenImportDeclarationNode(
             this.position,
             this.parent,
-            new QueenNameNode(this.importDeclarationName.position(), this.importDeclarationName, name),
+            new QueenNameNode(this.importDeclarationName.position(), null, this.importDeclarationName, name),
             false
         );
     }

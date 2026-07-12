@@ -49,6 +49,7 @@ public final class QueenNameNodeTestCase {
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
             QueenMockito.mock(QueenNode.class),
+            QueenMockito.mock(NameNode.class),
             "x"
         );
         MatcherAssert.assertThat(
@@ -62,6 +63,7 @@ public final class QueenNameNodeTestCase {
         final NameNode qualifier = QueenMockito.mock(NameNode.class);
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
+            null,
             qualifier,
             "x"
         );
@@ -76,7 +78,7 @@ public final class QueenNameNodeTestCase {
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
             QueenMockito.mock(QueenNode.class),
-            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), "Util"),
+            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), null,"Util"),
             "x"
         );
         MatcherAssert.assertThat(
@@ -87,10 +89,10 @@ public final class QueenNameNodeTestCase {
 
     @Test
     public void returnsParent() {
-        final QueenNode parent = QueenMockito.mock(QueenNode.class);
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
             QueenMockito.mock(QueenNode.class),
+            QueenMockito.mock(NameNode.class),
             "x"
         );
         MatcherAssert.assertThat(
@@ -100,21 +102,25 @@ public final class QueenNameNodeTestCase {
     }
 
     @Test
-    public void resolvesWithoutQualifierInParent() {
-        final QueenNode parent = QueenMockito.mock(QueenNode.class);
+    public void resolvesViaQualifier() {
+        final QueenNode resolved = QueenMockito.mock(QueenNode.class);
+
+        final NameNode qualifier = QueenMockito.mock(NameNode.class);
+        final NameNode qualifierDefinition = QueenMockito.mock(NameNode.class);
+        Mockito.when(qualifier.resolve()).thenReturn(qualifierDefinition);
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
-            QueenMockito.mock(QueenNode.class),
+            null,
+            qualifier,
             "x"
         );
-        final QueenNode resolved = QueenMockito.mock(QueenNode.class);
-        Mockito.when(parent.resolve(name, true)).thenReturn(resolved);
+        Mockito.when(qualifierDefinition.resolve(name, false)).thenReturn(resolved);
 
         MatcherAssert.assertThat(
             name.resolve(),
             Matchers.is(resolved)
         );
-        Mockito.verify(parent, Mockito.times(1)).resolve(name, true);
+        Mockito.verify(qualifierDefinition, Mockito.times(1)).resolve(name, false);
     }
 
     @Test
@@ -122,6 +128,7 @@ public final class QueenNameNodeTestCase {
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
             QueenMockito.mock(QueenNode.class),
+            QueenMockito.mock(NameNode.class),
             "x"
         );
 
@@ -136,6 +143,7 @@ public final class QueenNameNodeTestCase {
         final NameNode qualifier = QueenMockito.mock(NameNode.class);
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
+            QueenMockito.mock(QueenNode.class),
             qualifier,
             "x"
         );
@@ -158,6 +166,7 @@ public final class QueenNameNodeTestCase {
         final NameNode qualifier = QueenMockito.mock(NameNode.class);
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
+            null,
             qualifier,
             "x"
         );

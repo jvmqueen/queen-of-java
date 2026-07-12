@@ -82,7 +82,8 @@ public final class QueenJavaLangImportDeclaration implements ImportDeclarationNo
     public NameNode importDeclarationName() {
         return new QueenNameNode(
             new Position.Missing(),
-            new QueenNameNode(new Position.Missing(), null, "java.lang"),
+            null,
+            new QueenNameNode(new Position.Missing(), null, null,"java.lang"),
             this.typeName
         );
     }

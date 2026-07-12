@@ -82,6 +82,7 @@ public final class ClassCompilationUnitNode implements CompilationUnitNode {
             new QueenNameNode(
                 new Position.Missing(),
                 null,
+                null,
                 this.clazz.getPackageName()
             )
         );

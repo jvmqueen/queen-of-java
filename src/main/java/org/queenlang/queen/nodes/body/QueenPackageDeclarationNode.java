@@ -32,7 +32,7 @@ import org.queenlang.queen.nodes.names.NameNode;
 import org.queenlang.queen.nodes.Position;
 import org.queenlang.queen.nodes.QueenNode;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,7 +89,7 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
 
     @Override
     public List<QueenNode> children() {
-        return Arrays.asList(this.packageName);
+        return new ArrayList<>();
     }
 
     @Override

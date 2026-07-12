@@ -49,7 +49,7 @@ public final class QueenThisExpressionNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), null, "Student")
         );
         MatcherAssert.assertThat(
             thisExpression.position(),
@@ -62,7 +62,7 @@ public final class QueenThisExpressionNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), null,"Student")
         );
         MatcherAssert.assertThat(
             thisExpression.typeName().name(),
@@ -74,7 +74,7 @@ public final class QueenThisExpressionNodeTestCase {
     public void returnsChildren() {
         final ThisExpressionNode thisExpression = new QueenThisExpressionNode(
             Mockito.mock(Position.class),
-            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(NameNode.class), null, "Student")
         );
         MatcherAssert.assertThat(
             thisExpression.children(),

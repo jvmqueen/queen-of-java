@@ -48,18 +48,12 @@ public abstract class QueenAnnotationNode implements AnnotationNode {
     private final Position position;
 
     /**
-     * Parent node.
-     */
-    private final QueenNode parent;
-
-    /**
      * Name of the annotation.
      */
     private final NameNode name;
 
-    public QueenAnnotationNode(final Position position, final QueenNode parent, final NameNode name) {
+    public QueenAnnotationNode(final Position position, final NameNode name) {
         this.position = position;
-        this.parent = parent;
         this.name = name;
     }
 
@@ -80,11 +74,6 @@ public abstract class QueenAnnotationNode implements AnnotationNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.name);
-    }
-
-    @Override
-    public QueenNode parent() {
-        return this.parent;
     }
 
 }

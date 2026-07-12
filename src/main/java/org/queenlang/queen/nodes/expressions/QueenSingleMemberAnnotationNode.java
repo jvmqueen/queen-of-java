@@ -43,6 +43,8 @@ import java.util.List;
  */
 public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode implements SingleMemberAnnotationNode {
 
+    private final QueenNode parent;
+
     /**
      * Value of the annotation.
      */
@@ -53,7 +55,8 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode i
     }
 
     private QueenSingleMemberAnnotationNode(final Position position, final QueenNode parent, final NameNode name, final ExpressionNode elementValue) {
-        super(position, parent, name);
+        super(position, name);
+        this.parent = parent;
         this.elementValue = elementValue;
     }
 
@@ -68,6 +71,11 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode i
         children.addAll(super.children());
         children.add(this.elementValue);
         return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
 }

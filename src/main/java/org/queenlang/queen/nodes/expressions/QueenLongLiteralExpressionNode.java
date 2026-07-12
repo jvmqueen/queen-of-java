@@ -38,11 +38,19 @@ import org.queenlang.queen.nodes.QueenNode;
  * @since 0.0.1
  */
 public final class QueenLongLiteralExpressionNode extends QueenLiteralStringValueExpressionNode implements LongLiteralExpressionNode{
+    private final QueenNode parent;
+
     public QueenLongLiteralExpressionNode(final Position position, final String value) {
         this(position, null, value);
     }
 
     private QueenLongLiteralExpressionNode(final Position position, final QueenNode parent, final String value) {
-        super(position, parent, value);
+        super(position, value);
+        this.parent = parent;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

@@ -39,13 +39,23 @@ import org.queenlang.queen.nodes.QueenNode;
  * @since 0.0.1
  */
 public final class QueenMarkerAnnotationNode extends QueenAnnotationNode implements MarkerAnnotationNode {
+    /**
+     * Parent node.
+     */
+    private final QueenNode parent;
 
     public QueenMarkerAnnotationNode(final Position position, final NameNode name) {
         this(position, null, name);
     }
 
     private QueenMarkerAnnotationNode(final Position position, final QueenNode parent, final NameNode name) {
-        super(position, parent, name);
+        super(position, name);
+        this.parent = parent;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 
 }

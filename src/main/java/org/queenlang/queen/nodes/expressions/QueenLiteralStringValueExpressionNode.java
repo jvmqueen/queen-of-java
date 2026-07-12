@@ -40,12 +40,10 @@ import org.queenlang.queen.nodes.QueenNode;
 public abstract class QueenLiteralStringValueExpressionNode implements LiteralStringValueExpressionNode {
 
     private final Position position;
-    private final QueenNode parent;
     private final String value;
 
-    public QueenLiteralStringValueExpressionNode(final Position position, final QueenNode parent, final String value) {
+    protected QueenLiteralStringValueExpressionNode(final Position position, final String value) {
         this.position = position;
-        this.parent = parent;
         this.value = value;
     }
 
@@ -57,11 +55,6 @@ public abstract class QueenLiteralStringValueExpressionNode implements LiteralSt
     @Override
     public final Position position() {
         return this.position;
-    }
-
-    @Override
-    public final QueenNode parent() {
-        return this.parent;
     }
 
 }

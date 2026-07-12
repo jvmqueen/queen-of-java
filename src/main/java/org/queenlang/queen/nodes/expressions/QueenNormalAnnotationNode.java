@@ -44,6 +44,8 @@ import java.util.List;
  */
 public final class QueenNormalAnnotationNode extends QueenAnnotationNode implements NormalAnnotationNode {
 
+    private final QueenNode parent;
+
     /**
      * Key-value pairs within the annotation.
      */
@@ -63,7 +65,8 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
         final NameNode name,
         final List<ElementValuePairNode> elementValuePairs
     ) {
-        super(position, parent, name);
+        super(position, name);
+        this.parent = parent;
         this.elementValuePairs = elementValuePairs;
     }
 
@@ -80,5 +83,10 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
             children.addAll(this.elementValuePairs);
         }
         return children;
+    }
+
+    @Override
+    public QueenNode parent() {
+        return this.parent;
     }
 }

@@ -47,13 +47,4 @@ public final class QueenMarkerAnnotationNode extends QueenAnnotationNode impleme
         super(position, parent, name);
     }
 
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenMarkerAnnotationNode(
-            this.position(),
-            parent,
-            this.nameNode()
-        );
-    }
-
 }

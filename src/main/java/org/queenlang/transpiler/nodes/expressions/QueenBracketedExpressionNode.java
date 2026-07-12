@@ -52,7 +52,7 @@ public final class QueenBracketedExpressionNode implements BracketedExpressionNo
     private QueenBracketedExpressionNode(final Position position, final QueenNode parent, final ExpressionNode expression) {
         this.position = position;
         this.parent = parent();
-        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
+        this.expression = expression;
     }
 
     @Override
@@ -63,15 +63,6 @@ public final class QueenBracketedExpressionNode implements BracketedExpressionNo
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expression);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenBracketedExpressionNode(
-            this.position,
-            parent,
-            this.expression
-        );
     }
 
     @Override

@@ -52,9 +52,7 @@ public final class QueenAnnotationTypeBodyNode implements AnnotationTypeBodyNode
     private QueenAnnotationTypeBodyNode(final Position position, final QueenNode parent, final List<AnnotationTypeMemberDeclarationNode> annotationMemberDeclarations) {
         this.position = position;
         this.parent = parent;
-        this.annotationMemberDeclarations = annotationMemberDeclarations != null ? annotationMemberDeclarations.stream().map(
-            amd -> (AnnotationTypeMemberDeclarationNode) amd.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.annotationMemberDeclarations = annotationMemberDeclarations;
     }
 
     @Override
@@ -69,15 +67,6 @@ public final class QueenAnnotationTypeBodyNode implements AnnotationTypeBodyNode
             children.addAll(this.annotationMemberDeclarations);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenAnnotationTypeBodyNode(
-            this.position,
-            parent,
-            this.annotationMemberDeclarations
-        );
     }
 
     @Override

@@ -68,15 +68,6 @@ public final class QueenContinueStatementNode implements ContinueStatementNode {
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenContinueStatementNode(
-            this.position,
-            parent,
-            this.label
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

@@ -92,7 +92,7 @@ public final class QueenASTSemanticValidationVisitor implements QueenASTVisitor<
                     );
                 }
             }
-            problems.addAll(this.visitImportDeclarationNode((ImportDeclarationNode) importDeclaration.withParent(this.project)));
+            problems.addAll(this.visitImportDeclarationNode(importDeclaration));
         }
         problems.addAll(
             this.visitTypeDeclarationNode(node.typeDeclaration())

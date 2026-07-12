@@ -41,15 +41,6 @@ public final class QueenVariableDeclaratorId implements VariableDeclaratorId {
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenVariableDeclaratorId(
-            this.position,
-            parent,
-            this.name
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

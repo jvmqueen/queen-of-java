@@ -75,7 +75,7 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
         this.position = position;
         this.parent = parent;
         this.name = name;
-        this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
+        this.blockStatements = blockStatements;
     }
 
     @Override
@@ -86,16 +86,6 @@ public final class QueenLabeledStatementNode implements LabeledStatementNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.blockStatements);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenLabeledStatementNode(
-            this.position,
-            parent,
-            this.name,
-            this.blockStatements
-        );
     }
 
     @Override

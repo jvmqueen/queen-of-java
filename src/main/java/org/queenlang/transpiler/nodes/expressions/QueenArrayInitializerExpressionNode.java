@@ -60,9 +60,7 @@ public final class QueenArrayInitializerExpressionNode implements ArrayInitializ
     ) {
         this.position = position;
         this.parent = parent;
-        this.values = values != null ? values.stream().map(
-            v -> (ExpressionNode) v.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.values = values;
     }
 
     @Override
@@ -77,15 +75,6 @@ public final class QueenArrayInitializerExpressionNode implements ArrayInitializ
             children.addAll(this.values);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenArrayInitializerExpressionNode(
-            this.position,
-            parent,
-            this.values
-        );
     }
 
     @Override

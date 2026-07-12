@@ -62,11 +62,6 @@ public final class QueenPackageNode implements PackageNode {
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return this;
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

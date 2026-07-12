@@ -67,23 +67,12 @@ public final class QueenInterfaceTypeList implements InterfaceTypeList {
     ) {
         this.position = position;
         this.parent = parent;
-        this.interfaceTypes = interfaceTypes.stream().map(
-            it -> (ClassOrInterfaceTypeNode) it.withParent(this)
-        ).collect(Collectors.toList());
+        this.interfaceTypes = interfaceTypes;
     }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenInterfaceTypeList(
-            this.position,
-            parent,
-            this.interfaceTypes
-        );
     }
 
     @Override

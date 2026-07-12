@@ -68,14 +68,6 @@ public final class QueenJavaLangImportDeclaration implements ImportDeclarationNo
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenJavaLangImportDeclaration(
-            parent,
-            this.typeName
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }
@@ -89,7 +81,7 @@ public final class QueenJavaLangImportDeclaration implements ImportDeclarationNo
     public NameNode importDeclarationName() {
         return new QueenNameNode(
             new Position.Missing(),
-            new QueenNameNode(new Position.Missing(), "java.lang"),
+            new QueenNameNode(new Position.Missing(), null, "java.lang"),
             this.typeName
         );
     }

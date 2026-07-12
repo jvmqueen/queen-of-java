@@ -79,16 +79,10 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.modifiers = modifiers != null ? modifiers.stream().map(
-            m -> (ModifierNode) m.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.catchExceptionTypes = catchExceptionTypes != null ? catchExceptionTypes.stream().map(
-            cet -> (TypeNode) cet.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.exceptionName = exceptionName != null ? (VariableDeclaratorId) exceptionName.withParent(this) : null;
+        this.annotations = annotations;
+        this.modifiers = modifiers;
+        this.catchExceptionTypes = catchExceptionTypes;
+        this.exceptionName = exceptionName;
     }
 
     @Override
@@ -110,18 +104,6 @@ public final class QueenCatchFormalParameterNode implements CatchFormalParameter
         }
         children.add(this.exceptionName);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenCatchFormalParameterNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.modifiers,
-            this.catchExceptionTypes,
-            this.exceptionName
-        );
     }
 
     @Override

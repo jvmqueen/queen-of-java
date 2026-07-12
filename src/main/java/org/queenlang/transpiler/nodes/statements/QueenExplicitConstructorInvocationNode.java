@@ -79,13 +79,9 @@ public final class QueenExplicitConstructorInvocationNode implements ExplicitCon
         this.position = position;
         this.parent = parent;
         this.isThis = isThis;
-        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
-        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
-            ta -> (TypeNode) ta.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.arguments = arguments != null ? arguments.stream().map(
-            a -> (ExpressionNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.scope = scope;
+        this.typeArguments = typeArguments;
+        this.arguments = arguments;
     }
 
     @Override
@@ -104,18 +100,6 @@ public final class QueenExplicitConstructorInvocationNode implements ExplicitCon
             children.addAll(this.arguments);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenExplicitConstructorInvocationNode(
-            this.position,
-            parent,
-            this.isThis,
-            this.scope,
-            this.typeArguments,
-            this.arguments
-        );
     }
 
     @Override

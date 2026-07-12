@@ -65,10 +65,8 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
     ) {
         this.position = position;
         this.parent = parent;
-        this.name = (ExpressionNode) name.withParent(this);
-        this.dims = dims != null ? dims.stream().map(
-            d -> (ArrayDimensionNode) d.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.name = name;
+        this.dims = dims;
     }
 
     @Override
@@ -84,16 +82,6 @@ public final class QueenArrayAccessExpressionNode implements ArrayAccessExpressi
             children.addAll(this.dims);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenArrayAccessExpressionNode(
-            this.position,
-            parent,
-            this.name,
-            this.dims
-        );
     }
 
     @Override

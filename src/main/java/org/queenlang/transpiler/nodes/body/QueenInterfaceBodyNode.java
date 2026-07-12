@@ -59,9 +59,7 @@ public final class QueenInterfaceBodyNode implements InterfaceBodyNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.interfaceMemberDeclarations = interfaceMemberDeclarations != null ? interfaceMemberDeclarations.stream().map(
-            ibd -> (InterfaceMemberDeclarationNode) ibd.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.interfaceMemberDeclarations = interfaceMemberDeclarations;
     }
 
     @Override
@@ -80,15 +78,6 @@ public final class QueenInterfaceBodyNode implements InterfaceBodyNode {
             children.addAll(this.interfaceMemberDeclarations);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenInterfaceBodyNode(
-            this.position,
-            parent,
-            this.interfaceMemberDeclarations
-        );
     }
 
     @Override

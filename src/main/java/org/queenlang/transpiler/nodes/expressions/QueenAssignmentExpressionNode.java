@@ -65,9 +65,9 @@ public final class QueenAssignmentExpressionNode implements AssignmentExpression
     ) {
         this.position = position;
         this.parent  = parent;
-        this.target = target != null ? (ExpressionNode) target.withParent(this) : null;
+        this.target = target;
         this.operator = operator;
-        this.value = value != null ? (ExpressionNode) value.withParent(this) : null;
+        this.value = value;
     }
     @Override
     public Position position() {
@@ -92,17 +92,6 @@ public final class QueenAssignmentExpressionNode implements AssignmentExpression
     @Override
     public ExpressionNode value() {
         return this.value;
-    }
-
-    @Override
-    public QueenAssignmentExpressionNode withParent(final QueenNode parent) {
-        return new QueenAssignmentExpressionNode(
-            this.position,
-            parent,
-            this.target,
-            this.operator,
-            this.value
-        );
     }
 
     @Override

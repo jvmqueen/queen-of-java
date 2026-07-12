@@ -58,7 +58,7 @@ public abstract class QueenAnnotationNode implements AnnotationNode {
     public QueenAnnotationNode(final Position position, final QueenNode parent, final NameNode name) {
         this.position = position;
         this.parent = parent;
-        this.name = (NameNode) name.withParent(this);
+        this.name = name;
     }
 
     @Override

@@ -64,9 +64,7 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
         final List<ElementValuePairNode> elementValuePairs
     ) {
         super(position, parent, name);
-        this.elementValuePairs = elementValuePairs != null ? elementValuePairs.stream().map(
-            evp -> (ElementValuePairNode) evp.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.elementValuePairs = elementValuePairs;
     }
 
     @Override
@@ -82,15 +80,5 @@ public final class QueenNormalAnnotationNode extends QueenAnnotationNode impleme
             children.addAll(this.elementValuePairs);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenNormalAnnotationNode(
-            this.position(),
-            parent,
-            this.nameNode(),
-            this.elementValuePairs
-        );
     }
 }

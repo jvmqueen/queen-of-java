@@ -63,8 +63,8 @@ public final class QueenVariableDeclaratorNode implements VariableDeclaratorNode
     ) {
         this.position = position;
         this.parent = parent;
-        this.variableDeclaratorId = variableDeclaratorId != null ? (VariableDeclaratorId) variableDeclaratorId.withParent(this) : null;
-        this.initializer = initializer != null ? (ExpressionNode) initializer.withParent(this) : null;
+        this.variableDeclaratorId = variableDeclaratorId;
+        this.initializer = initializer;
     }
 
     @Override
@@ -75,16 +75,6 @@ public final class QueenVariableDeclaratorNode implements VariableDeclaratorNode
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.variableDeclaratorId, this.initializer);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenVariableDeclaratorNode(
-            this.position,
-            parent,
-            this.variableDeclaratorId,
-            this.initializer
-        );
     }
 
     @Override

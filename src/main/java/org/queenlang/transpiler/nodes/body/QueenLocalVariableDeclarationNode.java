@@ -94,16 +94,10 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.modifiers = modifiers != null ? modifiers.stream().map(
-            m -> (ModifierNode) m.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.type = type != null ? (TypeNode) type.withParent(this) : null;
-        this.variables = variables != null ? variables.stream().map(
-            v -> (VariableDeclaratorNode) v.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.annotations = annotations;
+        this.modifiers = modifiers;
+        this.type = type;
+        this.variables = variables;
     }
 
     @Override
@@ -146,18 +140,6 @@ public final class QueenLocalVariableDeclarationNode implements LocalVariableDec
             children.addAll(this.variables);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenLocalVariableDeclarationNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.modifiers,
-            this.type,
-            this.variables
-        );
     }
 
     @Override

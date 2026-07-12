@@ -62,8 +62,8 @@ public final class QueenCatchClauseNode implements CatchClauseNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.parameter = parameter != null ? (CatchFormalParameterNode) parameter.withParent(this) : null;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.parameter = parameter;
+        this.blockStatements = blockStatements;
     }
 
     @Override
@@ -74,16 +74,6 @@ public final class QueenCatchClauseNode implements CatchClauseNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.parameter, this.blockStatements);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenCatchClauseNode(
-            this.position,
-            parent,
-            this.parameter,
-            this.blockStatements
-        );
     }
 
     @Override

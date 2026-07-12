@@ -65,9 +65,7 @@ public final class QueenBlockStatements implements BlockStatements {
     ) {
         this.position = position;
         this.parent = parent;
-        this.blockStatements = blockStatements.stream().map(
-            statement -> (StatementNode) statement.withParent(this)
-        ).collect(Collectors.toList());
+        this.blockStatements = blockStatements;
     }
 
 
@@ -110,15 +108,6 @@ public final class QueenBlockStatements implements BlockStatements {
             return this.parent.resolve(reference, goUp);
         }
         return resolved;
-    }
-
-    @Override
-    public QueenBlockStatements withParent(final QueenNode parent) {
-        return new QueenBlockStatements(
-            this.position,
-            parent,
-            this.blockStatements
-        );
     }
 
     @Override

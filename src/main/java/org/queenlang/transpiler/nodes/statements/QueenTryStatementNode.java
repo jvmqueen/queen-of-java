@@ -77,12 +77,10 @@ public final class QueenTryStatementNode implements TryStatementNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.resources = resources != null ? resources.stream().map(
-            r -> (ExpressionNode) r.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.tryBlockStatements = tryBlockStatements != null ? (BlockStatements) tryBlockStatements.withParent(this) : null;
-        this.catchClauses = catchClauses != null ? catchClauses.stream().map(cc -> (CatchClauseNode) cc.withParent(this)).collect(Collectors.toList()) : null;
-        this.finallyBlockStatements = finallyBlockStatements != null ? (BlockStatements) finallyBlockStatements.withParent(this) : null;
+        this.resources = resources;
+        this.tryBlockStatements = tryBlockStatements;
+        this.catchClauses = catchClauses;
+        this.finallyBlockStatements = finallyBlockStatements;
     }
 
     @Override
@@ -102,18 +100,6 @@ public final class QueenTryStatementNode implements TryStatementNode {
         }
         children.add(this.finallyBlockStatements);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenTryStatementNode(
-            this.position,
-            parent,
-            this.resources,
-            this.tryBlockStatements,
-            this.catchClauses,
-            this.finallyBlockStatements
-        );
     }
 
     @Override

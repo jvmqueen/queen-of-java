@@ -105,20 +105,14 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.modifier = modifier != null ? (ModifierNode) modifier.withParent(this) : null;
-        this.typeParams = typeParams != null ? typeParams.stream().map(
-            tp -> (TypeParameterNode) tp.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.annotations = annotations;
+        this.modifier = modifier;
+        this.typeParams = typeParams;
         this.name = name;
-        this.parameters = parameters != null ? (ParameterList) parameters.withParent(this) : null;
-        this.throwsList = throwsList != null ? throwsList.stream().map(
-            t -> (ExceptionTypeNode) t.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.explicitConstructorInvocationNode = explicitConstructorInvocationNode != null ? (ExplicitConstructorInvocationNode) explicitConstructorInvocationNode.withParent(this) : null;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.parameters = parameters;
+        this.throwsList = throwsList;
+        this.explicitConstructorInvocationNode = explicitConstructorInvocationNode;
+        this.blockStatements = blockStatements;
     }
 
     @Override
@@ -190,22 +184,6 @@ public final class QueenConstructorDeclarationNode implements ConstructorDeclara
         children.add(this.explicitConstructorInvocationNode);
         children.add(this.blockStatements);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenConstructorDeclarationNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.modifier,
-            this.typeParams,
-            this.name,
-            this.parameters,
-            this.throwsList,
-            this.explicitConstructorInvocationNode,
-            this.blockStatements
-        );
     }
 
     @Override

@@ -71,7 +71,7 @@ public final class QueenFieldAccessExpressionNode implements FieldAccessExpressi
     ) {
         this.position = position;
         this.parent = parent;
-        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
+        this.scope = scope;
         this.name = name;
     }
 
@@ -83,16 +83,6 @@ public final class QueenFieldAccessExpressionNode implements FieldAccessExpressi
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.scope);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenFieldAccessExpressionNode(
-            this.position,
-            parent,
-            this.scope,
-            this.name
-        );
     }
 
     @Override

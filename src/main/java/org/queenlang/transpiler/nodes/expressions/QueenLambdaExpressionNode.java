@@ -80,9 +80,9 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
         this.position = position;
         this.parent = parent;
         this.enclosedParameters = enclosedParameters;
-        this.parameters = parameters != null ? (ParameterList) parameters.withParent(this) : null;
-        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.parameters = parameters;
+        this.expression = expression;
+        this.blockStatements = blockStatements;
     }
 
     @Override
@@ -99,18 +99,6 @@ public final class QueenLambdaExpressionNode implements LambdaExpressionNode {
         children.add(this.expression);
         children.add(this.blockStatements);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenLambdaExpressionNode(
-            this.position,
-            parent,
-            this.enclosedParameters,
-            this.parameters,
-            this.expression,
-            this.blockStatements
-        );
     }
 
     @Override

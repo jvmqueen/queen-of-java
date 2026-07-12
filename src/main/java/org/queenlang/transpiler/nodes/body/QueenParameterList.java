@@ -67,23 +67,12 @@ public final class QueenParameterList implements ParameterList {
     ) {
         this.position = position;
         this.parent = parent;
-        this.parameters = parameters.stream().map(
-            p -> (ParameterNode) p.withParent(this)
-        ).collect(Collectors.toList());
+        this.parameters = parameters;
     }
 
     @Override
     public Position position() {
         return this.position;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenParameterList(
-            this.position,
-            parent,
-            this.parameters
-        );
     }
 
     @Override

@@ -67,15 +67,6 @@ public final class QueenTextStatementNode implements StatementNode {
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenTextStatementNode(
-            this.position,
-            parent,
-            this.statement
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

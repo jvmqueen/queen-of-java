@@ -46,11 +46,6 @@ public final class ClassFieldDeclarationNode implements FieldDeclarationNode {
     }
 
     @Override
-    public QueenNode withParent(QueenNode parent) {
-        return null;
-    }
-
-    @Override
     public QueenNode parent() {
         return null;
     }

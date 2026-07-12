@@ -101,14 +101,10 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.modifiers = modifiers != null ? modifiers.stream().map(
-            m -> (ModifierNode) m.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.annotations = annotations;
+        this.modifiers = modifiers;
         this.name = name;
-        this.body = body != null ? (AnnotationTypeBodyNode) body.withParent(this) : null;
+        this.body = body;
     }
 
     @Override
@@ -147,18 +143,6 @@ public final class QueenAnnotationTypeDeclarationNode implements AnnotationTypeD
         }
         children.add(this.body);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenAnnotationTypeDeclarationNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.modifiers,
-            this.name,
-            this.body
-        );
     }
 
     @Override

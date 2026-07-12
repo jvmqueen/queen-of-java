@@ -68,24 +68,20 @@ public final class ClassCompilationUnitNode implements CompilationUnitNode {
     }
 
     @Override
-    public QueenNode withParent(QueenNode parent) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    @Override
     public QueenNode parent() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public PackageDeclarationNode packageDeclaration() {
-        return (PackageDeclarationNode) new QueenPackageDeclarationNode(
+        return  new QueenPackageDeclarationNode(
             new Position.Missing(),
             new QueenNameNode(
                 new Position.Missing(),
+                null,
                 this.clazz.getPackageName()
             )
-        ).withParent(this);
+        );
     }
 
     @Override

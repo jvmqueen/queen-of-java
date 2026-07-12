@@ -70,15 +70,6 @@ public final class QueenPackageImportDeclaration implements ImportDeclarationNod
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenPackageImportDeclaration(
-            parent,
-            this.packageDeclaration,
-            this.typeName
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }
@@ -93,7 +84,7 @@ public final class QueenPackageImportDeclaration implements ImportDeclarationNod
         if(this.packageDeclaration != null) {
             return new QueenNameNode(new Position.Missing(), this.packageDeclaration.packageName(), this.typeName);
         }
-        return new QueenNameNode(new Position.Missing(), this.typeName);
+        return new QueenNameNode(new Position.Missing(), null,  this.typeName);
     }
 
     @Override

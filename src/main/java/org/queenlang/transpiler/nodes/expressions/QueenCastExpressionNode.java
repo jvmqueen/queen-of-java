@@ -76,11 +76,9 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.primitiveType = primitiveType != null ? (TypeNode) primitiveType.withParent(this) : null;
-        this.referenceTypes = referenceTypes != null ? referenceTypes.stream().map(
-            r -> (ReferenceTypeNode) r.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
+        this.primitiveType = primitiveType;
+        this.referenceTypes = referenceTypes;
+        this.expression = expression;
     }
 
     @Override
@@ -97,17 +95,6 @@ public final class QueenCastExpressionNode implements CastExpressionNode {
             children.addAll(this.referenceTypes);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenCastExpressionNode(
-            this.position,
-            parent,
-            this.primitiveType,
-            this.referenceTypes,
-            this.expression
-        );
     }
 
     @Override

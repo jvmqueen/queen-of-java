@@ -67,11 +67,9 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
     ) {
         this.position = position;
         this.parent = parent;
-        this.type = type != null ? (TypeNode) type.withParent(this) : null;
-        this.dims = dims != null ? dims.stream().map(
-            d -> (ArrayDimensionNode) d.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.arrayInitializer = arrayInitializer != null ? (ExpressionNode) arrayInitializer.withParent(this) : null;
+        this.type = type;
+        this.dims = dims;
+        this.arrayInitializer = arrayInitializer;
     }
 
     @Override
@@ -88,17 +86,6 @@ public final class QueenArrayCreationExpressionNode implements ArrayCreationExpr
             children.addAll(this.dims);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenArrayCreationExpressionNode(
-            this.position,
-            parent,
-            this.type,
-            this.dims,
-            this.arrayInitializer
-        );
     }
 
     @Override

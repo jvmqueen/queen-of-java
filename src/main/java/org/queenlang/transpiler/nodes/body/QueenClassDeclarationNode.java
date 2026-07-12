@@ -147,20 +147,14 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.accessModifiers = accessModifiers != null ? accessModifiers.stream().map(
-            am -> (ModifierNode) am.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.extensionModifier = extensionModifier != null ? (ModifierNode) extensionModifier.withParent(this) : null;
+        this.annotations = annotations;
+        this.accessModifiers = accessModifiers;
+        this.extensionModifier = extensionModifier;
         this.name = name;
-        this.typeParams = typeParams != null ? typeParams.stream().map(
-            tp -> (TypeParameterNode) tp.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.extendsType = extendsType != null ? (ClassOrInterfaceTypeNode) extendsType.withParent(this) : null;
-        this.of = of != null ? (InterfaceTypeList) of.withParent(this) : null;
-        this.body = body != null ? (ClassBodyNode) body.withParent(this) : null;
+        this.typeParams = typeParams;
+        this.extendsType = extendsType;
+        this.of = of;
+        this.body = body;
     }
 
     @Override
@@ -227,22 +221,6 @@ public final class QueenClassDeclarationNode implements ClassDeclarationNode {
         }
         children.add(this.body);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenClassDeclarationNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.accessModifiers,
-            this.extensionModifier,
-            this.name,
-            this.typeParams,
-            this.extendsType,
-            this.of,
-            this.body
-        );
     }
 
     @Override

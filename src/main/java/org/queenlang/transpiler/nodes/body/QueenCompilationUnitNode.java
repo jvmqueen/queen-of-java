@@ -65,11 +65,9 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.packageDeclaration = packageDeclaration != null ? (PackageDeclarationNode) packageDeclaration.withParent(this) : null;
-        this.importDeclarations = importDeclarations != null ? importDeclarations.stream().map(
-            id -> (ImportDeclarationNode) id.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.typeDeclaration = typeDeclaration != null ? (TypeDeclarationNode) typeDeclaration.withParent(this) : null;
+        this.packageDeclaration = packageDeclaration;
+        this.importDeclarations = importDeclarations;
+        this.typeDeclaration = typeDeclaration;
     }
 
     @Override
@@ -103,17 +101,6 @@ public final class QueenCompilationUnitNode implements CompilationUnitNode {
             children.add(this.typeDeclaration);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenCompilationUnitNode(
-            this.position,
-            parent,
-            this.packageDeclaration,
-            this.importDeclarations,
-            this.typeDeclaration
-        );
     }
 
     @Override

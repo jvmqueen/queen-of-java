@@ -89,9 +89,9 @@ public final class QueenIfStatementNode implements IfStatementNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.condition = condition != null ? (ExpressionNode) condition.withParent(this) : null;
-        this.thenBlockStatements = thenBlockStatements != null ? (StatementNode) thenBlockStatements.withParent(this) : null;
-        this.elseBlockStatements = elseBlockStatements != null ? (StatementNode) elseBlockStatements.withParent(this) : null;
+        this.condition = condition;
+        this.thenBlockStatements = thenBlockStatements;
+        this.elseBlockStatements = elseBlockStatements;
     }
 
     @Override
@@ -102,17 +102,6 @@ public final class QueenIfStatementNode implements IfStatementNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.condition, this.thenBlockStatements, this.elseBlockStatements);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenIfStatementNode(
-            this.position,
-            parent,
-            this.condition,
-            this.thenBlockStatements,
-            this.elseBlockStatements
-        );
     }
 
     @Override

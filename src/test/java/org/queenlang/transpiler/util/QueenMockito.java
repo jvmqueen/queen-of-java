@@ -9,7 +9,6 @@ public class QueenMockito {
         final T mock = Mockito.mock(classToMock);
         try {
             final QueenNode node = (QueenNode) mock;
-            Mockito.when(node.withParent(Mockito.any())).thenReturn(node);
         } catch (final ClassCastException ignored) {
         }
         return mock;

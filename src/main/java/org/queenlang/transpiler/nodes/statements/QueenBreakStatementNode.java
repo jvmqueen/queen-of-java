@@ -67,15 +67,6 @@ public final class QueenBreakStatementNode implements BreakStatementNode {
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenBreakStatementNode(
-            this.position,
-            parent,
-            this.label
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

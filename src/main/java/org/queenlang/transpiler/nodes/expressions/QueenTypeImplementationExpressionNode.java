@@ -65,10 +65,8 @@ public final class QueenTypeImplementationExpressionNode implements TypeImplemen
     ) {
         this.position = position;
         this.parent = parent;
-        this.type = type != null ? (TypeNode) type.withParent(this) : null;
-        this.dims = dims != null ? dims.stream().map(
-            d -> (ArrayDimensionNode) d.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.type = type;
+        this.dims = dims;
     }
 
     @Override
@@ -84,16 +82,6 @@ public final class QueenTypeImplementationExpressionNode implements TypeImplemen
             children.addAll(this.dims);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenTypeImplementationExpressionNode(
-            this.position,
-            parent,
-            this.type,
-            this.dims
-        );
     }
 
     @Override

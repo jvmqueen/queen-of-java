@@ -126,18 +126,12 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.modifiers = modifiers != null ? modifiers.stream().map(
-            m -> (ModifierNode) m.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.annotations = annotations;
+        this.modifiers = modifiers;
         this.name = name;
-        this.typeParams = typeParams != null ? typeParams.stream().map(
-            tp -> (TypeParameterNode) tp.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.extendsTypes = extendsTypes != null ? (InterfaceTypeList) extendsTypes.withParent(this) : null;
-        this.body = body != null ? (InterfaceBodyNode) body.withParent(this) : null;
+        this.typeParams = typeParams;
+        this.extendsTypes = extendsTypes;
+        this.body = body;
     }
 
     @Override
@@ -192,20 +186,6 @@ public final class QueenNormalInterfaceDeclarationNode implements NormalInterfac
         }
         children.add(this.body);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenNormalInterfaceDeclarationNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.modifiers,
-            this.name,
-            this.typeParams,
-            this.extendsTypes,
-            this.body
-        );
     }
 
     @Override

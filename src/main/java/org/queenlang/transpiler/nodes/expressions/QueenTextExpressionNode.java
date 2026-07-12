@@ -67,15 +67,6 @@ public final class QueenTextExpressionNode implements ExpressionNode {
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenTextExpressionNode(
-            this.position,
-            parent,
-            this.expression
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

@@ -103,15 +103,11 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.modifiers = modifiers != null ? modifiers.stream().map(
-            m -> (ModifierNode) m.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.type = type != null ? (TypeNode) type.withParent(this) : null;
+        this.annotations = annotations;
+        this.modifiers = modifiers;
+        this.type = type;
         this.name = name;
-        this.defaultValue = defaultValue != null ? (ExpressionNode) defaultValue.withParent(this) : null;
+        this.defaultValue = defaultValue;
     }
     @Override
     public Position position() {
@@ -130,19 +126,6 @@ public final class QueenAnnotationElementDeclarationNode implements AnnotationEl
         children.add(this.type);
         children.add(this.defaultValue);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenAnnotationElementDeclarationNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.modifiers,
-            this.type,
-            this.name,
-            this.defaultValue
-        );
     }
 
     @Override

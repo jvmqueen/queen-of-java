@@ -60,7 +60,7 @@ public final class QueenExpressionStatementNode implements ExpressionStatementNo
     ) {
         this.position = position;
         this.parent = parent;
-        this.expression = (ExpressionNode) expression.withParent(this);
+        this.expression = expression;
     }
 
     @Override
@@ -76,15 +76,6 @@ public final class QueenExpressionStatementNode implements ExpressionStatementNo
     @Override
     public ExpressionNode expression() {
         return this.expression;
-    }
-
-    @Override
-    public QueenExpressionStatementNode withParent(final QueenNode parent) {
-        return new QueenExpressionStatementNode(
-            this.position,
-            parent,
-            this.expression
-        );
     }
 
     @Override

@@ -72,7 +72,7 @@ public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
         this.parent = parent;
         this.operator = operator;
         this.isPrefix = isPrefix;
-        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
+        this.expression = expression;
     }
 
     @Override
@@ -83,17 +83,6 @@ public final class QueenUnaryExpressionNode implements UnaryExpressionNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.expression);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenUnaryExpressionNode(
-            this.position,
-            parent,
-            this.operator,
-            this.isPrefix,
-            this.expression
-        );
     }
 
     @Override

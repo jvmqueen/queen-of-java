@@ -65,13 +65,6 @@ public interface QueenNode {
     <T> T accept(QueenASTVisitor<? extends T> visitor);
 
     /**
-     * An instance of this QueenNode with the parent.
-     * @param parent Parent node.
-     * @return QueenNode.
-     */
-    QueenNode withParent(final QueenNode parent);
-
-    /**
      * Return the parent of this AST Node.
      * @return Parent, or null if it's the root of the AST.
      */

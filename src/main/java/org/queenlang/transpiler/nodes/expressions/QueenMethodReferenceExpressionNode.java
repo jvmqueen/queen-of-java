@@ -77,11 +77,9 @@ public final class QueenMethodReferenceExpressionNode implements MethodReference
     ) {
         this.position = position;
         this.parent = parent;
-        this.type = type != null ? (TypeNode) type.withParent(this) : null;
-        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
-        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
-            ta -> (TypeNode) ta.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.type = type;
+        this.scope = scope;
+        this.typeArguments = typeArguments;
         this.identifier = identifier;
     }
 
@@ -99,18 +97,6 @@ public final class QueenMethodReferenceExpressionNode implements MethodReference
             children.addAll(this.typeArguments);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenMethodReferenceExpressionNode(
-            this.position,
-            parent,
-            this.type,
-            this.scope,
-            this.typeArguments,
-            this.identifier
-        );
     }
 
     @Override

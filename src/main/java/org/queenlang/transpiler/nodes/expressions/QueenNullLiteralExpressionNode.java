@@ -63,14 +63,6 @@ public final class QueenNullLiteralExpressionNode implements NullLiteralExpressi
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenNullLiteralExpressionNode(
-            this.position,
-            parent
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

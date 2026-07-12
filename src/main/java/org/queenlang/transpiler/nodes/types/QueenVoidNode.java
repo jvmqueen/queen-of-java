@@ -56,9 +56,7 @@ public final class QueenVoidNode implements VoidTypeNode {
     private QueenVoidNode(final Position position, final QueenNode parent, final List<AnnotationNode> annotations) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.annotations = annotations;
     }
 
     @Override
@@ -83,15 +81,6 @@ public final class QueenVoidNode implements VoidTypeNode {
             children.addAll(this.annotations);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenVoidNode(
-            this.position,
-            parent,
-            this.annotations
-        );
     }
 
     @Override

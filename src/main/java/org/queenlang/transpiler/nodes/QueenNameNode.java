@@ -44,18 +44,14 @@ public final class QueenNameNode implements NameNode {
     private final NameNode qualifier;
     private final String identifier;
 
-    public QueenNameNode(final Position position, final String identifier) {
-        this(position, null, identifier);
+    public QueenNameNode(final Position position, final QueenNode parent, final String identifier) {
+        this(position, parent, null, identifier);
     }
 
-    public QueenNameNode(final Position position, final NameNode qualifier, final String identifier) {
-        this(position, null, qualifier, identifier);
-    }
-
-    private QueenNameNode(final Position position, final QueenNode parent, final NameNode qualifier, final String identifier) {
+    public QueenNameNode(final Position position, final QueenNode parent, final NameNode qualifier, final String identifier) {
         this.parent = parent;
         this.position = position;
-        this.qualifier = qualifier != null ? (NameNode) qualifier.withParent(this.parent()) : null;
+        this.qualifier = qualifier;
         this.identifier = identifier;
     }
 
@@ -88,16 +84,6 @@ public final class QueenNameNode implements NameNode {
             fullName = this.identifier();
         }
         return fullName;
-    }
-
-    @Override
-    public QueenNameNode withParent(final QueenNode parent) {
-        return new QueenNameNode(
-            this.position,
-            parent,
-            this.qualifier,
-            this.identifier
-        );
     }
 
     @Override

@@ -74,11 +74,6 @@ public final class ClassAnnotationTypeDeclarationNode implements AnnotationTypeD
     }
 
     @Override
-    public QueenNode withParent(QueenNode parent) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

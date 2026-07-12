@@ -79,9 +79,7 @@ public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.annotations = annotations;
         this.name = name;
     }
 
@@ -107,16 +105,6 @@ public final class QueenPrimitiveTypeNode implements PrimitiveTypeNode {
             children.addAll(this.annotations);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenPrimitiveTypeNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.name
-        );
     }
 
     @Override

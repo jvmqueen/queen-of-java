@@ -58,15 +58,6 @@ public final class QueenBooleanLiteralExpressionNode implements BooleanLiteralEx
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenBooleanLiteralExpressionNode(
-            this.position,
-            parent,
-            this.value
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

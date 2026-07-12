@@ -133,14 +133,10 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
         this.position = position;
         this.parent = parent;
         this.interfaceType = interfaceType;
-        this.qualifier = qualifier != null ? (ClassOrInterfaceTypeNode) qualifier.withParent(this) : null;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.qualifier = qualifier;
+        this.annotations = annotations;
         this.identifier = identifier;
-        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
-            ta -> (TypeNode) ta.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.typeArguments = typeArguments;
         this.hasDiamondOperator = hasDiamondOperator;
     }
 
@@ -190,20 +186,6 @@ public final class QueenClassOrInterfaceTypeNode implements ClassOrInterfaceType
             children.addAll(this.typeArguments);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenClassOrInterfaceTypeNode(
-            this.position,
-            parent,
-            this.interfaceType,
-            this.qualifier,
-            this.annotations,
-            this.identifier,
-            this.typeArguments,
-            this.hasDiamondOperator
-        );
     }
 
     @Override

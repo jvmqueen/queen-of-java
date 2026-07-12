@@ -47,28 +47,15 @@ public final class QueenFileNode implements FileNode{
     private final String fileName;
     private final CompilationUnitNode compilationUnit;
 
-    public QueenFileNode(final String fileName, final CompilationUnitNode compilationUnit) {
-        this(null, fileName, compilationUnit);
-    }
-
-    private QueenFileNode(final QueenNode parent, final String fileName, final CompilationUnitNode compilationUnit) {
+    public QueenFileNode(final QueenNode parent, final String fileName, final CompilationUnitNode compilationUnit) {
         this.parent = parent;
         this.fileName = fileName;
-        this.compilationUnit = compilationUnit != null ? (CompilationUnitNode) compilationUnit.withParent(this) : null;
+        this.compilationUnit = compilationUnit;
     }
 
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.compilationUnit);
-    }
-
-    @Override
-    public FileNode withParent(final QueenNode parent) {
-        return new QueenFileNode(
-            parent,
-            this.fileName,
-            this.compilationUnit
-        );
     }
 
     @Override

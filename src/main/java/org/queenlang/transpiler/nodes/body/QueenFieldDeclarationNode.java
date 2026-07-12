@@ -94,14 +94,10 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.modifiers = modifiers != null ? modifiers.stream().map(
-            m -> (ModifierNode) m.withParent(this)
-        ).collect(Collectors.toList()) : null;;
-        this.type = type != null ? (TypeNode) type.withParent(this) : null;
-        this.variable = variable != null ? (VariableDeclaratorNode) variable.withParent(this) : null;
+        this.annotations = annotations;
+        this.modifiers = modifiers;
+        this.type = type;
+        this.variable = variable;
     }
 
     @Override
@@ -146,18 +142,6 @@ public final class QueenFieldDeclarationNode implements FieldDeclarationNode {
         children.add(this.type);
         children.add(this.variable);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenFieldDeclarationNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.modifiers,
-            this.type,
-            this.variable
-        );
     }
 
     @Override

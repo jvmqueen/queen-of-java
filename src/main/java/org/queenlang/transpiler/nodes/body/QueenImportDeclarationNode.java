@@ -88,7 +88,7 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
         this.position = position;
         this.parent = parent;
         this.asteriskImport = asteriskImport;
-        this.importDeclarationName = importDeclarationName != null ? (NameNode) importDeclarationName.withParent(this) : null;
+        this.importDeclarationName = importDeclarationName;
     }
 
     @Override
@@ -99,16 +99,6 @@ public final class QueenImportDeclarationNode implements ImportDeclarationNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.importDeclarationName);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenImportDeclarationNode(
-            this.position,
-            parent,
-            this.importDeclarationName,
-            this.asteriskImport
-        );
     }
 
     @Override

@@ -65,14 +65,6 @@ public final class QueenEmptyStatementNode implements EmptyStatementNode {
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenEmptyStatementNode(
-            this.position,
-            parent
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

@@ -63,10 +63,8 @@ public final class QueenSwitchEntryNode implements SwitchEntryNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.labels = labels != null ? labels.stream().map(
-            l -> (SwitchLabelNode) l.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.labels = labels;
+        this.blockStatements = blockStatements;
     }
 
     @Override
@@ -82,16 +80,6 @@ public final class QueenSwitchEntryNode implements SwitchEntryNode {
         }
         children.add(this.blockStatements);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenSwitchEntryNode(
-            this.position,
-            parent,
-            this.labels,
-            this.blockStatements
-        );
     }
 
     @Override

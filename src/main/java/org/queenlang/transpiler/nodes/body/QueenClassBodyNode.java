@@ -59,9 +59,7 @@ public final class QueenClassBodyNode implements ClassBodyNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.classBodyDeclarations = classBodyDeclarations != null ? classBodyDeclarations.stream().map(
-            cbd -> (ClassBodyDeclarationNode) cbd.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.classBodyDeclarations = classBodyDeclarations;
     }
 
     @Override
@@ -81,15 +79,6 @@ public final class QueenClassBodyNode implements ClassBodyNode {
             children.addAll(this.classBodyDeclarations);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenClassBodyNode(
-            this.position,
-            parent,
-            this.classBodyDeclarations
-        );
     }
 
     @Override

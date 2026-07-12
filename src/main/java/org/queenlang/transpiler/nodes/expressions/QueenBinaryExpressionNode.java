@@ -64,9 +64,9 @@ public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.left = left != null ? (ExpressionNode) left.withParent(this) : null;
+        this.left = left;
         this.operator = operator;
-        this.right = right != null ? (ExpressionNode) right.withParent(this) : null;
+        this.right = right;
     }
 
     @Override
@@ -77,17 +77,6 @@ public final class QueenBinaryExpressionNode implements BinaryExpressionNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.left, this.right);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenBinaryExpressionNode(
-            this.position,
-            parent,
-            this.left,
-            this.operator,
-            this.right
-        );
     }
 
     @Override

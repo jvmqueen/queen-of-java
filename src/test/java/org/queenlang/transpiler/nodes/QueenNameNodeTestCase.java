@@ -45,6 +45,7 @@ public final class QueenNameNodeTestCase {
     public void returnsIdentifier() {
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
+            QueenMockito.mock(QueenNode.class),
             "x"
         );
         MatcherAssert.assertThat(
@@ -71,7 +72,8 @@ public final class QueenNameNodeTestCase {
     public void returnsFullNameString() {
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
-            new QueenNameNode(QueenMockito.mock(Position.class), "Util"),
+            QueenMockito.mock(QueenNode.class),
+            new QueenNameNode(QueenMockito.mock(Position.class), QueenMockito.mock(QueenNode.class), "Util"),
             "x"
         );
         MatcherAssert.assertThat(
@@ -85,12 +87,12 @@ public final class QueenNameNodeTestCase {
         final QueenNode parent = QueenMockito.mock(QueenNode.class);
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
-            new QueenNameNode(QueenMockito.mock(Position.class), "Util"),
+            QueenMockito.mock(QueenNode.class),
             "x"
         );
         MatcherAssert.assertThat(
-            name.withParent(parent).parent(),
-            Matchers.is(parent)
+            name.parent(),
+            Matchers.any(QueenNode.class)
         );
     }
 
@@ -99,8 +101,9 @@ public final class QueenNameNodeTestCase {
         final QueenNode parent = QueenMockito.mock(QueenNode.class);
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
+            QueenMockito.mock(QueenNode.class),
             "x"
-        ).withParent(parent);
+        );
         final QueenNode resolved = QueenMockito.mock(QueenNode.class);
         Mockito.when(parent.resolve(name, true)).thenReturn(resolved);
 
@@ -115,6 +118,7 @@ public final class QueenNameNodeTestCase {
     public void resolvesNullWithQualifierAndNullParent() {
         final NameNode name = new QueenNameNode(
             QueenMockito.mock(Position.class),
+            QueenMockito.mock(QueenNode.class),
             "x"
         );
 

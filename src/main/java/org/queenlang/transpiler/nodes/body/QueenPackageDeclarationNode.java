@@ -78,7 +78,7 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
     ) {
         this.position = position;
         this.parent = parent;
-        this.packageName = packageName != null ? (NameNode) packageName.withParent(this) : null;
+        this.packageName = packageName;
     }
 
     @Override
@@ -89,15 +89,6 @@ public final class QueenPackageDeclarationNode implements PackageDeclarationNode
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.packageName);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenPackageDeclarationNode(
-            this.position,
-            parent,
-            this.packageName
-        );
     }
 
     @Override

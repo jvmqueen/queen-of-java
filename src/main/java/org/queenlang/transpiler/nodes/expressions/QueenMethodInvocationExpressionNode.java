@@ -79,14 +79,10 @@ public final class QueenMethodInvocationExpressionNode implements MethodInvocati
     ) {
         this.position = position;
         this.parent = parent;
-        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
-        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
-            ta -> (TypeNode) ta.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.scope = scope;
+        this.typeArguments = typeArguments;
         this.name = name;
-        this.arguments = arguments != null ? arguments.stream().map(
-            a -> (ExpressionNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.arguments = arguments;
     }
 
     @Override
@@ -105,18 +101,6 @@ public final class QueenMethodInvocationExpressionNode implements MethodInvocati
             children.addAll(this.arguments);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenMethodInvocationExpressionNode(
-            this.position,
-            parent,
-            this.scope,
-            this.typeArguments,
-            this.name,
-            this.arguments
-        );
     }
 
     @Override

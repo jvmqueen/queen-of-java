@@ -30,9 +30,11 @@ package org.queenlang.transpiler.nodes.body;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.NameNode;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 import org.queenlang.transpiler.util.QueenMockito;
 
 /**
@@ -48,7 +50,7 @@ public final class QueenImportDeclarationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.List"),
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "com.example.List"),
             false
         );
         MatcherAssert.assertThat(
@@ -62,7 +64,7 @@ public final class QueenImportDeclarationNodeTestCase {
         final Position position = QueenMockito.mock(Position.class);
         final ImportDeclarationNode importDeclaration = new QueenImportDeclarationNode(
             position,
-            new QueenNameNode(QueenMockito.mock(Position.class), "com.example.List"),
+            new QueenNameNode(QueenMockito.mock(Position.class), Mockito.mock(QueenNode.class), "com.example.List"),
             true
         );
         MatcherAssert.assertThat(

@@ -65,9 +65,9 @@ public final class QueenConditionalExpressionNode implements ConditionalExpressi
     ) {
         this.position = position;
         this.parent = parent;
-        this.condition = condition != null ? (ExpressionNode) condition.withParent(this) : null;
-        this.thenExpr = thenExpr != null ? (ExpressionNode) thenExpr.withParent(this) : null;
-        this.elseExpr = elseExpr != null ? (ExpressionNode) elseExpr.withParent(this) : null;
+        this.condition = condition;
+        this.thenExpr = thenExpr;
+        this.elseExpr = elseExpr;
     }
 
     @Override
@@ -78,17 +78,6 @@ public final class QueenConditionalExpressionNode implements ConditionalExpressi
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.condition, this.thenExpr, this.elseExpr);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenConditionalExpressionNode(
-            this.position,
-            parent,
-            this.condition,
-            this.thenExpr,
-            this.elseExpr
-        );
     }
 
     @Override

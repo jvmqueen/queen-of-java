@@ -53,7 +53,7 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode i
 
     private QueenSingleMemberAnnotationNode(final Position position, final QueenNode parent, final NameNode name, final ExpressionNode elementValue) {
         super(position, parent, name);
-        this.elementValue = (ExpressionNode) elementValue.withParent(this);
+        this.elementValue = elementValue;
     }
 
     @Override
@@ -69,13 +69,4 @@ public final class QueenSingleMemberAnnotationNode extends QueenAnnotationNode i
         return children;
     }
 
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenSingleMemberAnnotationNode(
-            this.position(),
-            parent,
-            this.nameNode(),
-            this.elementValue
-        );
-    }
 }

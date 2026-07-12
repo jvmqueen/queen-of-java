@@ -89,9 +89,9 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.variable = variable != null ? (LocalVariableDeclarationNode) variable.withParent(this) : null;
-        this.iterable = iterable != null ? (ExpressionNode) iterable.withParent(this) : null;
-        this.blockStatements = blockStatements != null ? (StatementNode) blockStatements.withParent(this) : null;
+        this.variable = variable;
+        this.iterable = iterable;
+        this.blockStatements = blockStatements;
     }
 
     @Override
@@ -102,17 +102,6 @@ public final class QueenForEachStatementNode implements ForEachStatementNode {
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.variable, this.iterable, this.blockStatements);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenForEachStatementNode(
-            this.position,
-            parent,
-            this.variable,
-            this.iterable,
-            this.blockStatements
-        );
     }
 
     @Override

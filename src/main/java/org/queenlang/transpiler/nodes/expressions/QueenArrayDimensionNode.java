@@ -87,10 +87,8 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.expression = expression != null ? (ExpressionNode) expression.withParent(this) : null;
+        this.annotations = annotations;
+        this.expression = expression;
     }
 
     @Override
@@ -116,16 +114,6 @@ public final class QueenArrayDimensionNode implements ArrayDimensionNode {
             children.addAll(this.annotations);
         }
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenArrayDimensionNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.expression
-        );
     }
 
     @Override

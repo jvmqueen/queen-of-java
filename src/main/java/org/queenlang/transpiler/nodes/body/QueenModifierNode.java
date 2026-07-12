@@ -83,15 +83,6 @@ public final class QueenModifierNode implements ModifierNode {
     }
 
     @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenModifierNode(
-            this.position,
-            parent,
-            this.modifier
-        );
-    }
-
-    @Override
     public QueenNode parent() {
         return this.parent;
     }

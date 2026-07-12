@@ -44,13 +44,4 @@ public final class QueenLongLiteralExpressionNode extends QueenLiteralStringValu
     private QueenLongLiteralExpressionNode(final Position position, final QueenNode parent, final String value) {
         super(position, parent, value);
     }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenLongLiteralExpressionNode(
-            this.position(),
-            parent,
-            this.value()
-        );
-    }
 }

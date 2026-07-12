@@ -86,15 +86,11 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
     ) {
         this.position = position;
         this.parent = parent;
-        this.scope = scope != null ? (ExpressionNode) scope.withParent(this) : null;
-        this.type = (ClassOrInterfaceTypeNode) type.withParent(this);
-        this.typeArguments = typeArguments != null ? typeArguments.stream().map(
-            ta -> (TypeNode) ta.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.arguments = arguments != null ? arguments.stream().map(
-            a -> (ExpressionNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.anonymousBody = anonymousBody != null ? (ClassBodyNode) anonymousBody.withParent(this) : null;
+        this.scope = scope;
+        this.type = type;
+        this.typeArguments = typeArguments;
+        this.arguments = arguments;
+        this.anonymousBody = anonymousBody;
     }
 
     @Override
@@ -115,19 +111,6 @@ public final class QueenObjectCreationExpressionNode implements ObjectCreationEx
         }
         children.add(this.anonymousBody);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenObjectCreationExpressionNode(
-            this.position,
-            parent,
-            this.scope,
-            this.type,
-            this.typeArguments,
-            this.arguments,
-            this.anonymousBody
-        );
     }
 
     @Override

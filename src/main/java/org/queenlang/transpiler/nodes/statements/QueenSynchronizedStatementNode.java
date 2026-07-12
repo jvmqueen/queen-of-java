@@ -66,8 +66,8 @@ public final class QueenSynchronizedStatementNode implements SynchronizedStateme
     ) {
         this.position = position;
         this.parent = parent;
-        this.syncExpression = syncExpression != null ? (ExpressionNode) syncExpression.withParent(this) : null;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.syncExpression = syncExpression;
+        this.blockStatements = blockStatements;
     }
 
     @Override
@@ -78,16 +78,6 @@ public final class QueenSynchronizedStatementNode implements SynchronizedStateme
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.syncExpression, this.blockStatements);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenSynchronizedStatementNode(
-            this.position,
-            parent,
-            this.syncExpression,
-            this.blockStatements
-        );
     }
 
     @Override

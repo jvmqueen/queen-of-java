@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.queenlang.transpiler.nodes.Position;
 import org.queenlang.transpiler.nodes.QueenNameNode;
+import org.queenlang.transpiler.nodes.QueenNode;
 
 /**
  * Unit tests for {@link QueenSuperExpressionNode}.
@@ -47,7 +48,7 @@ public final class QueenSuperExpressionNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "Student")
         );
         MatcherAssert.assertThat(
             superExpression.position(),
@@ -60,7 +61,7 @@ public final class QueenSuperExpressionNodeTestCase {
         final Position position = Mockito.mock(Position.class);
         final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
             position,
-            new QueenNameNode(Mockito.mock(Position.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "Student")
         );
         MatcherAssert.assertThat(
             superExpression.typeName().name(),
@@ -72,7 +73,7 @@ public final class QueenSuperExpressionNodeTestCase {
     public void returnsChildren() {
         final SuperExpressionNode superExpression = new QueenSuperExpressionNode(
             Mockito.mock(Position.class),
-            new QueenNameNode(Mockito.mock(Position.class), "Student")
+            new QueenNameNode(Mockito.mock(Position.class), Mockito.mock(QueenNode.class), "Student")
         );
         MatcherAssert.assertThat(
             superExpression.children(),

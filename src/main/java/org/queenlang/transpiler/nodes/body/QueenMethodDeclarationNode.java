@@ -138,22 +138,14 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
     ) {
         this.position = position;
         this.parent = parent;
-        this.annotations = annotations != null ? annotations.stream().map(
-            a -> (AnnotationNode) a.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.modifiers = modifiers != null ? modifiers.stream().map(
-            m -> (ModifierNode) m.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.returnType = returnType != null ? (TypeNode) returnType.withParent(this) : null;
-        this.typeParams = typeParams != null ? typeParams.stream().map(
-            tp -> (TypeParameterNode) tp.withParent(this)
-        ).collect(Collectors.toList()) : null;
+        this.annotations = annotations;
+        this.modifiers = modifiers;
+        this.returnType = returnType;
+        this.typeParams = typeParams;
         this.name = name;
-        this.parameters = parameters != null ? (ParameterList) parameters.withParent(this) : null;
-        this.throwsList = throwsList != null ? throwsList.stream().map(
-            t -> (ExceptionTypeNode) t.withParent(this)
-        ).collect(Collectors.toList()) : null;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.parameters = parameters;
+        this.throwsList = throwsList;
+        this.blockStatements = blockStatements;
         this.interfaceDeclaration = interfaceDeclaration;
     }
 
@@ -188,23 +180,6 @@ public final class QueenMethodDeclarationNode implements MethodDeclarationNode {
         children.add(this.returnType);
         children.add(this.blockStatements);
         return children;
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenMethodDeclarationNode(
-            this.position,
-            parent,
-            this.annotations,
-            this.modifiers,
-            this.returnType,
-            this.typeParams,
-            this.name,
-            this.parameters,
-            this.throwsList,
-            this.blockStatements,
-            this.interfaceDeclaration
-        );
     }
 
     @Override

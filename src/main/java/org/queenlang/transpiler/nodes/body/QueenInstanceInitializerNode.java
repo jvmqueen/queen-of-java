@@ -85,7 +85,7 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
     ) {
         this.position = position;
         this.parent = parent;
-        this.blockStatements = blockStatements != null ? (BlockStatements) blockStatements.withParent(this) : null;
+        this.blockStatements = blockStatements;
         this.isStatic = isStatic;
     }
 
@@ -97,16 +97,6 @@ public final class QueenInstanceInitializerNode implements InstanceInitializerNo
     @Override
     public List<QueenNode> children() {
         return Arrays.asList(this.blockStatements);
-    }
-
-    @Override
-    public QueenNode withParent(final QueenNode parent) {
-        return new QueenInstanceInitializerNode(
-            this.position,
-            parent,
-            this.blockStatements,
-            this.isStatic
-        );
     }
 
     @Override

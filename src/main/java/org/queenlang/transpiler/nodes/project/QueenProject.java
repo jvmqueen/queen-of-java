@@ -72,9 +72,10 @@ public final class QueenProject implements ProjectNode {
         for(final Path inputFile : inputFiles) {
             this.input.add(
                 new QueenFileNode(
+                    this,
                     inputFile.getFileName().toString(),
                     this.parser.parse(inputFile)
-                ).withParent(this)
+                )
             );
         }
     }
@@ -82,11 +83,6 @@ public final class QueenProject implements ProjectNode {
     @Override
     public List<QueenNode> children() {
         return new ArrayList<>();
-    }
-
-    @Override
-    public QueenNode withParent(QueenNode parent) {
-        throw new IllegalStateException("The ProjectNode has no parent, it's the root of the AST.");
     }
 
     @Override
@@ -192,9 +188,10 @@ public final class QueenProject implements ProjectNode {
     private FileNode parsePath(final Path path) {
         try {
             final FileNode parsed = new QueenFileNode(
+                this,
                 path.getFileName().toString(),
                 this.parser.parse(path)
-            ).withParent(this);
+            );
             this.references.add(parsed);
             return parsed;
         } catch (IOException | QueenTranspilationException e) {

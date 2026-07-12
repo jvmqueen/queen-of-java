@@ -908,6 +908,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.packageOrTypeName() == null) {
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 ctx.Identifier().getText()
             );
         } else {
@@ -925,6 +926,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.packageOrTypeName() == null) {
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 ctx.Identifier().getText()
             );
         } else {
@@ -942,6 +944,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.packageName() == null) {
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 ctx.Identifier().getText()
             );
         } else {
@@ -959,6 +962,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.ambiguousName() == null) {
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 ctx.Identifier().getText()
             );
         } else {
@@ -976,6 +980,7 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
         if(ctx.ambiguousName() == null) {
             return new QueenNameNode(
                 getPosition(ctx),
+                null,
                 ctx.Identifier().getText()
             );
         } else {
@@ -3568,6 +3573,11 @@ public final class QueenParseTreeVisitor extends QueenParserBaseVisitor<QueenNod
                 return this.line() + ":" + this.column();
             }
         };
+    }
+
+    private QueenNode getParentNode(final ParserRuleContext ctx) {
+        return null; //TODO implement this method with reflection and pass the parent to each node,
+        //via visitation (in constrcutor!)
     }
 
     private boolean isTypeNamePrimitive(final QueenParser.TypeNameContext ctx) {

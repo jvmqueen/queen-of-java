@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2022-2023, Extremely Distributed Technologies S.R.L. Romania
+ * Copyright (c) 2022-2032, Extremely Distributed Technologies S.R.L. Romania,
+ *                          Silvia Maxima et Co.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

@@ -1,4 +1,4 @@
-package com.example
+package com.example;
 
 /**
  * Entry point of our Queen application.

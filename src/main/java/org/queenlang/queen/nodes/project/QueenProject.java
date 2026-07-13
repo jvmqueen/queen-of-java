@@ -100,7 +100,7 @@ public final class QueenProject implements ProjectNode {
     @Override
     public void transpileTo(final Output output) throws IOException, QueenTranspilationException {
         for(final FileNode queenFile : this.input) {
-            validateAndWrite(queenFile, output);
+            write(queenFile, output);
         }
         for(int i=0; i < this.references.size(); i++) {
             final FileNode ref = this.references.get(i);
@@ -108,21 +108,24 @@ public final class QueenProject implements ProjectNode {
                 in -> in.fullTypeName().equals(ref.fullTypeName())
             ).findFirst().orElse(null) != null;
             if(!alreadyTranspiled) {
-                validateAndWrite(ref, output);
+                write(ref, output);
             }
         }
     }
 
-    private static void validateAndWrite(final FileNode queenFile, final Output output) throws QueenTranspilationException, IOException {
+    private static void write(final FileNode queenFile, final Output output) throws IOException {
+        final CompilationUnit javaCompilationUnit  = new QueenToJavaVisitor().visitCompilationUnit(queenFile.compilationUnit());
+        final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
+        reparseJavaClass(javaClass);
+        output.write(javaCompilationUnit);
+    }
+
+    private static void validate(final FileNode queenFile) throws QueenTranspilationException {
         final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor(queenFile.parent());
         final List<SemanticProblem> problems = validator.visitFile(queenFile);
         if(problems.size() > 0 && problems.stream().anyMatch(p -> p.type().equalsIgnoreCase("error"))) {
             throw new QueenTranspilationException(queenFile.fullTypeName(), problems.stream().map(SemanticProblem::toString).collect(Collectors.toList()));
         }
-        final CompilationUnit javaCompilationUnit  = new QueenToJavaVisitor().visitCompilationUnit(queenFile.compilationUnit());
-        final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
-        reparseJavaClass(javaClass);
-        output.write(javaCompilationUnit);
     }
 
     /**

@@ -13,12 +13,10 @@ final class QueenToJavaTranspilerTestCase{
 
     @Test
     void testProjectTranspilation() throws Exception{
-        final Output output = Mockito.mock(Output.class);
-        Mockito.doNothing().when(output).write(Mockito.any());
         QueenTranspiler transpiler = new QueenToJavaTranspiler(
             new QueenASTParserANTLR(),
             new PathsCp(List.of(Path.of("."))),
-            Mockito.mock(Output.class)
+            new JavaFileOutput(Path.of("."))
         );
         final Path helloWorld = Paths.get("src/test/resources/queenToJava/random/HelloWorld.queen");
         transpiler.transpile(List.of(helloWorld));

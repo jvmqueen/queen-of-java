@@ -34,6 +34,7 @@ import org.queenlang.queen.nodes.body.CompilationUnitNode;
 import org.queenlang.queen.nodes.body.PackageDeclarationNode;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**

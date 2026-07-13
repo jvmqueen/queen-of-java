@@ -55,6 +55,7 @@ public final class QueenASTParserTestCase {
     @ParameterizedTest
     @CsvSource(
         value = {
+            "HelloWorld.queen,HelloWorld.java"
 //            "Expressions.queen,Expressions.java",
 //            "FunnyParameters.queen,FunnyParameters.java",
 //            "JsonPerson.queen,JsonPerson.java",
@@ -64,7 +65,7 @@ public final class QueenASTParserTestCase {
 //            "LabeledGraph.queen,LabeledGraph.java",
 //            "SyncCounter.queen,SyncCounter.java",
 //            "YamlMapping.queen,YamlMapping.java",
-            "ClassWithFields.queen,ClassWithFields.java"
+//            "ClassWithFields.queen,ClassWithFields.java"
 //            "Collection.queen,Collection.java",
 //            "EmptyAnnotatedClass.queen,EmptyAnnotatedClass.java",
 //            "ExtendedArrayList.queen,ExtendedArrayList.java",

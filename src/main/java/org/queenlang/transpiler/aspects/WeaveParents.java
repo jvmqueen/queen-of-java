@@ -26,53 +26,24 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.transpiler.aspects;
 
-import org.queenlang.classpath.Classpath;
-import org.queenlang.queen.QueenASTParser;
-import org.queenlang.queen.QueenTranspilationException;
-import org.queenlang.queen.nodes.project.ProjectNode;
-import org.queenlang.queen.nodes.project.QueenProject;
-import org.queenlang.transpiler.aspects.WeaveParents;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Queen to Java transpiler.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Once we have a QueenProject instantiated (the highest possible QueenNode),
+ * we need to weave the parent nodes inside all the children throughout the AST.
+ *
+ * We do this with AOP and reflection, because we wanted all the classes of the AST to be immutable,
+ * thus there is no setParent() method.
+ * @author Mihai-Emil Andronache
  * @version $Id$
  * @since 0.0.1
- * @todo #64:60min Navigate the whole CU trees to find and transpile the imported and
- *  referenced Queen classes from within each CU.
- * @todo #64:60min Implement semantic validation visiting of each CU.g
  */
-public final class QueenToJavaTranspiler implements QueenTranspiler {
-
-    private final QueenASTParser parser;
-    private final Classpath      classpath;
-    private final Output         output;
-
-    public QueenToJavaTranspiler(
-        final QueenASTParser parser,
-        final Classpath classpath,
-        final Output output
-    ) {
-        this.parser = parser;
-        this.classpath = classpath;
-        this.output = output;
-    }
-
-    @Override
-    public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
-        this.project(files).transpileTo(this.output);
-    }
-
-    @WeaveParents
-    private ProjectNode project(final List<Path> files) throws QueenTranspilationException, IOException {
-        return new QueenProject(
-            this.classpath, this.parser, files
-        );
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface WeaveParents {
 }

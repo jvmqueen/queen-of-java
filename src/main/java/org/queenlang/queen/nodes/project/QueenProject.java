@@ -58,7 +58,7 @@ import java.util.stream.Collectors;
  * @since 0.0.1
  */
 public final class QueenProject implements ProjectNode {
-    private final Classpath      classpath;
+    private final Classpath classpath;
     private final QueenASTParser parser;
 
     /**
@@ -87,7 +87,9 @@ public final class QueenProject implements ProjectNode {
 
     @Override
     public List<QueenNode> children() {
-        return new ArrayList<>();
+        final List<QueenNode> children = new ArrayList<>();
+        children.addAll(this.input);
+        return children;
     }
 
     @Override

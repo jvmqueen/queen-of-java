@@ -33,6 +33,8 @@ import org.queenlang.cli.Arguments;
 import org.queenlang.cli.CmdArguments;
 import org.queenlang.queen.QueenASTParserANTLR;
 import org.queenlang.queen.QueenTranspilationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
@@ -43,17 +45,16 @@ import java.io.*;
  * @since 0.0.1
  */
 public final class Queenc {
-    private static final String NAME_AND_VERSION = "Queenc version: %s";
+    private static Logger LOG = LoggerFactory.getLogger(Queenc.class);
 
     private static final Config  config  = new Config();
     private static final Options options = new Options();
 
     static {
-        Option files = new Option("f", "files", true, "Queen files to transpile.");
-        files.setArgs(Option.UNLIMITED_VALUES);
-        options.addOption(files);
+        Option project = new Option("p", "project", true, "Path to the Queen project directory.");
+        options.addOption(project);
 
-        Option classpath = new Option("cp", "classpath", true, "Classpath(s) to look for user-defined classes. Defaults to current dir.");
+        Option classpath = new Option("cp", "classpath", true, "Classpath(s) to look for user-defined classes. Project dir is always included.");
         classpath.setArgs(Option.UNLIMITED_VALUES);
         options.addOption(classpath);
 
@@ -65,23 +66,17 @@ public final class Queenc {
 
         Option version = new Option("v", "version", false, "Print the version of queenc.");
         options.addOption(version);
-
-//        Option verbose = new Option("verbose", false, "Print verbose logs.");
-//        options.addOption(verbose);
     }
 
 
     public static void run(final Arguments arguments) throws IOException, QueenTranspilationException {
-        if(arguments.verbose()) {
-            System.out.println("RUNNING VERBOSE... set logger to DEBUG");
-        }
-        if(!arguments.files().isEmpty()) {
+        if(arguments.project() != null) {
             final QueenTranspiler transpiler = new QueenToJavaTranspiler(
                 new QueenASTParserANTLR(),
                 arguments.classpath(),
                 new JavaFileOutput(arguments.output())
             );
-            transpiler.transpile(arguments.files());
+            transpiler.transpile(arguments.project());
         } else if(!arguments.hasUtilityArgs()) {
             printFilesMissing();
         }
@@ -102,12 +97,12 @@ public final class Queenc {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (QueenTranspilationException ex) {
-            System.err.println("Errors in file " + ex.file() + ": ");
+            LOG.error("Errors in file: {}" + ex.file());
             ex.errors().forEach(System.err::println);
         } catch (IllegalStateException ex) {
             if(ex.getCause() instanceof QueenTranspilationException) {
                 final QueenTranspilationException queenTranspilationException = (QueenTranspilationException) ex.getCause();
-                System.err.println("Errors in file " + queenTranspilationException.file() + ": ");
+                LOG.error("Errors in file: {}" + queenTranspilationException.file());
                 queenTranspilationException.errors().forEach(System.err::println);
             } else {
                 throw new RuntimeException(ex);
@@ -121,7 +116,7 @@ public final class Queenc {
      * Print quennc's version.
      */
     private static void printVersion() {
-        System.out.println(String.format(NAME_AND_VERSION, config.version()));
+        LOG.info("Queenc version: {}", config.version());
     }
 
     /**
@@ -133,7 +128,7 @@ public final class Queenc {
     }
 
     private static void printFilesMissing() {
-        System.out.println("Missing files argument (-f of -files).");
+        LOG.error("Missing project directory argument (-p of -project).");
         printHelp();
     }
 }

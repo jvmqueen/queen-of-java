@@ -47,7 +47,7 @@ public interface Arguments {
 
     boolean help();
 
-    List<Path> files();
+    Path project();
 
     Classpath classpath();
 

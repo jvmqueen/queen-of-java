@@ -73,25 +73,23 @@ public final class CmdArguments implements Arguments {
     }
 
     @Override
-    public List<Path> files() {
-        final List<Path> files = new ArrayList<>();
+    public Path project() {
         if(this.commandLine.getOptionValues('f') != null) {
-            for (final String path : this.commandLine.getOptionValues('f')) {
-                files.add(Path.of(path));
-            }
+            return Path.of(this.commandLine.getOptionValue('f'));
         }
-        return files;
+        return null;
     }
 
     @Override
     public Classpath classpath() {
         final List<Path> classpaths = new ArrayList<>();
+        if(this.project() != null) {
+            classpaths.add(this.project());
+        }
         if(this.commandLine.getOptionValues("cp") != null) {
             for (final String path : this.commandLine.getOptionValues("cp")) {
                 classpaths.add(Path.of(path));
             }
-        } else {
-            classpaths.add(Path.of("."));
         }
         return new PathsCp(classpaths);
     }

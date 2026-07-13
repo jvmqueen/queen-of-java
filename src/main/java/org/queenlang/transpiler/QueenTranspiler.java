@@ -41,5 +41,7 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface QueenTranspiler {
+    void transpile(final Path queenProjectDir) throws QueenTranspilationException, IOException;
+
     void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
 }

@@ -65,6 +65,11 @@ public final class QueenToJavaTranspiler implements QueenTranspiler {
     }
 
     @Override
+    public void transpile(final Path queenProjectDir) throws QueenTranspilationException, IOException {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    @Override
     public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
         this.project(files).transpileTo(this.output);
     }

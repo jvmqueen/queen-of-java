@@ -26,12 +26,14 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.cli;
+package org.queenlang.transpiler.cli;
 
 import org.queenlang.classpath.Classpath;
+import org.queenlang.transpiler.cli.functionalities.CreateQueenProject;
+import org.queenlang.transpiler.cli.functionalities.Functionality;
 
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Command-line arguments given to queenc.
@@ -41,11 +43,11 @@ import java.util.List;
  */
 public interface Arguments {
 
-    boolean verbose();
+    Optional<Functionality> version();
 
-    boolean version();
+    Optional<Functionality> help();
 
-    boolean help();
+    Optional<CreateQueenProject> createQueenProject();
 
     Path project();
 
@@ -54,7 +56,7 @@ public interface Arguments {
     Path output();
 
     default boolean hasUtilityArgs() {
-        return this.version() || this.help();
+        return this.version().isPresent() || this.help().isPresent();
     }
 
 }

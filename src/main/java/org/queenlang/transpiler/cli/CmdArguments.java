@@ -26,39 +26,68 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.cli;
+package org.queenlang.transpiler.cli;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
 import org.queenlang.classpath.Classpath;
 import org.queenlang.classpath.PathsCp;
+import org.queenlang.transpiler.Config;
+import org.queenlang.transpiler.cli.functionalities.CreateQueenProject;
+import org.queenlang.transpiler.cli.functionalities.Functionality;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public final class CmdArguments implements Arguments {
+    private static final Logger LOG = LoggerFactory.getLogger(CmdArguments.class);
+    private static final Config config = new Config();
 
     private final CommandLine commandLine;
+    private final Options cliOptions;
 
-    public CmdArguments(final CommandLine commandLine) {
+    public CmdArguments(final CommandLine commandLine, final Options cliOptions) {
         this.commandLine = commandLine;
+        this.cliOptions = cliOptions;
     }
 
     @Override
-    public boolean verbose() {
-        return this.isOptionPresent("verbose");
+    public Optional<Functionality> version() {
+        if(this.isOptionPresent("v")) {
+            return Optional.of(
+                () -> LOG.info("Queenc version: {}", config.version())
+            );
+        }
+        return Optional.empty();
     }
 
     @Override
-    public boolean version() {
-        return this.isOptionPresent("v");
+    public Optional<Functionality> help() {
+        if(this.isOptionPresent("h")) {
+            return Optional.of(
+                () -> {
+                    HelpFormatter formatter = new HelpFormatter();
+                    formatter.printHelp("queenc", this.cliOptions);
+                }
+            );
+        }
+        return Optional.empty();
     }
 
     @Override
-    public boolean help() {
-        return this.isOptionPresent("h");
+    public Optional<CreateQueenProject> createQueenProject() {
+        if (this.commandLine.getOptionValue("ctp") != null) {
+            final Path parentDir = Path.of(this.commandLine.getOptionValue("ctp"));
+            return Optional.of(new CreateQueenProject(parentDir));
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -74,8 +103,8 @@ public final class CmdArguments implements Arguments {
 
     @Override
     public Path project() {
-        if(this.commandLine.getOptionValues('f') != null) {
-            return Path.of(this.commandLine.getOptionValue('f'));
+        if(this.commandLine.getOptionValues('p') != null) {
+            return Path.of(this.commandLine.getOptionValue('p'));
         }
         return null;
     }

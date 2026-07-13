@@ -6,6 +6,10 @@
 	<version>0.0.2-SNAPSHOT</version><!--rrv-sed-flag-->
 	<packaging>jar</packaging>
 	<name>Queen Of Java</name>
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.queenlang</groupId>
@@ -135,7 +139,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										org.queenlang.transpiler.Queenc
+										org.queenlang.transpiler.cli.Queenc
 									</mainClass>
 								</manifest>
 							</archive>

@@ -20,7 +20,10 @@
     <appender-ref ref="STDOUT"/>
   </root>
 
-  <logger name="org.queenlang.transpiler.Queenc" level="DEBUG" additivity="false">
+  <logger name="org.queenlang.transpiler.cli.CmdArguments" level="DEBUG" additivity="false">
+    <appender-ref ref="QUEENC"/>
+  </logger>
+  <logger name="org.queenlang.transpiler.cli.Queenc" level="DEBUG" additivity="false">
     <appender-ref ref="QUEENC"/>
   </logger>
 

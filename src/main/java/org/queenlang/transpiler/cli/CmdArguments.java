@@ -35,7 +35,7 @@ import org.apache.commons.cli.Options;
 import org.queenlang.classpath.Classpath;
 import org.queenlang.classpath.PathsCp;
 import org.queenlang.transpiler.Config;
-import org.queenlang.transpiler.cli.functionalities.CreateQueenProject;
+import org.queenlang.transpiler.cli.functionalities.CreateQueenMavenProject;
 import org.queenlang.transpiler.cli.functionalities.Functionality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,10 +82,10 @@ public final class CmdArguments implements Arguments {
     }
 
     @Override
-    public Optional<CreateQueenProject> createQueenProject() {
-        if (this.commandLine.getOptionValue("ctp") != null) {
-            final Path parentDir = Path.of(this.commandLine.getOptionValue("ctp"));
-            return Optional.of(new CreateQueenProject(parentDir));
+    public Optional<CreateQueenMavenProject> createQueenProject() {
+        if (this.commandLine.getOptionValue("cm") != null) {
+            final Path parentDir = Path.of(this.commandLine.getOptionValue("cm"));
+            return Optional.of(new CreateQueenMavenProject(parentDir));
         }
         return Optional.empty();
     }

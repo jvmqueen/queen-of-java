@@ -28,6 +28,8 @@
  */
 package org.queenlang.transpiler.cli.functionalities;
 
+import java.io.IOException;
+
 /**
  * A functionality of the queenc CLI tool.
  * @author Mihai-Emil Andronache (amihaiemil@gmail.com)

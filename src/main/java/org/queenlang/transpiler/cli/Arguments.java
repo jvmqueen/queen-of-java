@@ -29,7 +29,7 @@
 package org.queenlang.transpiler.cli;
 
 import org.queenlang.classpath.Classpath;
-import org.queenlang.transpiler.cli.functionalities.CreateQueenProject;
+import org.queenlang.transpiler.cli.functionalities.CreateQueenMavenProject;
 import org.queenlang.transpiler.cli.functionalities.Functionality;
 
 import java.nio.file.Path;
@@ -47,7 +47,7 @@ public interface Arguments {
 
     Optional<Functionality> help();
 
-    Optional<CreateQueenProject> createQueenProject();
+    Optional<CreateQueenMavenProject> createQueenProject();
 
     Path project();
 

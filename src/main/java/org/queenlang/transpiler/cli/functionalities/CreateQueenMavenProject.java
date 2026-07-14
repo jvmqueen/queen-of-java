@@ -85,6 +85,10 @@ public final class CreateQueenMavenProject implements Functionality {
             Paths.get("src/main/resources/queen-pom.xml"),
             Path.of(this.parentDir.toString(), "pom.xml")
         );
+        this.copyFile(
+            Paths.get("src/main/resources/queen-readme.md"),
+            Path.of(this.parentDir.toString(), "README.md")
+        );
         LOG.info("Queen project created successfully under {}", this.parentDir);
     }
 

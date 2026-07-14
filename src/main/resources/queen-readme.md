@@ -36,4 +36,4 @@ queen-project/
 You may and should change the ``groupId``, ``artifactId``, ``name`` and ``finalName`` in the pom.xml.
 You may also change the name of the parent directory, as well as the created Queen package (``com.example``), according to your needs.
 
-In order to build a Queen project, the ``QUEEN_HOME`` environment variable needs to be set (analog to ``JAVA_HOME`` or ``MAVEN_HOME``).
+In order to build a Queen project, the ``QUEEN_HOME`` environment variable needs to be set (analogous to ``JAVA_HOME`` or ``MAVEN_HOME``).

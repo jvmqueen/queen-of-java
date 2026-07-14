@@ -1,10 +1,11 @@
 # Queen Project
 
-This is a Queen project created by queenc. You may use it as a scaffold for your own Queen project,
+This is a Queen project created by queenc. You may use it as a scaffold for your own Queen project. A Queen project may contain
+Queen, as well as Java code, which can work together seamlessly.
 
 ## Structure of a Queen Project
 
-Queen projects are expected to respect the Maven project-structure for Java, with two additional additional folders:
+Queen projects are expected to respect the Maven directory structure for Java, with two additional folders:
 
 ``src/main/queen``, where the Queen code should reside.
 

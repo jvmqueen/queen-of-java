@@ -1,4 +1,4 @@
-# queen-project
+# Queen Project
 
 This is a Queen project created by queenc. You may use it as a scaffold for your own Queen project,
 

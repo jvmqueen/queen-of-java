@@ -1,6 +1,5 @@
 package org.queenlang.transpiler.cli;
 
-import com.github.javaparser.utils.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

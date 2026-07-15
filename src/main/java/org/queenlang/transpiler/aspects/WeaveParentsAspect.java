@@ -3,7 +3,6 @@ package org.queenlang.transpiler.aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.queenlang.queen.nodes.QueenNode;
 import org.queenlang.queen.nodes.project.QueenProject;
 import org.slf4j.Logger;
@@ -16,6 +15,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Due to immutable nature of the Queen AST, created by a visitor pattern over the ANTLR Parser,
+ * there is no other way of setting the parents of each node, than through AOP.
+ *
+ * The Queen AST needs to be traversable downwards as well as upwards, in order to accomplish semantic
+ * validation.
+ *
+ * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 0.0.1
+ */
 @Aspect
 public class WeaveParentsAspect {
 
@@ -23,12 +33,12 @@ public class WeaveParentsAspect {
 
     @AfterReturning(
         value = "execution(@org.queenlang.transpiler.aspects.WeaveParents * org.queenlang.transpiler.QueenToJavaTranspiler.*(..))",
-        returning = "result"
+        returning = "project"
     )
-    public void weaveTheParents(final JoinPoint joinPoint, QueenNode result) {
-        LOG.debug("Weaving object: {} at {}", result.getClass().getSimpleName(), joinPoint.getSignature());
-        this.traverse(result);
-        LOG.debug("Finished weaving.");
+    public void weaveTheParents(final JoinPoint joinPoint, QueenProject project) {
+        LOG.info("Weaving parents into object: {} at {}", project.getClass().getSimpleName(), joinPoint.getSignature());
+        this.traverse(project);
+        LOG.info("Finished weaving the QueenProject, containing {} Queen files.", project.children().size());
     }
 
     public void traverse(final QueenNode project) {

@@ -85,7 +85,7 @@ public final class ProjectClasspath implements Classpath {
                         final BasicFileAttributes attrs
                     ) {
                         if (path.toString().contains(queenFile.toString())) {
-                            LOG.debug("Found Queen file {}", path);
+                            LOG.info("Found Queen file {}", path);
                             found.add(path);
                             return TERMINATE;
                         } else {
@@ -129,7 +129,7 @@ public final class ProjectClasspath implements Classpath {
                         final BasicFileAttributes attrs
                     ) {
                         if (path.getFileName().toString().endsWith(".queen")) {
-                            LOG.debug("Found Queen file {}", path);
+                            LOG.info("Found Queen file {}", path);
                             queenFiles.add(path);
                         } else {
                             LOG.debug("Visiting file {}", path.getFileName());

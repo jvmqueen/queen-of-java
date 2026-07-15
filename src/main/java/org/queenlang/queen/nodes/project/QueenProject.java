@@ -43,6 +43,8 @@ import org.queenlang.queen.visitors.QueenASTSemanticValidationVisitor;
 import org.queenlang.queen.visitors.QueenToJavaVisitor;
 import org.queenlang.transpiler.JavaFileOutput;
 import org.queenlang.transpiler.Output;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -59,6 +61,8 @@ import java.util.stream.Collectors;
  * @since 0.0.1
  */
 public final class QueenProject implements ProjectNode {
+    private static final Logger LOG = LoggerFactory.getLogger(QueenProject.class);
+
     private final QueenASTParser parser;
     private final Classpath classpath;
     /**
@@ -76,6 +80,7 @@ public final class QueenProject implements ProjectNode {
         this.parser = parser;
         this.classpath = classpath;
         for(final Path inputFile : classpath.findAll()) {
+            LOG.info("Creating the AST for Queen file {}, parent nodes need to be woven by AspectJ!", inputFile.getFileName());
             this.input.add(
                 new QueenFileNode(
                     this,
@@ -110,6 +115,7 @@ public final class QueenProject implements ProjectNode {
         final CompilationUnit javaCompilationUnit  = new QueenToJavaVisitor().visitCompilationUnit(queenFile.compilationUnit());
         final String javaClass = javaCompilationUnit.toString(new DefaultPrinterConfiguration());
         reparseJavaClass(javaClass);
+        LOG.info("Writing transpiled Queen file {} to its corresponding Java file, {}.", queenFile.fileName(), queenFile.fileName().toString().replaceAll("\\.queen", ".java"));
         output.write(javaCompilationUnit);
     }
 

@@ -13,7 +13,7 @@ compiled into JVM bytecode.
 
 ## How to use it?
 
-Download the latest version (``queen-of-java-0.1.0.jar`` from [here](https://github.com/jvmqueen/queen-of-java/packages) (from ``Assets``).
+Download the latest version (``queen-of-java-0.1.0.jar``) from [here](https://github.com/jvmqueen/queen-of-java/packages) (from ``Assets``).
 Rename it to ``queenc.jar``, just for easier usage. ``queenc`` itself is written in Java 11, therefore you need to have at least Java 11 installed, in order to use it.
 
 To get started, just run:

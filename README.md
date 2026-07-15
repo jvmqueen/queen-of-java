@@ -17,17 +17,24 @@ compiled into JVM bytecode.
 Download the latest version of ``queen-of-java-x.y.z.jar`` from [here](https://github.com/jvmqueen/queen-of-java/packages) (download the latest from ``Assets``).
 Rename it to ``queenc.jar``, just for easier usage. ``queenc`` itself is written in Java 11, therefore you need to have at least Java 11 installed, in order to use it.
 
-To print ``help``:
+To get started, just run:
+```shell
+$ java -jar queenc.jar
 
-```bash
-$ java -jar queenc.jar -h
+queenc version: x.y.z
 usage: queenc
- -cp,--classpath <arg>   Classpath(s) to look for user-defined classes.
-                         Defaults to current dir.
- -f,--files <arg>        Queen files to transpile.
- -h,--help               Print help message.
- -o,--output <arg>       Output path. Defaults to current dir.
- -v,--version            Print the version of queenc.
+ -cm,--createMaven <arg>   Create a template Maven project, configured for
+                           Queen. The argument is the path of the parent
+                           dir, which will be automatically prefixed by
+                           the Java user.home property. For example, the
+                           input /projects/queen-project, will create the
+                           project under ~/projects/queen-project.
+ -h,--help                 Print this help message.
+ -o,--output <arg>         Output path. Defaults to
+                           -p/target/generated-sources/queen/java.
+ -p,--project <arg>        Path to the parent directory of an existing
+                           Queen project directory to compile.
+ -v,--version              Print the version of queenc.
 ```
 
 Don't forget, you can write an alias for ``java -jar queenc.jar`` to shorten it to something like ``queenc -h``.

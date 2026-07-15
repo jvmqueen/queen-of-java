@@ -29,31 +29,23 @@
 package org.queenlang.transpiler.cli;
 
 import org.apache.commons.cli.*;
-import org.queenlang.transpiler.JavaFileOutput;
-import org.queenlang.transpiler.QueenCliOptions;
-import org.queenlang.transpiler.QueenToJavaTranspiler;
-import org.queenlang.transpiler.QueenTranspiler;
-import org.queenlang.queen.QueenASTParserANTLR;
-import org.queenlang.queen.QueenTranspilationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
 
 /**
- * The transpiler's entry point.
+ * The entry point of queenc.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
 public final class Queenc {
-    private static Logger LOG = LoggerFactory.getLogger(Queenc.class);
-
-    public static void main(String[] args) throws IOException, QueenTranspilationException, ParseException {
-        run(new CmdArguments(args));
+    public static void main(String[] args) throws ParseException {
+        run(
+            new CmdArguments(
+                args.length == 0 ? new String[]{"--version", "--help"} : args
+            )
+        );
     }
 
-    public static void run(final Arguments arguments) throws IOException, QueenTranspilationException {
+    public static void run(final Arguments arguments) {
         arguments.version().ifPresent(Functionality::execute);
         arguments.help().ifPresent(Functionality::execute);
         arguments.createQueenProject().ifPresent(Functionality::execute);

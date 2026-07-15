@@ -60,7 +60,7 @@ public final class CmdArguments implements Arguments {
     public Optional<Functionality> version() {
         if(this.isOptionPresent("v")) {
             return Optional.of(
-                () -> LOG.info("Queenc version: {}", config.version())
+                () -> LOG.info("queenc version: {}", config.version())
             );
         }
         return Optional.empty();

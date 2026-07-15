@@ -39,18 +39,16 @@ import org.apache.commons.cli.*;
 public final class QueenCliOptions {
 
     private QueenCliOptions() {}
+
+    //todo add the --classpath option when ready.
     public static Options cliOptions() {
         final Options options = new Options();
 
-        Option projectPath = new Option("p", "project", true, "Path to the Queen project directory to compile.");
+        Option projectPath = new Option("p", "project", true, "Path to the parent directory of an existing Queen project directory to compile.");
         options.addOption(projectPath);
 
         Option createTemplateProject = new Option("cm", "createMaven", true, "Create a template Maven project, configured for Queen. The argument is the path of the parent dir, which will be automatically prefixed by the Java user.home property. For example, the input /projects/queen-project, will create the project under ~/projects/queen-project.");
         options.addOption(createTemplateProject);
-
-        Option classpath = new Option("cp", "classpath", true, "Classpath(s) to look for user-defined classes. Project dir is always included.");
-        classpath.setArgs(Option.UNLIMITED_VALUES);
-        options.addOption(classpath);
 
         Option output = new Option("o", "output", true, "Output path. Defaults to -p/target/generated-sources/queen/java.");
         options.addOption(output);

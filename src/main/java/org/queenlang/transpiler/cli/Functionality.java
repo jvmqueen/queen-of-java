@@ -28,33 +28,14 @@
  */
 package org.queenlang.transpiler.cli;
 
-import org.apache.commons.cli.Options;
-import org.queenlang.transpiler.QueenCliOptions;
-
-import java.util.Optional;
+import java.io.IOException;
 
 /**
- * Command-line arguments given to queenc.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * A functionality of the queenc CLI tool.
+ * @author Mihai-Emil Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
  */
-public interface Arguments {
-
-    Optional<Functionality> version();
-
-    Optional<Functionality> help();
-
-    Optional<CreateQueenMavenProject> createQueenProject();
-
-    Optional<TranspileQueenProject> transpileProject();
-
-    Optional<Functionality> classpath();
-
-    Optional<Functionality> output();
-
-    default Options allPossitbleOptions() {
-        return QueenCliOptions.cliOptions();
-    }
-
+public interface Functionality {
+    void execute();
 }

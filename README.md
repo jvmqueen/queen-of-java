@@ -1,8 +1,8 @@
 # Queen Programming Language
 <img alt="queenlang-logo" src="http://www.amihaiemil.com/images/queenlang.png" width="100" height="90"/>
 
-[![DevOps By Rultor.com](http://www.rultor.com/b/jvmqueen/queen-of-java)](http://www.rultor.com/p/jvmqueen/queen-of-java)
- [![We recommend IntelliJ IDEA](http://amihaiemil.github.io/images/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
+[![We recommend IntelliJ IDEA](http://amihaiemil.github.io/images/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
+  [![DevOps By Rultor.com](http://www.rultor.com/b/jvmqueen/queen-of-java)](http://www.rultor.com/p/jvmqueen/queen-of-java)
 
 Queen-to-Java Transpiler (Queen made out of Java), version `0.0.1`.
 

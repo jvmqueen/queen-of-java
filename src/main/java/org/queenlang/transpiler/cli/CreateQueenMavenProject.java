@@ -78,15 +78,23 @@ public final class CreateQueenMavenProject implements Functionality {
             this.createDirectoryStructure(Path.of(this.parentDir.toString(), subDir));
         }
         this.copyFile(
-            Paths.get("src/main/resources/EntryPoint.queen"),
+            Paths.get("src/main/resources/forMavenTemplate/EntryPoint.queen"),
             Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "com/example/EntryPoint.queen")
         );
         this.copyFile(
-            Paths.get("src/main/resources/queen-pom.xml"),
+            Paths.get("src/main/resources/forMavenTemplate/HelloWorld.queen"),
+            Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "org/queenlang/HelloWorld.queen")
+        );
+        this.copyFile(
+            Paths.get("src/main/resources/forMavenTemplate/OutHelloWorld.queen"),
+            Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "org/queenlang/OutHelloWorld.queen")
+        );
+        this.copyFile(
+            Paths.get("src/main/resources/forMavenTemplate/queen-pom.xml"),
             Path.of(this.parentDir.toString(), "pom.xml")
         );
         this.copyFile(
-            Paths.get("src/main/resources/queen-readme.md"),
+            Paths.get("src/main/resources/forMavenTemplate/queen-readme.md"),
             Path.of(this.parentDir.toString(), "README.md")
         );
         LOG.info("Queen project created successfully under {}", this.parentDir);

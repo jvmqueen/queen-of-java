@@ -28,6 +28,9 @@
  */
 package org.queenlang.classpath;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -48,7 +51,7 @@ import static java.nio.file.FileVisitResult.TERMINATE;
  * @since 0.0.1
  */
 public final class ProjectClasspath implements Classpath {
-
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectClasspath.class);
     private final Path projectDir;
 
     public ProjectClasspath(final Path projectDir) {
@@ -57,6 +60,7 @@ public final class ProjectClasspath implements Classpath {
 
     @Override
     public Path find(final Path queenFile) {
+        LOG.debug("Searching the Queen file {} inside projectDirectory {}", queenFile, this.projectDir);
         final List<Path> found = new ArrayList<>();
         try {
             Files.walkFileTree(
@@ -71,6 +75,7 @@ public final class ProjectClasspath implements Classpath {
                         if (this.root == null) {
                             this.root = dir;
                         }
+                        LOG.debug("Visiting directory {}", dir);
                         return super.preVisitDirectory(dir, attrs);
                     }
 
@@ -79,10 +84,14 @@ public final class ProjectClasspath implements Classpath {
                         final Path path,
                         final BasicFileAttributes attrs
                     ) {
-                        if (path.equals(queenFile)) {
+                        if (path.toString().contains(queenFile.toString())) {
+                            LOG.debug("Found Queen file {}", path);
                             found.add(path);
+                            return TERMINATE;
+                        } else {
+                            LOG.debug("Visiting file {}", path);
                         }
-                        return TERMINATE;
+                        return CONTINUE;
                     }
                 }
             );
@@ -95,6 +104,7 @@ public final class ProjectClasspath implements Classpath {
 
     @Override
     public List<Path> findAll() {
+        LOG.debug("Searching all Queen files inside projectDirectory {}", this.projectDir);
         final List<Path> queenFiles = new ArrayList<>();
         try {
             Files.walkFileTree(
@@ -109,6 +119,7 @@ public final class ProjectClasspath implements Classpath {
                         if (this.root == null) {
                             this.root = dir;
                         }
+                        LOG.debug("Visiting directory {}", dir);
                         return super.preVisitDirectory(dir, attrs);
                     }
 
@@ -117,8 +128,11 @@ public final class ProjectClasspath implements Classpath {
                         final Path path,
                         final BasicFileAttributes attrs
                     ) {
-                        if (path.getFileName().endsWith(".queen")) {
+                        if (path.getFileName().toString().endsWith(".queen")) {
+                            LOG.debug("Found Queen file {}", path);
                             queenFiles.add(path);
+                        } else {
+                            LOG.debug("Visiting file {}", path.getFileName());
                         }
                         return CONTINUE;
                     }

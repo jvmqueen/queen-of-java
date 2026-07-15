@@ -1,0 +1,11 @@
+package org.queenlang;
+
+import org.queenlang.HelloWorld;
+
+public implementation OutHelloWorld of HelloWorld {
+
+    @Override
+    public String sayHello() {
+        System.out.println("Queen says Hello World!");
+    }
+}

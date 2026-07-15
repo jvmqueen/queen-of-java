@@ -1,0 +1,5 @@
+package org.queenlang;
+
+public interface HelloWorld {
+    public String sayHello();
+}

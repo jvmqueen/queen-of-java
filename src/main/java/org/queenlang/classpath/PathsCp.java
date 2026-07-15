@@ -37,7 +37,9 @@ import java.util.List;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
+ * @deprecated Do not use until further notice.
  */
+@Deprecated(since = "Do not use until further notice.")
 public final class PathsCp implements Classpath {
 
     private final List<Path> classpaths;

@@ -39,9 +39,10 @@ final class QueenToJavaTranspilerTestCase{
     void testProjectTranspilation() throws Exception{
         QueenTranspiler transpiler = new QueenToJavaTranspiler(
             new QueenASTParserANTLR(),
-            Path.of("src/test/resources"),
-            Path.of("./target/test/generated-sources/queen/java")
+            Path.of("src/../queen-project"),
+            Path.of("src/../queen-project/target/test/generated-sources/queen/java")
         );
         transpiler.transpile();
+        //TODO make assertions!
     }
 }

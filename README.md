@@ -62,11 +62,13 @@ public final implementation EntryPoint {
 And execute it like this:
 
 ```bash
-$ java -jar queenc.jar -f EntryPoint.queen && java ./org/queenlang/helloworld/EntryPoint.java
+$ java -jar queenc.jar --project . --output . && java ./org/queenlang/helloworld/EntryPoint.java
+$ ... logging from queenc ... 
 $ Queen says Hello World!
 ```
 
-The first command transpiles the Queen file into a Java file, while the second command simply executes it. 
+The first command transpiles the Queen project (in this case, only the file ``EntryPoint.queen``) from the current directory into the same directory,
+while the second command simply executes the created Java class which is created in a directory structure respecting the declared package (``org.queenlang.helloworld``). 
 
 ## Semantic Validation and Symbol Resolution
 

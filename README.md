@@ -4,7 +4,7 @@
 [![We recommend IntelliJ IDEA](http://amihaiemil.github.io/images/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
   [![DevOps By Rultor.com](http://www.rultor.com/b/jvmqueen/queen-of-java)](http://www.rultor.com/p/jvmqueen/queen-of-java)
 
-Queen-to-Java Transpiler (Queen made out of Java), version `0.0.1`.
+Queen-to-Java Transpiler (Queen made out of Java), version `0.1.0`.
 
 ## Why a transpiler?
 

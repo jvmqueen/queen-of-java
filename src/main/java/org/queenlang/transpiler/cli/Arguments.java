@@ -49,11 +49,11 @@ public interface Arguments {
 
     Optional<CreateQueenMavenProject> createQueenProject();
 
-    Optional<TranspileQueenProject> project();
+    Optional<TranspileQueenProject> transpileProject();
 
-    Classpath classpath();
+    Optional<Functionality> classpath();
 
-    Path output();
+    Optional<Functionality> output();
 
     default Options allPossitbleOptions() {
         return QueenCliOptions.cliOptions();

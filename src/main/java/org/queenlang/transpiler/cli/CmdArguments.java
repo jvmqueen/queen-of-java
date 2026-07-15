@@ -90,38 +90,35 @@ public final class CmdArguments implements Arguments {
     }
 
     @Override
-    public Path output() {
-        final Path output;
-        if (this.commandLine.getOptionValue('o') != null) {
-            output = Path.of(this.commandLine.getOptionValue('o'));
-        } else {
-            output = Path.of(".");
-        }
-        return output;
-    }
-
-    @Override
-    public Optional<TranspileQueenProject> project() {
-        if(this.commandLine.getOptionValues('p') != null) {
-            final Path parentDir = Path.of(this.commandLine.getOptionValue('p'));
-            return Optional.of(new TranspileQueenProject(parentDir));
+    public Optional<Functionality> output() {
+        if (this.isOptionPresent("o") && !this.isOptionPresent("p")) {
+            final String out = this.commandLine.getOptionValue("o");
+            return Optional.of(
+                () -> LOG.warn("queenc: Output {} specified without a project path (-p). Doing nothing.", out)
+            );
         }
         return Optional.empty();
     }
 
     @Override
-    public Classpath classpath() {
-//        final List<Path> classpaths = new ArrayList<>();
-//        if(this.project() != null) {
-//            classpaths.add(this.project());
-//        }
-//        if(this.commandLine.getOptionValues("cp") != null) {
-//            for (final String path : this.commandLine.getOptionValues("cp")) {
-//                classpaths.add(Path.of(path));
-//            }
-//        }
-//        return new PathsCp(classpaths);
-        return null;
+    public Optional<TranspileQueenProject> transpileProject() {
+        if(this.commandLine.getOptionValues('p') != null) {
+            final Path parentDir = Path.of(this.commandLine.getOptionValue('p'));
+            final Path output;
+            if(commandLine.getOptionValue("o") == null) {
+                output = Path.of(parentDir.toString(), "target", "generated-sources", "queen", "java");
+            } else {
+                output = Path.of(this.commandLine.getOptionValue('o'));
+            }
+            return Optional.of(new TranspileQueenProject(parentDir, output));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Functionality> classpath() {
+        throw new UnsupportedOperationException("Not yet implemented.");
+
     }
 
     private boolean isOptionPresent(final String name) {

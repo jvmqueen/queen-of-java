@@ -57,16 +57,7 @@ public final class Queenc {
         arguments.version().ifPresent(Functionality::execute);
         arguments.help().ifPresent(Functionality::execute);
         arguments.createQueenProject().ifPresent(Functionality::execute);
-
-//        if(arguments.project() != null) {
-//            final QueenTranspiler transpiler = new QueenToJavaTranspiler(
-//                new QueenASTParserANTLR(),
-//                arguments.classpath(),
-//                new JavaFileOutput(arguments.output())
-//            );
-//            transpiler.transpile(arguments.project());
-//        } else if(!arguments.hasUtilityArgs()) {
-//            printFilesMissing();
-//        }
+        arguments.transpileProject().ifPresent(Functionality::execute);
+        arguments.output().ifPresent(Functionality::execute);
     }
 }

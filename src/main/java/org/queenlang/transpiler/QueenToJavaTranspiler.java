@@ -29,6 +29,7 @@
 package org.queenlang.transpiler;
 
 import org.queenlang.classpath.Classpath;
+import org.queenlang.classpath.ProjectClasspath;
 import org.queenlang.queen.QueenASTParser;
 import org.queenlang.queen.QueenTranspilationException;
 import org.queenlang.queen.nodes.project.ProjectNode;
@@ -51,33 +52,29 @@ import java.util.List;
 public final class QueenToJavaTranspiler implements QueenTranspiler {
 
     private final QueenASTParser parser;
-    private final Classpath      classpath;
-    private final Output         output;
+    private final Path parentDirectory;
+    private final Path outputDirectory;
 
     public QueenToJavaTranspiler(
         final QueenASTParser parser,
-        final Classpath classpath,
-        final Output output
+        final Path parentDirectory,
+        final Path outputDirectory
     ) {
         this.parser = parser;
-        this.classpath = classpath;
-        this.output = output;
+        this.parentDirectory = parentDirectory;
+        this.outputDirectory = outputDirectory;
     }
 
     @Override
-    public void transpile(final Path queenProjectDir) throws QueenTranspilationException, IOException {
-        throw new UnsupportedOperationException("Not implemented yet.");
-    }
-
-    @Override
-    public void transpile(final List<Path> files) throws QueenTranspilationException, IOException {
-        this.project(files).transpileTo(this.output);
+    public void transpile() throws QueenTranspilationException, IOException {
+        this.project(parentDirectory).transpileTo(this.outputDirectory);
     }
 
     @WeaveParents
-    private ProjectNode project(final List<Path> files) throws QueenTranspilationException, IOException {
+    private ProjectNode project(final Path projectDir) throws QueenTranspilationException, IOException {
         return new QueenProject(
-            this.classpath, this.parser, files
+            this.parser,
+            new ProjectClasspath(projectDir)
         );
     }
 }

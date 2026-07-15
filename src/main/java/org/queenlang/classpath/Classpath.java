@@ -30,7 +30,10 @@ package org.queenlang.classpath;
 
 import org.queenlang.queen.nodes.names.NameNode;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Classpath used by queenc to search for user-defined classes.
@@ -47,7 +50,36 @@ public interface Classpath {
      */
     Path find(final Path clazz);
 
-    Path find(final NameNode name);
+    /**
+     * Search and return all the Queen files in this classpath.
+     * @return List of Path to each found Queen file.
+     */
+    List<Path> findAll();
+
+    /**
+     * Find the Path to the Queen file represented by the given {@link NameNode}.
+     * @param name NameNode to be resolved.
+     * @return Path.
+     */
+    default Path find(final NameNode name) {
+        final Path dirPath = Path.of(name.name().replaceAll("\\.", FileSystems.getDefault().getSeparator()));
+        if(this.find(dirPath) != null) {
+            return dirPath;
+        }
+        final Path queenPath = Path.of(dirPath + ".queen");
+        if(this.find(queenPath) != null) {
+            return queenPath;
+        }
+        final Path javaPath = Path.of(dirPath + ".java");
+        if(this.find(javaPath) != null) {
+            return javaPath;
+        }
+        final Path clazzPath = Path.of(dirPath + ".class");
+        if(this.find(clazzPath) != null) {
+            return clazzPath;
+        }
+        return null;
+    }
 
 
 }

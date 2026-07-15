@@ -28,15 +28,12 @@
  */
 package org.queenlang.classpath;
 
-import org.queenlang.queen.nodes.names.NameNode;
-
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Classpath used by queenc to search for user-defined classes.
+ * A classpath supporting multiple directories where Queen files may reside.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.0.1
@@ -61,23 +58,7 @@ public final class PathsCp implements Classpath {
     }
 
     @Override
-    public Path find(final NameNode name) {
-        final Path dirPath = Path.of(name.name().replaceAll("\\.", FileSystems.getDefault().getSeparator()));
-        if(this.find(dirPath) != null) {
-            return dirPath;
-        }
-        final Path queenPath = Path.of(dirPath + ".queen");
-        if(this.find(queenPath) != null) {
-            return queenPath;
-        }
-        final Path javaPath = Path.of(dirPath + ".java");
-        if(this.find(javaPath) != null) {
-            return javaPath;
-        }
-        final Path clazzPath = Path.of(dirPath + ".class");
-        if(this.find(clazzPath) != null) {
-            return clazzPath;
-        }
-        return null;
+    public List<Path> findAll() {
+        throw new UnsupportedOperationException("Not yet implemented.");
     }
 }

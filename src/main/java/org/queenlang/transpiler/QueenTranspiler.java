@@ -41,7 +41,10 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface QueenTranspiler {
-    void transpile(final Path queenProjectDir) throws QueenTranspilationException, IOException;
-
-    void transpile(final List<Path> files) throws QueenTranspilationException, IOException;
+    /**
+     * QueenTranspiler Transpiler entrypoint.
+     * @throws QueenTranspilationException If there is a transpilation problem (e.g. syntax errors, semantic errors).
+     * @throws IOException If something is wrong when reading/writing files from disk.
+     */
+    void transpile() throws QueenTranspilationException, IOException;
 }

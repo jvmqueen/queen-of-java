@@ -41,6 +41,7 @@ import org.queenlang.java.nodes.ClassCompilationUnitNode;
 import org.queenlang.queen.nodes.body.ImportDeclarationNode;
 import org.queenlang.queen.visitors.QueenASTSemanticValidationVisitor;
 import org.queenlang.queen.visitors.QueenToJavaVisitor;
+import org.queenlang.transpiler.JavaFileOutput;
 import org.queenlang.transpiler.Output;
 
 import java.io.IOException;
@@ -58,23 +59,23 @@ import java.util.stream.Collectors;
  * @since 0.0.1
  */
 public final class QueenProject implements ProjectNode {
-    private final Classpath classpath;
     private final QueenASTParser parser;
-
+    private final Classpath classpath;
     /**
      * Input queen files.
      */
     private final List<FileNode> input = new ArrayList<>();
 
     /**
-     * References from the input queen files.
+     * Referenced Queen files.
      */
     private final List<FileNode> references = new ArrayList<>();
 
-    public QueenProject(final Classpath classpath, final QueenASTParser parser, final List<Path> inputFiles) throws QueenTranspilationException, IOException {
-        this.classpath = classpath;
+
+    public QueenProject(final QueenASTParser parser, final Classpath classpath) throws QueenTranspilationException, IOException {
         this.parser = parser;
-        for(final Path inputFile : inputFiles) {
+        this.classpath = classpath;
+        for(final Path inputFile : classpath.findAll()) {
             this.input.add(
                 new QueenFileNode(
                     this,
@@ -98,18 +99,10 @@ public final class QueenProject implements ProjectNode {
     }
 
     @Override
-    public void transpileTo(final Output output) throws IOException, QueenTranspilationException {
+    public void transpileTo(final Path outputDirectory) throws IOException, QueenTranspilationException {
+        final Output output = new JavaFileOutput(outputDirectory);
         for(final FileNode queenFile : this.input) {
             write(queenFile, output);
-        }
-        for(int i=0; i < this.references.size(); i++) {
-            final FileNode ref = this.references.get(i);
-            final boolean alreadyTranspiled = this.input.stream().filter(
-                in -> in.fullTypeName().equals(ref.fullTypeName())
-            ).findFirst().orElse(null) != null;
-            if(!alreadyTranspiled) {
-                write(ref, output);
-            }
         }
     }
 
@@ -120,6 +113,7 @@ public final class QueenProject implements ProjectNode {
         output.write(javaCompilationUnit);
     }
 
+    //TODO rethink/redesign semantic validation.
     private static void validate(final FileNode queenFile) throws QueenTranspilationException {
         final QueenASTSemanticValidationVisitor validator = new QueenASTSemanticValidationVisitor(queenFile.parent());
         final List<SemanticProblem> problems = validator.visitFile(queenFile);

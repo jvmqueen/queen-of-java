@@ -29,7 +29,6 @@
 package org.queenlang.transpiler.cli;
 
 import org.apache.commons.cli.Options;
-import org.queenlang.transpiler.QueenCliOptions;
 
 import java.util.Optional;
 

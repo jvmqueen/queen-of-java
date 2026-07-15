@@ -35,6 +35,7 @@ import org.queenlang.queen.nodes.Position;
 import org.queenlang.queen.nodes.QueenNode;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * A Queen project, AST Node.
@@ -52,5 +53,5 @@ public interface ProjectNode extends QueenNode {
         return visitor.visitProject(this);
     }
 
-    void transpileTo(final Output output) throws IOException, QueenTranspilationException;
+    void transpileTo(final Path outputDirectory) throws IOException, QueenTranspilationException;
 }

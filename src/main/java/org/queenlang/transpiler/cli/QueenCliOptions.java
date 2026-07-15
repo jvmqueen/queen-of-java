@@ -26,7 +26,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package org.queenlang.transpiler;
+package org.queenlang.transpiler.cli;
 import org.apache.commons.cli.*;
 
 /**

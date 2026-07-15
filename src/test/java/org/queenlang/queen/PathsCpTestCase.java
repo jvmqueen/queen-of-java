@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.queenlang.classpath.Classpath;
 import org.queenlang.classpath.PathsCp;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 
@@ -43,13 +44,13 @@ import java.util.Arrays;
  * @version $Id$
  * @since 0.0.1
  */
-public final class PathsCpTestCase {
+final class PathsCpTestCase {
 
     /**
      * An existing file is found in the classpath.
      */
     @Test
-    public void findsQueenFileInClassPath() {
+    void findsQueenFileInClassPath() throws IOException {
         final Classpath cp = new PathsCp(
             Arrays.asList(
                 Path.of("."),
@@ -68,7 +69,7 @@ public final class PathsCpTestCase {
      * Returns null if the queen file is not found in the existing classpath.
      */
     @Test
-    public void returnsNullIfQueenFileNotFoundInClassPath() {
+    void returnsNullIfQueenFileNotFoundInClassPath() throws IOException {
         final Classpath cp = new PathsCp(
             Arrays.asList(
                 Path.of("."),

@@ -1,13 +1,11 @@
 docker:
-  image: g4s8/rultor-jdk11:alpine3.10
+  image: yegor256/java
 architect:
   - amihaiemil
 assets:
   settings.xml: "amihaiemil/maven#settings.xml"
   pubring.gpg: "amihaiemil/maven#pubring.gpg"
   secring.gpg: "amihaiemil/maven#secring.gpg"
-env:
-  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
 merge:
   script: |-
     mvn clean install --settings /home/r/settings.xml

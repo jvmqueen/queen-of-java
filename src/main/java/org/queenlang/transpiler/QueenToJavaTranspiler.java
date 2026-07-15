@@ -38,7 +38,6 @@ import org.queenlang.transpiler.aspects.WeaveParents;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 
 /**
  * Queen to Java transpiler.
@@ -68,6 +67,16 @@ public final class QueenToJavaTranspiler implements QueenTranspiler {
     @Override
     public void transpile() throws QueenTranspilationException, IOException {
         this.project(parentDirectory).transpileTo(this.outputDirectory);
+    }
+
+    @Override
+    public Path sourceDirectory() {
+        return this.parentDirectory;
+    }
+
+    @Override
+    public Path targetDirectory() {
+        return this.outputDirectory;
     }
 
     @WeaveParents

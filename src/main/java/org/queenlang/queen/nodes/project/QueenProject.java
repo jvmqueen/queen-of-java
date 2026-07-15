@@ -80,7 +80,7 @@ public final class QueenProject implements ProjectNode {
         this.parser = parser;
         this.classpath = classpath;
         for(final Path inputFile : classpath.findAll()) {
-            LOG.info("Creating the AST for Queen file {}, parent nodes need to be woven by AspectJ!", inputFile.getFileName());
+            LOG.info("Creating the AST for Queen file {}. Parent nodes need to be woven by AspectJ!", inputFile.getFileName());
             this.input.add(
                 new QueenFileNode(
                     this,

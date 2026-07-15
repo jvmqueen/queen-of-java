@@ -47,4 +47,16 @@ public interface QueenTranspiler {
      * @throws IOException If something is wrong when reading/writing files from disk.
      */
     void transpile() throws QueenTranspilationException, IOException;
+
+    /**
+     * Directory where the transpiler searches for .queen files.
+     * @return Path.
+     */
+    Path sourceDirectory();
+
+    /**
+     * Directory where the transpiler writes transpiled .queen files.
+     * @return Path.
+     */
+    Path targetDirectory();
 }

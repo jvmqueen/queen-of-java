@@ -1,25 +1,61 @@
+/**
+ * Copyright (c) 2022-2032, Extremely Distributed Technologies S.R.L. Romania,
+ *                          Silvia Maxima et Co.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this
+ *  list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.
+ * Neither the name of the copyright holder nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
 package org.queenlang.transpiler;
 import org.apache.commons.cli.*;
 
+/**
+ * Simple factory for the {@link Options} which are supported
+ * by queenc.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 0.0.1
+ */
 public final class QueenCliOptions {
 
+    private QueenCliOptions() {}
     public static Options cliOptions() {
         final Options options = new Options();
 
         Option projectPath = new Option("p", "project", true, "Path to the Queen project directory to compile.");
         options.addOption(projectPath);
 
-        Option createTemplateProject = new Option("cm", "createMaven", true, "Create a template Queen maven project. Path to the parent dir.");
+        Option createTemplateProject = new Option("cm", "createMaven", true, "Create a template Maven project, configured for Queen. The argument is the path of the parent dir, which will be automatically prefixed by the Java user.home property. For example, the input /projects/queen-project, will create the project under ~/projects/queen-project.");
         options.addOption(createTemplateProject);
 
         Option classpath = new Option("cp", "classpath", true, "Classpath(s) to look for user-defined classes. Project dir is always included.");
         classpath.setArgs(Option.UNLIMITED_VALUES);
         options.addOption(classpath);
 
-        Option output = new Option("o", "output", true, "Output path. Defaults to current dir.");
+        Option output = new Option("o", "output", true, "Output path. Defaults to -p/target/generated-sources/queen/java.");
         options.addOption(output);
 
-        Option help = new Option("h", "help", false, "Print help message.");
+        Option help = new Option("h", "help", false, "Print this help message.");
         options.addOption(help);
 
         Option version = new Option("v", "version", false, "Print the version of queenc.");

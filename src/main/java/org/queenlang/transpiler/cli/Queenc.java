@@ -35,7 +35,6 @@ import org.queenlang.transpiler.QueenToJavaTranspiler;
 import org.queenlang.transpiler.QueenTranspiler;
 import org.queenlang.queen.QueenASTParserANTLR;
 import org.queenlang.queen.QueenTranspilationException;
-import org.queenlang.transpiler.cli.functionalities.Functionality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,16 +49,8 @@ import java.io.*;
 public final class Queenc {
     private static Logger LOG = LoggerFactory.getLogger(Queenc.class);
 
-    public static void main(String[] args) throws ParseException, IOException, QueenTranspilationException {
-        final Options cliOptions = QueenCliOptions.cliOptions();
-        run(
-            new CmdArguments(
-                new DefaultParser().parse(
-                    cliOptions, args
-                ),
-                cliOptions
-            )
-        );
+    public static void main(String[] args) throws IOException, QueenTranspilationException, ParseException {
+        run(new CmdArguments(args));
     }
 
     public static void run(final Arguments arguments) throws IOException, QueenTranspilationException {
@@ -67,15 +58,15 @@ public final class Queenc {
         arguments.help().ifPresent(Functionality::execute);
         arguments.createQueenProject().ifPresent(Functionality::execute);
 
-        if(arguments.project() != null) {
-            final QueenTranspiler transpiler = new QueenToJavaTranspiler(
-                new QueenASTParserANTLR(),
-                arguments.classpath(),
-                new JavaFileOutput(arguments.output())
-            );
-            transpiler.transpile(arguments.project());
-        } else if(!arguments.hasUtilityArgs()) {
+//        if(arguments.project() != null) {
+//            final QueenTranspiler transpiler = new QueenToJavaTranspiler(
+//                new QueenASTParserANTLR(),
+//                arguments.classpath(),
+//                new JavaFileOutput(arguments.output())
+//            );
+//            transpiler.transpile(arguments.project());
+//        } else if(!arguments.hasUtilityArgs()) {
 //            printFilesMissing();
-        }
+//        }
     }
 }

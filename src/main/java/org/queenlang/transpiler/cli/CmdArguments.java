@@ -29,19 +29,17 @@
 package org.queenlang.transpiler.cli;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.queenlang.classpath.Classpath;
-import org.queenlang.classpath.PathsCp;
 import org.queenlang.transpiler.Config;
-import org.queenlang.transpiler.cli.functionalities.CreateQueenMavenProject;
-import org.queenlang.transpiler.cli.functionalities.Functionality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -51,11 +49,11 @@ public final class CmdArguments implements Arguments {
     private static final Config config = new Config();
 
     private final CommandLine commandLine;
-    private final Options cliOptions;
 
-    public CmdArguments(final CommandLine commandLine, final Options cliOptions) {
-        this.commandLine = commandLine;
-        this.cliOptions = cliOptions;
+    public CmdArguments(final String[] args) throws ParseException {
+        this.commandLine = new DefaultParser().parse(
+            this.allPossitbleOptions(), args
+        );
     }
 
     @Override
@@ -71,10 +69,11 @@ public final class CmdArguments implements Arguments {
     @Override
     public Optional<Functionality> help() {
         if(this.isOptionPresent("h")) {
+            final Options allOptions = this.allPossitbleOptions();
             return Optional.of(
                 () -> {
                     HelpFormatter formatter = new HelpFormatter();
-                    formatter.printHelp("queenc", this.cliOptions);
+                    formatter.printHelp("queenc", allOptions);
                 }
             );
         }
@@ -102,25 +101,27 @@ public final class CmdArguments implements Arguments {
     }
 
     @Override
-    public Path project() {
+    public Optional<TranspileQueenProject> project() {
         if(this.commandLine.getOptionValues('p') != null) {
-            return Path.of(this.commandLine.getOptionValue('p'));
+            final Path parentDir = Path.of(this.commandLine.getOptionValue('p'));
+            return Optional.of(new TranspileQueenProject(parentDir));
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
     public Classpath classpath() {
-        final List<Path> classpaths = new ArrayList<>();
-        if(this.project() != null) {
-            classpaths.add(this.project());
-        }
-        if(this.commandLine.getOptionValues("cp") != null) {
-            for (final String path : this.commandLine.getOptionValues("cp")) {
-                classpaths.add(Path.of(path));
-            }
-        }
-        return new PathsCp(classpaths);
+//        final List<Path> classpaths = new ArrayList<>();
+//        if(this.project() != null) {
+//            classpaths.add(this.project());
+//        }
+//        if(this.commandLine.getOptionValues("cp") != null) {
+//            for (final String path : this.commandLine.getOptionValues("cp")) {
+//                classpaths.add(Path.of(path));
+//            }
+//        }
+//        return new PathsCp(classpaths);
+        return null;
     }
 
     private boolean isOptionPresent(final String name) {

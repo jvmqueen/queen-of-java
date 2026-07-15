@@ -28,9 +28,9 @@
  */
 package org.queenlang.transpiler.cli;
 
+import org.apache.commons.cli.Options;
 import org.queenlang.classpath.Classpath;
-import org.queenlang.transpiler.cli.functionalities.CreateQueenMavenProject;
-import org.queenlang.transpiler.cli.functionalities.Functionality;
+import org.queenlang.transpiler.QueenCliOptions;
 
 import java.nio.file.Path;
 import java.util.Optional;
@@ -49,14 +49,14 @@ public interface Arguments {
 
     Optional<CreateQueenMavenProject> createQueenProject();
 
-    Path project();
+    Optional<TranspileQueenProject> project();
 
     Classpath classpath();
 
     Path output();
 
-    default boolean hasUtilityArgs() {
-        return this.version().isPresent() || this.help().isPresent();
+    default Options allPossitbleOptions() {
+        return QueenCliOptions.cliOptions();
     }
 
 }

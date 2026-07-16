@@ -5,7 +5,7 @@
   <artifactId>queen-project</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>example-queen-project</name>
+  <name>my-queen-project</name>
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
@@ -13,7 +13,7 @@
   <dependencies>
   </dependencies>
   <build>
-    <finalName>example-queen-project</finalName>
+    <finalName>my-queen-project</finalName>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -33,7 +33,7 @@
             <configuration>
               <rules>
                 <requireEnvironmentVariable>
-                  <variableName>QUEEN_HOME</variableName>
+                  <variableName>QUEEN_PATH</variableName>
                 </requireEnvironmentVariable>
               </rules>
             </configuration>
@@ -77,15 +77,17 @@
               </sources>
             </configuration>
           </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.0.2</version>
-        <executions>
           <execution>
-            <id>default-jar</id>
-            <phase>none</phase>
+            <id>add-queen-transpiled-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/queenc/${project.name}/src/main/java</source>
+              </sources>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -103,7 +105,7 @@
               <archive>
                 <manifest>
                   <mainClass>
-                    com.example.EntryPoint
+                    com.example.queen.EntryPoint
                   </mainClass>
                 </manifest>
               </archive>
@@ -116,9 +118,25 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M7</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <id>run-queenc</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>/bin/zsh</executable>
+              <arguments>
+                <arcument>-c</arcument>
+                <argument>java -jar $QUEEN_PATH -p ${project.basedir} -o ${project.build.directory}/generated-sources/queenc/${project.name}/src/main/java</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

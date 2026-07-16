@@ -79,15 +79,19 @@ public final class CreateQueenMavenProject implements Functionality {
         }
         this.copyFile(
             Paths.get("src/main/resources/forMavenTemplate/EntryPoint.queen"),
-            Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "com/example/EntryPoint.queen")
+            Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "com/example/queen/EntryPoint.queen")
         );
         this.copyFile(
             Paths.get("src/main/resources/forMavenTemplate/HelloWorld.queen"),
             Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "org/queenlang/HelloWorld.queen")
         );
         this.copyFile(
-            Paths.get("src/main/resources/forMavenTemplate/OutHelloWorld.queen"),
-            Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "org/queenlang/OutHelloWorld.queen")
+            Paths.get("src/main/resources/forMavenTemplate/QueenHello.queen"),
+            Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "org/queenlang/QueenHello.queen")
+        );
+        this.copyFile(
+            Paths.get("src/main/resources/forMavenTemplate/JavaHello.java"),
+            Path.of(this.parentDir.toString(), SRC_MAIN_JAVA, "com/example/javaqueen/JavaHello.java")
         );
         this.copyFile(
             Paths.get("src/main/resources/forMavenTemplate/queen-pom.xml"),
@@ -119,7 +123,7 @@ public final class CreateQueenMavenProject implements Functionality {
             }
             Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
             } catch (final IOException ex) {
-                LOG.error("IOException while creationg directory {}. Message {}", parentDir, ex.getMessage());
+                LOG.error("IOException while creating directory {}. Message {}", parentDir, ex.getMessage());
                 throw new IllegalStateException("IOException when creating directory.", ex);
             }
     }

@@ -1,6 +1,8 @@
-package com.example;
+package com.example.queen;
+
 import org.queenlang.HelloWorld;
-import org.queenlang.OutHelloWorld;
+import org.queenlang.QueenHello;
+import com.example.javaqueen.JavaHello;
 
 /**
  * Entry point of our Queen application.
@@ -9,7 +11,10 @@ import org.queenlang.OutHelloWorld;
 public final implementation EntryPoint {
 
     public static void main(String[] args) {
-        HelloWorld queen = new OutHelloWorld();
-        queen.sayHello();
+        HelloWorld queen = new QueenHello();
+        System.out.println(queen.sayHello());
+
+        HelloWorld java = new JavaHello();
+        System.out.println(java.sayHello());
     }
 }

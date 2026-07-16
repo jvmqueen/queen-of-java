@@ -50,33 +50,33 @@ import java.nio.file.Path;
  * @version $Id$
  * @since 0.0.1
  */
-public final class QueenASTParserTestCase {
+final class QueenASTParserTestCase {
 
     @ParameterizedTest
     @CsvSource(
         value = {
-            "HelloWorld.queen,HelloWorld.java"
-//            "Expressions.queen,Expressions.java",
-//            "FunnyParameters.queen,FunnyParameters.java",
-//            "JsonPerson.queen,JsonPerson.java",
-//            "Preamble.queen,Preamble.java",
-//            "NaiveFactorial.queen,NaiveFactorial.java",
-//            "ControlStatementsExamples.queen,ControlStatementsExamples.java",
-//            "LabeledGraph.queen,LabeledGraph.java",
-//            "SyncCounter.queen,SyncCounter.java",
-//            "YamlMapping.queen,YamlMapping.java",
-//            "ClassWithFields.queen,ClassWithFields.java"
-//            "Collection.queen,Collection.java",
-//            "EmptyAnnotatedClass.queen,EmptyAnnotatedClass.java",
-//            "ExtendedArrayList.queen,ExtendedArrayList.java",
-//            "EmptyInterface.queen,EmptyInterface.java",
-//            "GenericConstructor.queen,GenericConstructor.java",
-//            "EmptyAnnotatedInterface.queen,EmptyAnnotatedInterface.java",
-//            "EmptyInterfaceWithImports.queen,EmptyInterfaceWithImports.java",
-//            "EmptyInterfaceWithNoPackage.queen,EmptyInterfaceWithNoPackage.java"
+            "HelloWorld.queen,HelloWorld.java",
+            "Expressions.queen,Expressions.java",
+            "FunnyParameters.queen,FunnyParameters.java",
+            "JsonPerson.queen,JsonPerson.java",
+            "Preamble.queen,Preamble.java",
+            "NaiveFactorial.queen,NaiveFactorial.java",
+            "ControlStatementsExamples.queen,ControlStatementsExamples.java",
+            "LabeledGraph.queen,LabeledGraph.java",
+            "SyncCounter.queen,SyncCounter.java",
+            "YamlMapping.queen,YamlMapping.java",
+            "ClassWithFields.queen,ClassWithFields.java",
+            "Collection.queen,Collection.java",
+            "EmptyAnnotatedClass.queen,EmptyAnnotatedClass.java",
+            "ExtendedArrayList.queen,ExtendedArrayList.java",
+            "EmptyInterface.queen,EmptyInterface.java",
+            "GenericConstructor.queen,GenericConstructor.java",
+            "EmptyAnnotatedInterface.queen,EmptyAnnotatedInterface.java",
+            "EmptyInterfaceWithImports.queen,EmptyInterfaceWithImports.java",
+            "EmptyInterfaceWithNoPackage.queen,EmptyInterfaceWithNoPackage.java"
         }
     )
-    public void testAstParserWithRandomClasses(final String queenInput, final String javaOutput) throws Exception {
+    void testAstParserWithRandomClasses(final String queenInput, final String javaOutput) throws Exception {
         final String dirPath = "src/test/resources/queenToJava/random/";
         final String expectedJavaClass = this.readTestResource(dirPath, javaOutput);
         final QueenASTParser parser = new QueenASTParserANTLR();
@@ -102,7 +102,7 @@ public final class QueenASTParserTestCase {
             "JsonContract.queen,JsonContract.java",
         }
     )
-    public void testAstParserWithRealClassesSelfWeb(final String queenInput, final String javaOutput) throws Exception {
+    void testAstParserWithRealClassesSelfWeb(final String queenInput, final String javaOutput) throws Exception {
         final String dirPath = "src/test/resources/queenToJava/real/self-web/";
         final String expectedJavaClass = this.readTestResource(dirPath, javaOutput);
         final QueenASTParser parser = new QueenASTParserANTLR();

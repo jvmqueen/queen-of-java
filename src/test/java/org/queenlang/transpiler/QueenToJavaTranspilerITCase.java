@@ -33,7 +33,7 @@ import org.queenlang.queen.QueenASTParserANTLR;
 
 import java.nio.file.Path;
 
-final class QueenToJavaTranspilerTestCase{
+final class QueenToJavaTranspilerITCase {
 
     @Test
     void testProjectTranspilation() throws Exception{

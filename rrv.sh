@@ -34,12 +34,15 @@ echo "NEXT VERSION IS"
 echo $NEXT_VERSION
 
 #Right after the project's <version> tag there has to be the comment <!--rrv-sed-flag--> which simplifies the sed regex bellow. 
-#If the flag comment wouldn't be there, we'd have to write a more complicated regex to catch the artifactif from a row up.
+#If the flag comment wouldn't be there, we'd have to write a more complicated regex to catch the artifactId from a row up.
 #This is because only a regex for version tag would change all the matching version tags in the file.
 sed -i "s/<version>${CURRENT_VERSION}<\/version><\!--rrv-sed-flag-->/<version>${tag}<\/version><\!--rrv-sed-flag-->/" pom.xml
+
 mvn clean deploy -Pitcases,signArtifactsGpg,releaseToGithubPackages --settings /home/r/settings.xml
+
 sed -i "s/<version>${tag}<\/version><\!--rrv-sed-flag-->/<version>${NEXT_VERSION}<\/version><\!--rrv-sed-flag-->/" pom.xml
-sed -i "s/, version `.*`/, version `${tag}`/" README.md
+sed -i "s/, version \`.*\`/, version \`${tag}\`/" README.md
+sed -i "" "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${tag}.jar\`\`)/" README.md
 
 git commit -am "${NEXT_VERSION}"
 git checkout master

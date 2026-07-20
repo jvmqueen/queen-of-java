@@ -42,7 +42,7 @@ mvn clean deploy -Pitcases,signArtifactsGpg,releaseToGithubPackages --settings /
 
 sed -i "s/<version>${tag}<\/version><\!--rrv-sed-flag-->/<version>${NEXT_VERSION}<\/version><\!--rrv-sed-flag-->/" pom.xml
 sed -i "s/, version \`.*\`/, version \`${tag}\`/" README.md
-sed -i "" "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${tag}.jar\`\`)/" README.md
+sed -i "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${tag}.jar\`\`)/" README.md
 
 git commit -am "${NEXT_VERSION}"
 git checkout master

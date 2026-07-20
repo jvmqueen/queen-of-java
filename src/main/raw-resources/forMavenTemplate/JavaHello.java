@@ -8,6 +8,6 @@ import org.queenlang.HelloWorld;
 public class JavaHello implements HelloWorld {
     @Override
     public String sayHello() {
-        return "In the name of the Queen, Java also says Hello World!";
+        return "In the name of Queen, Java also says Hello World!";
     }
 }

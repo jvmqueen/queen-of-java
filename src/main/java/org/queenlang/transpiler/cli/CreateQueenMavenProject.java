@@ -95,7 +95,7 @@ public final class CreateQueenMavenProject implements Functionality {
             Path.of(this.parentDir.toString(), SRC_MAIN_JAVA, "com/example/javaqueen/JavaHello.java")
         );
         this.copyFile(
-            Paths.get("/forMavenTemplate/queen-pom.xml"),
+            Paths.get("/forMavenTemplate/template-build.xml"),
             Path.of(this.parentDir.toString(), "pom.xml")
         );
         this.copyFile(

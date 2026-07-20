@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -78,27 +79,27 @@ public final class CreateQueenMavenProject implements Functionality {
             this.createDirectoryStructure(Path.of(this.parentDir.toString(), subDir));
         }
         this.copyFile(
-            Paths.get("src/main/resources/forMavenTemplate/EntryPoint.queen"),
+            Paths.get("/forMavenTemplate/EntryPoint.queen"),
             Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "com/example/queen/EntryPoint.queen")
         );
         this.copyFile(
-            Paths.get("src/main/resources/forMavenTemplate/HelloWorld.queen"),
+            Paths.get("/forMavenTemplate/HelloWorld.queen"),
             Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "org/queenlang/HelloWorld.queen")
         );
         this.copyFile(
-            Paths.get("src/main/resources/forMavenTemplate/QueenHello.queen"),
+            Paths.get("/forMavenTemplate/QueenHello.queen"),
             Path.of(this.parentDir.toString(), SRC_MAIN_QUEEN, "org/queenlang/QueenHello.queen")
         );
         this.copyFile(
-            Paths.get("src/main/resources/forMavenTemplate/JavaHello.java"),
+            Paths.get("/forMavenTemplate/JavaHello.java"),
             Path.of(this.parentDir.toString(), SRC_MAIN_JAVA, "com/example/javaqueen/JavaHello.java")
         );
         this.copyFile(
-            Paths.get("src/main/resources/forMavenTemplate/queen-pom.xml"),
+            Paths.get("/forMavenTemplate/queen-pom.xml"),
             Path.of(this.parentDir.toString(), "pom.xml")
         );
         this.copyFile(
-            Paths.get("src/main/resources/forMavenTemplate/queen-readme.md"),
+            Paths.get("/forMavenTemplate/queen-readme.md"),
             Path.of(this.parentDir.toString(), "README.md")
         );
         LOG.info("Queen project created successfully under {}", this.parentDir);
@@ -117,11 +118,11 @@ public final class CreateQueenMavenProject implements Functionality {
     }
 
     private void copyFile(Path source, Path target) {
-        try {
+        try (final InputStream src = getClass().getResourceAsStream(source.toString())){
             if(!Files.exists(target)) {
                 Files.createDirectories(target);
             }
-            Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(src, target, StandardCopyOption.REPLACE_EXISTING);
             } catch (final IOException ex) {
                 LOG.error("IOException while creating directory {}. Message {}", parentDir, ex.getMessage());
                 throw new IllegalStateException("IOException when creating directory.", ex);

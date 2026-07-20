@@ -16,6 +16,9 @@ compiled into JVM bytecode.
 Download the latest version (``queen-of-java-0.2.3.jar``) from [here](https://github.com/jvmqueen/queen-of-java/packages) (from ``Assets``).
 Rename it to ``queenc.jar``, just for easier usage. ``queenc`` itself is written in Java 11, therefore you need to have at least Java 11 installed, in order to use it.
 
+Alternatively, you can build it from source using by getting the latest ``.zip`` from [here](https://github.com/jvmqueen/queen-of-java/releases/latest), unpacking
+and simply running ``mvn clean install``.
+
 To get started, just run:
 ```shell
 $ java -jar queenc.jar
@@ -70,11 +73,56 @@ $ Queen says Hello World!
 The first command transpiles the Queen project (in this case, only the file ``EntryPoint.queen``) from the current directory into the same directory,
 while the second command simply executes the created Java class which is created in a directory structure respecting the declared package (``org.queenlang.helloworld``). 
 
+## Generate Maven Project Scaffold
+
+``queenc`` can generate a Queen-compliant Maven project which you can use as starting point for your Queen project. By default,
+it will just say "Hello World", by using Java as well as Queen (the two are interoperable, there is a Java class implementing a Queen interface).
+
+In order for this to work, you have to set the ``$QUEEN_PATH`` environment variable, pointing to your ``queenc.jar`` file!
+
+```bash
+$ java -jar $QUEEN_PATH -cm /playground/my-queen-project \
+  && cd ~/playground/my-queen-project \
+  && mvn clean install \
+  && java -jar ./target/my-queen-project.jar
+$  
+$ ... logging from queenc and maven ...
+$
+$ [INFO] ------------------------------------------------------------------------
+$ [INFO] BUILD SUCCESS
+$ [INFO] ------------------------------------------------------------------------
+$
+$ ...
+$
+$ Queen says Hello World!
+$ In the name of Queen, Java also says Hello World!
+```
+
+Alternatively, you can define an the ``queenc`` alias: ``alias queenc='java -jar $QUEEN_PATH'``, so your command becomes easier to read:
+
+```bash
+$ queenc -cm /playground/my-queen-project \
+  && cd ~/playground/my-queen-project \
+  && mvn clean install \
+  && java -jar ./target/my-queen-project.jar
+$
+$ ... logging from queenc and maven ...
+$
+$ [INFO] ------------------------------------------------------------------------
+$ [INFO] BUILD SUCCESS
+$ [INFO] ------------------------------------------------------------------------
+$
+$ ...
+$
+$ Queen says Hello World!
+$ In the name of Queen, Java also says Hello World!
+```
+
+
 ## Semantic Validation and Symbol Resolution
 
 ``queenc`` translates your Queen code into Java. The generated Java code will always be syntactically correct. It will also resolve the imports declared in a file, perform semantic validation and symbol resolution, so any transpilation should ultimately result in Java code which is both syntactically and semantically correct. The syntax of Queen is very similar to Java 8, therefore the generated Java code will always be at least Java 8.
-
-However, keep in mind that this process is not yet fully implemented (we're still working on it). While the generated Java code will always be syntactically correct, it might happen that the Java compiler still outputs some semantic or symbol resolution errors. This complicated validation process is also one of the reasons for choosing to use transpilation in the MVP rather than direct compilation - we want to have the Java compiler as a second safety net until we are sure that the semantic validation is 100% correctly implemented.
+As a safety measure, we also use the Java compiler, until we are sure that the semantic validation is 100% correctly implemented.
 
 ## JDK
 

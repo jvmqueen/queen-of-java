@@ -19,25 +19,26 @@
 
 [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
 
+# Set release verion everywhere
 git checkout master
 sed -i "s/, version \`.*\`/, version \`${tag}\`/" README.md
 sed -i "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${tag}.jar\`\`)/" README.md
 mvn -ntp versions:set "-DnewVersion=${tag}"
 rm pom.xml.versionsBackup
 mvn clean deploy -Pitcases,signArtifactsGpg,releaseToGithubPackages --settings /home/r/settings.xml
-git commit -am "${tag}"
+
+git commit -am "${tag}" # release commit
 
 git checkout __rultor
-git rebase master
+git rebase master # rebase the __rultor Branch on master, so Rultor tags and releaseas the release commit.
 
-git checkout master
+git checkout master # check out master again and set the next -SNAPSHOT version
 
 NUMBERS=($(echo $tag | grep -o -E '[0-9]+'))
 NEXT_DEV_VERSION=${NUMBERS[0]}'.'${NUMBERS[1]}'.'$((${NUMBERS[2]}+1))'-SNAPSHOT'
 mvn -ntp versions:set "-DnewVersion=${NEXT_DEV_VERSION}"
 rm pom.xml.versionsBackup
-sed -i "s/, version \`.*\`/, version \`${tag}\`/" README.md
-sed -i "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${tag}.jar\`\`)/" README.md
-git commit -am "${NEXT_DEV_VERSION}"
 
-git checkout __rultor
+git commit -am "${NEXT_DEV_VERSION}" # "next iteration commit", will not be part of the tag or release
+
+git checkout __rultor # Rultor continues the release from its branch. At the end, it will push all the branches, so the above 2 commits will be visible in master commit-history

@@ -20,11 +20,9 @@
 [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
 
 mvn -ntp versions:set "-DnewVersion=${tag}"
-
 sed -i "s/, version \`.*\`/, version \`${tag}\`/" README.md
 sed -i "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${tag}.jar\`\`)/" README.md
+git commit -am "${tag}"
 
 mvn clean deploy -Pitcases,signArtifactsGpg,releaseToGithubPackages --settings /home/r/settings.xml
-
-git commit -am "${tag}"
 

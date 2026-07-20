@@ -15,37 +15,16 @@
 #     
 #     e.g. tag = 1.0.1 or tag = 3.2.53 will result in new versions of 1.0.2-SNAPSHOT
 #     or 3.2.54-SNAPSHOT
-set -e
-set -o pipefail
 
-CURRENT_VERSION=$(grep -o '[0-9]*\.[0-9]*\.[0-9]*-SNAPSHOT' -m 1 pom.xml)
 
-NUMBERS=($(echo $tag | grep -o -E '[0-9]+'))
+[[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
 
-echo "CURRENT VERSION IS"
-echo $CURRENT_VERSION
+mvn -ntp versions:set "-DnewVersion=${tag}"
 
-NEXT_VERSION=${NUMBERS[0]}'.'${NUMBERS[1]}'.'$((${NUMBERS[2]}+1))'-SNAPSHOT'
-
-echo "RELEASE VERSION IS"
-echo $tag
-
-echo "NEXT VERSION IS"
-echo $NEXT_VERSION
-
-#Right after the project's <version> tag there has to be the comment <!--rrv-sed-flag--> which simplifies the sed regex bellow. 
-#If the flag comment wouldn't be there, we'd have to write a more complicated regex to catch the artifactId from a row up.
-#This is because only a regex for version tag would change all the matching version tags in the file.
-sed -i "s/<version>${CURRENT_VERSION}<\/version><\!--rrv-sed-flag-->/<version>${tag}<\/version><\!--rrv-sed-flag-->/" pom.xml
-
-mvn clean deploy -Pitcases,signArtifactsGpg,releaseToGithubPackages --settings /home/r/settings.xml
-
-sed -i "s/<version>${tag}<\/version><\!--rrv-sed-flag-->/<version>${NEXT_VERSION}<\/version><\!--rrv-sed-flag-->/" pom.xml
 sed -i "s/, version \`.*\`/, version \`${tag}\`/" README.md
 sed -i "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${tag}.jar\`\`)/" README.md
 
-git commit -am "${NEXT_VERSION}"
-git checkout master
-git merge __rultor
-git checkout __rultor
+mvn clean deploy -Pitcases,signArtifactsGpg,releaseToGithubPackages --settings /home/r/settings.xml
+
+git commit -am "${tag}"
 

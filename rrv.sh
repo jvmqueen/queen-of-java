@@ -19,10 +19,22 @@
 
 [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
 
-mvn -ntp versions:set "-DnewVersion=${tag}"
+
+
+
 sed -i "s/, version \`.*\`/, version \`${tag}\`/" README.md
 sed -i "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${tag}.jar\`\`)/" README.md
 git commit -am "${tag}"
-
+mvn -ntp versions:set "-DnewVersion=${tag}"
 mvn clean deploy -Pitcases,signArtifactsGpg,releaseToGithubPackages --settings /home/r/settings.xml
 
+git checkout master
+
+NUMBERS=($(echo $tag | grep -o -E '[0-9]+'))
+NEXT_DEV_VERSION=${NUMBERS[0]}'.'${NUMBERS[1]}'.'$((${NUMBERS[2]}+1))'-SNAPSHOT'
+mvn -ntp versions:set "-DnewVersion=${NEXT_DEV_VERSION}"
+sed -i "s/, version \`.*\`/, version \`${NEXT_DEV_VERSION}\`/" README.md
+sed -i "s/(\`\`queen-of-java-[0-9]*\.[0-9]*\.[0-9]*.jar\`\`)/(\`\`queen-of-java-${NEXT_DEV_VERSION}.jar\`\`)/" README.md
+git commit -am "${NEXT_DEV_VERSION}"
+
+git checkout __rultor
